@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd"
+    default-autowire="byName">
+    
+   
+ 	<!-- Devined in main
+	<context:property-placeholder location="classpath:config.properties"/>
+      -->
+    
+    
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+       <property name="configLocation" value="classpath:hibernate.cfg.xml" />
+       <property name="hibernateProperties">
+           <props>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
+                <prop key="hibernate.query.factory_class">org.hibernate.hql.classic.ClassicQueryTranslatorFactory</prop>
+                <prop key="hibernate.bytecode.use_reflection_optimizer">false</prop>
+                <prop key="hibernate.show_sql">${hibernate.show.sql}</prop>
+                <prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>            
+           </props>
+       </property>
+   </bean>
+   
+            
+    <bean id="transactionManagerBean" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+  	</bean>	
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${hibernate.connection.driver_class}" />
+	    <property name="url" value="${hibernate.connection.url}" />
+	    <property name="username" value="${hibernate.connection.username}" />
+	    <property name="password" value="${hibernate.connection.password}" />
+	</bean>
+
+   
+</beans>
+
