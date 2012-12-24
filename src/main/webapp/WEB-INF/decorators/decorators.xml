@@ -1,0 +1,19 @@
+<decorators defaultdir="/WEB-INF/decorators/jsp">
+
+  <excludes>
+    <pattern>/edit/*</pattern>
+  </excludes>
+
+  <decorator name="admin-login" page="admin-login.jsp">
+    <pattern>/admin/login.html</pattern>
+  </decorator>
+
+  <decorator name="admin" page="admin.jsp">
+    <pattern>/admin/*</pattern>
+  </decorator>
+  
+  <decorator name="public" page="public.jsp">
+    <pattern>/*</pattern>
+  </decorator>
+
+</decorators>

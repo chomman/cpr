@@ -5,7 +5,11 @@
                                          
 <hibernate-configuration>
  <session-factory name="HibernateSessionFactory">
+ 
+ 
+	<mapping class="sk.peterjurkovic.cpr.entities.User" />
+  	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
 
-  
  </session-factory>
 </hibernate-configuration>

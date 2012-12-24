@@ -1,0 +1,108 @@
+<%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/include/taglibs.jsp" %>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" >
+    <!-- Decorator:Profil -->
+   <head>
+   		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <title>
+	      	Template | <fmt:message key="decorator.profil.header"/> |
+	      	<decorator:title />
+	    </title>
+    
+    	<link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/data/css/profil-style.css' />" />
+    
+    	<!-- pro praci s daty facebooku -->
+        <script type="text/javascript" src="<c:url value='/data/js/facebook.js' />"></script>
+        
+    	<decorator:head />
+  </head>
+    
+  <body> 
+	<script src="http://static.ak.connect.facebook.com/js/api_lib/v0.4/FeatureLoader.js.php/cs_CZ" type="text/javascript"></script>
+	<script type="text/javascript">
+			FB.init("${apiKey}", "xd_receiver.htm");
+			function logout() {
+				FB.Connect.ifUserConnected(function() {
+					FB.Connect.logoutAndRedirect("<c:url value='/logout.html' />");
+				}, function() {
+					window.location = "<c:url value='/logout.html' />";
+				});
+			} 
+	</script> 
+	
+	 
+   <div id="box1">
+          <div id="top">
+            <table> <!-- horni lista -->
+              <tr>
+                <td class="logo">
+                  <a href="<c:url value='/' />" title="MoroTemplate"><span class="firma">MoroTemplate</span></a>
+                  <!--<img src="img/logo_big.gif" alt="logo"/>-->
+                </td>
+                <td>
+                	<p id="jazyk"><a href="<c:url value='/language/cs/change.html' />">česky</a> | <a href="<c:url value='/language/en/change.html' />">english</a></p>
+                </td>
+                <td class="user">  
+                  <span id="facebookData"></span> 
+                  <c:if test="${!empty user}">
+                  	<span class="name"><c:out value="${user.name} (${user.username})" /></span>
+                  </c:if>
+                  <span class="date"><format:format value="${dateTime}" dateformat="d. M. y hh:mm"/></span>
+                  <span class="logout"><a href="javascript:void(0);" title="Odhlásit" onclick="javascript:logout();">Odhlásit</a></span>
+                </td> 
+              </tr>
+            </table> <!-- konec horni listy -->
+            <div class="line"></div>
+            <hr class="noprint"/>   
+            
+            <!-- horni menu tlacitka -->  
+            <div id="menu_top">
+			</div>
+            <!-- konec horniho menu tlacitek -->
+            
+           	<hr class="noprint"/>
+        	<div class="cleaner"></div> 
+            
+          </div> 
+        <hr class="noprint"/>
+        <div class="cleaner"></div> 
+        <div id="main"> <!-- hlavni obsah, leve menu a text -->
+          <div id="panel_left">
+            <div id="menu_left_1"> <!-- 1. leve menu -->
+              <h3 class="menu_left_title">
+                Menu 
+              </h3> 
+              <ul>
+      			<li><a href="<c:url value='/profil/index.html' />" ><span class="minus"><fmt:message key="menu.profil.homepage"/></span></a></li>
+				<li><a href="<c:url value='/logout.html' />" title=""><span class="minus"><fmt:message key="common.logout"/></span></a></li>
+        	  </ul>
+            </div> <!--  konec 1. leve menu -->            
+          </div> <!-- konec panel_left -->
+          <hr class="noprint"/>
+          <div id="panel_right">
+            <div id="container">  
+              	<decorator:body />
+              <hr class="noprint"/>
+           
+            </div>
+            <span class="cleaner"></span>
+          </div><!-- konec panel_right -->
+        <%--<div id="footer">
+          <a href="#">Fusce mattis</a>  |  <a href="#">Risus</a>  |  <a href="#">Quisque</a>  |  <a href="#">Pellentesque facilisis</a>  |  <a href="#">Risus</a>  |  <a href="#">Quisque</a>
+        </div>--%>    
+      </div><!-- konec hlavni obsah, leve menu a text -->
+    
+    <div id="zahlavi" class="admin">
+      
+      
+    
+    </div>
+  </div>
+
+  </body>
+  
+</html>

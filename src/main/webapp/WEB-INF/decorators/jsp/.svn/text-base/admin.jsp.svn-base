@@ -1,0 +1,261 @@
+<%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%@ include file="/WEB-INF/jsp/include/taglibs.jsp" %>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" >
+    <!-- Decorator:Admin -->
+   <head>
+   		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	    <title>Administrace Stavbomanie.cz <c:if test="${not empty myPage.title}">|</c:if> <decorator:title /></title>
+    	<link href="<c:url value='/data/css/admin-style.css' />" rel="styleSheet" type="text/css" media="screen, projection" />
+    	<link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/data/css/jquery-ui-1.7.3.custom.css' />" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/data/css/jquery.autocomplete.css' />" />
+		<link rel="stylesheet" type="text/css" media="screen" href="<c:url value='/data/lightbox/css/lightbox.css' />" />
+		
+		<script type="text/javascript" src="<c:url value='/data/js/jquery-1.3.2.min.js' />"></script>
+	    <script type="text/javascript" src="<c:url value='/data/js/jquery-ui-1.7.3.custom.min.js' />"></script>  
+	    <script type="text/javascript" src="<c:url value='/data/js/jquery.autocomplete.js' />"></script> 
+
+	  	<script type="text/javascript" src="<c:url value='/dwr/engine.js' />"></script>
+    	<script type="text/javascript" src="<c:url value='/dwr/interface/DWRManager.js' />"></script>
+
+    	<decorator:head />
+  </head>
+
+  <body>
+
+   <div id="box1">
+          <div id="top">
+            <!-- horni lista -->
+            <table>
+              <tr>
+                <td class="logo">
+                  <a href="<c:url value='/' />" title="Stavbomanie.cz"><span class="firma">Stavbomanie.cz</span></a>
+                </td>
+                <td class="links"></td>
+                <td></td>
+                <td class="user">
+                  <c:if test="${!empty common.loggedUser}">
+                  	<span class="name"><c:out value="${common.loggedUser.username}" /></span>
+                  </c:if>
+                  <span class="date"><format:format value="${dateTime}" dateformat="d. M. y hh:mm"/></span>
+                  <span class="logout"><a href="<c:url value='/logout.html' />" title="Odhlásit" >Odhlásit</a></span>
+                </td>
+              </tr>
+            </table>
+            <!-- konec horni listy -->
+
+
+            <div class="line"></div>
+            <hr class="noprint"/>
+
+            <!-- horni menu tlacitka -->
+            <div id="menu_top">
+				<ul>
+          <li>
+            <a <c:if test="${!empty menuCompanies}">class="active"</c:if> href="<c:url value='/admin/catalog/company/list'/>">Firmy</a>
+          </li>
+          <li>
+            <a <c:if test="${!empty menuCatalog}">class="active"</c:if> href="<c:url value="/admin/catalog/index"/>">
+                <span class="catalog">Katalog</span>
+            </a>
+          </li>
+					<li>
+						<a <c:if test="${!empty menuUsers}">class="active"</c:if> href="<c:url value='/admin/uzivatele/seznam.html' />" title="">
+							<span class="users">Uživatelé</span>
+						</a>
+					</li>
+          <li>
+            <a <c:if test="${!empty menuDemand}">class="active"</c:if> href="<c:url value="/admin/demand/list"/>">
+              <span class="catalog">Poptávky</span>
+            </a>
+          </li>
+					<li>
+							<a <c:if test="${!empty menuRs}">class="active"</c:if> href="<c:url value='/admin/rs/index.html' />" title="">
+								<span class="rs">Stránky</span>
+							</a>
+					</li> 
+					<li>
+							<a <c:if test="${!empty menuEshop}">class="active"</c:if> href="<c:url value='/admin/eshop/index.html' />" title="">
+								<span class="rs">E-shop</span>
+							</a>
+					</li>      
+					<li>
+							<a <c:if test="${!empty menuSettings}">class="active"</c:if> href="<c:url value="/admin/settings/index.html" />">
+								<span class="settings">Nastavení</span>
+							</a>
+					</li>
+					<c:if test="${!empty param.servis}">
+					<li>
+							<a <c:if test="${!empty menuService}">class="active"</c:if> href="<c:url value="/admin/service/index.html" />">
+								<span class="service">Servis</span>
+							</a>
+					</li>
+					</c:if>
+				</ul>
+			</div>
+            <!-- konec horniho menu tlacitek -->
+
+           	<hr class="noprint"/>
+        	<div class="cleaner"></div>
+
+          </div>
+        <hr class="noprint"/>
+        <div class="cleaner"></div>
+
+        <!-- hlavni obsah, leve menu a text -->
+        <div id="main">
+          <div id="panel_left">
+            <div id="menu_left_1"> <!-- 1. leve menu -->
+              <h3 class="menu_left_title">
+                Menu
+              </h3>
+              <ul>
+      			<li><a href="<c:url value='/admin/index.html' />" ><span class="sipka">Úvodní strana</span></a></li>
+      			<c:if test="${!empty menuHomepage}">
+					<li><a href="<c:url value='/admin/demand/list'/>" title=""><span class="sipka">Správa poptávek</span></a></li>
+      				<li><a href="<c:url value='/admin/catalog/index'/>" title=""><span class="plus">Katalog</span></a></li>
+      				<li><a href="<c:url value='/admin/uzivatele/seznam.html' />"><span class="plus">Uživatelé</span></a></li>
+      				<li><a href="<c:url value="/admin/rs/index.html" />"><span class="plus">Redakční systém</span></a></li>
+      				<li><a href="<c:url value="/admin/settings/index.html" />"><span class="plus">Nastavení</span></a></li>
+      			</c:if>
+
+      			<c:if test="${!empty menuUsers}">
+	      			<li><a href="<c:url value='/admin/uzivatele/seznam.html' />"><span class="minus">Uživatelé</span></a>
+	       		  	<ul>
+	         				<li><a href="<c:url value='/admin/uzivatele/novy.html' />" title=""><span class="sipka">Nový uživatel</span></a></li>
+	         				<li><a href="<c:url value='/admin/uzivatele/seznam.html' />" title=""><span class="sipka">Seznam uživatelů</span></a></li>
+                  <li><a href="<c:url value='/admin/uzivatele/seznam.html?filter=salesman'/>" title=""><span class="sipka">Obchodní zástupci</span></a></li>
+	       		  	</ul>
+	      			</li>
+      			</c:if>
+
+      			<c:if test="${!empty menuRs}">
+	      			<li><a href="<c:url value="/admin/rs/index.html" />"><span class="minus">Redakční systém</span></a>
+	      				<c:if test="${!empty menuRs}">
+		      				<ul>
+		      					<li>
+		      						<a href="<c:url value='/admin/rs/articles/list.html' />" title=""><span class="minus">Správa článků</span></a>
+		      						<ul>
+				      					<li><a href="<c:url value='/admin/rs/articles/create.html' />" title=""><span class="sipka">Nový článek</span></a></li>
+				      					<li><a href="<c:url value='/admin/rs/articles/list.html' />" title=""><span class="sipka">Seznam článků</span></a></li>
+				      				</ul>
+		      					</li>
+		      				</ul>
+	      				</c:if>
+	      			</li>
+      			</c:if>
+      			
+      			<c:if test="${!empty menuEshop}">
+	      			<li><a href="<c:url value="/admin/eshop/categories/list" />"><span class="minus">Správa kategorií</span></a></li>
+	      			<li><a href="<c:url value="/admin/eshop/tags/list" />"><span class="minus">Správa štítků</span></a></li>
+	      			<li><a href="<c:url value="/admin/eshop/brands/list" />"><span class="minus">Správa značek</span></a></li>
+	      			<li><a href="<c:url value="/admin/eshop/products/list" />"><span class="minus">Správa produktů</span></a></li>
+	      			<li><a href="<c:url value="/admin/eshop/html-text/list" />"><span class="minus">HTML texty</span></a></li>
+	      			<li><a href="<c:url value="/admin/eshop/import/list" />"><span class="minus">Seznam XML importu</span></a></li>
+	      			<li><a href="<c:url value="/admin/eshop/email/list" />"><span class="minus">Šablony e-mailů</span></a></li>
+	      			<li><a href="<c:url value="/admin/eshop/orders/list" />"><span class="minus">Správa objednávek</span></a></li>
+      			</c:if>
+
+      			<c:if test="${!empty menuSettings}">
+	      			<li><a href="<c:url value="/admin/settings/index.html" />"><span class="minus">Nastavení</span></a>
+	      				<c:if test="${!empty menuSettings}">
+		      				<ul>
+		      					<li><a href="<c:url value='/admin/settings/obecne'/>" title=""><span class="sipka">Obecné nastavení</span></a></li>
+                                <li>
+                                    <a href="<c:url value='/admin/settings/town/list'/>" title=""><span class="sipka">Správa měst</span></a>
+                                    <ul>
+                                        <li><a href="<c:url value='/admin/settings/town/create'/>" title=""><span class="sipka">Nové město</span></a></li>
+                                        <li><a href="<c:url value='/admin/settings/town/list'/>" title=""><span class="sipka">Seznam měst</span></a></li>
+                                    </ul>
+                                </li>
+                                <li><a href="<c:url value='/admin/settings/messages'/>" title=""><span class="sipka">Texty</span></a></li>
+                                <li><a href="<c:url value='/admin/settings/emaily/list'/>" title=""><span class="sipka">Šablony e-mailů</span></a></li>
+                                <li><a href="<c:url value='/admin/settings/akce'/>" title=""><span class="sipka">Nastavení akcí</span></a></li>
+                                <li><a href="<c:url value='/admin/settings/html-text/list'/>" title=""><span class="sipka">Správa HTML textů</span></a></li>
+		      				</ul>
+	      				</c:if>
+	      			</li>
+      			</c:if>
+
+                <c:if test="${!empty menuCatalog || !empty menuCompanies}">
+                    <ul>
+                    	<li><a href="<c:url value='/admin/catalog/company/list'/>" title=""><span class="sipka">Správa firem</span></a></li>
+                    	<li>
+                            <a href="<c:url value='/admin/catalog/scope/tree'/>" title=""><span class="minus">Správa oborů</span></a>
+
+                            <ul>
+                                <li><a href="<c:url value='/admin/catalog/scope/create'/>" title=""><span class="sipka">Nový obor</span></a></li>
+                                <li><a href="<c:url value='/admin/catalog/scope/tree'/>" title=""><span class="sipka">Seznam oborů</span></a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="<c:url value='/admin/catalog/commodity/tree'/>" title=""><span class="minus">Správa kategorií</span></a>
+
+                            <ul>
+                                <li><a href="<c:url value='/admin/catalog/commodity/create'/>" title=""><span class="sipka">Nová kategorie</span></a></li>
+                                <li><a href="<c:url value='/admin/catalog/commodity/tree'/>" title=""><span class="sipka">Seznam kategorií</span></a></li>
+                            </ul>
+                        </li>
+                        <li><a href="<c:url value='/admin/catalog/tags/list'/>" title=""><span class="sipka">Správa klíčových slov</span></a></li>
+                    </ul>
+                </c:if>
+                <c:if test="${!empty menuDemand}">
+                    <ul>
+                        <li><a href="<c:url value='/admin/demand/list'/>" title=""><span class="sipka">Správa poptávek</span></a></li>
+                    </ul>
+                </c:if>
+
+      			<c:if test="${!empty menuService}">
+	      			<li><a href="<c:url value="/admin/service/index.html" />"><span class="minus">Servis</span></a>
+	      				<c:if test="${!empty menuService}">
+		      				<ul>
+							  	<li><a href="<c:url value='/admin/uzivatele/prihlaseni/seznam.html' />"><span class="sipka">Statistika přihlašování uživatelů</span></a></li>
+								<li><a href="<c:url value='/admin/uzivatele/udalosti/seznam.html' />"><span class="sipka">Seznam události</span></a></li>
+						     	<li><a href="<c:url value='/admin/statistika/exceptions/index.html' />"><span class="sipka">Výjimky</span></a></li>
+						     	<li><a href="<c:url value='/admin/statistika/hibernate/index.html' />"><span class="sipka">Hibernate</span></a></li>
+						     	<li><a href="<c:url value='/admin/service/search.html' />"><span class="sipka">Reindexace fultextu</span></a></li>
+							</ul>
+	      				</c:if>
+	      			</li>
+      			</c:if>
+
+				<li><a href="<c:url value='/logout.html' />" title=""><span class="sipka"><fmt:message key="common.logout"/></span></a></li>
+        	  </ul>
+            </div> <!--  konec 1. leve menu -->
+          </div> <!-- konec panel_left -->
+          <hr class="noprint"/>
+          <div id="panel_right">
+            <div id="container">
+              	<decorator:body />
+              <hr class="noprint"/>
+
+            </div>
+            <span class="cleaner"></span>
+          </div><!-- konec panel_right -->
+        <%--<div id="footer">
+          <a href="#">Fusce mattis</a>  |  <a href="#">Risus</a>  |  <a href="#">Quisque</a>  |  <a href="#">Pellentesque facilisis</a>  |  <a href="#">Risus</a>  |  <a href="#">Quisque</a>
+        </div>--%>
+      </div><!-- konec hlavni obsah, leve menu a text -->
+
+    <div id="zahlavi" class="admin">
+
+
+
+    </div>
+  </div>
+  <script type="text/javascript" src="<c:url value='/data/lightbox/jquery.lightbox.js' />"></script> 
+  <script type="text/javascript">
+    $(function(){
+        $("a.lightbox").lightbox({
+            fitToScreen: true,
+            imageClickClose: false,
+            fileLoadingImage : '<c:url value="/data/lightbox/images/loading.gif" />',
+            fileBottomNavCloseImage : '<c:url value="/data/lightbox/images/closelabel.gif" />'
+        });
+    });
+  </script>
+</body>
+</html>
