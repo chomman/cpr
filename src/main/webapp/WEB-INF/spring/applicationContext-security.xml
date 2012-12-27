@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans:beans xmlns="http://www.springframework.org/schema/security"
-	xmlns:beans="http://www.springframework.org/schema/beans"
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
 	xmlns:p="http://www.springframework.org/schema/p" 
 	xmlns:util="http://www.springframework.org/schema/util"
@@ -11,11 +11,137 @@
 		http://www.springframework.org/schema/util 
 		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 
-		<http pattern="/data" security="none" access-denied-page="/denied" />
+		<bean id="filterChainProxy" class="org.springframework.security.web.FilterChainProxy">
+     	 <constructor-arg>
+	         <util:list>
+	         	 <security:filter-chain pattern="/resources/**" filters="none"/>
+	             <security:filter-chain pattern="/**" filters="logoutFilter,
+          						 		  authenticationProcessingFilter,
+          						 		  anonymousProcessingFilter,
+          						 		  exceptionTranslationFilter,
+          						 		  filterSecurityInterceptor"/>
+	         </util:list>
+	     </constructor-arg>		
+		</bean>
+		
+		
+		<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+    	<constructor-arg value="/"/> <!-- URL redirected to after logout -->
+    	<constructor-arg>
+      		<list>
+            	<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
+            	<ref bean="logoutListener"/>
+        	</list>
+    	</constructor-arg>
+    	<property name="filterProcessesUrl" value="/logout"/>
+	</bean>
+	
+	
+	<bean id="authenticationProcessingFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="authenticationFailureHandler" ref="authenticationFailureHandler" />  
+	 	<property name="authenticationSuccessHandler" ref="authenticationSuccessHandler" /> 
+		<property name="filterProcessesUrl" value="/j_spring_security_check" />
+	</bean>
+		
+	<bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+		 <constructor-arg>
+	         <util:list>
+	            <ref local="runAsAuthenticationProvider"/>
+				<ref local="daoAuthenticationProvider" />
+				<ref local="anonymousAuthenticationProvider" />
+				<ref local="changePasswordAuthenticationProvider"/>
+	         </util:list>
+	     </constructor-arg>
+	     <property name="authenticationEventPublisher">
+			<bean class="org.springframework.security.authentication.DefaultAuthenticationEventPublisher" />
+		 </property>		
+	</bean>		
+	
+	<bean id="loginListener" class="sk.peterjurkovic.cpr.listeners.LoginListener" autowire="byName" />
+	
+	<bean id="logoutListener" class="sk.peterjurkovic.cpr.listeners.LogoutListener" autowire="byName" />
+	
+	<bean id="runAsAuthenticationProvider" class="org.springframework.security.access.intercept.RunAsImplAuthenticationProvider">
+	  <property name="key" value="passkey" />
+	</bean>	
+	
+	<bean name="hibernateAuthentication" class="sk.peterjurkovic.cpr.spring.security.HibernateAuthenticationImpl" />
+	
+	<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+		<property name="userDetailsService"	ref="hibernateAuthentication" />
+		<property name="saltSource" ref="saltSource" />
+		<property name="passwordEncoder" ref="passwordEncoder" />
+	</bean>
+	
+	<bean id="passwordEncoder"	class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />	
+	
+	<bean id="saltSource" class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+		<property name="systemWideSalt" value="amoxojwo" />
+	</bean>
+	
+	<bean id="authenticationFailureHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationFailureHandler" />
+	
+	<bean id="authenticationSuccessHandler" class="sk.peterjurkovic.cpr.spring.security.AuthenticationSuccessHandler">
+		<property name="defaultTargetUrl" value="/" />
+	</bean>
+	
+	<bean id="anonymousAuthenticationProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
+	  <constructor-arg value="anonym"/>
+	  
+	</bean>
+	
+	<bean id="changePasswordAuthenticationProvider" class="sk.peterjurkovic.cpr.spring.security.ChangePasswordAuthenticationProvider">
+	     <property name="changePasswordTokenValidity" value="72" />
+	</bean>	
+	
+	<bean id="anonymousProcessingFilter" class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
+	  <constructor-arg value="anonym" />
+	</bean>
+	
+	<bean id="accessDecisionManager" class="org.springframework.security.access.vote.AffirmativeBased">
+		<constructor-arg>
+	         <util:list>
+	            <ref local="roleVoter" />
+	         </util:list>
+	     </constructor-arg>
+	     <property name="allowIfAllAbstainDecisions" value="false" />		
+	</bean>
+  
+  	<bean id="roleVoter"  class="org.springframework.security.access.vote.RoleVoter" />
+  
+  
+	<bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+		 <constructor-arg>
+			<ref bean="authenticationEntryPoint"/>
+		</constructor-arg>
+	</bean>
+	
+	<bean id="authenticationEntryPoint" class="sk.peterjurkovic.cpr.spring.security.MultipleLoginUrlAuthenticationEntryPoint">
+		 <constructor-arg value="/login" />
+		<property name="forceHttps" value="false" />
+	</bean>
+	
+	
+	<bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+		<property name="authenticationManager" ref="authenticationManager" />
+		<property name="accessDecisionManager" ref="accessDecisionManager" />
+		<property name="securityMetadataSource">
+			<security:filter-security-metadata-source lowercase-comparisons="true" request-matcher="ant" >
+		      <security:intercept-url pattern="/login" access="ROLE_ANONYMOUS"/>
+		      <security:intercept-url pattern="/j_spring_security_check" access="ROLE_ANONYMOUS"/>
+		      <security:intercept-url pattern="/profile/**" access="ROLE_USER,ROLE_ADMIN"/>
+		      <security:intercept-url pattern="/admin/login" access="ROLE_ANONYMOUS"/>
+		      <security:intercept-url pattern="/admin/**" access="ROLE_ADMIN"/>
+		    </security:filter-security-metadata-source>
+		</property>
+	</bean>
+	
+	<!-- 
+		<http pattern="/data" security="none" access-denied-page="/auth/denied" />
 		
 		<http auto-config="true"  use-expressions="true">
-		<intercept-url pattern="/auth/login" access="permitAll"/>
-		<intercept-url pattern="/auth/logout" access="permitAll"/>
+		<intercept-url pattern="/**" access="permitAll"/>
 		<intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 		
 		<form-login login-page="/auth/login" 
@@ -37,4 +163,6 @@
 	
 	<beans:bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" id="passwordEncoder"/>
 	<beans:bean id="userService" class="sk.peterjurkovic.cpr.services.impl.UserServiceImpl" />
-</beans:beans>
+	
+	 -->
+</beans>

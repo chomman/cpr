@@ -4,8 +4,8 @@
     <pattern>/edit/*</pattern>
   </excludes>
 
-  <decorator name="admin-login" page="admin-login.jsp">
-    <pattern>/admin/login.html</pattern>
+	<decorator name="auth" page="auth.jsp">
+    <pattern>/auth/*</pattern>
   </decorator>
 
   <decorator name="admin" page="admin.jsp">

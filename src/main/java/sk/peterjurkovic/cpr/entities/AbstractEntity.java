@@ -15,6 +15,7 @@ import sk.peterjurkovic.cpr.editors.IdentifiableByLong;
 
 
 
+@SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class AbstractEntity  implements Serializable, IdentifiableByLong{
 	

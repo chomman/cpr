@@ -13,7 +13,11 @@
 	<listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	
+	<listener>
+		<listener-class>org.springframework.security.web.session.HttpSessionEventPublisher</listener-class>
+	</listener>
+	
 	<!-- Processes application requests -->
 	<servlet>
 		<servlet-name>webServlet</servlet-name>
@@ -31,7 +35,7 @@
 	</filter>
 	
 	<filter>
-		<filter-name>HibernateFilter</filter-name>
+		<filter-name>hibernateFilter</filter-name>
 		<filter-class>org.springframework.orm.hibernate4.support.OpenSessionInViewFilter</filter-class>
 	</filter>
 	
@@ -46,18 +50,23 @@
 	</filter-mapping>
 	
 	<filter-mapping>
-		<filter-name>HibernateFilter</filter-name>
+		<filter-name>hibernateFilter</filter-name>
 		<servlet-name>webServlet</servlet-name>
 	</filter-mapping>
 	
 	<filter-mapping>
 	  <filter-name>sitemeshFilter</filter-name>
-	  <url-pattern>/*</url-pattern>
+	  <servlet-name>webServlet</servlet-name>
 	</filter-mapping>
 			
 	<servlet-mapping>
 		<servlet-name>webServlet</servlet-name>
 		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+	
+	<servlet-mapping>
+		<servlet-name>webServlet</servlet-name>
+		<url-pattern>/j_spring_security_check</url-pattern>
 	</servlet-mapping>
 	
 	<servlet-mapping>
@@ -100,4 +109,13 @@
 		<url-pattern>*.js</url-pattern>
 	</servlet-mapping>
 	
+	<error-page>
+		<error-code>403</error-code>
+		<location>/403.jsp</location>
+	</error-page>
+	
+	<error-page>
+		<error-code>404</error-code>
+		<location>/404.jsp</location>
+	</error-page>
 </web-app>

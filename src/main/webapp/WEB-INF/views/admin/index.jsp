@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8" />
 <title>CPR ADMIN</title>
- <link rel="stylesheet" href="<c:url value="/data/admin/css/admin-main.css" />" />
+ <link rel="stylesheet" href="<c:url value="/resources/admin/css/admin-main.css" />" />
 </head>
 <body>
 <header>

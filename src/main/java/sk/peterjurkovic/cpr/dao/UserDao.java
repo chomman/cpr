@@ -13,9 +13,7 @@ public interface UserDao extends BaseDao<User, Long>{
 	
 	List<User> getUsersByRole(String roleName);
 	
-	List<User> getUsers();
-	
-	List<Authority> getAuthorities();
+	List<Authority> getAllAuthorities();
 	
 //	User getUserByPasswordToken(String token);
 }

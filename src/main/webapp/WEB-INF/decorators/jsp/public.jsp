@@ -4,9 +4,9 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Public</title>
+<title><decorator:title/> Public </title>
 </head>
 <body>
-PUBLIC 
+	 <decorator:body/>
 </body>
 </html>

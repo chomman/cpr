@@ -11,7 +11,7 @@ public interface UserService {
 	
 	Authority getAuthorityByCode(String code);
 	
-	List<User> getUsers();
+	List<User> getAllUsers();
 	
 	User getUserByUsername(String username);
 	
@@ -21,7 +21,7 @@ public interface UserService {
 	
 	User mergeUser(User user);
 	
-	User getById(Long id);
+	User getUserById(Long id);
 	
 	void removeUser(User user);
 	
@@ -33,5 +33,4 @@ public interface UserService {
 	
 	boolean existsUser(String username);
 	
-	List<Authority> getAuthorities();
 }

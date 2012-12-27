@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -27,10 +29,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "user")
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })
 public class User extends AbstractEntity implements UserDetails{
 	
+
+	//private static final long serialVersionUID = 72541L;
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -38,7 +43,7 @@ public class User extends AbstractEntity implements UserDetails{
 	private String password;
     private DateTime changePasswordRequestDate;
     private String changePasswordRequestToken;
-	private Set<Authority> authorities = new HashSet<Authority>();
+	private Set<Authority> authoritySet = new HashSet<Authority>();
 	
 	
 	@Id
@@ -112,25 +117,27 @@ public class User extends AbstractEntity implements UserDetails{
 	@ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
     @JoinTable(name = "user_has_authority", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
     public Set<Authority> getAuthoritySet() {
-        return authorities;
+        return authoritySet;
     }
 	
 	public void setAuthoritySet(Set<Authority> authorities) {
-        this.authorities = authorities;
+        this.authoritySet = authorities;
     }
 	
 	public void addAuthority(Authority authority) {
-		authorities.add(authority);
+		authoritySet.add(authority);
     }
 	
 	public boolean removeAuthority(Authority authority) {
-		return authorities.remove(authority);
+		return authoritySet.remove(authority);
 	}
+	
 	
 	@Transient
     public List<GrantedAuthority> getAuthorities() {
-        return new ArrayList<GrantedAuthority>(authorities);
+        return new ArrayList<GrantedAuthority>(getAuthoritySet());
     }
+	
 	
 	
 	@Transient
@@ -143,15 +150,6 @@ public class User extends AbstractEntity implements UserDetails{
     }
 	
 	
-	@Transient
-    public boolean isRegistratedUser() {
-		Authority authority = Authority.getInstance(Authority.ROLE_REGISTRATED_USER);
-        if (getAuthoritySet().contains(authority) || isAdminUser()) {
-            return true;
-        }
-        return false;
-    }
-	
 	@Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof User) {
@@ -160,7 +158,7 @@ public class User extends AbstractEntity implements UserDetails{
         return false;
     }
 	
-	@Override
+
 	@Transient
 	public String getUsername() {
 		return getEmail();
@@ -169,14 +167,13 @@ public class User extends AbstractEntity implements UserDetails{
 	public void setUsername(String username) {
 	        setEmail(username);
 	}
-	
-	@Override
+
 	@Transient
 	public boolean isAccountNonExpired() {
 		return true;
 	}
 
-	@Override
+
 	@Transient
 	public boolean isAccountNonLocked() {
 		return true;

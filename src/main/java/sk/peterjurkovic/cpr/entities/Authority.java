@@ -20,7 +20,6 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
 
 	private static final long serialVersionUID = 31L;
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
-    public static final String ROLE_REGISTRATED_USER = "ROLE_REGISTRATED_USER";
     public static final String ROLE_USER = "ROLE_USER";
 
 
@@ -101,7 +100,6 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
     public static List<String> getRoles() {
         List<String> roles = new ArrayList<String>();
         roles.add(ROLE_ADMIN);
-        roles.add(ROLE_REGISTRATED_USER);
         roles.add(ROLE_USER);
         return roles;
     }

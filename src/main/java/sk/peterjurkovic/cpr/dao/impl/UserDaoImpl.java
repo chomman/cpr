@@ -35,20 +35,14 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 			.list();
 	}
 
-	@Override
-	public List<User> getUsers() {
-		return getAll();
-	}
-
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Authority> getAuthorities() {
+	public List<Authority> getAllAuthorities() {
 		 StringBuffer hql = new StringBuffer();
          hql.append("  SELECT role ");
-         hql.append("    FROM Authority role ");
-         hql.append("   WHERE role.enabled = true  ");
-         hql.append("     AND role.code like 'ROLE_%' ");
-         hql.append("ORDER BY role.name");
+         hql.append("  FROM Authority role ");
+         hql.append("  WHERE role.enabled = true  ");
+         hql.append("  ORDER BY role.name");
          
          return sessionFactory.getCurrentSession()
          				.createQuery(hql.toString())

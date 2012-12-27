@@ -13,7 +13,7 @@ public class AccessController extends SupportController {
 	 
 	
 	
-	 @RequestMapping(value = "auth/login", method = RequestMethod.GET)
+	 @RequestMapping(value = "/login", method = RequestMethod.GET)
 	 public String getLoginPage(@RequestParam(value="error", required=false) boolean error,   ModelMap model) {
 	  logger.debug("Received request to show login page");
 	 
@@ -22,15 +22,28 @@ public class AccessController extends SupportController {
 	  } else {
 	   model.put("error", "");
 	  }
-	  return "loginpage";
+	  return "/public/login";
+	 }
+	 
+	 
+	 @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
+	 public String getAdminLoginPage(@RequestParam(value="error", required=false) boolean error,   ModelMap model) {
+	  logger.debug("Received request to show login page");
+	 
+	  if (error == true) {
+	   model.put("error", "You have entered an invalid username or password!");
+	  } else {
+	   model.put("error", "");
+	  }
+	  return "/admin/login";
 	 }
 	 
 	 
 	 
 	 
-	 @RequestMapping(value = "auth/denied", method = RequestMethod.GET)
+	 @RequestMapping(value = "/denied", method = RequestMethod.GET)
 	  public String getDeniedPage() {
 	  logger.debug("Received request to show denied page");
-	  return "deniedpage";
+	  return "denied";
 	 }
 }

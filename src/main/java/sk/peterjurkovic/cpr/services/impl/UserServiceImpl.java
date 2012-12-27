@@ -3,9 +3,6 @@ package sk.peterjurkovic.cpr.services.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,10 +15,11 @@ import sk.peterjurkovic.cpr.services.UserService;
 
 @Service("userService")
 @Transactional(propagation = Propagation.REQUIRED)
-public class UserServiceImpl implements UserService, UserDetailsService {
+public class UserServiceImpl implements UserService {
 	
 	 @Autowired
 	 private UserDao userDao;
+	 
 	 @Autowired
 	 private AuthorityDao authorityDao;
 	    
@@ -33,7 +31,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<User> getUsers() {
+	public List<User> getAllUsers() {
 		return userDao.getAll();
 	}
 
@@ -60,7 +58,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public User getById(Long id) {
+	public User getUserById(Long id) {
 		return userDao.getByID(id);
 	}
 
@@ -95,18 +93,6 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         }
         return true;
 	}
-
 	
-	@Override
-	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		return userDao.getUserByUsername(username);
-	}
-	
-	@Override
-	@Transactional(readOnly = true)
-	public List<Authority> getAuthorities(){
-		return authorityDao.getAll();
-	}
 
 }
