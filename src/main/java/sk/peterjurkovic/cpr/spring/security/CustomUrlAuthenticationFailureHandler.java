@@ -22,22 +22,15 @@ public class CustomUrlAuthenticationFailureHandler implements AuthenticationFail
 	
 	protected Logger logger = Logger.getLogger(getClass());
 	
-	private boolean forward = false;
-	
 	private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 	
 	@Override
 	public void onAuthenticationFailure(HttpServletRequest request,
 			HttpServletResponse response, AuthenticationException ex)
 			throws IOException, ServletException {
+	
+		redirectStrategy.sendRedirect(request, response, gatUrl(request, ex));
 		
-		if(forward){
-			logger.debug("Forwarding to " + gatUrl(request, ex));
-			request.getRequestDispatcher(gatUrl(request, ex)).forward(request, response);
-		}else{
-			logger.debug("Redirecting to " + gatUrl(request, ex));
-			redirectStrategy.sendRedirect(request, response, gatUrl(request, ex));
-		}
 
 	}
 	
@@ -46,7 +39,7 @@ public class CustomUrlAuthenticationFailureHandler implements AuthenticationFail
 		
 		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
 		
-		logger.info("CustomUrlAuthenticationFailureHandler prefix: " + prefix);
+		logger.info("Prefix: " + prefix );
 		
 		if(prefix.equals(Constants.ADMIN_PREFIX)){
 			return Constants.FAILURE_ROLE_ADMIN_URL;
@@ -54,10 +47,6 @@ public class CustomUrlAuthenticationFailureHandler implements AuthenticationFail
 		
 		return Constants.FAILURE_ROLE_USER_URL;
     }
-	
-	public boolean isForwarded(){
-		return forward;
-	}
 	
 	
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {

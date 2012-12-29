@@ -8,7 +8,14 @@
 </head>
 <body>
 	LOGIN PAGE
-	
+			
+		<div class="error <c:if test='${!command.hasErrors && empty loginError}'>hide</c:if>">
+         <c:if test="${loginError == 1}">
+           Nespravne uzivatelske meno alebo heslo.
+         </c:if>
+         <form:errors path="command.*"/>
+       </div>  	
+			
 	      <form action="<c:url value="/j_spring_security_check" />" method="post">
               
               <table class="form-firma">

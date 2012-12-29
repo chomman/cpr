@@ -8,6 +8,7 @@ import org.springframework.aop.interceptor.CustomizableTraceInterceptor;
 public class TraceInterceptor extends CustomizableTraceInterceptor {
 	
 	private static final long serialVersionUID = 287162721460370957L;
+	
 	protected static Logger logger4J = Logger.getLogger("aop");
 
 	@Override

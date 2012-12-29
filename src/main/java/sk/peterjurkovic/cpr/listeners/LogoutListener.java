@@ -1,11 +1,13 @@
 package sk.peterjurkovic.cpr.listeners;
 
+import java.util.Date;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -17,17 +19,21 @@ import org.springframework.security.web.context.HttpSessionSecurityContextReposi
 import org.springframework.security.web.session.HttpSessionDestroyedEvent;
 
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.services.UserLogService;
 
 
-public class LogoutListener implements LogoutHandler, ApplicationListener {
+public class LogoutListener implements LogoutHandler, ApplicationListener<ApplicationEvent> {
 
-    protected final Log logger = LogFactory.getLog(getClass());
+	protected Logger logger = Logger.getLogger(getClass());
 
-
+	@Autowired
+	private UserLogService userLogService;
+	
+    @Override
     public void onApplicationEvent(ApplicationEvent evt) {
         if (evt instanceof HttpSessionDestroyedEvent) {
             HttpSessionDestroyedEvent httpSessionDestroyedEvent = (HttpSessionDestroyedEvent)evt;
-            logger.debug("Session byla smazana");
+            logger.info("Session byla smazana");
             HttpSession session = httpSessionDestroyedEvent.getSession();
             Object contextFromSessionObject = session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
             if (contextFromSessionObject != null) {
@@ -39,11 +45,11 @@ public class LogoutListener implements LogoutHandler, ApplicationListener {
         }
     }
 
+	@Override
+	public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		logout(authentication, request.getSession());
+	}
 
-    public void logout(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
-        logout(authentication, request.getSession());
-
-    }
 
     public void logout(Authentication authentication, HttpSession session) {
         if (authentication != null && !AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
@@ -52,8 +58,10 @@ public class LogoutListener implements LogoutHandler, ApplicationListener {
             if (authentication.getDetails() != null) {
                 sessionId = ((WebAuthenticationDetails)authentication.getDetails()).getSessionId();
             }
-          //  userLogManager.logout(new Date().getTime(), sessionId);
+            userLogService.saveLogOut(user, new Date().getTime(), sessionId);
             logger.info("Uzivatel byl odhlasen. Username: " + user.getUsername());
         }
     }
+
+
 }

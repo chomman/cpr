@@ -3,9 +3,10 @@
   <excludes>
     <pattern>/edit/*</pattern>
   </excludes>
-
-	<decorator name="auth" page="auth.jsp">
-    <pattern>/auth/*</pattern>
+	
+	
+  <decorator name="blank" page="blank.jsp">
+    <pattern>/blank/*</pattern>
   </decorator>
 
   <decorator name="admin" page="admin.jsp">

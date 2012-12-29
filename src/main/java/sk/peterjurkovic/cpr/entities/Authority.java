@@ -4,6 +4,7 @@ package sk.peterjurkovic.cpr.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -18,11 +19,15 @@ import org.springframework.security.core.GrantedAuthority;
 @Table(name = "authority")
 public class Authority extends AbstractEntity implements GrantedAuthority {
 
-	private static final long serialVersionUID = 31L;
+	private static final long serialVersionUID = 3198554L;
+	
 	public static final String ROLE_ADMIN = "ROLE_ADMIN";
     public static final String ROLE_USER = "ROLE_USER";
+    
+    private String name;
+    private String description;
 
-
+    
     @Override
     @Id
     @GeneratedValue
@@ -38,7 +43,25 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
         return super.getCode();
     }
 
-    /**
+    
+    @Column(length = 50)
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	/**
      * Metoda compareTo pre porovnavanie objektu na zaklade nazvu
      */
     @Transient

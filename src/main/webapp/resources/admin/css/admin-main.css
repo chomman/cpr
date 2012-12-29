@@ -16,6 +16,8 @@ header{height: 58px;background: url(../img/header-bg.png) repeat-x;border-bottom
 #logo span{font-size:20px;color:#fff;margin-left:5px;}
 
 #logged-user{background:url(../img/header-user.png) repeat-x; height: 17px;position: absolute;right: 100px;padding:9px 20px;top:10px;color:#fff;font-size:12px;}
+#logged-user a{color:#fff;text-decoration:underline;margin-left:20px;}
+#logged-user a:hover{text-decoration: none;}
 #logout{display: block;position: absolute; width: 30px;height: 30px;background: url(../img/log-out.png) no-repeat; right: 30px;top: 10px;border:3px solid #777085;}
 #logout:hover{opacity:.7;}
 
@@ -30,3 +32,8 @@ nav .home{background-image: url(../img/menu-home.png);}
 nav .doc{background-image: url(../img/menu-doc.png);}
 nav .cal{background-image: url(../img/menu-cal.png);}
 nav .user{background-image: url(../img/menu-user.png);}
+
+/* DASHBOARD */
+#speed-nav{background: linear-gradient(to bottom, #FFFFFF 0%, #F6F6F6 47%, #EDEDED 100%) repeat scroll 0 0 transparent;border: 1px solid #D8D8D8; border-radius: 4px 4px 4px 4px;box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;
+    color: #333333; display: block;padding: 10px;text-align: center;text-decoration: none;}
+

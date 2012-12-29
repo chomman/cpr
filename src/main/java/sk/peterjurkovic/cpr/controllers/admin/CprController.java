@@ -5,14 +5,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.controllers.SupportController;
 
-
 @Controller
-public class DashBoardController extends SupportController {
-    
-    
-	@RequestMapping("/admin/")
-    public String showDashBoard() {
-        return "admin/index";
+public class CprController extends SupportController {
+
+	
+	@RequestMapping("/admin/cpr")
+    public String showPage() {
+        return "/admin/cpr";
     }
-    
 }

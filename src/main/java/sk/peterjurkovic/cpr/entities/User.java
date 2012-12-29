@@ -22,20 +22,23 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
-import org.joda.time.contrib.hibernate.PersistentDateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "user")
+@Table(name = "users")
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })
 public class User extends AbstractEntity implements UserDetails{
 	
 
-	//private static final long serialVersionUID = 72541L;
+	
+	private static final long serialVersionUID = 198524L;
+	
+	
 	private Long id;
 	private String firstName;
 	private String lastName;
@@ -199,7 +202,14 @@ public class User extends AbstractEntity implements UserDetails{
         return email.hashCode();
     }
 
-	
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", email=" + email + ", password=" + password
+				+ " authoritySize: " + getAuthoritySet().size() + "]";
+	}
 
+	
+    
 		
 }

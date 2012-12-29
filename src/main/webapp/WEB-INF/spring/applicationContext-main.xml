@@ -40,6 +40,11 @@
         <property name="ignoreUnresolvablePlaceholders" value="true" />
     </bean>
     
+    
+    <bean id="timeZone" class="java.util.TimeZone" factory-method="getTimeZone">
+        <constructor-arg value="${scheduling.time.zone}"/>
+        <constructor-arg index="1" value="true"/>
+    </bean>
 
 
 </beans>

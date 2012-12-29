@@ -9,7 +9,10 @@ import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
 
 
-
+/**
+ * Implementacia UserDao
+ * @author Peter Jurkovič (email@peterjurkovic.sk) 
+ */
 @Repository("userDao")
 public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	
@@ -19,6 +22,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	
 	@Override
 	public User getUserByUsername(String username) {
+		logger.debug("Finding user by username: "+username);
 		return (User) sessionFactory.getCurrentSession()
 				.createQuery("FROM User u WHERE u.email=:username")
 				.setString("username", username)
