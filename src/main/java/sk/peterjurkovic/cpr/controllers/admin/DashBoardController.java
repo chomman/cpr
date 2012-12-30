@@ -12,7 +12,9 @@ public class DashBoardController extends SupportController {
     
 	@RequestMapping("/admin/")
     public String showDashBoard() {
-        return "admin/index";
-    }
+        
+		return "admin/dashboard";
+    
+	}
     
 }
