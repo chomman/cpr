@@ -1,6 +1,5 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,23 +8,43 @@
 </head>
 <body>
 	
-	<h1>Vitajte v administrácii informačného systému CPR</h1>
+	<h1><spring:message code="dashboard.h1"/></h1>
 	
 	<div id="dashboard">
 		
 		<div class="hbox">
-			<h2>Ovládací panel</h2>
+			<h2><spring:message code="menu.dashboard" /></h2>
 		</div>
 		<ul id="speed-nav">
-			<li><a href="" class="ico-cpr tt" title="Správa Construction Products Regulation">CPR</a></li>
-			<li><a href="" class="ico-cal tt" title="Správa noviek">Aktuality</a></li>
-			<li><a href="" class="ico-user tt" title="Správa užívateľov" >Uživateľia </a></li>
-			<li><a href="" class="ico-sett tt" title="Nastavenie systému" >Nastavenia</a></li>
-			<li><a href="" class="ico-info tt" title="Neviete si rady?">Pomocník</a></li>
+			<li>
+				<a href="" class="ico-cpr tt" title="<spring:message code="dashboard.cpr.title"/>">
+					<spring:message code="dashboard.cpr"/>
+				</a>
+			</li>
+			<li>
+				<a href="" class="ico-cal tt" title="<spring:message code="dashboard.news.title"/>">
+					<spring:message code="dashboard.news"/>
+				</a>
+			</li>
+			<li>
+				<a href="" class="ico-user tt" title="<spring:message code="dashboard.users.title"/>" >
+					<spring:message code="dashboard.users"/>
+				</a>
+			</li>
+			<li>
+				<a href="" class="ico-sett tt" title="<spring:message code="dashboard.settings.title"/>" >
+					<spring:message code="dashboard.settings"/>
+				</a>
+			</li>
+			<li>
+				<a href="" class="ico-info tt" title="<spring:message code="dashboard.help.title"/>">
+					<spring:message code="dashboard.help"/>
+				</a>
+			</li>
 		</ul>
 
 		<div class="hbox">
-			<h2>Štatistiky</h2>
+			<h2><spring:message code="dashboard.stats"/></h2>
 		</div>
 
 		<table class="data">

@@ -46,5 +46,9 @@
         <constructor-arg index="1" value="true"/>
     </bean>
 
-
+	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    <property name="basename">
+        <value>msg/messages</value>
+    </property>
+</bean>
 </beans>

@@ -10,6 +10,15 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.User" />
   	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Address"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.AssessmentSystem"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Csn"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Country"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Mandate"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.NotifiedBody"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Standard"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsn"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
 
  </session-factory>
 </hibernate-configuration>

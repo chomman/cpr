@@ -7,7 +7,7 @@
 	<title> <decorator:title/> - ADMIN</title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/admin-main.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
-	<link rel="shortcut icon" href="<c:url value="/resources/admin/img/favico.png" />" type="image/x-ico; charset=binary">
+	<link rel="shortcut icon" href="<c:url value="/resources/admin/img/favico.png" />">
 	<script src="<c:url value="/resources/admin/js/jquery-1.8.3.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/jquery-ui-1.9.2.custom.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
@@ -26,10 +26,10 @@
 	<!-- MAIN NAV  -->
 	<nav>
 		<ul>
-			<li><a href="" class="home">Ovládací panel</a></li>
-			<li><a href="" class="doc">Správa CPR</a></li>
-			<li><a href="" class="cal">Správa aktualit</a></li>
-			<li><a href="" class="user">Správa uživateľov</a></li>
+			<li><a href="<c:url value="/admin/" />" class="home"><spring:message code="menu.dashboard"/></a></li>
+			<li><a href="<c:url value="/admin/cpr" />" class="doc"><spring:message code="menu.cpr"/></a></li>
+			<li><a href="<c:url value="/admin/news" />" class="cal"><spring:message code="menu.news"/></a></li>
+			<li><a href="<c:url value="/admin/users" />" class="user"><spring:message code="menu.users"/></a></li>
 		</ul>
 	</nav>
 	
