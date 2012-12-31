@@ -14,7 +14,12 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 
-
+/**
+ * Interceptor, ktory je volany po kazdom poziadavku na admin controllery, resp. na pattern /admin/*
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 
 public class AdminInterceptor extends HandlerInterceptorAdapter {
 	
@@ -26,7 +31,6 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 			
-		logger.info("Called date: " + new DateTime().toString("yyyy.MM.dd / HH:mm"));
 		 Map<String, Object> commonModel = new HashMap<String, Object>();
 		 commonModel.put("user", UserUtils.getLoggedUser());
 		 

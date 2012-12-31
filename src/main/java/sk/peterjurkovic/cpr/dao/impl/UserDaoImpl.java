@@ -20,6 +20,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
         super(User.class);
     }
 	
+	
 	@Override
 	public User getUserByUsername(String username) {
 		logger.debug("Finding user by username: "+username);

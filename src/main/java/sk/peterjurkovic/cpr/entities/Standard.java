@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -60,7 +61,14 @@ public class Standard extends AbstractEntity {
 	private Set<AssessmentSystem> assessmentSystems;
 	
 	private Set<StandardCsn> standardCsns;
-
+	
+	public Standard(){
+		this.mandates = new HashSet<Mandate>();
+		this.notifiedBodies = new HashSet<NotifiedBody>();
+		this.assessmentSystems = new HashSet<AssessmentSystem>();
+		this.standardCsns = new HashSet<StandardCsn>();
+		setEnabled(Boolean.FALSE);
+	}
 	
 	@Id
 	@GeneratedValue

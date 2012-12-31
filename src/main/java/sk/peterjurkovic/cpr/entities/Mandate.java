@@ -8,7 +8,11 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
-
+/**
+ * Entita reprezentujuca mandat
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name ="mandate")
 @Inheritance(strategy = InheritanceType.JOINED)

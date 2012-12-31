@@ -24,6 +24,10 @@
     
     <context:component-scan base-package="sk.peterjurkovic.cpr.services">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>  
+    
+    <context:component-scan base-package="sk.peterjurkovic.cpr.validators">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>       
    
    <tx:annotation-driven transaction-manager="transactionManagerBean"/>

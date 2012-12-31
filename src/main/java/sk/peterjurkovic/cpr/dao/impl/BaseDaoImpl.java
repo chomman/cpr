@@ -66,7 +66,7 @@ public class BaseDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport
 	@Override
 	public T getByID(ID id) {
 		return (T)sessionFactory.getCurrentSession()
-				.createQuery("from " + persistentClass.getName() + " WHERE "+ persistentClass.getName() +".id=?")
+				.createQuery("from " + persistentClass.getName() + " entity WHERE entity.id=?")
 				.setParameter(0, id)
 				.setMaxResults(1)
 				.uniqueResult();	

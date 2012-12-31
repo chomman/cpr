@@ -11,6 +11,12 @@ import javax.persistence.InheritanceType;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+/**
+ * Entita reprezentujuca notifikovanu/autorizovanu osobu
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
+
 @Entity
 @Table(name="notified_body")
 @Inheritance(strategy = InheritanceType.JOINED)

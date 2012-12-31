@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Ovládací panel</title>
+<title><spring:message code="menu.dashboard" /></title>
 </head>
 <body>
 	
@@ -17,27 +17,27 @@
 		</div>
 		<ul id="speed-nav">
 			<li>
-				<a href="" class="ico-cpr tt" title="<spring:message code="dashboard.cpr.title"/>">
+				<a href="<c:url value="/admin/cpr" />" class="ico-cpr tt" title="<spring:message code="dashboard.cpr.title"/>">
 					<spring:message code="dashboard.cpr"/>
 				</a>
 			</li>
 			<li>
-				<a href="" class="ico-cal tt" title="<spring:message code="dashboard.news.title"/>">
+				<a href="<c:url value="/admin/news" />" class="ico-cal tt" title="<spring:message code="dashboard.news.title"/>">
 					<spring:message code="dashboard.news"/>
 				</a>
 			</li>
 			<li>
-				<a href="" class="ico-user tt" title="<spring:message code="dashboard.users.title"/>" >
+				<a href="<c:url value="/admin/users" />" class="ico-user tt" title="<spring:message code="dashboard.users.title"/>" >
 					<spring:message code="dashboard.users"/>
 				</a>
 			</li>
 			<li>
-				<a href="" class="ico-sett tt" title="<spring:message code="dashboard.settings.title"/>" >
+				<a href="<c:url value="/admin/settings" />" class="ico-sett tt" title="<spring:message code="dashboard.settings.title"/>" >
 					<spring:message code="dashboard.settings"/>
 				</a>
 			</li>
 			<li>
-				<a href="" class="ico-info tt" title="<spring:message code="dashboard.help.title"/>">
+				<a href="<c:url value="/admin/help" />" class="ico-info tt" title="<spring:message code="dashboard.help.title"/>">
 					<spring:message code="dashboard.help"/>
 				</a>
 			</li>

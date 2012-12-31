@@ -14,11 +14,11 @@ function createClasses(){
         }});
 
      tinyMCE.init({
+    	language : "cs",
         mode : "specific_textareas",
         editor_selector : "mceEditor",
         plugins : "lists,style,table",
         content_css : "css/tinymce.css",
-            // Theme options
             theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,table,|,link,unlink,image,|,undo,redo,formatselect",
             theme_advanced_buttons2 : "",
             theme_advanced_buttons3 : "",

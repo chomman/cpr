@@ -6,6 +6,12 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * Entita reprezentujuca skupinu vyrobku podla EU vesniku 305/2011
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
+
 @Entity
 @Table(name = "standard_group")
 public class StandardGroup extends AbstractEntity {
@@ -18,7 +24,8 @@ public class StandardGroup extends AbstractEntity {
 	private String groupName;
 	
 	private String commissionDecisionFileUrl;
-
+	
+	
 	
 	@Id
 	@GeneratedValue
@@ -48,8 +55,10 @@ public class StandardGroup extends AbstractEntity {
 	public void setCommissionDecisionUrl(String commissionDecisionUrl) {
 		this.commissionDecisionFileUrl = commissionDecisionUrl;
 	}
-	
-	
-	
 
+	
+	
+	
+	
+	
 }

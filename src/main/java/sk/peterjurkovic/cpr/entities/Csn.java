@@ -8,6 +8,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
+/**
+ * Entita reprezentujuca cesku technicku normu
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
+
 @Entity
 @Table(name = "csn")
 @Inheritance(strategy = InheritanceType.JOINED)
