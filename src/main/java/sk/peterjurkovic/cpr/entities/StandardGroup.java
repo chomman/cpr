@@ -53,7 +53,8 @@ public class StandardGroup extends AbstractEntity {
 		this.groupName = groupName;
 	}
 	
-	@URL(message = "Odkaz na soubor ma chybný tvar") 
+
+	@URL(message = "Odkaz na soubor ma chybný tvar" )
 	@Column(name = "comission_decision_file_url")
 	public String getCommissionDecisionUrl() {
 		return commissionDecisionFileUrl;

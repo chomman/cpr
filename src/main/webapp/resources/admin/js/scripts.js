@@ -1,9 +1,12 @@
 function createClasses(){
 	$('tr:odd').addClass('odd');
 } 
-
+function resize() {
+    $("#right").css('min-height', $(document).height()  - 138);
+}
  $(function() {
 	createClasses();
+	resize();
     $('.tt').tooltip({
         position: {
             my: "center top",

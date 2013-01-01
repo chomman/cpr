@@ -31,6 +31,12 @@ public class CprGroupController extends SupportController {
 	private StandardGroupService standardGroupService;
 	
 	
+	/**
+	 * Metoda kontroleru, ktora zobrazi skupiny výrobku
+	 * 
+	 * @param modelMap model
+	 * @return String view, ktore bude interpretovane
+	 */
 	@RequestMapping("/admin/cpr/groups")
     public String showCprGroupsPage(ModelMap modelMap) {
 		
@@ -45,6 +51,16 @@ public class CprGroupController extends SupportController {
     }
 	
 	
+	
+	
+	/**
+	 * Metoda kontroleru, ktora odstrani skupinu vyrobku. V pripade ak skupina obsahuje 1 a viac vyrobkov,
+	 * zobrazi sa chybove upozornenie a nedovoli odstranit polozku
+	 * 
+	 * @param Long standardGroupId, id skupiny
+	 * @param map Model 
+	 * @return String view
+	 */
 	@RequestMapping( value = "/admin/cpr/groups/delete/{standardGroupId}", method = RequestMethod.GET)
 	public String deleteGroup(@PathVariable Long standardGroupId,  ModelMap modelMap) {
 						
@@ -64,7 +80,16 @@ public class CprGroupController extends SupportController {
         return showCprGroupsPage(modelMap);
 	}
 	
-
+	
+	
+	/**
+	 * Metoda kontroleru, ktora zobrazi formulár pre pridanie, resp. editovanie skupiny vyrobkov.
+	 * Ak je ID skupiny 0, tak sa jedna o pridanie novej polozky.
+	 * 
+	 * @param standardGroupId ID skupiny. V prípade ak je 0, jedna sa o pridanie novej skupiny
+	 * @param modelMap model, data
+	 * @return String view obsahujuce formular
+	 */
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.GET)
 	public String showEditForm(@PathVariable Long standardGroupId,  ModelMap map) {
 						
@@ -87,7 +112,14 @@ public class CprGroupController extends SupportController {
 	}
 	
 	
-	
+	/**
+	 * Metoda kontroleru, ktora ulozi odoslany formular.
+	 * 
+	 * @param standardGroupId ID skupiny. V prípade ak je hodnota 0, jedna sa o pridanie novej polozky, 
+	 * 			inak sa jedna o etidatciu
+	 * @param map Model 
+	 * @return String view
+	 */
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long standardGroupId,  @Valid  StandardGroup form, BindingResult result, ModelMap model) {
 
@@ -123,7 +155,7 @@ public class CprGroupController extends SupportController {
 		standardGroup.setCode(form.getCode());
 		standardGroup.setGroupName(form.getGroupName());
 		standardGroup.setCommissionDecisionUrl(form.getCommissionDecisionUrl());
-		standardGroup.setCommissionDecisionUrl(form.getUrlTitle());
+		standardGroup.setUrlTitle(form.getUrlTitle());
 		
 		standardGroupService.saveOrdUpdateStandardGroup(standardGroup);
 		return standardGroup;

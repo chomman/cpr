@@ -3,7 +3,6 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title><spring:message code="cpr.groups.edit" /></title>
 </head>
 <body>
@@ -31,6 +30,13 @@
 			
 			
 			<c:if test="${empty notFoundError}">
+					
+					
+					<ul class="sub-nav">
+						<li><a href="<c:url value="/admin/cpr/groups"  />"><spring:message code="cpr.groups.view" /></a></li>
+						<li><a class="active" href="<c:url value="/admin/cpr/groups/edit/0"  />"><spring:message code="cpr.groups.add" /></a></li>
+					</ul>
+				
 					<c:if test="${not empty standardGroup.createdBy}">
 						<table class="info">
 							<tr>

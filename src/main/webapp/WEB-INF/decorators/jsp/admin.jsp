@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8" />
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title> <decorator:title/> - ADMIN</title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/admin-main.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
