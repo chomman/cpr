@@ -12,4 +12,22 @@ public class StandardGroupDaoImpl extends BaseDaoImpl<StandardGroup, Long> imple
 		super(StandardGroup.class);
 	}
 	
+	
+	/**
+	 * Metoda vrati pocet noriem v danej skupine.
+	 * 
+	 * @param StandardGroup skupina norem
+	 * @return Long pocet noriem
+	 */
+	@Override
+	public Long getCoutOfStandardInGroup(StandardGroup standardGroup) {
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");
+		hql.append(" WHERE s.standardGroup.id=:id");
+		return (Long) sessionFactory.getCurrentSession()
+						.createQuery(hql.toString())
+						.setLong("id", standardGroup.getId())
+						.uniqueResult();
+
+	}
+	
 }

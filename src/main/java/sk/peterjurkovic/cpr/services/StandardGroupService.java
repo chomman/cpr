@@ -23,4 +23,6 @@ public interface StandardGroupService {
 	
 	void saveOrdUpdateStandardGroup(StandardGroup standardGroup);
 	
+	Long getCountOfStandardsInGroup(StandardGroup standardGroup);
+	
 }

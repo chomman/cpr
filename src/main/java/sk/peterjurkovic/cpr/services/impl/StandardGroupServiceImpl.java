@@ -75,4 +75,10 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 		
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Long getCountOfStandardsInGroup(StandardGroup standardGroup) {
+		return standardGroupDao.getCoutOfStandardInGroup(standardGroup);
+	}
+
 }

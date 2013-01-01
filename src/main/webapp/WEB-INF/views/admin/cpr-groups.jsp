@@ -25,12 +25,23 @@
 			
 			<a href="<c:url value="/admin/cpr/groups/edit/0"  />">Pridat novu kategoriu</a>
 			
+			<c:if test="${not empty successDelete}">
+				<p class="msg ok"><spring:message code="success.delete" /></p>
+			</c:if>
+			
+			<c:if test="${not empty isNotEmptyError}">
+				<p class="msg error"><spring:message code="cpr.group.isnotempty" /></p>
+			</c:if>
+			
+			
+				
 			<c:if test="${not empty model.groups}">
 				<table class="data">
 					<thead>
 						<tr>
 							<tH><spring:message code="form.name" /> <spring:message code="cpr.groups" /></th>
 							<th><spring:message code="form.code" /> <spring:message code="cpr.groups" /></th>
+							<th><spring:message code="cpr.group.decision" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
@@ -40,13 +51,14 @@
 						 	<tr>
 						 		<td>${i.groupName}</td>
 						 		<td>${i.code}</td>
+						 		<td>${i.urlTitle}</td>
 						 		<td>
 						 			<a href="<c:url value="/admin/cpr/groups/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
 						 		<td>
-						 			<a href="<c:url value="/admin/cpr/groups/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/cpr/groups/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>

@@ -4,26 +4,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.bind.support.SessionStatus;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.controllers.SupportController;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
-import sk.peterjurkovic.cpr.forms.admin.StandardGroupForm;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
-import sk.peterjurkovic.cpr.validators.admin.StandardGroupValidator;
 
 @Controller
 @SessionAttributes("standardGroup")
@@ -35,11 +30,9 @@ public class CprGroupController extends SupportController {
 	@Autowired
 	private StandardGroupService standardGroupService;
 	
-	@Autowired
-	private StandardGroupValidator validator;
 	
 	@RequestMapping("/admin/cpr/groups")
-    public String showCprGroupsPage(HttpServletRequest request, ModelMap modelMap) {
+    public String showCprGroupsPage(ModelMap modelMap) {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		List<StandardGroup> groups = standardGroupService.getAllStandardGroups();
@@ -52,25 +45,42 @@ public class CprGroupController extends SupportController {
     }
 	
 	
-	
+	@RequestMapping( value = "/admin/cpr/groups/delete/{standardGroupId}", method = RequestMethod.GET)
+	public String deleteGroup(@PathVariable Long standardGroupId,  ModelMap modelMap) {
+						
+		StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
+		if(standardGroup == null){
+			modelMap.put("notFoundError", true);
+			return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups";
+		}
+		
+		if(standardGroupService.getCountOfStandardsInGroup(standardGroup) > 0){
+			modelMap.put("isNotEmptyError", true);
+		}else{
+			standardGroupService.deleteStandardGroup(standardGroup);
+			modelMap.put("successDelete", true);
+		}
+		
+        return showCprGroupsPage(modelMap);
+	}
 	
 
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.GET)
-	public String showEditForm(@PathVariable Long standardGroupId, HttpServletRequest request, ModelMap map) {
+	public String showEditForm(@PathVariable Long standardGroupId,  ModelMap map) {
 						
-		StandardGroupForm form = null;
+		StandardGroup form = null;
 	
 		// vytvorenie novej polozky
 		if(standardGroupId < 1){
-			form = new StandardGroupForm();
+			form = new StandardGroup();
+			form.setId(standardGroupId);
 		}else{
 			// editacia polozky
-			StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
-			if(standardGroup == null){
+			form = standardGroupService.getStandardGroupByid(standardGroupId);
+			if(form == null){
 				map.put("notFoundError", true);
 				return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
 			}
-			form = createFormFromStandardGroup(standardGroup, standardGroupId);
 		}
 		prepareModel(form, map, standardGroupId);
         return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
@@ -79,46 +89,29 @@ public class CprGroupController extends SupportController {
 	
 	
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long standardGroupId, HttpServletRequest request, @ModelAttribute("companyInfo") StandardGroupForm form, Errors errors,
-            ModelMap model, SessionStatus status) {
+	public String processSubmit(@PathVariable Long standardGroupId,  @Valid  StandardGroup form, BindingResult result, ModelMap model) {
 
-		validator.validate(form, errors);
-		if (errors.hasErrors()) {
+		if (result.hasErrors()) {
 			prepareModel(form, model, standardGroupId);
         }else{
         	createOrUpdate(form);
-        	model.put("success", true);
+        	model.put("successCreate", true);
         }
+		
         return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
 	}
 	
 	
-	
-	private StandardGroupForm createFormFromStandardGroup(StandardGroup standardGroup, Long standardGroupId){
-		StandardGroupForm form = new StandardGroupForm();
-		form.setCommissionDecisionFileUrl(standardGroup.getCommissionDecisionUrl());
-		form.setGroupName(standardGroup.getGroupName());
-		form.setCode(standardGroup.getCode());
-		form.setId(standardGroupId);
-		DateTime timestamp = standardGroup.getCreated();
-		if(timestamp != null){
-			form.setTimestamp(timestamp.toString());
-		}
-		
-		return form;
-	}
-	
-	
-	private void prepareModel(StandardGroupForm form, ModelMap map, Long standardGroupId){
+	private void prepareModel(StandardGroup form, ModelMap map, Long standardGroupId){
 		Map<String, Object> model = new HashMap<String, Object>();
-		map.put("standardGroup", form);
+		map.addAttribute("standardGroup", form);
 		model.put("standardGroupId", standardGroupId);
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}
 	
 	
-	private StandardGroup createOrUpdate(StandardGroupForm form){
+	private StandardGroup createOrUpdate(StandardGroup form){
 		StandardGroup standardGroup = null;
 			
 		if(form.getId() == 0){
@@ -129,8 +122,8 @@ public class CprGroupController extends SupportController {
 		
 		standardGroup.setCode(form.getCode());
 		standardGroup.setGroupName(form.getGroupName());
-		standardGroup.setCommissionDecisionUrl(form.getCommissionDecisionFileUrl());
-		
+		standardGroup.setCommissionDecisionUrl(form.getCommissionDecisionUrl());
+		standardGroup.setCommissionDecisionUrl(form.getUrlTitle());
 		
 		standardGroupService.saveOrdUpdateStandardGroup(standardGroup);
 		return standardGroup;

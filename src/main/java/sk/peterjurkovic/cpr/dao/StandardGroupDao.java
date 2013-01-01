@@ -9,4 +9,5 @@ import sk.peterjurkovic.cpr.entities.StandardGroup;
  */
 public interface StandardGroupDao extends BaseDao<StandardGroup, Long>{
 
+	Long getCoutOfStandardInGroup(StandardGroup standardGroup);
 }

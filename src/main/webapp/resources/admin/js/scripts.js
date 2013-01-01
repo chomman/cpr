@@ -27,4 +27,8 @@ function createClasses(){
             theme_advanced_statusbar_location : "bottom",
             theme_advanced_resizing : true,
     });
+     
+     $('.confirm').on('click', function () {
+         return confirm('Opravdu chcete odstranit tuto položku?');
+     });
 });
