@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -9,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.CountryDao;
 import sk.peterjurkovic.cpr.entities.Country;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CountryService;
+import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 
 
 @Service("countryService")
@@ -18,6 +22,8 @@ public class CountryServiceImpl implements CountryService {
 	
 	@Autowired
 	private CountryDao countryDao;
+	@Autowired
+	private UserService userService;
 	
 	@Override
 	public void createCountry(Country country) {
@@ -50,6 +56,21 @@ public class CountryServiceImpl implements CountryService {
 	@Transactional(readOnly = true)
 	public Country getCountryByCode(String code) {
 		return countryDao.getByCode(code);
+	}
+
+	@Override
+	public void saveOrUpdateCountry(Country country) {
+		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		
+		if(country.getId() == null){
+			country.setCreatedBy(user);
+			country.setCreated(new DateTime());
+			countryDao.save(country);
+		}else{
+			country.setChangedBy(user);
+			country.setChanged(new DateTime());
+			countryDao.update(country);
+		}
 	}
 
 }

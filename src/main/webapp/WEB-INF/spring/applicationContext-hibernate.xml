@@ -29,8 +29,10 @@
                 <prop key="hibernate.bytecode.provider">cglib</prop>
                 <prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
                 <prop key="hibernate.format_sql">true</prop>
-                <prop key="hibernate.connection.charSet">UTF-8</prop>
-                <prop key="hibernate.hbm2ddl.auto">update</prop>          
+				<prop key="hibernate.connection.CharSet">UTF-8</prop>
+		        <prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+		        <prop key="hibernate.connection.useUnicode">true</prop> 
+		        <prop key="hibernate.hbm2ddl.auto">update</prop>    
            </props>
        </property>
        <property name="dataSource" ref="c3p0DataSource"/>

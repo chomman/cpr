@@ -26,9 +26,12 @@
 				
 			 <security:anonymous />
 			  
+			  <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
+			  <security:custom-filter ref="rememberMeFilter" position="REMEMBER_ME_FILTER"/>
 			  <security:custom-filter ref="authenticationFilter" position="FORM_LOGIN_FILTER"/>
 			  <security:custom-filter ref="exceptionTranslationFilter" after="EXCEPTION_TRANSLATION_FILTER" />
-			  <security:custom-filter ref="logoutFilter" position="LOGOUT_FILTER"/>
+			  
+			  
 		 </security:http>
 
 	  
@@ -49,6 +52,7 @@
 	      		<list>
 	            	<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
 	            	<ref bean="logoutListener"/>
+	            	<ref bean="rememberMeService"/>
 	        	</list>
 	    	</constructor-arg>
 	    	<property name="filterProcessesUrl" value="/j_logout"/>
@@ -78,6 +82,7 @@
 			p:authenticationManager-ref="authenticationManager"
 			p:authenticationFailureHandler-ref="authenticationFailureHandler"
 			p:authenticationSuccessHandler-ref="authenticationSuccessHandler"
+			p:rememberMeServices-ref="rememberMeService"
 			p:filterProcessesUrl="/j_spring_security_check"
 			/>
 		
@@ -102,6 +107,23 @@
 			<property name="userDetailsService"	ref="customUserDetailsService" /> 
 	<!-- 	<property name="saltSource" ref="saltSource" />  -->
 	 	<property name="passwordEncoder" ref="passwordEncoder" />
+		</bean>
+		
+		
+		<!--  Remember me configuration -->
+		
+		<bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
+		  <constructor-arg ref="authenticationManager" />
+		  <constructor-arg ref="rememberMeService" />		
+		</bean>
+		        
+		<bean id="rememberMeService" class="org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices">
+		  <constructor-arg value="zexmurx" />
+		  <constructor-arg ref="customUserDetailsService" /> 
+		</bean>
+		        
+		<bean id="rememberMeAuthenticationProvider" class="org.springframework.security.authentication.RememberMeAuthenticationProvider">
+		  <constructor-arg value="zexmurx" />
 		</bean>
 		
 		<security:authentication-manager />

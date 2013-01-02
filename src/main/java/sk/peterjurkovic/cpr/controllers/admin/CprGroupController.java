@@ -91,23 +91,23 @@ public class CprGroupController extends SupportController {
 	 * @return String view obsahujuce formular
 	 */
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.GET)
-	public String showEditForm(@PathVariable Long standardGroupId,  ModelMap map) {
+	public String showEditForm(@PathVariable Long standardGroupId,  ModelMap model) {
 						
 		StandardGroup form = null;
 	
 		// vytvorenie novej polozky
-		if(standardGroupId < 1){
+		if(standardGroupId == 0){
 			form = new StandardGroup();
 			form.setId(standardGroupId);
 		}else{
 			// editacia polozky
 			form = standardGroupService.getStandardGroupByid(standardGroupId);
 			if(form == null){
-				map.put("notFoundError", true);
+				model.put("notFoundError", true);
 				return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
 			}
 		}
-		prepareModel(form, map, standardGroupId);
+		prepareModel(form, model, standardGroupId);
         return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
 	}
 	

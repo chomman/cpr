@@ -18,4 +18,6 @@ public interface CountryService {
 	List<Country> getAllCountries();
 	
 	Country getCountryByCode(String code);
+	
+	void saveOrUpdateCountry(Country country);
 }
