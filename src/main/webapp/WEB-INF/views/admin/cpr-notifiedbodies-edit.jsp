@@ -32,8 +32,8 @@
 		<c:if test="${empty notFoundError}">
 					
 			<ul class="sub-nav">
-				<li><a class="active" href="<c:url value="/admin/cpr/notifiedbodies"  />"><spring:message code="cpr.nb.view" /></a></li>
-				<li><a href="<c:url value="/admin/cpr/notifiedbodies/edit/0"  />"><spring:message code="cpr.nb.add" /></a></li>
+				<li><a href="<c:url value="/admin/cpr/notifiedbodies"  />"><spring:message code="cpr.nb.view" /></a></li>
+				<li><a class="active" href="<c:url value="/admin/cpr/notifiedbodies/edit/0"  />"><spring:message code="cpr.nb.add" /></a></li>
 			</ul>
 				
 			<c:if test="${not empty notifiedBody.createdBy}">
@@ -149,7 +149,7 @@
                       	</label>
                           <span class="field">  
                           	 <form:select path="address.country" cssClass="mw300">
-			                      <option value=""><spring:message code="form.select"/> </option>
+			                      <option value="-"><spring:message code="form.select"/> </option>
 			                      <c:forEach items="${model.countries}" var="country">
 			                		<option value="${country.id}" <c:if test="${address.country.id == country.id}">selected="selected"</c:if>>${country.countryName}</option>
 			                	</c:forEach>

@@ -39,6 +39,8 @@
 						<tr>
 							<tH><spring:message code="cpr.nb.code" /></th>
 							<th><spring:message code="cpr.nb.name" /></th>
+							<th><spring:message code="address.city" /></th>
+							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
@@ -48,8 +50,18 @@
 						 	<tr>
 						 		<td>${i.notifiedBodyCode}</td>
 						 		<td>${i.name}</td>
+						 		<td>${i.address.city}</td>
+						 		<td class="last-edit">
+						 			<c:if test="${empty i.changedBy}">
+						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / hh:mm"/>
+						 			</c:if>
+						 			<c:if test="${not empty i.changedBy}">
+						 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / hh:mm"/>
+						 			</c:if>
+						 		</td>
+						 		
 						 		<td class="edit">
-						 			<a href="<c:url value="/admin/cpr/notifiedbodies/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/notifiedbodies/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>

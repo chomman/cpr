@@ -19,4 +19,8 @@ public interface NotifiedBodyService {
 	List<NotifiedBody> getAllNotifiedBodies();
 	
 	void saveOrUpdateNotifiedBody(NotifiedBody notifiedBody);
+	
+	boolean canBeDeleted(NotifiedBody notifiedBody);
+	
+	boolean isNotifiedBodyNameUniqe(NotifiedBody notifiedBody);
 }

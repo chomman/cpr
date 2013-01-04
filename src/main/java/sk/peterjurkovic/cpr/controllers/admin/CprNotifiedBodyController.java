@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.convert.ConversionService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,10 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.controllers.SupportController;
+import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
+import sk.peterjurkovic.cpr.validators.admin.NotifiedBodyValidator;
+import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 
 
 @Controller
@@ -36,7 +38,10 @@ public class CprNotifiedBodyController extends SupportController {
 	@Autowired
 	private CountryService countryService;
 	@Autowired
-	private ConversionService conversionService;
+	private CountryEditor countryEditor;
+	@Autowired
+	private NotifiedBodyValidator notifiedBodyValidator;
+	
 	
 	public CprNotifiedBodyController(){
 		setEditFormView("cpr-notifiedbodies-edit");
@@ -44,10 +49,10 @@ public class CprNotifiedBodyController extends SupportController {
 	}
 	
 	
-	@InitBinder
-    public void initBinder(WebDataBinder binder) {
-     
-    }
+	 @InitBinder
+	    public void initBinder(WebDataBinder binder) {
+	        binder.registerCustomEditor(Country.class, this.countryEditor);
+	    }
 	
 	/**
 	 * Metoda kontroleru, ktora zobrazi notifikovane/autorizovane osoby
@@ -100,21 +105,56 @@ public class CprNotifiedBodyController extends SupportController {
 	}
 	
 	
-	
+	/**
+	 * Ulozi odostalny zvalidovany formular (Notifikovanu osobz)
+	 * 
+	 * @param notifiedBodyId
+	 * @param form NotifiedBody notifikovana osoba
+	 * @param result
+	 * @param model
+	 * @return String view
+	 */
 	@RequestMapping( value = "/admin/cpr/notifiedbodies/edit/{notifiedBodyId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long notifiedBodyId,  @Valid  NotifiedBody form, BindingResult result, ModelMap model) {
 		
-		logger.info(form);
-		
-		if (result.hasErrors()) {
-			prepareModel(form, model, notifiedBodyId);
-        }else{
-        	createOrUpdate(form);
-        	model.put("successCreate", true);
+		if (!result.hasErrors()) {
+        	notifiedBodyValidator.validate(result, form);
+			if(!result.hasErrors()){
+				createOrUpdate(form);
+	        	model.put("successCreate", true);
+			}
         }
-		
+		prepareModel(form, model, notifiedBodyId);
         return getEditFormView();
 	}
+	
+	
+	/**
+	 * Odstraní notifikovanú osobu ak nie je nikde použitá.
+	 * 
+	 * @param notifiedBodyId
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping( value = "/admin/cpr/notifiedbodies/delete/{notifiedBodyId}", method = RequestMethod.GET)
+	public String deleteGroup(@PathVariable Long notifiedBodyId,  ModelMap modelMap) {
+						
+		NotifiedBody notifiedBody = notifiedBodyService.getNotifiedBodyById(notifiedBodyId);
+		if(notifiedBody == null){
+			modelMap.put("notFoundError", true);
+			return getTableItemsView();
+		}
+		
+		if(notifiedBodyService.canBeDeleted(notifiedBody)){
+			notifiedBodyService.deleteNotifiedBody(notifiedBody);
+			modelMap.put("successDelete", true);
+		}else{
+			modelMap.put("isNotEmptyError", true);
+		}
+		
+        return showNotifiedBodiesPage(modelMap);
+	}
+	
 	
 	
 	private NotifiedBody createOrUpdate(NotifiedBody form){

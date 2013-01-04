@@ -21,7 +21,7 @@ public class AssessmentSystem extends AbstractEntity {
 	
 	private Long id;
 	
-	private String AssessmentSystemCode;
+	private String assessmentSystemCode;
 	
 	private String description;
 
@@ -37,12 +37,12 @@ public class AssessmentSystem extends AbstractEntity {
 	
 	@Column(name = "system_code", length = 20)
 	public String getAssessmentSystemCode() {
-		return AssessmentSystemCode;
+		return assessmentSystemCode;
 	}
 	
 
 	public void setAssessmentSystemCode(String assessmentSystemCode) {
-		AssessmentSystemCode = assessmentSystemCode;
+		this.assessmentSystemCode = assessmentSystemCode;
 	}
 	
 	@Column(name = "description")

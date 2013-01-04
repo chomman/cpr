@@ -44,7 +44,7 @@ table.info .key{text-align:right;font-weight:bold;}
 .sub-nav li a{display;block;float:left;padding:12px;height:16px;font-size:14px;margin:0 3px;background:#fff;border-top:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;}
 .sub-nav li a:hover{background: #ff8400; color: #fff;}
 .sub-nav li a.active{background:#f2f2f2;color:#888;border-top:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;}
-.sub-nav li a.active:hover{cursor: text;}
+
 
 /* HEADER */
 header{height: 58px;background: url(../img/header-bg.png) repeat-x;border-bottom:1px solid #fff;}
@@ -97,7 +97,12 @@ h2{font-size: 16px;text-transform: uppercase;color:#555}
 .data th{padding:15px 5px;background:#eee;border-right:1px solid #ccc;border-bottom:1px solid #ccc;color:#555;}
 .data td a{text-decoration: underline;}
 .data td a:hover{text-decoration: none;}
-
+.data .edit,.data .delete{width:60px;}
+.data .edit a{display:block;color:#cf7f00;}
+.data .edit a:hover{background: url(../img/ico_edit.png) no-repeat right center;}
+.data .delete a{display:block;color:#c80000;}
+.data .delete a:hover{background: url(../img/ico_delete.png) no-repeat right center;}
+.data .last-edit{text-align:center;width:120px;}
 /* WRAPPER */
 #wrapper{background:#fafafa;}
 

@@ -44,6 +44,7 @@
 							<tH><spring:message code="form.name" /> <spring:message code="cpr.groups" /></th>
 							<th><spring:message code="form.code" /> <spring:message code="cpr.groups" /></th>
 							<th><spring:message code="cpr.group.decision" /></th>
+							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
@@ -54,8 +55,16 @@
 						 		<td>${i.groupName}</td>
 						 		<td>${i.code}</td>
 						 		<td>${i.urlTitle}</td>
+						 		<td class="last-edit">
+						 			<c:if test="${empty i.changedBy}">
+						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / hh:mm"/>
+						 			</c:if>
+						 			<c:if test="${not empty i.changedBy}">
+						 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / hh:mm"/>
+						 			</c:if>
+						 		</td>
 						 		<td class="edit">
-						 			<a href="<c:url value="/admin/cpr/groups/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/groups/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>

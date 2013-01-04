@@ -8,5 +8,8 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
  *
  */
 public interface NotifiedBodyDao extends BaseDao<NotifiedBody, Long> {
-
+	
+	boolean canBeDeleted(NotifiedBody notifiedBody);
+	
+	boolean isNameUniqe(String code, Long id); 
 }

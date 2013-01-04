@@ -19,6 +19,13 @@
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	
 	<mvc:annotation-driven conversion-service="conversionService" />
+
+	<mvc:annotation-driven validator="validator" />
+		
+	<bean name="validator"   class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	    <property name="validationMessageSource" ref="messageSource" />
+	</bean>
+	
 	<tx:annotation-driven transaction-manager="transactionManagerBean"/>
 
     <context:component-scan base-package="sk.peterjurkovic.cpr.dao">
@@ -33,7 +40,7 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>      
     
-     <context:component-scan base-package="sk.peterjurkovic.cpr.web.converters">
+     <context:component-scan base-package="sk.peterjurkovic.cpr.web">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
    
@@ -69,8 +76,11 @@
     </bean>
 
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
-    <property name="basename">
-        <value>msg/messages</value>
+    <property name="basenames">
+        <list>
+            <value>msg/messages</value>
+            <value>msg/validationMessages</value>
+        </list>
     </property>
 </bean>
 </beans>

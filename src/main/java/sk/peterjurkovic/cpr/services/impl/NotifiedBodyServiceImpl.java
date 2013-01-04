@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("notifiedBodyService")
@@ -23,6 +25,8 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	private NotifiedBodyDao notifiedBodyDao;
 	@Autowired
 	private UserService userService;
+	
+//	private final Logger logger = Logger.getLogger(getClass());
 	
 	
 	@Override
@@ -74,5 +78,20 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 		}
 		
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean canBeDeleted(NotifiedBody notifiedBody) {
+		return notifiedBodyDao.canBeDeleted(notifiedBody);
+	}
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isNotifiedBodyNameUniqe(NotifiedBody notifiedBody) {
+		return notifiedBodyDao.isNameUniqe( CodeUtils.toSeoUrl( notifiedBody.getName() ) , notifiedBody.getId());
+	}
+	
+	
 	
 }

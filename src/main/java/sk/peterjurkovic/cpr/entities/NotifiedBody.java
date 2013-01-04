@@ -8,7 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
@@ -39,15 +39,15 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private String notifiedBodyCode;
 	
-	private Address address;
+	private Address address = new Address();
 	
-	private String webpage;
+	private String webpage  = "";
 	
-	private String phone;
+	private String phone = "";
 	
-	private String fax;
+	private String fax = "";
 	
-	private String email;
+	private String email = "";
 	
 	private Boolean etaCertificationAllowed; 
 	
@@ -88,7 +88,8 @@ public class NotifiedBody extends AbstractEntity {
 	}
 	
 	@Valid
-	@ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	//@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE })
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "notifiedBody" )
 	public Address getAddress() {
 		return address;
 	}
@@ -109,7 +110,7 @@ public class NotifiedBody extends AbstractEntity {
 	}
 	
 	@Length(min = 9, max = 20)
-	@Pattern(regexp ="[0-9\\+\\s]", message = "Telefón je v chybném tvaru.")
+	@Pattern(regexp ="^[0-9\\+\\s]{9,20}$", message = "Telefón je v chybném tvaru.")
 	@Column(name = "phone", length = 20)
 	public String getPhone() {
 		return phone;

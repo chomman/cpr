@@ -42,7 +42,7 @@ public class StandardGroup extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@NotEmpty(message = "Název skupiny musí být vyplněn")
+	@NotEmpty
 	@Column(name = "grup_name")
 	public String getGroupName() {
 		return groupName;
