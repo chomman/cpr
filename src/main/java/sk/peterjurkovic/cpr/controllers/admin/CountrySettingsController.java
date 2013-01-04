@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.controllers.SupportController;
 import sk.peterjurkovic.cpr.entities.Country;
-import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.services.CountryService;
 
 @Controller
@@ -137,6 +136,9 @@ public class CountrySettingsController extends SupportController {
 			country = new Country();
 		}else{
 			country = countryService.getCountryById(form.getId());
+			if(country == null){
+				createItemNotFountError();
+			}
 		}
 		
 		country.setCode(form.getCode());

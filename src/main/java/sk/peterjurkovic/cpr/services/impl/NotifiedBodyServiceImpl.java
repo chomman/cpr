@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -9,7 +10,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.NotifiedBodyDao;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
+import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("notifiedBodyService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -17,6 +21,9 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 
 	@Autowired
 	private NotifiedBodyDao notifiedBodyDao;
+	@Autowired
+	private UserService userService;
+	
 	
 	@Override
 	public void createNotifiedBody(NotifiedBody notifiedBody) {
@@ -50,5 +57,22 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	public List<NotifiedBody> getAllNotifiedBodies() {
 		return notifiedBodyDao.getAll();
 	}
-
+	
+	
+	@Override
+	public void saveOrUpdateNotifiedBody(NotifiedBody notifiedBody) {
+		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		
+		if(notifiedBody.getId() == null){
+			notifiedBody.setCreatedBy(user);
+			notifiedBody.setCreated(new DateTime());
+			notifiedBodyDao.save(notifiedBody);
+		}else{
+			notifiedBody.setChangedBy(user);
+			notifiedBody.setChanged(new DateTime());
+			notifiedBodyDao.update(notifiedBody);
+		}
+		
+	}
+	
 }

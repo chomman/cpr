@@ -20,7 +20,7 @@
 	<li>
 		<a 
 		<c:if test="${model.tab == 3}">class="active"</c:if>
-		href="<c:url value="/admin/cpr/aono" />" >
+		href="<c:url value="/admin/cpr/notifiedbodies" />" >
 			<spring:message code="menu.cpr.aono" />
 		</a>
 	</li>

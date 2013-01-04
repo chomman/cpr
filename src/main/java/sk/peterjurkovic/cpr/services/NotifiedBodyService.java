@@ -17,4 +17,6 @@ public interface NotifiedBodyService {
 	NotifiedBody getNotifiedBodyByCode(String code);
 	
 	List<NotifiedBody> getAllNotifiedBodies();
+	
+	void saveOrUpdateNotifiedBody(NotifiedBody notifiedBody);
 }

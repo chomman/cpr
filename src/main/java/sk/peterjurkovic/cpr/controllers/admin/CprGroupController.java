@@ -91,7 +91,7 @@ public class CprGroupController extends SupportController {
 	 * @return String view obsahujuce formular
 	 */
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.GET)
-	public String showEditForm(@PathVariable Long standardGroupId,  ModelMap model) {
+	public String showForm(@PathVariable Long standardGroupId,  ModelMap model) {
 						
 		StandardGroup form = null;
 	
@@ -150,6 +150,9 @@ public class CprGroupController extends SupportController {
 			standardGroup = new StandardGroup();
 		}else{
 			standardGroup = standardGroupService.getStandardGroupByid(form.getId());
+			if(standardGroup == null){
+				createItemNotFountError();
+			}
 		}
 		
 		standardGroup.setCode(form.getCode());

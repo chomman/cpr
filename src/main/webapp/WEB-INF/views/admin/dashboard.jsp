@@ -27,7 +27,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="<c:url value="/admin/users" />" class="ico-user tt" title="<spring:message code="dashboard.users.title"/>" >
+				<a href="<c:url value="/admin/users" />" class="ico-user tt" title="<spring:message code="menu.users"/>" >
 					<spring:message code="dashboard.users"/>
 				</a>
 			</li>

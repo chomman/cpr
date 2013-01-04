@@ -18,7 +18,20 @@ a{text-decoration:none;color:#3e4e69;}
 
 .note{font-size:11px;margin:20px 0;display:block;color:#777;font-style:italic;}
 
+.mw300{min-width: 300px;}
 .mw500{min-width: 500px;}
+.w100{width:100px;}
+.w300{width:300px;}
+
+
+.form-head{background: #eeeeee;padding:10px 20px;font-size:14px;color:#555;border-top:1px solid #ccc; 
+background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #eeeeee 0%,#cccccc 100%); /* IE10+ */
+background: linear-gradient(to bottom, #eeeeee 0%,#cccccc 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eeeeee', endColorstr='#cccccc',GradientType=0 ); /* IE6-9 */}
 
 table.info{padding:10px 30px;font-size:11px;color:#555;border-collapse:collapse;width:400px;background:#fcfcfc;border:3px solid #f5f5f5;margin:10px 0; }
 table.info tr{border-bottom:1px solid #eee;}
@@ -101,10 +114,12 @@ h2{font-size: 16px;text-transform: uppercase;color:#555}
 
 form{border:1px solid #ddd;}
 form p{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
-form p label{display: inline-block;font-weight: bold;padding: 20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
-.field{padding:20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
+form p label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
+.field{padding:15px 20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
 
 input, textarea,select{background: none repeat scroll 0 0 #FCFCFC;border: 1px solid #CCCCCC; border-radius: 2px 2px 2px 2px;box-shadow: 0 1px 3px #DDDDDD inset;color: #666666;padding: 6px 5px;}
+select{min-width:300px;}
+select option{padding:2px 0px 1px 5px;}
 .button-box{padding:10px 20px 10px 240px}
 .button{background: #FB9337;border: 1px solid #F0882C;color: #FFFFFF;cursor: pointer;font-weight: bold; padding: 7px 20px;font-size:12px;}
 .button:hover{background:#1e1f46;box-shadow:none;border:1px solid #fff;}

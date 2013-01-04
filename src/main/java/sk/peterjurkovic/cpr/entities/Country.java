@@ -43,6 +43,12 @@ public class Country extends AbstractEntity {
 	public void setCountryName(String countryName) {
 		this.countryName = countryName;
 	}
+
+	@Override
+	public String toString() {
+		return "Country [id=" + id + ", countryName=" + countryName + "]";
+	}
+	
 	
 	
 }
