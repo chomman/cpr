@@ -16,7 +16,7 @@
      http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
      default-autowire="byName"
      >
-	<!-- Root Context: defines shared resources visible to all other web components -->
+
 	
 	<mvc:annotation-driven conversion-service="conversionService" />
 
@@ -74,6 +74,7 @@
         <constructor-arg value="${scheduling.time.zone}"/>
         <constructor-arg index="1" value="true"/>
     </bean>
+    
 
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">

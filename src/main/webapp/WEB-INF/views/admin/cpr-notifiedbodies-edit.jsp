@@ -150,9 +150,7 @@
                           <span class="field">  
                           	 <form:select path="address.country" cssClass="mw300">
 			                      <option value="-"><spring:message code="form.select"/> </option>
-			                      <c:forEach items="${model.countries}" var="country">
-			                		<option value="${country.id}" <c:if test="${address.country.id == country.id}">selected="selected"</c:if>>${country.countryName}</option>
-			                	</c:forEach>
+			                      <form:options items="${model.countries}" itemValue="id" itemLabel="countryName" />
 			                 </form:select>
                           </span>
                       </p>

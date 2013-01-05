@@ -34,6 +34,12 @@
 			
 				
 			<c:if test="${not empty model.notifiedBodies}">
+				
+				<div class="search-box" >
+					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
+					<input id="quick-search" type="text" />
+				</div>
+			
 				<table class="data">
 					<thead>
 						<tr>

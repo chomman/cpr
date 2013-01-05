@@ -9,9 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -26,15 +24,13 @@ public class Address extends AbstractEntity {
 	
 	private Long id;
 	
-	private String city = "";
+	private String city;
 	
-	private String street  = "";
+	private String street;
 	
-	private String zip  = "";
+	private String zip;
 	
 	private Country country;
-	
-	private NotifiedBody notifiedBody;
 
 	@Id
 	@GeneratedValue
@@ -67,10 +63,10 @@ public class Address extends AbstractEntity {
 		this.street = street;
 	}
 	
-	@Pattern(regexp = "^[\\d\\s]{5,6}$", message = "PSČ je v chybném tvaru")
+	@Pattern(regexp = "(^\\d{3}\\s?\\d{2}$|)*", message = "PSČ je v chybném tvaru")
 	@Column(name = "zip", length = 6)
 	public String getZip() {
-		return (zip == null ? "" : zip);
+		return zip;
 	}
 
 	public void setZip(String zip) {
@@ -86,20 +82,4 @@ public class Address extends AbstractEntity {
 	public void setCountry(Country country) {
 		this.country = country;
 	}
-	
-	@NotNull
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "notifie_body_id")
-	public NotifiedBody getNotifiedBody() {
-		return notifiedBody;
-	}
-
-	public void setNotifiedBody(NotifiedBody notifiedBody) {
-		this.notifiedBody = notifiedBody;
-	}
-
-	
-	
-	
-
 }

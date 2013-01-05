@@ -21,7 +21,7 @@ public class SupportController {
     
     
     
-    protected void createItemNotFountError(){
+    protected void createItemNotFoundError(){
 	   
     }
 

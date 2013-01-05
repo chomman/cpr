@@ -23,6 +23,9 @@ a{text-decoration:none;color:#3e4e69;}
 .w100{width:100px;}
 .w300{width:300px;}
 
+/* QUICK SEARCH */
+.search-box{margin:10px 0;background:#f6f9ff;padding:8px 20px;font-size:13px;border:3px solid #e9effa;color:#555}
+.search-box input {margin-left:15px; }
 
 .form-head{background: #eeeeee;padding:10px 20px;font-size:14px;color:#555;border-top:1px solid #ccc; 
 background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */

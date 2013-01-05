@@ -13,12 +13,7 @@
            http://www.springframework.org/schema/context/spring-context.xsd"
     default-autowire="byName">
     
-   
- 	<!-- Devined in main
-	<context:property-placeholder location="classpath:config.properties"/>
-      -->
-    
-    
+   <!-- Hlavna konfiguracia Hibernate -->
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
        <property name="configLocation" value="classpath:hibernate.cfg.xml" />
        <property name="hibernateProperties">
@@ -31,7 +26,7 @@
                 <prop key="hibernate.format_sql">true</prop>
 				<prop key="hibernate.connection.CharSet">UTF-8</prop>
 		        <prop key="hibernate.connection.characterEncoding">UTF-8</prop>
-		        <prop key="hibernate.connection.useUnicode">true</prop> 
+		        <prop key="hibernate.connection.useUnicode">true</prop>
 		        <prop key="hibernate.hbm2ddl.auto">update</prop>    
            </props>
        </property>
@@ -43,6 +38,7 @@
     	<property name="sessionFactory" ref="sessionFactory"/>
   	</bean>	
 
+
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 	    <property name="driverClassName" value="${hibernate.connection.driver_class}" />
 	    <property name="url" value="${hibernate.connection.url}" />
@@ -51,6 +47,7 @@
 	</bean>
 	
 	
+	<!--  Vylepsena varianta DataSource  "enterprise-ready" -->
 	<bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${hibernate.connection.driver_class}" />
         <property name="jdbcUrl" value="${hibernate.connection.url}" />
@@ -60,12 +57,12 @@
                 <prop key="password">${hibernate.connection.password}</prop>
             </props>
         </property>
-        <property name="initialPoolSize" value="5" /> <!-- pocet spojeni po nastartovani - standardne jsou 3 -->
-        <property name="minPoolSize" value="10" /> <!-- minimalni pocet pripojeni -->
-        <property name="maxPoolSize" value="50" /> <!-- maximalni pocet pripojeni -->
-        <property name="maxIdleTime" value="300" /> <!-- za jak dlouho v sekundach bude ukonceni pripojeni ktere neni aktivni -->
-        <property name="maxStatements" value="50" /> <!-- maximalni pocet prepared statements v poolu -->
-        <property name="idleConnectionTestPeriod" value="150" /> <!-- za jak dlouho v sekundach se bude kontrolovat necinost pripojeni -->
+        <property name="initialPoolSize" value="5" /> 
+        <property name="minPoolSize" value="10" /> 
+        <property name="maxPoolSize" value="50" /> 
+        <property name="maxIdleTime" value="300" /> 
+        <property name="maxStatements" value="50" /> 
+        <property name="idleConnectionTestPeriod" value="150" /> 
     </bean>
 
    

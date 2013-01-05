@@ -151,7 +151,7 @@ public class CprGroupController extends SupportController {
 		}else{
 			standardGroup = standardGroupService.getStandardGroupByid(form.getId());
 			if(standardGroup == null){
-				createItemNotFountError();
+				createItemNotFoundError();
 			}
 		}
 		

@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -39,15 +40,15 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private String notifiedBodyCode;
 	
-	private Address address = new Address();
+	private Address address;
 	
-	private String webpage  = "";
+	private String webpage;
 	
-	private String phone = "";
+	private String phone;
 	
-	private String fax = "";
+	private String fax;
 	
-	private String email = "";
+	private String email;
 	
 	private Boolean etaCertificationAllowed; 
 	
@@ -88,8 +89,8 @@ public class NotifiedBody extends AbstractEntity {
 	}
 	
 	@Valid
-	//@Cascade(value = { CascadeType.SAVE_UPDATE, CascadeType.DELETE })
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "notifiedBody" )
+	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@JoinColumn(name = "address_id")
 	public Address getAddress() {
 		return address;
 	}
@@ -99,7 +100,7 @@ public class NotifiedBody extends AbstractEntity {
 		this.address = address;
 	}
 	
-	@Pattern(regexp = "^(https?://)?[a-z_0-9\\-\\.]+\\.[a-z]{2,4}.*$")
+	@Pattern(regexp = "(^(https?://)?[a-z_0-9\\-\\.]+\\.[a-z]{2,4}.*$|)*", message = "Webová stránka je v chybném tvaru.")
 	@Column(name = "web", length = 50)
 	public String getWebpage() {
 		return webpage;
@@ -109,8 +110,8 @@ public class NotifiedBody extends AbstractEntity {
 		this.webpage = webpage;
 	}
 	
-	@Length(min = 9, max = 20)
-	@Pattern(regexp ="^[0-9\\+\\s]{9,20}$", message = "Telefón je v chybném tvaru.")
+
+	@Pattern(regexp ="(^[0-9\\+\\s]{9,20}$|)*", message = "Telefón je v chybném tvaru.")
 	@Column(name = "phone", length = 20)
 	public String getPhone() {
 		return phone;
@@ -120,7 +121,7 @@ public class NotifiedBody extends AbstractEntity {
 		this.phone = phone;
 	}
 	
-	@Length(min = 9, max = 20)
+	@Pattern(regexp ="(^[0-9\\+\\s]{9,20}$|)*", message = "Fax je v chybném tvaru.")
 	@Column(name = "fax", length = 20)
 	public String getFax() {
 		return fax;

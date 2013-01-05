@@ -2,7 +2,6 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -88,8 +87,8 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public boolean isNotifiedBodyNameUniqe(NotifiedBody notifiedBody) {
-		return notifiedBodyDao.isNameUniqe( CodeUtils.toSeoUrl( notifiedBody.getName() ) , notifiedBody.getId());
+	public boolean isNotifiedBodyNameUniqe(String name, Long id) {
+		return notifiedBodyDao.isNameUniqe( CodeUtils.toSeoUrl( name ) , id );
 	}
 	
 	

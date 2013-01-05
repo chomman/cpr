@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.controllers.SupportController;
+import sk.peterjurkovic.cpr.entities.Address;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.services.CountryService;
@@ -106,7 +107,7 @@ public class CprNotifiedBodyController extends SupportController {
 	
 	
 	/**
-	 * Ulozi odostalny zvalidovany formular (Notifikovanu osobz)
+	 * Ulozi odostalny zvalidovany formular (Notifikovanu osobu)
 	 * 
 	 * @param notifiedBodyId
 	 * @param form NotifiedBody notifikovana osoba
@@ -159,13 +160,15 @@ public class CprNotifiedBodyController extends SupportController {
 	
 	private NotifiedBody createOrUpdate(NotifiedBody form){
 		NotifiedBody notifiedBody = null;
-			
+		Address address = new Address();	
 		if(form.getId() == 0){
 			notifiedBody = new NotifiedBody();
 		}else{
 			notifiedBody = notifiedBodyService.getNotifiedBodyById(form.getId());
 			if(notifiedBody == null){
-				createItemNotFountError();
+				createItemNotFoundError();
+			}else{
+				address = notifiedBody.getAddress();
 			}
 		}
 		
@@ -178,10 +181,15 @@ public class CprNotifiedBodyController extends SupportController {
 		notifiedBody.setWebpage(form.getWebpage());
 		notifiedBody.setEmail(form.getEmail());
 		notifiedBody.setDescription( form.getDescription());
-		notifiedBody.setAddress(form.getAddress());
+		address.setCity(form.getAddress().getCity());
+		address.setZip(form.getAddress().getZip());
+		address.setStreet(form.getAddress().getStreet());
+		address.setCountry(form.getAddress().getCountry());
+		notifiedBody.setAddress(address);
 		notifiedBodyService.saveOrUpdateNotifiedBody(notifiedBody);
 		return notifiedBody;
 	}
+	
 	
 	
 	
@@ -195,6 +203,26 @@ public class CprNotifiedBodyController extends SupportController {
 	}
 	
 	
+	/*
+	private NotifiedBodyFrom createForm(NotifiedBody notifiedBody){
+		NotifiedBodyFrom form = new NotifiedBodyFrom();
+		form.setId(notifiedBody.getId());
+		form.setName(notifiedBody.getName());
+		form.setNotifiedBodyCode(notifiedBody.getNotifiedBodyCode());
+		form.setEtaCertificationAllowed(notifiedBody.getEtaCertificationAllowed());
+		form.setPhone(notifiedBody.getPhone());
+		form.setFax(notifiedBody.getFax());
+		form.setWebpage(notifiedBody.getWebpage());
+		form.setEmail(notifiedBody.getEmail());
+		form.setDescription( notifiedBody.getDescription());
+		form.setAddress(notifiedBody.getAddress());
+		form.setChanged(notifiedBody.getChanged());
+		form.setCreated(notifiedBody.getCreated());
+		form.setChangedBy(notifiedBody.getChangedBy());
+		form.setCreatedBy(notifiedBody.getCreatedBy());
+		return form;
+	}
 	
+	*/
 	
 }

@@ -4,9 +4,35 @@ function createClasses(){
 function resize() {
     $("#right").css('min-height', $(document).height()  - 138);
 }
+function searchTable(val){
+	var table = $('.data');
+	table.find('tr').each(function(index, row)
+	{
+		var allCells = $(row).find('td');
+		if(allCells.length > 0)
+		{
+			var found = false;
+			allCells.each(function(index, td)
+			{
+				var regExp = new RegExp(val, 'i');
+				if(regExp.test($(td).text()))
+				{
+					found = true;
+					return false;
+				}
+			});
+			if(found === true)$(row).show();else $(row).hide();
+		}
+	});
+}
+
  $(function() {
 	createClasses();
 	resize();
+	$('#quick-search').keyup(function(){
+		searchTable($(this).val());
+	});
+	
     $('.tt').tooltip({
         position: {
             my: "center top",

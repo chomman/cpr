@@ -11,6 +11,7 @@
 		http://www.springframework.org/schema/util 
 		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 		
+		
 		<security:http pattern="/resources/**" security="none" />
 		
 		<security:global-method-security secured-annotations="enabled" />
@@ -21,7 +22,6 @@
 			 				entry-point-ref="authenticationEntryPoint" >
 			 
 			 <security:remember-me key="zexmurx" services-ref="rememberMeService"/>
-			 
 			 
 		 	 <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>
 				
@@ -69,22 +69,25 @@
 			</constructor-arg>
 		</bean>
 	
+	
 		<bean id="accessDeniedHandler" class="org.springframework.security.web.access.AccessDeniedHandlerImpl">
 			<property name="errorPage" value="/access-denied" />
 		</bean>
+	
 	
 		<bean id="authenticationEntryPoint" class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
 			 <constructor-arg value="/login" />
 			<property name="forceHttps" value="false" />
 		</bean>
 		
-		<bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter"
-			p:authenticationManager-ref="authenticationManager"
-			p:authenticationFailureHandler-ref="authenticationFailureHandler"
-			p:authenticationSuccessHandler-ref="authenticationSuccessHandler"
-			p:rememberMeServices-ref="rememberMeService"
-			p:filterProcessesUrl="/j_spring_security_check"
-			/>
+		
+		<bean id="authenticationFilter" class="org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter">
+			<property name="authenticationManager" ref="authenticationManager" />
+			<property name="authenticationFailureHandler" ref="authenticationFailureHandler" />
+			<property name="authenticationSuccessHandler" ref="authenticationSuccessHandler"/>
+			<property name="rememberMeServices" ref="rememberMeService" />
+			<property name="filterProcessesUrl" value="/j_spring_security_check" />
+		</bean>
 		
 		
 		<bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
@@ -100,9 +103,11 @@
 			 </property>	
 		</bean>	
 		
+		
 		<bean id="anonymousAuthenticationProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
 		  <constructor-arg value="anonyms_unique_key"/>
 		</bean>
+		
 		
 		<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 			<property name="userDetailsService"	ref="customUserDetailsService" /> 
@@ -111,7 +116,7 @@
 		</bean>
 		
 		
-		<!--  Remember me configuration -->
+		<!--  Remember me konfiguracia -->
 		
 		<bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
 		  <constructor-arg ref="authenticationManager" />

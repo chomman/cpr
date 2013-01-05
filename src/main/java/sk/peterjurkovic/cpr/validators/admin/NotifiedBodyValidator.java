@@ -16,7 +16,7 @@ public class NotifiedBodyValidator {
 	
 	public void validate(BindingResult result, NotifiedBody form){
 		
-		if(! notifiedBodyService.isNotifiedBodyNameUniqe(form)){
+		if(! notifiedBodyService.isNotifiedBodyNameUniqe(form.getName(), form.getId())){
 			result.rejectValue("name", "error.uniqe");
 		}
 		

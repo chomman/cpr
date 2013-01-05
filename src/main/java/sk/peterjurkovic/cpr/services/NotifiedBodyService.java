@@ -22,5 +22,5 @@ public interface NotifiedBodyService {
 	
 	boolean canBeDeleted(NotifiedBody notifiedBody);
 	
-	boolean isNotifiedBodyNameUniqe(NotifiedBody notifiedBody);
+	boolean isNotifiedBodyNameUniqe(String name, Long id);
 }

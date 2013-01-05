@@ -137,7 +137,7 @@ public class CountrySettingsController extends SupportController {
 		}else{
 			country = countryService.getCountryById(form.getId());
 			if(country == null){
-				createItemNotFountError();
+				createItemNotFoundError();
 			}
 		}
 		
