@@ -68,4 +68,19 @@ public class Constants {
 	 * 
 	 */
 	public static final String USER_ENTRY_POIN_REDIRECT_URL = "/login";
+	
+	
+	/** PAGINATION_PAGE_SIZE
+	 *  	
+	 *  Definuje maximalny pocet zaznamov na stranku, pri strankovani zaznamov.
+	 */
+	public static final int PAGINATION_PAGE_SIZE =  30; 
+	
+	
+	/** PAGE_PARAM_NAME
+	 *  Nazov parametru v URL, ktory obsahuje aktualnu stranku.
+	 *  
+	 *  e.g. ?page=2
+	 */
+	public static final String PAGE_PARAM_NAME = "page";
 }

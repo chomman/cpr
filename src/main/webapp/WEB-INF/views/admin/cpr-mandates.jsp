@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.groups.title" /></title>
+<title><spring:message code="menu.cpr.mandates" /></title>
 </head>
 <body>
 	<div id="wrapper">
@@ -16,51 +16,56 @@
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
-			 <span><spring:message code="cpr.groups.title" /></span>
+			 <span><spring:message code="menu.cpr.mandates" /></span>
 		</div>
-		<h1><spring:message code="cpr.groups.title" /></h1>
+		<h1><spring:message code="menu.cpr.mandates" /></h1>
 
 		<div id="content">
 			
 			<ul class="sub-nav">
-						<li><a class="active" href="<c:url value="/admin/cpr/groups"  />"><spring:message code="cpr.groups.view" /></a></li>
-						<li><a href="<c:url value="/admin/cpr/groups/edit/0"  />"><spring:message code="cpr.groups.add" /></a></li>
-					</ul>
+				<li><a class="active" href="<c:url value="/admin/cpr/mandates"  />">
+						<spring:message code="cpr.mandates.view" />
+					</a>
+				</li>
+				<li>
+					<a href="<c:url value="/admin/cpr/mandates/edit/0"  />">
+						<spring:message code="cpr.mandates.add" />
+					</a>
+				</li>
+			</ul>
 			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>
 			</c:if>
 			
-			<c:if test="${not empty isNotEmptyError}">
-				<p class="msg error"><spring:message code="cpr.group.isnotempty" /></p>
+			
+			<c:if test="${not empty model.paginationLinks}" >
+				<c:forEach items="${model.paginationLinks}" var="i">
+					<c:if test="${not empty i.url}">
+						<a href="<c:url value="${i.url}"  />">${i.anchor}</a>
+					</c:if>
+					<c:if test="${empty i.url}">
+						<span>${i.anchor}</span>
+					</c:if>
+				</c:forEach>
 			</c:if>
-			
-			
 				
-			<c:if test="${not empty model.groups}">
+			<c:if test="${not empty model.mandates}">
 				
-				<div class="search-box" >
-					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
-					<input id="quick-search" type="text" />
-				</div>
-			
+				
 				<table class="data">
 					<thead>
 						<tr>
-							<tH><spring:message code="form.name" /> <spring:message code="cpr.groups" /></th>
-							<th><spring:message code="form.code" /> <spring:message code="cpr.groups" /></th>
-							<th><spring:message code="cpr.group.decision" /></th>
+							<tH><spring:message code="cpr.mandates.name" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
 					</thead>
 					<tbody>
-						 <c:forEach items="${model.groups}" var="i">
+						 <c:forEach items="${model.mandates}" var="i">
 						 	<tr>
-						 		<td>${i.groupName}</td>
-						 		<td>${i.groupCode}</td>
-						 		<td>${i.urlTitle}</td>
+						 		<td>${i.mandateName}</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
 						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / hh:mm"/>
@@ -70,12 +75,12 @@
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">
-						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/groups/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/mandates/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/cpr/groups/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/cpr/mandates/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>
@@ -85,7 +90,7 @@
 				</table>
 			</c:if>
 			
-			<c:if test="${empty model.groups}">
+			<c:if test="${empty model.mandates}">
 				<p class="msg alert">
 					<spring:message code="alert.empty" />
 				</p>

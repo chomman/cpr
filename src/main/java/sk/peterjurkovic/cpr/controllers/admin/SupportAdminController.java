@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers;
+package sk.peterjurkovic.cpr.controllers.admin;
 
 import org.apache.log4j.Logger;
 
@@ -8,12 +8,12 @@ import sk.peterjurkovic.cpr.constants.Constants;
  * @author Peter Jurkovič email@peterjurkovic.sk
  *
  */
-public class SupportController {
+public class SupportAdminController {
     
 	
     protected Logger logger = Logger.getLogger(getClass());
     
-    
+    private String viewName;
     private String tableItemsView;
     private String editFormView;
     private String successView;
@@ -43,6 +43,12 @@ public class SupportController {
 	}
 	public void setSuccessView(String successView) {
 		this.successView = successView;
+	}
+	public String getViewName() {
+		return "/"+ Constants.ADMIN_PREFIX +"/"+ viewName;
+	}
+	public void setViewName(String viewName) {
+		this.viewName = viewName;
 	}
     
    

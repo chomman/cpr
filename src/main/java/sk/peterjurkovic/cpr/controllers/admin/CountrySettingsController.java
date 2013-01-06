@@ -15,14 +15,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.controllers.SupportController;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.services.CountryService;
 
 @Controller
 @SessionAttributes("country")
-public class CountrySettingsController extends SupportController {
+public class CountrySettingsController extends SupportAdminController {
 	
 	public static final int TAB_INDEX = 3;
 
@@ -30,7 +28,11 @@ public class CountrySettingsController extends SupportController {
 	private CountryService countryService;
 	
 	
-	
+	public CountrySettingsController(){
+		setTableItemsView("settings-countries");
+		setEditFormView("settings-countries-edit");
+	}
+
 	/**
 	 * Metoda kontroleru, ktora zobrazi vsetky evidovane clenske staty EU
 	 * 
@@ -45,7 +47,7 @@ public class CountrySettingsController extends SupportController {
 		model.put("tab", TAB_INDEX);
 		logger.info("showing countires.. size: " + countries);
 		modelMap.put("model", model);
-        return "/"+ Constants.ADMIN_PREFIX +"/settings-countries";
+        return getTableItemsView();
 	}
 	
 	
@@ -68,11 +70,11 @@ public class CountrySettingsController extends SupportController {
 			form = countryService.getCountryById(countryId);
 			if(form == null){
 				model.put("notFoundError", true);
-				return "/"+ Constants.ADMIN_PREFIX +"/settings-countries-edit";
+				return getEditFormView();
 			}
 		}
 		prepareModel(form, model, countryId);
-		return "/"+ Constants.ADMIN_PREFIX +"/settings-countries-edit";
+		return getEditFormView();
 	}
 	
 	
@@ -89,7 +91,7 @@ public class CountrySettingsController extends SupportController {
 		Country country = countryService.getCountryById(countryId);
 		if(countryId == null){
 			modelMap.put("notFoundError", true);
-			return "/"+ Constants.ADMIN_PREFIX +"/settings-countries";
+			return getTableItemsView();
 		}
 		countryService.deleteCountry(country);
 		modelMap.put("successDelete", true);
@@ -115,7 +117,7 @@ public class CountrySettingsController extends SupportController {
         	model.put("successCreate", true);
         }
 		
-        return "/"+ Constants.ADMIN_PREFIX +"/settings-countries-edit";
+        return getEditFormView();
 	}
 	
 	

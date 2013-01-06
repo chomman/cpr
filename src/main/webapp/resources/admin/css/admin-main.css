@@ -124,7 +124,7 @@ form{border:1px solid #ddd;}
 form p{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
 form p label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
 .field{padding:15px 20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
-
+form small{color:#888;font-style:italic;display:block;padding-top:3px;}
 input, textarea,select{background: none repeat scroll 0 0 #FCFCFC;border: 1px solid #CCCCCC; border-radius: 2px 2px 2px 2px;box-shadow: 0 1px 3px #DDDDDD inset;color: #666666;padding: 6px 5px;}
 select{min-width:300px;}
 select option{padding:2px 0px 1px 5px;}

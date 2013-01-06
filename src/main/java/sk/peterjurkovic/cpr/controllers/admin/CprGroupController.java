@@ -15,20 +15,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.controllers.SupportController;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 
 @Controller
 @SessionAttributes("standardGroup")
-public class CprGroupController extends SupportController {
+public class CprGroupController extends SupportAdminController {
 	
 	
 	public static final int CPR_TAB_INDEX = 2;
 	
 	@Autowired
 	private StandardGroupService standardGroupService;
+	
+	
+	public CprGroupController(){
+		setTableItemsView("cpr-groups");
+		setEditFormView("cpr-groups-edit");
+	}
 	
 	
 	/**
@@ -47,7 +52,7 @@ public class CprGroupController extends SupportController {
 		
 		
 		modelMap.put("model", model);
-        return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups";
+        return getTableItemsView();
     }
 	
 	
@@ -67,7 +72,7 @@ public class CprGroupController extends SupportController {
 		StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
 		if(standardGroup == null){
 			modelMap.put("notFoundError", true);
-			return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups";
+			return getTableItemsView();
 		}
 		
 		if(standardGroupService.getCountOfStandardsInGroup(standardGroup) > 0){
@@ -97,18 +102,17 @@ public class CprGroupController extends SupportController {
 	
 		// vytvorenie novej polozky
 		if(standardGroupId == 0){
-			form = new StandardGroup();
-			form.setId(standardGroupId);
+			form = createEmptyForm();
 		}else{
 			// editacia polozky
 			form = standardGroupService.getStandardGroupByid(standardGroupId);
 			if(form == null){
 				model.put("notFoundError", true);
-				return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
+				return getEditFormView();
 			}
 		}
 		prepareModel(form, model, standardGroupId);
-        return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
+        return getEditFormView();
 	}
 	
 	
@@ -126,11 +130,20 @@ public class CprGroupController extends SupportController {
 		if (result.hasErrors()) {
 			prepareModel(form, model, standardGroupId);
         }else{
-        	createOrUpdate(form);
-        	model.put("successCreate", true);
+        	if(standardGroupService.isStandardGroupNameUniqe(form.getGroupName(), form.getId())){
+	        	createOrUpdate(form);
+	        	model.put("successCreate", true);
+	        	if(standardGroupId == 0){
+	        		form = createEmptyForm();
+	        		prepareModel(form, model, standardGroupId);
+	        	}
+        	}else{
+        		result.rejectValue("groupName", "error.uniqe");
+        		prepareModel(form, model, standardGroupId);
+        	}
         }
 		
-        return "/"+ Constants.ADMIN_PREFIX +"/cpr-groups-edit";
+        return getEditFormView();
 	}
 	
 	
@@ -155,12 +168,20 @@ public class CprGroupController extends SupportController {
 			}
 		}
 		
-		standardGroup.setCode(form.getCode());
+		standardGroup.setCode(CodeUtils.toSeoUrl(form.getGroupName()));
 		standardGroup.setGroupName(form.getGroupName());
+		standardGroup.setDescription(form.getDescription());
+		standardGroup.setGroupCode(form.getGroupCode());
 		standardGroup.setCommissionDecisionUrl(form.getCommissionDecisionUrl());
 		standardGroup.setUrlTitle(form.getUrlTitle());
 		
 		standardGroupService.saveOrdUpdateStandardGroup(standardGroup);
 		return standardGroup;
+	}
+	
+	private StandardGroup createEmptyForm(){
+		StandardGroup form = new StandardGroup();
+		form.setId(0L);
+		return form;
 	}
 }

@@ -75,9 +75,10 @@
                         <p>
                         	<label>
                         		<spring:message code="form.code" /> <spring:message code="cpr.groups" />
+                        		<small>Kód skupiny podle CPR.</small>
                         	</label>
                             <span class="field">
-                            	<form:input path="code" maxlength="255" />
+                            	<form:input path="groupCode" cssClass="w100" maxlength="15" />
                             </span>
                         </p>
                         <p>
@@ -97,7 +98,18 @@
                             	<form:input path="urlTitle" maxlength="25"  />
                             </span>
                         </p>
+						<p class="form-head"><spring:message code="cpr.nb.description" /><p>
+						  <p>
+	                      	<label>
+	                      		<spring:message code="cpr.nb.description" />
+	                      		<small>Podrobnejší popis skupiny</small>
+	                      	</label>
+	                          <span class="field">  
+	                          	<form:textarea path="description"  cssClass="mceEditor defaultSize" />
+	                          </span>
+	                      </p>
 
+	                      
                         <form:hidden path="id" />
                         <p class="button-box">
                         	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

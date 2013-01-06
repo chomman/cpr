@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
@@ -27,10 +28,13 @@ public class StandardGroup extends AbstractEntity {
 	
 	private String groupName;
 	
+	private String groupCode;
+	
 	private String commissionDecisionFileUrl;
 		
 	private String urlTitle;
 	
+	private String description;
 	
 	@Id
 	@GeneratedValue
@@ -42,7 +46,7 @@ public class StandardGroup extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@NotEmpty
+	@NotEmpty(message = "Název skupiny musí být vyplněn")
 	@Column(name = "grup_name")
 	public String getGroupName() {
 		return groupName;
@@ -72,6 +76,25 @@ public class StandardGroup extends AbstractEntity {
 
 	public void setUrlTitle(String urlTitle) {
 		this.urlTitle = urlTitle;
+	}
+
+	@Column(name = "group_code", length = 15)
+	@Length(max = 15, message = "Kód skupiny může mít max. 15 znaků")
+	public String getGroupCode() {
+		return groupCode;
+	}
+
+	public void setGroupCode(String groupCode) {
+		this.groupCode = groupCode;
+	}
+
+	@Type(type = "text")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	
 	

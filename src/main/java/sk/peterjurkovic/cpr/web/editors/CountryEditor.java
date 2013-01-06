@@ -1,25 +1,28 @@
 package sk.peterjurkovic.cpr.web.editors;
 
 import java.beans.PropertyEditorSupport;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
 import sk.peterjurkovic.cpr.services.CountryService;
 
+/**
+ * Prekonvertuje itentifikator krajiny v textovej podobne do objektu.
+ * 
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Component
 public class CountryEditor extends PropertyEditorSupport {
 	
 	@Autowired
 	private  CountryService countryService;
 	 
-	private Logger logger = Logger.getLogger(getClass());
-	
+	/**
+	 * @param String id krajiny
+	 */
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
-		
-		logger.info("Convertin " + text);
 		
 		Long id = null;
 		try {

@@ -9,6 +9,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
@@ -20,6 +22,8 @@ public class AssessmentSystem extends AbstractEntity {
 	private static final long serialVersionUID = 9953135441L;
 	
 	private Long id;
+	
+	private String name;
 	
 	private String assessmentSystemCode;
 	
@@ -53,6 +57,17 @@ public class AssessmentSystem extends AbstractEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@NotEmpty(message = "Název systému musí být vyplněn")
+	@Length(max = 75, message = "Název systému může mít max. 75 znaků")
+	@Column(length = 75)
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
 	}
 	
 	

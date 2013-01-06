@@ -27,15 +27,15 @@
 	<li>
 		<a 
 		<c:if test="${model.tab == 4}">class="active"</c:if>
-		href="<c:url value="/admin/cpr/pps" />" >
+		href="<c:url value="/admin/cpr/assessmentsystems" />" >
 			<spring:message code="menu.cpr.pps" />
 		</a>
 	</li>
 	<li>
 		<a
 		<c:if test="${model.tab == 5}">class="active"</c:if>
-		 href="<c:url value="/admin/cpr/mandats" />" >
-			<spring:message code="menu.cpr.mandats" />
+		 href="<c:url value="/admin/cpr/mandates" />" >
+			<spring:message code="menu.cpr.mandates" />
 		</a>
 	</li>
 	<li>

@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.dao;
 
+import java.util.List;
+
 import sk.peterjurkovic.cpr.entities.Mandate;
 
 
@@ -9,5 +11,6 @@ import sk.peterjurkovic.cpr.entities.Mandate;
  *
  */
 public interface MandateDao extends BaseDao<Mandate, Long> {
-
+	
+	List<Mandate> getMandatePage(int pageNumber);
 }

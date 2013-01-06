@@ -1,11 +1,15 @@
 package sk.peterjurkovic.cpr.utils;
 
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import sk.peterjurkovic.cpr.constants.Constants;
+
 public class RequestUtils {
-	
 	
 	public static String getPartOfURLOnPosition(HttpServletRequest request, int position) {
         String URI = request.getRequestURI();
@@ -15,6 +19,7 @@ public class RequestUtils {
         return getPartOFURLOnPosition(pattern, position);
     }
     
+	
     public static String getPartOFURLOnPosition(String pattern, int position) {
         StringTokenizer tokenizer = new StringTokenizer(pattern, "/");
         String token = null;
@@ -30,29 +35,31 @@ public class RequestUtils {
         }
         return result;
     }
-    public static String getApplicationUrlPrefix(HttpServletRequest request) {
-        boolean includePort = true;
-        if ("http".equals(request.getScheme().toLowerCase()) && (request.getServerPort() == 80)) {
-            includePort = false;
+    
+   
+    @SuppressWarnings("unchecked")
+	public static Map<String, Object> getRequestParameterMap(HttpServletRequest request) {
+        Map<String, Object> params = new HashMap<String, Object>(request.getParameterMap().size());
+        for (Enumeration<String> keys = request.getParameterNames(); keys.hasMoreElements();) {
+            String key = (String)keys.nextElement();
+            String[] values = request.getParameterValues(key);
+            Object value = ((values == null) ? null :  (Object)values[0]);
+            params.put(key, value);
         }
-        if ("https".equals(request.getScheme().toLowerCase()) && (request.getServerPort() == 443)) {
-            includePort = false;
-        }
-        // sestavime url
-        StringBuilder url = new StringBuilder();
-        // schema
-        url.append(request.getScheme()).append("://");
-        // nazev hostu
-        url.append(request.getServerName());
-        // port
-        if (includePort) {
-            url.append(":").append(request.getServerPort());
-        }
-        // context path
-        if (request.getRequestURI().startsWith(request.getContextPath())) {
-            url.append(request.getContextPath());
-        }
-        // plna url
-        return url.toString();
+        return params;
     }
+    
+    
+    
+    public static int getPageNumber(HttpServletRequest request){
+		if(request.getParameter(Constants.PAGE_PARAM_NAME) != null){
+			try{
+				return Integer.parseInt(request.getParameter(Constants.PAGE_PARAM_NAME));
+			}catch(NumberFormatException ex){
+				return 1;
+			}
+		}
+		return 1;
+	}
+   
 }

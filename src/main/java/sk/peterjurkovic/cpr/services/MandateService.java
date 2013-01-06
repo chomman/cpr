@@ -19,5 +19,7 @@ public interface MandateService {
 	
 	Mandate getMandateByCode(String code);
 	
+	List<Mandate> getMandatePage(int pageNumber);
 	
+	void saveOrUpdateMandate(Mandate mandate);
 }

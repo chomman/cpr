@@ -16,6 +16,7 @@ public interface AssessmentSystemService {
 	
 	void remove(AssessmentSystem assessmentSystem);
 	
-	void getAssessmentSystemById(Long id);
+	AssessmentSystem getAssessmentSystemById(Long id);
 	
+	void saveOrUpdateAssessmentSystem(AssessmentSystem assessmentSystem);
 }

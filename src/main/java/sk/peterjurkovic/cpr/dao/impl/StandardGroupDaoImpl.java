@@ -29,5 +29,26 @@ public class StandardGroupDaoImpl extends BaseDaoImpl<StandardGroup, Long> imple
 						.uniqueResult();
 
 	}
+
+
+	/**
+	 * Metoda zisti, ci skupina s danym nazvom uz v systeme nachadza
+	 * 
+	 * @param String kod skupiny
+	 * @param Long Id skupiny
+	 * @return boolean TRUE ak skupina s danym nazvom neexistu, inak FALSE
+	 */
+	@Override
+	public boolean isGroupNameUniqe(String code, Long id) {
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM StandardGroup sg");
+		hql.append(" WHERE sg.code=:code AND sg.id<>:id");
+		Long result = (Long)sessionFactory.getCurrentSession()
+						.createQuery(hql.toString())
+						.setString("code", code)
+						.setLong("id", id)
+						.uniqueResult();
+		logger.info("isNameUniqe count : " + result);
+		return (result == 0);
+	}
 	
 }

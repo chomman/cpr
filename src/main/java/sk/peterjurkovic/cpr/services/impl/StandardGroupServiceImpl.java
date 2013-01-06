@@ -13,6 +13,7 @@ import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 
@@ -75,10 +76,20 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 		
 	}
 
+	
 	@Override
 	@Transactional(readOnly = true)
 	public Long getCountOfStandardsInGroup(StandardGroup standardGroup) {
 		return standardGroupDao.getCoutOfStandardInGroup(standardGroup);
 	}
 
+	
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isStandardGroupNameUniqe(String groupName, Long standardGroupId) {
+		return standardGroupDao.isGroupNameUniqe(CodeUtils.toSeoUrl(groupName), standardGroupId);
+	}
+	
+	
+	
 }

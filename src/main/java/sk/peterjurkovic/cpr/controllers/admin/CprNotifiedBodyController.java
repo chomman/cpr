@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import sk.peterjurkovic.cpr.controllers.SupportController;
 import sk.peterjurkovic.cpr.entities.Address;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
@@ -30,7 +29,7 @@ import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 
 @Controller
 @SessionAttributes("notifiedBody")
-public class CprNotifiedBodyController extends SupportController {
+public class CprNotifiedBodyController extends SupportAdminController {
 	
 	public static final int CPR_TAB_INDEX = 3;
 	

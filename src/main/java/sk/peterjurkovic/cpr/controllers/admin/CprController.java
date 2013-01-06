@@ -3,15 +3,17 @@ package sk.peterjurkovic.cpr.controllers.admin;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.controllers.SupportController;
-
 @Controller
-public class CprController extends SupportController {
+public class CprController extends SupportAdminController {
 
+	
+	public CprController(){
+		setViewName("cpr");
+	}
+	
 	
 	@RequestMapping("/admin/cpr")
     public String showPage() {
-        return "/"+ Constants.ADMIN_PREFIX +"/cpr";
+        return getViewName();
     }
 }

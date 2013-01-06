@@ -17,21 +17,25 @@
 
 <ehcache>
 	
+	<diskStore path="/home/peto/tmp"/>
+	
+	
 	<!-- Default cache -->
 	<defaultCache
-        maxElementsInMemory="10000"
+        maxElementsInMemory="6000"
         eternal="false"
-        timeToIdleSeconds="120"
-        timeToLiveSeconds="120"
+        timeToIdleSeconds="3600"
+        timeToLiveSeconds="3600"
         overflowToDisk="true"
         diskPersistent="false"
-        diskExpiryThreadIntervalSeconds="120"
         />
         
         
     <!-- UpdateTimestampsCache -->    
     <cache
 		name="org.hibernate.cache.UpdateTimestampsCache"
+		maxElementsInMemory="5000"
+		overflowToDisk="true"
 		eternal="true"
 		/>
 		
@@ -44,7 +48,7 @@
     
     <!-- Cache uchovavajuca data tykajuce sa sekcie CPR -->    
     <cache name="cprCache"
-        maxElementsInMemory="5000"
+        maxElementsInMemory="3000"
         eternal="false"
         overflowToDisk="false"
         timeToLiveSeconds="604800"
@@ -53,7 +57,7 @@
      
      <!-- Cache uchovavajuca data tykajuce sa redakcneho systemu -->   
      <cache name="newsCache"
-        maxElementsInMemory="5000"
+        maxElementsInMemory="3000"
         eternal="false"
         overflowToDisk="false"
         timeToLiveSeconds="604800"
