@@ -13,4 +13,6 @@ import sk.peterjurkovic.cpr.entities.Mandate;
 public interface MandateDao extends BaseDao<Mandate, Long> {
 	
 	List<Mandate> getMandatePage(int pageNumber);
+	
+	Long getCountOfMandates();
 }

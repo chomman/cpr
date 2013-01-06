@@ -45,10 +45,10 @@ public class CprMandateController extends SupportAdminController {
 	@RequestMapping("/admin/cpr/mandates")
 	public String showMandates(ModelMap modelMap, HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
+		
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		
-		List<PageLink> paginationLinks = new PaginationLinker(request, params).getNavigatorLinsk();
-		
+		List<PageLink>paginationLinks = getPaginationItems(request,params);
 		
 		List<Mandate> mandates = mandateService.getMandatePage(1);
 		logger.info("pocet mandatu: " + mandates.size());
@@ -147,5 +147,12 @@ public class CprMandateController extends SupportAdminController {
 		Mandate form = new Mandate();
 		form.setId(0L);
 		return form;
+	}
+	
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setUrl("/admin/cpr/mandates");
+		paginger.setRowCount( mandateService.getCountOfMandates().intValue() );
+		return paginger.getPageLinks(); 
 	}
 }

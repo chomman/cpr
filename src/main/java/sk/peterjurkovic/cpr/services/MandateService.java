@@ -22,4 +22,6 @@ public interface MandateService {
 	List<Mandate> getMandatePage(int pageNumber);
 	
 	void saveOrUpdateMandate(Mandate mandate);
+	
+	Long getCountOfMandates();
 }

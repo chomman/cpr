@@ -1,5 +1,11 @@
 package sk.peterjurkovic.cpr.pagination;
 
+/**
+ * Trieda ktora sluzi uchovanie odkazu a "anchor textu"
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 public class PageLink {
 	
 	private String url;

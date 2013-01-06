@@ -23,13 +23,22 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 	public List<Mandate> getMandatePage(int pageNumber) {
 		logger.debug("Listing in mandates "+ pageNumber);
 		List<Mandate> mandates = new ArrayList<Mandate>();
-		
-		mandates = (List<Mandate>)  sessionFactory.getCurrentSession()
-				.createQuery("from Mandate")
-				.setFirstResult(Constants.PAGINATION_PAGE_SIZE * pageNumber -1)
+		mandates = sessionFactory.getCurrentSession()
+				.createQuery("from Mandate m")
+				.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1))
 				.setMaxResults(Constants.PAGINATION_PAGE_SIZE)
 				.list();
+		logger.info("size of mandates : " + mandates.size());
 		return mandates;
+	}
+
+
+	@Override
+	public Long getCountOfMandates() {
+		return (Long) sessionFactory.getCurrentSession()
+						.createQuery("SELECT count(*) FROM Mandate")
+						.uniqueResult();
+
 	}
 	
 	

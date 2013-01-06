@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.constants;
 
 public class Constants {
 	
+	
 	/**
 	 * Prefix administracie 
 	 * 
@@ -42,9 +43,10 @@ public class Constants {
 	
 	
 	
+	
 	/** FAILURE_ROLE_ADMIN_URL
 	 * 
-	 * Relativna adresa, na ktoru bude uzivatel presmerovani po neuspesnom prihlaseni, 
+	 * Relativna adresa, na ktoru bude uzivatel presmerovany po neuspesnom prihlaseni, 
 	 * v pripade ak sa prihlasoval prostrednictvom administracneho prihlasovacieho formulara,
 	 * Definovaneho v "ADMIN_ENTRY_POIN_REDIRECT_URL" 
 	 */
@@ -63,6 +65,7 @@ public class Constants {
 	
 	
 	
+	
 	/** USER_ENTRY_POIN_REDIRECT_URL
 	 * 
 	 * 
@@ -74,7 +77,9 @@ public class Constants {
 	 *  	
 	 *  Definuje maximalny pocet zaznamov na stranku, pri strankovani zaznamov.
 	 */
-	public static final int PAGINATION_PAGE_SIZE =  30; 
+	public static final int PAGINATION_PAGE_SIZE =  25; 
+	
+	
 	
 	
 	/** PAGE_PARAM_NAME

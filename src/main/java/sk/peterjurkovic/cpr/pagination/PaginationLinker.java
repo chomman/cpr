@@ -25,10 +25,11 @@ public class PaginationLinker {
 	
 	private int currentPage; 
 	
-	private int rowCount = 200;
+	private int rowCount;
 	
 	private int pageSize = Constants.PAGINATION_PAGE_SIZE;
 	
+	private int countOfNeighbors = 4;
 	
 	
 	public PaginationLinker(HttpServletRequest request,Map<String, Object> params){
@@ -36,11 +37,22 @@ public class PaginationLinker {
 		encodeUrlParams(params);
 	}
 	
-	public List<PageLink> getNavigatorLinsk(){
+	/**
+	 * Funkcia ktora vytvori polozky strankovania. 
+	 * 
+	 * Strnakovanie je vo formaate: 
+	 * 
+	 * 	< 1 .. 4 5 5 6 7 <b> 8 </b>  6 8 7 9 5... 20>  
+	 * kde 8 je aktualna stranka. Pocet susednych cisiel je definovany v 
+	 * premennej countOfNeighbors.
+	 * 
+	 * @return List<PageLink>
+	 */
+	public List<PageLink> getPageLinks(){
+		logger.info("Pocet zaznamov: " + rowCount);
 		if(rowCount <= pageSize){
 			return null;
 		}
-		int offset = 5;
 
 		if(currentPage != 1){
 			navigationLinks.add(createLink(currentPage - 1, "&laquo;"));
@@ -50,8 +62,8 @@ public class PaginationLinker {
 		
 		
 		int start = 2;
-		if(currentPage - offset - 1 > 0){
-			start = currentPage - offset;
+		if(currentPage - countOfNeighbors - 1 > 0){
+			start = currentPage - countOfNeighbors;
 		}
 		
 		for(int pageNumber = start; pageNumber <= currentPage; pageNumber++){
@@ -59,8 +71,8 @@ public class PaginationLinker {
 		}
 		
 		int stop = getTotalPates();
-		if(currentPage + offset + 1 < stop){
-			start = currentPage + offset + 1;
+		if(currentPage + countOfNeighbors + 1 < stop){
+			stop = currentPage + countOfNeighbors + 1;
 		}
 		
 		for(int pageNumber = currentPage +1; pageNumber <= stop; pageNumber++  ){
@@ -75,8 +87,16 @@ public class PaginationLinker {
 	}
 	
 	
-	
-	 public void encodeUrlParams(Map<String, Object> params) {
+	 /**
+	  * Z mapy parametrov vytvori url, pricom PAGE_PARAM_NAME je vynechany.
+	  * Vysledny retazec je ulozeny v encodedParams, ktory sa nasledne pridava do odkazov pri strankovani.
+	  * 
+	  * result e.g:
+	  * order=5&amp;name=text
+	  * 
+	  * @param Map<String, Object>  mapa parametrov
+	  */
+	 private void encodeUrlParams(Map<String, Object> params) {
 	        StringBuffer item = new StringBuffer();
 	        String encoding = "UTF-8";
 	        try {
@@ -99,7 +119,7 @@ public class PaginationLinker {
 	
 	
 	
-	public PageLink createLink(int page, String anchor){
+	private PageLink createLink(int page, String anchor){
 		if(page == currentPage){
 			return new PageLink(anchor); 
 		}
@@ -141,7 +161,31 @@ public class PaginationLinker {
 	public int getTotalPates(){
 		return (int) Math.ceil(rowCount / pageSize);
 	}
-	
+
+	public List<PageLink> getNavigationLinks() {
+		return navigationLinks;
+	}
+
+	public void setNavigationLinks(List<PageLink> navigationLinks) {
+		this.navigationLinks = navigationLinks;
+	}
+
+	public String getEncodedParams() {
+		return encodedParams;
+	}
+
+	public void setEncodedParams(String encodedParams) {
+		this.encodedParams = encodedParams;
+	}
+
+	public int getCountOfNeighbors() {
+		return countOfNeighbors;
+	}
+
+	public void setCountOfNeighbors(int countOfNeighbors) {
+		this.countOfNeighbors = countOfNeighbors;
+	}
+	 
 	
 	
 }

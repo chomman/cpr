@@ -78,4 +78,10 @@ public class MandateServiceImpl implements MandateService {
 		}
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Long getCountOfMandates() {
+		return mandateDao.getCountOfMandates();
+	}
+
 }
