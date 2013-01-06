@@ -11,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 
 import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 public class PaginationLinker {
 	
@@ -31,9 +30,10 @@ public class PaginationLinker {
 	
 	private int countOfNeighbors = 4;
 	
+	private int totalPages;
+	
 	
 	public PaginationLinker(HttpServletRequest request,Map<String, Object> params){
-		currentPage = RequestUtils.getPageNumber(request);
 		encodeUrlParams(params);
 	}
 	
@@ -49,11 +49,10 @@ public class PaginationLinker {
 	 * @return List<PageLink>
 	 */
 	public List<PageLink> getPageLinks(){
-		logger.info("Pocet zaznamov: " + rowCount);
 		if(rowCount <= pageSize){
 			return null;
 		}
-
+		setTotalPages();	
 		if(currentPage != 1){
 			navigationLinks.add(createLink(currentPage - 1, "&laquo;"));
 		}
@@ -70,18 +69,22 @@ public class PaginationLinker {
 			navigationLinks.add(createLink(pageNumber, pageNumber+""));
 		}
 		
-		int stop = getTotalPates();
-		if(currentPage + countOfNeighbors + 1 < stop){
+		int stop = totalPages;
+		if(currentPage + countOfNeighbors + 1 <= totalPages){
 			stop = currentPage + countOfNeighbors + 1;
 		}
 		
-		for(int pageNumber = currentPage +1; pageNumber <= stop; pageNumber++  ){
+		for(int pageNumber = currentPage +1; pageNumber < stop; pageNumber++  ){
 			navigationLinks.add(createLink(pageNumber, pageNumber+""));
 		}
 		
-		if(currentPage != stop){
+		
+		
+		if(currentPage != totalPages){
+			navigationLinks.add(createLink(totalPages, totalPages + ""));
 			navigationLinks.add(createLink(currentPage + 1, "&raquo;"));
 		}
+		
 		
 		return navigationLinks;
 	}
@@ -159,7 +162,11 @@ public class PaginationLinker {
 	}
 	
 	public int getTotalPates(){
-		return (int) Math.ceil(rowCount / pageSize);
+		return totalPages;
+	}
+	
+	public void setTotalPages(){
+		totalPages = (int) Math.ceil(((double)rowCount) / pageSize);
 	}
 
 	public List<PageLink> getNavigationLinks() {

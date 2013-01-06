@@ -45,12 +45,13 @@ public class CprMandateController extends SupportAdminController {
 	@RequestMapping("/admin/cpr/mandates")
 	public String showMandates(ModelMap modelMap, HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
+		int currentPage = RequestUtils.getPageNumber(request);
 		
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		
-		List<PageLink>paginationLinks = getPaginationItems(request,params);
+		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
 		
-		List<Mandate> mandates = mandateService.getMandatePage(1);
+		List<Mandate> mandates = mandateService.getMandatePage(currentPage);
 		logger.info("pocet mandatu: " + mandates.size());
 		model.put("mandates", mandates);
 		model.put("paginationLinks", paginationLinks);
@@ -116,6 +117,33 @@ public class CprMandateController extends SupportAdminController {
 	}
 	
 	
+	
+	/**
+	 * Odtrani mandat, v pripade ak je to mozne. Tz ak sa nenachadza v norme.
+	 * 
+	 * @param mandateId
+	 * @param modelMap
+	 * @return
+	 */
+	@RequestMapping( value = "/admin/cpr/mandates/delete/{mandateId}", method = RequestMethod.GET)
+	public String deleteGroup(@PathVariable Long mandateId,  ModelMap modelMap, HttpServletRequest request) {
+						
+		Mandate mandate = mandateService.getMandateById(mandateId);
+		if(mandate == null){
+			modelMap.put("notFoundError", true);
+			return getTableItemsView();
+		}
+		if(mandateService.canBeDeleted(mandate)){
+			mandateService.deleteMandate(mandate);
+			modelMap.put("successDelete", true);
+		}else{
+			modelMap.put("isNotEmptyError", true);
+		}
+		
+        return showMandates(modelMap, request);
+	}
+	
+	
 	private void createOrUpdate(Mandate form){
 		Mandate mandate = null;
 			
@@ -149,9 +177,10 @@ public class CprMandateController extends SupportAdminController {
 		return form;
 	}
 	
-	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params){
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
 		PaginationLinker paginger = new PaginationLinker(request, params);
 		paginger.setUrl("/admin/cpr/mandates");
+		paginger.setCurrentPage(currentPage);
 		paginger.setRowCount( mandateService.getCountOfMandates().intValue() );
 		return paginger.getPageLinks(); 
 	}

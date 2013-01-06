@@ -33,6 +33,7 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 	}
 
 
+	
 	@Override
 	public Long getCountOfMandates() {
 		return (Long) sessionFactory.getCurrentSession()
@@ -41,5 +42,17 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 
 	}
 	
+	
+	@Override
+	public boolean canBeDeleted(final Mandate mandate) {
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");
+		hql.append(" WHERE :mandate IN ELEMENTS(s.mandates)");
+		Long result = (Long)sessionFactory.getCurrentSession()
+						.createQuery(hql.toString())
+						.setEntity("mandate", mandate)
+						.uniqueResult();
+		logger.info("count : " + result);
+		return (result == 0);
+	}
 	
 }

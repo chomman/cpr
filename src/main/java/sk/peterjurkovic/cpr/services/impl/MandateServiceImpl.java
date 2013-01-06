@@ -84,4 +84,10 @@ public class MandateServiceImpl implements MandateService {
 		return mandateDao.getCountOfMandates();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public boolean canBeDeleted(Mandate mandate) {
+		return mandateDao.canBeDeleted(mandate);
+	}
+
 }

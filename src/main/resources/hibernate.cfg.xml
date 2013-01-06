@@ -20,6 +20,7 @@
   	<mapping class="sk.peterjurkovic.cpr.entities.Standard"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsn"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
 
  </session-factory>
 </hibernate-configuration>

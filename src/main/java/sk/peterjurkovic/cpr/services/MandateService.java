@@ -24,4 +24,6 @@ public interface MandateService {
 	void saveOrUpdateMandate(Mandate mandate);
 	
 	Long getCountOfMandates();
+	
+	boolean canBeDeleted(final Mandate mandate);
 }

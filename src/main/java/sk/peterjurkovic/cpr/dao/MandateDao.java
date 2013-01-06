@@ -15,4 +15,6 @@ public interface MandateDao extends BaseDao<Mandate, Long> {
 	List<Mandate> getMandatePage(int pageNumber);
 	
 	Long getCountOfMandates();
+	
+	boolean canBeDeleted(final Mandate mandate);
 }
