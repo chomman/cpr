@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.as.title" /></title>
+<title><spring:message code="menu.cpr.requrements" /></title>
 </head>
 <body>
 	<div id="wrapper">
@@ -16,15 +16,15 @@
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
-			 <span><spring:message code="cpr.as.title" /></span>
+			 <span><spring:message code="menu.cpr.requrements" /></span>
 		</div>
 		<h1><spring:message code="cpr.as.title" /></h1>
 
 		<div id="content">
 			
 			<ul class="sub-nav">
-				<li><a class="active" href="<c:url value="/admin/cpr/assessmentsystems"  />"><spring:message code="cpr.as.view" /></a></li>
-				<li><a href="<c:url value="/admin/cpr/assessmentsystems/edit/0"  />"><spring:message code="cpr.as.add" /></a></li>
+				<li><a class="active" href="<c:url value="/admin/cpr/basicrequirements"  />"><spring:message code="cpr.br.view" /></a></li>
+				<li><a href="<c:url value="/admin/cpr/basicrequirements/edit/0"  />"><spring:message code="cpr.br.add" /></a></li>
 			</ul>
 			
 			<c:if test="${not empty successDelete}">
@@ -32,18 +32,18 @@
 			</c:if>
 			
 
-			<c:if test="${not empty model.systems}">
+			<c:if test="${not empty model.basicRequirements}">
 				<table class="data">
 					<thead>
 						<tr>
-							<tH><spring:message code="cpr.br.name" /></th>
+							<tH><spring:message code="cpr.as.name" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
 					</thead>
 					<tbody>
-						 <c:forEach items="${model.systems}" var="i">
+						 <c:forEach items="${model.basicRequirements}" var="i">
 						 	<tr>
 						 		<td>${i.name}</td>
 						 		<td class="last-edit">
@@ -55,12 +55,12 @@
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">
-						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/assessmentsystems/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/basicrequirements/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/cpr/assessmentsystems/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/cpr/basicrequirements/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>
@@ -70,7 +70,7 @@
 				</table>
 			</c:if>
 			
-			<c:if test="${empty model.systems}">
+			<c:if test="${empty model.basicRequirements}">
 				<p class="msg alert">
 					<spring:message code="alert.empty" />
 				</p>

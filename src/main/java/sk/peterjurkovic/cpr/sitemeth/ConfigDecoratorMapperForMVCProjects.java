@@ -17,9 +17,8 @@ import java.util.Properties;
  * Default implementation of DecoratorMapper. Class is an improvement of Sitemesh ConfigDecoratorMapper.java for purposes of using Sitemesh
  * in projects with MVC architecture. Uses Spring Framework.
  * 
- * @author Tomas Paral, http://morosystems.cz
  * @version 1.0 2006/12/12
- * @since Sitemesh 2.3
+ * @since Sitemesh 2.4
  * 
  * @author <a href="joe@truemesh.com">Joe Walnes</a>
  * @author <a href="mcannon@internet.com">Mike Cannon-Brookes</a>
@@ -29,9 +28,6 @@ import java.util.Properties;
  * @see com.opensymphony.module.sitemesh.DecoratorMapper
  * @see com.opensymphony.module.sitemesh.mapper.DefaultDecorator
  * @see com.opensymphony.module.sitemesh.mapper.ConfigLoader
- * 
- * 
- * 
  * 
  */
 

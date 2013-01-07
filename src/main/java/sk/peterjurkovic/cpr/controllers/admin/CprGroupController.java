@@ -159,7 +159,7 @@ public class CprGroupController extends SupportAdminController {
 	private StandardGroup createOrUpdate(StandardGroup form){
 		StandardGroup standardGroup = null;
 			
-		if(form.getId() == 0){
+		if(form.getId() == null || form.getId() == 0){
 			standardGroup = new StandardGroup();
 		}else{
 			standardGroup = standardGroupService.getStandardGroupByid(form.getId());

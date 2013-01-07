@@ -17,6 +17,19 @@ public class BasicRequirementDaoImpl extends BaseDaoImpl<BasicRequirement, Long>
 	public BasicRequirementDaoImpl(){
 		super(BasicRequirement.class);
 	}
+
+	
+	@Override
+	public boolean isNameUniqe(final String code,final Long id) {
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM BasicRequirement br");
+		hql.append(" WHERE br.code=:code AND br.id<>:id");
+		Long result = (Long)sessionFactory.getCurrentSession()
+						.createQuery(hql.toString())
+						.setString("code", code)
+						.setLong("id", id)
+						.uniqueResult();
+		return (result == 0);
+	}
 	
 }
 
