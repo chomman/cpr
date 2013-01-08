@@ -26,6 +26,7 @@ a{text-decoration:none;color:#3e4e69;}
 .mw500{min-width: 500px;}
 .mw600{min-width: 600px;}
 .w100{width:100px;}
+.w200{width:200px;}
 .w300{width:300px;}
 
 /* QUICK SEARCH */
@@ -137,6 +138,10 @@ select option{padding:2px 0px 1px 5px;}
 .button{background: #FB9337;border: 1px solid #F0882C;color: #FFFFFF;cursor: pointer;font-weight: bold; padding: 7px 20px;font-size:12px;}
 .button:hover{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
 
+
+#ui-datepicker-div{font-size:14px;}
+.date{text-align:right;font-size:14px;padding:8px 40px 8px 0;background:#FCFCFC url(../img/ico_calendar_input.png) no-repeat 135px center; width:120px; }
+.sublabel{margin:0 20px;font-size:14px;color:#555}
 .pagination{padding:5px;margin:10px;font-size:13px;}
 .pagination a, .pagination span{border:1px solid #ddd;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;color:#333;padding:5px 10px;}
 .pagination span{background:#3f4c6b;color:#fff;}

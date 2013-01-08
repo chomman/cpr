@@ -66,7 +66,7 @@ public class NotifiedBody extends AbstractEntity {
 	}
 	
 	@Column(name = "name", length = 100)
-	@NotEmpty
+	@NotEmpty(message = "Název musí být vyplněn.")
 	@Length(max = 100)
 	public String getName() {
 		return name;
@@ -77,9 +77,9 @@ public class NotifiedBody extends AbstractEntity {
 	}
 	
 	
-	@NotEmpty
+	@NotEmpty(message = "Číslo osoby musí být vyplněno")
 	@Column(name = "notified_body_code", length = 25)
-	@Length(max = 25)
+	@Length(max = 25, message = "Číslo osoby může mít max. 25 znaků.")
 	public String getNotifiedBodyCode() {
 		return notifiedBodyCode;
 	}

@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 
@@ -62,6 +64,8 @@ public class Standard extends AbstractEntity {
 	
 	private Set<StandardCsn> standardCsns;
 	
+	private Set<Requirement> requirements;
+	
 	public Standard(){
 		this.mandates = new HashSet<Mandate>();
 		this.notifiedBodies = new HashSet<NotifiedBody>();
@@ -80,7 +84,9 @@ public class Standard extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@Column(name = "standard_id", length = 25, nullable = false)
+	@NotEmpty(message = "Označení harmonizované normy musí být vyplněno")
+	@Length(max = 45, message = "Označení harmonizované normy může mít max. 45 znaků")
+	@Column(name = "standard_id", length = 45, nullable = false)
 	public String getStandardId() {
 		return standardId;
 	}
@@ -88,8 +94,9 @@ public class Standard extends AbstractEntity {
 	public void setStandardId(String standardId) {
 		this.standardId = standardId;
 	}
-
-	@Column(name = "replaced_standard_id", length = 25)
+	
+	@Length(max = 45, message = "Nahrazená harmonizovaná norma může mít max. 45 znaků")
+	@Column(name = "replaced_standard_id", length = 45)
 	public String getReplacedStandardId() {
 		return replacedStandardId;
 	}
@@ -98,6 +105,7 @@ public class Standard extends AbstractEntity {
 		this.replacedStandardId = replacedStandardId;
 	}
 	
+	@NotEmpty(message = "Český název harmonizované normy musí být vyplněno")
 	@Column(name = "standard_name")
 	public String getStandardName() {
 		return standardName;
@@ -205,6 +213,18 @@ public class Standard extends AbstractEntity {
 	public void setText(String text) {
 		this.text = text;
 	}
+
+	
+	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<Requirement> getRequirements() {
+		return requirements;
+	}
+
+	public void setRequirements(Set<Requirement> requirements) {
+		this.requirements = requirements;
+	}
+	
+	
 	
 	
 	

@@ -6,7 +6,7 @@
 	<li>
 		<a 
 		<c:if test="${model.tab == 1}">class="active"</c:if>
-		 href="<c:url value="/admin/cpr/norm" />" >
+		 href="<c:url value="/admin/cpr/standards" />" >
 			<spring:message code="menu.cpr.norm" />
 		</a>
 	</li>

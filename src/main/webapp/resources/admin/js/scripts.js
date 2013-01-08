@@ -62,4 +62,11 @@ function searchTable(val){
      $('.confirm').on('click', function () {
          return confirm('Opravdu chcete odstranit tuto položku?');
      });
+     
+     $('.date').datepicker({
+			dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
+			monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
+			autoSize: false,
+			dateFormat: 'dd.mm.yy',
+			firstDay: 1});
 });

@@ -49,10 +49,10 @@ public class CprNotifiedBodyController extends SupportAdminController {
 	}
 	
 	
-	 @InitBinder
-	    public void initBinder(WebDataBinder binder) {
-	        binder.registerCustomEditor(Country.class, this.countryEditor);
-	    }
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Country.class, this.countryEditor);
+    }
 	
 	/**
 	 * Metoda kontroleru, ktora zobrazi notifikovane/autorizovane osoby
