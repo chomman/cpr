@@ -64,12 +64,16 @@
 						 	<tr>
 						 		<td>${i.standardId}</td>
 						 		<td>${i.standardName}</td>
-						 		<td>
+						 		<td class="w100">
 						 			<c:if test="${i.enabled}">
-						 				<img src="<c:url value="/resources/admin/img/ico_published_yes.png"  />" title="Publikováno" class="tt" alt="" />
+						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
+						 					<spring:message code="yes" />
+						 				</span>
 						 			</c:if>
 						 			<c:if test="${not i.enabled}">
-						 				<img src="<c:url value="/resources/admin/img/ico_published_no.png"  />" title="Nepublikováno" class="tt" alt="" />
+						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
+						 					<spring:message code="no" />
+						 				</span>
 						 			</c:if>
 						 		</td>
 						 		<td class="last-edit">

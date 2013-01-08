@@ -88,4 +88,8 @@ public class Constants {
 	 *  e.g. ?page=2
 	 */
 	public static final String PAGE_PARAM_NAME = "page";
+	
+	
+	
+	public static final String DATE_FORMAT = "dd.MM.yyyy";
 }
