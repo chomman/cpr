@@ -46,7 +46,6 @@ public class CprStandardController extends SupportAdminController {
 	
 	public CprStandardController(){
 		setTableItemsView("cpr-standards");
-		setEditFormView("cpr-standard-add");
 	}
 	
 	
@@ -85,11 +84,26 @@ public class CprStandardController extends SupportAdminController {
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/add", method = RequestMethod.GET)
 	public String showCrateForm(ModelMap model) {
+		setEditFormView("cpr-standard-add");
 		Standard form = createEmptyForm();
 		prepareModel(form, model, 0L);
         return getEditFormView();
 	}
 	
+	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.GET)
+	public String showEditForm1(@PathVariable Long standardId, ModelMap model) {
+		setEditFormView("cpr-standard-edit1");
+		
+		Standard form = standardService.getStandardById(standardId);
+		if(form == null){
+			createItemNotFoundError();
+		}
+		
+		prepareModel(form, model, standardId);
+        return getEditFormView();
+	}
+	
+		
 	
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long standardId,  @Valid  Standard form, BindingResult result, ModelMap model) {

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.standard.add" /></title>
+<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
 </head>
 <body>
 	<div id="wrapper">
@@ -17,19 +17,25 @@
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr/standards" />"><spring:message code="menu.cpr.norm" /></a> &raquo;
-			 <span><spring:message code="cpr.standard.add" /></span>
+			 <span><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></span>
 		</div>
-		<h1><spring:message code="cpr.standard.add" /></h1>
+		<h1><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></h1>
 
 		<div id="content">
 							
 					
 					<ul class="sub-nav">
 						<li><a href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li>
-						<li><a class="active" href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
+						<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
 					</ul>
 				
-					<c:url value="/admin/cpr/standard/edit/0" var="formUrl"/>
+					<c:url value="/admin/cpr/standard/edit/${standardId}" var="formUrl"/>
+				
+				<div id="tabs">
+					
+					<strong class="active-tab-head"><span>1</span> - <spring:message code="cpr.standard.tab.1" /></strong>
+					<div class="active-tab">
+					
 					
 					<form:form commandName="standard" method="post" action="${formUrl}"  >
 						
@@ -38,7 +44,6 @@
 						<c:if test="${not empty successCreate}">
 							<p class="msg ok"><spring:message code="success.create" /></p>
 						</c:if>
-						<p class="form-head">Základní informace</p>
 						<p>
                         	<label>
                         		<strong><em class="red">*</em>
@@ -114,10 +119,21 @@
 
                         <form:hidden path="id"  />
                         <p class="button-box">
-                        	 <input type="submit" class="button" value="<spring:message code="form.saveandcontinue" /> &raquo;" />
+                        	 <input type="submit" class="button" value="<spring:message code="form.save" /> &raquo;" />
                         </p>
 					</form:form>
-		
+						
+						</div> <!-- END ACTIVE TAB -->
+						<a class="tt" title="<spring:message code="cpr.standard.tab.2.title" />" href="#" >
+							<span>2</span> - <spring:message code="cpr.standard.tab.2" />
+						</a>
+						<a class="tt" title="<spring:message code="cpr.standard.tab.3.title" />" href="#" >
+							<span>3</span> - <spring:message code="cpr.standard.tab.3" />
+						</a>
+						<a class="tt" title="<spring:message code="cpr.standard.tab.4.title" />" href="#" >
+							<span>4</span> - <spring:message code="cpr.standard.tab.4" />
+						</a>
+					</div>	<!-- END TABs -->
 		
 			<span class="note"><spring:message code="form.required" /></span>
 		</div>	
