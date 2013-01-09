@@ -23,7 +23,6 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	
 	@Override
 	public User getUserByUsername(String username) {
-		logger.debug("Finding user by username: "+username);
 		return (User) sessionFactory.getCurrentSession()
 				.createQuery("FROM User u WHERE u.email=:username")
 				.setString("username", username)

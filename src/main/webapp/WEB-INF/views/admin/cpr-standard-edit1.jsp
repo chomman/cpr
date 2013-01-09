@@ -114,7 +114,6 @@
                             <span class="field">  
                             	<form:checkbox path="enabled" />
                             </span>
-                            <div class="clear"></div>
                         </p>
 
                         <form:hidden path="id"  />
@@ -124,13 +123,14 @@
 					</form:form>
 						
 						</div> <!-- END ACTIVE TAB -->
-						<a class="tt" title="<spring:message code="cpr.standard.tab.2.title" />" href="#" >
+						<a class="tab tt" title="<spring:message code="cpr.standard.tab.2.title" />" 
+							href='<c:url value="/admin/cpr/standard/edit/${standardId}/requirements?country=1" />' >
 							<span>2</span> - <spring:message code="cpr.standard.tab.2" />
 						</a>
-						<a class="tt" title="<spring:message code="cpr.standard.tab.3.title" />" href="#" >
+						<a class="tab tt" title="<spring:message code="cpr.standard.tab.3.title" />" href="#" >
 							<span>3</span> - <spring:message code="cpr.standard.tab.3" />
 						</a>
-						<a class="tt" title="<spring:message code="cpr.standard.tab.4.title" />" href="#" >
+						<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" href="#" >
 							<span>4</span> - <spring:message code="cpr.standard.tab.4" />
 						</a>
 					</div>	<!-- END TABs -->
