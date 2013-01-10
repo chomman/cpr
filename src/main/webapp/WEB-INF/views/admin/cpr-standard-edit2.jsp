@@ -63,7 +63,7 @@
 							<tbody>
 								 <c:forEach items="${model.requirements}" var="i">
 								 	<tr>
-								 		<td>${i.named}</td>
+								 		<td>${i.name}</td>
 								 		<td>${i.levels}</td>
 								 		
 								 		<td class="w100">

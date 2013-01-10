@@ -40,12 +40,15 @@
 					<div class="active-tab">
 					
 					<div id="req-nav">
-						<a class="view" href="<c:url value="/admin/cpr/standard/edit/${standardId}/requirements" />">
-							<spring:message code="cpr.requirement.view" />
+						<a class="view" href="<c:url value="/admin/cpr/standard/edit/${standardId}/requirements?country=1" />">
+							&laquo; <spring:message code="cpr.requirement.view" />
 						</a>
 					</div>
 					
+					
+				
 					<!--  FORM  -->
+					<c:url value="/admin/cpr/standard/edit/${standardId}/req/${requirementId}" var="formUrl"/>
 					<form:form commandName="requirement" method="post" action="${formUrl}"  >
 				
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
@@ -64,7 +67,7 @@
 	                    </span>
                     </p>
                     <p>
-	                	<label title="např. reakce na ohneň A1 až F">
+	                	<label class="tt" title="např. reakce na ohneň A1 až F">
                 			<spring:message code="cpr.requirement.level" />
 	                	</label>
 	                    <span class="field">
@@ -80,7 +83,7 @@
 	                    </span>
                     </p>
                     <p>
-	                	<label title="Odsek (např. 4.1.2, 5.1 ...)" >
+	                	<label class="tt" title="Odsek (např. 4.1.2, 5.1 ...)" >
                 			<spring:message code="cpr.requirement.section" />
 	                	</label>
 	                    <span class="field">

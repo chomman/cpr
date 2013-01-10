@@ -88,72 +88,6 @@ public class CprStandardController extends SupportAdminController {
         return getTableItemsView();
     }
 	
-	
-	 //##################################################
-	 //#	Requirements methods
-	 //##################################################
-
-	
-	/**
-	 * Zobrazi pozadavky danej normy
-	 * 
-	 * @param modelMap
-	 * @param request
-	 * @return String view
-	 */
-	@RequestMapping("/admin/cpr/standard/edit/{standardId}/requirements")
-   public String showRequirements(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		setEditFormView("cpr-standard-edit2");
-		Standard standard = standardService.getStandardById(standardId);
-		if(standard == null){
-			createItemNotFoundError();
-		}
-		Country country = null;
-		if(request.getParameter("country") != null){
-			country = countryService.getCountryById(ParseUtils.parseLongFromStringObject(request.getParameter("country")));
-		}
-		
-		if(country == null){
-			map.put("requirements", standard.getRequirements());
-		}else{
-			map.put("requirements", requirementService.getRequirementsByCountryAndStandard(country, standard));
-		}
-		modelMap.addAttribute("standard", standard);
-		map.put("standardId", standardId);
-		map.put("tab", CPR_TAB_INDEX);
-		modelMap.put("model", map);
-        return getEditFormView();
-   }
-	
-	/**
-	 * Zobrazi formular pre pridanie, resp. editaciu noveho pzadavku. V pripade ak je ID
-	 * pozadavku 0, jedna sa o udalost vytvorenia novej polozky, inak o editaciu.
-	 * 
-	 * @param modelMap
-	 * @param request
-	 * @return String view
-	 */
-	@RequestMapping("/admin/cpr/standard/edit/{standardId}/req/{requirementId}")
-   public String showRequirementForm(@PathVariable Long standardId,@PathVariable Long requirementId, ModelMap modelMap,HttpServletRequest request) {
-		
-		setEditFormView("cpr-standard-edit2-requirement");
-		Standard standard = standardService.getStandardById(standardId);
-		if(standard == null){
-			createItemNotFoundError();
-		}
-		Requirement form = null;
-		if(requirementId == null || requirementId == 0){
-			form = createEmptyRequirementForm();
-		}else{
-			form = requirementService.getRequirementById(requirementId);
-		}
-		
-		prepareModelForRequirement(modelMap, standard, form, requirementId);
-        return getEditFormView();
-   }
-	
-	
 	/**
 	 * Zobrazi view (stranku) s formularom umoznujuci pridat novu normu
 	 * 
@@ -217,6 +151,121 @@ public class CprStandardController extends SupportAdminController {
 	}
 	
 	
+	 //##################################################
+	 //#	Requirements methods
+	 //##################################################
+
+	/**
+	 * Zobrazi pozadavky danej normy
+	 * 
+	 * @param modelMap
+	 * @param request
+	 * @return String view
+	 */
+	@RequestMapping("/admin/cpr/standard/edit/{standardId}/requirements")
+   public String showRequirements(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		setEditFormView("cpr-standard-edit2");
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError();
+		}
+		Country country = null;
+		if(request.getParameter("country") != null){
+			country = countryService.getCountryById(ParseUtils.parseLongFromStringObject(request.getParameter("country")));
+		}
+		
+		if(country == null){
+			map.put("requirements", standard.getRequirements());
+		}else{
+			map.put("requirements", requirementService.getRequirementsByCountryAndStandard(country, standard));
+		}
+		modelMap.addAttribute("standard", standard);
+		map.put("standardId", standardId);
+		map.put("tab", CPR_TAB_INDEX);
+		modelMap.put("model", map);
+        return getEditFormView();
+   }
+	
+	/**
+	 * Zobrazi formular pre pridanie, resp. editaciu noveho pzadavku. V pripade ak je ID
+	 * pozadavku 0, jedna sa o udalost vytvorenia novej polozky, inak o editaciu.
+	 * 
+	 * @param modelMap
+	 * @param request
+	 * @return String view
+	 */
+   @RequestMapping("/admin/cpr/standard/edit/{standardId}/req/{requirementId}")
+   public String showRequirementForm(@PathVariable Long standardId,@PathVariable Long requirementId, ModelMap modelMap,HttpServletRequest request) {
+		
+		setEditFormView("cpr-standard-edit2-requirement");
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError();
+		}
+		Requirement form = null;
+		if(requirementId == null || requirementId == 0){
+			form = createEmptyRequirementForm();
+		}else{
+			form = requirementService.getRequirementById(requirementId);
+		}
+		
+		prepareModelForRequirement(modelMap, standard, form, requirementId);
+        return getEditFormView();
+   }
+	
+	
+    @RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/req/{requirementId}", method = RequestMethod.POST)
+	public String processRequirementSubmit(@PathVariable Long standardId,@PathVariable Long requirementId, @Valid  Requirement form, BindingResult result, ModelMap modelMap) {
+       setEditFormView("cpr-standard-edit2-requirement");
+       Standard standard = standardService.getStandardById(standardId);
+       if(standard == null){
+    	   createItemNotFoundError();
+       }
+       if (result.hasErrors()) {
+			prepareModelForRequirement(modelMap, standard, form, requirementId);
+       }else{
+       	createOrUpdateRequrement(standard, form);
+       	
+       	modelMap.put("successCreate", true);
+       	if(requirementId == 0){
+       		form = createEmptyRequirementForm();
+       		prepareModelForRequirement(modelMap, standard, form, requirementId);
+       	}
+       }
+       return getEditFormView();
+	}
+   
+    private void createOrUpdateRequrement(Standard standard, Requirement form){
+    	Requirement requirement = null;
+    	
+    	if(form.getId() == null || form.getId() == 0){
+    		requirement = new Requirement();
+    	}else{
+    		requirement = requirementService.getRequirementById(form.getId());
+    		if(requirement == null){
+    			createItemNotFoundError();
+    		}
+    	}
+    	
+    	requirement.setName(form.getName());
+    	requirement.setNote(form.getNote());
+    	requirement.setLevels(form.getLevels());
+    	requirement.setSection(form.getSection());
+    	requirement.setNpd(form.getNpd());
+    	requirement.setStandard(standard);
+    	requirement.setCountry(form.getCountry());
+    	requirementService.saveOrUpdateRequirement(requirement);
+    }
+	
+    
+    
+    /**
+     * Vytvori, alebo aktualizuje normu.
+     * 
+     * @param Standard form, odoslany formular
+     * @return Long id, vytvorenej/upravenej normy
+     */
 	private Long createOrUpdateBasicInfo(Standard form){
 		Standard standard = null;
 	
