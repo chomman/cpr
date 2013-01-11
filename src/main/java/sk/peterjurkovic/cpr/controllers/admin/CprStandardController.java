@@ -152,7 +152,7 @@ public class CprStandardController extends SupportAdminController {
 	
 	
 	 //##################################################
-	 //#	Requirements methods
+	 //#  2	Requirements methods
 	 //##################################################
 
 	/**
@@ -182,6 +182,8 @@ public class CprStandardController extends SupportAdminController {
 		}
 		modelMap.addAttribute("standard", standard);
 		map.put("standardId", standardId);
+		map.put("country", country);
+		map.put("countries", countryService.getAllCountries());
 		map.put("tab", CPR_TAB_INDEX);
 		modelMap.put("model", map);
         return getEditFormView();
@@ -236,6 +238,23 @@ public class CprStandardController extends SupportAdminController {
        return getEditFormView();
 	}
    
+    
+    
+    @RequestMapping( value = "/admin/cpr/standard/requirement/delete/{requirementId}", method = RequestMethod.GET)
+	public String deleteGroup(@PathVariable Long requirementId,  ModelMap modelMap) {
+		
+    	Requirement requirement =  requirementService.getRequirementById(requirementId);
+		if(requirement == null){
+			createItemNotFoundError();
+		}
+		Long id = requirement.getStandard().getId();
+		requirementService.deleteRequirement(requirement);
+		modelMap.put("successDelete", true);
+		return "forward:/admin/cpr/standard/edit/"+ id +"/requirements";
+	}
+    
+    
+    
     private void createOrUpdateRequrement(Standard standard, Requirement form){
     	Requirement requirement = null;
     	
@@ -258,6 +277,26 @@ public class CprStandardController extends SupportAdminController {
     	requirementService.saveOrUpdateRequirement(requirement);
     }
 	
+    
+     //##################################################
+  	 //#  3	Requirements methods
+  	 //##################################################
+    
+    
+    /**
+	 * Zobrazi pozadavky danej normy
+	 * 
+	 * @param modelMap
+	 * @param request
+	 * @return String view
+	 */
+	@RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
+   public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+
+		setEditFormView("cpr-standard-edit3");
+
+        return getEditFormView();
+   }
     
     
     /**

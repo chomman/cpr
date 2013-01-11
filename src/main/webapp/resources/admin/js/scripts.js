@@ -27,10 +27,15 @@ function searchTable(val){
 }
 
  $(function() {
+	var urlPrefix = $('#base').text();
 	createClasses();
 	resize();
 	$('#quick-search').keyup(function(){
 		searchTable($(this).val());
+	});
+	
+	$('#req-nav select').change(function () {
+		window.location.href = urlPrefix + "admin/cpr/standard/edit/1/requirements?country=" + $(this).val();
 	});
 	
     $('.tt').tooltip({
@@ -49,7 +54,7 @@ function searchTable(val){
         width : "600",
         editor_selector : "mceEditor",
         plugins : "lists,style,table",
-        content_css : "resources/admin/css/tinymce.css",
+        content_css :  urlPrefix + "resources/admin/css/tinymce.css",
             theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,table,|,link,unlink,image,|,undo,redo,formatselect",
             theme_advanced_buttons2 : "",
             theme_advanced_buttons3 : "",

@@ -41,12 +41,24 @@
 					
 					<div id="req-nav">
 						<a href="<c:url value="/admin/cpr/standard/edit/${standardId}/req/0"  />">
-							<spring:message code="cpr.requirement.add" />
+							 <spring:message code="cpr.requirement.add" /> +
 						</a>
+						
+						<span class="requirement-nav">
+							<spring:message code="cpr.requirement.nav" />:
+						</span>
+						<select>
+							<c:forEach items="${model.countries}" var="country">
+								<option value="${country.id}" <c:if test="${country.id == model.country.id}">selected="selected"</c:if> >${country.countryName}</option>
+							</c:forEach>
+						</select>
 					</div>
 					
 					<c:if test="${not empty model.requirements}">
-				
+						
+						<c:if test="${not empty successDelete}">
+							<p class="msg ok"><spring:message code="success.delete" /></p>
+						</c:if>
 				
 						<table class="data">
 							<thead>
@@ -81,7 +93,7 @@
 								 			</a>
 								 		</td>
 								 		<td class="delete">
-								 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/edit/${standardId}/req-delete/${i.id}"  />">
+								 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/requirement/delete/${i.id}?country=${model.country.id}"  />">
 								 				<spring:message code="form.delete" />
 								 			</a>
 								 		</td>

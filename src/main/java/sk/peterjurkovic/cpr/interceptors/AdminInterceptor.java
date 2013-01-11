@@ -35,6 +35,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 		 commonModel.put("user", UserUtils.getLoggedUser());
 		 
 		 modelAndView.addObject("common", commonModel);
+		// modelAndView.addObject("params", RequestUtils.getRequestParameterMap(request));
 		 modelAndView.addObject("time", new DateTime().toString("yyyy.MM.dd / HH:mm"));
 		super.postHandle(request, response, handler, modelAndView);
 	}
