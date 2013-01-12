@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.dao.NotifiedBodyDao;
@@ -22,7 +24,6 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 						.createQuery(hql.toString())
 						.setEntity("notifiedBody", notifiedBody)
 						.uniqueResult();
-		logger.info("count : " + result);
 		return (result == 0);
 	}
 
@@ -36,8 +37,18 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 						.setString("code", code)
 						.setLong("id", id)
 						.uniqueResult();
-		logger.info("isNameUniqe count : " + result);
 		return (result == 0);
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry() {
+		StringBuilder hql = new StringBuilder("FROM NotifiedBody nb ");
+		hql.append("ORDER BY nb.country.id");
+		return (List<NotifiedBody>)sessionFactory.getCurrentSession()
+						.createQuery(hql.toString())
+						.list();
 	}
 
 }

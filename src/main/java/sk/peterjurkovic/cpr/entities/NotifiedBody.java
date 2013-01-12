@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.Valid;
@@ -42,6 +43,8 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private Address address;
 	
+	private Country country;
+	
 	private String webpage;
 	
 	private String phone;
@@ -54,6 +57,10 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private String description;
 	
+	
+	public NotifiedBody(){
+		setEnabled(Boolean.TRUE);
+	}
 	
 	@Id
 	@GeneratedValue
@@ -77,7 +84,7 @@ public class NotifiedBody extends AbstractEntity {
 	}
 	
 	
-	@NotEmpty(message = "Číslo osoby musí být vyplněno")
+	@NotEmpty(message = "Identifikátor osoby musí být vyplněno")
 	@Column(name = "notified_body_code", length = 25)
 	@Length(max = 25, message = "Číslo osoby může mít max. 25 znaků.")
 	public String getNotifiedBodyCode() {
@@ -169,6 +176,18 @@ public class NotifiedBody extends AbstractEntity {
 				+ address + ", webpage=" + webpage + ", phone=" + phone
 				+ ", fax=" + fax + ", email=" + email
 				+ ", etaCertificationAllowed=" + etaCertificationAllowed + "]";
+	}
+
+	
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "country_id")
+	public Country getCountry() {
+		return country;
+	}
+
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 	
 	

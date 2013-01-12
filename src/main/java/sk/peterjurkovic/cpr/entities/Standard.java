@@ -66,11 +66,15 @@ public class Standard extends AbstractEntity {
 	
 	private Set<Requirement> requirements;
 	
+	private Set<Tag> tags;
+	
 	public Standard(){
 		this.mandates = new HashSet<Mandate>();
 		this.notifiedBodies = new HashSet<NotifiedBody>();
 		this.assessmentSystems = new HashSet<AssessmentSystem>();
 		this.standardCsns = new HashSet<StandardCsn>();
+		this.requirements = new HashSet<Requirement>();
+		this.tags = new HashSet<Tag>();
 		setEnabled(Boolean.FALSE);
 	}
 	
@@ -223,6 +227,18 @@ public class Standard extends AbstractEntity {
 	public void setRequirements(Set<Requirement> requirements) {
 		this.requirements = requirements;
 	}
+
+	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<Tag> getTags() {
+		return tags;
+	}
+	
+	
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	
 	
 	
 	

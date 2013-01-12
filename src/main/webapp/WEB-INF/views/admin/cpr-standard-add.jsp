@@ -63,7 +63,7 @@
                         		<spring:message code="cpr.standard.name" />
                         	</label>
                             <span class="field">
-                            	<form:input path="standardName" cssClass="mw500" maxlength="255" />
+                            	<form:input path="standardName" cssClass="mw500 required" maxlength="255" />
                             </span>
                         </p>
                         

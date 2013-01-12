@@ -3,9 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
-<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.multiselect.css" />" />
-<script src="<c:url value="/resources/admin/js/jquery.multiselect.min.js" />"></script>
+	<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/multi-select.css" />" />
+	<script src="<c:url value="/resources/admin/js/jquery.multi-select.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -46,15 +46,17 @@
 					<div class="active-tab">
 					<script>
 					$(document).ready(function(){
-						   $("#example").multiselect();
+						   $("#my-select").multiSelect();
 						});
 					</script>
-					<select id="example" name="example" multiple="multiple">
-					<option value="1">Option 1</option>
-					<option value="2">Option 2</option>
-					<option value="3">Option 3</option>
-					<option value="4">Option 4</option>
-					<option value="5">Option 5</option>
+					
+					<c:set value="0" var="prev" />
+					<select  multiple="multiple" id="my-select" name="my-select[]">
+				 		<c:forEach items="${model.notifiedbodies}" var="nb" >
+				 			<c:if test="${prev != nb.country.id }"> <optgroup label='${nb.country.countryName}'></c:if>
+				 			<option value="${nb.id}">${nb.name}</option>			 			
+				 			<c:if test="${prev != nb.country.id }"> </optgroup><c:set value="${nb.country.id}" var="prev" /></c:if>
+						</c:forEach>
 					</select>
 						
 					</div> <!-- END ACTIVE TAB -->

@@ -2,13 +2,10 @@ package sk.peterjurkovic.cpr.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
@@ -30,7 +27,6 @@ public class Address extends AbstractEntity {
 	
 	private String zip;
 	
-	private Country country;
 
 	@Id
 	@GeneratedValue
@@ -73,13 +69,4 @@ public class Address extends AbstractEntity {
 		this.zip = zip;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "country_id")
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
 }

@@ -90,6 +90,11 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	public boolean isNotifiedBodyNameUniqe(String name, Long id) {
 		return notifiedBodyDao.isNameUniqe( CodeUtils.toSeoUrl( name ) , id );
 	}
+
+	@Override
+	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry() {
+		return notifiedBodyDao.getNotifiedBodiesGroupedByCountry();
+	}
 	
 	
 	

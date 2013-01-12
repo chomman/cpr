@@ -180,10 +180,10 @@ public class CprNotifiedBodyController extends SupportAdminController {
 		notifiedBody.setWebpage(form.getWebpage());
 		notifiedBody.setEmail(form.getEmail());
 		notifiedBody.setDescription( form.getDescription());
+		notifiedBody.setCountry(form.getCountry());
 		address.setCity(form.getAddress().getCity());
 		address.setZip(form.getAddress().getZip());
 		address.setStreet(form.getAddress().getStreet());
-		address.setCountry(form.getAddress().getCountry());
 		notifiedBody.setAddress(address);
 		notifiedBodyService.saveOrUpdateNotifiedBody(notifiedBody);
 		return notifiedBody;
@@ -202,26 +202,5 @@ public class CprNotifiedBodyController extends SupportAdminController {
 	}
 	
 	
-	/*
-	private NotifiedBodyFrom createForm(NotifiedBody notifiedBody){
-		NotifiedBodyFrom form = new NotifiedBodyFrom();
-		form.setId(notifiedBody.getId());
-		form.setName(notifiedBody.getName());
-		form.setNotifiedBodyCode(notifiedBody.getNotifiedBodyCode());
-		form.setEtaCertificationAllowed(notifiedBody.getEtaCertificationAllowed());
-		form.setPhone(notifiedBody.getPhone());
-		form.setFax(notifiedBody.getFax());
-		form.setWebpage(notifiedBody.getWebpage());
-		form.setEmail(notifiedBody.getEmail());
-		form.setDescription( notifiedBody.getDescription());
-		form.setAddress(notifiedBody.getAddress());
-		form.setChanged(notifiedBody.getChanged());
-		form.setCreated(notifiedBody.getCreated());
-		form.setChangedBy(notifiedBody.getChangedBy());
-		form.setCreatedBy(notifiedBody.getCreatedBy());
-		return form;
-	}
-	
-	*/
 	
 }

@@ -22,6 +22,7 @@
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Requirement" />
+	<mapping class="sk.peterjurkovic.cpr.entities.Tag" />
 	
 	 
  </session-factory>

@@ -23,4 +23,6 @@ public interface NotifiedBodyService {
 	boolean canBeDeleted(NotifiedBody notifiedBody);
 	
 	boolean isNotifiedBodyNameUniqe(String name, Long id);
+	
+	List<NotifiedBody> getNotifiedBodiesGroupedByCountry();
 }

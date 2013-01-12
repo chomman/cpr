@@ -9,7 +9,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "country")
@@ -33,8 +32,7 @@ public class Country extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@NotEmpty( message = "Název státu musí být vyplněn")
-	@Length(max = 45, message = "Maximalne může obsahovat 45 znaků")
+	@Length(min = 1, max = 45, message = "Název státu musí být vyplněn")
 	@Column(name = "country_name", length = 45)
 	public String getCountryName() {
 		return countryName;

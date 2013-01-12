@@ -68,15 +68,17 @@
                       		</strong>
                       	</label>
                           <span class="field">
-                          	<form:input path="name" maxlength="255" cssClass="mw500" />
+                          	<form:input path="name" maxlength="255" cssClass="mw500  required" />
                           </span>
                       </p>
                       <p>
                       	<label>
-                      		<spring:message code="cpr.nb.code" />
+                      		<strong><em class="red">*</em>
+                      			<spring:message code="cpr.nb.code" />
+                      		</strong>
                       	</label>
                           <span class="field">
-                          	<form:input path="notifiedBodyCode" maxlength="25" cssClass="w200" />
+                          	<form:input path="notifiedBodyCode" maxlength="25" cssClass="w200  required" />
                           </span>
                       </p>
                       <p>
@@ -93,7 +95,7 @@
                       		<spring:message code="form.phone" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="phone"  maxlength="20"  cssClass="w200" />
+                          	<form:input path="phone"  maxlength="20"  cssClass="w200 more7" />
                           </span>
                       </p>
                       
@@ -102,7 +104,7 @@
                       		<spring:message code="form.fax" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="fax"  maxlength="20"  cssClass="w200" />
+                          	<form:input path="fax"  maxlength="20"  cssClass="w200 more7" />
                           </span>
                       </p>
                       
@@ -111,7 +113,7 @@
                       		<spring:message code="form.email" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="email"  maxlength="45"  cssClass="w200" />
+                          	<form:input path="email"  maxlength="45"  cssClass="w200 email" />
                           </span>
                       </p>
                       
@@ -120,7 +122,7 @@
                       		<spring:message code="form.web" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="webpage"  maxlength="50"  cssClass="w200" />
+                          	<form:input path="webpage"  maxlength="50"  cssClass="w200 more7" />
                           </span>
                       </p>
                       <p class="form-head">Adresa<p>
@@ -145,11 +147,13 @@
                       
                       <p>
                       	<label>
-                      		<spring:message code="address.country" />
+                      		<strong><em class="red">*</em>
+                      			<spring:message code="address.country" />
+                      		</strong>
                       	</label>
                           <span class="field">  
-                          	 <form:select path="address.country" cssClass="mw300">
-			                      <option value="-"><spring:message code="form.select"/> </option>
+                          	 <form:select path="country" cssClass="mw300 required">
+			                      <option value=""><spring:message code="form.select"/> </option>
 			                      <form:options items="${model.countries}" itemValue="id" itemLabel="countryName" />
 			                 </form:select>
                           </span>

@@ -19,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Country;
+import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.pagination.PageLink;
 import sk.peterjurkovic.cpr.pagination.PaginationLinker;
 import sk.peterjurkovic.cpr.services.CountryService;
+import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.RequirementService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
@@ -55,6 +57,9 @@ public class CprStandardController extends SupportAdminController {
 	private CountryService countryService;
 	@Autowired
 	private RequirementService requirementService;
+	@Autowired
+	private NotifiedBodyService notifiedBodyService;
+	
 	
 	public CprStandardController(){
 		setTableItemsView("cpr-standards");
@@ -279,7 +284,7 @@ public class CprStandardController extends SupportAdminController {
 	
     
      //##################################################
-  	 //#  3	Requirements methods
+  	 //#  3	Other methods
   	 //##################################################
     
     
@@ -292,9 +297,19 @@ public class CprStandardController extends SupportAdminController {
 	 */
 	@RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
    public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
-
 		setEditFormView("cpr-standard-edit3");
-
+		Map<String, Object> map = new HashMap<String, Object>();
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError();
+		}
+		List<NotifiedBody> nb = notifiedBodyService.getNotifiedBodiesGroupedByCountry();
+		modelMap.addAttribute("standard", standard);
+		map.put("standardId", standardId);
+		map.put("notifiedbodies", nb);
+		map.put("countries", countryService.getAllCountries());
+		map.put("tab", CPR_TAB_INDEX);
+		modelMap.put("model", map);
         return getEditFormView();
    }
     
