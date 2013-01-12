@@ -114,8 +114,13 @@
 						href="<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" />" >
 						<span>3</span> - <spring:message code="cpr.standard.tab.3" />
 					</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" href="#" >
-						<span>4</span> - <spring:message code="cpr.standard.tab.4" />
+					<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" 
+							href="<c:url value="/admin/cpr/standard/edit/${standardId}/other" />" >
+							<span>4</span> - <spring:message code="cpr.standard.tab.4" />
+					</a>
+					<a class="tab tt" title="<spring:message code="cpr.standard.tab.5.title" />" 
+						href="<c:url value="/admin/cpr/standard/edit/${standardId}/describe" />" >
+						<span>5</span> - <spring:message code="cpr.standard.tab.5" />
 					</a>
 				</div>	<!-- END TABs -->
 		

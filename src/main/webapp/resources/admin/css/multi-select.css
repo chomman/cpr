@@ -1,5 +1,9 @@
-.ms-container{
+#notifiedBodies.ms-container{
   background: transparent url('../img/switch.png') no-repeat 425px 190px;
+}
+
+#ms-mandates.ms-container, #ms-assessmentSystems.ms-container{
+  background: transparent url('../img/switch.png') no-repeat 425px 110px;
 }
 
 .ms-container:after{
@@ -72,6 +76,8 @@
   overflow-y: auto;
   font-size:12px;
 }
+
+#ms-mandates.ms-container ul.ms-list, #ms-assessmentSystems.ms-container ul.ms-list{height: 200px;}
 
 .ms-container .ms-optgroup-label{
   margin: 0;

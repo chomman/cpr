@@ -20,14 +20,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.Country;
+import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.pagination.PageLink;
 import sk.peterjurkovic.cpr.pagination.PaginationLinker;
+import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
+import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.RequirementService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
@@ -35,9 +39,11 @@ import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.DateTimeEditor;
-import sk.peterjurkovic.cpr.web.editors.NotifiedBodiesEditor;
+import sk.peterjurkovic.cpr.web.editors.MandateCollectionEditor;
+import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 
 
@@ -46,10 +52,22 @@ public class CprStandardController extends SupportAdminController {
 	
 	public static final int CPR_TAB_INDEX = 1;
 	
+	// services
 	@Autowired
 	private StandardService standardService;
 	@Autowired
-	private StandardGroupService standardGroupService;
+	private StandardGroupService standardGroupService;	
+	@Autowired
+	private CountryService countryService;
+	@Autowired
+	private RequirementService requirementService;
+	@Autowired
+	private NotifiedBodyService notifiedBodyService;
+	@Autowired
+	private MandateService mandateService;
+	@Autowired
+	private AssessmentSystemService assessmentSystemService;
+	// editors
 	@Autowired
 	private StandardGroupEditor standardGroupEditor;
 	@Autowired
@@ -57,13 +75,11 @@ public class CprStandardController extends SupportAdminController {
 	@Autowired
 	private CountryEditor countryEditor;
 	@Autowired
-	private NotifiedBodiesEditor notifiedBodiesEditor;
+	private NotifiedBodyCollectionEditor notifiedBodiesEditor;
 	@Autowired
-	private CountryService countryService;
+	private AssessmentSystemCollectionEditor assessmentSystemCollectionEditor;
 	@Autowired
-	private RequirementService requirementService;
-	@Autowired
-	private NotifiedBodyService notifiedBodyService;
+	private MandateCollectionEditor mandateCollectionEditor;
 	
 	
 	public CprStandardController(){
@@ -77,7 +93,10 @@ public class CprStandardController extends SupportAdminController {
 		binder.registerCustomEditor(DateTime.class, this.dateTimeEditor);
 		binder.registerCustomEditor(Country.class, this.countryEditor);
 		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);
+		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
+		binder.registerCustomEditor(Set.class, "mandates", this.mandateCollectionEditor);
     }
+	
 	
 	/**
 	 * Metoda kontroleru, ktora zobrazi skupiny výrobku
@@ -302,7 +321,7 @@ public class CprStandardController extends SupportAdminController {
 	 * @return String view
 	 */
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/notifiedbodies")
-    public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+    public String showNotifiedBodies(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
 		setEditFormView("cpr-standard-edit3");
 		
 		Standard standard = standardService.getStandardById(standardId);
@@ -333,6 +352,58 @@ public class CprStandardController extends SupportAdminController {
 	   prepeareModelForNotifiedBodies(standard, modelMap);
 	   return getEditFormView();
    }
+   
+   
+   
+   //##################################################
+	 //#  4	Mandates methods
+	 //##################################################
+  
+  
+  /**
+	 * Zobrazi pozadavky danej normy
+	 * 
+	 * @param modelMap
+	 * @param request
+	 * @return String view
+	 */
+  @RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
+  public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+		setEditFormView("cpr-standard-edit4");
+		
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError();
+		}
+
+		prepeareModelForMandates(standard, modelMap);
+      return getEditFormView();
+ }
+ 
+  
+ @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/other", method = RequestMethod.POST)
+ public String  processOtherSettingsSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap){
+	   setEditFormView("cpr-standard-edit4");
+	   Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError();
+		}
+		
+		if(form.getAssessmentSystems() != null){
+			standard.setAssessmentSystems(form.getAssessmentSystems());
+		}else{
+			standard.setAssessmentSystems(new HashSet<AssessmentSystem>());
+		}
+		if(form.getMandates() != null){
+			standard.setMandates(form.getMandates());
+		}else{
+			standard.setMandates(new HashSet<Mandate>());
+		}
+		standardService.saveOrUpdate(standard);
+		modelMap.put("successCreate", true);
+		prepeareModelForMandates(standard, modelMap);
+	   return getEditFormView();
+ }
     
     
     /**
@@ -394,7 +465,16 @@ public class CprStandardController extends SupportAdminController {
 		map.put("standardId", standard.getId());
 		map.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry());
 		map.put("standardnotifiedBodies", standard.getNotifiedBodies());
-		map.put("countries", countryService.getAllCountries());
+		map.put("tab", CPR_TAB_INDEX);
+		modelMap.put("model", map);
+	}
+	
+	private void prepeareModelForMandates(Standard standard, ModelMap modelMap){
+		Map<String, Object> map = new HashMap<String, Object>();
+		modelMap.addAttribute("standard", standard);
+		map.put("standardId", standard.getId());
+		map.put("mandates", mandateService.getAllMandates());
+		map.put("assessmentSystem", assessmentSystemService.getAllAssessmentSystems());
 		map.put("tab", CPR_TAB_INDEX);
 		modelMap.put("model", map);
 	}
