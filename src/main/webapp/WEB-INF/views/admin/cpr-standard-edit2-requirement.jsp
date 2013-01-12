@@ -117,7 +117,8 @@
 					<!-- END FORM -->	
 					</div> <!-- END ACTIVE TAB -->
 
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.3.title" />" href="#" >
+					<a class="tab tt" title="<spring:message code="cpr.standard.tab.3.title" />" 
+						href="<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" />" >
 						<span>3</span> - <spring:message code="cpr.standard.tab.3" />
 					</a>
 					<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" href="#" >

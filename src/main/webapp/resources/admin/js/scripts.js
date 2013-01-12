@@ -39,12 +39,13 @@ function validate(f){
 		}
 	});
 	var s = $('select.required :selected');
-	if(s !== undefined && s.val().length === 0){
-		valid = false;
-		s.parent().addClass('formerr');
-	}else{
-		if(s !== undefined)
+	if(typeof s != "undefined"){ 
+		if(s.val().length === 0){
+			valid = false;
+			s.parent().addClass('formerr');
+		}else{
 			$(this).removeClass('formerr');
+		}
 	}
 	
 	return valid;	

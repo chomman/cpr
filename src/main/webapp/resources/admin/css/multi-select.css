@@ -1,5 +1,5 @@
 .ms-container{
-  background: transparent url('../img/switch.png') no-repeat 412px 160px;
+  background: transparent url('../img/switch.png') no-repeat 425px 190px;
 }
 
 .ms-container:after{
@@ -22,12 +22,22 @@
   -ms-transition: border linear 0.2s, box-shadow linear 0.2s;
   -o-transition: border linear 0.2s, box-shadow linear 0.2s;
   transition: border linear 0.2s, box-shadow linear 0.2s;
-  border: 1px solid #ccc;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
+  border-bottom: 8px solid #3f4c6b;
+  border-right: 8px solid #3f4c6b; 
+  border-left: 8px solid #3f4c6b;
 }
 
+#search{
+  font-size:12px;
+  width:390px;
+  background:#F2F6FF;
+  color:#8A99BD;
+  border-radius:0 !important;
+  border-top: 1px solid #3f4c6b;
+  border-bottom: 1px solid #3f4c6b;
+  border-right: 8px solid #3f4c6b; 
+  border-left: 8px solid #3f4c6b;
+}
 
 .ms-selected{
   display:none;
@@ -37,7 +47,7 @@
 }
 
 .ms-container .ms-list.ms-focus{
-  border-color: rgba(82, 168, 236, 0.8);
+
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
   -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(82, 168, 236, 0.6);
@@ -103,3 +113,22 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
   color: #aaa;
   cursor: text;
 }
+.form-multiple{padding:20px;}
+.custom-header{
+background: #606c88;
+background: -moz-linear-gradient(top,  #606c88 0%, #3f4c6b 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#606c88), color-stop(100%,#3f4c6b));
+background: -webkit-linear-gradient(top,  #606c88 0%,#3f4c6b 100%);
+background: -o-linear-gradient(top,  #606c88 0%,#3f4c6b 100%);
+background: -ms-linear-gradient(top,  #606c88 0%,#3f4c6b 100%);
+background: linear-gradient(to bottom,  #606c88 0%,#3f4c6b 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#606c88', endColorstr='#3f4c6b',GradientType=0 );
+padding:15px;color:#fff;font-size:13px;text-align:center;font-weight:bold;
+-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+}
+.margin-top-30{margin-top: 30px;}

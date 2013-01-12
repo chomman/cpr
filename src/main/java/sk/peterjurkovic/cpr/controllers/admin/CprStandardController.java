@@ -1,8 +1,10 @@
 package sk.peterjurkovic.cpr.controllers.admin;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -35,6 +37,7 @@ import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.DateTimeEditor;
+import sk.peterjurkovic.cpr.web.editors.NotifiedBodiesEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 
 
@@ -54,6 +57,8 @@ public class CprStandardController extends SupportAdminController {
 	@Autowired
 	private CountryEditor countryEditor;
 	@Autowired
+	private NotifiedBodiesEditor notifiedBodiesEditor;
+	@Autowired
 	private CountryService countryService;
 	@Autowired
 	private RequirementService requirementService;
@@ -71,6 +76,7 @@ public class CprStandardController extends SupportAdminController {
 		binder.registerCustomEditor(StandardGroup.class, this.standardGroupEditor);
 		binder.registerCustomEditor(DateTime.class, this.dateTimeEditor);
 		binder.registerCustomEditor(Country.class, this.countryEditor);
+		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);
     }
 	
 	/**
@@ -284,7 +290,7 @@ public class CprStandardController extends SupportAdminController {
 	
     
      //##################################################
-  	 //#  3	Other methods
+  	 //#  3	NO/AO methods
   	 //##################################################
     
     
@@ -295,22 +301,37 @@ public class CprStandardController extends SupportAdminController {
 	 * @param request
 	 * @return String view
 	 */
-	@RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
-   public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+    @RequestMapping("/admin/cpr/standard/edit/{standardId}/notifiedbodies")
+    public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
 		setEditFormView("cpr-standard-edit3");
-		Map<String, Object> map = new HashMap<String, Object>();
+		
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createItemNotFoundError();
 		}
-		List<NotifiedBody> nb = notifiedBodyService.getNotifiedBodiesGroupedByCountry();
-		modelMap.addAttribute("standard", standard);
-		map.put("standardId", standardId);
-		map.put("notifiedbodies", nb);
-		map.put("countries", countryService.getAllCountries());
-		map.put("tab", CPR_TAB_INDEX);
-		modelMap.put("model", map);
+
+		prepeareModelForNotifiedBodies(standard, modelMap);
         return getEditFormView();
+   }
+   
+    
+   @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/notifiedbodies", method = RequestMethod.POST)
+   public String  processNotifiedBodiesSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap){
+	   setEditFormView("cpr-standard-edit3");
+	   Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError();
+		}
+
+		if(form.getNotifiedBodies() != null){
+			standard.setNotifiedBodies(form.getNotifiedBodies());
+		}else{
+			standard.setNotifiedBodies(new HashSet<NotifiedBody>());
+		}
+		standardService.saveOrUpdate(standard);
+		modelMap.put("successCreate", true);
+	   prepeareModelForNotifiedBodies(standard, modelMap);
+	   return getEditFormView();
    }
     
     
@@ -361,6 +382,18 @@ public class CprStandardController extends SupportAdminController {
 		modelMap.addAttribute("requirement", form);
 		map.put("standardId", standard.getId());
 		map.put("requirementId", requirementId);
+		map.put("countries", countryService.getAllCountries());
+		map.put("tab", CPR_TAB_INDEX);
+		modelMap.put("model", map);
+	}
+	
+	
+	private void prepeareModelForNotifiedBodies(Standard standard, ModelMap modelMap){
+		Map<String, Object> map = new HashMap<String, Object>();
+		modelMap.addAttribute("standard", standard);
+		map.put("standardId", standard.getId());
+		map.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry());
+		map.put("standardnotifiedBodies", standard.getNotifiedBodies());
 		map.put("countries", countryService.getAllCountries());
 		map.put("tab", CPR_TAB_INDEX);
 		modelMap.put("model", map);

@@ -46,18 +46,59 @@
 					<div class="active-tab">
 					<script>
 					$(document).ready(function(){
-						   $("#my-select").multiSelect();
+						
+						   $("#notifiedBodies").multiSelect({
+							   selectableHeader: "<div class='custom-header'>Vyberte z NO/AO</div><input type='text' id='search' autocomplete='off' placeholder='Vyhledat ...'>",
+							   selectionHeader: "<div class='custom-header'>Vybrané NO/AO</div>"
+						   });
+						   
+						   $('#search').quicksearch($('.ms-elem-selectable', '#ms-notifiedBodies' )).on('keydown', function(e){
+						   		console.log('searching ' + e);   
+							    if (e.keyCode == 40){
+								   $(this).trigger('focusout');
+								   $('#notifiedBodies').focus();
+								   return false;
+								}
+							}); 
+						   
 						});
 					</script>
-					
+					<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" var="formUrl"/>
 					<c:set value="0" var="prev" />
-					<select  multiple="multiple" id="my-select" name="my-select[]">
-				 		<c:forEach items="${model.notifiedbodies}" var="nb" >
-				 			<c:if test="${prev != nb.country.id }"> <optgroup label='${nb.country.countryName}'></c:if>
-				 			<option value="${nb.id}">${nb.name}</option>			 			
-				 			<c:if test="${prev != nb.country.id }"> </optgroup><c:set value="${nb.country.id}" var="prev" /></c:if>
-						</c:forEach>
-					</select>
+					<form:form commandName="standard" method="post" action="${formUrl}" cssClass="form-multiple"  >
+						
+						<c:if test="${not empty successCreate}">
+							<p class="msg ok"><spring:message code="success.create" /></p>
+						</c:if>
+						
+						 <form:select path="notifiedBodies" cssClass="mw500 multiple" multiple="true">
+						
+							 <c:forEach items="${model.notifiedBodies}" var="nb" >
+					 			<c:if test="${prev != nb.country.id }">
+					 				<optgroup label="${nb.country.countryName}">
+					 			</c:if>
+					 				<option value="${nb.id}" 
+						 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
+						 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
+						 				</c:forEach> 
+					 				>
+					 				${nb.name}
+					 				</option>			 			
+					 			<c:if test="${prev != nb.country.id }">
+					 				</optgroup>
+					 				<c:set value="${nb.country.id}" var="prev" />
+					 			</c:if>
+							</c:forEach>
+						 </form:select>
+						 
+						 
+						 <form:hidden path="id"  />
+						 <p class="margin-top-30">
+						 <input type="submit" class="button" value="<spring:message code="form.save" /> &raquo;" />
+						 </p>
+					</form:form>
+					
+					
 						
 					</div> <!-- END ACTIVE TAB -->
 					<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" href="#" >
