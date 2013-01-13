@@ -9,6 +9,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.pagination.PageLink;
 import sk.peterjurkovic.cpr.pagination.PaginationLinker;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
@@ -47,6 +49,7 @@ import sk.peterjurkovic.cpr.web.editors.DateTimeEditor;
 import sk.peterjurkovic.cpr.web.editors.MandateCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
+import sk.peterjurkovic.cpr.web.editors.TagEditor;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
@@ -75,6 +78,8 @@ public class CprStandardController extends SupportAdminController {
 	@Autowired
 	private StandardGroupEditor standardGroupEditor;
 	@Autowired
+	private TagEditor tagEditor;
+	@Autowired
 	private DateTimeEditor dateTimeEditor;
 	@Autowired
 	private CountryEditor countryEditor;
@@ -96,6 +101,7 @@ public class CprStandardController extends SupportAdminController {
 		binder.registerCustomEditor(StandardGroup.class, this.standardGroupEditor);
 		binder.registerCustomEditor(DateTime.class, this.dateTimeEditor);
 		binder.registerCustomEditor(Country.class, this.countryEditor);
+		binder.registerCustomEditor(Tag.class, this.tagEditor);
 		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
 		binder.registerCustomEditor(Set.class, "mandates", this.mandateCollectionEditor);
@@ -466,8 +472,15 @@ public class CprStandardController extends SupportAdminController {
 			if(standard == null){
 				createItemNotFoundError();
 			}
+			standardService.clearStandardTags(standard);
 		}
-		
+		Set<Tag> tags = form.getTags();
+		if(CollectionUtils.isNotEmpty(tags)){
+			for(Tag tag : tags){
+				tag.setStandard(standard);
+			}
+			standard.setTags(tags);
+		}
 		standard.setCode(CodeUtils.toSeoUrl(form.getStandardId()));
 		standard.setStandardId(form.getStandardId());
 		standard.setReplacedStandardId(form.getReplacedStandardId());

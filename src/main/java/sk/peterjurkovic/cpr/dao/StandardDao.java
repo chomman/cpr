@@ -22,7 +22,7 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	Long getCountOfSdandards(Long standardGroupId,int orderById, String query, DateTime startValidity, DateTime stopValidity);
 	
 	
-	
+	void clearStandardTags(Standard standard);
 	
 	boolean isStandardIdUnique(String standardId, Long id);
 }

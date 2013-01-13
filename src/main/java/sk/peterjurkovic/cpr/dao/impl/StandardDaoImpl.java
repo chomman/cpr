@@ -73,6 +73,16 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 						.uniqueResult();
 		return (result == 0);
 	}
+
+
+	@Override
+	public void clearStandardTags(Standard standard) {
+		StringBuilder hql = new StringBuilder("delete from Tag tag where tag.standard=:standard");
+		sessionFactory.getCurrentSession()
+		.createQuery(hql.toString())
+		.setEntity("standard", standard)
+		.executeUpdate();
+	}
 	
 	
 	

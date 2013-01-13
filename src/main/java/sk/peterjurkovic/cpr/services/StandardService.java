@@ -26,4 +26,6 @@ public interface StandardService {
 	boolean isStandardIdUnique(String standardId, Long id);
 	
 	void saveOrUpdate(Standard standard);
+	
+	void clearStandardTags(Standard standard);
 }

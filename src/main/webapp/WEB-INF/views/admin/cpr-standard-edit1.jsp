@@ -4,6 +4,7 @@
 <html>
 <head>
 <title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.tagit.css" />" />
 <script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 </head>
 <body>
@@ -109,20 +110,22 @@
                         </p>
                         <script type="text/javascript">
 						    $(document).ready(function() {
-						        $("#myTags").tagit({fieldName: "skills"});
+						        $("#tagsField").tagit({fieldName: "tags", allowSpaces :true});
 						    });
 						</script>
                          <p>
                         	<label class="tt">
                         		Klucove slova:
                         	</label>
-                            <span class="field">  
-                            	<ul id="myTags">
-								    <!-- Existing list items will be pre-added to the tags -->
-								    <li>Tag1</li>
-								    <li>Tag2</li>
+                            <div class="field relative">  
+                            	<ul id="tagsField">
+								    <c:forEach items="${standard.tags}" var="tag">
+								    	<li>${tag.name}</li>
+								    </c:forEach>
 								</ul>
-                            </span>
+								
+								<div class="clear"></div>
+                            </div>
                         </p>
                         
                         <p>
