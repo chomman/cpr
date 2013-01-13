@@ -4,6 +4,7 @@
 <html>
 <head>
 <title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -104,6 +105,23 @@
 			                      <option value="-"><spring:message code="form.select"/></option>
 			                      <form:options items="${model.groups}" itemValue="id" itemLabel="groupName" />
 			                 	</form:select>
+                            </span>
+                        </p>
+                        <script type="text/javascript">
+						    $(document).ready(function() {
+						        $("#myTags").tagit({fieldName: "skills"});
+						    });
+						</script>
+                         <p>
+                        	<label class="tt">
+                        		Klucove slova:
+                        	</label>
+                            <span class="field">  
+                            	<ul id="myTags">
+								    <!-- Existing list items will be pre-added to the tags -->
+								    <li>Tag1</li>
+								    <li>Tag2</li>
+								</ul>
                             </span>
                         </p>
                         

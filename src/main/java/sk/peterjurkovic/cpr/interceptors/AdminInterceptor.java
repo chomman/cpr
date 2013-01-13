@@ -30,13 +30,13 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 	public void postHandle(HttpServletRequest request,
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-			
+	
 		 Map<String, Object> commonModel = new HashMap<String, Object>();
 		 commonModel.put("user", UserUtils.getLoggedUser());
-		 
-		 modelAndView.addObject("common", commonModel);
-		// modelAndView.addObject("params", RequestUtils.getRequestParameterMap(request));
-		 modelAndView.addObject("time", new DateTime().toString("yyyy.MM.dd / HH:mm"));
+		 if(modelAndView != null){
+			 modelAndView.addObject("common", commonModel);
+			 modelAndView.addObject("time", new DateTime().toString("yyyy.MM.dd / HH:mm"));
+		 }
 		super.postHandle(request, response, handler, modelAndView);
 	}
 }

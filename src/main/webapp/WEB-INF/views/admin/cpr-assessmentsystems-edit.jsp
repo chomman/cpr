@@ -27,8 +27,6 @@
 				<p class="msg error"><spring:message code="error.notFoundError" /></p>
 			</c:if>
 			
-			
-			
 		<c:if test="${empty notFoundError}">
 					
 			<ul class="sub-nav">

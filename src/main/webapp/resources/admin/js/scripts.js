@@ -11,6 +11,14 @@ function showStatus(data){
 	setTimeout(function() {o.fadeOut(100);}, 4000);
 }
 
+function renameArr(a){
+	var d = {};	
+	for (i in a) {
+		d[a[i].name] = a[i].value;
+	}
+	return d;
+}
+
 function validate(f){
 	var inputs = f.find('input.required, textarea.required, .email, .more7'),
 	valid = true,
@@ -39,8 +47,9 @@ function validate(f){
 		}
 	});
 	var s = $('select.required :selected');
-	if(typeof s != "undefined"){ 
-		if(s.val().length === 0){
+	console.log("s: " + s + "  /  " + $.type(s) + " typeof s  !== 'undefined'" + typeof s  !== 'undefined');
+	if(typeof s  !== 'undefined'){ 
+		if(s.val() === ''){
 			valid = false;
 			s.parent().addClass('formerr');
 		}else{
@@ -58,13 +67,19 @@ jQuery.fn.center = function () {
     return this;
 };
 
+
+
 $(function() {
-	var urlPrefix = $('#base').text();
+	var urlPrefix = $('#base').text(), message = {};
+	message.SUCCESS_CREATE = "Položka byla úspěšně vytvořena.",
+	message.SUCCESS_UPDATE = "Úspěšně aktualizováno",
+	message.ERROR_VALIDATE = "Formulář je chybně vyplněn, zkontrolujte zadané data.",
+	message.ERROR = "Nastala neočekávaná chyba, operaci zkuste zopakovat.";
 	createClasses();
 	resize();
-	$('form').submit(function(){
+	$('form.valid').submit(function(){
 		if(! validate($(this))){
-			showStatus({err : 1, msg : 'Formulář je vyplněn chybně'});
+			showStatus({err : 1, msg : ERROR_VALIDATE});
 			return false;
 		}
 	});
@@ -86,8 +101,8 @@ $(function() {
      tinyMCE.init({
     	language : "cs",
         mode : "specific_textareas",
-        height : "165",
-        width : "600",
+        height : "300",
+        width : "610",
         editor_selector : "mceEditor",
         plugins : "lists,style,table",
         content_css :  urlPrefix + "resources/admin/css/tinymce.css",

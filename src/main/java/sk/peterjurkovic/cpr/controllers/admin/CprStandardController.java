@@ -17,8 +17,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.Country;
@@ -45,6 +47,8 @@ import sk.peterjurkovic.cpr.web.editors.DateTimeEditor;
 import sk.peterjurkovic.cpr.web.editors.MandateCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
+import sk.peterjurkovic.cpr.web.json.JsonResponse;
+import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
 
 @Controller
@@ -356,17 +360,11 @@ public class CprStandardController extends SupportAdminController {
    
    
    //##################################################
-	 //#  4	Mandates methods
-	 //##################################################
+   //#  4	Mandates , AO/NO
+   //##################################################
   
   
-  /**
-	 * Zobrazi pozadavky danej normy
-	 * 
-	 * @param modelMap
-	 * @param request
-	 * @return String view
-	 */
+ 
   @RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
   public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
 		setEditFormView("cpr-standard-edit4");
@@ -405,7 +403,53 @@ public class CprStandardController extends SupportAdminController {
 	   return getEditFormView();
  }
     
-    
+	 //##################################################
+	 //#  5	describe
+	 //##################################################
+ 
+	 @RequestMapping("/admin/cpr/standard/edit/{standardId}/describe")
+	 public String showStandardText(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+			setEditFormView("cpr-standard-edit5");
+			
+			Standard form = standardService.getStandardById(standardId);
+			if(form == null){
+				createItemNotFoundError();
+			}
+			prepareModelForEditBasicInfo(form, modelMap, standardId);
+	     return getEditFormView();
+	}
+	
+	@RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/describe", method = RequestMethod.POST,  headers = {"content-type=application/json"})
+	public @ResponseBody JsonResponse  processAjaxTextSubmit(@Valid @RequestBody  Standard form, @PathVariable Long standardId){
+		JsonResponse response = new JsonResponse();
+		
+		   Standard standard = standardService.getStandardById(standardId);
+			if(standard == null){
+				return response;
+			}
+			standard.setText(form.getText());
+			standardService.saveOrUpdate(standard);
+			response.setStatus(JsonStatus.SUCCESS);
+		   return response;
+	}
+	 
+	@RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/describe", method = RequestMethod.POST)
+	public String  processTextSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap){
+		   setEditFormView("cpr-standard-edit5");
+		   Standard standard = standardService.getStandardById(standardId);
+			if(standard == null){
+				createItemNotFoundError();
+			}
+			standard.setText(form.getText());
+			standardService.saveOrUpdate(standard);
+			modelMap.put("successCreate", true);
+			prepareModelForEditBasicInfo(form, modelMap, standardId);
+		   return getEditFormView();
+	}
+
+
+
+ 
     /**
      * Vytvori, alebo aktualizuje normu.
      * 

@@ -62,7 +62,7 @@
 					</c:if>
 					<c:url value="/admin/cpr/mandates/edit/${mandateId}" var="formUrl"/>
 					
-					<form:form commandName="mandate" method="post" action="${formUrl}"  >
+					<form:form commandName="mandate" method="post" action="${formUrl}" cssClass="valid" >
 						
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						<c:if test="${not empty successCreate}">
@@ -75,15 +75,15 @@
                         			<spring:message code="cpr.mandates.name" />                        		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="mandateName" maxlength="25" />
+                            	<form:input path="mandateName" maxlength="25" cssClass="required" />
                             </span>
                         </p>
                         <p>
                         	<label>
-                        		<spring:message code="form.code" /> <spring:message code="cpr.mandates.url" />
+                        		<spring:message code="form.code" /> <spring:message code="cpr.mandates.url"  />
                         	</label>
                             <span class="field">
-                            	<form:input path="mandateFileUrl" cssClass="mw500" maxlength="255" />
+                            	<form:input path="mandateFileUrl" cssClass="mw500 more7" maxlength="255" />
                             </span>
                         </p>
                        

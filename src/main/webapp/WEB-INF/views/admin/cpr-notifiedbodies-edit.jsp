@@ -54,7 +54,7 @@
 			</c:if>
 			<c:url value="/admin/cpr/notifiedbodies/edit/${notifiedBodyId}" var="formUrl"/>
 			
-			<form:form commandName="notifiedBody" method="post" action="${formUrl}"  >
+			<form:form commandName="notifiedBody" method="post" action="${formUrl}" cssClass="valid"  >
 				
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 				<c:if test="${not empty successCreate}">
