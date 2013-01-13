@@ -46,15 +46,18 @@ function validate(f){
 			}
 		}
 	});
+	
 	var s = $('select.required :selected');
-	console.log("s: " + s + "  /  " + $.type(s) + " typeof s  !== 'undefined'" + typeof s  !== 'undefined');
-	if(typeof s  !== 'undefined'){ 
+	if($('select.required').length  != 0){ 
+		console.log('Found! :' + $('select.required').length);
 		if(s.val() === ''){
 			valid = false;
 			s.parent().addClass('formerr');
 		}else{
 			$(this).removeClass('formerr');
 		}
+	}else{
+		console.log('not found..');
 	}
 	
 	return valid;	
@@ -70,23 +73,20 @@ jQuery.fn.center = function () {
 
 
 $(function() {
-	var urlPrefix = $('#base').text(), message = {};
-	message.SUCCESS_CREATE = "Položka byla úspěšně vytvořena.",
-	message.SUCCESS_UPDATE = "Úspěšně aktualizováno",
-	message.ERROR_VALIDATE = "Formulář je chybně vyplněn, zkontrolujte zadané data.",
-	message.ERROR = "Nastala neočekávaná chyba, operaci zkuste zopakovat.";
+	var urlPrefix = $('#base').text();
 	createClasses();
 	resize();
 	$('form.valid').submit(function(){
 		if(! validate($(this))){
-			showStatus({err : 1, msg : ERROR_VALIDATE});
+			showStatus({err : 1, msg : "Formulář je chybně vyplněn, zkontrolujte zadané data."});
 			return false;
 		}
 	});
 	
 	$('#quick-search').quicksearch('.data tbody tr');	
 	$('#req-nav select').change(function () {
-		window.location.href = urlPrefix + "admin/cpr/standard/edit/1/requirements?country=" + $(this).val();
+		var id = $(this).attr("id").replace("id", "");
+		window.location.href = urlPrefix + "admin/cpr/standard/edit/"+id+"/requirements?country=" + $(this).val();
 	});
 	
     $('.tt').tooltip({

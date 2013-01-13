@@ -17,4 +17,6 @@ public interface CsnService {
 	Csn getCsnById(Long id);
 	
 	Csn getCsnByCode(String code);
+	
+	void saveOrUpdate(Csn csn);
 }

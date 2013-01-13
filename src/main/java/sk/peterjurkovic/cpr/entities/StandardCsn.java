@@ -10,6 +10,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Asociacna entita, ktora prepaja normu a CSN.
@@ -55,12 +58,14 @@ public class StandardCsn extends AbstractEntity {
 		this.standard = standard;
 	}
 	
+	@NotNull(message = "Název ČSN musí být vyplněn.")
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "csn_id")
 	public Csn getCsn() {
 		return csn;
 	}
-
+	
+	
 	public void setCsn(Csn csn) {
 		this.csn = csn;
 	}

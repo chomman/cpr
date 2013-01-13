@@ -181,14 +181,16 @@ form{border:1px solid #ddd;}
 form p{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
 form p label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
 .field{padding:15px 20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
-form small{color:#888;font-style:italic;display:block;padding-top:3px;}
+form small{color:#555; display:block;padding-top:3px;font-size:11px;font-weight:normal;font-style:italic;}
 input, textarea,select{background: none repeat scroll 0 0 #FCFCFC;border: 1px solid #CCCCCC; border-radius: 2px 2px 2px 2px;box-shadow: 0 1px 3px #DDDDDD inset;color: #666666;padding: 6px 5px;}
 select{min-width:300px;}
 select option{padding:2px 0px 1px 5px;}
+select.smaller{font-size:12px;}
+select.smaller option{padding:5px 10px;}
 .button-box{padding:10px 20px 10px 240px}
 .button{background: #FB9337;border: 1px solid #F0882C;color: #FFFFFF;cursor: pointer;font-weight: bold; padding: 7px 20px;font-size:12px;}
 .button:hover{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
-
+.norminfo{font-size:12px;margin-left:20px;color:#555}
 
 #ui-datepicker-div{font-size:14px;}
 .date{text-align:right;font-size:14px;padding:8px 40px 8px 0;background:#FCFCFC url(../img/ico_calendar_input.png) no-repeat 135px center; width:120px; }

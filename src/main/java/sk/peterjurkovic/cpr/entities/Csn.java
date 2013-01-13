@@ -7,6 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entita reprezentujuca cesku technicku normu
@@ -24,9 +28,9 @@ public class Csn extends AbstractEntity {
 	
 	private Long id;
 	
-	private String CsnName;
+	private String csnName;
 
-	private String CsnOnlineId;
+	private String csnOnlineId;
 	
 	@Id
 	@GeneratedValue
@@ -38,22 +42,25 @@ public class Csn extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@Column(name ="csn_name", length = 25)
+	@Column(name ="csn_name", length = 45)
+	@NotEmpty(message = "Název ČSN musí být vyplněn.")
+	@Length(min = 1, max = 45, message = "Název ČSN musí být vyplněn.")
 	public String getCsnName() {
-		return CsnName;
+		return csnName;
 	}
 
 	public void setCsnName(String csnName) {
-		CsnName = csnName;
+		csnName = this.csnName;
 	}
 
-	@Column(name = "csn_online_id", length = 7)
+	@Column(name = "csn_online_id", length = 10)
+	@Pattern(regexp = "(^[0-9]{1,10}$|)*", message = "ČSN online ID obsahuje neplatnou hodnotu")
 	public String getCsnOnlineId() {
-		return CsnOnlineId;
+		return csnOnlineId;
 	}
 
 	public void setCsnOnlineId(String csnOnlineId) {
-		CsnOnlineId = csnOnlineId;
+		csnOnlineId = this.csnOnlineId;
 	}
 	
 	

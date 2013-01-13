@@ -32,23 +32,24 @@
 				<div id="tabs">
 					
 					<jsp:include page="include/cpr-standard-menu1.jsp" />
+					<jsp:include page="include/cpr-standard-menu2.jsp" />
 
-					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.2" /></strong>
+					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.3" /></strong>
 					
 					<!-- ACTIVE TAB -->
 					<div class="active-tab">
 					
 					<div id="req-nav">
-						<a class="view" href="<c:url value="/admin/cpr/standard/edit/${standardId}/requirements?country=1" />">
-							&laquo; <spring:message code="cpr.requirement.view" />
+						<a class="view" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn" />">
+							&laquo; <spring:message code="cpr.csn.view" />
 						</a>
 					</div>
 					
 					
 				
 					<!--  FORM  -->
-					<c:url value="/admin/cpr/standard/edit/${standardId}/req/${requirementId}" var="formUrl"/>
-					<form:form commandName="requirement" method="post" action="${formUrl}"  >
+					<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${standardCsnId}" var="formUrl"/>
+					<form:form commandName="standardCsn" method="post" action="${formUrl}"  >
 				
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						<c:if test="${not empty successCreate}">
@@ -58,56 +59,33 @@
 					<p>
 	                	<label>
 	                		<strong><em class="red">*</em>
-	                			<spring:message code="cpr.requirement.name" />
+	                			<spring:message code="cpr.csn.name" />
 	                		</strong>
 	                	</label>
 	                    <span class="field">
-	                    	<form:input path="name" maxlength="100" cssClass="mw500" />
+	                    	<form:input path="csn.csnName" maxlength="45" cssClass="w300" />
 	                    </span>
                     </p>
                     <p>
-	                	<label class="tt" title="např. reakce na ohneň A1 až F">
-                			<spring:message code="cpr.requirement.level" />
+	                	<label title="ČSN online ID je číselný identifikátor PDF dokumentu obsahující normu" class="tt">
+                			<spring:message code="cpr.csn.onlineid" />
+                			<small>
+                			Příklad ČSN online ID je znázorněn červenou barvou.<br />
+                			</small>
 	                	</label>
 	                    <span class="field">
-	                    	<form:input path="levels" maxlength="50" cssClass="w300" />
+	                    	<form:input path="csn.csnOnlineId" maxlength="10" cssClass="w100" />
+	                    	<span class="norminfo" >http://www.sgpstandard.cz/editor/files/on_line/csn-redirect.php?k=<strong class="red">90588</strong></span>
 	                    </span>
                     </p>
                     <p>
 	                	<label>
-                			<spring:message code="cpr.requirement.note" />
+	                		<spring:message code="cpr.csn.note" />
 	                	</label>
 	                    <span class="field">
-	                    	<form:input path="note" maxlength="150" cssClass="mw500" />
+	                    	<form:input path="note" maxlength="255" cssClass="mw500" />
 	                    </span>
                     </p>
-                    <p>
-	                	<label class="tt" title="Odsek (např. 4.1.2, 5.1 ...)" >
-                			<spring:message code="cpr.requirement.section" />
-	                	</label>
-	                    <span class="field">
-	                    	<form:input path="section" maxlength="20" cssClass="w100" />
-	                    </span>
-                    </p>
-     				<p>
-	                	<label>
-                			<spring:message code="cpr.requirement.npd" />
-	                	</label>
-	                    <span class="field">
-	                    	<form:checkbox path="npd" />
-	                    </span>
-                    </p>
-                      
-                   <p>
-						<label>
-							<spring:message code="cpr.requirement.country" />
-							</label>
-							<span class="field">  
-							<form:select path="country" cssClass="mw300">
-							<form:options items="${model.countries}" itemValue="id" itemLabel="countryName" />
-							</form:select>
-						</span>
-                   </p>
                    <form:hidden path="id" />
                    <p class="button-box">
                    	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
@@ -64,13 +65,18 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	@Override
 	public boolean isStandardIdUnique(String standardId, Long id) {
-		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");
-		hql.append(" WHERE s.standardId=:standardId AND s.id<>:id");
-		Long result = (Long)sessionFactory.getCurrentSession()
-						.createQuery(hql.toString())
-						.setString("standardId", standardId)
-						.setLong("id", id)
-						.uniqueResult();
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s WHERE s.standardId=:standardId");
+		if(id != 0){
+			hql.append(" AND s.id<>:id");
+		}
+		Long result = null;
+		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setString("standardId", standardId);
+		if(id != 0){
+			query.setLong("id", id);
+		}
+		result = (Long)query.uniqueResult();
+		logger.info("Is uniqe: " + (result == 0));
 		return (result == 0);
 	}
 

@@ -35,131 +35,19 @@
 				
 				<div id="tabs">
 					
-					<strong class="active-tab-head"><span>1</span> - <spring:message code="cpr.standard.tab.1" /></strong>
+					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.1" /></strong>
 					<div class="active-tab">
+						
+						<jsp:include page="include/cpr-standard-form1.jsp" />	
 					
+					</div> <!-- END ACTIVE TAB -->
 					
-					<form:form commandName="standard" method="post" action="${formUrl}"  >
+						<jsp:include page="include/cpr-standard-menu2.jsp" />
+						<jsp:include page="include/cpr-standard-menu3.jsp" />
+						<jsp:include page="include/cpr-standard-menu4.jsp" />
+						<jsp:include page="include/cpr-standard-menu5.jsp" />
+						<jsp:include page="include/cpr-standard-menu6.jsp" />
 						
-						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
-						
-						<c:if test="${not empty successCreate}">
-							<p class="msg ok"><spring:message code="success.create" /></p>
-						</c:if>
-						<p>
-                        	<label>
-                        		<strong><em class="red">*</em>
-                        			<spring:message code="cpr.standard.id" />
-                        		</strong>
-                        	</label>
-                            <span class="field">
-                            	<form:input path="standardId"  cssClass="w200" maxlength="45" />
-                            </span>
-                        </p>
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.replacedStandardId" />
-                        	</label>
-                            <span class="field">
-                            	<form:input path="replacedStandardId" cssClass="w200" maxlength="45" />
-                            </span>
-                        </p>
-                        <p>
-                        	<label>
-                        		<em class="red">*</em>
-                        		<spring:message code="cpr.standard.name" />
-                        	</label>
-                            <span class="field">
-                            	<form:input path="standardName" cssClass="mw500" maxlength="255" />
-                            </span>
-                        </p>
-                        
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.validity.from" />
-                        	</label>
-                            <span class="field">  
-                            	<form:input path="startValidity" maxlength="25" cssClass="date"  />
-                            	<span class="sublabel">do</span>
-                            	<form:input path="stopValidity" maxlength="25" cssClass="date"  />
-                            </span>
-                        </p>
-                        
-                        
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.concurrentvalidity.form" />
-                        	</label>
-                            <span class="field">  
-                            	<form:input path="startConcurrentValidity" maxlength="25" cssClass="date"  />
-                            	<span class="sublabel">do</span>
-                            	<form:input path="stopConcurrentValidity" maxlength="25" cssClass="date"  />
-                            </span>
-                        </p>
-                        
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.group" />
-                        	</label>
-                            <span class="field">  
-                            	<form:select path="standardGroup" cssClass="mw500">
-			                      <option value="-"><spring:message code="form.select"/></option>
-			                      <form:options items="${model.groups}" itemValue="id" itemLabel="groupName" />
-			                 	</form:select>
-                            </span>
-                        </p>
-                        <script type="text/javascript">
-						    $(document).ready(function() {
-						        $("#tagsField").tagit({fieldName: "tags", allowSpaces :true});
-						    });
-						</script>
-                         <p>
-                        	<label class="tt">
-                        		Klucove slova:
-                        	</label>
-                            <div class="field relative">  
-                            	<ul id="tagsField">
-								    <c:forEach items="${standard.tags}" var="tag">
-								    	<li>${tag.name}</li>
-								    </c:forEach>
-								</ul>
-								
-								<div class="clear"></div>
-                            </div>
-                        </p>
-                        
-                        <p>
-                        	<label title="<spring:message code="publish.descr" />" class="tt">
-                        		<spring:message code="publish" />
-                        	</label>
-                            <span class="field">  
-                            	<form:checkbox path="enabled" />
-                            </span>
-                        </p>
-
-                        <form:hidden path="id"  />
-                        <p class="button-box">
-                        	 <input type="submit" class="button" value="<spring:message code="form.save" /> &raquo;" />
-                        </p>
-					</form:form>
-						
-						</div> <!-- END ACTIVE TAB -->
-						<a class="tab tt" title="<spring:message code="cpr.standard.tab.2.title" />" 
-							href='<c:url value="/admin/cpr/standard/edit/${standardId}/requirements?country=1" />' >
-							<span>2</span> - <spring:message code="cpr.standard.tab.2" />
-						</a>
-						<a class="tab tt" title="<spring:message code="cpr.standard.tab.3.title" />" 
-							href="<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" />" >
-							<span>3</span> - <spring:message code="cpr.standard.tab.3" />
-						</a>
-						<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" 
-							href="<c:url value="/admin/cpr/standard/edit/${standardId}/other" />" >
-							<span>4</span> - <spring:message code="cpr.standard.tab.4" />
-						</a>
-						<a class="tab tt" title="<spring:message code="cpr.standard.tab.5.title" />" 
-							href="<c:url value="/admin/cpr/standard/edit/${standardId}/describe" />" >
-							<span>5</span> - <spring:message code="cpr.standard.tab.5" />
-						</a>
 					</div>	<!-- END TABs -->
 		
 			<span class="note"><spring:message code="form.required" /></span>

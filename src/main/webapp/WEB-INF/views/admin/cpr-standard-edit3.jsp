@@ -3,9 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
-	<link rel="stylesheet" href="<c:url value="/resources/admin/css/multi-select.css" />" />
-	<script src="<c:url value="/resources/admin/js/jquery.multi-select.js" />"></script>
+<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
 </head>
 <body>
 	<div id="wrapper">
@@ -32,87 +30,74 @@
 					</ul>
 								
 				<div id="tabs">
-					<a class="tab tt"  
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}" />" >
-						<span>1</span> - <spring:message code="cpr.standard.tab.1" />
-					</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.2.title" />" 
-						href='<c:url value="/admin/cpr/standard/edit/${standardId}/requirements?country=1" />' >
-						<span>2</span> - <spring:message code="cpr.standard.tab.2" />
-					</a>
-					<strong class="active-tab-head"><span>3</span> - <spring:message code="cpr.standard.tab.3" /></strong>
+					
+					<jsp:include page="include/cpr-standard-menu1.jsp" />
+					<jsp:include page="include/cpr-standard-menu2.jsp" />					
+
+					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.3" /></strong>
 					
 					<!-- ACTIVE TAB -->
 					<div class="active-tab">
-					<script>
-					$(document).ready(function(){
+					
+					<div id="req-nav">
+												
+						<a href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/0"  />">
+							 <spring:message code="cpr.csn.add" /> +
+						</a>
 						
-						   $("#notifiedBodies").multiSelect({
-							   selectableHeader: "<div class='custom-header'>Vyberte z NO/AO</div><input type='text' id='search' autocomplete='off' placeholder='Vyhledat ...'>",
-							   selectionHeader: "<div class='custom-header'>Vybrané NO/AO</div>"
-						   });
-						   
-						   $('#search').quicksearch($('.ms-elem-selectable', '#ms-notifiedBodies' )).on('keydown', function(e){
-						   		console.log('searching ' + e);   
-							    if (e.keyCode == 40){
-								   $(this).trigger('focusout');
-								   $('#notifiedBodies').focus();
-								   return false;
-								}
-							}); 
-						   
-						});
-					</script>
-					<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" var="formUrl"/>
-					<c:set value="0" var="prev" />
-					<form:form commandName="standard" method="post" action="${formUrl}" cssClass="form-multiple"  >
-						
-						<p class="msg info">
-							<spring:message code="form.multiselect.info" />
+					</div>
+					
+					<c:if test="${not empty standard.standardCsns}">
+										
+						<table class="data">
+							<thead>
+								<tr>
+									<tH><spring:message code="cpr.csn.name" /></th>
+									<th><spring:message code="form.lastEdit" /></th>
+									<th><spring:message code="form.edit" /></th>
+									<th><spring:message code="form.delete" /></th>
+								</tr>
+							</thead>
+							<tbody>
+								 <c:forEach items="${standard.standardCsns}" var="i">
+								 	<tr>
+								 		<td>${i.csn.csnName}</td>
+								 		<td class="last-edit">
+								 			<c:if test="${empty i.changedBy}">
+								 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / hh:mm"/>
+								 			</c:if>
+								 			<c:if test="${not empty i.changedBy}">
+								 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / hh:mm"/>
+								 			</c:if>
+								 		</td>
+								 		<td class="edit">												
+								 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${i.id}"  />">
+								 				<spring:message code="form.edit" />
+								 			</a>
+								 		</td>
+								 		<td class="delete">
+								 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/csn/delete/${i.id}"  />">
+								 				<spring:message code="form.delete" />
+								 			</a>
+								 		</td>
+								 	</tr>
+								 </c:forEach>
+							</tbody>
+						</table>
+					</c:if>
+					<c:if test="${empty standard.standardCsns}">
+						<p class="msg alert">
+							<spring:message code="alert.empty" />
 						</p>
-						
-						<c:if test="${not empty successCreate}">
-							<p class="msg ok"><spring:message code="success.create" /></p>
-						</c:if>
-						
-						 <form:select path="notifiedBodies" cssClass="mw500 multiple" multiple="true">
-						
-							 <c:forEach items="${model.notifiedBodies}" var="nb" >
-					 			<c:if test="${prev != nb.country.id }">
-					 				<optgroup label="${nb.country.countryName}">
-					 			</c:if>
-					 				<option value="${nb.id}" 
-						 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
-						 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
-						 				</c:forEach> 
-					 				>
-					 				${nb.name}
-					 				</option>			 			
-					 			<c:if test="${prev != nb.country.id }">
-					 				</optgroup>
-					 				<c:set value="${nb.country.id}" var="prev" />
-					 			</c:if>
-							</c:forEach>
-						 </form:select>
-						 
-						 
-						 <form:hidden path="id"  />
-						 <p class="margin-top-30">
-						 <input type="submit" class="button" value="<spring:message code="form.save" />" />
-						 </p>
-					</form:form>
-					
-					
+					</c:if>
 						
 					</div> <!-- END ACTIVE TAB -->
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" 
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}/other" />" >
-						<span>4</span> - <spring:message code="cpr.standard.tab.4" />
-					</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.5.title" />" 
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}/describe" />" >
-						<span>5</span> - <spring:message code="cpr.standard.tab.5" />
-					</a>
+
+					
+					
+					<jsp:include page="include/cpr-standard-menu4.jsp" />
+					<jsp:include page="include/cpr-standard-menu5.jsp" />
+					<jsp:include page="include/cpr-standard-menu6.jsp" />
 				</div>	<!-- END TABs -->
 		
 			<span class="note"><spring:message code="form.required" /></span>

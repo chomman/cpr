@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+	<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/multi-select.css" />" />
+	<script src="<c:url value="/resources/admin/js/jquery.multi-select.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -30,94 +32,105 @@
 					</ul>
 								
 				<div id="tabs">
-					<a class="tab tt"  
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}" />" >
-						<span>1</span> - <spring:message code="cpr.standard.tab.1" />
-					</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.2.title" />" 
-							href='<c:url value="/admin/cpr/standard/edit/${standardId}/requirements?country=1" />' >
-							<span>2</span> - <spring:message code="cpr.standard.tab.2" />
-						</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.3.title" />" 
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" />" >
-						<span>3</span> - <spring:message code="cpr.standard.tab.3" />
-					</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" 
-							href="<c:url value="/admin/cpr/standard/edit/${standardId}/other" />" >
-							<span>4</span> - <spring:message code="cpr.standard.tab.4" />
-					</a>
 					
-					<strong class="active-tab-head"><span>5</span> - <spring:message code="cpr.standard.tab.5" /></strong>
+
+					<jsp:include page="include/cpr-standard-menu1.jsp" />
+					<jsp:include page="include/cpr-standard-menu2.jsp" />
+					<jsp:include page="include/cpr-standard-menu3.jsp" />
+					
+					
+					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.5" /></strong>
 					
 					<!-- ACTIVE TAB -->
 					<div class="active-tab">
-					
-					<script type="text/javascript"> 
-				    $(function() { 
-				        $('form').submit(function(e) {
-				        	e.preventDefault();
-				            var form = $( this ),
-				                url = form.attr('action'),
-				                data = renameArr(form.serializeArray());
-				            var mce =  tinyMCE.get('text');
-				            	mce.setProgressState(1); // Show progress
-								data.text = mce.getContent();
-				            console.log(data);
-				            $.ajax({
-				                url : url,
-				                type : "POST",
-				                traditional : true,
-				                contentType : "application/json",
-				                dataType : "json",
-				                data : JSON.stringify(data),
-				                success : function (response) {
-				                	if(response.status == "SUCCESS"){
-					                    showStatus({err: 0, msg: "Úspěšně aktualizováno"});
-				                	}else{
-				                		 showStatus({err: 1, msg: "Nastala neočekávaná chyba, operaci zkuste zopakovat."});
-				                	}
-				                	mce.setProgressState(0);
-				                },
-				                error : function(xhr, status, err) {
-				                	howStatus({err: 1, msg: ERROR_MESSAGE});
-				                    mce.setProgressState(0);
-				                }
-				            });
-				
-				            return false;
-				        });
-				    });
-
-					</script>
-					
-					
-					<c:url value="/admin/cpr/standard/edit/${standardId}/describe" var="formUrl"/>
-					<form:form commandName="standard" method="post" action="${formUrl}"  >
+					<script>
+					$(document).ready(function(){
 						
-						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+						   $("#mandates").multiSelect({
+							   selectableHeader: "<div class='custom-header'>Vyberte z mandátů</div><input type='text' id='search' autocomplete='off' placeholder='Vyhledat ...'>",
+							   selectionHeader: "<div class='custom-header'>Vybrané mandáty</div>"
+						   });
+						   
+						   $("#assessmentSystems").multiSelect({
+							   selectableHeader: "<div class='custom-header'>Vyberte ze systémů PS</div>",
+							   selectionHeader: "<div class='custom-header'>Vybrané systémy</div>"
+						   });
+						   
+						   $('#search').quicksearch($('.ms-elem-selectable', '#ms-mandates' )).on('keydown', function(e){
+						   		console.log('searching ' + e);   
+							    if (e.keyCode == 40){
+								   $(this).trigger('focusout');
+								   $('#mandates').focus();
+								   return false;
+								}
+							}); 
+						   
+						   
+						});
+					</script>
+					<c:url value="/admin/cpr/standard/edit/${standardId}/other" var="formUrl"/>
+
+					<form:form commandName="standard" method="post" action="${formUrl}" cssClass="form-multiple"  >
+						
+						<p class="msg info">
+							<spring:message code="form.multiselect.info" />
+						</p>
 						
 						<c:if test="${not empty successCreate}">
 							<p class="msg ok"><spring:message code="success.create" /></p>
 						</c:if>
-						<p>
-                        	<label>
-                        		<spring:message code="cpr.standard.tab.5" />
-                        	</label>
-                            <span class="field">  
-                          	<form:textarea path="text"  cssClass="mceEditor bigEditorSize" />
-                          </span>
-                        </p>
-                        <form:hidden path="standardId" />
-                        <form:hidden path="standardName" />
-                        <form:hidden path="id"  />
-                        <p class="button-box">
-                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
-                        </p>
+						
+						<!-- Mandaty -->
+						<div class="hbox">
+							<h2><spring:message code="cpr.mandates.title" /></h2>
+						</div>
+						
+						 <form:select path="mandates" cssClass="mw500 multiple" multiple="true">
+							 <c:forEach items="${model.mandates}" var="m" >
+					 				<option value="${m.id}" 
+						 				<c:forEach items="${standard.mandates}" var="sm">
+						 					<c:if test="${sm.id ==  m.id}"> selected="selected" </c:if>
+						 				</c:forEach> 
+					 				>
+					 				${m.mandateName}
+					 				</option>			 			
+							</c:forEach>
+						 </form:select>
+						 
+						 
+						 <!-- Systemy -->
+						 <div class="hbox">
+							<h2><spring:message code="cpr.as.title" /></h2>
+						 </div>
+						 
+						 
+						 <form:select path="assessmentSystems" cssClass="mw500 multiple" multiple="true">
+							 <c:forEach items="${model.assessmentSystem}" var="as" >
+					 				<option value="${as.id}" 
+						 				<c:forEach items="${standard.assessmentSystems}" var="sas">
+						 					<c:if test="${sas.id ==  as.id}"> selected="selected" </c:if>
+						 				</c:forEach> 
+					 				>
+					 				${as.name}
+					 				</option>			 			
+							</c:forEach>
+						 </form:select>
+						 
+						 
+						 
+						 <form:hidden path="id"  />
+						 <p class="margin-top-30">
+						 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+						 </p>
 					</form:form>
 					
-			
+					
 						
 					</div> <!-- END ACTIVE TAB -->
+					
+					<jsp:include page="include/cpr-standard-menu5.jsp" />
+					<jsp:include page="include/cpr-standard-menu6.jsp" />
+					
 				</div>	<!-- END TABs -->
 		
 			<span class="note"><spring:message code="form.required" /></span>

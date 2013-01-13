@@ -30,11 +30,10 @@
 					</ul>
 								
 				<div id="tabs">
-					<a class="tab tt"  
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}" />" >
-						<span>1</span> - <spring:message code="cpr.standard.tab.1" />
-					</a>
-					<strong class="active-tab-head"><span>2</span> - <spring:message code="cpr.standard.tab.2" /></strong>
+					
+					<jsp:include page="include/cpr-standard-menu1.jsp" />
+					
+					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.2" /></strong>
 					
 					<!-- ACTIVE TAB -->
 					<div class="active-tab">
@@ -47,7 +46,7 @@
 						<span class="requirement-nav">
 							<spring:message code="cpr.requirement.nav" />:
 						</span>
-						<select>
+						<select id="id${standardId}">
 							<c:forEach items="${model.countries}" var="country">
 								<option value="${country.id}" <c:if test="${country.id == model.country.id}">selected="selected"</c:if> >${country.countryName}</option>
 							</c:forEach>
@@ -55,11 +54,7 @@
 					</div>
 					
 					<c:if test="${not empty model.requirements}">
-						
-						<c:if test="${not empty successDelete}">
-							<p class="msg ok"><spring:message code="success.delete" /></p>
-						</c:if>
-				
+										
 						<table class="data">
 							<thead>
 								<tr>
@@ -110,18 +105,11 @@
 						
 					</div> <!-- END ACTIVE TAB -->
 
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.3.title" />" 
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" />" >
-						<span>3</span> - <spring:message code="cpr.standard.tab.3" />
-					</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.4.title" />" 
-							href="<c:url value="/admin/cpr/standard/edit/${standardId}/other" />" >
-							<span>4</span> - <spring:message code="cpr.standard.tab.4" />
-					</a>
-					<a class="tab tt" title="<spring:message code="cpr.standard.tab.5.title" />" 
-						href="<c:url value="/admin/cpr/standard/edit/${standardId}/describe" />" >
-						<span>5</span> - <spring:message code="cpr.standard.tab.5" />
-					</a>
+					
+					<jsp:include page="include/cpr-standard-menu3.jsp" />
+					<jsp:include page="include/cpr-standard-menu4.jsp" />
+					<jsp:include page="include/cpr-standard-menu5.jsp" />
+					<jsp:include page="include/cpr-standard-menu6.jsp" />
 				</div>	<!-- END TABs -->
 		
 			<span class="note"><spring:message code="form.required" /></span>

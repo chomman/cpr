@@ -12,7 +12,7 @@ public interface BaseDao<T, ID extends Serializable> {
     public T merge(T entity);
     public void evict(T entity);
     public List<T> getAll();
-    public T getByID(ID id);
+    public T getByID(Long id);
     public void flush();
     public T getByCode(String code);
 }

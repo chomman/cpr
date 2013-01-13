@@ -12,7 +12,7 @@ import sk.peterjurkovic.cpr.dao.BaseDao;
 
 
 
-public class BaseDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport implements BaseDao<T, ID> { 
+public class BaseDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport implements BaseDao<T, Long> { 
 
 	@Autowired
 	protected SessionFactory sessionFactory;
@@ -64,10 +64,10 @@ public class BaseDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public T getByID(ID id) {
+	public T getByID(Long id) {
 		return (T)sessionFactory.getCurrentSession()
-				.createQuery("from " + persistentClass.getName() + " entity WHERE entity.id=?")
-				.setParameter(0, id)
+				.createQuery("from " + persistentClass.getName() + " entity WHERE entity.id=:id")
+				.setLong("id", id)
 				.setMaxResults(1)
 				.uniqueResult();	
 	}

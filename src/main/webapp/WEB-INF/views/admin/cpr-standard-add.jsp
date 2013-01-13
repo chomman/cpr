@@ -4,6 +4,8 @@
 <html>
 <head>
 <title><spring:message code="cpr.standard.add" /></title>
+<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.tagit.css" />" />
+<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -30,95 +32,8 @@
 					</ul>
 				
 					<c:url value="/admin/cpr/standard/edit/0" var="formUrl"/>
+					<%@ include file="include/cpr-standard-form1.jsp" %>
 					
-					<form:form commandName="standard" method="post" action="${formUrl}"  >
-						
-						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
-						
-						<c:if test="${not empty successCreate}">
-							<p class="msg ok"><spring:message code="success.create" /></p>
-						</c:if>
-						<p class="form-head">Základní informace</p>
-						<p>
-                        	<label>
-                        		<strong><em class="red">*</em>
-                        			<spring:message code="cpr.standard.id" />
-                        		</strong>
-                        	</label>
-                            <span class="field">
-                            	<form:input path="standardId"  cssClass="w200" maxlength="45" />
-                            </span>
-                        </p>
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.replacedStandardId" />
-                        	</label>
-                            <span class="field">
-                            	<form:input path="replacedStandardId" cssClass="w200" maxlength="45" />
-                            </span>
-                        </p>
-                        <p>
-                        	<label>
-                        		<em class="red">*</em>
-                        		<spring:message code="cpr.standard.name" />
-                        	</label>
-                            <span class="field">
-                            	<form:input path="standardName" cssClass="mw500 required" maxlength="255" />
-                            </span>
-                        </p>
-                        
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.validity.from" />
-                        	</label>
-                            <span class="field">  
-                            	<form:input path="startValidity" maxlength="25" cssClass="date"  />
-                            	<span class="sublabel">do</span>
-                            	<form:input path="stopValidity" maxlength="25" cssClass="date"  />
-                            </span>
-                        </p>
-                        
-                        
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.concurrentvalidity.form" />
-                        	</label>
-                            <span class="field">  
-                            	<form:input path="startConcurrentValidity" maxlength="25" cssClass="date"  />
-                            	<span class="sublabel">do</span>
-                            	<form:input path="stopConcurrentValidity" maxlength="25" cssClass="date"  />
-                            </span>
-                        </p>
-                        
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.standard.group" />
-                        	</label>
-                            <span class="field">  
-                            	<form:select path="standardGroup" cssClass="mw500">
-			                      <option value="-"><spring:message code="form.select"/></option>
-			                      <form:options items="${model.groups}" itemValue="id" itemLabel="groupName" />
-			                 	</form:select>
-                            </span>
-                        </p>
-                        
-                        <p>
-                        	<label title="<spring:message code="publish.descr" />" class="tt">
-                        		<spring:message code="publish" />
-                        	</label>
-                            <span class="field">  
-                            	<form:checkbox path="enabled" />
-                            </span>
-                            <div class="clear"></div>
-                        </p>
-
-                        <form:hidden path="id"  />
-                        <p class="button-box">
-                        	 <input type="submit" class="button" value="<spring:message code="form.saveandcontinue" /> &raquo;" />
-                        </p>
-					</form:form>
-		
-		
 			<span class="note"><spring:message code="form.required" /></span>
 		</div>	
 	</div>
