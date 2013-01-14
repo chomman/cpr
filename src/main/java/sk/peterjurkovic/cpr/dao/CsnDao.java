@@ -4,11 +4,10 @@ import sk.peterjurkovic.cpr.entities.Csn;
 
 
 /**
-* Rozhranie datovej vrstvy entity sk.peterjurkovic.cpr.entities.Csn
-* 
-* @author Peter Jurkovič (email@peterjurkovic.sk)
-*
-*/
+ * Rozhranie implementujuce datovu vrstvu entity sk.peterjurkovic.cpr.entities.StandardCsn
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 public interface CsnDao extends BaseDao<Csn, Long>{
 
 }

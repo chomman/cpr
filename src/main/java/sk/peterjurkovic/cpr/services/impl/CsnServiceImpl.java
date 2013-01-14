@@ -20,60 +20,52 @@ import sk.peterjurkovic.cpr.utils.UserUtils;
 public class CsnServiceImpl implements CsnService {
 	
 	@Autowired
-	private CsnDao csnDao;
-	
+	private CsnDao CsnDao;
 	@Autowired
 	private UserService userService;
 	
 	@Override
-	public void createCsn(Csn csn) {
-		csnDao.save(csn);
+	public void createCsn(Csn Csn) {
+		CsnDao.save(Csn);
 	}
 
 	@Override
-	public void updateCsn(Csn csn) {
-		csnDao.update(csn);
+	public void updateCsn(Csn Csn) {
+		CsnDao.update(Csn);
 	}
 
 	@Override
-	public void remove(Csn csn) {
-		csnDao.remove(csn);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Csn> getAllCsns() {
-		return csnDao.getAll();
+	public void deleteCsn(Csn Csn) {
+		CsnDao.remove(Csn);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
 	public Csn getCsnById(Long id) {
-		return csnDao.getByID(id);
+		return CsnDao.getByID(id);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public Csn getCsnByCode(String code) {
-		return csnDao.getByCode(code);
+	public List<Csn> getAllCsns() {
+		return CsnDao.getAll();
 	}
 	
-	
 	@Override
-	public void saveOrUpdate(Csn csn) {
+	public void saveOrUpdate(Csn Csn) {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		
-		if(csn.getId() == null){
-			csn.setCreatedBy(user);
-			csn.setCreated(new DateTime());
-			csnDao.save(csn);
-			csnDao.flush();
+		if(Csn.getId() == null){
+			Csn.setCreatedBy(user);
+			Csn.setCreated(new DateTime());
+			CsnDao.save(Csn);
 		}else{
-			csn.setChangedBy(user);
-			csn.setChanged(new DateTime());
-			csnDao.update(csn);
+			Csn.setChangedBy(user);
+			Csn.setChanged(new DateTime());
+			CsnDao.update(Csn);
 		}
 		
 	}
+
 	
 }

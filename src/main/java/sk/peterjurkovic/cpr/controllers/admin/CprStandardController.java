@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,7 +30,6 @@ import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
-import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.pagination.PageLink;
@@ -42,7 +40,6 @@ import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.RequirementService;
-import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -79,8 +76,6 @@ public class CprStandardController extends SupportAdminController {
 	private MandateService mandateService;
 	@Autowired
 	private AssessmentSystemService assessmentSystemService;
-	@Autowired
-	private StandardCsnService standardCsnService;
 	@Autowired
 	private CsnService csnService;
 	
@@ -347,18 +342,18 @@ public class CprStandardController extends SupportAdminController {
     }
     
     
-    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{standardCsnId}", method = RequestMethod.GET)
-    public String showCsnEditForm(@PathVariable Long standardId, @PathVariable Long standardCsnId, ModelMap modelMap,HttpServletRequest request) {
+    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.GET)
+    public String showCsnEditForm(@PathVariable Long standardId, @PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) {
  		setEditFormView("cpr-standard-edit3-edit");
  		Standard standard = standardService.getStandardById(standardId);
  		if(standard == null){
  			createItemNotFoundError();
  		}
- 		StandardCsn form = null;
-		if(standardCsnId == null || standardCsnId == 0){
+ 		Csn form = null;
+		if(csnId == null || csnId == 0){
 			form = createEmptyCsnForm();
 		}else{
-			form = standardCsnService.getStandardCsnById(standardCsnId);
+			form = csnService.getCsnById(csnId);
 		}
 		prepareModelForCsn(standard, form, modelMap);
         return getEditFormView();
@@ -366,26 +361,32 @@ public class CprStandardController extends SupportAdminController {
     
     
     
-    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{standardCsnId}", method = RequestMethod.POST)
-    public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long standardCsnId, @Valid  StandardCsn form, BindingResult result, ModelMap modelMap) {
+    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.POST)
+    public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long csnId, @Valid  Csn form, BindingResult result, ModelMap modelMap) {
  		setEditFormView("cpr-standard-edit3-edit");
  		 Standard standard = standardService.getStandardById(standardId);
  	       if(standard == null){
  	    	   createItemNotFoundError();
  	       }
  	       if (!result.hasErrors()) {
-	 	       if(StringUtils.isBlank(form.getCsn().getCsnName())){
-	 	    	   result.rejectValue("csn.csnName", "cpr.csn.name.noempty");
-	 	       }else{
-					createOrUpdateCsn(standard, form);
-					modelMap.put("successCreate", true);
-					if(standardCsnId == 0){
-						form = createEmptyCsnForm();
-					}
+				createOrUpdateCsn(standard, form);
+				modelMap.put("successCreate", true);
+				if(csnId == 0){
+					form = createEmptyCsnForm();
 	 	       }
  	       }
 	 	   prepareModelForCsn(standard, form, modelMap);
         return getEditFormView();
+    }
+    
+    @RequestMapping(value = "/admin/cpr/standard/csn/delete/{csnId}", method = RequestMethod.GET)
+    public String deleteCsn(@PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) {
+ 		Csn csn = csnService.getCsnById(csnId);
+ 		if(csn == null){
+ 			createItemNotFoundError();
+ 		}
+ 		csnService.deleteCsn(csn);
+        return "forward://admin/cpr/standard/edit/"+csn.getStandard().getId()+"/csn";
     }
     
      //##################################################
@@ -567,26 +568,22 @@ public class CprStandardController extends SupportAdminController {
 	
 	
 	
-	private void createOrUpdateCsn(Standard standard, StandardCsn form){
-		StandardCsn standardCsn = null;
-		Csn csn = null;
+	private void createOrUpdateCsn(Standard standard, Csn form){
+		Csn standardCsn = null;
 		if(form.getId() == null || form.getId() == 0){
-			standardCsn = new StandardCsn();
-			csn = new Csn();
+			standardCsn = new Csn();
 		}else{
-			standardCsn = standardCsnService.getStandardCsnById(form.getId());
+			standardCsn = csnService.getCsnById(form.getId());
 			if(standardCsn == null){
 				createItemNotFoundError();
 			}
-			csn = standardCsn.getCsn();
 		}
-		
-		csn.setCsnName(form.getCsn().getCsnName());
-		csn.setCsnOnlineId(form.getCsn().getCsnOnlineId());
-		csnService.saveOrUpdate(csn);
-		standardCsn.setCsn(csn);
+
+		standardCsn.setCsnName(form.getCsnName());
+		standardCsn.setNote(form.getNote());
+		standardCsn.setCsnOnlineId(form.getCsnOnlineId());
 		standardCsn.setStandard(standard);
-		standardCsnService.saveOrUpdate(standardCsn);
+		csnService.saveOrUpdate(standardCsn);
 	}
 	
 	
@@ -632,12 +629,12 @@ public class CprStandardController extends SupportAdminController {
 		modelMap.put("model", map);
 	}
 	
-	private void prepareModelForCsn(Standard standard, StandardCsn form,  ModelMap modelMap){
+	private void prepareModelForCsn(Standard standard, Csn form,  ModelMap modelMap){
 		Map<String, Object> map = new HashMap<String, Object>();
-		modelMap.addAttribute("standard", standard);
- 		modelMap.addAttribute("standardCsn", form);
+ 		modelMap.addAttribute("csn", form);
  		map.put("standardId", standard.getId());
- 		map.put("standardCsnId", form.getId());
+ 		map.put("standardName", standard.getStandardId());
+ 		map.put("csnId", form.getId());
  		map.put("tab", CPR_TAB_INDEX);
  		modelMap.put("model", map);
 	}
@@ -664,8 +661,8 @@ public class CprStandardController extends SupportAdminController {
 		return form;
 	}
 	
-	private StandardCsn createEmptyCsnForm(){
-		StandardCsn form = new StandardCsn();
+	private Csn createEmptyCsnForm(){
+		Csn form = new Csn();
 		form.setId(0L);
 		return form;
 	}

@@ -1,6 +1,5 @@
  $(function() { 
         $('form').submit(function(e) {
-        	e.preventDefault();
             var form = $( this ),
                 url = form.attr('action'),
                 data = renameArr(form.serializeArray());

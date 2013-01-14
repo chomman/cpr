@@ -61,7 +61,7 @@
 							<tbody>
 								 <c:forEach items="${standard.standardCsns}" var="i">
 								 	<tr>
-								 		<td>${i.csn.csnName}</td>
+								 		<td>${i.csnName}</td>
 								 		<td class="last-edit">
 								 			<c:if test="${empty i.changedBy}">
 								 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / hh:mm"/>

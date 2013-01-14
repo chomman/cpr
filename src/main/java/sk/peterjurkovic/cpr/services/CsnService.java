@@ -5,18 +5,18 @@ import java.util.List;
 import sk.peterjurkovic.cpr.entities.Csn;
 
 public interface CsnService {
+
+	void createCsn(Csn Csn);
 	
-	void createCsn(Csn csn);
+	void updateCsn(Csn Csn);
 	
-	void updateCsn(Csn csn);
-	
-	void remove(Csn csn);
-	
-	List<Csn> getAllCsns();
+	void deleteCsn(Csn Csn);
 	
 	Csn getCsnById(Long id);
 	
-	Csn getCsnByCode(String code);
+	List<Csn> getAllCsns();
 	
-	void saveOrUpdate(Csn csn);
+	void saveOrUpdate(Csn Csn);
+	
+	
 }

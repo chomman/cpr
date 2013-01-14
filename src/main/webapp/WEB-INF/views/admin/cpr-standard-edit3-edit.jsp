@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+<title><spring:message code="cpr.standard.edit" arguments="${model.standardName}" /></title>
 </head>
 <body>
 	<div id="wrapper">
@@ -17,10 +17,9 @@
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr/standards" />"><spring:message code="menu.cpr.norm" /></a> &raquo;
-			 <span><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></span>
+			 <span><spring:message code="cpr.standard.edit" arguments="${model.standardName}" /></span>
 		</div>
-		<h1><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></h1>
-
+		<h1><spring:message code="cpr.standard.edit" arguments="${model.standardName}" /></h1>
 		<div id="content">
 							
 					
@@ -48,53 +47,52 @@
 					
 				
 					<!--  FORM  -->
-					<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${standardCsnId}" var="formUrl"/>
-					<form:form commandName="standardCsn" method="post" action="${formUrl}"  >
-				
-						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
-						<c:if test="${not empty successCreate}">
-							<p class="msg ok"><spring:message code="success.create" /></p>
-						</c:if>
-				
-					<p>
-	                	<label>
-	                		<strong><em class="red">*</em>
-	                			<spring:message code="cpr.csn.name" />
-	                		</strong>
-	                	</label>
-	                    <span class="field">
-	                    	<form:input path="csn.csnName" maxlength="45" cssClass="w300" />
-	                    </span>
-                    </p>
-                    <p>
-	                	<label title="ČSN online ID je číselný identifikátor PDF dokumentu obsahující normu" class="tt">
-                			<spring:message code="cpr.csn.onlineid" />
-                			<small>
-                			Příklad ČSN online ID je znázorněn červenou barvou.<br />
-                			</small>
-	                	</label>
-	                    <span class="field">
-	                    	<form:input path="csn.csnOnlineId" maxlength="10" cssClass="w100" />
-	                    	<span class="norminfo" >http://www.sgpstandard.cz/editor/files/on_line/csn-redirect.php?k=<strong class="red">90588</strong></span>
-	                    </span>
-                    </p>
-                    <p>
-	                	<label>
-	                		<spring:message code="cpr.csn.note" />
-	                	</label>
-	                    <span class="field">
-	                    	<form:input path="note" maxlength="255" cssClass="mw500" />
-	                    </span>
-                    </p>
-                   <form:hidden path="id" />
-                   <p class="button-box">
-                   	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
-                   </p>
-			</form:form>
+					<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${csn.id}" var="formUrl"/>
+					<form:form  commandName="csn" method="post" action="${formUrl}" cssClass="valid" >
+					
+							<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+							<c:if test="${not empty successCreate}">
+								<p class="msg ok"><spring:message code="success.create" /></p>
+							</c:if>
+					
+						<p>
+		                	<label>
+		                		<strong><em class="red">*</em>
+		                			<spring:message code="cpr.csn.name" />
+		                		</strong>
+		                	</label>
+		                    <span class="field">
+		                    	<form:input path="csnName" maxlength="45" cssClass="w300 required" />
+		                    </span>
+	                    </p>
+	                    <p>
+		                	<label title="ČSN online ID je číselný identifikátor PDF dokumentu obsahující normu" class="tt">
+	                			<spring:message code="cpr.csn.onlineid" />
+	                			<small>
+	                			Příklad ČSN online ID je znázorněn červenou barvou.<br />
+	                			</small>
+		                	</label>
+		                    <span class="field">
+		                    	<form:input path="csnOnlineId" maxlength="10" cssClass="w100" />
+		                    	<span class="norminfo" >http://www.sgpstandard.cz/editor/files/on_line/csn-redirect.php?k=<strong class="red">90588</strong></span>
+		                    </span>
+	                    </p>
+	                    <p>
+		                	<label>
+		                		<spring:message code="cpr.csn.note" />
+		                	</label>
+		                    <span class="field">
+		                    	<form:input path="note" maxlength="255" cssClass="mw500" />
+		                    </span>
+	                    </p>
+	                   <form:hidden path="id" />
+	                   <p class="button-box">
+	                   	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+	                   </p>
+				</form:form>
 					<!-- END FORM -->	
 					</div> <!-- END ACTIVE TAB -->
 
-					<jsp:include page="include/cpr-standard-menu3.jsp" />
 					<jsp:include page="include/cpr-standard-menu4.jsp" />
 					<jsp:include page="include/cpr-standard-menu5.jsp" />
 					<jsp:include page="include/cpr-standard-menu6.jsp" />

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>CPR</title>
+<title><spring:message code="dashboard.cpr.title" /></title>
 </head>
 <body>
 	<div id="wrapper">
@@ -14,16 +14,15 @@
 	</div>	
 	<div id="right">
 		<div id="breadcrumb">
-			 <a href="">Test page</a> &raquo;
-			 <a href="">Test page 2</a> &raquo;
-			 <span>Ovládací panel</span>
+			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
+			 <span><spring:message code="menu.cpr" /></span>
 		</div>
-		<h1><spring:message code="settings" /></h1>
+		<h1><spring:message code="dashboard.cpr.title" /></h1>
 
 		<div id="content">
 			
-
-	
+			<jsp:include page="include/cpr-nav.jsp" />
+			
 
 		</div>	
 	</div>

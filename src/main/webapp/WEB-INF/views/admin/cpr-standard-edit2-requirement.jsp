@@ -48,7 +48,7 @@
 				
 					<!--  FORM  -->
 					<c:url value="/admin/cpr/standard/edit/${standardId}/req/${requirementId}" var="formUrl"/>
-					<form:form commandName="requirement" method="post" action="${formUrl}"  >
+					<form:form commandName="requirement" method="post" action="${formUrl}" cssClass="valid"  >
 				
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						<c:if test="${not empty successCreate}">
@@ -62,7 +62,7 @@
 	                		</strong>
 	                	</label>
 	                    <span class="field">
-	                    	<form:input path="name" maxlength="100" cssClass="mw500" />
+	                    	<form:input path="name" maxlength="100" cssClass="mw500 required" />
 	                    </span>
                     </p>
                     <p>

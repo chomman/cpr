@@ -8,7 +8,7 @@ public class CprController extends SupportAdminController {
 
 	
 	public CprController(){
-		setViewName("cpr");
+		setViewName("cpr-dashboard");
 	}
 	
 	

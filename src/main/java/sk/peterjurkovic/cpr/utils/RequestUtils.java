@@ -2,10 +2,16 @@ package sk.peterjurkovic.cpr.utils;
 
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 
@@ -61,5 +67,14 @@ public class RequestUtils {
 		}
 		return 1;
 	}
-         
+    
+    public static Set<String> getBindingResultErrors(BindingResult result){
+    	Set<String> errorMessages = new HashSet<String>();
+    	List<FieldError> errors = result.getFieldErrors();
+    	for (FieldError error : errors ) {
+    		errorMessages.add(error.getDefaultMessage());
+        }
+    	return errorMessages;
+    }
+    
 }
