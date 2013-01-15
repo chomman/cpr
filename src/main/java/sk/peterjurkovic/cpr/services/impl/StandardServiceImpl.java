@@ -117,4 +117,10 @@ public class StandardServiceImpl implements StandardService {
 		standardDao.clearStandardTags(standard);
 	}
 
+	@Override
+	@Transactional(readOnly =  true )
+	public List<Standard> autocomplateSearch(String query) {
+		return standardDao.autocomplateSearch(query);
+	}
+
 }

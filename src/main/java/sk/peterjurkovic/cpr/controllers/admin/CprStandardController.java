@@ -524,7 +524,12 @@ public class CprStandardController extends SupportAdminController {
 		   return getEditFormView();
 	}
 
-
+	@RequestMapping(value = "/admin/cpr/standard/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<Standard>  autocomplete(HttpServletRequest request){
+		String term = request.getParameter("term");
+		List<Standard> result = standardService.autocomplateSearch(term);
+		return result;
+	}
 
  
     /**

@@ -29,7 +29,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> getStandardPage(int pageNumber,Long standardGroupId, 
+	public List<Standard> getStandardPage(final int pageNumber,Long standardGroupId, 
 			int orderById,
 			String query,
 			DateTime startValidity, 
@@ -46,7 +46,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		return standards;
 	}
 	
-	public Long getCountOfSdandards(Long standardGroupId, 
+	public Long getCountOfSdandards(final Long standardGroupId, 
 			int orderById,
 			String query,
 			DateTime startValidity, 
@@ -64,7 +64,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 
 	@Override
-	public boolean isStandardIdUnique(String standardId, Long id) {
+	public boolean isStandardIdUnique(final String standardId,final Long id) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s WHERE s.standardId=:standardId");
 		if(id != 0){
 			hql.append(" AND s.id<>:id");
@@ -82,12 +82,27 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 
 	@Override
-	public void clearStandardTags(Standard standard) {
+	public void clearStandardTags(final Standard standard) {
 		StringBuilder hql = new StringBuilder("delete from Tag tag where tag.standard=:standard");
 		sessionFactory.getCurrentSession()
 		.createQuery(hql.toString())
 		.setEntity("standard", standard)
 		.executeUpdate();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> autocomplateSearch(final String query) {
+		StringBuilder hql = new StringBuilder("select s.id, s.standardId, s.standardName from Standard s");
+		hql.append(" where s.standardId like :query ");
+		List<Standard> standards = new ArrayList<Standard>();
+		standards = sessionFactory.getCurrentSession()
+				.createQuery(hql.toString())
+				.setString("query", "%" + query + "%")
+				.setMaxResults(8)
+				.list();
+		return standards;
 	}
 	
 	

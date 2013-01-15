@@ -28,4 +28,6 @@ public interface StandardService {
 	void saveOrUpdate(Standard standard);
 	
 	void clearStandardTags(Standard standard);
+	
+	List<Standard> autocomplateSearch(String query);
 }

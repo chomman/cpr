@@ -22,10 +22,53 @@
 
 		<div id="content">
 			
+<script type="text/javascript">  
+       
+$(document).ready(function() {    
+      $("input.query").autocomplete({
+			 source: function(reques, response){  
+			 	 $.getJSON("/cpr/admin/standard/autocomplete?cb=?", reques, function(data) {  
+                 	 response( $.map( data, function( item ) {
+                 		    console.log(item);
+							return {label: item.title, value: item.title};
+						}));
+            	});  
+			 },
+			minLength: 2,
+			select: function( event, ui ) {
+				ui.item.value;
+			}
+	});
+});
+</script>
+			
 			<ul class="sub-nav">
-						<li><a class="active" href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li>
-						<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
-					</ul>
+				<li><a class="active" href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li>
+				<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
+			</ul>
+			
+			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
+				<div>
+					<span class="long">Zeradit podle:</span>
+					<select name="orderBy">
+						<option value="0">Najnovších</option>
+						<option value="1">Najstarších</option>
+						<option value="0">Mena A-Z</option>
+						<option value="0">Mena Z-a</option>
+					</select>
+					<span>Platnost od:</span>
+					<input type="text" class="date"  name="startValidity" />
+					<span>do:</span>
+					<input type="text" class="date" name="stopValidity" />
+					
+				</div>
+				<div>
+					<span class="long">Názov:</span>
+					<input type="text" class="query" name="query" />
+					
+					<input type="submit" value="Filtrovat" class="btn" />
+				</div>
+			</form>
 			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>
