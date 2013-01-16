@@ -38,10 +38,11 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			hqlQuery.setString("query", query);
 		}
 		if(startValidity != null){
-			hqlQuery.setEntity("startValidity", startValidity);
+			
+			hqlQuery.setTimestamp("startValidity", startValidity.toDate());
 		}
-		if(startValidity != null){
-			hqlQuery.setEntity("stopValidity", stopValidity);
+		if(stopValidity != null){
+			hqlQuery.setTimestamp("stopValidity", stopValidity.toDate());
 		}
 		hqlQuery.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1));
 		hqlQuery.setMaxResults(Constants.PAGINATION_PAGE_SIZE);
@@ -64,10 +65,11 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			hqlQuery.setString("query", query);
 		}
 		if(startValidity != null){
-			hqlQuery.setEntity("startValidity", startValidity);
+			logger.info(startValidity.toString());
+			hqlQuery.setTimestamp("startValidity", startValidity.toDate());
 		}
-		if(startValidity != null){
-			hqlQuery.setEntity("stopValidity", stopValidity);
+		if(stopValidity != null){
+			hqlQuery.setTimestamp("stopValidity", stopValidity.toDate());
 		}
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
@@ -125,11 +127,11 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			where.add(" s.standardId like CONCAT('%', :query , '%')");
 		}
 		if(startValidity != null){
-			where.add(" s.startValidity<=:startValidity");
+			where.add(" (s.startValidity<=:startValidity)");
 		}
 		
 		if(stopValidity != null){
-			where.add(" s.stopValidity>=:stopValidity");
+			where.add(" (s.stopValidity>=:stopValidity)");
 		}
 		
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");

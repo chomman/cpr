@@ -131,7 +131,8 @@ public class CprStandardController extends SupportAdminController {
 		model.put("standards", standards);
 		model.put("paginationLinks", paginationLinks);
 		model.put("orders", StandardOrder.getAll());
-		model.put("tab", CPR_TAB_INDEX);	
+		model.put("tab", CPR_TAB_INDEX);
+		model.put("params", params);
 		modelMap.put("model", model);
         return getTableItemsView();
     }
@@ -161,6 +162,17 @@ public class CprStandardController extends SupportAdminController {
 		}
 		prepareModelForEditBasicInfo(form, model, standardId);
         return getEditFormView();
+	}
+	
+	@RequestMapping( value = "/admin/cpr/standard/delete/{standardId}", method = RequestMethod.GET)
+	public String deleteStandard(@PathVariable Long standardId, ModelMap model, HttpServletRequest request) {
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError();
+		}
+		model.put("successDelete", true);
+		standardService.deleteStandard(standard);
+        return showCprGroupsPage(model, request);
 	}
 	
 		
@@ -389,7 +401,7 @@ public class CprStandardController extends SupportAdminController {
  			createItemNotFoundError();
  		}
  		csnService.deleteCsn(csn);
-        return "forward://admin/cpr/standard/edit/"+csn.getStandard().getId()+"/csn";
+        return "forward:/admin/cpr/standard/edit/"+csn.getStandard().getId()+"/csn";
     }
     
      //##################################################

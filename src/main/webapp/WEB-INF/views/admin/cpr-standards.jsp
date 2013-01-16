@@ -52,18 +52,18 @@ $(document).ready(function() {
 					<span class="long">Seřadit podle:</span>
 					<select name="orderBy">
 						<c:forEach items="${model.orders}" var="i">
-							<option value="${i.id}">${i.name}</option>
+							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
 					<span>Platnost od:</span>
-					<input type="text" class="date"  name="startValidity" />
+					<input type="text" class="date"  name="startValidity" value="${model.params.startValidity}" />
 					<span>do:</span>
-					<input type="text" class="date" name="stopValidity" />
+					<input type="text" class="date" name="stopValidity"  value="${model.params.stopValidity}" />
 					
 				</div>
 				<div>
 					<span class="long">Název:</span>
-					<input type="text" class="query" name="query" />
+					<input type="text" class="query" name="query"   value="${model.params.query}" />
 					
 					<input type="submit" value="Filtrovat" class="btn" />
 				</div>
@@ -120,10 +120,10 @@ $(document).ready(function() {
 						 		</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
-						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / hh:mm"/>
+						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>
 						 			</c:if>
 						 			<c:if test="${not empty i.changedBy}">
-						 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / hh:mm"/>
+						 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / HH:mm"/>
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">

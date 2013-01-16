@@ -67,7 +67,7 @@ public class StandardServiceImpl implements StandardService {
 		Long standardGroupId = ParseUtils.parseLongFromStringObject("standardGroup");
 		int orderById = ParseUtils.parseIntFromStringObject(criteria.get("orderBy"));
 		DateTime startValidity = ParseUtils.parseDateTimeFromStringObject(criteria.get("startValidity"));
-		DateTime stopValidity =  ParseUtils.parseDateTimeFromStringObject(criteria.get("setop"));		
+		DateTime stopValidity =  ParseUtils.parseDateTimeFromStringObject(criteria.get("stopValidity"));		
 		String query = null;
 		if(criteria.get("query") != null){
 			query = (String) criteria.get("query");
@@ -81,7 +81,7 @@ public class StandardServiceImpl implements StandardService {
 		Long standardGroupId = ParseUtils.parseLongFromStringObject("standardGroup");
 		int orderById = ParseUtils.parseIntFromStringObject(criteria.get("orderBy"));
 		DateTime startValidity = ParseUtils.parseDateTimeFromStringObject(criteria.get("startValidity"));
-		DateTime stopValidity =  ParseUtils.parseDateTimeFromStringObject(criteria.get("setop"));		
+		DateTime stopValidity =  ParseUtils.parseDateTimeFromStringObject(criteria.get("stopValidity"));		
 		String query = null;
 		if(criteria.get("query") != null){
 			query = (String) criteria.get("query");
