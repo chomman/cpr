@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
@@ -11,16 +12,10 @@ import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.enums.StandardOrder;
 
 @Repository("standardDao")
 public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements StandardDao {
-	
-	public static final int ORDER_BY_NAME_ASC = 1;
-	public static final int ORDER_BY_NAME_DESC = 2;
-	public static final int ORDER_BY_STANDARD_ID_ASC = 3;
-	public static final int ORDER_BY_STANDARD_ID_DESC = 4;
-	public static final int ORDER_BY_CREATE_ASC = 5;
-	public static final int ORDER_BY_CREATE_DESC = 6;
 	
 	public StandardDaoImpl(){
 		super(Standard.class);
@@ -35,15 +30,24 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			DateTime startValidity, 
 			DateTime stopValidity
 			){
-		List<Standard> standards = new ArrayList<Standard>();
-		standards = sessionFactory.getCurrentSession()
-				.createQuery("from Standard s")
-				.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1))
-				.setMaxResults(Constants.PAGINATION_PAGE_SIZE)
-				.setCacheable(true)
-				.setCacheRegion(CacheRegion.CPR_CACHE)
-				.list();
-		return standards;
+		StringBuffer hql = new StringBuffer("from Standard s");
+		hql.append(prepareFIlterQuery(query, startValidity, stopValidity));
+		hql.append(StandardOrder.getSqlById(orderById));
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		if(query != null){
+			hqlQuery.setString("query", query);
+		}
+		if(startValidity != null){
+			hqlQuery.setEntity("startValidity", startValidity);
+		}
+		if(startValidity != null){
+			hqlQuery.setEntity("stopValidity", stopValidity);
+		}
+		hqlQuery.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1));
+		hqlQuery.setMaxResults(Constants.PAGINATION_PAGE_SIZE);
+		hqlQuery.setCacheable(true);
+		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
+		return hqlQuery.list();
 	}
 	
 	public Long getCountOfSdandards(final Long standardGroupId, 
@@ -53,12 +57,21 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			DateTime stopValidity
 			) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM Standard s");
-
-		return (Long) sessionFactory.getCurrentSession()
-				.createQuery(hql.toString())
-				.setCacheable(true)
-				.setCacheRegion(CacheRegion.CPR_CACHE)
-				.uniqueResult();
+		hql.append(prepareFIlterQuery(query, startValidity, stopValidity));
+		hql.append(StandardOrder.getSqlById(orderById));
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		if(query != null){
+			hqlQuery.setString("query", query);
+		}
+		if(startValidity != null){
+			hqlQuery.setEntity("startValidity", startValidity);
+		}
+		if(startValidity != null){
+			hqlQuery.setEntity("stopValidity", stopValidity);
+		}
+		hqlQuery.setCacheable(true);
+		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
+	    return (Long) hqlQuery.uniqueResult();
 
 	}
 
@@ -106,6 +119,21 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	}
 	
 	
-	
+	private String prepareFIlterQuery(String query,	DateTime startValidity, DateTime stopValidity){
+		List<String> where = new ArrayList<String>();
+		if(query != null){
+			where.add(" s.standardId like CONCAT('%', :query , '%')");
+		}
+		if(startValidity != null){
+			where.add(" s.startValidity<=:startValidity");
+		}
+		
+		if(stopValidity != null){
+			where.add(" s.stopValidity>=:stopValidity");
+		}
+		
+		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
+
+	}
 	
 }

@@ -26,11 +26,11 @@
        
 $(document).ready(function() {    
       $("input.query").autocomplete({
-			 source: function(reques, response){  
-			 	 $.getJSON("/cpr/admin/standard/autocomplete?cb=?", reques, function(data) {  
+			 source: function(request, response){  
+			 	 $.getJSON( $("#base").text() +"admin/cpr/standard/autocomplete", request, function(data) {  
                  	 response( $.map( data, function( item ) {
-                 		    console.log(item);
-							return {label: item.title, value: item.title};
+                 			 var shortText = jQuery.trim(item[1] + " " +  item[2]).substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
+							return {label: shortText, value: item[1]};
 						}));
             	});  
 			 },
@@ -49,12 +49,11 @@ $(document).ready(function() {
 			
 			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
 				<div>
-					<span class="long">Zeradit podle:</span>
+					<span class="long">Seřadit podle:</span>
 					<select name="orderBy">
-						<option value="0">Najnovších</option>
-						<option value="1">Najstarších</option>
-						<option value="0">Mena A-Z</option>
-						<option value="0">Mena Z-a</option>
+						<c:forEach items="${model.orders}" var="i">
+							<option value="${i.id}">${i.name}</option>
+						</c:forEach>
 					</select>
 					<span>Platnost od:</span>
 					<input type="text" class="date"  name="startValidity" />
@@ -63,7 +62,7 @@ $(document).ready(function() {
 					
 				</div>
 				<div>
-					<span class="long">Názov:</span>
+					<span class="long">Název:</span>
 					<input type="text" class="query" name="query" />
 					
 					<input type="submit" value="Filtrovat" class="btn" />

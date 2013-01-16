@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
@@ -32,6 +33,7 @@ import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
+import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.pagination.PageLink;
 import sk.peterjurkovic.cpr.pagination.PaginationLinker;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
@@ -128,6 +130,7 @@ public class CprStandardController extends SupportAdminController {
 		List<Standard> standards = standardService.getStandardPage(currentPage, params);
 		model.put("standards", standards);
 		model.put("paginationLinks", paginationLinks);
+		model.put("orders", StandardOrder.getAll());
 		model.put("tab", CPR_TAB_INDEX);	
 		modelMap.put("model", model);
         return getTableItemsView();
@@ -525,9 +528,8 @@ public class CprStandardController extends SupportAdminController {
 	}
 
 	@RequestMapping(value = "/admin/cpr/standard/autocomplete", method = RequestMethod.GET)
-	public @ResponseBody List<Standard>  autocomplete(HttpServletRequest request){
-		String term = request.getParameter("term");
-		List<Standard> result = standardService.autocomplateSearch(term);
+	public @ResponseBody List<Standard>  autocomplete(@RequestBody @RequestParam("term") String query){
+		List<Standard> result = standardService.autocomplateSearch(query);
 		return result;
 	}
 
