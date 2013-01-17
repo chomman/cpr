@@ -1,8 +1,7 @@
 package sk.peterjurkovic.cpr.dao;
 
 import java.util.List;
-
-import org.joda.time.DateTime;
+import java.util.Map;
 
 import sk.peterjurkovic.cpr.entities.Standard;
 
@@ -14,12 +13,9 @@ import sk.peterjurkovic.cpr.entities.Standard;
 public interface StandardDao extends BaseDao<Standard, Long> {
 	
 	
-	 List<Standard> getStandardPage(int pageNumber,Long standardGroupId, int orderById,
-			String query, DateTime startValidity, DateTime stopValidity);
+	List<Standard> getStandardPage(int pageNumber, Map<String, Object> criteria);
 	
-	 
-	 
-	Long getCountOfSdandards(Long standardGroupId,int orderById, String query, DateTime startValidity, DateTime stopValidity);
+	Long getCountOfSdandards(Map<String, Object> criteria);
 	
 	void clearStandardTags(Standard standard);
 	

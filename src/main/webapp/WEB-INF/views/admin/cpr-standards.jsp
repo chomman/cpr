@@ -22,25 +22,24 @@
 
 		<div id="content">
 			
-<script type="text/javascript">  
-       
-$(document).ready(function() {    
-      $("input.query").autocomplete({
-			 source: function(request, response){  
-			 	 $.getJSON( $("#base").text() +"admin/cpr/standard/autocomplete", request, function(data) {  
-                 	 response( $.map( data, function( item ) {
-                 			 var shortText = jQuery.trim(item[1] + " " +  item[2]).substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
-							return {label: shortText, value: item[1]};
-						}));
-            	});  
-			 },
-			minLength: 2,
-			select: function( event, ui ) {
-				ui.item.value;
-			}
-	});
-});
-</script>
+			<script type="text/javascript">  
+			$(document).ready(function() {    
+			      $("input.query").autocomplete({
+						 source: function(request, response){  
+						 	 $.getJSON( $("#base").text() +"admin/cpr/standard/autocomplete", request, function(data) {  
+			                 	 response( $.map( data, function( item ) {
+			                 			 var shortText = jQuery.trim(item[1] + " " +  item[2]).substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
+										return {label: shortText, value: item[1]};
+									}));
+			            	});  
+						 },
+						minLength: 2,
+						select: function( event, ui ) {
+							ui.item.value;
+						}
+				});
+			});
+			</script>
 			
 			<ul class="sub-nav">
 				<li><a class="active" href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li>
@@ -49,20 +48,29 @@ $(document).ready(function() {
 			
 			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
 				<div>
-					<span class="long">Seřadit podle:</span>
+					<span class="long"><spring:message code="form.orderby" />:</span>
 					<select name="orderBy">
 						<c:forEach items="${model.orders}" var="i">
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span>Platnost od:</span>
-					<input type="text" class="date"  name="startValidity" value="${model.params.startValidity}" />
+					<span><spring:message code="cpr.standard.validity.from" /></span>
+					<input type="text" class="date"  name="startValidity" value="<joda:format value="${model.params.startValidity}" pattern="dd.MM.yyyy"/>" />
 					<span>do:</span>
-					<input type="text" class="date" name="stopValidity"  value="${model.params.stopValidity}" />
+					<input type="text" class="date" name="stopValidity"  value="<joda:format value="${model.params.stopValidity}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
 				<div>
-					<span class="long">Název:</span>
+					<span class="long"><spring:message code="form.groups" />:</span>
+					<select name="groupId" class="groups">
+						<option value="0"><spring:message code="cpr.groups.all" /></option>
+						<c:forEach items="${model.groups}" var="group">
+							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.groupName}</option>
+						</c:forEach> 
+					</select>
+				</div>
+				<div>
+					<span class="long"><spring:message code="form.name" /></span>
 					<input type="text" class="query" name="query"   value="${model.params.query}" />
 					
 					<input type="submit" value="Filtrovat" class="btn" />

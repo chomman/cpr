@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="menu.cpr.requrements" /></title>
+<title><spring:message code="cpr.br" /></title>
 </head>
 <body>
 	<div id="wrapper">
@@ -16,9 +16,9 @@
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
-			 <span><spring:message code="menu.cpr.requrements" /></span>
+			 <span><spring:message code="cpr.br" /></span>
 		</div>
-		<h1><spring:message code="cpr.as.title" /></h1>
+		<h1><spring:message code="cpr.br" /></h1>
 
 		<div id="content">
 			

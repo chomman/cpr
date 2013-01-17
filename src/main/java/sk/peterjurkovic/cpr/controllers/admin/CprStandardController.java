@@ -131,6 +131,7 @@ public class CprStandardController extends SupportAdminController {
 		model.put("standards", standards);
 		model.put("paginationLinks", paginationLinks);
 		model.put("orders", StandardOrder.getAll());
+		model.put("groups", standardGroupService.getAllStandardGroups());
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("params", params);
 		modelMap.put("model", model);

@@ -61,32 +61,14 @@ public class StandardServiceImpl implements StandardService {
 
 	@Override
 	@Transactional(readOnly =  true )
-	public List<Standard> getStandardPage(int pageNumber,
-			Map<String, Object> criteria) {
-		
-		Long standardGroupId = ParseUtils.parseLongFromStringObject("standardGroup");
-		int orderById = ParseUtils.parseIntFromStringObject(criteria.get("orderBy"));
-		DateTime startValidity = ParseUtils.parseDateTimeFromStringObject(criteria.get("startValidity"));
-		DateTime stopValidity =  ParseUtils.parseDateTimeFromStringObject(criteria.get("stopValidity"));		
-		String query = null;
-		if(criteria.get("query") != null){
-			query = (String) criteria.get("query");
-		}
-		return standardDao.getStandardPage(pageNumber, standardGroupId, orderById, query, startValidity, stopValidity);
+	public List<Standard> getStandardPage(int pageNumber,Map<String, Object> criteria) {
+		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria));
 	}
 
 	@Override
 	@Transactional(readOnly =  true )
 	public Long getCountOfStandards(Map<String, Object> criteria) {
-		Long standardGroupId = ParseUtils.parseLongFromStringObject("standardGroup");
-		int orderById = ParseUtils.parseIntFromStringObject(criteria.get("orderBy"));
-		DateTime startValidity = ParseUtils.parseDateTimeFromStringObject(criteria.get("startValidity"));
-		DateTime stopValidity =  ParseUtils.parseDateTimeFromStringObject(criteria.get("stopValidity"));		
-		String query = null;
-		if(criteria.get("query") != null){
-			query = (String) criteria.get("query");
-		}
-		return standardDao.getCountOfSdandards(standardGroupId, orderById, query, startValidity, stopValidity);
+		return standardDao.getCountOfSdandards(validateCriteria(criteria));
 	}
 
 	@Override
@@ -122,5 +104,16 @@ public class StandardServiceImpl implements StandardService {
 	public List<Standard> autocomplateSearch(String query) {
 		return standardDao.autocomplateSearch(query);
 	}
-
+	
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			criteria.put("standardGroup", ParseUtils.parseLongFromStringObject("standardGroup"));
+			criteria.put("groupId", ParseUtils.parseLongFromStringObject(criteria.get("groupId")));
+			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
+			criteria.put("startValidity", ParseUtils.parseDateTimeFromStringObject(criteria.get("startValidity")));
+			criteria.put("stopValidity", ParseUtils.parseDateTimeFromStringObject(criteria.get("stopValidity")));
+		}
+		return criteria;
+	}
 }

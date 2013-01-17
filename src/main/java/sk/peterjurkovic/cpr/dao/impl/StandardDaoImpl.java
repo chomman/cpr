@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.dao.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
@@ -24,26 +25,17 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> getStandardPage(final int pageNumber,Long standardGroupId, 
-			int orderById,
-			String query,
-			DateTime startValidity, 
-			DateTime stopValidity
-			){
+	public List<Standard> getStandardPage(final int pageNumber,final Map<String, Object> criteria ){
 		StringBuffer hql = new StringBuffer("from Standard s");
-		hql.append(prepareFIlterQuery(query, startValidity, stopValidity));
-		hql.append(StandardOrder.getSqlById(orderById));
+		hql.append(prepareHqlForQuery(criteria));
+		if((Integer)criteria.get("orderBy") != null){
+			hql.append(StandardOrder.getSqlById((Integer)criteria.get("orderBy") ));
+		}else{
+			hql.append(StandardOrder.getSqlById(6));
+		}
+		
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
-		if(query != null){
-			hqlQuery.setString("query", query);
-		}
-		if(startValidity != null){
-			
-			hqlQuery.setTimestamp("startValidity", startValidity.toDate());
-		}
-		if(stopValidity != null){
-			hqlQuery.setTimestamp("stopValidity", stopValidity.toDate());
-		}
+		prepareHqlQueryParams(hqlQuery, criteria);
 		hqlQuery.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1));
 		hqlQuery.setMaxResults(Constants.PAGINATION_PAGE_SIZE);
 		hqlQuery.setCacheable(true);
@@ -51,26 +43,11 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		return hqlQuery.list();
 	}
 	
-	public Long getCountOfSdandards(final Long standardGroupId, 
-			int orderById,
-			String query,
-			DateTime startValidity, 
-			DateTime stopValidity
-			) {
+	public Long getCountOfSdandards(final Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM Standard s");
-		hql.append(prepareFIlterQuery(query, startValidity, stopValidity));
-		hql.append(StandardOrder.getSqlById(orderById));
+		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
-		if(query != null){
-			hqlQuery.setString("query", query);
-		}
-		if(startValidity != null){
-			logger.info(startValidity.toString());
-			hqlQuery.setTimestamp("startValidity", startValidity.toDate());
-		}
-		if(stopValidity != null){
-			hqlQuery.setTimestamp("stopValidity", stopValidity.toDate());
-		}
+		prepareHqlQueryParams(hqlQuery, criteria);
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
 	    return (Long) hqlQuery.uniqueResult();
@@ -121,21 +98,46 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	}
 	
 	
-	private String prepareFIlterQuery(String query,	DateTime startValidity, DateTime stopValidity){
+	private String prepareHqlForQuery(Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
-		if(query != null){
-			where.add(" s.standardId like CONCAT('%', :query , '%')");
+		if(criteria.size() != 0){
+			if((String)criteria.get("query") != null){
+				where.add(" s.standardId like CONCAT('%', :query , '%')");
+			}
+			if((DateTime)criteria.get("startValidity") != null){
+				where.add(" (s.startValidity<=:startValidity)");
+			}
+			if((DateTime)criteria.get("stopValidity") != null){
+				where.add(" (s.stopValidity>=:stopValidity)");
+			}
+			Long groupId = (Long)criteria.get("groupId");
+			if(groupId != null && groupId != 0){
+				where.add(" (s.standardGroup.id=:groupId)");
+			}
 		}
-		if(startValidity != null){
-			where.add(" (s.startValidity<=:startValidity)");
-		}
-		
-		if(stopValidity != null){
-			where.add(" (s.stopValidity>=:stopValidity)");
-		}
-		
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
 
+	}
+	
+	private void prepareHqlQueryParams(Query hqlQuery, Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			if((String)criteria.get("query") != null){
+				hqlQuery.setString("query", (String)criteria.get("query"));
+			}
+			DateTime startValidity = (DateTime)criteria.get("startValidity");
+			if(startValidity != null){
+				
+				hqlQuery.setTimestamp("startValidity", startValidity.toDate());
+			}
+			DateTime stopValidity = (DateTime)criteria.get("stopValidity");
+			if(stopValidity != null){
+				hqlQuery.setTimestamp("stopValidity", stopValidity.toDate());
+			}
+			Long groupId = (Long)criteria.get("groupId");
+			if(groupId != null && groupId != 0){
+				hqlQuery.setLong("groupId", groupId);
+			}
+		}
 	}
 	
 }

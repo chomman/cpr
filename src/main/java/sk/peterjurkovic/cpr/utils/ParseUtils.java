@@ -15,6 +15,9 @@ public class ParseUtils {
      */
     public static int parseIntFromStringObject(Object value){
     	if(value != null){
+    		if(value instanceof Integer){
+    			return (Integer)value;
+    		}
 			return  NumberUtils.toInt( (String)value, 0);
 		}
     	return 0;
@@ -22,6 +25,9 @@ public class ParseUtils {
     
     public static Long parseLongFromStringObject(Object value){
     	if(value != null){
+    		if(value instanceof Long){
+    			return (Long)value;
+    		}
 			return  NumberUtils.toLong((String)value, 0);
 		}
     	return 0L;
@@ -29,12 +35,17 @@ public class ParseUtils {
     
     public static DateTime parseDateTimeFromStringObject(Object stringDateTime){
     	if(stringDateTime != null){
-			try{
-				DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
-				return formatter.parseDateTime((String)stringDateTime);
-			}catch(IllegalArgumentException ex){
-				return null;
-			}
+    		if(stringDateTime instanceof DateTime){
+    			return (DateTime)stringDateTime;
+    		}
+    		if(stringDateTime instanceof String){
+				try{
+					DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
+					return formatter.parseDateTime((String)stringDateTime);
+				}catch(IllegalArgumentException ex){
+					return null;
+				}
+    		}
 		}
     	return null;
     }    

@@ -19,7 +19,7 @@
 			 <a href="<c:url value="/admin/cpr/basicrequirements" />"><spring:message code="menu.cpr.requrements" /></a> &raquo;
 			 <span><spring:message code="cpr.br.edit" /></span>
 		</div>
-		<h1><spring:message code="cpr.as.edit" /></h1>
+		<h1><spring:message code="cpr.br.edit" /></h1>
 
 		<div id="content">
 			
