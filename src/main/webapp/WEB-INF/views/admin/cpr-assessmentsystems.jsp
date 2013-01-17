@@ -36,7 +36,7 @@
 				<table class="data">
 					<thead>
 						<tr>
-							<tH><spring:message code="cpr.br.name" /></th>
+							<tH><spring:message code="cpr.as.name" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>

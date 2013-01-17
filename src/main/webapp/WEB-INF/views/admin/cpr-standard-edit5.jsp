@@ -37,6 +37,7 @@
 					<jsp:include page="include/cpr-standard-menu1.jsp" />
 					<jsp:include page="include/cpr-standard-menu2.jsp" />
 					<jsp:include page="include/cpr-standard-menu3.jsp" />
+					<jsp:include page="include/cpr-standard-menu4.jsp" />
 					
 					
 					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.5" /></strong>
@@ -128,7 +129,6 @@
 						
 					</div> <!-- END ACTIVE TAB -->
 					
-					<jsp:include page="include/cpr-standard-menu5.jsp" />
 					<jsp:include page="include/cpr-standard-menu6.jsp" />
 					
 				</div>	<!-- END TABs -->

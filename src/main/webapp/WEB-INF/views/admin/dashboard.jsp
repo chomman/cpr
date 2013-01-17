@@ -22,7 +22,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="<c:url value="/admin/news" />" class="ico-cal tt" title="<spring:message code="dashboard.news.title"/>">
+				<a href="<c:url value="/admin/articles" />" class="ico-cal tt" title="<spring:message code="dashboard.news.title"/>">
 					<spring:message code="dashboard.news"/>
 				</a>
 			</li>
