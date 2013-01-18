@@ -8,7 +8,7 @@ body{font-family: Arial,Tahoma, sans-serif;}
 .l{ text-align:left;}
 a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
-.radius,.published,#req-nav a,.btn,.cpr-dashboard li{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+.radius,.published,#req-nav a,.btn,.cpr-dashboard li,#chars{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 
 /* FILTER */
 .ui-autocomplete{font-size:13px !important;-webkit-box-shadow: 0px 5px 5px 3px #888;box-shadow: 0px 5px 5px 3px #888; }
@@ -238,6 +238,7 @@ select.smaller option{padding:5px 10px;}
 .button{background: #FB9337;border: 1px solid #F0882C;color: #FFFFFF;cursor: pointer;font-weight: bold; padding: 7px 20px;font-size:12px;}
 .button:hover{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
 .norminfo{font-size:12px;margin-left:20px;color:#555}
+textarea#header{width:600px;height:100px;}
 
 #ui-datepicker-div{font-size:14px;}
 .date{text-align:right;font-size:14px;padding:8px 40px 8px 0;background:#FCFCFC url(../img/ico_calendar_input.png) no-repeat 135px center; width:120px; }
@@ -254,3 +255,6 @@ background: -o-linear-gradient(top, #f7f7f7 0%,#e5e5e5 100%); /* Opera 11.10+ */
 background: -ms-linear-gradient(top, #f7f7f7 0%,#e5e5e5 100%); /* IE10+ */
 background: linear-gradient(to bottom, #f7f7f7 0%,#e5e5e5 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */ border:1px solid #ddd;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;color:#333}
+
+/* counter */
+#chars{position:absolute;left:780px;padding:2px 5px;background:#f5f5f5;border:1px solid #ddd;font-size:12px;top:3px;color:#555}

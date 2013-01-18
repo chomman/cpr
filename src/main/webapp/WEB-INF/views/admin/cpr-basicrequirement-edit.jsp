@@ -2,9 +2,10 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
-<head>
-<title><spring:message code="cpr.br.edit" /></title>
-</head>
+	<head>
+		<title><spring:message code="cpr.br.edit" /></title>
+		<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+	</head>
 <body>
 	<div id="wrapper">
 	<div id="left">
@@ -52,8 +53,11 @@
 					</c:if>
 				</table>
 			</c:if>
-			<c:url value="/admin/cpr/basicrequirements/edit/${basicRequirementId}" var="formUrl"/>
 			
+			<script type="text/javascript"> 
+				$(function() { initWISIWIG("610", "400"); });
+			</script>
+			<c:url value="/admin/cpr/basicrequirements/edit/${basicRequirementId}" var="formUrl"/>
 			<form:form commandName="basicRequirement" method="post" action="${formUrl}"  >
 				
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />

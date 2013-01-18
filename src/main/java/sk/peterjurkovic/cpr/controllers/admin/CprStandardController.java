@@ -47,6 +47,7 @@ import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.validators.admin.StandardValidator;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.DateTimeEditor;
@@ -97,6 +98,8 @@ public class CprStandardController extends SupportAdminController {
 	@Autowired
 	private MandateCollectionEditor mandateCollectionEditor;
 	
+	@Autowired
+	private StandardValidator standardValidator;
 	
 	public CprStandardController(){
 		setTableItemsView("cpr-standards");
@@ -194,7 +197,7 @@ public class CprStandardController extends SupportAdminController {
 		}else{
 			setEditFormView("cpr-standard-edit1");
 		}
-		
+		standardValidator.validate(result, form);
 		Long persistedId = null;
 		if (! result.hasErrors()) {
         	if(standardService.isStandardIdUnique(form.getStandardId(), form.getId())){

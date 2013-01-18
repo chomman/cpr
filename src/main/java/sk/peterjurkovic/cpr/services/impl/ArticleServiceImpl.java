@@ -13,6 +13,7 @@ import sk.peterjurkovic.cpr.entities.Article;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.ArticleService;
 import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("articleService")
@@ -24,13 +25,23 @@ public class ArticleServiceImpl implements ArticleService {
 	@Autowired
 	private UserService userService;
 	
+	
 	@Override
-	public void saveArticle(Article article) {
+	public void createArticle(Article article) {
+		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		article.setCode( generateProperUrlForAction(article.getTitle(), null) );
+		article.setCreatedBy(user);
+		article.setEnabled(Boolean.FALSE);
+		article.setCreated(new DateTime());
 		articleDao.save(article);
+		articleDao.flush();
 	}
 
 	@Override
 	public void updateArticle(Article article) {
+		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		article.setChangedBy(user);
+		article.setChanged(new DateTime());
 		articleDao.update(article);
 	}
 
@@ -59,7 +70,7 @@ public class ArticleServiceImpl implements ArticleService {
 
 	@Override
 	public void saveOrUpdate(Article article) {
-User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		
 		if(article.getId() == null){
 			article.setCreatedBy(user);
@@ -71,5 +82,17 @@ User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername(
 			articleDao.update(article);
 		}
 	}
-
+	
+	
+	private String generateProperUrlForAction(String name, Long id) {
+        String properUrl = CodeUtils.toSeoUrl(name);
+        Article article = getArticleByCode(properUrl);
+        if (article == null || (id != null && article.getId().equals(id))) {
+            return properUrl;
+        } else {
+            Long nextId = articleDao.getNextIdValue();
+            properUrl = properUrl + nextId;
+            return properUrl;
+        }
+    }
 }

@@ -2,9 +2,10 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
-<head>
-<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
-</head>
+	<head>
+		<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+		<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+	</head>
 <body>
 	<div id="wrapper">
 	<div id="left">
@@ -41,9 +42,10 @@
 					
 					<!-- ACTIVE TAB -->
 					<div class="active-tab">
-					
+						
 					<script type="text/javascript"> 
 				    $(function() { 
+				    	initWISIWIG("610", "300");
 				        $('form').submit(function(e) {
 				        	e.preventDefault();
 				            var form = $( this ),
@@ -52,7 +54,6 @@
 				            var mce =  tinyMCE.get('text');
 				            	mce.setProgressState(1); // Show progress
 								data.text = mce.getContent();
-				            console.log(data);
 				            $.ajax({
 				                url : url,
 				                type : "POST",

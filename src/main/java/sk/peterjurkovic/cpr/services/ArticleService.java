@@ -6,7 +6,7 @@ import sk.peterjurkovic.cpr.entities.Article;
 
 public interface ArticleService {
 	
-	void saveArticle(Article article);
+	void createArticle(Article article);
 	
 	void updateArticle(Article article);
 	

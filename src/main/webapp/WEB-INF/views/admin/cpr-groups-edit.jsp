@@ -2,9 +2,10 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
-<head>
-<title><spring:message code="cpr.groups.edit" /></title>
-</head>
+	<head>
+		<title><spring:message code="cpr.groups.edit" /></title>
+		<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+	</head>
 <body>
 	<div id="wrapper">
 	<div id="left">
@@ -53,11 +54,12 @@
 							</c:if>
 						</table>
 					</c:if>
+					<script type="text/javascript"> 
+						$(function() { initWISIWIG("580", "250"); });
+					</script>
 					<c:url value="/admin/cpr/groups/edit/${standardGroupId}" var="formUrl"/>
-					
 					<form:form commandName="standardGroup" method="post" action="${formUrl}"  >
-						
-						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						<c:if test="${not empty successCreate}">
 							<p class="msg ok"><spring:message code="success.create" /></p>
 						</c:if>

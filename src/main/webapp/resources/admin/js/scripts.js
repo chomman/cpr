@@ -19,6 +19,25 @@ function renameArr(a){
 	return d;
 }
 
+function initWISIWIG(width, height){
+	tinyMCE.init({
+    	language : "cs",
+        mode : "specific_textareas",
+        height : height, //300
+        width : width, 		//610
+        editor_selector : "mceEditor",
+        plugins : "lists,style,table",
+        content_css :  $('#base').text() + "resources/admin/css/tinymce.css",
+            theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,table,|,link,unlink,image,|,undo,redo,formatselect",
+            theme_advanced_buttons2 : "",
+            theme_advanced_buttons3 : "",
+            theme_advanced_toolbar_location : "top",
+            theme_advanced_toolbar_align : "left",
+            theme_advanced_statusbar_location : "bottom",
+            theme_advanced_resizing : true,
+    });
+}
+
 function validate(f){
 	var inputs = f.find('input.required, textarea.required, .email, .more7'),
 	valid = true,
@@ -98,22 +117,7 @@ $(function() {
             duration: "fast"
         }});
 
-     tinyMCE.init({
-    	language : "cs",
-        mode : "specific_textareas",
-        height : "300",
-        width : "610",
-        editor_selector : "mceEditor",
-        plugins : "lists,style,table",
-        content_css :  urlPrefix + "resources/admin/css/tinymce.css",
-            theme_advanced_buttons1 : "bold,italic,underline,strikethrough,|,justifyleft,justifycenter,justifyright,|,bullist,numlist,|,table,|,link,unlink,image,|,undo,redo,formatselect",
-            theme_advanced_buttons2 : "",
-            theme_advanced_buttons3 : "",
-            theme_advanced_toolbar_location : "top",
-            theme_advanced_toolbar_align : "left",
-            theme_advanced_statusbar_location : "bottom",
-            theme_advanced_resizing : true,
-    });
+    
      
      $('.confirm').on('click', function () {
          return confirm('Opravdu chcete odstranit tuto položku?');
@@ -126,3 +130,22 @@ $(function() {
 			dateFormat: 'dd.mm.yy',
 			firstDay: 1});
 });
+
+(function($) {
+    $.fn.extend( {
+        limiter: function(limit, elem) {
+            $(this).on("keyup focus", function() {
+                setCount(this, elem);
+            });
+            function setCount(src, elem) {
+                var chars = src.value.length;
+                if (chars > limit) {
+                    src.value = src.value.substr(0, limit);
+                    chars = limit;
+                }
+                elem.html( (limit - chars) + "/" + limit);
+            }
+            setCount($(this)[0], elem);
+        }
+    });
+})(jQuery);

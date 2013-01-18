@@ -11,4 +11,17 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	public ArticleDaoImpl(){
 		super(Article.class);
 	}
+
+	@Override
+	public Long getNextIdValue() {
+		Long nextId = (Long) sessionFactory.getCurrentSession()
+				.createQuery("SELECT MAX(article.id) FROM Article article")
+				.setCacheable(false)
+				.setMaxResults(1)
+				.uniqueResult();
+        if (nextId == null) {
+            return 1L;
+        }
+        return nextId + 1;
+	}
 }

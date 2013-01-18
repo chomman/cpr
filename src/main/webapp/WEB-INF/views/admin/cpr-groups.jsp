@@ -58,7 +58,7 @@
 					<tbody>
 						 <c:forEach items="${model.groups}" var="i">
 						 	<tr>
-						 		<td>${i.groupName}</td>
+						 		<td><a title="Zobrazit evidované normy?" class="tt" href="<c:url value="/admin/cpr/standards?groupId=${i.id}" />"> ${i.groupName}</a></td>
 						 		<td>${i.groupCode}</td>
 						 		<td>${i.urlTitle}</td>
 						 		<td class="last-edit">

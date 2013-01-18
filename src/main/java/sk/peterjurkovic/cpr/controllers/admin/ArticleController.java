@@ -1,13 +1,45 @@
 package sk.peterjurkovic.cpr.controllers.admin;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+
+import org.joda.time.DateTime;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import sk.peterjurkovic.cpr.entities.Article;
+import sk.peterjurkovic.cpr.services.ArticleService;
+import sk.peterjurkovic.cpr.validators.admin.ArticleValidator;
+import sk.peterjurkovic.cpr.web.editors.DateTimeEditor;
+import sk.peterjurkovic.cpr.web.json.JsonResponse;
+import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
 @Controller
 public class ArticleController extends SupportAdminController {
+	
+	@Autowired
+	private ArticleService articleService;
+	@Autowired
+	private DateTimeEditor dateTimeEditor;
+	@Autowired
+	private ArticleValidator articleValidator;
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(DateTime.class, this.dateTimeEditor);
+    }
 	
 	public ArticleController(){
 		setTableItemsView("article");
@@ -17,8 +49,101 @@ public class ArticleController extends SupportAdminController {
 	
 	@RequestMapping("/admin/articles")
     public String showCprGroupsPage(ModelMap modelMap, HttpServletRequest request) {
-
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("tab", 1);
+		modelMap.put("model", model);
         return getTableItemsView();
     }
 	
+	
+	@RequestMapping("/admin/article/add")
+	public String addNewArticle(ModelMap modelMap){
+		setEditFormView("article-add");
+		Article form = new Article();
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("tab", 2);
+		modelMap.put("model", model);
+		modelMap.addAttribute("article", form);
+		return getEditFormView(); 
+	}
+	
+	
+	@RequestMapping(value = "/admin/article/add", method = RequestMethod.POST)
+	public String processCreate(@Valid Article article, BindingResult result, ModelMap model){
+		setEditFormView("article-add");
+		
+		if(!result.hasErrors()){
+			articleService.createArticle(article);
+			if(article.getId() != null){
+				return "redirect:/admin/article/edit/" + article.getId() + "?successCreate=1";
+			}
+		}
+		return getEditFormView(); 
+	}
+	
+	
+	
+	@RequestMapping("/admin/article/edit/{articleId}")
+	public String showEditForm(@PathVariable Long articleId, ModelMap modelMap, HttpServletRequest request){
+		setEditFormView("article-edit");
+		Article form = articleService.getArticleById(articleId);
+		if(form == null){
+			createItemNotFoundError();
+		}
+		if(request.getParameter("successCreate") != null){
+			modelMap.put("successCreate", true);
+		}
+		prepareModel(form,  modelMap);
+		return getEditFormView();
+	}
+	
+	
+	@RequestMapping( value = "/admin/article/edit/{articleId}", method = RequestMethod.POST)
+	public String processUpdate(Article form, BindingResult result,@PathVariable Long articleId, ModelMap model){
+		setEditFormView("article-edit");
+		Article article = articleService.getArticleById(articleId);
+		if(article == null){
+			createItemNotFoundError();
+		}
+		articleValidator.validate(result, form);
+		if(!result.hasErrors()){
+			updateArticle(form, article);
+			model.put("successCreate", true);
+		}
+		return getEditFormView();
+	}
+	
+	
+	@RequestMapping( value = "/admin/article/edit/{articleId}", method = RequestMethod.POST, consumes="application/json; charset=UTF-8")
+	public @ResponseBody JsonResponse  processAjaxUpdate(@RequestBody  Article form, @PathVariable Long articleId){
+		JsonResponse response = new JsonResponse();
+		logger.info("processAjaxUpdate");
+		Article article = articleService.getArticleById(articleId);
+		if(article == null){
+			return response;
+		}
+
+		updateArticle(form, article);
+		response.setStatus(JsonStatus.SUCCESS);
+		
+		return response;
+	}
+	
+	
+	private void prepareModel(Article form, ModelMap map){
+		Map<String, Object> model = new HashMap<String, Object>();
+		map.addAttribute("article", form);
+		model.put("articleId", form.getId());
+		map.put("model", model); 
+	}
+	
+	private void updateArticle(Article form, Article persistedArticle){
+		persistedArticle.setTitle(form.getTitle());
+		persistedArticle.setHeader(form.getHeader());
+		persistedArticle.setReleased(form.getReleased());
+		persistedArticle.setArticleContent(form.getArticleContent());
+		persistedArticle.setEnabled(form.getEnabled());
+		articleService.updateArticle(persistedArticle);
+	}
+
 }

@@ -9,6 +9,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateTime;
 
 
@@ -26,7 +27,7 @@ public class Article extends AbstractEntity {
 	
 	private String header;
 	
-	private String content;
+	private String articleContent;
 	
 	private DateTime released = new DateTime();
 
@@ -41,6 +42,7 @@ public class Article extends AbstractEntity {
 		this.id = id;
 	}
 	
+	@Length(min = 1, max = 150, message = "Titulek aktuality musí být vyplněn")
 	@Column(length = 150)
 	public String getTitle() {
 		return title;
@@ -60,12 +62,13 @@ public class Article extends AbstractEntity {
 	}
 	
 	@Type(type = "text")
-	public String getContent() {
-		return content;
+	@Column(name = "article_content")
+	public String getArticleContent() {
+		return articleContent;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setArticleContent(String content) {
+		this.articleContent = content;
 	}
 	
 	@Type(type = "jodaDateTime")
