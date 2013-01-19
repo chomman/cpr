@@ -5,6 +5,7 @@
 <head>
 	<title><spring:message code="article.add" /></title>
 	<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/article.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -37,48 +38,10 @@
 				</table>
 			</c:if>
 			
-			<script type="text/javascript"> 
-				$(function() { 
-					initWISIWIG("610", "450"); 
-					var elem = $("#chars");
-					$("#header").limiter(255, elem);
-					$('form').submit(function(e) {
-			        	e.preventDefault();
-			            var form = $( this ),
-			                url = form.attr('action'),
-			                data = renameArr(form.serializeArray());
-			            console.log(data);
-			            var mce =  tinyMCE.get('articleContent');
-			            	mce.setProgressState(1); // Show progress
-							data.text = mce.getContent();
-						console.log(data);
-			            $.ajax({
-			                url : url,
-			                type : "POST",
-			                contentType : "application/json",
-			                dataType : "json",
-			                data : JSON.stringify(data),
-			                success : function (response) {
-			                	if(response.status == "SUCCESS"){
-				                    showStatus({err: 0, msg: "Úspěšně aktualizováno"});
-			                	}else{
-			                		 showStatus({err: 1, msg: "Nastala neočekávaná chyba, operaci zkuste zopakovat."});
-			                	}
-			                	mce.setProgressState(0);
-			                },
-			                error : function(xhr, status, err) {
-			                	showStatus({err: 1, msg: "Nastala neočekávaná chyba, operaci zkuste zopakovat."});
-			                    mce.setProgressState(0);
-			                }
-			            });
-			            return false;
-			        });
-				});
-			</script>
-			
-			
 			<c:url value="/admin/article/edit/${articleId}" var="formUrl"/>					
-			<form:form commandName="article" method="post" action="${formUrl}" cssClass="valid"  >
+			<form:form  commandName="article" method="post" action="${formUrl}">
+				
+				<div id="ajax-result"></div>
 				
 				<c:if test="${not empty successCreate}">
 					<p class="msg ok"><spring:message code="success.create" /></p>
@@ -86,8 +49,7 @@
 				
 				
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
-				
-				 <p class="form-head"><spring:message code="article.head.setting.info" /><p>
+				<p class="form-head"><spring:message code="article.head.setting.info" /><p>
                 <p>
                 	<label>
                 		<strong><em class="red">*</em>
@@ -95,7 +57,21 @@
                 		</strong>
                 	</label>
                     <span class="field">
-                    	<form:input path="released"  cssClass="date required" />
+                    	<input type="text" class="date" id="publishedSince-date" maxlength="10" />
+                    	<input type="text" class="time" id="publishedSince-time" maxlength="5" />
+                    	<form:hidden path="publishedSince" />
+                    </span>
+                </p>
+                  <p>
+                	<label>
+                		<strong><em class="red">*</em>
+                			<spring:message code="article.released" />:
+                		</strong>
+                	</label>
+                    <span class="field">
+                    	<input type="text" class="date" id="publishedUntil-date" maxlength="10" />
+                    	<input type="text" class="time" id="publishedUntil-time" maxlength="5"/>
+                    	<form:hidden path="publishedUntil"/>
                     </span>
                 </p>
                 <p>
@@ -135,7 +111,8 @@
 				     	<form:textarea path="articleContent" cssClass="mceEditor " />
 				     </span>
 				 </p>
-                
+                <form:hidden path="id"/>
+                <form:hidden path="timestamp"/>
                 <p class="button-box">
                 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
                 </p>

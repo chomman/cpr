@@ -16,10 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Mandate;
-import sk.peterjurkovic.cpr.pagination.PageLink;
-import sk.peterjurkovic.cpr.pagination.PaginationLinker;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.pagination.PageLink;
+import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
 public class CprMandateController extends SupportAdminController {

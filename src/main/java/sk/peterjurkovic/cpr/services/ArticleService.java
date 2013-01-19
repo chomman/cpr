@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
+import java.util.Map;
 
 import sk.peterjurkovic.cpr.entities.Article;
 
@@ -19,5 +20,9 @@ public interface ArticleService {
 	List<Article> getAll();
 	
 	void saveOrUpdate(Article article);
+	
+	List<Article> getArticlePage(int pageNumber, Map<String,Object> criteria);
+	
+	Long getCountOfArticles(Map<String,Object> criteria);
 	
 }

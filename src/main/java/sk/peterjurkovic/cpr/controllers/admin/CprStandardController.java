@@ -34,8 +34,6 @@ import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
-import sk.peterjurkovic.cpr.pagination.PageLink;
-import sk.peterjurkovic.cpr.pagination.PaginationLinker;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.CsnService;
@@ -50,13 +48,15 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.validators.admin.StandardValidator;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
-import sk.peterjurkovic.cpr.web.editors.DateTimeEditor;
+import sk.peterjurkovic.cpr.web.editors.DateEditor;
 import sk.peterjurkovic.cpr.web.editors.MandateCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.TagEditor;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
+import sk.peterjurkovic.cpr.web.pagination.PageLink;
+import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 
 @Controller
@@ -88,7 +88,7 @@ public class CprStandardController extends SupportAdminController {
 	@Autowired
 	private TagEditor tagEditor;
 	@Autowired
-	private DateTimeEditor dateTimeEditor;
+	private DateEditor dateTimeEditor;
 	@Autowired
 	private CountryEditor countryEditor;
 	@Autowired

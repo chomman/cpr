@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.forms.admin;
+package sk.peterjurkovic.cpr.web.forms.admin;
 
 import org.joda.time.DateTime;
 

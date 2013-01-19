@@ -7,10 +7,14 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
-
+import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateTime;
+
+import sk.peterjurkovic.cpr.constants.Constants;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 
 @Entity
@@ -29,7 +33,13 @@ public class Article extends AbstractEntity {
 	
 	private String articleContent;
 	
-	private DateTime released = new DateTime();
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = Constants.DATE_TIME_FORMAT)
+	private DateTime publishedSince;
+	
+	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = Constants.DATE_TIME_FORMAT)
+	private DateTime publishedUntil;
+	
+	private Long timestamp;
 
 	@Id
 	@GeneratedValue
@@ -70,15 +80,41 @@ public class Article extends AbstractEntity {
 	public void setArticleContent(String content) {
 		this.articleContent = content;
 	}
+
 	
 	@Type(type = "jodaDateTime")
-	public DateTime getReleased() {
-		return released;
+	@Column(name = "published_since")
+	public DateTime getPublishedSince() {
+		return publishedSince;
 	}
 
-	public void setReleased(DateTime released) {
-		this.released = released;
+
+	public void setPublishedSince(DateTime publishedSince) {
+		this.publishedSince = publishedSince;
 	}
+	
+	@Type(type = "jodaDateTime")
+	@Column(name = "published_until")
+	public DateTime getPublishedUntil() {
+		return publishedUntil;
+	}
+
+
+	public void setPublishedUntil(DateTime publishedUntil) {
+		this.publishedUntil = publishedUntil;
+	}
+
+	@Transient
+	public Long getTimestamp() {
+		return timestamp;
+	}
+
+
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
+	}
+	
+	
 	
 	
 	

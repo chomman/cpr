@@ -14,7 +14,6 @@ public class StandardValidator {
 		if(form.getStartValidity() != null && form.getStopValidity() != null){
 			
 			 if(form.getStartValidity().isAfter(form.getStopValidity().getMillis())){
-				
 				 result.reject("startValidity", "Začátek platnosti nemůže být po skončení platnosti.");
 			 }
 		}

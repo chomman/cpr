@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.pagination;
+package sk.peterjurkovic.cpr.web.pagination;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;

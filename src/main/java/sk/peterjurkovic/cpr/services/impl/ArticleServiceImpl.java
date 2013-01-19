@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.ArticleService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
+import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("articleService")
@@ -95,4 +97,26 @@ public class ArticleServiceImpl implements ArticleService {
             return properUrl;
         }
     }
+
+	@Override
+	public List<Article> getArticlePage(int pageNumber,	Map<String, Object> criteria) {
+		return articleDao.getArticlePage(pageNumber, validateCriteria(criteria));
+	}
+
+	
+	@Override
+	public Long getCountOfArticles(Map<String, Object> criteria) {
+		return articleDao.getCountOfArticles(validateCriteria(criteria));
+	}
+	
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
+			criteria.put("publishedSince", ParseUtils.parseDateTimeFromStringObject(criteria.get("publishedSince")));
+			criteria.put("publishedUntil", ParseUtils.parseDateTimeFromStringObject(criteria.get("publishedUntil")));
+			criteria.put("enabled", ParseUtils.partseStringToBoolean(criteria.get("enabled")));
+		}
+		return criteria;
+	}
 }

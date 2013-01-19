@@ -75,8 +75,6 @@ function validate(f){
 		}else{
 			$(this).removeClass('formerr');
 		}
-	}else{
-		console.log('not found..');
 	}
 	
 	return valid;	

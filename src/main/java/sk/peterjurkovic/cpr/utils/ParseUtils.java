@@ -50,4 +50,16 @@ public class ParseUtils {
     	return null;
     }    
     
+    public static Boolean partseStringToBoolean(Object value){
+    	if(value != null){
+    		String booleanValue = (String) value;
+    		if(booleanValue.equals("1")){
+    			return Boolean.TRUE;
+    		}else if(booleanValue.equals("0")){
+    			return Boolean.FALSE;
+    		}
+    	}
+		return null;
+    }
+    
 }

@@ -20,8 +20,51 @@
 		<h1><spring:message code="menu.news" /></h1>
 
 		<div id="content">
-		
+			
+			<form class="filter" action="<c:url value="/admin/articles" />" method="get">
+				<div>
+					<span class="long"><spring:message code="form.orderby" />:</span>
+					<select name="orderBy">
+						<c:forEach items="${model.orders}" var="i">
+							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
+						</c:forEach>
+					</select>
+					<span><spring:message code="published" /> od: </span>
+					<input type="text" class="date"  name="publishedSince" value="<joda:format value="${model.params.publishedSince}" pattern="dd.MM.yyyy"/>" />
+					<span>do:</span>
+					<input type="text" class="date" name="publishedUntil"  value="<joda:format value="${model.params.publishedUntil}" pattern="dd.MM.yyyy"/>" />
+					
+				</div>
+				<div>
+					<span class="long"><spring:message code="form.name" /></span>
+					<input type="text" class="query" name="query"   value="${model.params.query}" />
+					
+					<input type="submit" value="Filtrovat" class="btn" />
+				</div>
+			</form>
+			
+			
+			<c:if test="${not empty successDelete}">
+				<p class="msg ok"><spring:message code="success.delete" /></p>
+			</c:if>
+				
 				<c:if test="${not empty model.articles}">
+				
+				
+				<!-- STRANKOVANIE -->
+				<c:if test="${not empty model.paginationLinks}" >
+					<div class="pagination">
+					<c:forEach items="${model.paginationLinks}" var="i">
+						<c:if test="${not empty i.url}">
+							<a title="Stánka č. ${i.anchor}"  class="tt"  href="<c:url value="${i.url}"  />">${i.anchor}</a>
+						</c:if>
+						<c:if test="${empty i.url}">
+							<span>${i.anchor}</span>
+						</c:if>
+					</c:forEach>
+					</div>
+				</c:if>
+				
 				
 				<table class="data">
 					<thead>
@@ -38,7 +81,15 @@
 						 <c:forEach items="${model.articles}" var="i">
 						 	<tr>
 						 		<td>${i.title}</td>
-						 		<joda:format value="${i.released}" pattern="dd.MM.yyyy / HH:mm"/>
+						 		<td>
+						 			<c:if test="${not empty i.publishedSince }" >
+						 				<joda:format value="${i.publishedSince}" pattern="dd.MM.yyyy / HH:mm"/>
+						 			</c:if>
+						 			<c:if test="${empty i.publishedSince}" >
+						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>
+						 			</c:if>
+						 		</td>
+						 		
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">
 						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
@@ -60,12 +111,12 @@
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">
-						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/standard/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/article/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/article/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>

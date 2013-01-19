@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.pagination;
+package sk.peterjurkovic.cpr.web.pagination;
 
 /**
  * Trieda ktora sluzi uchovanie odkazu a "anchor textu"
