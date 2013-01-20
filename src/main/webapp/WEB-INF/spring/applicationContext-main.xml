@@ -94,10 +94,43 @@
 		</property>
 	</bean>
 	 -->
+	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	    <property name="messageConverters">
+	        <list>
+	            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+	                <property name="objectMapper" ref="jacksonObjectMapper" />
+	            </bean>
+	        </list>
+	    </property>
+	</bean>
+	<bean id="jacksonObjectMapper" class="sk.peterjurkovic.cpr.json.DateTimeMapper" />
+	<bean id="jacksonSerializationConfig" class="org.codehaus.jackson.map.SerializationConfig"
+	    factory-bean="jacksonObjectMapper" factory-method="getSerializationConfig" />
+	<bean
+	    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
+	    <property name="targetObject" ref="jacksonSerializationConfig" />
+	    <property name="targetMethod" value="setSerializationInclusion" />
+	    <property name="arguments">
+	        <list>
+	            <value type="org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion">NON_DEFAULT</value>
+	        </list>
+	    </property>
+	</bean>
+	<!-- 
+	<mvc:annotation-driven>
+        <mvc:message-converters>
+            <beans:bean class="org.springframework.http.converter.StringHttpMessageConverter" />
+            <beans:bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
+            <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+               <beans:property name="objectMapper">
+               	  <beans:bean class="sk.peterjurkovic.cpr.json.DateTimeMapper" />
+               </beans:property>
+            </beans:bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+	 -->
+
+    
+    
 	 
-	 <mvc:annotation-driven> 
-	   <mvc:message-converters register-defaults="true">
-		       <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-	   </mvc:message-converters>
-	</mvc:annotation-driven>
 </beans>

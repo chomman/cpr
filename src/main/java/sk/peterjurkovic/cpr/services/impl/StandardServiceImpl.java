@@ -44,7 +44,11 @@ public class StandardServiceImpl implements StandardService {
 	@Override
 	@Transactional(readOnly =  true )
 	public Standard getStandardById(Long id) {
-		return standardDao.getByID(id);
+		Standard standard =  standardDao.getByID(id);
+		if(standard != null && standard.getChanged() != null){
+			standard.setTimestamp(standard.getChanged().getMillis());
+		}
+		return standard;
 	}
 
 	@Override

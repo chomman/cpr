@@ -34,6 +34,7 @@ import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
+import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.CsnService;
@@ -201,8 +202,12 @@ public class CprStandardController extends SupportAdminController {
 		Long persistedId = null;
 		if (! result.hasErrors()) {
         	if(standardService.isStandardIdUnique(form.getStandardId(), form.getId())){
-        		persistedId = createOrUpdateBasicInfo(form);
-	        	model.put("successCreate", true);
+        		try {
+					persistedId = createOrUpdateBasicInfo(form);
+					model.put("successCreate", true);
+				} catch (CollisionException e) {
+					result.rejectValue("timestamp", "error.collision", e.getMessage());
+				}	
         	}else{
         		result.rejectValue("standardId", "cpr.standard.id.error.uniqe");
         	}
@@ -441,14 +446,19 @@ public class CprStandardController extends SupportAdminController {
 		if(standard == null){
 			createItemNotFoundError();
 		}
-
-		if(form.getNotifiedBodies() != null){
-			standard.setNotifiedBodies(form.getNotifiedBodies());
-		}else{
-			standard.setNotifiedBodies(new HashSet<NotifiedBody>());
+		try {
+			standardValidator.validateCollision(form, standard);
+			if(form.getNotifiedBodies() != null){
+				standard.setNotifiedBodies(form.getNotifiedBodies());
+			}else{
+				standard.setNotifiedBodies(new HashSet<NotifiedBody>());
+			}
+			standardService.saveOrUpdate(standard);
+			standard.setTimestamp(standard.getChanged().getMillis());
+			modelMap.put("successCreate", true);
+		} catch (CollisionException e) {
+			result.rejectValue("timestamp", "error.collision", e.getMessage());
 		}
-		standardService.saveOrUpdate(standard);
-		modelMap.put("successCreate", true);
 	   prepeareModelForNotifiedBodies(standard, modelMap);
 	   return getEditFormView();
    }
@@ -458,9 +468,6 @@ public class CprStandardController extends SupportAdminController {
    //##################################################
    //#  5	Mandates , AO/NO
    //##################################################
-  
-  
- 
   @RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
   public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
 		setEditFormView("cpr-standard-edit5");
@@ -482,19 +489,25 @@ public class CprStandardController extends SupportAdminController {
 		if(standard == null){
 			createItemNotFoundError();
 		}
-		
-		if(form.getAssessmentSystems() != null){
-			standard.setAssessmentSystems(form.getAssessmentSystems());
-		}else{
-			standard.setAssessmentSystems(new HashSet<AssessmentSystem>());
+		try{
+			standardValidator.validateCollision(form, standard);
+			if(form.getAssessmentSystems() != null){
+				standard.setAssessmentSystems(form.getAssessmentSystems());
+			}else{
+				standard.setAssessmentSystems(new HashSet<AssessmentSystem>());
+			}
+			if(form.getMandates() != null){
+				standard.setMandates(form.getMandates());
+			}else{
+				standard.setMandates(new HashSet<Mandate>());
+			}
+			standardService.saveOrUpdate(standard);
+			standard.setTimestamp(standard.getChanged().getMillis());
+			modelMap.put("successCreate", true);
+		}catch(CollisionException e){
+			logger.info("collision ex ...");
+			result.rejectValue("timestamp", "error.collision", e.getMessage());
 		}
-		if(form.getMandates() != null){
-			standard.setMandates(form.getMandates());
-		}else{
-			standard.setMandates(new HashSet<Mandate>());
-		}
-		standardService.saveOrUpdate(standard);
-		modelMap.put("successCreate", true);
 		prepeareModelForMandates(standard, modelMap);
 	   return getEditFormView();
  }
@@ -538,6 +551,7 @@ public class CprStandardController extends SupportAdminController {
 			}
 			standard.setText(form.getText());
 			standardService.saveOrUpdate(standard);
+			
 			modelMap.put("successCreate", true);
 			prepareModelForEditBasicInfo(form, modelMap, standardId);
 		   return getEditFormView();
@@ -555,8 +569,9 @@ public class CprStandardController extends SupportAdminController {
      * 
      * @param Standard form, odoslany formular
      * @return Long id, vytvorenej/upravenej normy
+     * @throws CollisionException 
      */
-	private Long createOrUpdateBasicInfo(Standard form){
+	private Long createOrUpdateBasicInfo(Standard form) throws CollisionException{
 		Standard standard = null;
 	
 		if(form.getId() == null || form.getId() == 0){
@@ -566,6 +581,7 @@ public class CprStandardController extends SupportAdminController {
 			if(standard == null){
 				createItemNotFoundError();
 			}
+			standardValidator.validateCollision(form, standard);
 			standardService.clearStandardTags(standard);
 		}
 		Set<Tag> tags = form.getTags();
@@ -586,6 +602,9 @@ public class CprStandardController extends SupportAdminController {
 		standard.setEnabled(form.getEnabled());
 		
 		standardService.saveOrUpdate(standard);
+		if(standard.getChanged() != null){
+			form.setTimestamp(standard.getChanged().getMillis());
+		}
 		return standard.getId();
 	}
 	

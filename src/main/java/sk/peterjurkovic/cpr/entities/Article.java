@@ -8,13 +8,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateTime;
 
-import sk.peterjurkovic.cpr.constants.Constants;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
+import sk.peterjurkovic.cpr.json.DateTimeDeserializer;
 
 
 @Entity
@@ -33,10 +33,8 @@ public class Article extends AbstractEntity {
 	
 	private String articleContent;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = Constants.DATE_TIME_FORMAT)
 	private DateTime publishedSince;
 	
-	@JsonFormat(shape=JsonFormat.Shape.STRING, pattern = Constants.DATE_TIME_FORMAT)
 	private DateTime publishedUntil;
 	
 	private Long timestamp;
@@ -84,6 +82,7 @@ public class Article extends AbstractEntity {
 	
 	@Type(type = "jodaDateTime")
 	@Column(name = "published_since")
+	@JsonDeserialize(using=DateTimeDeserializer.class)
 	public DateTime getPublishedSince() {
 		return publishedSince;
 	}
@@ -95,6 +94,7 @@ public class Article extends AbstractEntity {
 	
 	@Type(type = "jodaDateTime")
 	@Column(name = "published_until")
+	@JsonDeserialize(using=DateTimeDeserializer.class)
 	public DateTime getPublishedUntil() {
 		return publishedUntil;
 	}

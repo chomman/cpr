@@ -52,7 +52,7 @@ $(function() {
 	$('form').submit(function(e) {
         var form = $( this ),
             url = form.attr('action'),
-            errMsg = "Formulář je chybně vyplněn, zkontrolujte zadané data.";
+            errMsg = "Formulář nebyl uložen.";
         if(! validate(form)){
         	showStatus({err : 1, msg : errMsg});
         	return false;

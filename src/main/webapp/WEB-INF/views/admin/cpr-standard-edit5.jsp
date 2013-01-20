@@ -72,7 +72,7 @@
 					<c:url value="/admin/cpr/standard/edit/${standardId}/other" var="formUrl"/>
 
 					<form:form commandName="standard" method="post" action="${formUrl}" cssClass="form-multiple"  >
-						
+						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						<p class="msg info">
 							<spring:message code="form.multiselect.info" />
 						</p>
@@ -117,9 +117,8 @@
 							</c:forEach>
 						 </form:select>
 						 
-						 
-						 
 						 <form:hidden path="id"  />
+						 <form:hidden path="timestamp"  />
 						 <p class="margin-top-30">
 						 <input type="submit" class="button" value="<spring:message code="form.save" />" />
 						 </p>

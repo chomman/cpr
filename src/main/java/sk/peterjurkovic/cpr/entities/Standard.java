@@ -17,6 +17,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -67,6 +68,8 @@ public class Standard extends AbstractEntity {
 	private Set<Requirement> requirements;
 	
 	private Set<Tag> tags;
+	
+	private Long timestamp;
 	
 	public Standard(){
 		this.mandates = new HashSet<Mandate>();
@@ -236,6 +239,15 @@ public class Standard extends AbstractEntity {
 	
 	public void setTags(Set<Tag> tags) {
 		this.tags = tags;
+	}
+	
+	@Transient
+	public Long getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(Long timestamp) {
+		this.timestamp = timestamp;
 	}
 	
 	

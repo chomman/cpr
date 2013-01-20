@@ -52,26 +52,28 @@
 				<p class="form-head"><spring:message code="article.head.setting.info" /><p>
                 <p>
                 	<label>
-                		<strong><em class="red">*</em>
-                			<spring:message code="article.released" />:
-                		</strong>
+                		<spring:message code="article.released" />:
+                		<small><spring:message code="article.release.alert" /></small>
                 	</label>
                     <span class="field">
+                    	<span><spring:message code="date" />:</span>
                     	<input type="text" class="date" id="publishedSince-date" maxlength="10" />
+                    	<span><spring:message code="time" />:</span>
                     	<input type="text" class="time" id="publishedSince-time" maxlength="5" />
-                    	<form:hidden path="publishedSince" />
+                    	<form:hidden path="publishedSince" /><em>hh:mm</em>
                     </span>
                 </p>
                   <p>
                 	<label>
-                		<strong><em class="red">*</em>
-                			<spring:message code="article.released" />:
-                		</strong>
+                		<spring:message code="article.released" />:
+                		<small><spring:message code="article.release.alert" /></small>
                 	</label>
                     <span class="field">
+                    	<span><spring:message code="date" />:</span>
                     	<input type="text" class="date" id="publishedUntil-date" maxlength="10" />
+                    	<span><spring:message code="time" />:</span>
                     	<input type="text" class="time" id="publishedUntil-time" maxlength="5"/>
-                    	<form:hidden path="publishedUntil"/>
+                    	<form:hidden path="publishedUntil"/><em>hh:mm</em>
                     </span>
                 </p>
                 <p>
@@ -90,7 +92,7 @@
                 		</strong>
                 	</label>
                     <span class="field">
-                    	<form:input path="title" maxlength="150" cssClass="mw500 required" />
+                    	<form:input path="title" maxlength="150" cssClass="required" />
                     </span>
                 </p>
 				 <p>

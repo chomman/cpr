@@ -21,7 +21,13 @@ public class ArticleValidator {
 		}
 		
 		if(form.getTimestamp() != null && persistedArticle.getChanged().isAfter(form.getTimestamp())){
-			errors.add("Nastala synchronizační chyba. Položka byla upravena jiným uživatelům těsně před Vaší změnou.");
+			errors.add("Při aktualizaci dat nastala kolize s jiným uživatelem.");
+		}
+		
+		if(form.getPublishedSince() != null && form.getPublishedUntil() != null){
+			 if(form.getPublishedSince().isAfter( form.getPublishedUntil().getMillis())){
+				 errors.add("Začátek nemůže být po skončení publikování.");
+			 }
 		}
 		
 		return errors;

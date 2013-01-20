@@ -228,6 +228,8 @@ form{border:1px solid #ddd;}
 form p{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
 form p label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
 .field{padding:15px 20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
+.field span{font-size:12px;color:#555;margin:0 5px 0 20px;}
+.field em{color:#555;font-size:11px;}
 form small{color:#555; display:block;padding-top:3px;font-size:11px;font-weight:normal;font-style:italic;}
 input, textarea,select{background: none repeat scroll 0 0 #FCFCFC;border: 1px solid #CCCCCC; border-radius: 2px 2px 2px 2px;box-shadow: 0 1px 3px #DDDDDD inset;color: #666666;padding: 6px 5px;}
 select{min-width:300px;}
@@ -239,10 +241,12 @@ select.smaller option{padding:5px 10px;}
 .button:hover{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
 .norminfo{font-size:12px;margin-left:20px;color:#555}
 textarea#header{width:600px;height:100px;}
-
+#title{width:600px;}
 #ui-datepicker-div{font-size:14px;}
 .date{text-align:right;font-size:14px;padding:8px 40px 8px 0;background:#FCFCFC url(../img/ico_calendar_input.png) no-repeat 135px center; width:120px; }
+.time{background:#FCFCFC url(../img/ico_time.png) no-repeat 65px center; width:60px;padding:8px 30px 8px 0;text-align:right;}
 .sublabel{margin:0 20px;font-size:14px;color:#555}
+
 .pagination{padding:5px;margin:10px;font-size:13px;}
 .pagination a, .pagination span{border:1px solid #ddd;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;color:#333;padding:5px 10px;}
 .pagination span{background:#3f4c6b;color:#fff;}

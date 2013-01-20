@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.exceptions.CollisionException;
 
 @Component
 public class StandardValidator {
@@ -24,6 +25,12 @@ public class StandardValidator {
 			 }
 		}
 			
+	}
+	
+	public void validateCollision(Standard form, Standard persitedStandard) throws CollisionException{
+		if(form.getTimestamp() != null && persitedStandard.getChanged().isAfter(form.getTimestamp())){
+			throw new CollisionException("Při aktualizaci dat nastala kolize s jiným uživatelem.");
+		}
 	}
 
 

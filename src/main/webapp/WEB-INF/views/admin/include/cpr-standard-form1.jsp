@@ -100,6 +100,7 @@
 	 </p>
 	
 	 <form:hidden path="id"  />
+	 <form:hidden path="timestamp"/>
 	 <p class="button-box">
 	 	 <input type="submit" class="button" value="<spring:message code="form.save" /> &raquo;" />
 	 </p>
