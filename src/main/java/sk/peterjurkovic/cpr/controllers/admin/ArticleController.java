@@ -22,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.Article;
-import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.enums.ArticleOrder;
 import sk.peterjurkovic.cpr.services.ArticleService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;

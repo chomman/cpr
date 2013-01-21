@@ -141,6 +141,14 @@ public class User extends AbstractEntity implements UserDetails{
         return new ArrayList<GrantedAuthority>(getAuthoritySet());
     }
 	
+	@Transient
+    public boolean isSuperAdminUser() {
+        Authority authority = Authority.getInstance(Authority.ROLE_SUPERADMIN);
+        if (getAuthoritySet().contains(authority)) {
+            return true;
+        }
+        return false;
+    }
 	
 	
 	@Transient

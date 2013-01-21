@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
@@ -16,4 +17,8 @@ public interface UserDao extends BaseDao<User, Long>{
 	List<Authority> getAllAuthorities();
 	
 //	User getUserByPasswordToken(String token);
+	
+	List<User> getUserPage(int pageNumber, Map<String, Object> criteria);
+	
+	Long getCountOfUsers(Map<String, Object> criteria);
 }

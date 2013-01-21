@@ -39,7 +39,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Article> getArticlePage(int pageNumber,Map<String, Object> criteria) {
+	public List<Article> getArticlePage(final int pageNumber,final Map<String, Object> criteria) {
 		
 		StringBuffer hql = new StringBuffer("from Article a");
 		hql.append(prepareHqlForQuery(criteria));
@@ -59,7 +59,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	}
 
 	@Override
-	public Long getCountOfArticles(Map<String, Object> criteria) {
+	public Long getCountOfArticles(final Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM Article a");
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
@@ -71,17 +71,17 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	
 	
 	
-	private String prepareHqlForQuery(Map<String, Object> criteria){
+	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
-			if((String)criteria.get("query") != null){
+			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" a.title like CONCAT('%', :query , '%')");
 			}
 			if((DateTime)criteria.get("publishedSince") != null){
-				where.add(" CASE WHEN (a.publishedSince is not null THEN (a.publishedSince<=:publishedSince) ELSE (a.created<=:publishedSince) END ");
+				where.add(" a.created <= :publishedSince ");
 			}
 			if((DateTime)criteria.get("publishedUntil") != null){
-				where.add(" CASE WHEN (a.publishedUntil is not null THEN (a.publishedUntil>=:publishedUntil) ELSE (a.created>=:publishedUntil) END ");
+				where.add(" a.created >= :publishedUntil ");
 			}
 			Long groupId = (Long)criteria.get("enabled");
 			if(groupId != null){
@@ -94,9 +94,9 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	
 	
 	
-	private void prepareHqlQueryParams(Query hqlQuery, Map<String, Object> criteria){
+	private void prepareHqlQueryParams(final Query hqlQuery,final Map<String, Object> criteria){
 		if(criteria.size() != 0){
-			if((String)criteria.get("query") != null){
+			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));
 			}
 			DateTime publishedSince = (DateTime)criteria.get("publishedSince");
@@ -108,7 +108,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 				hqlQuery.setTimestamp("publishedUntil", publishedUntil.toDate());
 			}
 		   
-			Boolean enabled = (Boolean)criteria.get("groupId");
+			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
 				hqlQuery.setBoolean("enabled", enabled);
 			}

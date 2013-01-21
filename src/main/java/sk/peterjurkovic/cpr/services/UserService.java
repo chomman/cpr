@@ -1,6 +1,8 @@
 package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
+import java.util.Map;
+
 import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
 
@@ -32,5 +34,10 @@ public interface UserService {
 	Authority getAuthorityByName(String code);
 	
 	boolean existsUser(String username);
+	
+	
+	List<User> getUserPage(int pageNumber, Map<String, Object> criteria);
+	
+	Long getCountOfUsers(Map<String, Object> criteria);
 	
 }

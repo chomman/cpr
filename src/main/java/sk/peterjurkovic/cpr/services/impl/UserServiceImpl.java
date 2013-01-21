@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,6 +13,7 @@ import sk.peterjurkovic.cpr.dao.UserDao;
 import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.ParseUtils;
 
 @Service("userService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -93,6 +95,28 @@ public class UserServiceImpl implements UserService {
         }
         return true;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<User> getUserPage(int pageNumber, Map<String, Object> criteria) {
+		return userDao.getUserPage(pageNumber, validateCriteria(criteria));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Long getCountOfUsers(Map<String, Object> criteria) {
+		return userDao.getCountOfUsers(validateCriteria(criteria));
+	}
 	
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
+			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
+			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
+			criteria.put("enabled", ParseUtils.partseStringToBoolean(criteria.get("enabled")));
+		}
+		return criteria;
+	}
 
 }
