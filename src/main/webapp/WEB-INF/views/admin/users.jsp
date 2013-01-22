@@ -111,12 +111,12 @@
 						 		</td>
 						 		<sec:authorize access="hasRole('ROLE_SUPERADMIN')">
 						 		<td class="edit">
-						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/article/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/user/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/article/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/user/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>

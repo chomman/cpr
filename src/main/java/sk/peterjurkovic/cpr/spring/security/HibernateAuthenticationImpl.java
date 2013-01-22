@@ -33,15 +33,12 @@ public class HibernateAuthenticationImpl implements UserDetailsService {
 	        	logger.debug("User not found, throwing ex...");
 	            throw new UsernameNotFoundException("User not found");
 	        }
-	        
-	        logger.debug("User: " + user.toString());
-	        
+	        	        
 	        if (user.getAuthorities().isEmpty()) {
 	        	logger.debug("Empty user authorities.. throwing ex..");
 	            throw new UsernameNotFoundException("User has no GrantedAuthority");
 	        }
 		} catch (Exception e) {
-		   logger.error("Error in retrieving user: " + e.getMessage());
 		   throw new UsernameNotFoundException("Error in retrieving user");
 		 }   
         return (UserDetails)user;

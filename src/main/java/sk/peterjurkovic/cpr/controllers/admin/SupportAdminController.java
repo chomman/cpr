@@ -22,8 +22,12 @@ public class SupportAdminController {
     
     
     protected void createItemNotFoundError(){
-	   
+    	logger.error(" Item not found.");
     }
+    
+    protected void createAccessDenied() {
+    	logger.error(" ACCESS DENIED");
+	}
 
    
 	public String getTableItemsView() {

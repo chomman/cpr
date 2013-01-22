@@ -35,6 +35,9 @@ public interface UserService {
 	
 	boolean existsUser(String username);
 	
+	boolean isUserNameUniqe(Long id, String userName);
+	
+	public List<Authority> getAllAuthorities();
 	
 	List<User> getUserPage(int pageNumber, Map<String, Object> criteria);
 	

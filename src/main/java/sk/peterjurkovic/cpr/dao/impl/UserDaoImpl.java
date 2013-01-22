@@ -55,8 +55,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	@Override
 	public List<Authority> getAllAuthorities() {
 		 StringBuffer hql = new StringBuffer();
-         hql.append("  SELECT role ");
-         hql.append("  FROM Authority role ");
+         hql.append("	FROM Authority role ");
          hql.append("  WHERE role.enabled = true  ");
          hql.append("  ORDER BY role.name");
          
@@ -142,6 +141,23 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 				hqlQuery.setBoolean("enabled", enabled);
 			}
 		}
+	}
+
+
+	@Override
+	public boolean isUserNameUniqe(Long id, String userName) {
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM User u WHERE u.email=:userName");
+		if(id != 0){
+			hql.append(" AND u.id<>:id");
+		}
+		Long result = null;
+		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setString("userName", userName);
+		if(id != 0){
+			query.setLong("id", id);
+		}
+		result = (Long)query.uniqueResult();
+		return (result == 0);
 	}
 
 }

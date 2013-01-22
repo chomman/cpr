@@ -80,6 +80,12 @@ public class UserServiceImpl implements UserService {
 		 user.setEnabled(Boolean.TRUE);
 	     saveUser(user);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Authority> getAllAuthorities(){
+		return userDao.getAllAuthorities();
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -117,6 +123,11 @@ public class UserServiceImpl implements UserService {
 			criteria.put("enabled", ParseUtils.partseStringToBoolean(criteria.get("enabled")));
 		}
 		return criteria;
+	}
+
+	@Override
+	public boolean isUserNameUniqe(Long id, String userName){
+		return userDao.isUserNameUniqe(id, userName.trim());
 	}
 
 }

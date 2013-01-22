@@ -21,4 +21,6 @@ public interface UserDao extends BaseDao<User, Long>{
 	List<User> getUserPage(int pageNumber, Map<String, Object> criteria);
 	
 	Long getCountOfUsers(Map<String, Object> criteria);
+	
+	boolean isUserNameUniqe(Long id, String userName);
 }

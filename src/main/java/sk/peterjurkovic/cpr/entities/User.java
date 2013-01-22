@@ -18,10 +18,13 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
@@ -78,6 +81,8 @@ public class User extends AbstractEntity implements UserDetails{
 		this.lastName = lastName;
 	}
 	
+	@Email(message = "Neplatné uživatelské jméno")
+	@Length(min=1,max=50,message="Uživatelské jméno musí být vyplněno")
 	@Column(name = "email", length = 50, unique=true)
 	public String getEmail() {
 		return email;
