@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.services.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -14,6 +15,7 @@ import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("userService")
 @Transactional(propagation = Propagation.REQUIRED)
@@ -129,5 +131,21 @@ public class UserServiceImpl implements UserService {
 	public boolean isUserNameUniqe(Long id, String userName){
 		return userDao.isUserNameUniqe(id, userName.trim());
 	}
-
+	
+	
+	@Override
+	public void createOrUpdateUser(User user) {
+		User loggedUser = getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		
+		if(user.getId() == null){
+			user.setCreatedBy(loggedUser);
+			user.setCreated(new DateTime());
+			userDao.save(user);
+		}else{
+			user.setChangedBy(loggedUser);
+			user.setChanged(new DateTime());
+			userDao.update(user);
+		}
+		
+	}
 }

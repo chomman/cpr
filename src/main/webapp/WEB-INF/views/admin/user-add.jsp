@@ -24,10 +24,11 @@
 		<div id="content">
 			
 			
-			<c:url value="/admin/cpr/mandates/edit/0" var="formUrl"/>
-			<form:form commandName="userForm" method="post" action="${formUrl}" cssClass="valid" >
+			<c:url value="/admin/user/add" var="formUrl"/>
+			<form:form commandName="userForm" method="post" action="${formUrl}" >
 						
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+						
 						<c:if test="${not empty successCreate}">
 							<p class="msg ok"><spring:message code="success.create" /></p>
 						</c:if>

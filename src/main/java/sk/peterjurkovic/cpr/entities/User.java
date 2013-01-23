@@ -174,6 +174,9 @@ public class User extends AbstractEntity implements UserDetails{
         return false;
     }
 	
+	public void clearAuthorities(){
+		authoritySet.clear();
+	}
 
 	@Transient
 	public String getUsername() {

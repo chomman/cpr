@@ -1,7 +1,9 @@
 package sk.peterjurkovic.cpr.web.forms.admin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
@@ -47,7 +49,7 @@ public class UserForm {
 	
 	
 	
-	public void addRole(List<Authority> authorities) {
+	public void addRoles(List<Authority> authorities) {
 		clearRoles();
         for (Authority a : authorities) {
             if (user.getAuthoritySet().contains(a)) {
@@ -59,6 +61,15 @@ public class UserForm {
     }
 	
 	
+	public Set<Authority> getSelectedAuthorities(){
+		Set<Authority> newRoles = new HashSet<Authority>();
+		for (GAuthority a : getRoles()) {
+            if (a.getSelected().booleanValue()) {
+            	newRoles.add(a.getAuthority());
+            }
+        }
+        return newRoles;
+	}
 	
 	
 	public void clearRoles() {

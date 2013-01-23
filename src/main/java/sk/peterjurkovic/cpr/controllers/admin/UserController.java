@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.UserOrder;
@@ -41,6 +43,7 @@ public class UserController extends SupportAdminController {
 	private UserValidator userValidator;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
+	
 	
 	public UserController(){
 		setEditFormView("user-add");
@@ -73,15 +76,28 @@ public class UserController extends SupportAdminController {
 	
 	@RequestMapping("/admin/user/add")
 	public String showCreateForm(ModelMap modelMap, HttpServletRequest request){
+		setEditFormView("user-add");
 		UserForm form = new UserForm();
 		User user = new User();
 		user.setId(0L);
 		form.setUser(user);
-		form.addRole(userService.getAllAuthorities());
+		form.addRoles(userService.getAllAuthorities());
 		prepareModel(modelMap,  form);
 		return getEditFormView();
 	}
 	
+	@RequestMapping(value = "/admin/user/add", method = RequestMethod.POST)
+	public String processSubmit(@Valid UserForm form, BindingResult result, ModelMap modelMap){
+		setEditFormView("user-add");
+		userValidator.validate(result, form);
+		if(!result.hasErrors()){
+			createOrUpdate(form);
+			modelMap.put("successCreate", true);
+		}
+		form.addRoles(userService.getAllAuthorities());
+		prepareModel(modelMap,  form);
+		return getEditFormView();
+	}
 	
 	@RequestMapping("/admin/user/edit/{userId}")
 	public String showEditForm(@PathVariable Long userId, ModelMap modelMap, HttpServletRequest request){
@@ -92,16 +108,18 @@ public class UserController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
-	public String processSubmit(@PathVariable Long userId, @Valid UserForm form, BindingResult result, ModelMap model){
-		if(userId != 0){
-			setEditFormView("user-edit");
-		}
+	@RequestMapping(value = "/admin/user/edit/{userId}", method = RequestMethod.POST)
+	public String processSubmit(@PathVariable Long userId, @Valid UserForm form, BindingResult result, ModelMap modelMap){
+		setEditFormView("user-edit");
 		userValidator.validate(result, form);
 		if(!result.hasErrors()){
-			
+			createOrUpdate(form);
+			modelMap.put("successCreate", true);
 		}
+		prepareModel(modelMap,  form);
 		return getEditFormView();
 	}
+	
 	
 	private void createOrUpdate(UserForm form){
 		User user = null;
@@ -113,6 +131,8 @@ public class UserController extends SupportAdminController {
 			if(user == null){
 				createItemNotFoundError();
 			}
+			
+			
 		}
 		
 		User loggerUser = UserUtils.getLoggedUser();
@@ -122,7 +142,21 @@ public class UserController extends SupportAdminController {
 		}
 		
 		
+		if(StringUtils.isNotBlank(form.getPassword()) && StringUtils.isNotBlank(form.getConfifmPassword())){
+			user.setPassword(passwordEncoder.encodePassword( user.getPassword(), null ));
+		}
+		
+		user.setEnabled(form.getUser().getEnabled());
+		user.setEmail( form.getUser().getEmail() );
+		user.clearAuthorities();
+		user.setAuthoritySet(form.getSelectedAuthorities());
+		
+		userService.createOrUpdateUser(user);
+		
 	}
+	
+	
+	
 	
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
 		PaginationLinker paginger = new PaginationLinker(request, params);
@@ -132,12 +166,20 @@ public class UserController extends SupportAdminController {
 		return paginger.getPageLinks(); 
 	}
 	
+	
+	
+	
+	
+	
 	private void prepareModel(ModelMap modelMap, UserForm form){
 		Map<String, Object> model = new HashMap<String, Object>();
 		modelMap.addAttribute("userForm", form);
 		model.put("tab", 2);
 		modelMap.put("model", model);
 	}
+	
+	
+	
 	
 	
 	private void prepareEditForm(UserForm form, Long userId){
@@ -151,7 +193,7 @@ public class UserController extends SupportAdminController {
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}
 		form.setUser(user);
-		form.addRole(userService.getAllAuthorities());
+		form.addRoles(userService.getAllAuthorities());
 	}
 
 }

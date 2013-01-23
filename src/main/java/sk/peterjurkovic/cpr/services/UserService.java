@@ -43,4 +43,6 @@ public interface UserService {
 	
 	Long getCountOfUsers(Map<String, Object> criteria);
 	
+	void createOrUpdateUser(User user);
+	
 }
