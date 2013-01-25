@@ -10,16 +10,6 @@ import sk.peterjurkovic.cpr.entities.User;
 
 public class UserForm {
 	
-	public User user;
-	
-	private boolean enabled;
-	
-	private List<GAuthority> roles = new ArrayList<GAuthority>();
-	
-	private String password;
-	
-	private String confifmPassword;
-	
 	public static class GAuthority {
 
         private Boolean selected = Boolean.FALSE;
@@ -48,6 +38,18 @@ public class UserForm {
     }
 	
 	
+	public User user;
+	
+	private boolean enabled;
+	
+	private List<GAuthority> roles = new ArrayList<GAuthority>();
+	
+	private String password;
+	
+	private String confifmPassword;	
+	
+	
+	
 	
 	public void addRoles(List<Authority> authorities) {
 		clearRoles();
@@ -70,6 +72,8 @@ public class UserForm {
         }
         return newRoles;
 	}
+	
+	
 	
 	
 	public void clearRoles() {
@@ -115,6 +119,10 @@ public class UserForm {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
+	
+
 	
 	
 	

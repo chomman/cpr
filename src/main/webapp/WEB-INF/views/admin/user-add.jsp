@@ -25,12 +25,12 @@
 			
 			
 			<c:url value="/admin/user/add" var="formUrl"/>
-			<form:form commandName="userForm" method="post" action="${formUrl}" >
+			<form:form commandName="userForm" method="post" action="${formUrl}" cssClass="valid" >
 						
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						
-						<c:if test="${not empty successCreate}">
-							<p class="msg ok"><spring:message code="success.create" /></p>
+						<c:if test="${not empty successUserCreate}">
+							<p class="msg ok"><spring:message code="success.user.create" /></p>
 						</c:if>
 						
 						
@@ -42,7 +42,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="user.email" maxlength="50" cssClass="required email" />
+                            	<form:input path="user.email" maxlength="50" cssClass="w300 required email" />
                             </span>
                         </p>
                         <p>
@@ -52,7 +52,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="password" cssClass="w300" maxlength="60" />
+                            	<form:password path="password" cssClass="w300 required" maxlength="60" />
                             </span>
                         </p>
                         <p>
@@ -62,7 +62,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="confifmPassword" cssClass="w300" maxlength="60" />
+                            	<form:password path="confifmPassword" cssClass="w300 required" maxlength="60" />
                             </span>
                         </p>
                         
@@ -74,7 +74,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="user.firstName" cssClass="w300" maxlength="50" />
+                            	<form:input path="user.firstName" cssClass="w300 required" maxlength="50" />
                             </span>
                         </p>
                         <p>
@@ -84,7 +84,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="user.lastName" cssClass="w300" maxlength="50" />
+                            	<form:input path="user.lastName" cssClass="w300 required" maxlength="50" />
                             </span>
                         </p>
                          <p>

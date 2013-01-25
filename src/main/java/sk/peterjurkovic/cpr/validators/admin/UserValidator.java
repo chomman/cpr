@@ -51,12 +51,16 @@ public class UserValidator {
 		   StringUtils.isNotBlank(form.getPassword().trim())){
 			
 			if(!form.getPassword().equals(form.getConfifmPassword())){
-				result.rejectValue("confifmPassword", "Zadaná hesla se neshodují");
+				result.rejectValue("confifmPassword", "error.user.confifmPassword");
 			}
 			
 			if(StringUtils.isBlank(form.getPassword().trim()) || form.getPassword().length() < 5){
 				result.rejectValue("password", "error.user.password");
 			}
+		}
+		
+		if(form.getSelectedAuthorities().size() == 0){
+			result.rejectValue("roles", "error.user.role.size");
 		}
 		
 		

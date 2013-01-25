@@ -17,9 +17,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.UserOrder;
@@ -33,6 +35,7 @@ import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
+@SessionAttributes("userForm")
 public class UserController extends SupportAdminController {
 	
 	@Autowired
@@ -92,7 +95,7 @@ public class UserController extends SupportAdminController {
 		userValidator.validate(result, form);
 		if(!result.hasErrors()){
 			createOrUpdate(form);
-			modelMap.put("successCreate", true);
+			modelMap.put("successUserCreate", true);
 		}
 		form.addRoles(userService.getAllAuthorities());
 		prepareModel(modelMap,  form);
@@ -109,7 +112,7 @@ public class UserController extends SupportAdminController {
 	}
 	
 	@RequestMapping(value = "/admin/user/edit/{userId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long userId, @Valid UserForm form, BindingResult result, ModelMap modelMap){
+	public String processSubmit(@PathVariable Long userId, @ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap){
 		setEditFormView("user-edit");
 		userValidator.validate(result, form);
 		if(!result.hasErrors()){
@@ -135,24 +138,24 @@ public class UserController extends SupportAdminController {
 			
 		}
 		
-		User loggerUser = UserUtils.getLoggedUser();
-		if(!loggerUser.isSuperAdminUser() && !loggerUser.equals(user)){
+		User loggedUser = UserUtils.getLoggedUser();
+		if(!loggedUser.isSuperAdminUser() && !loggedUser.equals(user)){
 			createAccessDenied();
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}
-		
 		
 		if(StringUtils.isNotBlank(form.getPassword()) && StringUtils.isNotBlank(form.getConfifmPassword())){
 			user.setPassword(passwordEncoder.encodePassword( user.getPassword(), null ));
 		}
 		
+		user.setFirstName(form.getUser().getFirstName());
+		user.setLastName(form.getUser().getLastName());
 		user.setEnabled(form.getUser().getEnabled());
 		user.setEmail( form.getUser().getEmail() );
 		user.clearAuthorities();
 		user.setAuthoritySet(form.getSelectedAuthorities());
-		
-		userService.createOrUpdateUser(user);
-		
+		user.setCreatedBy(loggedUser);
+		userService.mergeUser(user);
 	}
 	
 	

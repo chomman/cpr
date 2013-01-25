@@ -25,7 +25,7 @@
 			
 			
 			<c:url value="/admin/cpr/mandates/edit/${userId}" var="formUrl"/>
-			<form:form commandName="userForm" method="post" action="${formUrl}" cssClass="valid" >
+			<form:form modelAttribute="userForm" method="post" action="${formUrl}" cssClass="valid" >
 						
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						<c:if test="${not empty successCreate}">
