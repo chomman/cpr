@@ -46,7 +46,18 @@
 			</form>
 			
 			<c:if test="${not empty successDelete}">
-				<p class="msg ok"><spring:message code="success.delete" /></p>
+				<c:if test="${successDelete == 1}">
+					<p class="msg ok"><spring:message code="user.success.delete" /></p>
+				</c:if>
+				<c:if test="${successDelete == 2}">
+					<p class="msg error"><spring:message code="user.error2.delete" /></p>
+				</c:if>
+				<c:if test="${successDelete == 3}">
+					<p class="msg error"><spring:message code="user.error3.delete" /></p>
+				</c:if>
+				<c:if test="${successDelete == 4}">
+					<p class="msg error"><spring:message code="user.error4.delete" /></p>
+				</c:if>
 			</c:if>
 				
 				<c:if test="${not empty model.users}">
@@ -73,8 +84,8 @@
 							<tH><spring:message code="user.username" /></th>
 							<tH><spring:message code="user.firstname" /> a <spring:message code="user.lastname" /></th>
 							<th><spring:message code="user.registratedFrom" /></th>
-							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="user.activated" /></th>
+							<th><spring:message code="form.lastEdit" /></th>
 							<sec:authorize access="hasRole('ROLE_SUPERADMIN')">
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>

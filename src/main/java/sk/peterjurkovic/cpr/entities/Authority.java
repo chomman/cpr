@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 
 
@@ -26,8 +27,8 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
     public static final String ROLE_USER = "ROLE_USER";
     
     private String name;
-    private String description;
-
+    private String shortDescription;
+    private String longDescription;
     
     @Override
     @Id
@@ -45,7 +46,7 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
     }
 
     
-    @Column(length = 50)
+    @Column(length = 20)
     public String getName() {
 		return name;
 	}
@@ -53,13 +54,25 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	public String getDescription() {
-		return description;
+	
+	@Column(name = "short_description")
+	public String getShortDescription() {
+		return shortDescription;
+	}
+	
+	
+	public void setShortDescription(String description) {
+		this.shortDescription = description;
+	}
+	
+	@Column(name = "long_description")
+	@Type(type = "text")
+	public String getLongDescription() {
+		return longDescription;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setLongDescription(String longDescription) {
+		this.longDescription = longDescription;
 	}
 
 	/**

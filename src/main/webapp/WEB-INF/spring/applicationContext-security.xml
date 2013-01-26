@@ -36,7 +36,11 @@
 
 	  
 
-		<bean class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" id="passwordEncoder"/>
+		<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+		
+		<bean id="passwordSaltSource"	class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+			<property name="systemWideSalt" value="gohaxopu" />
+		</bean>
 
 		<bean id="customUserDetailsService" class="sk.peterjurkovic.cpr.spring.security.HibernateAuthenticationImpl"/>
 		
@@ -111,8 +115,8 @@
 		
 		<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 			<property name="userDetailsService"	ref="customUserDetailsService" /> 
-	<!-- 	<property name="saltSource" ref="saltSource" />  -->
-	 	<property name="passwordEncoder" ref="passwordEncoder" />
+	 		<property name="saltSource" ref="passwordSaltSource" /> 
+	 		<property name="passwordEncoder" ref="passwordEncoder" />
 		</bean>
 		
 		

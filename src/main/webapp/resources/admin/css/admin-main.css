@@ -6,6 +6,7 @@ body{font-family: Arial,Tahoma, sans-serif;}
 .hidden{ display:none;}
 .c{ text-align:center;}
 .l{ text-align:left;}
+label.tt{cursor: help;background:url(../img/info_mini.png) no-repeat 195px 5px; }
 a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
 .radius,.published,#req-nav a,.btn,.cpr-dashboard li,#chars{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
@@ -14,7 +15,7 @@ a{text-decoration:none;color:#3e4e69;}
 
 .roles{background:#FFF9F0;color:#555;font-size:14px;width:100%;border:3px solid #F7E6CB;border-collapse:collapse;}
 .roles .odd{background:#FFF5E6;border-top:1px solid #fff;border-bottom:1px solid #fff;}
-.roles .check{width:10%;text-align:center;padding:10px;}
+.roles .check{width:10%;text-align:center;padding:15px;}
 .roles .name{color:#333;font-weight:bold;width:20%}
 
 

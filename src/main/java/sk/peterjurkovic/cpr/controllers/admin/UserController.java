@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.controllers.admin;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.dao.SaltSource;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -23,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.UserOrder;
 import sk.peterjurkovic.cpr.services.UserService;
@@ -46,7 +50,8 @@ public class UserController extends SupportAdminController {
 	private UserValidator userValidator;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
+	@Autowired
+	private SaltSource saltSource;
 	
 	public UserController(){
 		setEditFormView("user-add");
@@ -58,6 +63,35 @@ public class UserController extends SupportAdminController {
 		binder.registerCustomEditor(DateTime.class, this.dateTimeEditor);
     }
 	
+	
+	@RequestMapping( value = "/admin/user/delete/{userId}", method = RequestMethod.GET)
+	public String deleteUser(@PathVariable Long userId,  ModelMap modelMap, HttpServletRequest request) {
+						
+		User user = userService.getUserById(userId);
+		if(user == null){
+			createItemNotFoundError();
+		}
+		
+		User loggedUser = UserUtils.getLoggedUser();
+		if(user.equals(loggedUser)){
+			modelMap.put("successDelete", 3);
+		}
+		else if(! loggedUser.isSuperAdminUser()){
+			modelMap.put("successDelete", 2);
+		}else{
+			user.clearAuthorities();
+			try{
+				userService.removeUser(user);
+				modelMap.put("successDelete", 1);
+			}catch(ConstraintViolationException ex){
+				modelMap.put("successDelete", 4);
+			}catch(Exception ex){
+				modelMap.put("successDelete", 4);
+				logger.error(ex.getMessage());
+			}
+		}
+		return showArticlePage(modelMap, request);
+	}
 	
 	
 	@RequestMapping("/admin/users")
@@ -77,17 +111,18 @@ public class UserController extends SupportAdminController {
         return getTableItemsView();
     }
 	
+	
+	
 	@RequestMapping("/admin/user/add")
 	public String showCreateForm(ModelMap modelMap, HttpServletRequest request){
 		setEditFormView("user-add");
-		UserForm form = new UserForm();
-		User user = new User();
-		user.setId(0L);
-		form.setUser(user);
+		UserForm form = createEmptyUserForm();
 		form.addRoles(userService.getAllAuthorities());
 		prepareModel(modelMap,  form);
 		return getEditFormView();
 	}
+	
+	
 	
 	@RequestMapping(value = "/admin/user/add", method = RequestMethod.POST)
 	public String processSubmit(@Valid UserForm form, BindingResult result, ModelMap modelMap){
@@ -95,12 +130,15 @@ public class UserController extends SupportAdminController {
 		userValidator.validate(result, form);
 		if(!result.hasErrors()){
 			createOrUpdate(form);
+			form = createEmptyUserForm();
 			modelMap.put("successUserCreate", true);
 		}
 		form.addRoles(userService.getAllAuthorities());
 		prepareModel(modelMap,  form);
 		return getEditFormView();
 	}
+	
+	
 	
 	@RequestMapping("/admin/user/edit/{userId}")
 	public String showEditForm(@PathVariable Long userId, ModelMap modelMap, HttpServletRequest request){
@@ -110,6 +148,54 @@ public class UserController extends SupportAdminController {
 		prepareModel(modelMap,  form);
 		return getEditFormView();
 	}
+	
+	
+	
+	
+	@RequestMapping("/admin/user/profile")
+	public String showProfile( ModelMap modelMap, HttpServletRequest request){
+		setEditFormView("user-profile");
+		User loggedUser = UserUtils.getLoggedUser();
+		UserForm form = new UserForm();
+		form.setUser(loggedUser);
+		Map<String, Object> model = new HashMap<String, Object>();
+		modelMap.addAttribute("userForm", form);
+		model.put("tab", 3);
+		modelMap.put("model", model);
+		return getEditFormView();
+	}
+	
+	
+	
+	
+	
+	@RequestMapping(value = "/admin/user/profile", method = RequestMethod.POST)
+	public String editProfile(@ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap){
+		setEditFormView("user-profile");
+		User loggedUser = UserUtils.getLoggedUser();
+		
+		User persistedUser = userService.getUserById(form.getUser().getId());
+		if(persistedUser == null || !loggedUser.equals(persistedUser)){
+			createItemNotFoundError();
+		}
+		
+		
+		List<Authority> list = new ArrayList<Authority>(persistedUser.getAuthoritySet());
+		form.addRoles(list);
+		userValidator.validate(result, form);
+		if(!result.hasErrors()){
+			createOrUpdate(form);
+			modelMap.put("successCreate", true);
+		}
+		Map<String, Object> model = new HashMap<String, Object>();
+		modelMap.addAttribute("userForm", form);
+		model.put("tab", 3);
+		modelMap.put("model", model);
+		return getEditFormView();
+	}
+	
+	
+	
 	
 	@RequestMapping(value = "/admin/user/edit/{userId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long userId, @ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap){
@@ -124,18 +210,22 @@ public class UserController extends SupportAdminController {
 	}
 	
 	
+	
+	
+	
 	private void createOrUpdate(UserForm form){
 		User user = null;
 		if(form.getUser().getId() == null || form.getUser().getId() == 0){
 			user = new User();
-	         user.setPassword(passwordEncoder.encodePassword( user.getPassword(), null ));
+	        user.setPassword(passwordEncoder.encodePassword( form.getPassword(), saltSource.getSalt(null) ));
 		}else{
 			user = userService.getUserById(form.getUser().getId());
 			if(user == null){
 				createItemNotFoundError();
 			}
-			
-			
+			if(StringUtils.isNotBlank(form.getPassword()) && StringUtils.isNotBlank(form.getConfifmPassword())){
+				user.setPassword(passwordEncoder.encodePassword( form.getPassword(), saltSource.getSalt(null) ));
+			}
 		}
 		
 		User loggedUser = UserUtils.getLoggedUser();
@@ -143,11 +233,7 @@ public class UserController extends SupportAdminController {
 			createAccessDenied();
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}
-		
-		if(StringUtils.isNotBlank(form.getPassword()) && StringUtils.isNotBlank(form.getConfifmPassword())){
-			user.setPassword(passwordEncoder.encodePassword( user.getPassword(), null ));
-		}
-		
+			
 		user.setFirstName(form.getUser().getFirstName());
 		user.setLastName(form.getUser().getLastName());
 		user.setEnabled(form.getUser().getEnabled());
@@ -199,4 +285,11 @@ public class UserController extends SupportAdminController {
 		form.addRoles(userService.getAllAuthorities());
 	}
 
+	private UserForm createEmptyUserForm(){
+		UserForm form = new UserForm();
+		User user = new User();
+		user.setId(0L);
+		form.setUser(user);
+		return form;
+	}
 }

@@ -39,7 +39,7 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
 		User user = (User)authentication.getPrincipal();
         logger.info(user);
         
-		if(user.isAdminUser()){
+		if(user.isEditorUser()){
         	return Constants.SUCCESS_ROLE_ADMIN_URL;
         }
 		return Constants.SUCCESS_ROLE_USER_URL;

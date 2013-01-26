@@ -20,7 +20,7 @@
 	<header>
 		<a href="<c:url value="/admin/" />" id="logo">CPR <span>ADMIN</span></a>
 		
-		<span id="logged-user" class="radius">${time}  <a href="">${common.user.firstName} ${common.user.lastName}</a></span>
+		<span id="logged-user" class="radius">${time}  <a href="<c:url value="/admin/user/profile" />">${common.user.firstName} ${common.user.lastName}</a></span>
 		<a id="logout" href="<c:url value="/j_logout" />" class="tt" title="Odhlásit se"></a>
 	</header>
 	

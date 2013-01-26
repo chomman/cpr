@@ -20,7 +20,7 @@
 	<li>
 		<a 
 		<c:if test="${model.tab == 3}">class="active"</c:if>
-		href="<c:url value="/admin/user/edit/${user.id}" />" >
+		href="<c:url value="/admin/user/profile" />" >
 			<spring:message code="user.profile.view" />
 		</a>
 	</li>

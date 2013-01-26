@@ -18,7 +18,6 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -122,7 +121,7 @@ public class User extends AbstractEntity implements UserDetails{
     }
     
 	
-	@ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER, cascade = { CascadeType.ALL })
+	@ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER, cascade = { CascadeType.ALL } )
     @JoinTable(name = "user_has_authority", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))
     public Set<Authority> getAuthoritySet() {
         return authoritySet;
@@ -157,7 +156,10 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	
 	@Transient
-    public boolean isAdminUser() {
+    public boolean isEditorUser() {
+		if(isSuperAdminUser()){
+			return true;
+		}
         Authority authority = Authority.getInstance(Authority.ROLE_ADMIN);
         if (getAuthoritySet().contains(authority)) {
             return true;
