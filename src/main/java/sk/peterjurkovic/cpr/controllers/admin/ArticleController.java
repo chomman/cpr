@@ -18,10 +18,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.Article;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.ArticleOrder;
 import sk.peterjurkovic.cpr.services.ArticleService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
@@ -125,6 +127,7 @@ public class ArticleController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
+	
 	/*
 	@RequestMapping( value = "/admin/article/edit/{articleId}", method = RequestMethod.POST)
 	public String processUpdate(Article form, BindingResult result,@PathVariable Long articleId, ModelMap model){
@@ -162,6 +165,11 @@ public class ArticleController extends SupportAdminController {
 		}
 
 		return response;
+	}
+	
+	@RequestMapping(value = "/admin/article/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<Article>  autocomplete(@RequestBody @RequestParam("term") String query){
+		return articleService.autocomplateSearch(query);
 	}
 	
 	

@@ -39,6 +39,21 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	
 	@SuppressWarnings("unchecked")
 	@Override
+	public List<Article> autocomplateSearch(final String query) {
+		StringBuilder hql = new StringBuilder("select a.id, a.title from Article a WHERE ");
+		hql.append(" a.title like CONCAT('%', :query , '%') ");
+		List<Article> articles = new ArrayList<Article>();
+		articles = sessionFactory.getCurrentSession()
+				.createQuery(hql.toString())
+				.setString("query", query)
+				.setMaxResults(8)
+				.list();
+		return articles;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
 	public List<Article> getArticlePage(final int pageNumber,final Map<String, Object> criteria) {
 		
 		StringBuffer hql = new StringBuffer("from Article a");
@@ -78,13 +93,13 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 				where.add(" a.title like CONCAT('%', :query , '%')");
 			}
 			if((DateTime)criteria.get("publishedSince") != null){
-				where.add(" a.created <= :publishedSince ");
+				where.add(" a.created >= :publishedSince ");
 			}
 			if((DateTime)criteria.get("publishedUntil") != null){
-				where.add(" a.created >= :publishedUntil ");
+				where.add(" a.created <= :publishedUntil ");
 			}
-			Long groupId = (Long)criteria.get("enabled");
-			if(groupId != null){
+			Boolean enabled = (Boolean)criteria.get("enabled");
+			if(enabled != null){
 				where.add(" (a.enabled=:enabled)");
 			}
 		}

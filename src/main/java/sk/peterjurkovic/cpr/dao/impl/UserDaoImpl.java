@@ -119,17 +119,19 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" a.title like CONCAT('%', :query , '%')");
+				where.add(" (u.firstName like CONCAT('%', :query , '%') OR " +
+						  " u.lastName like CONCAT('%', :query , '%') OR " +
+						  " u.email like CONCAT('%', :query , '%')) ");
 			}
 			if((DateTime)criteria.get("createdFrom") != null){
-				where.add(" a.created <= :createdFrom ");
+				where.add(" u.created >= :createdFrom ");
 			}
 			if((DateTime)criteria.get("createdTo") != null){
-				where.add(" a.created >= :createdTo ");
+				where.add(" u.created <= :createdTo ");
 			}
-			Long groupId = (Long)criteria.get("enabled");
-			if(groupId != null){
-				where.add(" (a.enabled=:enabled)");
+			Boolean enabled = (Boolean)criteria.get("enabled");
+			if(enabled != null){
+				where.add(" (u.enabled=:enabled)");
 			}
 		}
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");

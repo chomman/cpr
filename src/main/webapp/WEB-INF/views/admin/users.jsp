@@ -2,10 +2,10 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
-<head>
-<title><spring:message code="menu.news" /></title>
-<script src="<c:url value="/resources/admin/js/user.autocomplete.js" />"></script>
-</head>
+	<head>
+		<title><spring:message code="menu.news" /></title>
+		<script src="<c:url value="/resources/admin/js/user.autocomplete.js" />"></script>
+	</head>
 <body>
 	<div id="wrapper">
 	<div id="left">
@@ -23,7 +23,7 @@
 
 		<div id="content">
 						
-			<form class="filter" action="<c:url value="/admin/articles" />" method="get">
+			<form class="filter user" action="<c:url value="/admin/users" />" method="get">
 				<div>
 					<span class="long"><spring:message code="form.orderby" />:</span>
 					<select name="orderBy">
@@ -40,7 +40,12 @@
 				<div>
 					<span class="long"><spring:message code="form.name" /></span>
 					<input type="text" class="query" name="query"   value="${model.params.query}" />
-					
+					<span><spring:message code="user.activated" /></span>
+					<select name="enabled" class="enabled">
+							<option value=""  <c:if test="${empty model.params.enabled}" >selected="selected"</c:if> ><spring:message code="notmatter" /></option>
+							<option value="1" <c:if test="${model.params.enabled}" >selected="selected"</c:if> ><spring:message code="yes"/></option>
+							<option value="0" <c:if test="${not empty model.params.enabled and not model.params.enabled}" >selected="selected"</c:if> ><spring:message code="no"/></option>
+					</select>
 					<input type="submit" value="Filtrovat" class="btn" />
 				</div>
 			</form>

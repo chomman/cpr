@@ -2,9 +2,10 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
-<head>
-<title><spring:message code="menu.news" /></title>
-</head>
+	<head>
+		<title><spring:message code="menu.news" /></title>
+		<script src="<c:url value="/resources/admin/js/article.autocomplete.js" />"></script>
+	</head>
 <body>
 	<div id="wrapper">
 	<div id="left">
@@ -21,7 +22,7 @@
 
 		<div id="content">
 			
-			<form class="filter" action="<c:url value="/admin/articles" />" method="get">
+			<form class="filter article" action="<c:url value="/admin/articles" />" method="get">
 				<div>
 					<span class="long"><spring:message code="form.orderby" />:</span>
 					<select name="orderBy">
@@ -29,9 +30,17 @@
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span><spring:message code="published" /> od: </span>
+					<span class="fixed"><spring:message code="published" /></span>
+					<select name="enabled" class="enabled">
+							<option value=""  <c:if test="${empty model.params.enabled}" >selected="selected"</c:if> ><spring:message code="notmatter" /></option>
+							<option value="1" <c:if test="${model.params.enabled}" >selected="selected"</c:if> ><spring:message code="yes"/></option>
+							<option value="0" <c:if test="${not empty model.params.enabled and not model.params.enabled}" >selected="selected"</c:if> ><spring:message code="no"/></option>
+					</select>	
+				</div>
+				<div>
+					<span class="long"><spring:message code="published" /> od: </span>
 					<input type="text" class="date"  name="publishedSince" value="<joda:format value="${model.params.publishedSince}" pattern="dd.MM.yyyy"/>" />
-					<span>do:</span>
+					<span class="fixed">do:</span>
 					<input type="text" class="date" name="publishedUntil"  value="<joda:format value="${model.params.publishedUntil}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>

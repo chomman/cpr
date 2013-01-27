@@ -12,4 +12,6 @@ public interface ArticleDao extends BaseDao<Article, Long>{
 	List<Article> getArticlePage(int pageNumber, Map<String, Object> criteria);
 	
 	Long getCountOfArticles(Map<String, Object> criteria);
+	
+	List<Article> autocomplateSearch(final String query);
 }

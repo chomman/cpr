@@ -31,6 +31,7 @@
 			<li><a href="<c:url value="/admin/cpr" />" class="doc"><spring:message code="menu.cpr"/></a></li>
 			<li><a href="<c:url value="/admin/articles" />" class="cal"><spring:message code="menu.news"/></a></li>
 			<li><a href="<c:url value="/admin/users" />" class="user"><spring:message code="menu.users"/></a></li>
+			<li><a href="<c:url value="/admin/settings" />" class="sett"><spring:message code="menu.settings"/></a></li>
 		</ul>
 	</nav>
 	

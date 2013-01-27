@@ -99,12 +99,14 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Article> getArticlePage(int pageNumber,	Map<String, Object> criteria) {
 		return articleDao.getArticlePage(pageNumber, validateCriteria(criteria));
 	}
 
 	
 	@Override
+	@Transactional(readOnly = true)
 	public Long getCountOfArticles(Map<String, Object> criteria) {
 		return articleDao.getCountOfArticles(validateCriteria(criteria));
 	}
@@ -115,8 +117,14 @@ public class ArticleServiceImpl implements ArticleService {
 			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
 			criteria.put("publishedSince", ParseUtils.parseDateTimeFromStringObject(criteria.get("publishedSince")));
 			criteria.put("publishedUntil", ParseUtils.parseDateTimeFromStringObject(criteria.get("publishedUntil")));
-			criteria.put("enabled", ParseUtils.partseStringToBoolean(criteria.get("enabled")));
+			criteria.put("enabled", ParseUtils.parseStringToBoolean(criteria.get("enabled")));
 		}
 		return criteria;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> autocomplateSearch(String query) {
+		return articleDao.autocomplateSearch(query);
 	}
 }

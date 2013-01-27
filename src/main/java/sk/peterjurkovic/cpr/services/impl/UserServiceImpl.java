@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
 			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
 			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
 			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
-			criteria.put("enabled", ParseUtils.partseStringToBoolean(criteria.get("enabled")));
+			criteria.put("enabled", ParseUtils.parseStringToBoolean(criteria.get("enabled")));
 		}
 		return criteria;
 	}
