@@ -27,12 +27,11 @@ public class LoginListener implements ApplicationListener<ApplicationEvent> {
             String ipAddress = ((WebAuthenticationDetails)authenticationSuccessEvent.getAuthentication().getDetails()).getRemoteAddress();
             String sessionId = ((WebAuthenticationDetails)authenticationSuccessEvent.getAuthentication().getDetails()).getSessionId();
             userLogService.saveSuccessLogin(user, ipAddress, authenticationSuccessEvent.getTimestamp(), sessionId);
-            logger.info("Uzivatel '" + user.getUsername() + "' byl prihlasen, zdroj udalosti: " + authenticationSuccessEvent.getSource());
         } else if (evt instanceof AuthenticationFailureBadCredentialsEvent) {
             AuthenticationFailureBadCredentialsEvent event = (AuthenticationFailureBadCredentialsEvent)evt;
             String username = (String)event.getAuthentication().getPrincipal();
-            //String ipAddress = ((WebAuthenticationDetails)event.getAuthentication().getDetails()).getRemoteAddress();
-            logger.info("Uzivatel '" + username + "' nebyl prihlasen: " + event.getException().getMessage());
+            String ipAddress = ((WebAuthenticationDetails)event.getAuthentication().getDetails()).getRemoteAddress();
+            userLogService.saveFailureLogin(username, ipAddress, event.getTimestamp());
         }
     }
 

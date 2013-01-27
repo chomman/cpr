@@ -27,7 +27,7 @@
 	<li>
 		<a 
 		<c:if test="${model.tab == 4}">class="active"</c:if>
-		href="<c:url value="/admin/user/role" />" >
+		href="<c:url value="/admin/user/roles" />" >
 			<spring:message code="user.role.view" />
 		</a>
 	</li>

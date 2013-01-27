@@ -148,4 +148,9 @@ public class UserServiceImpl implements UserService {
 		}
 		
 	}
+
+	@Override
+	public List<User> autocomplateSearch(String query) {
+		return userDao.autocomplateSearch(query);
+	}
 }

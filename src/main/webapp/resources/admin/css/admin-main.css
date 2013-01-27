@@ -22,16 +22,18 @@ a{text-decoration:none;color:#3e4e69;}
 /* FILTER */
 .ui-autocomplete{font-size:13px !important;-webkit-box-shadow: 0px 5px 5px 3px #888;box-shadow: 0px 5px 5px 3px #888; }
 .ui-autocomplete .ui-menu-item a{padding:8px 8px !important;border-bottom:1px solid #ddd;}
-.filter{background:#F2F8FA;padding:5px 10px;border:4px solid #DFEDF2;font-size:13px;margin-bottom:10px;}
+.filter{background:#F2F8FA;padding:5px 10px;border:4px solid #DFEDF2;font-size:12px;margin-bottom:10px;}
 .filter input{padding:5px;width:145px;}
 .filter select{padding:4px;min-width:170px; }
 .filter span{padding:5px 10px 5px 15px;color:#555;}
 .filter div{padding: 3px 0;}
 .filter .date{background: url("../img/ico_calendar_input.png") no-repeat scroll 90px center #FCFCFC;width:100px;text-align:left}
 .filter input.query{width:350px;}
+.filter.log input.query{width:300px;}
 .filter .groups{font-size:12px;width:638px;}
 .filter .groups option{padding:3px 2px;}
 .filter span.long{display:block;width:100px;float:left;}
+.filter.log .btn{margin-left:115px;}
 .filter .btn{background: #4f85bb;color:#fff;width:100px;border:1px solid #356aa0;margin-left:170px;cursor:pointer;
 background: -moz-linear-gradient(top,  #4f85bb 0%, #4f85bb 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4f85bb), color-stop(100%,#4f85bb));
@@ -268,6 +270,12 @@ background: -o-linear-gradient(top, #f7f7f7 0%,#e5e5e5 100%); /* Opera 11.10+ */
 background: -ms-linear-gradient(top, #f7f7f7 0%,#e5e5e5 100%); /* IE10+ */
 background: linear-gradient(to bottom, #f7f7f7 0%,#e5e5e5 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */ border:1px solid #ddd;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;color:#333}
+
+/* ROLES */
+.role{padding:0 20px 20px 20px;background:#fafafa;border:5px solid #eee;font-size:14px;margin-bottom:20px;;}
+.role ul{padding:20px;}
+.role ul li{margin:5px;}
+
 
 /* counter */
 #chars{position:absolute;left:780px;padding:2px 5px;background:#f5f5f5;border:1px solid #ddd;font-size:12px;top:3px;color:#555}

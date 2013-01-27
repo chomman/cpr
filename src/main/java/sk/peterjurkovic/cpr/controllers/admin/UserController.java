@@ -22,8 +22,11 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.Authority;
@@ -107,6 +110,17 @@ public class UserController extends SupportAdminController {
 		model.put("orders", UserOrder.getAll());
 		model.put("tab", 1);
 		model.put("params", params);
+		modelMap.put("model", model);
+        return getTableItemsView();
+    }
+	
+	
+	@RequestMapping("/admin/user/roles")
+    public String showRoles(ModelMap modelMap, HttpServletRequest request) {
+		setTableItemsView("user-roles");
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("roles", userService.getAllAuthorities());
+		model.put("tab", 4);
 		modelMap.put("model", model);
         return getTableItemsView();
     }
@@ -209,6 +223,12 @@ public class UserController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
+	
+	
+	@RequestMapping(value = "/admin/user/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<User>  autocomplete(@RequestBody @RequestParam("term") String query){
+		return userService.autocomplateSearch(query);
+	}
 	
 	
 	

@@ -1,5 +1,8 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import sk.peterjurkovic.cpr.dao.UserLogDao;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.UserLog;
 import sk.peterjurkovic.cpr.services.UserLogService;
+import sk.peterjurkovic.cpr.utils.ParseUtils;
 
 
 @Service("userLogService")
@@ -57,5 +61,31 @@ public class UserLogServiceImpl implements UserLogService{
 	        }
 		}
 	}
+	
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<UserLog> getLogPage(int pageNumber, Map<String, Object> criteria) {
+		return userLogDao.getLogPage(pageNumber, validateCriteria(criteria));
+	}
 
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Long getCountOfLogs(Map<String, Object> criteria) {
+		return userLogDao.getCountOfLogs(validateCriteria(criteria));
+	}
+	
+	
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
+			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
+			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
+		}
+		return criteria;
+	}
 }

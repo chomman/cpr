@@ -18,6 +18,8 @@ public interface UserDao extends BaseDao<User, Long>{
 	
 //	User getUserByPasswordToken(String token);
 	
+	List<User> autocomplateSearch(String query);
+	
 	List<User> getUserPage(int pageNumber, Map<String, Object> criteria);
 	
 	Long getCountOfUsers(Map<String, Object> criteria);

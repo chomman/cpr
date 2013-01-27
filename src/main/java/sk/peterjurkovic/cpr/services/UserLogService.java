@@ -1,6 +1,10 @@
 package sk.peterjurkovic.cpr.services;
 
+import java.util.List;
+import java.util.Map;
+
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.entities.UserLog;
 
 
 public interface UserLogService {
@@ -36,4 +40,10 @@ public interface UserLogService {
 		 * @param timestamp čas prihlásenia vo formáte Unix timestamp
 		 */
 	 	void saveLogOut(User user, long timestamp, String sessionId);
+	 	
+	 	
+	 	List<UserLog> getLogPage(int pageNumber, Map<String, Object> criteria);
+	 	
+	 	
+	 	Long getCountOfLogs(Map<String, Object> criteria);
 }

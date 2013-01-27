@@ -30,7 +30,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	
 	
 	@Override
-	public User getUserByUsername(String username) {
+	public User getUserByUsername(final String username) {
 		return (User) sessionFactory.getCurrentSession()
 				.createQuery("FROM User u WHERE u.email=:username")
 				.setString("username", username)
@@ -39,10 +39,26 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	}
 
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<User> autocomplateSearch(final String query) {
+		StringBuilder hql = new StringBuilder("select u.id, u.firstName, u.lastName, u.email from User u WHERE ");
+		hql.append(" u.firstName like CONCAT('%', :query , '%') OR");
+		hql.append(" u.lastName like CONCAT('%', :query , '%') OR");
+		hql.append(" u.email like CONCAT('%', :query , '%') ");
+		List<User> users = new ArrayList<User>();
+		users = sessionFactory.getCurrentSession()
+				.createQuery(hql.toString())
+				.setString("query", query)
+				.setMaxResults(8)
+				.list();
+		return users;
+	}
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUsersByRole(String code) {
+	public List<User> getUsersByRole(final String code) {
 		return sessionFactory.getCurrentSession()
 			.createQuery("FROM User u LEFT JOIN u.authoritySet authority WHERE authority.code = :code")
 			.setString("code", code)
@@ -67,7 +83,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<User> getUserPage(int pageNumber, Map<String, Object> criteria) {
+	public List<User> getUserPage(final int pageNumber, Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("from User u");
 		hql.append(prepareHqlForQuery(criteria));
 		if((Integer)criteria.get("orderBy") != null){
@@ -145,7 +161,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 
 
 	@Override
-	public boolean isUserNameUniqe(Long id, String userName) {
+	public boolean isUserNameUniqe(final Long id, final String userName) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM User u WHERE u.email=:userName");
 		if(id != 0){
 			hql.append(" AND u.id<>:id");
@@ -159,5 +175,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		result = (Long)query.uniqueResult();
 		return (result == 0);
 	}
-
+	
+	
+	
 }

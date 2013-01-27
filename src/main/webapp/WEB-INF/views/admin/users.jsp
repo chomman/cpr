@@ -4,6 +4,7 @@
 <html>
 <head>
 <title><spring:message code="menu.news" /></title>
+<script src="<c:url value="/resources/admin/js/user.autocomplete.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -21,8 +22,7 @@
 		<h1><spring:message code="menu.users" /></h1>
 
 		<div id="content">
-			
-		
+						
 			<form class="filter" action="<c:url value="/admin/articles" />" method="get">
 				<div>
 					<span class="long"><spring:message code="form.orderby" />:</span>
