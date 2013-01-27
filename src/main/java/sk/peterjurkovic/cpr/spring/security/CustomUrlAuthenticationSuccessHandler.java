@@ -38,11 +38,12 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
 	protected String getTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		User user = (User)authentication.getPrincipal();
         logger.info(user);
-        
+        /*
 		if(user.isEditorUser()){
         	return Constants.SUCCESS_ROLE_ADMIN_URL;
         }
-		return Constants.SUCCESS_ROLE_USER_URL;
+        */
+		return Constants.SUCCESS_ROLE_ADMIN_URL;
 	}
 
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {

@@ -13,10 +13,10 @@ import sk.peterjurkovic.cpr.controllers.admin.SupportAdminController;
 @Controller
 public class AccessController extends SupportAdminController {
 	 
-	
-	
-	 @RequestMapping(value = "/login", method = RequestMethod.GET)
-	 public String getLoginPage(HttpServletRequest request,  ModelMap model) {
+		 
+	 
+	 @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
+	 public String getAdminLoginPage(HttpServletRequest request,   ModelMap model) {
 	  logger.debug("Received request to show login page");
 	  
 	  String error = request.getParameter("login_error");
@@ -24,15 +24,6 @@ public class AccessController extends SupportAdminController {
 	  if(error != null && error.equals("1")){
 		  model.put("loginError", "1");
 	  }
-	  
-	  return "/public/login";
-	 }
-	 
-	 
-	 @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
-	 public String getAdminLoginPage(HttpServletRequest request,   ModelMap model) {
-	  logger.debug("Received request to show login page");
-	 
 	  
 	  return "/admin/login";
 	 }

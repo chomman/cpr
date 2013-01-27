@@ -41,11 +41,12 @@ public class CustomUrlAuthenticationFailureHandler implements AuthenticationFail
 		
 		logger.info("Prefix: " + prefix );
 		
+		/*
 		if(prefix.equals(Constants.ADMIN_PREFIX)){
 			return Constants.FAILURE_ROLE_ADMIN_URL;
 		}
-		
-		return Constants.FAILURE_ROLE_USER_URL;
+		*/
+		return Constants.FAILURE_ROLE_ADMIN_URL;
     }
 	
 	

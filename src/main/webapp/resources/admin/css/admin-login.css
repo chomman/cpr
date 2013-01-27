@@ -1,0 +1,46 @@
+@CHARSET "UTF-8";
+*{border:none;padding:0px;margin:0px;}
+header, footer, nav, aside, article, section{display:block }
+body{font-family: Arial,Tahoma, sans-serif;background:#fafafa;}
+.clear{ clear:both;}
+.hidden{ display:none;}
+.c{ text-align:center;}
+.l{ text-align:left;}
+a{text-decoration:none;color:#3e4e69;}
+.blind {   left: -5000px;position: absolute; top: -5000px;}
+.radius,.submit{-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
+
+form{margin:200px auto;width:350px;background: url(../img/header-bg.png);padding:30px;border:8px solid #fff;-webkit-box-shadow: 0px 0px 10px 5px #ccc;box-shadow: 0px 0px 10px 5px #ccc; }
+form .label{background:#fff;display:block;margin: 10px 0;font-size:14px;padding:11.5px 10px;;
+background: #f7f7f7;
+background: -moz-linear-gradient(top,  #f7f7f7 0%, #e5e5e5 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f7f7f7), color-stop(100%,#e5e5e5));
+background: -webkit-linear-gradient(top,  #f7f7f7 0%,#e5e5e5 100%);
+background: -o-linear-gradient(top,  #f7f7f7 0%,#e5e5e5 100%);
+background: -ms-linear-gradient(top,  #f7f7f7 0%,#e5e5e5 100%);
+background: linear-gradient(to bottom,  #f7f7f7 0%,#e5e5e5 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#e5e5e5',GradientType=0 );
+}
+form td{padding:10px 0px;}
+form .filed input{padding:10px 5px;border:1px solid #fff;width:275px;}
+form .submit{display:inline-block;width:350px;padding:12px;color:#fff;background: #ffa84c;cursor:pointer;
+background: -moz-linear-gradient(top,  #ffa84c 0%, #ff7b0d 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d));
+background: -webkit-linear-gradient(top,  #ffa84c 0%,#ff7b0d 100%);
+background: -o-linear-gradient(top,  #ffa84c 0%,#ff7b0d 100%);
+background: -ms-linear-gradient(top,  #ffa84c 0%,#ff7b0d 100%);
+background: linear-gradient(to bottom,  #ffa84c 0%,#ff7b0d 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffa84c', endColorstr='#ff7b0d',GradientType=0 );
+}
+form .submit:hover{background: #FF7505;}
+
+h1 span{color:#ffa84c;font-weight:normal;font-size:35px;margin-right:10px;}
+h1 {color:#fff;font-weight:normal;font-size:22px;text-transform:uppercase;border-bottom:1px solid #aaa;margin-bottom:8px;}
+strong{color:#eee;font-size:12px;font-weight:normal;display:block;margin-bottom:10px;}
+
+.remeber{color:#eee;font-size:12px;margin:0  0 20px 0; display:inline-block;}
+.remeber input{margin:5px;display:block;float:left;}
+.remeber label{padding:5px;display:inline-block;}
+
+.error{padding:15px 5px 15px 50px;font-size:13px;margin:10px 0;background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
+

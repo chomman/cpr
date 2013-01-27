@@ -36,10 +36,11 @@ public class MultipleLoginUrlAuthenticationEntryPoint extends LoginUrlAuthentica
 		}
 		logger.info("prefix: " + prefix);
 		
+		/*
 		if(prefix.equals(Constants.ADMIN_PREFIX)){
 			return Constants.ADMIN_ENTRY_POIN_REDIRECT_URL;
 		}
-		
+		*/
 		return getLoginFormUrl();
 	}
 }
