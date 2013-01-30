@@ -1,5 +1,10 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+
+<sec:authorize access="hasRole('ROLE_WEBMASTER')">	
+	<c:set var="isLoggedWebmaster" value="true"/>
+</sec:authorize>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,7 +62,7 @@
                 		<small><spring:message code="webpage.name.info"/></small>
                 	</label>
                     <span class="field">
-                    	<form:input path="name" maxlength="60" cssClass="w300 required" />
+                    	<form:input  htmlEscape="true" path="name" maxlength="60" cssClass="w300 required" />
                     </span>
                 </p>
                  <p>
@@ -68,7 +73,7 @@
                 		<small><spring:message code="webpage.code.info"/></small>
                 	</label>
                     <span class="field">
-                    	<form:input path="code" maxlength="250" cssClass="mw500 required" />
+                    	<form:input  htmlEscape="true" path="code"  maxlength="250" cssClass="mw500 required" />
                     </span>
                 </p>
                 <p>
@@ -92,14 +97,16 @@
 				     	<form:checkbox path="enabled" />
 				     </span>
 				 </p>
-				 <p class="form-head"><spring:message code="webpage.head.seo" /><p>
+				 <p class="form-head"><spring:message  code="webpage.head.seo" /><p>
 				 <p>
                 	<label>
-                		<spring:message code="webpage.title" />
+	                	<strong><em class="red">*</em>
+	                		<spring:message code="webpage.title" />
+	                	</strong>
                 		<small><spring:message code="webpage.title.info" /></small>
                 	</label>
                     <span class="field">
-                    	<form:input path="title" maxlength="150" cssClass="required" />
+                    	<form:input  htmlEscape="true" path="title" maxlength="150" cssClass="required" />
                     </span>
                 </p>
 				 <p>
@@ -120,6 +127,17 @@
 				     <span class="field">  								
 				     	<form:textarea path="topText" cssClass="mceEditor " />
 				     </span>
+				 </p>
+				 <p>
+				 	<label>
+				 		<spring:message code="webpage.content" />
+				 	</label>
+					<span class="field content">  				
+						<span class="msg info"><spring:message code="webpage.content.info" /></span>	
+						 <form:select path="webpageContent" cssClass="mw500">
+							  <form:options items="${model.contents}" itemValue="id" itemLabel="name" />
+						</form:select>		
+					</span>		 
 				 </p>
 				 <p>
 				    <label>

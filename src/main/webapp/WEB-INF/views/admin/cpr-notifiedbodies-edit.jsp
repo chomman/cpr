@@ -72,7 +72,7 @@
                       		</strong>
                       	</label>
                           <span class="field">
-                          	<form:input path="name" maxlength="255" cssClass="mw500  required" />
+                          	<form:input htmlEscape="true" path="name" maxlength="255" cssClass="mw500  required" />
                           </span>
                       </p>
                       <p>
@@ -82,7 +82,7 @@
                       		</strong>
                       	</label>
                           <span class="field">
-                          	<form:input path="notifiedBodyCode" maxlength="25" cssClass="w200  required" />
+                          	<form:input  htmlEscape="true" path="notifiedBodyCode" maxlength="25" cssClass="w200  required" />
                           </span>
                       </p>
                       <p>
@@ -99,7 +99,7 @@
                       		<spring:message code="form.phone" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="phone"  maxlength="20"  cssClass="w200 more7" />
+                          	<form:input  htmlEscape="true" path="phone"  maxlength="20"  cssClass="w200 more7" />
                           </span>
                       </p>
                       
@@ -108,7 +108,7 @@
                       		<spring:message code="form.fax" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="fax"  maxlength="20"  cssClass="w200 more7" />
+                          	<form:input  htmlEscape="true" path="fax"  maxlength="20"  cssClass="w200 more7" />
                           </span>
                       </p>
                       
@@ -117,7 +117,7 @@
                       		<spring:message code="form.email" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="email"  maxlength="45"  cssClass="w200 email" />
+                          	<form:input  htmlEscape="true" path="email"  maxlength="45"  cssClass="w200 email" />
                           </span>
                       </p>
                       
@@ -126,7 +126,7 @@
                       		<spring:message code="form.web" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="webpage"  maxlength="50"  cssClass="w200 more7" />
+                          	<form:input htmlEscape="true"  path="webpage"  maxlength="50"  cssClass="w200 more7" />
                           </span>
                       </p>
                       <p class="form-head">Adresa<p>
@@ -135,7 +135,7 @@
                       		<spring:message code="address.city" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="address.city"  maxlength="50"  cssClass="w200" />
+                          	<form:input htmlEscape="true"  path="address.city"  maxlength="50"  cssClass="w200" />
                           </span>
                       </p>
                        <p>
@@ -143,8 +143,8 @@
                       		<spring:message code="address.street" /> a <spring:message code="address.zip" />
                       	</label>
                           <span class="field">  
-                          	<form:input path="address.street"  maxlength="100" cssClass="w300" /> 
-                          	<form:input path="address.zip"  maxlength="6" cssClass="w100" />
+                          	<form:input htmlEscape="true" path="address.street"  maxlength="100" cssClass="w300" /> 
+                          	<form:input htmlEscape="true" path="address.zip"  maxlength="6" cssClass="w100" />
                           </span>
                       </p>
                        

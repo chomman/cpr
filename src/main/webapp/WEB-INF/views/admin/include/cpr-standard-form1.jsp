@@ -1,6 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<form:form commandName="standard" method="post" action="${formUrl}"  cssClass="valid" >
+<form:form htmlEscape="true" commandName="standard" method="post" action="${formUrl}"  cssClass="valid" >
 						
 	<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 	<c:if test="${not empty successCreate}">
@@ -21,7 +21,7 @@
 	 		<spring:message code="cpr.standard.replacedStandardId" />
 	 	</label>
 	     <span class="field">
-	     	<form:input path="replacedStandardId" cssClass="w200" maxlength="45" />
+	     	<form:input  path="replacedStandardId" cssClass="w200" maxlength="45" />
 	     </span>
 	 </p>
 	 <p>

@@ -69,7 +69,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="countryName" maxlength="255" cssClass="mw500" />
+                            	<form:input  htmlEscape="true" path="countryName" maxlength="255" cssClass="mw500" />
                             </span>
                         </p>
                         <p>
@@ -77,7 +77,7 @@
                         		<spring:message code="form.code" /> <spring:message code="form.code" />
                         	</label>
                             <span class="field">
-                            	<form:input path="code" maxlength="255" />
+                            	<form:input  htmlEscape="true" path="code" maxlength="255" />
                             </span>
                         </p>
                         <form:hidden path="id" />

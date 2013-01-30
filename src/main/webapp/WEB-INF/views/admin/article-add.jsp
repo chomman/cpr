@@ -33,7 +33,7 @@
                 		</strong>
                 	</label>
                     <span class="field">
-                    	<form:input path="title" maxlength="150" cssClass="mw500 required" />
+                    	<form:input  htmlEscape="true" path="title" maxlength="150" cssClass="mw500 required" />
                     </span>
                 </p>
                 <p class="button-box">

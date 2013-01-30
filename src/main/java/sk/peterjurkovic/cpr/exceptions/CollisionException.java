@@ -3,6 +3,10 @@ package sk.peterjurkovic.cpr.exceptions;
 @SuppressWarnings("serial")
 public class CollisionException extends Exception {
 	
+	public CollisionException(){
+		super();
+	}
+	
 	public CollisionException(String message){
 		super(message);
 	}

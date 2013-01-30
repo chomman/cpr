@@ -91,7 +91,7 @@
 							<th><spring:message code="user.registratedFrom" /></th>
 							<th><spring:message code="user.activated" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
-							<sec:authorize access="hasRole('ROLE_SUPERADMIN')">
+							<sec:authorize access="hasAnyRole('ROLE_WEBMASTER','ROLE_ADMIN')">
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 							</sec:authorize>
@@ -125,7 +125,7 @@
 						 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / HH:mm"/>
 						 			</c:if>
 						 		</td>
-						 		<sec:authorize access="hasRole('ROLE_SUPERADMIN')">
+						 		<sec:authorize access="hasAnyRole('ROLE_WEBMASTER','ROLE_ADMIN')">
 						 		<td class="edit">
 						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/user/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />

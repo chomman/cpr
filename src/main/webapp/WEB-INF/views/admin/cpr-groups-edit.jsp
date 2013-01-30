@@ -71,7 +71,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="groupName" maxlength="255" cssClass="mw500" />
+                            	<form:input htmlEscape="true" path="groupName" maxlength="255" cssClass="mw500" />
                             </span>
                         </p>
                         <p>
@@ -80,7 +80,7 @@
                         		<small>Kód skupiny podle CPR.</small>
                         	</label>
                             <span class="field">
-                            	<form:input path="groupCode" cssClass="w100" maxlength="15" />
+                            	<form:input htmlEscape="true" path="groupCode" cssClass="w100" maxlength="15" />
                             </span>
                         </p>
                         <p>
@@ -88,7 +88,7 @@
                         		<spring:message code="cpr.groups.fileUrl" />
                         	</label>
                             <span class="field">  
-                            	<form:input path="commissionDecisionUrl"  maxlength="255"  cssClass="mw500" />
+                            	<form:input  htmlEscape="true" path="commissionDecisionUrl"  maxlength="255"  cssClass="mw500" />
                             </span>
                         </p>
                         
@@ -97,7 +97,7 @@
                         		<spring:message code="cpr.group.url.title" />
                         	</label>
                             <span class="field">  
-                            	<form:input path="urlTitle" maxlength="25"  />
+                            	<form:input htmlEscape="true" path="urlTitle" maxlength="25"  />
                             </span>
                         </p>
 						<p class="form-head"><spring:message code="cpr.nb.description" /><p>

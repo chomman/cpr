@@ -69,7 +69,7 @@
                       		</strong>
                       	</label>
                           <span class="field">
-                          	<form:input path="name" maxlength="45" cssClass="mw500" />
+                          	<form:input  htmlEscape="true" path="name" maxlength="45" cssClass="mw500" />
                           </span>
                       </p>
                       <p>
@@ -78,7 +78,7 @@
                       		<small>(Např. 1, 1+, ...)</small>
                       	</label>
                           <span class="field">
-                          	<form:input path="assessmentSystemCode" maxlength="25" cssClass="w100" />
+                          	<form:input  htmlEscape="true" path="assessmentSystemCode" maxlength="25" cssClass="w100" />
                           </span>
                       </p>
 					  <p class="form-head"><spring:message code="cpr.nb.description" /><p>

@@ -60,7 +60,7 @@
                     	<input type="text" class="date" id="publishedSince-date" maxlength="10" />
                     	<span><spring:message code="time" />:</span>
                     	<input type="text" class="time" id="publishedSince-time" maxlength="5" />
-                    	<form:hidden path="publishedSince" /><em>hh:mm</em>
+                    	<form:hidden  htmlEscape="true" path="publishedSince" /><em>hh:mm</em>
                     </span>
                 </p>
                   <p>
@@ -73,7 +73,7 @@
                     	<input type="text" class="date" id="publishedUntil-date" maxlength="10" />
                     	<span><spring:message code="time" />:</span>
                     	<input type="text" class="time" id="publishedUntil-time" maxlength="5"/>
-                    	<form:hidden path="publishedUntil"/><em>hh:mm</em>
+                    	<form:hidden  htmlEscape="true" path="publishedUntil"/><em>hh:mm</em>
                     </span>
                 </p>
                 <p>
@@ -92,7 +92,7 @@
                 		</strong>
                 	</label>
                     <span class="field">
-                    	<form:input path="title" maxlength="150" cssClass="required" />
+                    	<form:input  htmlEscape="true" path="title" maxlength="150" cssClass="required" />
                     </span>
                 </p>
 				 <p>
@@ -100,7 +100,7 @@
 				 		<spring:message code="article.header" />
 				 	</label>
 				     <span class="field counter">  
-				     	<form:textarea path="header" cssClass="header" />
+				     	<form:textarea  htmlEscape="true" path="header" cssClass="header" />
 				     	<span id="chars"></span>
 				     </span>
 				 </p>

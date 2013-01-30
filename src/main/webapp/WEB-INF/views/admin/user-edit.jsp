@@ -1,5 +1,11 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+
+<sec:authorize access="hasRole('ROLE_WEBMASTER')">	
+	<c:set var="isLoggedWebmaster" value="true"/>
+</sec:authorize>
+							
+							
 <!DOCTYPE html>
 <html>
 <head>
@@ -25,7 +31,7 @@
 			
 			
 			<c:url value="/admin/user/edit/${userId}" var="formUrl"/>
-			<form:form commandName="userForm" method="post" action="${formUrl}" cssClass="valid" >
+			<form:form  htmlEscape="true" commandName="userForm" method="post" action="${formUrl}" cssClass="valid" >
 						
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						
@@ -94,20 +100,38 @@
                             </span>
                         </p>
 						<p class="form-head"><spring:message code="user.roles" /></p>
-						<p class="msg info"><spring:message code="user.role.notice" /></p>
-                       	<table class="roles">
-							<c:forEach items="${userForm.roles}" var="item" varStatus="i">	
-							<tr>
-								<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
-								<td class="name"><c:out value="${item.authority.name}" /></td>
-								<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
-							</tr>
-							</c:forEach>
-						</table>
-                        <form:hidden path="user.id" />
-                        <p class="button-box">
-                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
-                        </p>
+						
+						<c:if test="${not isLoggedWebmaster and userIsWebmaster }">
+							<p class="msg alert"><spring:message code="user.rights.notice" /></p>
+						</c:if>
+						
+						<c:if test="${(isLoggedWebmaster and userIsWebmaste) or (not isLoggedWebmaster and not userIsWebmaster)}">
+							<p class="msg info"><spring:message code="user.role.notice" /></p>
+	                       	<table class="roles">
+								<c:forEach items="${userForm.roles}" var="item" varStatus="i">
+								
+									<c:if test="${isLoggedWebmaster and  item.authority.code == 'ROLE_WEBMASTER'}">
+										<tr>
+											<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+											<td class="name"><c:out value="${item.authority.name}" /></td>
+											<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
+										</tr>
+									</c:if>
+									<c:if test="${item.authority.code != 'ROLE_WEBMASTER'}">
+										<tr>
+											<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+											<td class="name"><c:out value="${item.authority.name}" /></td>
+											<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
+										</tr>
+									</c:if>
+								</c:forEach>
+							</table>
+	                        <form:hidden path="user.id" />
+	                        <p class="button-box">
+	                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+	                        </p>
+						</c:if>
+						
 					</form:form>
 			<span class="note"><spring:message code="form.required" /></span>
 		</div>	

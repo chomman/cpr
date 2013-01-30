@@ -145,9 +145,23 @@ public class User extends AbstractEntity implements UserDetails{
         return new ArrayList<GrantedAuthority>(getAuthoritySet());
     }
 	
+	
 	@Transient
-    public boolean isSuperAdminUser() {
-        Authority authority = Authority.getInstance(Authority.ROLE_SUPERADMIN);
+    public boolean isWebmaster() {
+        Authority authority = Authority.getInstance(Authority.ROLE_WEBMASTER);
+        if (getAuthoritySet().contains(authority)) {
+            return true;
+        }
+        return false;
+    }
+	
+	
+	@Transient
+    public boolean isAdministrator() {
+		if(isWebmaster()){
+			return true;
+		}
+        Authority authority = Authority.getInstance(Authority.ROLE_ADMIN);
         if (getAuthoritySet().contains(authority)) {
             return true;
         }
@@ -157,10 +171,10 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	@Transient
     public boolean isEditorUser() {
-		if(isSuperAdminUser()){
+		if(isAdministrator() || isWebmaster()){
 			return true;
 		}
-        Authority authority = Authority.getInstance(Authority.ROLE_ADMIN);
+        Authority authority = Authority.getInstance(Authority.ROLE_EDITOR);
         if (getAuthoritySet().contains(authority)) {
             return true;
         }

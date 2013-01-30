@@ -25,7 +25,7 @@
 			
 			
 			<c:url value="/admin/user/profile" var="formUrl"/>
-			<form:form commandName="userForm" method="post" action="${formUrl}" cssClass="valid" >
+			<form:form  htmlEscape="true" commandName="userForm" method="post" action="${formUrl}" cssClass="valid" >
 						
 						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 						

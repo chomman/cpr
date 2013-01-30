@@ -75,7 +75,7 @@
                         			<spring:message code="cpr.mandates.name" />                        		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input path="mandateName" maxlength="25" cssClass="required" />
+                            	<form:input  htmlEscape="true" path="mandateName" maxlength="25" cssClass="required" />
                             </span>
                         </p>
                         <p>
@@ -83,7 +83,7 @@
                         		<spring:message code="form.code" /> <spring:message code="cpr.mandates.url"  />
                         	</label>
                             <span class="field">
-                            	<form:input path="mandateFileUrl" cssClass="mw500 more7" maxlength="255" />
+                            	<form:input  htmlEscape="true" path="mandateFileUrl" cssClass="mw500 more7" maxlength="255" />
                             </span>
                         </p>
                        

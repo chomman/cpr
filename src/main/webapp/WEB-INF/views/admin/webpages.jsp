@@ -1,5 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<sec:authorize access="hasRole('ROLE_WEBMASTER')">	
+	<c:set var="isLoggedWebmaster" value="true"/>
+</sec:authorize>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,11 +44,13 @@
 				<table class="data">
 					<thead>
 						<tr>
-							<tH><spring:message code="settings.webpage" /></th>
+							<tH><spring:message code="webpage.name" /></th>
 							<th><spring:message code="webpage.category.table" /></th>
 							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.edit" /></th>
+							<c:if test="${isLoggedWebmaster}">
 							<th><spring:message code="form.delete" /></th>
+							</c:if>
 						</tr>
 					</thead>
 					<tbody>
@@ -65,15 +71,17 @@
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">
-						 			<a href="<c:url value="/admin/settings/countries/edit/${i.id}"  />">
+						 			<a href="<c:url value="/admin/webpages/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
+						 		<c:if test="${isLoggedWebmaster}">
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/settings/countries/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/webpages/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>
+						 		</c:if>
 						 	</tr>
 						 </c:forEach>
 					</tbody>

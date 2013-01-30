@@ -79,7 +79,7 @@ public class UserController extends SupportAdminController {
 		if(user.equals(loggedUser)){
 			modelMap.put("successDelete", 3);
 		}
-		else if(! loggedUser.isSuperAdminUser()){
+		else if(! loggedUser.isAdministrator()){
 			modelMap.put("successDelete", 2);
 		}else{
 			user.clearAuthorities();
@@ -160,6 +160,7 @@ public class UserController extends SupportAdminController {
 		UserForm form = new UserForm();
 		prepareEditForm(form, userId);
 		prepareModel(modelMap,  form);
+		modelMap.put("userIsWebmaster", form.getUser().isWebmaster());
 		return getEditFormView();
 	}
 	
@@ -249,7 +250,7 @@ public class UserController extends SupportAdminController {
 		}
 		
 		User loggedUser = UserUtils.getLoggedUser();
-		if(!loggedUser.isSuperAdminUser() && !loggedUser.equals(user)){
+		if(!loggedUser.isAdministrator() && !loggedUser.equals(user)){
 			createAccessDenied();
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}
@@ -297,7 +298,7 @@ public class UserController extends SupportAdminController {
 			createItemNotFoundError();
 		}
 		User loggerUser = UserUtils.getLoggedUser();
-		if(!loggerUser.isSuperAdminUser() && !loggerUser.equals(user)){
+		if(!loggerUser.isAdministrator() && !loggerUser.equals(user)){
 			createAccessDenied();
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}

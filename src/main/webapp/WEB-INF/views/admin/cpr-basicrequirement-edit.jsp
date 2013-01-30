@@ -72,7 +72,7 @@
                    		</strong>
                    	</label>
                        <span class="field">
-                       	<form:input path="name" maxlength="150" cssClass="mw600" />
+                       	<form:input htmlEscape="true" path="name" maxlength="150" cssClass="mw600" />
                       </span>
                 </p>
 			  	<p>
