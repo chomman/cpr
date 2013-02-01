@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>ADMIN - <decorator:title/></title>
+	<meta charset="utf-8" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/admin-main.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 	<link rel="shortcut icon" href="<c:url value="/resources/admin/img/favico.png" />">

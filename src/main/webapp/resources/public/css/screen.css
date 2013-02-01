@@ -1,0 +1,70 @@
+
+*{border:none;padding:0px;margin:0px;}
+html, body {	height: 100%;}
+header, footer, nav, aside, article, section{display:block }
+body{font-family: Arial,Tahoma, sans-serif;background:url(../img/body.png) repeat-y top center;}
+.clear{ clear:both;}
+.hidden{ display:none;}
+.c{ text-align:center;}
+.l{ text-align:left;}
+a{text-decoration:none;color:#3e4e69;}
+.blind {   left: -5000px;position: absolute; top: -5000px;}
+.radius{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+#wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
+
+.blue-color{color:#4390d7}
+.blue-bg{background-color: #4390d7}
+.page-width{width:999px;margin:auto;}
+
+/* HEADER */
+#logo{display:inline-block;width:150px;background:url(../img/logo.png) no-repeat center;height:115px;float:left;}
+header{height:115px; background:  url(../img/europa.png) no-repeat right ;}
+header strong{padding-top:15px;display:block;float:left;}
+header span{display:block;}
+header .is,header .itc-name{font-size:14px;font-weight:normal;color:#5c5c5c;}
+header .is-name{font-size:23px;}
+header .is-name em{font-style:normal;}
+header .itc-name{margin:5px 0 0 50px;padding:5px 0 0 130px;width:350px;background: url(../img/itc-name.png) no-repeat top right; }
+
+/* NAVIGATION */
+nav{background:#8b8a8a url(../img/nav-bg.png) repeat-x;height:50px;padding-bottom:7px; }
+nav ul{list-style:none;padding:0 60px;background:red url(../img/nav-bg2.png);}
+nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;}
+nav ul li:last-child{background:none;}
+nav ul li a{display:block;float:left;height:15px;padding:17px 15px;color:#fff;text-transform:uppercase;font-size:13px;margin:0 5 0 0px;}
+nav ul li a:hover, nav .curr{background:#8b8a8a url(../img/nav-bg-hover.png);}
+
+/* CONTENT */
+#content{width:959px;margin:auto;padding:10px 20px;min-height: 500px;}
+#bc{font-size:11px;color:#888;padding:5px 10px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;}
+#bc a{padding:0 8px;}
+.bc-info{margin-right:10px;}
+#main-content{padding:20px 10px;color:#444;font-size:14px;line-height:20px;}
+#main-content h1{font-size:20px;display:block;padding:8px 0;margin-bottom:15px;border-bottom:2px solid #ccc;}
+
+/* CONTENT - HOME PAGE */
+#homepage{margin:45px 0;padding:5px 0;}
+.hompage-left{margin-right:10px;}
+.hompage-left,.hompage-right{width:440px;float:left;padding:10px;  }
+#homepage .head{display:block;background:#f5f5f5;border-bottom:1px solid #aaa;padding:12px;}
+.home-news{padding:5px;margin-bottom:10px;border-bottom:1px solid #eee;}
+.home-news strong a{font-size:15px;dispaly:block;padding-bottom:5px;}
+.home-news .link{float:right;}
+
+#homepage .link{text-decoration:underline;}
+#homepage .link:hover{text-decoration: none;color:#333;}
+#homepage .norm{ padding:8px 5px;border-bottom:1px solid #eee;}
+#homepage .norm:hover,.home-news:hover{background:#FFFDF2;}
+#homepage .norm .edit{margin-right:20px;}
+
+
+/* FOOTER */
+footer{background: url(../img/footer-bg.png) repeat-x;}
+#footer{height:81px;background: url(../img/footer-bg2.png) no-repeat;padding:0 60px;position:relative;}
+footer, .push {height:81px;font-size:12px;}
+footer .itc-logo{width:76px;height: 46px;display: block;background: url(../img/itc-logo.png);float:left;margin:25px 0 0  25px;}
+footer .itc-name{padding:35px 0 0 30px;float:left;color:#555;}
+footer a{color:#555;text-decoration:underline;}
+footer .admin{right:80px;bottom:0;position:absolute;padding:8px 20px;background:#ddd;color:#555;font-size:11px;-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;-moz-border-radius-topleft: 5px;-moz-border-radius-topright: 5px;border-top-left-radius: 5px;
+border-top-right-radius: 5px;}

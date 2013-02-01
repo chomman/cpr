@@ -87,7 +87,9 @@ public class StandardServiceImpl implements StandardService {
 		
 		if(standard.getId() == null){
 			standard.setCreatedBy(user);
+			standard.setChangedBy(user);
 			standard.setCreated(new DateTime());
+			standard.setChanged(new DateTime());
 			standardDao.save(standard);
 			standardDao.flush();
 		}else{
