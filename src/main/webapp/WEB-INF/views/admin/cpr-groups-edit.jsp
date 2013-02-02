@@ -43,13 +43,13 @@
 							<tr>
 								<td class="key"><spring:message code="meta.created" /></td>
 								<td class="val">${standardGroup.createdBy.firstName} ${standardGroup.createdBy.lastName}</td>
-								<td class="val"><joda:format value="${standardGroup.created}" pattern="dd.MM.yyyy / hh:mm"/></td>
+								<td class="val"><joda:format value="${standardGroup.created}" pattern="${dateTimeFormat}"/></td>
 							</tr>
 							<c:if test="${not empty standardGroup.changedBy}">
 							<tr>
 								<td class="key"><spring:message code="meta.edited" /></td>
 								<td class="val">${standardGroup.changedBy.firstName} ${standardGroup.changedBy.lastName}</td>
-								<td class="val"><joda:format value="${standardGroup.changed}" pattern="dd.MM.yyyy / hh:mm"/></td>
+								<td class="val"><joda:format value="${standardGroup.changed}" pattern="${dateTimeFormat}"/></td>
 							</tr>
 							</c:if>
 						</table>

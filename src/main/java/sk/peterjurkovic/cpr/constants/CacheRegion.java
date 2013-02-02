@@ -28,4 +28,10 @@ public class CacheRegion {
 	 * Cache uchovavajuce data tykajuce sa aktualit
 	 */
 	public static final String NEWS_CACHE = "newsCache";
+	
+	
+	/** WEBPAGE CACHE
+	 * Cache uchovavajuce data tykajuce sa webovych sekci
+	 */
+	public static final String WEBPAGE_CACHE = "webpageCache";
 }

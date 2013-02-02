@@ -40,13 +40,13 @@
 					<tr>
 						<td class="key"><spring:message code="meta.created" /></td>
 						<td class="val">${system.createdBy.firstName} ${system.createdBy.lastName}</td>
-						<td class="val"><joda:format value="${system.created}" pattern="dd.MM.yyyy / hh:mm"/></td>
+						<td class="val"><joda:format value="${system.created}" pattern="${dateTimeFormat}"/></td>
 					</tr>
 					<c:if test="${not empty system.changedBy}">
 					<tr>
 						<td class="key"><spring:message code="meta.edited" /></td>
 						<td class="val">${system.changedBy.firstName} ${system.changedBy.lastName}</td>
-						<td class="val"><joda:format value="${system.changed}" pattern="dd.MM.yyyy / hh:mm"/></td>
+						<td class="val"><joda:format value="${system.changed}" pattern="${dateTimeFormat}"/></td>
 					</tr>
 					</c:if>
 				</table>

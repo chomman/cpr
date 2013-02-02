@@ -19,4 +19,6 @@ public interface WebpageService {
 	List<Webpage> getAll();
 	
 	void saveOrUpdate(Webpage webpage);
+	
+	List<Webpage> getPublicSection(Long sectionId);
 }

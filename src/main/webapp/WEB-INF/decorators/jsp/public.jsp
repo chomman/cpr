@@ -5,10 +5,9 @@
 	<head>
 		<title><decorator:title/></title>
 		<meta charset="utf-8" />
-		<meta name="keywords" content="key, words" />
-		<meta name="description" content="description" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
 		<script src="<c:url value="/resources/public/js/jquery-1.9.0.min.js" />"></script>
+		<decorator:head/>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -17,7 +16,7 @@
 			<header class="page-width">
 				<a href="" id="logo"></a>
 					<strong>
-						<span class="is">Iformační systém</span>
+						<span class="is">Informační systém</span>
 						<span class="is-name">Uvádění <em class="blue-color">stavebních výrobků</em> na trh</span>
 						<span class="itc-name">ITC - Institut pro testování a certifikace</span>
 					</strong>
@@ -27,15 +26,17 @@
 			<!-- NAVIGATION -->
 			<nav>
 				<ul class="page-width">
-					<li><a href="">O portálu</a></li>
+					<c:forEach items="${commonPublic.mainMenu}" var="webpage">
+						<li><a href="<c:url value="${webpage.code}" />">${webpage.name}</a></li>
+					</c:forEach>
+					<!-- <li><a href="">O portálu</a></li>
 					<li><a href="">Aktuality</a></li>
 					<li><a href="">Uvadeni vyrobku</a></li>
 					<li><a href="">Prehled subjektu</a></li>
 					<li><a href="">Vygenerovat prohlaseni</a></li>
-					<li><a href="">Kontakty</a></li>
+					<li><a href="">Kontakty</a></li> -->
 				</ul>
 			</nav>
-
 			<!-- CONTENT -->
 			<div id="content">
 				
@@ -48,16 +49,12 @@
 		<!-- FOOTER -->
 		<footer>
 			<div id="footer" class="page-width">
-				<a href="http://www.itczlin.cz/cz/" title="ITC - Institut pro testování a certifikace" class="itc-logo">
-				</a>
-
+				<a href="http://www.itczlin.cz/cz/" title="ITC - Institut pro testování a certifikace" class="itc-logo"></a>
 				<p class="itc-name">
 					Iformační systém CPR<br />
 					<a href="http://www.itczlin.cz/cz/" title="ITC - Institut pro testování a certifikace">ITC - Institut pro testování a certifikace</a>
 				</p>
-				
-				<a class="admin" href="" title="Administrace" >Administrace systému</a>
-				
+				<a class="admin" href="<c:url value="/admin/login" />" title="Přihlášení do administrace systému" >Administrace systému</a>
 			</div>
 		</footer>
 

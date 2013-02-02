@@ -13,14 +13,6 @@
 	
 	<li>
 		<a 
-		<c:if test="${model.tab == 2}">class="active"</c:if>
-		href="<c:url value="/admin/settings/texts"  />">
-			<spring:message code="settings.texts" />
-		</a>
-	</li>
-	
-	<li>
-		<a 
 		<c:if test="${model.tab == 3}">class="active"</c:if>
 		href="<c:url value="/admin/settings/countries"  />">
 			<spring:message code="settings.countries" />

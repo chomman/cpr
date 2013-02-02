@@ -78,8 +78,9 @@
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">
         <list>
-            <value>msg/messages</value>
+            <value>msg/admin</value>
             <value>msg/validationMessages</value>
+            <value>msg/public</value>
         </list>
     </property>
 	</bean>

@@ -92,10 +92,10 @@
 						 		<td>${i.title}</td>
 						 		<td>
 						 			<c:if test="${not empty i.publishedSince }" >
-						 				<joda:format value="${i.publishedSince}" pattern="dd.MM.yyyy / HH:mm"/>
+						 				<joda:format value="${i.publishedSince}" pattern="${dateTimeFormat}"/>
 						 			</c:if>
 						 			<c:if test="${empty i.publishedSince}" >
-						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>
+						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
 						 			</c:if>
 						 		</td>
 						 		
@@ -113,10 +113,10 @@
 						 		</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
-						 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>
+						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
 						 			</c:if>
 						 			<c:if test="${not empty i.changedBy}">
-						 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / HH:mm"/>
+						 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">

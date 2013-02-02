@@ -43,6 +43,10 @@
 	     <mvc:mapping path="/admin/**" />
 	     	<beans:bean class="sk.peterjurkovic.cpr.interceptors.AdminInterceptor" />
 	   </mvc:interceptor>
+	   <mvc:interceptor>
+	     <mvc:mapping path="/**" />
+	     	<beans:bean class="sk.peterjurkovic.cpr.interceptors.WebpageInterceptor" />
+	   </mvc:interceptor>
 	</mvc:interceptors>
 	
 	

@@ -2,12 +2,10 @@ package sk.peterjurkovic.cpr.controllers.admin;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,9 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import sk.peterjurkovic.cpr.entities.Country;
-import sk.peterjurkovic.cpr.entities.StandardGroup;
-import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
@@ -53,11 +48,14 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
+	
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(WebpageContent.class, this.webpageContentEditor);
 		binder.registerCustomEditor(WebpageCategory.class, this.webpageCategoryEditor);
     }
+	
+	
 	
 	@RequestMapping("/admin/webpages")
 	public String showWebpages(ModelMap modelMap, HttpServletRequest request){
@@ -69,12 +67,12 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
+	
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.GET)
 	public String showForm(@PathVariable Long webpageId,  ModelMap model) {		
 		Webpage form = null;
 		if(webpageId == 0){
-			form = new Webpage();
-			form.setId(0L);
+			form = createEmptyWebpageForm();
 		}else{
 			form = webpageService.getWebpageById(webpageId);
 			if(form == null){
@@ -86,20 +84,24 @@ public class WebpageController extends SupportAdminController {
         return getEditFormView();
 	}
 	
+	
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST)
 	public String rocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) {		
-
 		if(!result.hasErrors()){
 			try{
 				createOrUpdate(form);
 				model.put("successCreate", true);
+				if(webpageId == 0){
+					form = createEmptyWebpageForm();
+				}
 			}catch(CollisionException e){
 				result.rejectValue("timestamp", "error.collision", e.getMessage());
 			}
 		}
-		
+		prepareModel(form, model);
         return getEditFormView();
 	}
+	
 	
 	private void createOrUpdate(Webpage form) throws CollisionException{
 		Webpage webpage = null;
@@ -129,6 +131,8 @@ public class WebpageController extends SupportAdminController {
 		webpageService.saveOrUpdate(webpage);
 	}
 	
+	
+	
 	private void prepareModel(Webpage form, ModelMap map){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("webpage", form);
@@ -147,4 +151,10 @@ public class WebpageController extends SupportAdminController {
 		}
 	}
 	
+	
+	private Webpage createEmptyWebpageForm(){
+		Webpage form = new Webpage();
+		form.setId(0L);
+		return form;
+	}
 }

@@ -96,4 +96,11 @@ public class Constants {
 	
 	
 	public static final String DATE_TIME_FORMAT = "dd.MM.yyyy HH:mm";
+	
+	
+	public static final Long BASIC_SETTINGS_DB_ID = Long.valueOf(1);
+	
+	
+	public static final Long WEBPAGE_CATEGORY_MAIN_MENU = Long.valueOf(1);
+	
 }

@@ -74,5 +74,10 @@ public class WebpageServiceImpl implements WebpageService{
 			webpageDao.update(webpage);
 		}
 	}
+
+	@Override
+	public List<Webpage> getPublicSection(Long sectionId) {
+		return webpageDao.getPublicSection(sectionId);
+	}
 	
 }

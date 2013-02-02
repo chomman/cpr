@@ -45,8 +45,9 @@
 					<thead>
 						<tr>
 							<tH><spring:message code="webpage.name" /></th>
-							<th><spring:message code="webpage.category.table" /></th>
+							<th class="c"><spring:message code="webpage.category.table" /></th>
 							<th><spring:message code="published" /></th>
+							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<c:if test="${isLoggedWebmaster}">
 							<th><spring:message code="form.delete" /></th>
@@ -68,6 +69,14 @@
 						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
 						 					<spring:message code="no" />
 						 				</span>
+						 			</c:if>
+						 		</td>
+						 		<td class="last-edit">
+						 			<c:if test="${empty i.changedBy}">
+						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
+						 			</c:if>
+						 			<c:if test="${not empty i.changedBy}">
+						 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">
