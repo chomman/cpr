@@ -85,7 +85,7 @@ public class Constants {
 	 *  	
 	 *  Definuje maximalny pocet zaznamov na stranku, pri strankovani zaznamov.
 	 */
-	public static final int PUBLIC_PAGINATION_PAGE_SIZE =  10; 
+	public static final int PUBLIC_PAGINATION_PAGE_SIZE =  1; 
 	
 	
 	

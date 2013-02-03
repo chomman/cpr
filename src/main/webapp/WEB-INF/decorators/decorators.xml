@@ -1,10 +1,10 @@
 <decorators defaultdir="/WEB-INF/decorators/jsp">
-
-  <excludes>
-    <pattern>/edit/*</pattern>
-  </excludes>
 	
-	
+	<excludes>	  
+		<pattern>*/resources/*</pattern>
+		<pattern>*.htm</pattern>
+	</excludes>
+    
   <decorator name="blank" page="blank.jsp">
     <pattern>/blank/*</pattern>
   </decorator>

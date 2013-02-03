@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Article;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
@@ -58,8 +59,10 @@ public class PublicArticleController {
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage){
 		PaginationLinker paginger = new PaginationLinker(request, params);
 		paginger.setUrl("/aktuality");
+		paginger.setPageSize(Constants.PUBLIC_PAGINATION_PAGE_SIZE);
 		paginger.setCurrentPage(currentPage);
-		paginger.setRowCount( articleService.getCountOfArticlesForPublic().intValue() );
+		Long count = articleService.getCountOfArticlesForPublic();
+		paginger.setRowCount( count.intValue() );
 		return paginger.getPageLinks(); 
 	}
 	
