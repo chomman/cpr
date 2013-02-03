@@ -133,4 +133,16 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> getNewestArticles(int count) {
 		return articleDao.getNewestArticles(count);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> getArticlePageForPublic(int pageNumber) {
+		return articleDao.getArticlePageForPublic(pageNumber);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Long getCountOfArticlesForPublic() {
+		return articleDao.getCountOfArticlesForPublic();
+	}
 }

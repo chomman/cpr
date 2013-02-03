@@ -26,7 +26,7 @@ public class PaginationLinker {
 	
 	private int rowCount;
 	
-	private int pageSize = Constants.PAGINATION_PAGE_SIZE;
+	private int pageSize = Constants.ADMIN_PAGINATION_PAGE_SIZE;
 	
 	private int countOfNeighbors = 4;
 	

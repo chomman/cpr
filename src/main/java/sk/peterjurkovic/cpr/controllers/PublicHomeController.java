@@ -1,14 +1,12 @@
 package sk.peterjurkovic.cpr.controllers;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
@@ -20,7 +18,7 @@ import sk.peterjurkovic.cpr.services.WebpageService;
  * Handles requests for the application home page.
  */
 @Controller
-public class HomeController {
+public class PublicHomeController {
 	
 	private final int COUNT_OF_NEWEST_ARTICES_FOR_HOMEPAGE = 3;
 	
@@ -34,8 +32,8 @@ public class HomeController {
 	private StandardService standardService;
 	
 	 
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, ModelMap modelmap) throws PageNotFoundEception {
+	@RequestMapping("/")
+	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode("/");
 		if(webpage == null){
@@ -44,6 +42,7 @@ public class HomeController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
+		model.put("tab", webpage.getId());
 		model.put("articles", articleService.getNewestArticles(COUNT_OF_NEWEST_ARTICES_FOR_HOMEPAGE));
 		model.put("standards", standardService.getLastEditedOrNewestStandards(COUNT_OF_LAST_EDITED_STANDARDS));
 		modelmap.put("model", model);

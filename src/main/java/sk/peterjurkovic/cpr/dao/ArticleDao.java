@@ -16,4 +16,8 @@ public interface ArticleDao extends BaseDao<Article, Long>{
 	List<Article> autocomplateSearch(final String query);
 	
 	List<Article> getNewestArticles(int count);
+	
+	List<Article> getArticlePageForPublic(int pageNumber);
+	
+	Long getCountOfArticlesForPublic();
 }

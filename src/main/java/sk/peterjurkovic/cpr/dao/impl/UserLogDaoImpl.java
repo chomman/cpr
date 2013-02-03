@@ -54,8 +54,8 @@ public class UserLogDaoImpl extends BaseDaoImpl<UserLog, Long> implements UserLo
 		}
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1));
-		hqlQuery.setMaxResults(Constants.PAGINATION_PAGE_SIZE);
+		hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
+		hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
 		return (List<UserLog>) hqlQuery.list();
 	}
 

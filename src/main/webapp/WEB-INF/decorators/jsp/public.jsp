@@ -28,7 +28,7 @@
 			<nav>
 				<ul class="page-width">
 					<c:forEach items="${commonPublic.mainMenu}" var="webpage">
-						<li><a href="<c:url value="${webpage.code}" />">${webpage.name}</a></li>
+						<li><a title="${webpage.title}" <c:if test="${model.tab == webpage.id}" >class="curr"</c:if> href="<c:url value="${webpage.code}" />">${webpage.name}</a></li>
 					</c:forEach>
 				</ul>
 			</nav>

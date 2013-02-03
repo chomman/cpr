@@ -94,8 +94,8 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1));
-		hqlQuery.setMaxResults(Constants.PAGINATION_PAGE_SIZE);
+		hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
+		hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.USER_CACHE);
 		return hqlQuery.list();

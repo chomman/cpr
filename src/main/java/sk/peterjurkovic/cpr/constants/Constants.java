@@ -73,11 +73,19 @@ public class Constants {
 	public static final String USER_ENTRY_POIN_REDIRECT_URL = "/login";
 	
 	
-	/** PAGINATION_PAGE_SIZE
+	/** ADMIN_PAGINATION_PAGE_SIZE
 	 *  	
 	 *  Definuje maximalny pocet zaznamov na stranku, pri strankovani zaznamov.
 	 */
-	public static final int PAGINATION_PAGE_SIZE =  25; 
+	public static final int ADMIN_PAGINATION_PAGE_SIZE =  25; 
+	
+	
+	
+	/** PUBLIC_PAGINATION_PAGE_SIZE
+	 *  	
+	 *  Definuje maximalny pocet zaznamov na stranku, pri strankovani zaznamov.
+	 */
+	public static final int PUBLIC_PAGINATION_PAGE_SIZE =  10; 
 	
 	
 	

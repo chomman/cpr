@@ -25,8 +25,8 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 		List<Mandate> mandates = new ArrayList<Mandate>();
 		mandates = sessionFactory.getCurrentSession()
 				.createQuery("from Mandate m")
-				.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1))
-				.setMaxResults(Constants.PAGINATION_PAGE_SIZE)
+				.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1))
+				.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE)
 				.list();
 
 		return mandates;

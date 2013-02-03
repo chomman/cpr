@@ -68,8 +68,8 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setFirstResult(Constants.PAGINATION_PAGE_SIZE * ( pageNumber -1));
-		hqlQuery.setMaxResults(Constants.PAGINATION_PAGE_SIZE);
+		hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
+		hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
 		return hqlQuery.list();
@@ -83,8 +83,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		prepareHqlQueryParams(hqlQuery, criteria);
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
-		Long c = (Long) hqlQuery.uniqueResult();
-	    return c;
+		return (Long) hqlQuery.uniqueResult();
 	}
 	
 	
@@ -145,8 +144,8 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	private StringBuffer getHqlArticleQueryForPublicSection(){
 		StringBuffer hql = new StringBuffer("from Article a");
 		hql.append(" where a.enabled = true ");
-		hql.append(" and (:now >=a.publishedSince or a.publishedSince = null)");
-		hql.append(" and (:now <=a.publishedUntil or a.publishedUntil = null)");
+		hql.append(" and (now() >=a.publishedSince or a.publishedSince = null)");
+		hql.append(" and (now() <=a.publishedUntil or a.publishedUntil = null)");
         hql.append(" order by a.id desc");
         return hql;
 	}
@@ -157,9 +156,31 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	public List<Article> getNewestArticles(int count) {
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString());
 		hqlQuery.setMaxResults(count);
-		hqlQuery.setTimestamp("now", new DateTime().toDate());
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
 		return hqlQuery.list();
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Article> getArticlePageForPublic(final int pageNumber) {
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString());
+		hqlQuery.setFirstResult(Constants.PUBLIC_PAGINATION_PAGE_SIZE * ( pageNumber -1));
+		hqlQuery.setMaxResults(Constants.PUBLIC_PAGINATION_PAGE_SIZE);
+		hqlQuery.setCacheable(true);
+		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
+		return hqlQuery.list();
+	}
+	
+	
+	@Override
+	public Long getCountOfArticlesForPublic() {
+		StringBuffer hql = new StringBuffer("SELECT count(*) ");
+		hql.append(getHqlArticleQueryForPublicSection().toString());
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setCacheable(true);
+		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
+		return (Long) hqlQuery.uniqueResult();
 	}
 }
