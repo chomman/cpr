@@ -43,6 +43,7 @@ public class PublicHomeController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
 		model.put("tab", webpage.getId());
+		model.put("articleUrl", PublicArticleController.ARTICLE_URL);
 		model.put("articles", articleService.getNewestArticles(COUNT_OF_NEWEST_ARTICES_FOR_HOMEPAGE));
 		model.put("standards", standardService.getLastEditedOrNewestStandards(COUNT_OF_LAST_EDITED_STANDARDS));
 		modelmap.put("model", model);

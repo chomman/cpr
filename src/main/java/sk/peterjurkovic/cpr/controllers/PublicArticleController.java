@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.constants.Constants;
@@ -26,16 +27,18 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 @Controller
 public class PublicArticleController {
 	
+	public static final String ARTICLE_URL = "/aktuality";
+	
 	@Autowired
 	private WebpageService webpageService;
 	@Autowired
 	private ArticleService articleService;
 	
 	
-	@RequestMapping("/aktuality")
-	public String home(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
+	@RequestMapping(ARTICLE_URL)
+	public String showPublicArticles(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
 		
-		Webpage webpage = webpageService.getWebpageByCode("/aktuality");
+		Webpage webpage = webpageService.getWebpageByCode(ARTICLE_URL);
 		
 		if(webpage == null){
 			throw new PageNotFoundEception();
@@ -49,9 +52,28 @@ public class PublicArticleController {
 		model.put("paginationLinks", paginationLinks);
 		model.put("articles", articles);
 		model.put("webpage", webpage);
+		model.put("articleUrl", ARTICLE_URL);
 		model.put("tab", webpage.getId());
 		modelmap.put("model", model);
 		return "/public/articles";
+	}
+	
+	
+	@RequestMapping(ARTICLE_URL + "/{articleCode}")
+	public String showArticleDetail(@PathVariable String articleCode, ModelMap modelmap) throws PageNotFoundEception{
+		
+		Webpage webpage = webpageService.getWebpageByCode(ARTICLE_URL);
+		Article article = articleService.getArticleByCode(articleCode);
+		if(webpage == null || article == null){
+			throw new PageNotFoundEception();
+		}
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("tab", webpage.getId());
+		model.put("article", article);
+		model.put("articleUrl", ARTICLE_URL);
+		model.put("webpage", webpage);
+		modelmap.put("model", model);
+		return "/public/article-detail";
 	}
 	
 	

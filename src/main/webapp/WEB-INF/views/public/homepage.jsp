@@ -23,9 +23,9 @@
 			 			
 						<c:forEach items="${model.articles}" var="article">
 							<div class="home-news">
-				 				<strong><a href="" class="blue-color">${article.title}</a></strong>
+				 				<strong><a href="<c:url value="${model.articleUrl}/${article.code}" />" class="blue-color">${article.title}</a></strong>
 				 				<p>${fn:substring(article.header, 0, 120)} ...</p>
-				 				<a href=""  class="blue-color link"><spring:message code="view.detail" /> &raquo; </a>
+				 				<a href="<c:url value="${model.articleUrl}/${article.code}" />" title="<spring:message code="view.detail" />"  class="blue-color link"><spring:message code="view.detail" /> &raquo; </a>
 				 				<div class="clear"></div>
 			 				</div>
 			 			</c:forEach>

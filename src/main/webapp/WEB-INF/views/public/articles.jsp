@@ -32,7 +32,7 @@
 			 				</c:if>
 		 				</span>
 		 				<p>${article.header}</p>
-		 				<a href=""  class="detail"><spring:message code="view.detail" /> &raquo; </a>
+		 				<a href="<c:url value="${model.webpage.code}/${article.code}" />"  title="<spring:message code="view.detail" />" class="detail"><spring:message code="view.detail" /> &raquo; </a>
 		 				<div class="clear"></div>
 	 				</div>
 	 			</c:forEach>
