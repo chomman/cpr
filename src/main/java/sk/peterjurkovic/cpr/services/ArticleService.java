@@ -26,4 +26,6 @@ public interface ArticleService {
 	Long getCountOfArticles(Map<String,Object> criteria);
 	
 	List<Article> autocomplateSearch(final String query);
+	
+	List<Article> getNewestArticles(int count);
 }

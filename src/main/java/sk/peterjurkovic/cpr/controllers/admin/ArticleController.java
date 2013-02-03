@@ -23,8 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.Article;
-import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.ArticleOrder;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.ArticleService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.validators.admin.ArticleValidator;
@@ -74,10 +74,10 @@ public class ArticleController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/article/delete/{articleId}", method = RequestMethod.GET)
-	public String deleteStandard(@PathVariable Long articleId, ModelMap model, HttpServletRequest request) {
+	public String deleteStandard(@PathVariable Long articleId, ModelMap model, HttpServletRequest request) throws ItemNotFoundException {
 		Article article = articleService.getArticleById(articleId);
 		if(article == null){
-			createItemNotFoundError();
+			createItemNotFoundError("Aktualita s ID: "+ articleId + " se v systému nenachází");
 		}
 		model.put("successDelete", true);
 		articleService.deleteArticle(article);
@@ -112,14 +112,13 @@ public class ArticleController extends SupportAdminController {
 	
 	
 	@RequestMapping("/admin/article/edit/{articleId}")
-	public String showEditForm(@PathVariable Long articleId, ModelMap modelMap, HttpServletRequest request){
+	public String showEditForm(@PathVariable Long articleId, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		setEditFormView("article-edit");
 		logger.info("showEditForm");
 		Article form = articleService.getArticleById(articleId);
 		if(form == null){
-			createItemNotFoundError();
+			createItemNotFoundError("Aktualita s ID: "+ articleId + " se v systému nenachází");
 		}
-		//ArticleForm form = createArticleForm( article);
 		if(request.getParameter("successCreate") != null){
 			modelMap.put("successCreate", true);
 		}
@@ -127,25 +126,6 @@ public class ArticleController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
-	
-	/*
-	@RequestMapping( value = "/admin/article/edit/{articleId}", method = RequestMethod.POST)
-	public String processUpdate(Article form, BindingResult result,@PathVariable Long articleId, ModelMap model){
-		setEditFormView("article-edit");
-		logger.info("processUpdate");
-		Article article = articleService.getArticleById(articleId);
-		if(article == null){
-			createItemNotFoundError();
-		}
-		articleValidator.validate(result, form);
-		if(!result.hasErrors()){
-			updateArticle(form, article);
-			model.put("successCreate", true);
-		}
-		return getEditFormView();
-	}
-	
-	*/
 	@RequestMapping( value = "/admin/article/edit/{articleId}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody JsonResponse  processAjaxUpdate(@RequestBody Article article, @PathVariable Long articleId){
 		JsonResponse response = new JsonResponse();

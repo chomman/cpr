@@ -50,6 +50,14 @@
 	</mvc:interceptors>
 	
 	
-	
+	<beans:bean id="exceptionResolver"  class="sk.peterjurkovic.cpr.exceptions.CustomMappingExceptionResolver">
+		<beans:property name="exceptionMappings">
+			  <beans:map>
+			    <beans:entry key="sk.peterjurkovic.cpr.exceptions.ItemNotFoundException" value="exceptions/item-not-found" />
+			    <beans:entry key="sk.peterjurkovic.cpr.exceptions.PageNotFoundEception" value="exceptions/page-not-found" />
+			    <beans:entry key="java.lang.Exception" value="exceptions/page-not-found" />
+	   		</beans:map>
+	  </beans:property>
+ 	</beans:bean> 
 	
 </beans:beans>

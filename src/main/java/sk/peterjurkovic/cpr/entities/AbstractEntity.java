@@ -117,7 +117,7 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     * @return datum
     */
    @Column(name = "changed")
-   @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+   @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
    public DateTime getChanged() {
        return changed;
    }

@@ -51,6 +51,8 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		return articles;
 	}
 	
+
+	
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -81,7 +83,8 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		prepareHqlQueryParams(hqlQuery, criteria);
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
-	    return (Long) hqlQuery.uniqueResult();
+		Long c = (Long) hqlQuery.uniqueResult();
+	    return c;
 	}
 	
 	
@@ -128,5 +131,35 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 				hqlQuery.setBoolean("enabled", enabled);
 			}
 		}
+	}
+	/**
+	 * select 
+       case 
+         when min(start_day_plan) is not NULL then min(start_day_plan) 
+         else to_date((min(insertDate)) - cast('1 month' as interval),'yyyy-MM-dd' ) 
+       end
+     from MyTable
+	 * @return
+	 */
+	
+	private StringBuffer getHqlArticleQueryForPublicSection(){
+		StringBuffer hql = new StringBuffer("from Article a");
+		hql.append(" where a.enabled = true ");
+		hql.append(" and (:now >=a.publishedSince or a.publishedSince = null)");
+		hql.append(" and (:now <=a.publishedUntil or a.publishedUntil = null)");
+        hql.append(" order by a.id desc");
+        return hql;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Article> getNewestArticles(int count) {
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString());
+		hqlQuery.setMaxResults(count);
+		hqlQuery.setTimestamp("now", new DateTime().toDate());
+		hqlQuery.setCacheable(true);
+		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
+		return hqlQuery.list();
 	}
 }

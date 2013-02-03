@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.BasicRequirement;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.BasicRequirementService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 
@@ -110,9 +111,10 @@ public class CprBasicRequirementController extends SupportAdminController {
 	 * @param result
 	 * @param model
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/basicrequirements/edit/{basicRequirementId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long basicRequirementId,  @Valid  BasicRequirement form, BindingResult result, ModelMap model) {
+	public String processSubmit(@PathVariable Long basicRequirementId,  @Valid  BasicRequirement form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
 			prepareModel(form, model, basicRequirementId);
@@ -134,7 +136,7 @@ public class CprBasicRequirementController extends SupportAdminController {
 	}
 	
 	
-	private void createOrUpdate(BasicRequirement form){
+	private void createOrUpdate(BasicRequirement form) throws ItemNotFoundException{
 		BasicRequirement basicRequirement = null;
 			
 		if(form.getId() == null || form.getId() == 0){
@@ -142,7 +144,7 @@ public class CprBasicRequirementController extends SupportAdminController {
 		}else{
 			basicRequirement = basicRequirementService.getBasicRequirementById(form.getId()); 
 			if(basicRequirement == null){
-				createItemNotFoundError();
+				createItemNotFoundError("Základní požadavek s ID: " + form.getId() + "se v systému nenachází");
 			}
 		}
 		basicRequirement.setCode(CodeUtils.toSeoUrl(form.getName()));

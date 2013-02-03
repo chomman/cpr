@@ -57,6 +57,17 @@
                         </p>
                         
                         <p>
+                        	<label class="tt" title="<spring:message code="settings.basic.systemname.info" />">
+                        		<strong><em class="red">*</em>
+                        			<spring:message code="settings.basic.headertitle" />
+                        		</strong>
+                        	</label>
+                            <span class="field">
+                            	<form:input  htmlEscape="true" path="headerTitle" maxlength="150" cssClass="mw500 required" />
+                            </span>
+                        </p>
+                        
+                        <p>
                         	<label>
                         		<strong><em class="red">*</em>
                         			<spring:message code="settings.basic.ownername" />

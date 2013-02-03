@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import sk.peterjurkovic.cpr.entities.Address;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -113,9 +114,10 @@ public class CprNotifiedBodyController extends SupportAdminController {
 	 * @param result
 	 * @param model
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/notifiedbodies/edit/{notifiedBodyId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long notifiedBodyId,  @Valid  NotifiedBody form, BindingResult result, ModelMap model) {
+	public String processSubmit(@PathVariable Long notifiedBodyId,  @Valid  NotifiedBody form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 		
 		if (!result.hasErrors()) {
         	notifiedBodyValidator.validate(result, form);
@@ -157,7 +159,7 @@ public class CprNotifiedBodyController extends SupportAdminController {
 	
 	
 	
-	private NotifiedBody createOrUpdate(NotifiedBody form){
+	private NotifiedBody createOrUpdate(NotifiedBody form) throws ItemNotFoundException{
 		NotifiedBody notifiedBody = null;
 		Address address = new Address();	
 		if(form.getId() == 0){
@@ -165,7 +167,7 @@ public class CprNotifiedBodyController extends SupportAdminController {
 		}else{
 			notifiedBody = notifiedBodyService.getNotifiedBodyById(form.getId());
 			if(notifiedBody == null){
-				createItemNotFoundError();
+				createItemNotFoundError("NO/AO s ID: " + form.getId() + " se v systému nenachází");
 			}else{
 				address = notifiedBody.getAddress();
 			}

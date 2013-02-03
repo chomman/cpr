@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.controllers.admin;
 import org.apache.log4j.Logger;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 
 /**
  * @author Peter Jurkovič email@peterjurkovic.sk
@@ -21,8 +22,9 @@ public class SupportAdminController {
     
     
     
-    protected void createItemNotFoundError(){
-    	logger.error(" Item not found.");
+    protected void createItemNotFoundError(String message) throws ItemNotFoundException{
+    	logger.error("Item not found: " + message);
+    	throw new ItemNotFoundException(message);
     }
     
     protected void createAccessDenied() {

@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Mandate;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
@@ -99,9 +100,10 @@ public class CprMandateController extends SupportAdminController {
 	 * @param BindingResult result
 	 * @param model 
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/mandates/edit/{mandateId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long mandateId,  @Valid  Mandate form, BindingResult result, ModelMap model) {
+	public String processSubmit(@PathVariable Long mandateId,  @Valid  Mandate form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
 			prepareModel(form, model, mandateId);
@@ -144,7 +146,7 @@ public class CprMandateController extends SupportAdminController {
 	}
 	
 	
-	private void createOrUpdate(Mandate form){
+	private void createOrUpdate(Mandate form) throws ItemNotFoundException{
 		Mandate mandate = null;
 			
 		if(form.getId() == 0){
@@ -152,7 +154,8 @@ public class CprMandateController extends SupportAdminController {
 		}else{
 			mandate = mandateService.getMandateById(form.getId());
 			if(mandate == null){
-				createItemNotFoundError();
+				createItemNotFoundError("Mandát s ID:" + form.getId() + " se v systému nenachází");
+				throw new ItemNotFoundException("item not found");
 			}
 		}
 		mandate.setMandateName(form.getMandateName());

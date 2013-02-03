@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 
 
@@ -94,7 +95,7 @@ public class CprAssessmentSystemController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/cpr/assessmentsystems/edit/{assessmentSystemId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long assessmentSystemId,  @Valid  AssessmentSystem form, BindingResult result, ModelMap model) {
+	public String processSubmit(@PathVariable Long assessmentSystemId,  @Valid  AssessmentSystem form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
 			prepareModel(form, model, assessmentSystemId);
@@ -125,7 +126,7 @@ public class CprAssessmentSystemController extends SupportAdminController {
 	
 	
 	
-	private AssessmentSystem createOrUpdate(AssessmentSystem form){
+	private AssessmentSystem createOrUpdate(AssessmentSystem form) throws ItemNotFoundException{
 		AssessmentSystem assessmentSystem = null;
 			
 		if(form.getId() == null || form.getId() == 0){
@@ -133,7 +134,7 @@ public class CprAssessmentSystemController extends SupportAdminController {
 		}else{
 			assessmentSystem = assessmentSystemService.getAssessmentSystemById(form.getId());
 			if(assessmentSystem == null){
-				createItemNotFoundError();
+				createItemNotFoundError("Položka s ID: " + form.getId() + " se v systému nenachází");
 			}
 		}
 		

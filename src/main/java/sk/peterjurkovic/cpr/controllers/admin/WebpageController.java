@@ -20,6 +20,7 @@ import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
 import sk.peterjurkovic.cpr.exceptions.CollisionException;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.WebpageCategoryService;
 import sk.peterjurkovic.cpr.services.WebpageContentService;
 import sk.peterjurkovic.cpr.services.WebpageService;
@@ -69,14 +70,14 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.GET)
-	public String showForm(@PathVariable Long webpageId,  ModelMap model) {		
+	public String showForm(@PathVariable Long webpageId,  ModelMap model) throws ItemNotFoundException {		
 		Webpage form = null;
 		if(webpageId == 0){
 			form = createEmptyWebpageForm();
 		}else{
 			form = webpageService.getWebpageById(webpageId);
 			if(form == null){
-				createItemNotFoundError();
+				createItemNotFoundError("Vežejná sekce s ID: "+ webpageId + " se v systému nenachází");
 				return getEditFormView();
 			}
 		}
@@ -86,7 +87,7 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST)
-	public String rocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) {		
+	public String rocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) throws ItemNotFoundException {		
 		if(!result.hasErrors()){
 			try{
 				createOrUpdate(form);
@@ -103,7 +104,7 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	private void createOrUpdate(Webpage form) throws CollisionException{
+	private void createOrUpdate(Webpage form) throws CollisionException, ItemNotFoundException{
 		Webpage webpage = null;
 		
 		if(form.getId() == null || form.getId() == 0){
@@ -111,7 +112,7 @@ public class WebpageController extends SupportAdminController {
 		}else{
 			webpage = webpageService.getWebpageById(form.getId());
 			if(webpage == null){
-				createItemNotFoundError();
+				createItemNotFoundError("Vežejná sekce s ID: "+ form.getId() + " se v systému nenachází");
 			}
 			validateCollision(webpage, form);
 		}

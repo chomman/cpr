@@ -56,8 +56,9 @@ public class SettingsController extends SupportAdminController {
 	
 	public void updateSettings(BasicSettings form){
 		BasicSettings settings = basicSettingsService.getBasicSettings();
-		settings.setcsnOnlineUrl(form.getcsnOnlineUrl());
+		settings.setCsnOnlineUrl(form.getCsnOnlineUrl());
 		settings.setSystemName(form.getSystemName());
+		settings.setHeaderTitle(form.getHeaderTitle());
 		settings.setSystemEmail(form.getSystemEmail());
 		settings.setGoogleAnalyticsTrackingCode(form.getGoogleAnalyticsTrackingCode());
 		settings.setOwnerName(form.getOwnerName());

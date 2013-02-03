@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.UserOrder;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
@@ -68,11 +69,11 @@ public class UserController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/user/delete/{userId}", method = RequestMethod.GET)
-	public String deleteUser(@PathVariable Long userId,  ModelMap modelMap, HttpServletRequest request) {
+	public String deleteUser(@PathVariable Long userId,  ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException {
 						
 		User user = userService.getUserById(userId);
 		if(user == null){
-			createItemNotFoundError();
+			createUserNotFound(userId);
 		}
 		
 		User loggedUser = UserUtils.getLoggedUser();
@@ -139,7 +140,7 @@ public class UserController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = "/admin/user/add", method = RequestMethod.POST)
-	public String processSubmit(@Valid UserForm form, BindingResult result, ModelMap modelMap){
+	public String processSubmit(@Valid UserForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		setEditFormView("user-add");
 		userValidator.validate(result, form);
 		if(!result.hasErrors()){
@@ -155,7 +156,7 @@ public class UserController extends SupportAdminController {
 	
 	
 	@RequestMapping("/admin/user/edit/{userId}")
-	public String showEditForm(@PathVariable Long userId, ModelMap modelMap, HttpServletRequest request){
+	public String showEditForm(@PathVariable Long userId, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		setEditFormView("user-edit");
 		UserForm form = new UserForm();
 		prepareEditForm(form, userId);
@@ -185,13 +186,13 @@ public class UserController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = "/admin/user/profile", method = RequestMethod.POST)
-	public String editProfile(@ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap){
+	public String editProfile(@ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		setEditFormView("user-profile");
 		User loggedUser = UserUtils.getLoggedUser();
 		
 		User persistedUser = userService.getUserById(form.getUser().getId());
 		if(persistedUser == null || !loggedUser.equals(persistedUser)){
-			createItemNotFoundError();
+			createUserNotFound(Long.valueOf(-1));
 		}
 		
 		
@@ -213,7 +214,7 @@ public class UserController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = "/admin/user/edit/{userId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long userId, @ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap){
+	public String processSubmit(@PathVariable Long userId, @ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		setEditFormView("user-edit");
 		userValidator.validate(result, form);
 		if(!result.hasErrors()){
@@ -234,7 +235,7 @@ public class UserController extends SupportAdminController {
 	
 	
 	
-	private void createOrUpdate(UserForm form){
+	private void createOrUpdate(UserForm form) throws ItemNotFoundException{
 		User user = null;
 		if(form.getUser().getId() == null || form.getUser().getId() == 0){
 			user = new User();
@@ -242,7 +243,7 @@ public class UserController extends SupportAdminController {
 		}else{
 			user = userService.getUserById(form.getUser().getId());
 			if(user == null){
-				createItemNotFoundError();
+				createUserNotFound(form.getUser().getId());
 			}
 			if(StringUtils.isNotBlank(form.getPassword()) && StringUtils.isNotBlank(form.getConfifmPassword())){
 				user.setPassword(passwordEncoder.encodePassword( form.getPassword(), saltSource.getSalt(null) ));
@@ -292,10 +293,10 @@ public class UserController extends SupportAdminController {
 	
 	
 	
-	private void prepareEditForm(UserForm form, Long userId){
+	private void prepareEditForm(UserForm form, Long userId) throws ItemNotFoundException{
 		User user = userService.getUserById(userId);
 		if(user == null){
-			createItemNotFoundError();
+			createUserNotFound(userId);
 		}
 		User loggerUser = UserUtils.getLoggedUser();
 		if(!loggerUser.isAdministrator() && !loggerUser.equals(user)){
@@ -312,5 +313,9 @@ public class UserController extends SupportAdminController {
 		user.setId(0L);
 		form.setUser(user);
 		return form;
+	}
+	
+	private void createUserNotFound(Long userId) throws ItemNotFoundException{
+		createItemNotFoundError("Uživatel s ID: " + userId + " se v systému nenachází");
 	}
 }

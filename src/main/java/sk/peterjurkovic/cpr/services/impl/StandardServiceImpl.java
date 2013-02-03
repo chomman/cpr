@@ -122,4 +122,11 @@ public class StandardServiceImpl implements StandardService {
 		}
 		return criteria;
 	}
+
+	
+	@Override
+	@Transactional(readOnly =  true )
+	public List<Standard> getLastEditedOrNewestStandards(int count) {
+		return standardDao.getLastEditedOrNewestStandards(count);
+	}
 }

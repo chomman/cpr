@@ -127,4 +127,10 @@ public class ArticleServiceImpl implements ArticleService {
 	public List<Article> autocomplateSearch(String query) {
 		return articleDao.autocomplateSearch(query);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Article> getNewestArticles(int count) {
+		return articleDao.getNewestArticles(count);
+	}
 }

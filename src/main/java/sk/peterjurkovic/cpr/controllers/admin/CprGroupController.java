@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 
@@ -123,9 +124,10 @@ public class CprGroupController extends SupportAdminController {
 	 * 			inak sa jedna o etidatciu
 	 * @param map Model 
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long standardGroupId,  @Valid  StandardGroup form, BindingResult result, ModelMap model) {
+	public String processSubmit(@PathVariable Long standardGroupId,  @Valid  StandardGroup form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
 			prepareModel(form, model, standardGroupId);
@@ -156,7 +158,7 @@ public class CprGroupController extends SupportAdminController {
 	}
 	
 	
-	private StandardGroup createOrUpdate(StandardGroup form){
+	private StandardGroup createOrUpdate(StandardGroup form) throws ItemNotFoundException{
 		StandardGroup standardGroup = null;
 			
 		if(form.getId() == null || form.getId() == 0){
@@ -164,7 +166,7 @@ public class CprGroupController extends SupportAdminController {
 		}else{
 			standardGroup = standardGroupService.getStandardGroupByid(form.getId());
 			if(standardGroup == null){
-				createItemNotFoundError();
+				createItemNotFoundError("Norma s ID: "+ form.getId() + " se v systému nenachází");
 			}
 		}
 		

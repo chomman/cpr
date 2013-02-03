@@ -14,4 +14,6 @@ public interface ArticleDao extends BaseDao<Article, Long>{
 	Long getCountOfArticles(Map<String, Object> criteria);
 	
 	List<Article> autocomplateSearch(final String query);
+	
+	List<Article> getNewestArticles(int count);
 }

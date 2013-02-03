@@ -35,6 +35,7 @@ import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.exceptions.CollisionException;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.CsnService;
@@ -159,21 +160,21 @@ public class CprStandardController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.GET)
-	public String showEditForm1(@PathVariable Long standardId, ModelMap model) {
+	public String showEditForm1(@PathVariable Long standardId, ModelMap model) throws ItemNotFoundException {
 		setEditFormView("cpr-standard-edit1");
 		Standard form = standardService.getStandardById(standardId);
 		if(form == null){
-			createItemNotFoundError();
+			createItemNotFoundError("Norma s ID: "+ standardId + " se v systému nenachází");
 		}
 		prepareModelForEditBasicInfo(form, model, standardId);
         return getEditFormView();
 	}
 	
 	@RequestMapping( value = "/admin/cpr/standard/delete/{standardId}", method = RequestMethod.GET)
-	public String deleteStandard(@PathVariable Long standardId, ModelMap model, HttpServletRequest request) {
+	public String deleteStandard(@PathVariable Long standardId, ModelMap model, HttpServletRequest request) throws ItemNotFoundException {
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
-			createItemNotFoundError();
+			 createStandardNotFound(standardId); 
 		}
 		model.put("successDelete", true);
 		standardService.deleteStandard(standard);
@@ -190,9 +191,10 @@ public class CprStandardController extends SupportAdminController {
 	 * @param result
 	 * @param model
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long standardId,  @Valid  Standard form, BindingResult result, ModelMap model) {
+	public String processSubmit(@PathVariable Long standardId,  @Valid  Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 		if(standardId == 0){
 			setEditFormView("cpr-standard-add");
 		}else{
@@ -230,14 +232,15 @@ public class CprStandardController extends SupportAdminController {
 	 * @param modelMap
 	 * @param request
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping("/admin/cpr/standard/edit/{standardId}/requirements")
-   public String showRequirements(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+   public String showRequirements(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		Map<String, Object> map = new HashMap<String, Object>();
 		setEditFormView("cpr-standard-edit2");
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
-			createItemNotFoundError();
+			createStandardNotFound(standardId); 
 		}
 		Country country = null;
 		if(request.getParameter("country") != null){
@@ -265,14 +268,15 @@ public class CprStandardController extends SupportAdminController {
 	 * @param modelMap
 	 * @param request
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
    @RequestMapping("/admin/cpr/standard/edit/{standardId}/req/{requirementId}")
-   public String showRequirementForm(@PathVariable Long standardId,@PathVariable Long requirementId, ModelMap modelMap,HttpServletRequest request) {
+   public String showRequirementForm(@PathVariable Long standardId,@PathVariable Long requirementId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		
 		setEditFormView("cpr-standard-edit2-requirement");
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
-			createItemNotFoundError();
+			createStandardNotFound(standardId); 
 		}
 		Requirement form = null;
 		if(requirementId == null || requirementId == 0){
@@ -287,11 +291,11 @@ public class CprStandardController extends SupportAdminController {
 	
 	
     @RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/req/{requirementId}", method = RequestMethod.POST)
-	public String processRequirementSubmit(@PathVariable Long standardId,@PathVariable Long requirementId, @Valid  Requirement form, BindingResult result, ModelMap modelMap) {
+	public String processRequirementSubmit(@PathVariable Long standardId,@PathVariable Long requirementId, @Valid  Requirement form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
        setEditFormView("cpr-standard-edit2-requirement");
        Standard standard = standardService.getStandardById(standardId);
        if(standard == null){
-    	   createItemNotFoundError();
+    	   createStandardNotFound(standardId); 
        }
        if (result.hasErrors()) {
 			prepareModelForRequirement(modelMap, standard, form, requirementId);
@@ -310,11 +314,11 @@ public class CprStandardController extends SupportAdminController {
     
     
     @RequestMapping( value = "/admin/cpr/standard/requirement/delete/{requirementId}", method = RequestMethod.GET)
-	public String deleteGroup(@PathVariable Long requirementId,  ModelMap modelMap) {
+	public String deleteGroup(@PathVariable Long requirementId,  ModelMap modelMap) throws ItemNotFoundException {
 		
     	Requirement requirement =  requirementService.getRequirementById(requirementId);
 		if(requirement == null){
-			createItemNotFoundError();
+			createItemNotFoundError("Požadavek s ID: " +requirementId + " se v systému nenachází");
 		}
 		Long id = requirement.getStandard().getId();
 		requirementService.deleteRequirement(requirement);
@@ -324,7 +328,7 @@ public class CprStandardController extends SupportAdminController {
     
     
     
-    private void createOrUpdateRequrement(Standard standard, Requirement form){
+    private void createOrUpdateRequrement(Standard standard, Requirement form) throws ItemNotFoundException{
     	Requirement requirement = null;
     	
     	if(form.getId() == null || form.getId() == 0){
@@ -332,7 +336,7 @@ public class CprStandardController extends SupportAdminController {
     	}else{
     		requirement = requirementService.getRequirementById(form.getId());
     		if(requirement == null){
-    			createItemNotFoundError();
+    			createItemNotFoundError("Požadavek s ID: " + form.getId() + " se v systému nenachází");
     		}
     	}
     	
@@ -351,12 +355,12 @@ public class CprStandardController extends SupportAdminController {
  	 //##################################################
     	
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/csn")
-    public String showCsns(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+    public String showCsns(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		Map<String, Object> map = new HashMap<String, Object>();
  		setEditFormView("cpr-standard-edit3");
  		Standard standard = standardService.getStandardById(standardId);
  		if(standard == null){
- 			createItemNotFoundError();
+ 			createStandardNotFound( standardId );
  		}
  		modelMap.addAttribute("standard", standard);
  		map.put("standardId", standardId);
@@ -367,11 +371,11 @@ public class CprStandardController extends SupportAdminController {
     
     
     @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.GET)
-    public String showCsnEditForm(@PathVariable Long standardId, @PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) {
+    public String showCsnEditForm(@PathVariable Long standardId, @PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		setEditFormView("cpr-standard-edit3-edit");
  		Standard standard = standardService.getStandardById(standardId);
  		if(standard == null){
- 			createItemNotFoundError();
+ 			createStandardNotFound( standardId );
  		}
  		Csn form = null;
 		if(csnId == null || csnId == 0){
@@ -386,11 +390,11 @@ public class CprStandardController extends SupportAdminController {
     
     
     @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.POST)
-    public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long csnId, @Valid  Csn form, BindingResult result, ModelMap modelMap) {
+    public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long csnId, @Valid  Csn form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
  		setEditFormView("cpr-standard-edit3-edit");
  		 Standard standard = standardService.getStandardById(standardId);
  	       if(standard == null){
- 	    	   createItemNotFoundError();
+ 	    	  createStandardNotFound( standardId );
  	       }
  	       if (!result.hasErrors()) {
 				createOrUpdateCsn(standard, form);
@@ -404,10 +408,10 @@ public class CprStandardController extends SupportAdminController {
     }
     
     @RequestMapping(value = "/admin/cpr/standard/csn/delete/{csnId}", method = RequestMethod.GET)
-    public String deleteCsn(@PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) {
+    public String deleteCsn(@PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		Csn csn = csnService.getCsnById(csnId);
  		if(csn == null){
- 			createItemNotFoundError();
+ 			createItemNotFoundError("ČSN s ID: " + csnId + " se v systému nenachází");
  		}
  		csnService.deleteCsn(csn);
         return "forward:/admin/cpr/standard/edit/"+csn.getStandard().getId()+"/csn";
@@ -424,14 +428,15 @@ public class CprStandardController extends SupportAdminController {
 	 * @param modelMap
 	 * @param request
 	 * @return String view
+     * @throws ItemNotFoundException 
 	 */
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/notifiedbodies")
-    public String showNotifiedBodies(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+    public String showNotifiedBodies(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		setEditFormView("cpr-standard-edit4");
 		
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
-			createItemNotFoundError();
+			createStandardNotFound( standardId );
 		}
 
 		prepeareModelForNotifiedBodies(standard, modelMap);
@@ -440,11 +445,11 @@ public class CprStandardController extends SupportAdminController {
    
     
    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/notifiedbodies", method = RequestMethod.POST)
-   public String  processNotifiedBodiesSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap){
+   public String  processNotifiedBodiesSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 	   setEditFormView("cpr-standard-edit4");
 	   Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
-			createItemNotFoundError();
+			createStandardNotFound( standardId );
 		}
 		try {
 			standardValidator.validateCollision(form, standard);
@@ -469,12 +474,12 @@ public class CprStandardController extends SupportAdminController {
    //#  5	Mandates , AO/NO
    //##################################################
   @RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
-  public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+  public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		setEditFormView("cpr-standard-edit5");
 		
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
-			createItemNotFoundError();
+			createStandardNotFound( standardId );;
 		}
 
 		prepeareModelForMandates(standard, modelMap);
@@ -483,11 +488,11 @@ public class CprStandardController extends SupportAdminController {
  
   
  @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/other", method = RequestMethod.POST)
- public String  processOtherSettingsSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap){
+ public String  processOtherSettingsSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 	   setEditFormView("cpr-standard-edit5");
 	   Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
-			createItemNotFoundError();
+			createStandardNotFound( standardId );
 		}
 		try{
 			standardValidator.validateCollision(form, standard);
@@ -517,12 +522,12 @@ public class CprStandardController extends SupportAdminController {
 	 //##################################################
  
 	 @RequestMapping("/admin/cpr/standard/edit/{standardId}/describe")
-	 public String showStandardText(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) {
+	 public String showStandardText(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 			setEditFormView("cpr-standard-edit6");
 			
 			Standard form = standardService.getStandardById(standardId);
 			if(form == null){
-				createItemNotFoundError();
+				createStandardNotFound( standardId );
 			}
 			prepareModelForEditBasicInfo(form, modelMap, standardId);
 	     return getEditFormView();
@@ -543,11 +548,11 @@ public class CprStandardController extends SupportAdminController {
 	}
 	 
 	@RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/describe", method = RequestMethod.POST)
-	public String  processTextSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap){
+	public String  processTextSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		   setEditFormView("cpr-standard-edit6");
 		   Standard standard = standardService.getStandardById(standardId);
 			if(standard == null){
-				createItemNotFoundError();
+				createStandardNotFound( standardId );
 			}
 			standard.setText(form.getText());
 			standardService.saveOrUpdate(standard);
@@ -570,8 +575,9 @@ public class CprStandardController extends SupportAdminController {
      * @param Standard form, odoslany formular
      * @return Long id, vytvorenej/upravenej normy
      * @throws CollisionException 
+     * @throws ItemNotFoundException 
      */
-	private Long createOrUpdateBasicInfo(Standard form) throws CollisionException{
+	private Long createOrUpdateBasicInfo(Standard form) throws CollisionException, ItemNotFoundException{
 		Standard standard = null;
 	
 		if(form.getId() == null || form.getId() == 0){
@@ -579,7 +585,7 @@ public class CprStandardController extends SupportAdminController {
 		}else{
 			standard = standardService.getStandardById(form.getId());
 			if(standard == null){
-				createItemNotFoundError();
+				createStandardNotFound(form.getId());
 			}
 			standardValidator.validateCollision(form, standard);
 			standardService.clearStandardTags(standard);
@@ -610,14 +616,14 @@ public class CprStandardController extends SupportAdminController {
 	
 	
 	
-	private void createOrUpdateCsn(Standard standard, Csn form){
+	private void createOrUpdateCsn(Standard standard, Csn form) throws ItemNotFoundException{
 		Csn standardCsn = null;
 		if(form.getId() == null || form.getId() == 0){
 			standardCsn = new Csn();
 		}else{
 			standardCsn = csnService.getCsnById(form.getId());
 			if(standardCsn == null){
-				createItemNotFoundError();
+				createItemNotFoundError("ČSN s ID: " + form.getId() + " se v systému nenachází");
 			}
 		}
 
@@ -709,5 +715,9 @@ public class CprStandardController extends SupportAdminController {
 		return form;
 	}
 	
+	
+	void createStandardNotFound(Long standardId) throws ItemNotFoundException{
+		createItemNotFoundError("Norma s ID: "+ standardId + " se v systému nenachází");
+	}
 	
 }

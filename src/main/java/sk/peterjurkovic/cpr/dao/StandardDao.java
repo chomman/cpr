@@ -22,4 +22,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	boolean isStandardIdUnique(String standardId, Long id);
 	
 	List<Standard> autocomplateSearch(String query);
+	
+	List<Standard> getLastEditedOrNewestStandards(int count);
 }

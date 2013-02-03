@@ -139,5 +139,17 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 		}
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> getLastEditedOrNewestStandards(final int count) {
+		StringBuilder hql = new StringBuilder("from Standard s where s.enabled=true order by s.changed desc");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setMaxResults(count);
+		hqlQuery.setCacheable(true);
+		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
+		return hqlQuery.list();
+	}
 	
 }

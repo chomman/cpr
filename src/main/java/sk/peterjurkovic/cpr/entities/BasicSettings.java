@@ -24,6 +24,8 @@ public class BasicSettings extends AbstractEntity {
 	
 	private String systemName;
 	
+	private String headerTitle;
+	
 	private String ownerName;
 	
 	private String systemEmail;
@@ -53,6 +55,16 @@ public class BasicSettings extends AbstractEntity {
 		this.systemName = systemName;
 	}
 	
+	@Column(name ="header_title")
+	@Length(min =1, max = 150, message = "Titulek hlavičky veřejné sekce musí být vyplněn")
+	public String getHeaderTitle() {
+		return headerTitle;
+	}
+
+	public void setHeaderTitle(String headerTitle) {
+		this.headerTitle = headerTitle;
+	}
+
 	@Column(name ="owner_name")
 	@Length(min =1, max = 255, message = "Název ITC musí být vyplněn")
 	public String getOwnerName() {
@@ -86,11 +98,11 @@ public class BasicSettings extends AbstractEntity {
 	}
 	
 	@Column(name ="csn_online_url")
-	public String getcsnOnlineUrl() {
+	public String getCsnOnlineUrl() {
 		return csnOnlineUrl;
 	}
 
-	public void setcsnOnlineUrl(String csnOnlineUrl) {
+	public void setCsnOnlineUrl(String csnOnlineUrl) {
 		this.csnOnlineUrl = csnOnlineUrl;
 	}
 	

@@ -1,15 +1,20 @@
 package sk.peterjurkovic.cpr.controllers;
 
-import java.text.DateFormat;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.services.ArticleService;
+import sk.peterjurkovic.cpr.services.StandardService;
+import sk.peterjurkovic.cpr.services.WebpageService;
 
 /**
  * Handles requests for the application home page.
@@ -17,22 +22,31 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @Controller
 public class HomeController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	private final int COUNT_OF_NEWEST_ARTICES_FOR_HOMEPAGE = 3;
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
+	private final int COUNT_OF_LAST_EDITED_STANDARDS = 6;
+	
+	@Autowired
+	private WebpageService webpageService;
+	@Autowired
+	private ArticleService articleService;
+	@Autowired
+	private StandardService standardService;
+	
+	 
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model) {
-		logger.info("Welcome home! The client locale is {}.", locale);
+	public String home(Locale locale, ModelMap modelmap) throws PageNotFoundEception {
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
+		Webpage webpage = webpageService.getWebpageByCode("/");
+		if(webpage == null){
+			throw new PageNotFoundEception();
+		}
 		
-		String formattedDate = dateFormat.format(date);
-		
-		model.addAttribute("serverTime", formattedDate );
-		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpage", webpage);
+		model.put("articles", articleService.getNewestArticles(COUNT_OF_NEWEST_ARTICES_FOR_HOMEPAGE));
+		model.put("standards", standardService.getLastEditedOrNewestStandards(COUNT_OF_LAST_EDITED_STANDARDS));
+		modelmap.put("model", model);
 		return "/public/homepage";
 	}
 	

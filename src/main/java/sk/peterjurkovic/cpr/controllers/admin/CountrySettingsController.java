@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.Country;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.CountryService;
 
 @Controller
@@ -106,9 +107,10 @@ public class CountrySettingsController extends SupportAdminController {
 	 * 			inak sa jedna o etidatciu
 	 * @param map Model 
 	 * @return String view
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/settings/countries/edit/{countryId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long countryId,  @Valid  Country form, BindingResult result, ModelMap model) {
+	public String processSubmit(@PathVariable Long countryId,  @Valid  Country form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
 			prepareModel(form, model, countryId);
@@ -131,7 +133,7 @@ public class CountrySettingsController extends SupportAdminController {
 	
 	
 	
-	private Country createOrUpdateCountry(Country form){
+	private Country createOrUpdateCountry(Country form) throws ItemNotFoundException{
 		Country country = null;
 			
 		if(form.getId() == 0){
@@ -139,7 +141,7 @@ public class CountrySettingsController extends SupportAdminController {
 		}else{
 			country = countryService.getCountryById(form.getId());
 			if(country == null){
-				createItemNotFoundError();
+				createItemNotFoundError("Stát s ID: " + form.getId() + " se v systému nenachádzí");
 			}
 		}
 		

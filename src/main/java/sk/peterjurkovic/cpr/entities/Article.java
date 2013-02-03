@@ -114,9 +114,4 @@ public class Article extends AbstractEntity {
 		this.timestamp = timestamp;
 	}
 	
-	
-	
-	
-	
-
 }

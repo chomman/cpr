@@ -293,3 +293,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', end
 .detailinfo .red{color:red;font-style:normal;}
 .detailinfo a{color:#000;text-decoration:underline;}
 .analytics{height:150px;}
+
+/* ERROR PAGES */
+.error-box{width:400px;margin:100px auto;padding:40px;background:#FFFAFA;border:5px solid #FFF5F5;text-align:center;}
+.error-box p{padding:10px;}
+.error-box a{text-decoration:underline;}
