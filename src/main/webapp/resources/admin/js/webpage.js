@@ -1,4 +1,4 @@
 $(function() { 					
-	initWISIWIG("610", "250"); 
-	$("#description").limiter(200, $("#chars"));
+	initWISIWIG("610", "270"); 
+	$("#description").limiter(255, $("#chars"));
 });

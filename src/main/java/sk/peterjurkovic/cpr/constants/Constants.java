@@ -85,7 +85,7 @@ public class Constants {
 	 *  	
 	 *  Definuje maximalny pocet zaznamov na stranku, pri strankovani zaznamov.
 	 */
-	public static final int PUBLIC_PAGINATION_PAGE_SIZE =  1; 
+	public static final int PUBLIC_PAGINATION_PAGE_SIZE =  10; 
 	
 	
 	
@@ -110,5 +110,8 @@ public class Constants {
 	
 	
 	public static final Long WEBPAGE_CATEGORY_MAIN_MENU = Long.valueOf(1);
+	
+	
+	public static final Long WEBPAGE_CATEGORY_CPR_SUBMENU = Long.valueOf(3);
 	
 }

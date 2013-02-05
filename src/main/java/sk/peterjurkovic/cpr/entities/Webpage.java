@@ -53,8 +53,8 @@ public class Webpage extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@Column(name = "name", length = 60)
-	@Length(min = 1, max = 60, message = "Název musí být vyplněn")
+	@Column(name = "name", length = 100)
+	@Length(min = 1, max = 100, message = "Název musí být vyplněn")
 	public String getName() {
 		return name;
 	}
@@ -63,8 +63,8 @@ public class Webpage extends AbstractEntity {
 		this.name = name;
 	}
 	
-	@Column(name = "title", length = 100)
-	@Length(min = 1, max = 100, message = "Titulek musí být vyplněn")
+	@Column(name = "title", length = 150)
+	@Length(min = 1, max = 150, message = "Titulek musí být vyplněn")
 	public String getTitle() {
 		return title;
 	}
@@ -74,7 +74,7 @@ public class Webpage extends AbstractEntity {
 	}
 	
 	@Column(name = "keywords", length = 150)
-	@Length(max = 100, message = "Překročili jste délku klíčových slov")
+	@Length(max = 150, message = "Překročili jste délku klíčových slov")
 	public String getKeywords() {
 		return keywords;
 	}
@@ -83,8 +83,8 @@ public class Webpage extends AbstractEntity {
 		this.keywords = keywords;
 	}
 	
-	@Column(name = "description", length = 200)
-	@Length(max = 200, message = "Překročili jste délku popisku")
+	@Column(name = "description", length = 255)
+	@Length(max = 255, message = "Překročili jste délku popisku")
 	public String getDescription() {
 		return description;
 	}

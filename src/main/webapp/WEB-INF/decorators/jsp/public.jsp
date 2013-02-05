@@ -46,10 +46,10 @@
 		<!-- FOOTER -->
 		<footer>
 			<div id="footer" class="page-width">
-				<a href="http://www.itczlin.cz/cz/" title="ITC - Institut pro testování a certifikace" class="itc-logo"></a>
+				<a href="http://www.itczlin.cz/cz/" title="${commonPublic.settings.ownerName}" class="itc-logo"></a>
 				<p class="itc-name">
 					${commonPublic.settings.systemName}<br />
-					<a href="http://www.itczlin.cz/cz/" title="ITC - Institut pro testování a certifikace">${commonPublic.settings.ownerName}</a>
+					<a href="http://www.itczlin.cz/cz/" title="${commonPublic.settings.ownerName}">${commonPublic.settings.ownerName}</a>
 				</p>
 				<a class="admin" href="<c:url value="/admin/login" />" title="Přihlášení do administrace systému" ><spring:message code="admin" /></a>
 			</div>
