@@ -24,7 +24,7 @@
 				<div class="cpr-items">
 						<c:forEach items="${model.submenu}" var="item">
 							<div>
-								<h2><a title="${item.title}"  href="<c:url value="${item.code}" />">${item.name}</a></h2>
+								<h2><a class="blue-color"  title="${item.title}"  href="<c:url value="${item.code}" />">${item.name}</a></h2>
 								<p>${item.description}</p>
 							</div>
 						</c:forEach>

@@ -8,7 +8,7 @@
 	<!-- SUB NAV -->
 	<ul class="nav">
 		<c:forEach items="${model.submenu}" var="item">
-			<li><a title="${item.title}" <c:if test="${model.subtab == item.id}" >class="curr"</c:if> href="<c:url value="${item.code}" />">${item.name}</a></li>
+			<li><a title="${item.title}" <c:if test="${model.webpage.id == item.id}" >class="curr"</c:if> href="<c:url value="${item.code}" />">${item.name}</a></li>
 		</c:forEach>
 	</ul>
 </div>

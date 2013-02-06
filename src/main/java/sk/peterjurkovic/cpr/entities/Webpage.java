@@ -10,6 +10,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
@@ -134,7 +135,8 @@ public class Webpage extends AbstractEntity {
 	public void setWebpageContent(WebpageContent webpageContent) {
 		this.webpageContent = webpageContent;
 	}
-
+	
+	@Transient
 	public Long getTimestamp() {
 		return timestamp;
 	}

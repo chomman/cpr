@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.services.BasicRequirementService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 
@@ -22,12 +23,17 @@ public class PublicCprController {
 	private WebpageService webpageService;
 	@Autowired
 	private StandardService standardService;
+	@Autowired
+	private BasicRequirementService basicRequirementService;
+	public static final String CPR_INDEX_URL = "/cpr";
 	
 	
-	@RequestMapping("/cpr")
+	
+	
+	@RequestMapping(CPR_INDEX_URL)
 	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		
-		Webpage webpage = webpageService.getWebpageByCode("/cpr");
+		Webpage webpage = webpageService.getWebpageByCode(CPR_INDEX_URL);
 		if(webpage == null){
 			throw new PageNotFoundEception();
 		}
@@ -38,6 +44,28 @@ public class PublicCprController {
 		model.put("tab", 3);
 		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
-		return "/public/cpr";
+		return "/public/cpr/index";
+	}
+	
+	
+	
+	
+	@RequestMapping("/cpr/zakladni-pozadavky-podle-cpr")
+	public String requirements(ModelMap modelmap) throws PageNotFoundEception {
+		
+		Webpage webpage = webpageService.getWebpageByCode("/cpr/zakladni-pozadavky-podle-cpr");
+		if(webpage == null){
+			throw new PageNotFoundEception();
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpage", webpage);
+		model.put("subtab", webpage.getId());
+		model.put("basicRequremets", basicRequirementService.getAllBasicRequirements());
+		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
+		model.put("tab", 3);
+		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
+		modelmap.put("model", model);
+		return "/public/cpr/basic-requirement";
 	}
 }
