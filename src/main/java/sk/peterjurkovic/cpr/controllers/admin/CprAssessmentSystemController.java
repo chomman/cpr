@@ -126,7 +126,7 @@ public class CprAssessmentSystemController extends SupportAdminController {
 	
 	
 	
-	private AssessmentSystem createOrUpdate(AssessmentSystem form) throws ItemNotFoundException{
+	private void createOrUpdate(AssessmentSystem form) throws ItemNotFoundException{
 		AssessmentSystem assessmentSystem = null;
 			
 		if(form.getId() == null || form.getId() == 0){
@@ -141,9 +141,8 @@ public class CprAssessmentSystemController extends SupportAdminController {
 		assessmentSystem.setAssessmentSystemCode(form.getAssessmentSystemCode());
 		assessmentSystem.setName(form.getName());
 		assessmentSystem.setDescription(form.getDescription());
-		
+		assessmentSystem.setEnabled(form.getEnabled());
 		assessmentSystemService.saveOrUpdateAssessmentSystem(assessmentSystem);
-		return assessmentSystem;
 	}
 	
 	private AssessmentSystem createEmptyForm(){

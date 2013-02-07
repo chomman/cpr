@@ -78,4 +78,9 @@ public class BasicRequirementServiceImpl implements BasicRequirementService {
 		return basicRequirementDao.isNameUniqe(CodeUtils.toSeoUrl(code), id);
 	}
 
+	@Override
+	public List<BasicRequirement> getBasicRequirementsForPublic() {
+		return basicRequirementDao.getBasicRequirementsForPublic();
+	}
+
 }

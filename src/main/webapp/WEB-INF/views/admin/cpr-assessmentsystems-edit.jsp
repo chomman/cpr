@@ -62,7 +62,7 @@
 					<p class="msg ok"><spring:message code="success.create" /></p>
 				</c:if>
 				
-				<p>
+					<p>
                       	<label>
                       		<strong><em class="red">*</em>
                       			<spring:message code="cpr.as.name" />
@@ -81,6 +81,14 @@
                           	<form:input  htmlEscape="true" path="assessmentSystemCode" maxlength="25" cssClass="w100" />
                           </span>
                       </p>
+                      <p>
+					    <label title="<spring:message code="publish.descr" />" class="tt">
+					 		<spring:message code="publish" />
+					 	</label>
+					     <span class="field">  
+					     	<form:checkbox path="enabled" />
+					     </span>
+					 </p>
 					  <p class="form-head"><spring:message code="cpr.nb.description" /><p>
 					  <p>
                       	<label>

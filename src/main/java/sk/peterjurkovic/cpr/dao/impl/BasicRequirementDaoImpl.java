@@ -1,7 +1,10 @@
 package sk.peterjurkovic.cpr.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
+import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.dao.BasicRequirementDao;
 import sk.peterjurkovic.cpr.entities.BasicRequirement;
 
@@ -29,6 +32,17 @@ public class BasicRequirementDaoImpl extends BaseDaoImpl<BasicRequirement, Long>
 						.setLong("id", id)
 						.uniqueResult();
 		return (result == 0);
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<BasicRequirement> getBasicRequirementsForPublic(){
+		return sessionFactory.getCurrentSession()
+				.createQuery("from BasicRequirement br where br.enabled=true order by br.name")
+				.setCacheable(true)
+				.setCacheRegion(CacheRegion.CPR_CACHE)
+				.list();
 	}
 	
 }

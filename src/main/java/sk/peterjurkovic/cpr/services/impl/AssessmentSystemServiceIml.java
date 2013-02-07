@@ -59,7 +59,7 @@ public class AssessmentSystemServiceIml implements AssessmentSystemService {
 		
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		
-		if(assessmentSystem.getId() == null){
+		if(assessmentSystem.getId() == null || assessmentSystem.getId() == 0){
 			assessmentSystem.setCreatedBy(user);
 			assessmentSystem.setCreated(new DateTime());
 			assessmentSystemDao.save(assessmentSystem);
@@ -68,6 +68,13 @@ public class AssessmentSystemServiceIml implements AssessmentSystemService {
 			assessmentSystem.setChanged(new DateTime());
 			assessmentSystemDao.update(assessmentSystem);
 		}
+	}
+
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<AssessmentSystem> getAssessmentSystemsForPublic() {
+		return assessmentSystemDao.getAssessmentSystemsForPublic();
 	}
 	
 	

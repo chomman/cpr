@@ -22,4 +22,6 @@ public interface  BasicRequirementService {
 	void saveOrUpdateBasicRequirement(BasicRequirement basicRequirement);
 	
 	boolean isBasicRequirementNameUniqe(final String code,final Long id);
+	
+	List<BasicRequirement> getBasicRequirementsForPublic();
 }

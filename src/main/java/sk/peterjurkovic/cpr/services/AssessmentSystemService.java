@@ -19,4 +19,6 @@ public interface AssessmentSystemService {
 	AssessmentSystem getAssessmentSystemById(Long id);
 	
 	void saveOrUpdateAssessmentSystem(AssessmentSystem assessmentSystem);
+	
+	List<AssessmentSystem> getAssessmentSystemsForPublic();
 }

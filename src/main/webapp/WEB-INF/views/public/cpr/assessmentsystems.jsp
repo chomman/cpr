@@ -26,7 +26,7 @@
 					</article>	
 
 						<c:if test="${not empty model.webpage.webpageContent and model.webpage.webpageContent.id > 1}">
-							<jsp:include page="../contents/basic-requrement.jsp" />
+							 <jsp:include page="../contents/assessmentsystems.jsp" /> 
 						</c:if>
 						
 					<article>

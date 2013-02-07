@@ -17,7 +17,7 @@ a{text-decoration:none;color:#3e4e69;}
 .page-width{width:999px;margin:auto;}
 
 .left-panel{width:260px;float:left;border-right:1px solid #eee;}
-.left-panel .head{display:block;background:red;display:block;padding:15px 10px;font-size:20px;background: #ffffff;color:#207ce5;letter-spacing:1px;border-bottom:10px solid #eee;margin-bottom:10px;
+.left-panel .head{display:block;display:block;padding:15px 10px;font-size:20px;background: #ffffff;color:#207ce5;letter-spacing:1px;border-bottom:10px solid #eee;margin-bottom:10px;
 background: -moz-linear-gradient(left,  #ffffff 0%, #f7f7f7 100%);
 background: -webkit-gradient(linear, left top, right top, color-stop(0%,#ffffff), color-stop(100%,#f7f7f7));
 background: -webkit-linear-gradient(left,  #ffffff 0%,#f7f7f7 100%);
@@ -73,7 +73,7 @@ header .itc-name{margin:5px 0 0 50px;padding:5px 0 0 130px;width:350px;backgroun
 
 /* NAVIGATION */
 nav{background:#8b8a8a url(../img/nav-bg.png) repeat-x;height:50px;padding-bottom:7px; }
-nav ul{list-style:none;padding:0 60px;background:red url(../img/nav-bg2.png);}
+nav ul{list-style:none;padding:0 60px;background:url(../img/nav-bg2.png);}
 nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;}
 nav ul li:last-child{background:none;}
 nav ul li a{display:block;float:left;height:15px;padding:17px 15px;color:#fff;text-transform:uppercase;font-size:13px;margin:0 5 0 0px;}

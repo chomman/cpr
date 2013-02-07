@@ -150,6 +150,7 @@ public class CprBasicRequirementController extends SupportAdminController {
 		basicRequirement.setCode(CodeUtils.toSeoUrl(form.getName()));
 		basicRequirement.setName(form.getName());
 		basicRequirement.setDescription(form.getDescription());
+		basicRequirement.setEnabled(form.getEnabled());
 		basicRequirementService.createBasicRequirement(basicRequirement);
 	}
 

@@ -75,6 +75,14 @@
                        	<form:input htmlEscape="true" path="name" maxlength="150" cssClass="mw600" />
                       </span>
                 </p>
+                <p>
+				    <label title="<spring:message code="publish.descr" />" class="tt">
+				 		<spring:message code="publish" />
+				 	</label>
+				     <span class="field">  
+				     	<form:checkbox path="enabled" />
+				     </span>
+				 </p>
 			  	<p>
                    	<label>
                    		<spring:message code="cpr.br.description" />

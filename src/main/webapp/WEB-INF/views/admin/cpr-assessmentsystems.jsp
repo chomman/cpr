@@ -38,6 +38,7 @@
 						<tr>
 							<tH><spring:message code="cpr.as.name" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
+							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
@@ -52,6 +53,18 @@
 						 			</c:if>
 						 			<c:if test="${not empty i.changedBy}">
 						 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
+						 			</c:if>
+						 		</td>
+						 		<td class="w100">
+						 			<c:if test="${i.enabled}">
+						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
+						 					<spring:message code="yes" />
+						 				</span>
+						 			</c:if>
+						 			<c:if test="${not i.enabled}">
+						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
+						 					<spring:message code="no" />
+						 				</span>
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">

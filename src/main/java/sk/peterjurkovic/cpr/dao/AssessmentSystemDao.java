@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.dao;
 
+import java.util.List;
+
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 
 /**
@@ -9,5 +11,7 @@ import sk.peterjurkovic.cpr.entities.AssessmentSystem;
  *
  */
 public interface AssessmentSystemDao extends BaseDao<AssessmentSystem, Long> {
-
+	
+	List<AssessmentSystem> getAssessmentSystemsForPublic();
+	
 }
