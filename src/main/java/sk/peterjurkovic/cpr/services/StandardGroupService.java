@@ -23,4 +23,6 @@ public interface StandardGroupService {
 	Long getCountOfStandardsInGroup(StandardGroup standardGroup);
 	
 	boolean isStandardGroupNameUniqe(String groupName, Long standardGroupId);
+	
+	List<StandardGroup> getStandardGroupsForPublic();
 }

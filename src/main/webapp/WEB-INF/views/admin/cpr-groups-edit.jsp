@@ -88,7 +88,7 @@
                         		<spring:message code="cpr.groups.fileUrl" />
                         	</label>
                             <span class="field">  
-                            	<form:input  htmlEscape="true" path="commissionDecisionUrl"  maxlength="255"  cssClass="mw500" />
+                            	<form:input  htmlEscape="true" path="commissionDecisionFileUrl"  maxlength="255"  cssClass="mw500" />
                             </span>
                         </p>
                         
@@ -100,6 +100,14 @@
                             	<form:input htmlEscape="true" path="urlTitle" maxlength="25"  />
                             </span>
                         </p>
+                        <p>
+						    <label title="<spring:message code="publish.descr" />" class="tt">
+						 		<spring:message code="publish" />
+						 	</label>
+						     <span class="field">  
+						     	<form:checkbox path="enabled" />
+						     </span>
+						 </p>
 						<p class="form-head"><spring:message code="cpr.nb.description" /><p>
 						  <p>
 	                      	<label>

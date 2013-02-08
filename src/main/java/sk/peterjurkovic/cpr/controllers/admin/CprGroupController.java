@@ -174,9 +174,9 @@ public class CprGroupController extends SupportAdminController {
 		standardGroup.setGroupName(form.getGroupName());
 		standardGroup.setDescription(form.getDescription());
 		standardGroup.setGroupCode(form.getGroupCode());
-		standardGroup.setCommissionDecisionUrl(form.getCommissionDecisionUrl());
+		standardGroup.setCommissionDecisionFileUrl(form.getCommissionDecisionFileUrl());
 		standardGroup.setUrlTitle(form.getUrlTitle());
-		
+		standardGroup.setEnabled(form.getEnabled());
 		standardGroupService.saveOrdUpdateStandardGroup(standardGroup);
 		return standardGroup;
 	}

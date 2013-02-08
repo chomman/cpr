@@ -1,7 +1,10 @@
 package sk.peterjurkovic.cpr.dao.impl;
 
+import java.util.List;
+
 import org.springframework.stereotype.Repository;
 
+import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.dao.StandardGroupDao;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 
@@ -49,6 +52,18 @@ public class StandardGroupDaoImpl extends BaseDaoImpl<StandardGroup, Long> imple
 						.uniqueResult();
 		logger.info("isNameUniqe count : " + result);
 		return (result == 0);
+	}
+	
+	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StandardGroup> getStandardGroupsForPublic(){
+		return sessionFactory.getCurrentSession()
+				.createQuery("from StandardGroup sg where sg.enabled=true order by sg.id")
+				.setCacheable(true)
+				.setCacheRegion(CacheRegion.CPR_CACHE)
+				.list();
 	}
 	
 }

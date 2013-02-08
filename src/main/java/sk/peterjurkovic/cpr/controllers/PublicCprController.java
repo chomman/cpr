@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
@@ -13,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.BasicRequirement;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.BasicRequirementService;
+import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 
@@ -32,6 +35,8 @@ public class PublicCprController {
 	private BasicRequirementService basicRequirementService;
 	@Autowired
 	private AssessmentSystemService assessmentSystemService;
+	@Autowired
+	private StandardGroupService standardGroupService;
 	
 	public static final String CPR_INDEX_URL = "/cpr";
 	
@@ -39,10 +44,18 @@ public class PublicCprController {
 	
 	public static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
 	
+	public static final String CPR_GROUPS_URL = "/cpr/skupiny-vyrobku-podle-cpr";
+	
 	private Logger logger = Logger.getLogger(getClass());
 	
 	
-	
+	/**
+	 * Zobrazi zoznam podsekcii CPR
+	 * 
+	 * @param modelmap
+	 * @return
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(CPR_INDEX_URL)
 	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		
@@ -170,6 +183,25 @@ public class PublicCprController {
 		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/assessmentSystem-detail";
+	}
+	
+	
+	@RequestMapping(CPR_GROUPS_URL)
+	public String showCprGroups(ModelMap modelmap) throws PageNotFoundEception {
+		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
+		if(webpage == null){
+			throw new PageNotFoundEception();
+		}
+		List<StandardGroup> groups = standardGroupService.getStandardGroupsForPublic();
+		logger.info(groups.size());
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpage", webpage);
+		model.put("groups", groups);
+		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
+		model.put("tab", 3);
+		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
+		modelmap.put("model", model);
+		return "/public/cpr/groups";
 	}
 	
 	

@@ -5,8 +5,11 @@
 	<head>
 		<title><decorator:title/></title>
 		<meta charset="utf-8" />
+		<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
 		<script src="<c:url value="/resources/public/js/jquery-1.9.0.min.js" />"></script>
+		<script src="<c:url value="/resources/admin/js/jquery-ui-1.9.2.custom.min.js" />"></script>
+		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<decorator:head/>
 	</head>
 	<body>

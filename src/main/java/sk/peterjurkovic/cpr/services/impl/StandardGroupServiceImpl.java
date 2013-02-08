@@ -89,6 +89,11 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 	public boolean isStandardGroupNameUniqe(String groupName, Long standardGroupId) {
 		return standardGroupDao.isGroupNameUniqe(CodeUtils.toSeoUrl(groupName), standardGroupId);
 	}
+
+	@Override
+	public List<StandardGroup> getStandardGroupsForPublic() {
+		return standardGroupDao.getStandardGroupsForPublic();
+	}
 	
 	
 	

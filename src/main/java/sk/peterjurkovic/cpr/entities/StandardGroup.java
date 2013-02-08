@@ -36,6 +36,9 @@ public class StandardGroup extends AbstractEntity {
 	
 	private String description;
 	
+	
+	
+
 	@Id
 	@GeneratedValue
 	public Long getId() {
@@ -57,16 +60,17 @@ public class StandardGroup extends AbstractEntity {
 		this.groupName = groupName;
 	}
 	
-
+	
 	@URL(message = "Odkaz na soubor ma chybný tvar" )
 	@Column(name = "comission_decision_file_url")
-	public String getCommissionDecisionUrl() {
+	public String getCommissionDecisionFileUrl() {
 		return commissionDecisionFileUrl;
 	}
 
-	public void setCommissionDecisionUrl(String commissionDecisionUrl) {
-		this.commissionDecisionFileUrl = commissionDecisionUrl;
+	public void setCommissionDecisionFileUrl(String commissionDecisionFileUrl) {
+		this.commissionDecisionFileUrl = commissionDecisionFileUrl;
 	}
+
 	
 	@Column(name = "url_title", length = 25)
 	@Length(max = 25, message = "Text odkazu může mít maximálně 25 znaků")
