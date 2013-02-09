@@ -83,7 +83,7 @@
 						 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
 						 				</c:forEach> 
 					 				>
-					 				${nb.name}
+					 				${nb.notifiedBodyCode} - ${nb.name}
 					 				</option>			 			
 					 			<c:if test="${prev != nb.country.id }">
 					 				</optgroup>

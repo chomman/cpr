@@ -93,6 +93,14 @@
                           	<form:checkbox path="etaCertificationAllowed"/>
                           </span>
                       </p>
+                       <p>
+					    <label title="<spring:message code="publish.descr" />" class="tt">
+					 		<spring:message code="publish" />
+					 	</label>
+					     <span class="field">  
+					     	<form:checkbox path="enabled" />
+					     </span>
+					 </p>
                       <p class="form-head">Kontaktní informace<p>
                       <p>
                       	<label>

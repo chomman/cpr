@@ -15,5 +15,5 @@ public interface NotifiedBodyDao extends BaseDao<NotifiedBody, Long> {
 	
 	boolean isNameUniqe(String code, Long id); 
 	
-	List<NotifiedBody> getNotifiedBodiesGroupedByCountry();
+	List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled);
 }

@@ -92,8 +92,8 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	}
 
 	@Override
-	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry() {
-		return notifiedBodyDao.getNotifiedBodiesGroupedByCountry();
+	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled) {
+		return notifiedBodyDao.getNotifiedBodiesGroupedByCountry(enabled);
 	}
 	
 	

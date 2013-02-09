@@ -72,9 +72,8 @@ public class NotifiedBody extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@Column(name = "name", length = 100)
-	@NotEmpty(message = "Název musí být vyplněn.")
-	@Length(max = 100)
+	@Column(name = "name", length = 200)
+	@Length(min =1, max = 200, message = "Název musí být vyplněn.")
 	public String getName() {
 		return name;
 	}
@@ -108,7 +107,7 @@ public class NotifiedBody extends AbstractEntity {
 	}
 	
 	@Pattern(regexp = "(^(https?://)?[a-z_0-9\\-\\.]+\\.[a-z]{2,4}.*$|)*", message = "Webová stránka je v chybném tvaru.")
-	@Column(name = "web", length = 50)
+	@Column(name = "web", length = 100)
 	public String getWebpage() {
 		return webpage;
 	}

@@ -45,7 +45,7 @@
 						<tr>
 							<tH><spring:message code="cpr.nb.code" /></th>
 							<th><spring:message code="cpr.nb.name" /></th>
-							<th><spring:message code="address.city" /></th>
+							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
@@ -56,7 +56,18 @@
 						 	<tr>
 						 		<td>${i.notifiedBodyCode}</td>
 						 		<td>${i.name}</td>
-						 		<td>${i.address.city}</td>
+						 		<td class="w100">
+						 			<c:if test="${i.enabled}">
+						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
+						 					<spring:message code="yes" />
+						 				</span>
+						 			</c:if>
+						 			<c:if test="${not i.enabled}">
+						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
+						 					<spring:message code="no" />
+						 				</span>
+						 			</c:if>
+						 		</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
 						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>

@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.dao.NotifiedBodyDao;
@@ -43,12 +44,17 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry() {
+	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled) {
 		StringBuilder hql = new StringBuilder("FROM NotifiedBody nb ");
+		if(enabled != null){
+			hql.append(" WHERE nb.enabled=:enabled ");
+		}
 		hql.append("ORDER BY nb.country.id");
-		return (List<NotifiedBody>)sessionFactory.getCurrentSession()
-						.createQuery(hql.toString())
-						.list();
+		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		if(enabled != null){
+			query.setBoolean("enabled", enabled);
+		}
+		return (List<NotifiedBody>)query.list();
 	}
 
 }

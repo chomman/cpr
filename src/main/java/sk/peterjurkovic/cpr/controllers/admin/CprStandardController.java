@@ -662,7 +662,7 @@ public class CprStandardController extends SupportAdminController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		modelMap.addAttribute("standard", standard);
 		map.put("standardId", standard.getId());
-		map.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry());
+		map.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(null));
 		map.put("standardnotifiedBodies", standard.getNotifiedBodies());
 		map.put("tab", CPR_TAB_INDEX);
 		modelMap.put("model", map);

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.BasicRequirement;
+import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
@@ -206,6 +207,29 @@ public class PublicCprController {
 		modelmap.put("model", model);
 		return "/public/cpr/group-detail";
 	}
+	
+	
+
+	/**
+	 * Zobrazi detail normy
+	 * 
+	 * @param modelmap
+	 * @return String view
+	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
+	 */
+	@RequestMapping("/cpr/ehn/{standardCode}")
+	public String showStandardDetail(@PathVariable String standardCode, ModelMap modelmap) throws PageNotFoundEception {
+		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
+		Standard standard = standardService.getStandardByCode(standardCode);
+		if(webpage == null || standard == null){
+			throw new PageNotFoundEception();
+		}
+		Map<String, Object> model = prepareBaseModel(webpage);
+		model.put("standard", standard);
+		modelmap.put("model", model);
+		return "/public/cpr/group-detail";
+	}
+	
 	
 	
 	/**

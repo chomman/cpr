@@ -19,13 +19,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
-import org.joda.time.DateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -46,8 +44,6 @@ public class User extends AbstractEntity implements UserDetails{
 	private String lastName;
 	private String email;
 	private String password;
-    private DateTime changePasswordRequestDate;
-    private String changePasswordRequestToken;
 	private Set<Authority> authoritySet = new HashSet<Authority>();
 	
 	
@@ -98,28 +94,7 @@ public class User extends AbstractEntity implements UserDetails{
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	
-	@Column(name = "change_password_request_date")
-    @Type(type = "jodaDateTime")
-    public DateTime getChangePasswordRequestDate() {
-        return changePasswordRequestDate;
-    }
-
-    public void setChangePasswordRequestDate(DateTime changePasswordRequestDate) {
-        this.changePasswordRequestDate = changePasswordRequestDate;
-    }
-    
-    @Column(name = "change_password_request_token", length = 60)
-    public String getChangePasswordRequestToken() {
-        return changePasswordRequestToken;
-    }
-
-
-    public void setChangePasswordRequestToken(String changePasswordRequestToken) {
-        this.changePasswordRequestToken = changePasswordRequestToken;
-    }
-    
+	}   
 	
 	@ManyToMany(targetEntity = Authority.class, fetch = FetchType.EAGER, cascade = { CascadeType.ALL } )
     @JoinTable(name = "user_has_authority", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "authority_id"))

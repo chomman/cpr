@@ -24,5 +24,5 @@ public interface NotifiedBodyService {
 	
 	boolean isNotifiedBodyNameUniqe(String name, Long id);
 	
-	List<NotifiedBody> getNotifiedBodiesGroupedByCountry();
+	List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled);
 }
