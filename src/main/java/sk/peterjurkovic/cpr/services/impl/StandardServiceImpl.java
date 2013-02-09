@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.UserService;
@@ -128,5 +129,11 @@ public class StandardServiceImpl implements StandardService {
 	@Transactional(readOnly =  true )
 	public List<Standard> getLastEditedOrNewestStandards(int count) {
 		return standardDao.getLastEditedOrNewestStandards(count);
+	}
+
+	
+	@Override
+	public List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup) {
+		return standardDao.getStandardByStandardGroupForPublic(StandardGroup);
 	}
 }

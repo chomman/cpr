@@ -63,12 +63,8 @@ public class PublicCprController {
 		if(webpage == null){
 			throw new PageNotFoundEception();
 		}
-		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpage);
+		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("subtab", webpage.getId());
-		model.put("tab", 3);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/index";
 	}
@@ -90,13 +86,9 @@ public class PublicCprController {
 			throw new PageNotFoundEception();
 		}
 		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpage);
+		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("subtab", webpage.getId());
 		model.put("basicRequremets", basicRequirementService.getBasicRequirementsForPublic());
-		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
-		model.put("tab", 3);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/basic-requirement";
 	}
@@ -119,13 +111,8 @@ public class PublicCprController {
 		if(basicRequirement == null || webpage == null){
 			throw new PageNotFoundEception();
 		}
-		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpage);
+		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("basicRequirement", basicRequirement);
-		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
-		model.put("tab", 3);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/basic-requirement-detail";
 	}
@@ -145,14 +132,9 @@ public class PublicCprController {
 		if(webpage == null){
 			throw new PageNotFoundEception();
 		}
-		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpage);
+		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("subtab", webpage.getId());
 		model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
-		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
-		model.put("tab", 3);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/assessmentsystems";
 	}
@@ -174,18 +156,20 @@ public class PublicCprController {
 		if(assessmentSystem == null || webpage == null){
 			throw new PageNotFoundEception();
 		}
-		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpage);
+		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("assessmentSystem", assessmentSystem);
-		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
-		model.put("tab", 3);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/assessmentSystem-detail";
 	}
 	
 	
+	/**
+	 * Zobrazi skupiny vyrobkov
+	 * 
+	 * @param modelmap
+	 * @return String view
+	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
+	 */
 	@RequestMapping(CPR_GROUPS_URL)
 	public String showCprGroups(ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
@@ -194,15 +178,49 @@ public class PublicCprController {
 		}
 		List<StandardGroup> groups = standardGroupService.getStandardGroupsForPublic();
 		logger.info(groups.size());
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpage);
+		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("groups", groups);
-		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
-		model.put("tab", 3);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/groups";
 	}
 	
+	
+	
+	/**
+	 * Zobrazi skupiny vyrobkov
+	 * 
+	 * @param modelmap
+	 * @return String view
+	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
+	 */
+	@RequestMapping("/cpr/skupina/{groupCode}")
+	public String showCprGroupDetail(@PathVariable String groupCode, ModelMap modelmap) throws PageNotFoundEception {
+		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
+		StandardGroup group = standardGroupService.getStandardGroupByCode(groupCode);
+		if(webpage == null || group == null){
+			throw new PageNotFoundEception();
+		}
+		Map<String, Object> model = prepareBaseModel(webpage);
+		model.put("group", group);
+		model.put("standards", standardService.getStandardByStandardGroupForPublic(group));
+		modelmap.put("model", model);
+		return "/public/cpr/group-detail";
+	}
+	
+	
+	/**
+	 * Pripravi zakladny model pre view
+	 * 
+	 * @param Webpage sekcia systemu
+	 * @return pripraveny model
+	 */
+	private Map<String, Object> prepareBaseModel(Webpage webpage){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpage", webpage);
+		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
+		model.put("tab", 3);
+		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
+		return model;
+	}
 	
 }

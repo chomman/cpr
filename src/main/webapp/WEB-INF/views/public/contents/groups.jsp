@@ -15,9 +15,9 @@
 		<tbody>
 			 <c:forEach items="${model.groups}" var="i">
 			 	<tr>
-			 		<td>${i.groupCode}</td>
-			 		<td  class="l"><a class="tt" title="<spring:message code="groups.detail" />" href="<c:url value="/cpr/skupina/${i.code}" />"> ${i.groupName}</a></td>
-			 		<td>
+			 		<td class="c">${i.groupCode}</td>
+			 		<td class="l"><a class="tt" title="<spring:message code="groups.detail" />" href="<c:url value="/cpr/skupina/${i.code}" />"> ${i.groupName}</a></td>
+			 		<td class="c">
 			 		<c:if test="${not empty i.commissionDecisionFileUrl}">
 			 			<a class="file pdf" title="${i.urlTitle}" href="${i.commissionDecisionFileUrl}">${i.urlTitle}</a>
 			 		</c:if>

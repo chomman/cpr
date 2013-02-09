@@ -30,8 +30,8 @@ public class Tag {
 	}
 	
 	
-	@Column(length = 50)
-	@Length(min = 1, max = 50)
+	@Column(length = 100)
+	@Length(min = 1, max = 100)
 	public String getName() {
 		return name;
 	}

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 
 /**
  * Rozhranie datovej vrstvy entity sk.peterjurkovic.cpr.entities.Standard
@@ -24,4 +25,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	List<Standard> autocomplateSearch(String query);
 	
 	List<Standard> getLastEditedOrNewestStandards(int count);
+	
+	List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup);
 }

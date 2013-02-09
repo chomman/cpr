@@ -65,8 +65,10 @@
 	 	</label>
 	     <span class="field">  
 	     	<form:select path="standardGroup" cssClass="mw500 smaller required">
-	  <option value=""><spring:message code="form.select"/></option>
-	  <form:options items="${model.groups}" itemValue="id" itemLabel="groupName" />
+	  			<option value=""><spring:message code="form.select"/></option>
+	  		<c:forEach items="${model.groups}" var="group">
+	  			<option value="${group.id}" <c:if test="${standard.standardGroup.id == group.id}">selected="selected"</c:if> > ${group.groupCode} - ${fn:substring(group.groupName, 0, 90)}...</option>
+	  		</c:forEach>
 	</form:select>
 	       </span>
 	   </p>

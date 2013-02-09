@@ -1,3 +1,4 @@
+
 package sk.peterjurkovic.cpr.interceptors;
 
 import java.util.HashMap;
@@ -37,6 +38,7 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 			 Map<String, Object> commonModel = new HashMap<String, Object>();
 			 commonModel.put("settings", basicSettingsService.getBasicSettings());
 			 commonModel.put("mainMenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_MAIN_MENU));
+			 commonModel.put("dateTimeFormat", Constants.DATE_FORMAT);
 			 if(modelAndView != null){
 				 modelAndView.addObject("commonPublic", commonModel);
 			 }

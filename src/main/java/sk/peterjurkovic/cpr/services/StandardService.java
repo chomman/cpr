@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 
 public interface StandardService {
 	
@@ -32,4 +33,6 @@ public interface StandardService {
 	List<Standard> autocomplateSearch(String query);
 	
 	List<Standard> getLastEditedOrNewestStandards(int count);
+	
+	List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup);
 }

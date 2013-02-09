@@ -20,26 +20,29 @@
 			 <div id="homepage">
 			 		<div class="hompage-left">
 			 			<strong class="head"><spring:message code="homepage.newest.articles" /></strong>
-			 			
-						<c:forEach items="${model.articles}" var="article">
-							<div class="home-news">
-				 				<strong><a href="<c:url value="${model.articleUrl}/${article.code}" />" class="blue-color">${article.title}</a></strong>
-				 				<p>${fn:substring(article.header, 0, 120)} ...</p>
-				 				<a href="<c:url value="${model.articleUrl}/${article.code}" />" title="<spring:message code="view.detail" />"  class="blue-color link"><spring:message code="view.detail" /> &raquo; </a>
-				 				<div class="clear"></div>
-			 				</div>
-			 			</c:forEach>
+			 			<c:if test="${not empty model.articles}">
+							<c:forEach items="${model.articles}" var="article">
+								<div class="home-news">
+					 				<strong><a href="<c:url value="${model.articleUrl}/${article.code}" />" class="blue-color">${article.title}</a></strong>
+					 				<p>${fn:substring(article.header, 0, 120)} ...</p>
+					 				<a href="<c:url value="${model.articleUrl}/${article.code}" />" title="<spring:message code="view.detail" />"  class="blue-color link"><spring:message code="view.detail" /> &raquo; </a>
+					 				<div class="clear"></div>
+				 				</div>
+				 			</c:forEach>
+			 			</c:if>
 			 		</div>
 
 			 		<div class="hompage-right">
 			 			<strong class="head"><spring:message code="homepage.newest.standards" /></strong>
-			 			<c:forEach items="${model.standards}" var="standard">
-							<div class="norm">
-			 				<span class="edit"><joda:format value="${standard.changed}" pattern="dd.MM.yyyy"/></span>
-			 				<a href="" class="blue-color link">${standard.standardId}</a>
-			 				 <span>&nbsp; ${fn:substring(standard.standardName, 0, 90)} ...</span>
-			 				</div>	
-			 			</c:forEach>
+			 			<c:if test="${not empty model.standards}">
+				 			<c:forEach items="${model.standards}" var="standard">
+								<div class="norm">
+				 				<span class="edit"><joda:format value="${standard.changed}" pattern="dd.MM.yyyy"/></span>
+				 				<a href="" class="blue-color link">${standard.standardId}</a>
+				 				 <span>&nbsp; ${fn:substring(standard.standardName, 0, 20)}...</span>
+				 				</div>	
+				 			</c:forEach>
+			 			</c:if>
 			 		</div>
 										
 			 		<div class="clear"></div>

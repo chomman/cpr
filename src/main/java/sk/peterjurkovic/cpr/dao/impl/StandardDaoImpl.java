@@ -13,6 +13,7 @@ import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 
 @Repository("standardDao")
@@ -150,6 +151,17 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
 		return hqlQuery.list();
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup){
+		return sessionFactory.getCurrentSession()
+				.createQuery("from Standard s where s.enabled=true and s.standardGroup.id=:id order by s.standardId")
+				.setLong("id", StandardGroup.getId())
+				.setCacheable(true)
+				.setCacheRegion(CacheRegion.CPR_CACHE)
+				.list();
 	}
 	
 }
