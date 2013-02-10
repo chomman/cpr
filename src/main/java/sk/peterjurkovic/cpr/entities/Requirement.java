@@ -60,6 +60,7 @@ public class Requirement extends AbstractEntity {
 	}
 	
 	@Column(length = 50)
+	@Length( max = 50, message = "Úroveň obsahuje více než 50 znaků")
 	public String getLevels() {
 		return levels;
 	}
@@ -77,7 +78,8 @@ public class Requirement extends AbstractEntity {
 		this.note = note;
 	}
 	
-	@Column(length = 20)
+	@Column(length = 50)
+	@Length( max = 50, message = "Ustanovení obsahuje více než 50 znaků")
 	public String getSection() {
 		return section;
 	}

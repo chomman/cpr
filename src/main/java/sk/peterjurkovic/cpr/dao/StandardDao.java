@@ -27,4 +27,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	List<Standard> getLastEditedOrNewestStandards(int count);
 	
 	List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup);
+	
+	List<Standard> getStandardsByTagName(String tagName);
 }

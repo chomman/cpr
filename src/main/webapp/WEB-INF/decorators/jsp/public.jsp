@@ -62,5 +62,6 @@
 			${commonPublic.settings.googleAnalyticsTrackingCode}
 			</script>
 		</c:if> 
+		 <div id="base" class="hidden"><c:url value="/" /></div>
 	</body>
 </html>

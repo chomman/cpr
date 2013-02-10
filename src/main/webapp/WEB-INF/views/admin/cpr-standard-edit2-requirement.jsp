@@ -86,7 +86,7 @@
                 			<spring:message code="cpr.requirement.section" />
 	                	</label>
 	                    <span class="field">
-	                    	<form:input path="section" maxlength="20" cssClass="w100" />
+	                    	<form:input path="section" maxlength="50" cssClass="w300" />
 	                    </span>
                     </p>
      				<p>

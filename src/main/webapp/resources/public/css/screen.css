@@ -12,6 +12,19 @@ a{none;color:#3e4e69;}
 .radius,#noao .true{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 #wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
 
+/* DOP PAGE */
+#search-form{padding:25px 20px;background:#F5FBFF;font-size:16px;border:2px solid #DCECF5}
+#search-form label{font-weight:bold;margin-right:15px; }
+#search-form input.query{ padding:8px 10px;height:30px;font-size:16px;border:2px solid #aaa;width:550px;
+background: #f2f2f2;
+background: -moz-linear-gradient(top,  #f2f2f2 0%, #f6f6f6 53%, #ffffff 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(53%,#f6f6f6), color-stop(100%,#ffffff));
+background: -webkit-linear-gradient(top,  #f2f2f2 0%,#f6f6f6 53%,#ffffff 100%);
+background: -o-linear-gradient(top,  #f2f2f2 0%,#f6f6f6 53%,#ffffff 100%);
+background: -ms-linear-gradient(top,  #f2f2f2 0%,#f6f6f6 53%,#ffffff 100%);
+background: linear-gradient(to bottom,  #f2f2f2 0%,#f6f6f6 53%,#ffffff 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#ffffff',GradientType=0 );
+ } 
 
 .blue-color{color:#4390d7}
 .blue-bg{background-color: #4390d7}
@@ -122,7 +135,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8fc400', end
 
 /* CONTENT NOAO detail*/
 .nb-left{width:410px;float:left;}
-.nb-right{width:500px;background:red;float:left;margin:0 0 0 10px;border:5px solid #eee;}
+.nb-right{width:500px;float:left;margin:0 0 0 10px;border:5px solid #eee;}
 .nb-left ul{list-style:none;}
 .nb-left .bigger{font-size:16px;font-weight:bold;background:#fafafa;padding:15px 5px;}
 .nb-left ul li{padding:8px;border-bottom:1px solid #eee;}

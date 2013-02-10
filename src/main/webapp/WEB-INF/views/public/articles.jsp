@@ -22,14 +22,15 @@
 			 <div id="aktuality">
 			 	<c:forEach items="${model.articles}" var="article">
 					<div class="news">
-		 				<h2><a href="" class="blue-color">${article.title}</a></h2>
+		 				<h2><a href="<c:url value="${model.webpage.code}/${article.code}" />" class="blue-color">${article.title}</a></h2>
 		 				<span><spring:message code="published" />: 
 			 				<c:if test="${not empty article.publishedSince}">
 			 					<joda:format value="${article.publishedSince}" pattern="dd.MM.yyyy"/>
 			 				</c:if>
-			 				<c:if test="${empty article.publishedSince}">
+			 				<c:if test="${empty article.publishedSince }">
 			 					<joda:format value="${article.created}" pattern="dd.MM.yyyy"/>
 			 				</c:if>
+			 			
 		 				</span>
 		 				<p>${article.header}</p>
 		 				<a href="<c:url value="${model.webpage.code}/${article.code}" />"  title="<spring:message code="view.detail" />" class="detail"><spring:message code="view.detail" /> &raquo; </a>

@@ -163,5 +163,19 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 				.setCacheRegion(CacheRegion.CPR_CACHE)
 				.list();
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> getStandardsByTagName(String tagName) {
+		StringBuilder hql = new StringBuilder("from Standard standard ");
+		hql.append(" LEFT JOIN standard.tags as tag");
+		hql.append(" where standard.enabled=true and  tag.name like CONCAT('%', :tagName , '%')");
+		hql.append(" and size(standard.requirements) > 0");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setParameter("tagName", tagName);
+		hqlQuery.setMaxResults(50);
+		return hqlQuery.list();
+	}
 	
 }

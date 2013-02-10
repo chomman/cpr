@@ -19,44 +19,46 @@
 				${model.webpage.topText}
 			</article>
 			
-			<div id="noao">
 			
-			<table>
-			<c:forEach items="${model.notifiedBodies}" var="nb"  varStatus="status">
-	 			<c:if test="${prev != nb.country.id }">
-	 				<c:set value="${nb.country.id}" var="prev" />
-	 				<tr class="thhead">
-		 				<td>
-		 					<span>
-		 						<strong class="head">${nb.country.countryName}</strong>
-		 					</span>
-		 				</td>
-	 				</tr>
-	 				<tr>
- 						<th class="c code"><spring:message code="cpr.nb.code" /></th>
- 						<th class="l name"><spring:message code="cpr.nb.name" /></th>
- 						<th class="c city"><spring:message code="no.city" /></th>
- 						<th class="eta">&nbsp;</th>
-	 				</tr>
-	 			</c:if>
-	 		 
-	 		 	<tr class="hove">
-	 		 		<td class="c"><a href="<c:url value="/subjekt/${nb.code}" />">${nb.notifiedBodyCode}</a></td>
-	 		 		<td>${nb.name}</td>
-	 		 		<td class="c">
-	 		 			<c:if test="${not empty nb.address.city}">
-	 		 			${nb.address.city}
-	 		 			</c:if>
-	 		 		</td>
-	 		 		<td >
-	 		 			<c:if test="${nb.etaCertificationAllowed}">
-							<span class="true tt" title="<spring:message code="eta" />">ETA</span>
-						</c:if>
-	 		 		</td>
-	 		 	</tr>
-			</c:forEach>
-				</table>
-			</div>	
+			<c:if test="${model.webpage.webpageContent.id == 6}">
+				<div id="noao">
+				<table>
+				<c:forEach items="${model.notifiedBodies}" var="nb"  varStatus="status">
+		 			<c:if test="${prev != nb.country.id }">
+		 				<c:set value="${nb.country.id}" var="prev" />
+		 				<tr class="thhead">
+			 				<td>
+			 					<span>
+			 						<strong class="head">${nb.country.countryName}</strong>
+			 					</span>
+			 				</td>
+		 				</tr>
+		 				<tr>
+	 						<th class="c code"><spring:message code="cpr.nb.code" /></th>
+	 						<th class="l name"><spring:message code="cpr.nb.name" /></th>
+	 						<th class="c city"><spring:message code="no.city" /></th>
+	 						<th class="eta">&nbsp;</th>
+		 				</tr>
+		 			</c:if>
+		 		 
+		 		 	<tr class="hove">
+		 		 		<td class="c"><a href="<c:url value="/subjekt/${nb.code}" />">${nb.notifiedBodyCode}</a></td>
+		 		 		<td>${nb.name}</td>
+		 		 		<td class="c">
+		 		 			<c:if test="${not empty nb.address.city}">
+		 		 			${nb.address.city}
+		 		 			</c:if>
+		 		 		</td>
+		 		 		<td >
+		 		 			<c:if test="${nb.etaCertificationAllowed}">
+								<span class="true tt" title="<spring:message code="eta" />">ETA</span>
+							</c:if>
+		 		 		</td>
+		 		 	</tr>
+				</c:forEach>
+					</table>
+				</div>	
+			</c:if>
 			 <article>
 					${model.webpage.bottomText}
 			 </article>
