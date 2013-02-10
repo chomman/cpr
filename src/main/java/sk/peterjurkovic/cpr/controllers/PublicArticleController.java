@@ -40,7 +40,7 @@ public class PublicArticleController {
 		
 		Webpage webpage = webpageService.getWebpageByCode(ARTICLE_URL);
 		
-		if(webpage == null){
+		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		
@@ -64,7 +64,7 @@ public class PublicArticleController {
 		
 		Webpage webpage = webpageService.getWebpageByCode(ARTICLE_URL);
 		Article article = articleService.getArticleByCode(articleCode);
-		if(webpage == null || article == null){
+		if(webpage == null || article == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = new HashMap<String, Object>();

@@ -133,7 +133,14 @@ public class StandardServiceImpl implements StandardService {
 
 	
 	@Override
+	@Transactional(readOnly =  true )
 	public List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup) {
 		return standardDao.getStandardByStandardGroupForPublic(StandardGroup);
+	}
+
+	@Override
+	@Transactional(readOnly =  true )
+	public List<Standard> getStandardsByTagName(String tagName) {
+		return standardDao.getStandardsByTagName(tagName);
 	}
 }

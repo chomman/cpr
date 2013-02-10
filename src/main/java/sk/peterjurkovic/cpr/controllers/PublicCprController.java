@@ -61,7 +61,7 @@ public class PublicCprController {
 	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode(CPR_INDEX_URL);
-		if(webpage == null){
+		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = prepareBaseModel(webpage);
@@ -83,7 +83,7 @@ public class PublicCprController {
 	public String requirements(ModelMap modelmap) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode(CPR_BASIC_REQUREMENT_URL);
-		if(webpage == null){
+		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		
@@ -109,7 +109,7 @@ public class PublicCprController {
 		
 		BasicRequirement basicRequirement = basicRequirementService.getBasicRequirementByCode(code);
 		Webpage webpage = webpageService.getWebpageByCode(CPR_BASIC_REQUREMENT_URL);
-		if(basicRequirement == null || webpage == null){
+		if(basicRequirement == null || webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = prepareBaseModel(webpage);
@@ -130,7 +130,7 @@ public class PublicCprController {
 	public String assessmentSystems(ModelMap modelmap) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
-		if(webpage == null){
+		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = prepareBaseModel(webpage);
@@ -174,7 +174,7 @@ public class PublicCprController {
 	@RequestMapping(CPR_GROUPS_URL)
 	public String showCprGroups(ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
-		if(webpage == null){
+		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		List<StandardGroup> groups = standardGroupService.getStandardGroupsForPublic();
@@ -198,7 +198,7 @@ public class PublicCprController {
 	public String showCprGroupDetail(@PathVariable String groupCode, ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
 		StandardGroup group = standardGroupService.getStandardGroupByCode(groupCode);
-		if(webpage == null || group == null){
+		if(webpage == null || group == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = prepareBaseModel(webpage);
@@ -221,7 +221,7 @@ public class PublicCprController {
 	public String showStandardDetail(@PathVariable String standardCode, ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
 		Standard standard = standardService.getStandardByCode(standardCode);
-		if(webpage == null || standard == null){
+		if(webpage == null || standard == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = prepareBaseModel(webpage);

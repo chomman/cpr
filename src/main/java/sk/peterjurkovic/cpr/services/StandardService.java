@@ -35,4 +35,6 @@ public interface StandardService {
 	List<Standard> getLastEditedOrNewestStandards(int count);
 	
 	List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup);
+	
+	List<Standard> getStandardsByTagName(String tagName);
 }
