@@ -102,37 +102,39 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	private String prepareHqlForQuery(Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
-			if((String)criteria.get("query") != null){
+			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" s.standardId like CONCAT('%', :query , '%')");
 			}
-			if((DateTime)criteria.get("startValidity") != null){
-				where.add(" (s.startValidity<=:startValidity)");
+			if((DateTime)criteria.get("createdFrom") != null){
+				where.add(" s.created>=:createdFrom");
 			}
-			if((DateTime)criteria.get("stopValidity") != null){
-				where.add(" (s.stopValidity>=:stopValidity)");
+			if((DateTime)criteria.get("createdTo") != null){
+				where.add(" s.created<=:createdTo");
 			}
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
-				where.add(" (s.standardGroup.id=:groupId)");
+				where.add(" s.standardGroup.id=:groupId");
 			}
 		}
+		logger.info((where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : ""));
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
 
 	}
 	
 	private void prepareHqlQueryParams(Query hqlQuery, Map<String, Object> criteria){
 		if(criteria.size() != 0){
-			if((String)criteria.get("query") != null){
+			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));
 			}
-			DateTime startValidity = (DateTime)criteria.get("startValidity");
-			if(startValidity != null){
-				
-				hqlQuery.setTimestamp("startValidity", startValidity.toDate());
+			DateTime createdFrom = (DateTime)criteria.get("createdFrom");
+			if(createdFrom != null){
+				logger.info(createdFrom.toDate());
+				hqlQuery.setTimestamp("createdFrom", createdFrom.toDate());
 			}
-			DateTime stopValidity = (DateTime)criteria.get("stopValidity");
-			if(stopValidity != null){
-				hqlQuery.setTimestamp("stopValidity", stopValidity.toDate());
+			DateTime createdTo = (DateTime)criteria.get("createdTo");
+			if(createdTo != null){
+				logger.info(createdTo.toDate());
+				hqlQuery.setTimestamp("createdTo", createdTo.toDate());
 			}
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){

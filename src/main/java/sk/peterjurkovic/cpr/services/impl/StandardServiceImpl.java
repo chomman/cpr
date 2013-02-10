@@ -118,8 +118,8 @@ public class StandardServiceImpl implements StandardService {
 			criteria.put("standardGroup", ParseUtils.parseLongFromStringObject("standardGroup"));
 			criteria.put("groupId", ParseUtils.parseLongFromStringObject(criteria.get("groupId")));
 			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
-			criteria.put("startValidity", ParseUtils.parseDateTimeFromStringObject(criteria.get("startValidity")));
-			criteria.put("stopValidity", ParseUtils.parseDateTimeFromStringObject(criteria.get("stopValidity")));
+			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
+			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
 		}
 		return criteria;
 	}

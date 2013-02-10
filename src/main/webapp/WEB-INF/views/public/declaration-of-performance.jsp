@@ -24,7 +24,7 @@
 					Vyhledejte výrobek:
 				</label>	
 					<input type="text"  name="query" class="query" />
-					<input type="submit" value="Vyhledat" />
+					<input type="submit" value="Vyhledat" class="btn" />
 				
 			</form>
 			 <article>

@@ -54,10 +54,10 @@
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span><spring:message code="cpr.standard.validity.from" /></span>
-					<input type="text" class="date"  name="startValidity" value="<joda:format value="${model.params.startValidity}" pattern="dd.MM.yyyy"/>" />
+					<span><spring:message code="cpr.standard.added" /></span>
+					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
 					<span>do:</span>
-					<input type="text" class="date" name="stopValidity"  value="<joda:format value="${model.params.stopValidity}" pattern="dd.MM.yyyy"/>" />
+					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
 				<div>
