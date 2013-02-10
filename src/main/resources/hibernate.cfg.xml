@@ -27,6 +27,8 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.WebpageContent" />
 	<mapping class="sk.peterjurkovic.cpr.entities.Webpage" />
 	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.DeclarationOfPerformance"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
 	
 	 
  </session-factory>

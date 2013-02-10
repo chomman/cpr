@@ -12,7 +12,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
 
 
 @Entity
@@ -51,8 +50,7 @@ public class Requirement extends AbstractEntity {
 	}
 
 	@Column(name = "name", length = 100)
-	@NotEmpty(message = "Název musí být vyplněn.")
-	@Length(max = 100)
+	@Length(min =1,  max = 100, message = "Název musí být vyplněn.")
 	public String getName() {
 		return name;
 	}
