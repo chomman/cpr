@@ -7,7 +7,7 @@ body{font-family: Arial,Tahoma, sans-serif;background:url(../img/body.png) repea
 .hidden{ display:none;}
 .c{ text-align:center;}
 .l{ text-align:left;}
-a{text-decoration:none;color:#3e4e69;}
+a{none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
 .radius,#noao .true{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 #wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
@@ -76,7 +76,7 @@ nav{background:#8b8a8a url(../img/nav-bg.png) repeat-x;height:50px;padding-botto
 nav ul{list-style:none;padding:0 60px;background:url(../img/nav-bg2.png);}
 nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;}
 nav ul li:last-child{background:none;}
-nav ul li a{display:block;float:left;height:15px;padding:17px 15px;color:#fff;text-transform:uppercase;font-size:13px;margin:0 5 0 0px;}
+nav ul li a{display:block;text-decoration:none;float:left;height:15px;padding:17px 15px;color:#fff;text-transform:uppercase;font-size:13px;margin:0 5 0 0px;}
 nav ul li a:hover, nav .curr{background:#8b8a8a url(../img/nav-bg-hover.png);}
 
 /* CONTENT */
@@ -117,9 +117,16 @@ background: -webkit-linear-gradient(top,  #8fc400 0%,#719e00 100%);
 background: -o-linear-gradient(top,  #8fc400 0%,#719e00 100%);
 background: -ms-linear-gradient(top,  #8fc400 0%,#719e00 100%);
 background: linear-gradient(to bottom,  #8fc400 0%,#719e00 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8fc400', endColorstr='#719e00',GradientType=0 );
-}
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#8fc400', endColorstr='#719e00',GradientType=0 );}
 #noao .hove:hover{background:#EFF7FF;}
+
+/* CONTENT NOAO detail*/
+.nb-left{width:410px;float:left;}
+.nb-right{width:500px;background:red;float:left;margin:0 0 0 10px;border:5px solid #eee;}
+.nb-left ul{list-style:none;}
+.nb-left .bigger{font-size:16px;font-weight:bold;background:#fafafa;padding:15px 5px;}
+.nb-left ul li{padding:8px;border-bottom:1px solid #eee;}
+.nb-left,.nb-right{margin-bottom:40px;}
 
 /* CONTENT - HOME PAGE */
 #homepage{margin:45px 0;padding:20px 0;border-top:3px solid #eee;border-bottom:3px solid #eee;}

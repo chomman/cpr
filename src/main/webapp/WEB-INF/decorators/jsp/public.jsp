@@ -18,7 +18,7 @@
 			<!-- HEADER -->
 			<div class="border-top"></div>
 			<header class="page-width">
-				<a href="" id="logo"></a>
+				<a href="<c:url value="/" />" id="logo"></a>
 					<strong>
 						<span class="is">${commonPublic.settings.systemName}</span>
 						<span class="is-name">${commonPublic.settings.headerTitle}</span>

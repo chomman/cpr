@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.controllers.admin.SupportAdminController;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 
 
 @Controller
@@ -23,6 +24,10 @@ public class AccessController extends SupportAdminController {
 	  
 	  if(error != null && error.equals("1")){
 		  model.put("loginError", "1");
+	  }
+	  
+	  if(UserUtils.getLoggedUser() != null){
+		  return "redirect:/admin/";
 	  }
 	  
 	  return "/admin/login";
