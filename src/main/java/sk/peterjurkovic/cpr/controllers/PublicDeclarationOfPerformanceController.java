@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.services.AssessmentSystemService;
+import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.TagService;
 import sk.peterjurkovic.cpr.services.WebpageService;
@@ -34,6 +37,12 @@ public class PublicDeclarationOfPerformanceController {
 	private TagService tagService;
 	@Autowired
 	private StandardService standardService;
+	@Autowired
+	private AssessmentSystemService assessmentSystemService;
+	@Autowired
+	private NotifiedBodyService notifiedBodyService;
+	
+	
 	
 	public static final String DOP_URL = "/vygenerovat-prohlaseni";
 	
@@ -63,8 +72,8 @@ public class PublicDeclarationOfPerformanceController {
 		return "/public/declaration-of-performance";
 	}
 	
-	@RequestMapping(DOP_FORM_URL +"{standardCode}")
-	public String showForm(@PathVariable String standardCode,  ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
+	@RequestMapping(value = DOP_FORM_URL +"{standardCode}", method = RequestMethod.GET)
+	public String showForm(@PathVariable String standardCode,  ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode(DOP_FORM_URL);
 		if(webpage == null || !webpage.getEnabled()){
@@ -74,7 +83,10 @@ public class PublicDeclarationOfPerformanceController {
 		Map<String, Object> model = new HashMap<String, Object>();		
 		model.put("webpage", webpage);
 		model.put("tab", webpage.getId());
-		modelmap.put("model", model);
+		model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
+		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
+		modelMap.put("model", model);
+		modelMap.addAttribute("declarationOfPerformance", createEmpty());
 		return "/public/declaration-of-performance-form";
 	}
 	
@@ -85,4 +97,10 @@ public class PublicDeclarationOfPerformanceController {
 		return tagService.searchInTags(query);
 	}
 	
+	
+	public DeclarationOfPerformance createEmpty(){
+		DeclarationOfPerformance form = new DeclarationOfPerformance();
+		form.setId(0l);
+		return form;
+	}
 }

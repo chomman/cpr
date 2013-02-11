@@ -1,4 +1,5 @@
-
+.w300{width:300px;}
+.w600{width:600px;}
 *{border:none;padding:0px;margin:0px;}
 html, body {	height: 100%;}
 header, footer, nav, aside, article, section{display:block }
@@ -17,7 +18,7 @@ a{none;color:#3e4e69;}
 #search-form{padding:15px 20px;margin:30px 0;background:#F5FBFF;font-size:15px;border:2px solid #DCECF5;position:relative;}
 #search-form label{font-weight:bold;margin-right:15px; }
 #search-form input.query{ padding:8px 10px;height:25px;font-size:16px;border:2px solid #aaa;width:550px;
-background: #f2f2f2;
+background: #f2f2f2;color:#fff;font-style:normal;
 background: -moz-linear-gradient(top,  #f2f2f2 0%, #f6f6f6 53%, #ffffff 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f2f2f2), color-stop(53%,#f6f6f6), color-stop(100%,#ffffff));
 background: -webkit-linear-gradient(top,  #f2f2f2 0%,#f6f6f6 53%,#ffffff 100%);
@@ -100,6 +101,25 @@ background: linear-gradient(to bottom,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#ededed',GradientType=0 );
 }
 .right-panel .br li a:hover{background:#fafafa url(../img/arrow-right.png) no-repeat center right;}
+
+/* DOP FORM*/
+
+#dop{}
+#dop .fitem{background:#fcfcfc;border:2px solid #eee;margin:5px 0;font-size:13px;padding:10px;}
+#dop .fitem label{display:block;width:230px;padding:10px;text-align:right;font-weight:bold;float:left;}
+#dop .fitem input,#dop .fitem textarea,#dop .fitem select{background:#fff; padding:8px 10px;border:2px solid #ccc;display:block;float:left;}
+#dop .fitem p{background:#fff;display:block;margin:15px 0 5px 250px;}
+#dop .fitem optgroup{padding:12px 5px;background: #258dc8;font-style:normal;color:#fff;
+background: -moz-linear-gradient(top,  #258dc8 0%, #235ebc 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#258dc8), color-stop(100%,#235ebc));
+background: -webkit-linear-gradient(top,  #258dc8 0%,#235ebc 100%);
+background: -o-linear-gradient(top,  #258dc8 0%,#235ebc 100%);
+background: -ms-linear-gradient(top,  #258dc8 0%,#235ebc 100%);
+background: linear-gradient(to bottom,  #258dc8 0%,#235ebc 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#258dc8', endColorstr='#235ebc',GradientType=0 );
+}
+#dop .fitem option{padding:5px 3px 5px 10px;border-bottom:1px solid #eee;}
+
 
 /* HEADER */
 #logo{display:inline-block;width:150px;background:url(../img/logo.png) no-repeat center;height:125px;float:left;}

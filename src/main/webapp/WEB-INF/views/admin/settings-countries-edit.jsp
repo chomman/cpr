@@ -2,9 +2,9 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <!DOCTYPE html>
 <html>
-<head>
-<title><spring:message code="settings.countries.edit" /></title>
-</head>
+	<head>
+		<title><spring:message code="settings.countries.edit" /></title>
+	</head>
 <body>
 	<div id="wrapper">
 	<div id="left">
