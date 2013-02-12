@@ -23,6 +23,7 @@
 				<c:url value="/dop/form" var="formUrl"/>	
 				<form:form commandName="declarationOfPerformance" id="dop" method="post" action="${formUrl}" >
 					<div class="fitem">
+						<span class="no">1</span>
 						<label><spring:message code="dop.numberofdeclaration" /></label>
 						<form:input cssClass="w300 required" path="numberOfDeclaration" />
 						<div class="clear"></div>
@@ -30,6 +31,7 @@
 					
 					
 					<div class="fitem">
+						<span class="no">2</span>
 						<label><spring:message code="dop.productid" /></label>
 						<form:input cssClass="w300 required" path="productId" />
 						<div class="clear"></div>
@@ -38,6 +40,7 @@
 					
 					
 					<div class="fitem">
+						<span class="no">3</span>
 						<label><spring:message code="dop.serialid" /></label>
 						<form:input cssClass="w300 required" path="serialId" />
 						<div class="clear"></div>
@@ -46,6 +49,7 @@
 					
 					
 					<div class="fitem">
+						<span class="no">4</span>
 						<label><spring:message code="dop.intendedUse" /></label>
 						<form:textarea cssClass="w600 h80 required" path="intendedUse" rows="3" />
 						<div class="clear"></div>
@@ -54,12 +58,23 @@
 					
 					
 					<div class="fitem">
+						<span class="no">5</span>
+						<label><spring:message code="dop.manufacturer" /></label>
+						<form:textarea cssClass="w600 h80 required" path="manufacturer" rows="3" />
+						<div class="clear"></div>
+						<p><spring:message code="dop.manufacturer.info" /></p>
+					</div>
+					
+					
+					<div class="fitem">
+						<span class="no">6</span>
 						<label><spring:message code="dop.authorisedRepresentative" /></label>
 						<form:textarea cssClass="w600 h80 required" path="authorisedRepresentative" rows="3" />
 						<div class="clear"></div>
 					</div>
 					
 					<div class="fitem">
+						<span class="no">7</span>
 						<label><spring:message code="dop.assessmentSystem" /></label>
 						<form:select  path="assessmentSystem" cssClass="w300 required">
 							<form:options items="${model.assessmentSystems}" itemValue="id" itemLabel="name" />
@@ -68,6 +83,7 @@
 					</div>
 					
 					<div class="fitem">
+						<span class="no">8</span>
 						<label><spring:message code="dop.notifiedBody" /></label>
 						<form:select path="notifiedBody" cssClass="w600" >
 						
@@ -88,6 +104,42 @@
 						<div class="clear"></div>
 					</div>
 					
+					<div class="fitem">
+						<span class="no">9</span>
+						<label><spring:message code="dop.ehn" /></label>
+						<span class="norm-wrapper">
+						<a href="<c:url value="/ehn/${model.standard.code}" />" target="_blank">${model.standard.standardId}</a>
+						(<em>${model.standard.standardName}</em>)
+						</span>
+						<div class="clear"></div>
+					</div>
+					
+					<table>
+						<thead>
+							<tr>
+								<th><spring:message code="dop.table.essentialCharacteristics" /></th>
+								<th><spring:message code="cpr.requirement.level" /></th>
+								<th><spring:message code="dop.table.performance" /></th>
+								<th><spring:message code="dop.table.value" /></th>
+								<th><spring:message code="dop.table.ehn" /></th>
+							</tr>
+						</thead>
+						
+						<tbody>
+							<c:forEach items="${model.requirements}" var="i">
+								<tr>
+									<td>${i.name}</td>
+									<td>${i.levels}</td>
+									<td>${i.note}</td>
+									<td><input type="text" name="value" /></td>
+									<td>
+										<a href="<c:url value="/ehn/${model.standard.code}" />" target="_blank">${model.standard.standardId}</a> 
+										<em>${i.section}</em>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
 					
 				</form:form>
 			
