@@ -7,9 +7,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,7 @@ import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
@@ -30,6 +33,7 @@ import sk.peterjurkovic.cpr.services.RequirementService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.TagService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.web.forms.DeclarationOfPerformaceForm;
 
 @Controller
 public class PublicDeclarationOfPerformanceController {
@@ -54,6 +58,7 @@ public class PublicDeclarationOfPerformanceController {
 	
 	public static final String DOP_FORM_URL = "/vygenerovat-prohlaseni/form/";
 	
+	private Logger logger = Logger.getLogger(getClass());
 	
 	@RequestMapping(DOP_URL)
 	public String showSearchSection(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
@@ -78,6 +83,9 @@ public class PublicDeclarationOfPerformanceController {
 		return "/public/declaration-of-performance";
 	}
 	
+	
+	
+	
 	@RequestMapping(value = DOP_FORM_URL +"{standardCode}", method = RequestMethod.GET)
 	public String showForm(@PathVariable String standardCode,  ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		
@@ -92,15 +100,30 @@ public class PublicDeclarationOfPerformanceController {
 		model.put("webpage", webpage);
 		model.put("tab", webpage.getId());
 		model.put("standard", standard);
-		model.put("requirements", requirementService.getRequirementsByCountryAndStandard(country, standard));
+		model.put("requiremets", requirementService.getRequirementsByCountryAndStandard(country, standard));
 		model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
 		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
 		modelMap.put("model", model);
-		modelMap.addAttribute("declarationOfPerformance", createEmpty());
+		modelMap.addAttribute("declarationOfPerformance", createEmpty(standard));
 		return "/public/declaration-of-performance-form";
 	}
 	
-	
+	@RequestMapping( value = "/dop", method = RequestMethod.POST)
+	public String processSubmit(DeclarationOfPerformance form, BindingResult result, ModelMap model) throws ItemNotFoundException {
+		
+		
+		if(result.hasErrors()){
+			logger.info("Has some errors ..");
+			
+		}
+		
+		
+		
+		
+
+		
+		return "/public/declaration-of-performance-form";
+	}
 	
 	@RequestMapping(value = "/tag/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<Tag>  searchInTags(@RequestBody @RequestParam("term") String query){
@@ -108,8 +131,14 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	
-	public DeclarationOfPerformance createEmpty(){
-		DeclarationOfPerformance form = new DeclarationOfPerformance();
+	public DeclarationOfPerformaceForm createEmpty(Standard standard){
+		DeclarationOfPerformaceForm form = new DeclarationOfPerformaceForm();
+		
+		/*List<Requirement> requiremets = requirementService.getRequirementsByCountryAndStandard(country, standard);
+		if(requiremets != null){
+			form.createCharacteristics(requiremets);
+		}*/
+		form.setStandard(standard);
 		form.setId(0l);
 		return form;
 	}

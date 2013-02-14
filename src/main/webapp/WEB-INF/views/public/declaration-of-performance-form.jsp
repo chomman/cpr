@@ -20,7 +20,7 @@
 			</article>
 			<c:if test="${model.webpage.webpageContent.id == 8}">
 				
-				<c:url value="/dop/form" var="formUrl"/>	
+				<c:url value="/dop" var="formUrl"/>	
 				<form:form commandName="declarationOfPerformance" id="dop" method="post" action="${formUrl}" >
 					<div class="fitem">
 						<span class="no">1</span>
@@ -126,12 +126,12 @@
 						</thead>
 						
 						<tbody>
-							<c:forEach items="${model.requirements}" var="i">
+							<c:forEach items="${model.requiremets}" var="i" varStatus="status">
 								<tr>
 									<td>${i.name}</td>
 									<td>${i.levels}</td>
 									<td>${i.note}</td>
-									<td><input type="text" name="value" /></td>
+									<td><input type="text" name="characteristics[${status.index}].value" /></td>
 									<td>
 										<a href="<c:url value="/ehn/${model.standard.code}" />" target="_blank">${model.standard.standardId}</a> 
 										<em>${i.section}</em>
@@ -140,7 +140,7 @@
 							</c:forEach>
 						</tbody>
 					</table>
-					
+					 <input type="submit" class="button" value="<spring:message code="form.save" />" />
 				</form:form>
 			
 			
