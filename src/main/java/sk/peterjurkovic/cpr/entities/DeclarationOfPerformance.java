@@ -52,6 +52,8 @@ public class DeclarationOfPerformance {
 	private String signedManufacturer;
 	
 	private DateTime created;
+	
+	private String token;
 
 	
 	public DeclarationOfPerformance(){
@@ -197,6 +199,14 @@ public class DeclarationOfPerformance {
 
 	public void setCreated(DateTime created) {
 		this.created = created;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	

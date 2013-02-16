@@ -63,7 +63,7 @@
 										 			</c:if>
 										 		</td>
 										 		<td class="as c">
-										 			<a class="btn-next" href="<c:url value="/vygenerovat-prohlaseni/form/${i.code}" />">
+										 			<a class="btn-next" href="<c:url value="${model.url}?ehn=${i.code}" />">
 										 				<spring:message code="next" /> &raquo;
 										 			</a>
 										 		</td>
