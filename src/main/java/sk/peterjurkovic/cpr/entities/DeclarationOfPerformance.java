@@ -71,8 +71,6 @@ public class DeclarationOfPerformance {
 		this.id = id;
 	}
 
-	
-	@Length(min =1, max = 50, message = "Číslo prohlášení musí být vyplněno.")
 	@Column(name = "number_of_declaration", length = 50)	
 	public String getNumberOfDeclaration() {
 		return numberOfDeclaration;
@@ -82,8 +80,6 @@ public class DeclarationOfPerformance {
 		this.numberOfDeclaration = numberOfDeclaration;
 	}
 
-	
-	@Length(min =1, max = 100, message = "Identifikátor výrobku musí být vyplněn.")
 	@Column(name = "product_id", length = 100)
 	public String getProductId() {
 		return productId;
@@ -94,8 +90,7 @@ public class DeclarationOfPerformance {
 		this.productId = productId;
 	}
 
-	@Length(min =1, max = 100, message = "Sériové číslo výrobku musí být vyplněno.")
-	@Column(name = "serial_id", length = 100, nullable = false)
+	@Column(name = "serial_id", length = 100)
 	public String getSerialId() {
 		return serialId;
 	}
@@ -116,7 +111,6 @@ public class DeclarationOfPerformance {
 		this.intendedUse = intendedUse;
 	}
 
-	@Length(min =1, max = 255, message = "Výrobce musí být vyplněn.")
 	public String getManufacturer() {
 		return manufacturer;
 	}
@@ -126,7 +120,6 @@ public class DeclarationOfPerformance {
 		this.manufacturer = manufacturer;
 	}
 
-	@Length(max = 255, message = "Zplnomocněný zástupce obsahuje více než 255 znaků.")
 	public String getAuthorisedRepresentative() {
 		return authorisedRepresentative;
 	}

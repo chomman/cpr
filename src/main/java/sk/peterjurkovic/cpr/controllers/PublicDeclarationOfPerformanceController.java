@@ -1,12 +1,15 @@
 package sk.peterjurkovic.cpr.controllers;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +25,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
+import sk.peterjurkovic.cpr.entities.EssentialCharacteristic;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
+import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.entities.Webpage;
@@ -180,19 +186,56 @@ public class PublicDeclarationOfPerformanceController {
 		DeclarationOfPerformanceForm form = new DeclarationOfPerformanceForm();
 		DeclarationOfPerformance dop = new DeclarationOfPerformance();
 		dop.setStandard(standard);
+		form.createCharacteristics(standard.getRequirements());
 		dop.setId(0l);
 		form.setDeclarationOfPerformance(dop);
 		return form;
 	}
 	
-	private void createOrUpdate(DeclarationOfPerformanceForm form){
+	private void createOrUpdate(DeclarationOfPerformanceForm form) throws PageNotFoundEception{
+		DeclarationOfPerformance dopWebForm = form.getDeclarationOfPerformance();
+		DeclarationOfPerformance dop = null;
+		if(dopWebForm.getId() == null || (dopWebForm.getId() == 0)){
+			dop = new DeclarationOfPerformance();
+			dop.setToken(RandomStringUtils.randomAlphanumeric(Constants.DOP_TOKEN_LENGTH));
+		}else{
+			dop = declarationOfPerformanceService.getDopById(dopWebForm.getId());
+			if(dop == null){
+				throw new PageNotFoundEception();
+			}
+		}
 		
-		DeclarationOfPerformance dop = form.getDeclarationOfPerformance();
-		dop.setEssentialCharacteristics(form.getEssentialCharacteristics());
+		dop.setAssessmentSystem(dopWebForm.getAssessmentSystem());
+		dop.setAuthorisedRepresentative(dopWebForm.getAuthorisedRepresentative());
+		dop.setEssentialCharacteristics(prepareCharacteristics(form.getCharacteristics(), dop));
+		dop.setIntendedUse(dopWebForm.getIntendedUse());
+		dop.setManufacturer(dopWebForm.getManufacturer());
+		dop.setNotifiedBody(dopWebForm.getNotifiedBody());
+		dop.setNumberOfDeclaration(dopWebForm.getNumberOfDeclaration());
+		dop.setProductId(dopWebForm.getProductId());
+		dop.setSerialId(dopWebForm.getSerialId());
+		dop.setStandard(dopWebForm.getStandard());
+
+		//dop.setEssentialCharacteristics(prepareCharacteristics(form.getCharacteristics()));
 		
-		if(dop.getId() == 0){
+		if(dop.getId() == null){
 			declarationOfPerformanceService.createDoP(dop);
 		}
 		
 	}
+	
+	
+	private Set<EssentialCharacteristic> prepareCharacteristics(List<EssentialCharacteristic> characteristics, DeclarationOfPerformance dop){
+		Set<EssentialCharacteristic> newItems = new HashSet<EssentialCharacteristic>();
+			for(EssentialCharacteristic characteristic : characteristics){
+				Long id = characteristic.getRequirement().getId();
+				Requirement requirement = requirementService.getRequirementById(id);
+				characteristic.setRequirement(requirement);
+				characteristic.setDeclarationOfPerformance(dop);
+				newItems.add(characteristic);
+				
+			}
+		return newItems;
+	}
+	
 }

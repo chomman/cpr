@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
@@ -14,8 +15,6 @@ import sk.peterjurkovic.cpr.services.RequirementService;
 
 public class DeclarationOfPerformanceForm {
 	
-	@Autowired
-	private RequirementService requirementService;
 	
 	private DeclarationOfPerformance declarationOfPerformance;
 		
@@ -50,16 +49,16 @@ public class DeclarationOfPerformanceForm {
 			characteristics.add(item);
 		}
 	}
+	public void createCharacteristics(Set<Requirement> requirements) {
+		for(Requirement r : requirements){
+			EssentialCharacteristic item = new EssentialCharacteristic();
+			item.setRequirement(r);
+			characteristics.add(item);
+		}
+	}
 	
 	
 
-	public Set<EssentialCharacteristic> getEssentialCharacteristics(){
-		Set<EssentialCharacteristic> items = new HashSet<EssentialCharacteristic>();
-			for(EssentialCharacteristic item : characteristics){
-				item.setRequirement(requirementService.getRequirementById(item.getRequirement().getId()));
-			}
-		return items;
-	}
 	
 	
 }

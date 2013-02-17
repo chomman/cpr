@@ -129,17 +129,17 @@
 							</thead>
 							
 							<tbody>
-								<c:forEach items="${model.requiremets}" var="i" varStatus="status">
+								<c:forEach items="${declarationOfPerformance.characteristics}" var="i" varStatus="status">
 									<tr>
-										<td class="name">${i.name}</td>
-										<td class="level">${i.levels}</td>
+										<td class="name">${i.requirement.name}</td>
+										<td class="level">${i.requirement.levels}</td>
 										<td class="value">
-											<form:input path="characteristics[${status.index}].value"  cssClass="tt-form" title="${i.note}"  />
-											<input type="hidden" name="characteristics[${status.index}].requirement.id" value="${i.id}" />
+											<form:input path="characteristics[${status.index}].value"  cssClass="tt-form" title="${i.requirement.note}"  />
+											<form:hidden path="characteristics[${status.index}].requirement.id" />
 										</td>
 										<td class="ehn">
 											<a href="<c:url value="/ehn/${model.standard.code}" />" target="_blank">${model.standard.standardId}</a> 
-											<em>${i.section}</em>
+											<em>${i.requirement.section}</em>
 										</td>
 									</tr>
 								</c:forEach>

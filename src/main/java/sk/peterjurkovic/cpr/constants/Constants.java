@@ -114,4 +114,6 @@ public class Constants {
 	
 	public static final Long WEBPAGE_CATEGORY_CPR_SUBMENU = Long.valueOf(3);
 	
+	
+	public static final int DOP_TOKEN_LENGTH = 15;
 }
