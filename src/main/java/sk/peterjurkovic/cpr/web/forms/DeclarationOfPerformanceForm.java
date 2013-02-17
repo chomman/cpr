@@ -1,17 +1,12 @@
 package sk.peterjurkovic.cpr.web.forms;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.entities.EssentialCharacteristic;
 import sk.peterjurkovic.cpr.entities.Requirement;
-import sk.peterjurkovic.cpr.services.RequirementService;
 
 public class DeclarationOfPerformanceForm {
 	

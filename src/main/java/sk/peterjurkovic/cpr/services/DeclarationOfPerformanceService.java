@@ -18,5 +18,5 @@ public interface DeclarationOfPerformanceService {
 	
 	List<DeclarationOfPerformance> getAll();
 	
-	
+	DeclarationOfPerformance getByToken(String token);
 }

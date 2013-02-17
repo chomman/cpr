@@ -12,6 +12,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -161,7 +162,8 @@ public class DeclarationOfPerformance {
 	public void setNotifiedBody(NotifiedBody notifiedBody) {
 		this.notifiedBody = notifiedBody;
 	}
-
+	
+	@OrderBy("id")
 	@OneToMany(mappedBy = "declarationOfPerformance", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public Set<EssentialCharacteristic> getEssentialCharacteristics() {
 		return essentialCharacteristics;
@@ -193,7 +195,8 @@ public class DeclarationOfPerformance {
 	public void setCreated(DateTime created) {
 		this.created = created;
 	}
-
+	
+	@Column(length = 50)
 	public String getToken() {
 		return token;
 	}

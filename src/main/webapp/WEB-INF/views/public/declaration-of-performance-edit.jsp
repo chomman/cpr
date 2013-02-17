@@ -3,32 +3,20 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
-		<meta name="description" content="${model.webpage.description}" />
+		<title><spring:message code="dop" /></title>
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<span>${model.webpage.name}</span>
+			<span><spring:message code="dop" /></span>
 	</div> 
 
 		<div id="main-content">
-			<article>
-				${model.webpage.topText}
-			</article>
-			<c:if test="${model.webpage.webpageContent.id == 8}">
-				
-				<c:url value="${model.webpage.code}" var="formUrl"/>	
-
-				<jsp:include page="include/dop-form.jsp" />
-			
-			</c:if>
-			 <article>
-					${model.webpage.bottomText}
-			 </article>
-				
+			<h1>Editace <spring:message code="dop" /></h1>
+			<c:url value="/dop/edit" var="formUrl"/>	
+			<jsp:include page="include/dop-form.jsp" />	
 			 
 		</div>
 	</body>

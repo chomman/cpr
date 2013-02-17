@@ -54,4 +54,10 @@ public class DeclarationOfPerformanceServiceImpl implements DeclarationOfPerform
 		return declarationOfPerformanceDao.getAll();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public DeclarationOfPerformance getByToken(String token) {
+		return declarationOfPerformanceDao.getByToken(token);
+	}
+
 }

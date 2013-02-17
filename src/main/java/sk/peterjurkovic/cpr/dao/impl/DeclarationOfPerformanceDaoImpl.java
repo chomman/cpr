@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.dao.impl;
 
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.dao.DeclarationOfPerformanceDao;
@@ -13,5 +14,16 @@ public class DeclarationOfPerformanceDaoImpl
 	
 	public DeclarationOfPerformanceDaoImpl(){
 		super(DeclarationOfPerformance.class);
+	}
+
+	
+	@Override
+	public DeclarationOfPerformance getByToken(String token) {
+		return (DeclarationOfPerformance) sessionFactory.getCurrentSession()
+				.createCriteria(DeclarationOfPerformance.class)
+				.add( Restrictions.eq("token", token) )
+				.setMaxResults(1)
+				.uniqueResult();
+		
 	}
 }

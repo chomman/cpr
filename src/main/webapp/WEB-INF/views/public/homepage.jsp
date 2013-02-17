@@ -5,6 +5,7 @@
 	<head>
 		<title>${model.webpage.title}</title>
 		<meta name="description" content="${model.webpage.description}" />
+		
 	</head>
 	<body>
 		

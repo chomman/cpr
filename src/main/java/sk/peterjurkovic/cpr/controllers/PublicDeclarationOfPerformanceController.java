@@ -19,6 +19,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -45,6 +46,7 @@ import sk.peterjurkovic.cpr.services.RequirementService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.TagService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.validators.DeclarationOfPerformanceValidator;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyEditor;
 import sk.peterjurkovic.cpr.web.forms.DeclarationOfPerformanceForm;
@@ -70,6 +72,9 @@ public class PublicDeclarationOfPerformanceController {
 	private DeclarationOfPerformanceService declarationOfPerformanceService;
 	
 	@Autowired
+	private DeclarationOfPerformanceValidator declarationOfPerformanceValidator;
+	
+	@Autowired
 	private AssessmentSystemEditor assessmentSystemEditor;
 	@Autowired
 	private NotifiedBodyEditor notifiedBodyEditor;
@@ -77,6 +82,11 @@ public class PublicDeclarationOfPerformanceController {
 	public static final String DOP_URL = "/vygenerovat-prohlaseni";
 	
 	public static final String DOP_FORM_URL = "/vygenerovat-prohlaseni/form/";
+	
+	public static final String DOP_SHOW_URL = "/dop/";
+	
+	public static final String DOP_EDIT_URL = "/dop/edit/";
+	
 	
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -115,6 +125,9 @@ public class PublicDeclarationOfPerformanceController {
 	
 	
 	
+	
+	
+	
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.GET)
 	public String showForm(@RequestParam(value="ehn", required=false) String standardCode, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		
@@ -122,19 +135,43 @@ public class PublicDeclarationOfPerformanceController {
 		if(standardCode == null){
 			throw new PageNotFoundEception();
 		}
-		
 		Webpage webpage = webpageService.getWebpageByCode(DOP_FORM_URL);
 		Standard standard = standardService.getStandardByCode(standardCode);
-		
 		if(webpage == null || !webpage.getEnabled() || standard == null  ){
 			throw new PageNotFoundEception();
 		}
-		
 		prepareModel(webpage, standard, modelMap, createEmptyForm(standard));
 		return "/public/declaration-of-performance-form";
 	}
 	
 	
+	
+	@RequestMapping(DOP_EDIT_URL + "{token}")
+	public String showEditForm(@PathVariable String token, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
+		if(token == null){
+			throw new PageNotFoundEception();
+		}
+		DeclarationOfPerformanceForm form = new DeclarationOfPerformanceForm();
+		form.setDeclarationOfPerformance(dop);
+		form.setCharacteristics(dop.getEssentialCharacteristics());
+		prepareModel(null, dop.getStandard(), modelMap, form);
+		return "/public/declaration-of-performance-edit";
+	}
+	
+	
+	
+	@RequestMapping(value = DOP_EDIT_URL + "{token}", method = RequestMethod.POST)
+	public String processEditSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException, PageNotFoundEception {
+		declarationOfPerformanceValidator.validate(result, form);
+		if(result.hasErrors()){
+			prepareModel(null, form.getDeclarationOfPerformance().getStandard(), modelMap, form);
+			return "/public/declaration-of-performance-edit";
+		}else{
+			DeclarationOfPerformance dop = createOrUpdate(form);
+			return "redirect:" + DOP_SHOW_URL  + dop.getToken() + "?success=1";
+		}
+	}
 	
 	
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.POST)
@@ -147,18 +184,38 @@ public class PublicDeclarationOfPerformanceController {
 			throw new PageNotFoundEception();
 		}
 		form.getDeclarationOfPerformance().setStandard(standard);
-		
+		declarationOfPerformanceValidator.validate(result, form);
 		if(result.hasErrors()){
 			logger.info("Has some errors ..");
-			
+			prepareModel(webpage, standard, modelMap, form);
+			return "/public/declaration-of-performance-form";
 		}else{
-			createOrUpdate(form);
-        }
-		prepareModel(webpage, standard, modelMap, form);
-		return "/public/declaration-of-performance-form";
+			DeclarationOfPerformance dop = createOrUpdate(form);
+			return "redirect:" + DOP_SHOW_URL  + dop.getToken() + "?success=1";
+		}
 	}
 	
+	
+	
+	@RequestMapping(DOP_SHOW_URL + "{token}")
+	public String showDeclarationOfPerformance(@PathVariable String token, ModelMap modelMap, HttpServletRequest request){
+		Map<String, Object> model = new HashMap<String, Object>();
 		
+		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
+		
+		if(dop == null){
+			modelMap.put("dopNotFound", true);
+		}else{
+			if(request.getParameter("success") != null){
+				model.put("success", true);
+			}
+			model.put("dop", dop);
+			modelMap.put("model", model);
+		}
+		
+		return "/public/declaration-of-performance-view"; 
+	}
+	
 	
 	@RequestMapping(value = "/tag/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<Tag>  searchInTags(@RequestBody @RequestParam("term") String query){
@@ -169,30 +226,37 @@ public class PublicDeclarationOfPerformanceController {
 	
 	
 	public void prepareModel(Webpage webpage, Standard standard, ModelMap modelMap, DeclarationOfPerformanceForm form){
-		Country country = countryService.getCountryById(1L);
+		//Country country = countryService.getCountryById(1L);
 		Map<String, Object> model = new HashMap<String, Object>();		
-		model.put("webpage", webpage);
-		model.put("tab", webpage.getId());
-		model.put("url", DOP_FORM_URL + standard.getCode());
+		if(webpage != null){
+			model.put("webpage", webpage);
+			model.put("tab", webpage.getId());
+			model.put("url", DOP_FORM_URL + standard.getCode());
+		}
 		model.put("standard", standard);
-		model.put("requiremets", requirementService.getRequirementsByCountryAndStandard(country, standard));
+		//model.put("requiremets", requirementService.getRequirementsByCountryAndStandard(country, standard));
 		model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
 		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
 		modelMap.put("model", model);
 		modelMap.addAttribute("declarationOfPerformance", form);
 	}
 	
+	
+	
 	public DeclarationOfPerformanceForm createEmptyForm(Standard standard){
 		DeclarationOfPerformanceForm form = new DeclarationOfPerformanceForm();
+		Country country = countryService.getCountryById(1L);
 		DeclarationOfPerformance dop = new DeclarationOfPerformance();
 		dop.setStandard(standard);
-		form.createCharacteristics(standard.getRequirements());
+		form.createCharacteristics(requirementService.getRequirementsByCountryAndStandard(country, standard));
 		dop.setId(0l);
 		form.setDeclarationOfPerformance(dop);
 		return form;
 	}
 	
-	private void createOrUpdate(DeclarationOfPerformanceForm form) throws PageNotFoundEception{
+	
+	
+	private DeclarationOfPerformance createOrUpdate(DeclarationOfPerformanceForm form) throws PageNotFoundEception{
 		DeclarationOfPerformance dopWebForm = form.getDeclarationOfPerformance();
 		DeclarationOfPerformance dop = null;
 		if(dopWebForm.getId() == null || (dopWebForm.getId() == 0)){
@@ -204,7 +268,6 @@ public class PublicDeclarationOfPerformanceController {
 				throw new PageNotFoundEception();
 			}
 		}
-		
 		dop.setAssessmentSystem(dopWebForm.getAssessmentSystem());
 		dop.setAuthorisedRepresentative(dopWebForm.getAuthorisedRepresentative());
 		dop.setEssentialCharacteristics(prepareCharacteristics(form.getCharacteristics(), dop));
@@ -214,15 +277,16 @@ public class PublicDeclarationOfPerformanceController {
 		dop.setNumberOfDeclaration(dopWebForm.getNumberOfDeclaration());
 		dop.setProductId(dopWebForm.getProductId());
 		dop.setSerialId(dopWebForm.getSerialId());
-		dop.setStandard(dopWebForm.getStandard());
-
-		//dop.setEssentialCharacteristics(prepareCharacteristics(form.getCharacteristics()));
 		
-		if(dop.getId() == null){
+		if(dop.getId() == null || dop.getId() == 0){
+			dop.setStandard(dopWebForm.getStandard());
 			declarationOfPerformanceService.createDoP(dop);
+		}else{
+			declarationOfPerformanceService.updateDop(dop);
 		}
-		
+		return dop;
 	}
+	
 	
 	
 	private Set<EssentialCharacteristic> prepareCharacteristics(List<EssentialCharacteristic> characteristics, DeclarationOfPerformance dop){
