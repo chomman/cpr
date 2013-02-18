@@ -33,7 +33,9 @@ public class DeclarationOfPerformanceServiceImpl implements DeclarationOfPerform
 
 	@Override
 	public void deleteDop(DeclarationOfPerformance dop) {
-		declarationOfPerformanceDao.remove(dop);
+		if(dop != null){
+			declarationOfPerformanceDao.remove(dop);
+		}
 	}
 
 	@Override

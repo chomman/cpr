@@ -6,6 +6,7 @@
 		<title>${model.webpage.title}</title>
 		<meta name="description" content="${model.webpage.description}" />
 		<script src="<c:url value="/resources/public/js/tag.autocomplete.js" />"></script>
+		<script src="<c:url value="/resources/public/js/storage.js" />"></script>
 	</head>
 	<body>
 		
@@ -16,11 +17,19 @@
 	</div> 
 
 		<div id="main-content">
+		
+			<c:if test="${model.successDelete}">
+				<p class="msg ok"><spring:message code="dop.successDelete" /></p>
+			</c:if>
+		
 			<article>
 				${model.webpage.topText}
 			</article>
 			
 			<c:if test="${model.webpage.webpageContent.id == 7}">
+			
+			<div id="localStorage"></div>				
+				
 				<form id="search-form" method="get">
 				<span class="step"><spring:message code="dop.step1" /></span>
 					<label for="query">

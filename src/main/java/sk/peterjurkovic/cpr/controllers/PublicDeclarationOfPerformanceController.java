@@ -87,6 +87,8 @@ public class PublicDeclarationOfPerformanceController {
 	
 	public static final String DOP_EDIT_URL = "/dop/edit/";
 	
+	public static final String DOP_DELETE_URL = "/dop/delete/";
+	
 	
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -107,7 +109,6 @@ public class PublicDeclarationOfPerformanceController {
 		}
 				
 		Map<String, Object> model = new HashMap<String, Object>();
-		
 		String query = request.getParameter("query");
 		if(StringUtils.isNotBlank(query)){
 			List<Standard> standards = standardService.getStandardsByTagName(query);
@@ -116,18 +117,17 @@ public class PublicDeclarationOfPerformanceController {
 			model.put("url", DOP_FORM_URL);
 		}
 		
+		if(request.getParameter("successDelete") != null){
+			model.put("successDelete", true);
+		}
+		
 		model.put("webpage", webpage);
 		model.put("tab", webpage.getId());
 		modelmap.put("model", model);
 		return "/public/declaration-of-performance";
 	}
 	
-	
-	
-	
-	
-	
-	
+
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.GET)
 	public String showForm(@RequestParam(value="ehn", required=false) String standardCode, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		
@@ -161,6 +161,18 @@ public class PublicDeclarationOfPerformanceController {
 	
 	
 	
+	@RequestMapping(DOP_DELETE_URL + "{token}")
+	public String deleteDoP(@PathVariable String token, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
+		if(token == null){
+			throw new PageNotFoundEception();
+		}
+		declarationOfPerformanceService.deleteDop(dop);
+		return "redirect:" + DOP_URL + "?successDelete=1";
+	}
+	
+	
+	
 	@RequestMapping(value = DOP_EDIT_URL + "{token}", method = RequestMethod.POST)
 	public String processEditSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException, PageNotFoundEception {
 		declarationOfPerformanceValidator.validate(result, form);
@@ -176,10 +188,8 @@ public class PublicDeclarationOfPerformanceController {
 	
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException, PageNotFoundEception {
-		
 		Webpage webpage = webpageService.getWebpageByCode(DOP_FORM_URL);
 		Standard standard = standardService.getStandardByCode(form.getDeclarationOfPerformance().getStandard().getCode());
-		
 		if(webpage == null || !webpage.getEnabled() || standard == null  ){
 			throw new PageNotFoundEception();
 		}

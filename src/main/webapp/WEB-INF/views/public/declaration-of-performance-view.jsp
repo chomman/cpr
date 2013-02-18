@@ -5,7 +5,6 @@
 	<head>
 		<title><spring:message code="dop" /></title>
 		<meta name="robots" content="noindex,follow"/>
-		<script src="<c:url value="/resources/admin/js/jquery-ui-1.9.2.custom.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/storage.js" />"></script>
 	</head>
 	<body>
@@ -22,6 +21,12 @@
 				<c:if test="${model.success}">
 					<script>var newDop = { token :  '${model.dop.token}', ehn : '${model.dop.standard.standardId}', system : '${model.dop.assessmentSystem.name}', created : new Date()  }; </script>
 				</c:if>
+				
+				<c:if test="${dopNotFound}">
+					<p class="error msg"><spring:message code="dop.dopNotFound" /> </p>
+				</c:if>
+				
+				<c:if test="${empty dopNotFound}">
 				
 				<h2 class="dop"><em><spring:message code="dop" /></em><span><strong>č.</strong> ${model.dop.numberOfDeclaration}</span></h2>
 				
@@ -131,7 +136,7 @@
 					</tr>
 				</table>				
 			
-				
+				</c:if>
 			 
 		</div>
 	</body>

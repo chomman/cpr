@@ -15,7 +15,7 @@ a{none;color:#3e4e69;}
 
 /* DOP local */
 
-#localStorage{ padding:15px;margin-bottom:25px;background:#FFF8F2;border:2px solid #FAF0E8; }
+#localStorage{ padding:15px;margin:25px 0;background:#FFF8F2;border:2px solid #FAF0E8; }
 #localStorage strong{display:block;margin:auto;text-align:center;}
 #localStorage table{margin:5px 0}
 #localStorage table th{ padding: 5px;}
@@ -26,7 +26,8 @@ h2.dop{padding:5px 0 15px 0;text-align:center;border-bottom:1px solid #555}
 h2.dop em{display:block;font-style:normal;}
 h2.dop span{font-size:14px;}
 
-.dop-{border:0;}
+
+.dop-items{border:0}
 .dop-items tr{border-bottom:1px dotted #ddd;}
 .dop-items tr.odd{ background:none; }
 .dop-items td{padding:15px 10px;vertical-align:text-top;}
