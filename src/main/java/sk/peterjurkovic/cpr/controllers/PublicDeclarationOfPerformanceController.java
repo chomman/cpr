@@ -7,12 +7,14 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -38,6 +40,7 @@ import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.export.PdfByXhtmlrendererView;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.DeclarationOfPerformanceService;
@@ -52,6 +55,7 @@ import sk.peterjurkovic.cpr.web.editors.NotifiedBodyEditor;
 import sk.peterjurkovic.cpr.web.forms.DeclarationOfPerformanceForm;
 
 @Controller
+@Scope("request")
 public class PublicDeclarationOfPerformanceController {
 
 	@Autowired
@@ -73,6 +77,9 @@ public class PublicDeclarationOfPerformanceController {
 	
 	@Autowired
 	private DeclarationOfPerformanceValidator declarationOfPerformanceValidator;
+	
+	@Autowired
+	private PdfByXhtmlrendererView pdfView;
 	
 	@Autowired
 	private AssessmentSystemEditor assessmentSystemEditor;
@@ -129,9 +136,8 @@ public class PublicDeclarationOfPerformanceController {
 	
 
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.GET)
-	public String showForm(@RequestParam(value="ehn", required=false) String standardCode, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+	public String showForm(@RequestParam(value="ehn", required=true) String standardCode, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		
-		//String standardCode = request.getParameter("ehn");
 		if(standardCode == null){
 			throw new PageNotFoundEception();
 		}
@@ -144,6 +150,21 @@ public class PublicDeclarationOfPerformanceController {
 		return "/public/declaration-of-performance-form";
 	}
 	
+	
+	@RequestMapping("/pdf")
+	public PdfByXhtmlrendererView exportPdf(HttpServletRequest request, HttpServletResponse response){
+		Map<String, Object> model = new HashMap<String, Object>();
+
+		pdfView.setOutputFileName("file.pdf");
+		pdfView.setFtlTemplateName("dop.ftl");
+        try {
+        	pdfView.renderMergedOutputModel(model, request, response);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+       return pdfView;
+	}
 	
 	
 	@RequestMapping(DOP_EDIT_URL + "{token}")

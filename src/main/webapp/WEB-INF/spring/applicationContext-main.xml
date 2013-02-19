@@ -43,7 +43,7 @@
      <context:component-scan base-package="sk.peterjurkovic.cpr.web">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
-   
+
    
    <!-- Konverzia objektov  -->
 	  <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -117,21 +117,25 @@
 	        </list>
 	    </property>
 	</bean>
-	<!-- 
-	<mvc:annotation-driven>
-        <mvc:message-converters>
-            <beans:bean class="org.springframework.http.converter.StringHttpMessageConverter" />
-            <beans:bean class="org.springframework.http.converter.ResourceHttpMessageConverter" />
-            <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-               <beans:property name="objectMapper">
-               	  <beans:bean class="sk.peterjurkovic.cpr.json.DateTimeMapper" />
-               </beans:property>
-            </beans:bean>
-        </mvc:message-converters>
-    </mvc:annotation-driven>
-	 -->
+	 
+	
+	 
+	<!-- freemarker -->
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+	  <property name="templateLoaderPath" value="/WEB-INF/templates/"/>
+    </bean>
+       
+    <bean id="pdfView" scope="request" class="sk.peterjurkovic.cpr.export.PdfByXhtmlrendererView" />
 
-    
-    
+    <bean id="pdfByXhtmlrendererExporter" scope="singleton" class="sk.peterjurkovic.cpr.export.PdfByXhtmlrendererExporter">
+        <property name="fonts">
+        	<list>
+        		<value>/fonts/times.ttf</value>
+        		<value>/fonts/timesbd.ttf</value>
+        		<value>/fonts/tahoma.ttf</value>
+        	</list>
+        </property>
+        <property name="freeMarkerConfigurer" ref="freeMarkerConfigurer" />
+    </bean>
 	 
 </beans>
