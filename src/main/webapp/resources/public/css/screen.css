@@ -13,7 +13,11 @@ a{none;color:#3e4e69;}
 .radius,#noao .true,.step,#dop  .no,#dop .item.center,#localStorage{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 #wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
 
-/* DOP local */
+#dop-menu{padding:5px 20px;background:#FAFAFA;border:2px solid #eee;margin:30px 0}
+#dop-menu span{font-size:16px}
+#dop-menu a{display:inline-block;padding:10px 15px}
+
+/* DOP local */eee
 
 #localStorage{ padding:15px;margin:25px 0;background:#FFF8F2;border:2px solid #FAF0E8; }
 #localStorage strong{display:block;margin:auto;text-align:center;}

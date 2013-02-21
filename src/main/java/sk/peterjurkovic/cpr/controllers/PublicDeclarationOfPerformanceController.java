@@ -27,6 +27,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.support.RequestContext;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
@@ -151,19 +154,40 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	
-	@RequestMapping("/pdf")
-	public PdfByXhtmlrendererView exportPdf(HttpServletRequest request, HttpServletResponse response){
-		Map<String, Object> model = new HashMap<String, Object>();
-
+	@RequestMapping("/dop/export/pdf/{token}")
+	public PdfByXhtmlrendererView exportPdf(@PathVariable String token, HttpServletRequest request, HttpServletResponse response) throws PageNotFoundEception{
+		
+		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
+		if(token == null){
+			throw new PageNotFoundEception();
+		}
+		
+		Map model = new HashMap<String, Object>();
+		model.put("springMacroRequestContext", new RequestContext(request, null, null, null));
+		model.put("dop", dop);
 		pdfView.setOutputFileName("file.pdf");
 		pdfView.setFtlTemplateName("dop.ftl");
-        try {
+        try {	
         	pdfView.renderMergedOutputModel(model, request, response);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
        return pdfView;
+	}
+	
+	
+	@RequestMapping("/test/{token}/test.ftl")
+	public String test(@PathVariable String token, HttpServletRequest request, HttpServletResponse response) throws PageNotFoundEception{
+		logger.info("test");
+		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
+		if(token == null){
+			throw new PageNotFoundEception();
+		}
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("dop", dop);
+		return "/WEB-INF/templates/dop.ftl";
 	}
 	
 	

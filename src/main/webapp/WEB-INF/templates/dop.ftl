@@ -5,19 +5,158 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Poptávka</title>	
 	<style type="text/css">
-		body {
-			font-family: Arial, sans-serif;
+		body {	font-family: Arial, sans-serif;
 			font-size: 12px;
 			background: #fff;
 			color: #000;
+		}
+.dop-items{border-collapse:collapse;}
+		table{width:99%;margin:5px;}
+		h1{font-size:18px;margin:0px;padding:0px;text-align:center;}
+		h2{font-size:16px;padding:0;margin:0px;text-align:center;}
+                .label{width:30%}
+		.name,.level,.value{padding: 5px 15px;}
+		.name{width:40%;height:50px;}
+		.level{width:15%;text-align:center;}
+		.value{width:15%;}
+		.ehn{width:15%;}
+		table th{background:#f7f7f7;padding:10px;}
+		table td{padding:5px;}
+
+#dop{font-size:11px;}
+#dop td{border:1px solid #ccc;}
+.full{display:block;padding:5px;text-align:center;margin-top:50px;}
+.left,.right{display:block;padding:5px;margin-top:50px;text-align:center;width:45%}
+.left{float:left;}
+.right{float:right;}
+.border{border-top:1px dashed #333;}
+
+		@page {
+		  size: A4;
+		  margin-top: 10mm;
+		  margin-right: 5mm;
+		  margin-left: 5mm;
+		  margin-bottom: 10mm;
+		  -fs-flow-top: "header";
+		  -fs-flow-bottom: "footer";
+		  -fs-flow-left: "left";
+		  -fs-flow-right: "right";
 		}
 	</style>
 </head>
 <body>
 <div id="page">
 
-Test
-
+	<h1><@spring.message code="dop" /></h1>
+	<h2>č.: ${dop.numberOfDeclaration?default("")}</h2>
+	
+					<table class="dop-items">
+					
+					<tr>
+						<td class="no">1.</td>
+						<td class="label"><@spring.message code="dop.productid" /></td>
+						<td class="val">${dop.productId?default("")}</td>
+					</tr>
+					
+					<tr>
+						<td class="no">2.</td>
+						<td class="label"><@spring.message code="dop.serialid" /></td>
+						<td class="val">${dop.serialId?default("")}</td>
+					</tr>
+					
+					<tr>
+						<td class="no">3.</td>
+						<td class="label"><@spring.message code="dop.intendedUse" /></td>
+						<td class="val">${dop.intendedUse?default("")}</td>
+					</tr>
+					
+					<tr>
+						<td class="no">4.</td>
+						<td class="label"><@spring.message code="dop.manufacturer" /></td>
+						<td class="val">${dop.manufacturer?default("")}</td>
+					</tr>	
+					
+					<tr>
+						<td class="no">5.</td>
+						<td class="label"><@spring.message code="dop.authorisedRepresentative" /></td>
+						<td class="val">${dop.authorisedRepresentative?default("")}</td>
+					</tr>	
+					
+					<tr>
+						<td class="no">6.</td>
+						<td class="label"><@spring.message code="dop.assessmentSystem" /></td>
+						<td class="val">${dop.assessmentSystem.name?default("")}</td>
+					</tr>	
+					
+					<tr>
+						<td class="no">7.</td>
+						<td class="label"><@spring.message code="dop.aono" /></td>
+						<td class="val"><strong>${dop.notifiedBody.notifiedBodyCode?default("")} ${dop.notifiedBody.name?default("")}</strong><br />
+							${dop.notifiedBody.address.city?default("")}, ${dop.notifiedBody.address.street?default("")} ${dop.notifiedBody.address.zip?default("")}, ${dop.notifiedBody.country.countryName?default("")}
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="no">8.</td>
+						<td class="label"><@spring.message code="dop.ehn" /></td>
+						<td class="val">
+							<strong>${dop.standard.standardId?default("")}</strong>
+							(<em>${dop.standard.standardName?default("")}</em>)
+						</td>
+					</tr>
+					<tr>
+						<td class="no">9.</td>
+						<td class="label"></td>
+						<td class="val"></td>
+					</tr>
+					
+				</table>	
+				
+				<table id="dop">
+					<thead>
+						<tr>
+							<th><@spring.message code="dop.table.essentialCharacteristics" /></th>
+							<th><@spring.message code="cpr.requirement.level" /></th>
+							<th><@spring.message code="dop.table.performance" /></th>
+							<th><@spring.message code="dop.table.ehn" /></th>
+						</tr>
+					</thead>
+					
+					<tbody>
+						<#list dop.essentialCharacteristics as i >
+							<tr>
+								<td class="name">${i.requirement.name?default("")}</td>
+								<td class="level">${i.requirement.levels?default("")}</td>
+								<td class="value">${i.value?default("")}</td>
+								<td class="ehn">
+									<strong>${dop.standard.standardId?default("")}</strong>
+									<em>${i.requirement.section?default("")}</em>
+								</td>
+							</tr>
+						</#list>
+					</tbody>
+				</table>
+						
+				<table class="dop-items">
+					<tr>
+						<td class="no">10.</td>
+						<td><strong><@spring.message code="dop.10" /><br /><@spring.message code="dop.11" /></strong></td>
+					</tr>
+				</table>
+				
+				
+				<p class="full border">
+					<@spring.message code="dop.sig.function" />
+				</p>
+					
+				<p class="left border">
+					<@spring.message code="dop.sig.left" />
+				</p>
+				<p class="right border">
+					<@spring.message code="dop.sig.left" />
+				</p>			
+	
+						
 </div>
 </body>
 </html>

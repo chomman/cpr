@@ -78,9 +78,9 @@
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     <property name="basenames">
         <list>
-            <value>msg/admin</value>
-            <value>msg/validationMessages</value>
-            <value>msg/public</value>
+            <value>admin</value>
+            <value>validationMessages</value>
+            <value>public</value>
         </list>
     </property>
 	</bean>
@@ -123,6 +123,11 @@
 	<!-- freemarker -->
     <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 	  <property name="templateLoaderPath" value="/WEB-INF/templates/"/>
+	  <property name="freemarkerSettings">
+        <props>
+            <prop key="auto_import">spring.ftl as spring</prop>
+        </props>
+   	  </property>
     </bean>
        
     <bean id="pdfView" scope="request" class="sk.peterjurkovic.cpr.export.PdfByXhtmlrendererView" />
@@ -137,5 +142,12 @@
         </property>
         <property name="freeMarkerConfigurer" ref="freeMarkerConfigurer" />
     </bean>
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+	  <property name="cache" value="true"/>
+	  <property name="prefix" value=""/>
+	  <property name="suffix" value=".ftl"/>
+	  <property name="exposeSpringMacroHelpers" value="true"/>
+	</bean>
 	 
 </beans>

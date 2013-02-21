@@ -28,6 +28,14 @@
 				
 				<c:if test="${empty dopNotFound}">
 				
+				<div id="dop-menu">
+					<span>Možnosti: </span> 
+					<a href="#">Upravit </a>
+					<a href="#">Odstranit</a>
+					<a href="#">Vytlačit</a>
+					<a href="<c:url value="/dop/export/pdf/${model.dop.token}" />">Eportovat do PDF</a>
+				</div>
+				
 				<h2 class="dop"><em><spring:message code="dop" /></em><span><strong>č.</strong> ${model.dop.numberOfDeclaration}</span></h2>
 				
 				<table class="dop-items">
