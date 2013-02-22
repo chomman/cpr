@@ -21,6 +21,8 @@ import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.FSEntityResolver;
 import org.xml.sax.InputSource;
 
+import com.lowagie.text.pdf.BaseFont;
+
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
@@ -53,7 +55,7 @@ public class PdfByXhtmlrendererExporter {
         Document document = null;
         try {
             for (int i = 0; i < fonts.size(); i++) {
-                renderer.getFontResolver().addFont(fonts.get(i).getFile().getPath(), "cp1250", true);
+                renderer.getFontResolver().addFont(fonts.get(i).getFile().getPath(), BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
             }
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();

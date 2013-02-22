@@ -5,7 +5,7 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<title>Poptávka</title>	
 	<style type="text/css">
-		body {	font-family: Arial, sans-serif;
+		body {	font-family: Tahoma, sans-serif;
 			font-size: 12px;
 			background: #fff;
 			color: #000;
