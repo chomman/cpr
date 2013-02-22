@@ -13,13 +13,23 @@ a{none;color:#3e4e69;}
 .radius,#noao .true,.step,#dop  .no,#dop .item.center,#localStorage{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 #wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
 
-#dop-menu{padding:5px 20px;background:#FAFAFA;border:2px solid #eee;margin:30px 0}
-#dop-menu span{font-size:16px}
-#dop-menu a{display:inline-block;padding:10px 15px}
+#dop-menu{background:#FAFAFA;margin:30px 0;background: rgb(255,255,255);
+background: -moz-linear-gradient(top,  rgba(255,255,255,1) 0%, rgba(229,229,229,1) 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,1)), color-stop(100%,rgba(229,229,229,1)));
+background: -webkit-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
+background: -o-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
+background: -ms-linear-gradient(top,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
+background: linear-gradient(to bottom,  rgba(255,255,255,1) 0%,rgba(229,229,229,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 );
+border:1px solid #aaa;
+}
+#dop-menu span{font-size:16px;display:inline-block;float:left;background:#aaa;color:#fff;}
+#dop-menu a{display:inline-block;border-right:1px solid #ccc;margin:0;font-weight:bold;}
+#dop-menu a, #dop-menu span{padding:15px 25px}
+#dop-menu a:hover{color:#fff;text-decoration:none;}
+/* DOP local */
 
-/* DOP local */eee
-
-#localStorage{ padding:15px;margin:25px 0;background:#FFF8F2;border:2px solid #FAF0E8; }
+#localStorage{ padding:15px;margin:25px 0;background:#FFF8F2;border:3px solid #FAF0E8; }
 #localStorage strong{display:block;margin:auto;text-align:center;}
 #localStorage table{margin:5px 0}
 #localStorage table th{ padding: 5px;}
@@ -182,7 +192,7 @@ nav ul{list-style:none;padding:0 60px;background:url(../img/nav-bg2.png);}
 nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;}
 nav ul li:last-child{background:none;}
 nav ul li a{display:block;text-decoration:none;float:left;height:15px;padding:17px 15px;color:#fff;text-transform:uppercase;font-size:13px;margin:0 5 0 0px;}
-nav ul li a:hover, nav .curr{background:#8b8a8a url(../img/nav-bg-hover.png);}
+nav ul li a:hover, nav .curr,#dop-menu a:hover{background:#8b8a8a url(../img/nav-bg-hover.png);}
 
 
 

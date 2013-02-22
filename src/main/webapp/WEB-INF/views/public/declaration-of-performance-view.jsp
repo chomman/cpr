@@ -5,6 +5,7 @@
 	<head>
 		<title><spring:message code="dop" /></title>
 		<meta name="robots" content="noindex,follow"/>
+		<link rel="stylesheet" media="print" href="<c:url value="/resources/public/css/print.css" />" />
 		<script src="<c:url value="/resources/public/js/storage.js" />"></script>
 	</head>
 	<body>
@@ -30,10 +31,10 @@
 				
 				<div id="dop-menu">
 					<span>Možnosti: </span> 
-					<a href="#">Upravit </a>
-					<a href="#">Odstranit</a>
-					<a href="#">Vytlačit</a>
-					<a href="<c:url value="/dop/export/pdf/${model.dop.token}" />">Eportovat do PDF</a>
+					<a class="edit" href="<c:url value="/dop/delete/${model.dop.token}" />" >Upravit </a>
+					<a class="delete" href="<c:url value="/dop/delete/${model.dop.token}" />" title="${model.dop.token}" >Odstranit</a>
+					<a class="print" href="#">Vytlačit</a>
+					<a class="pdf" href="<c:url value="/dop/export/pdf/${model.dop.token}" />">Eportovat do PDF</a>
 				</div>
 				
 				<h2 class="dop"><em><spring:message code="dop" /></em><span><strong>č.</strong> ${model.dop.numberOfDeclaration}</span></h2>

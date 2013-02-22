@@ -1,0 +1,4 @@
+@import url('screen.css');
+body{background:none;}
+nav,header,footer, #bc , #localStorage,#dop-menu {display:none !important;}
+a{color:#000;text-decoration:none !important;}

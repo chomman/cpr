@@ -10,6 +10,7 @@
 			background: #fff;
 			color: #000;
 		}
+.top{border-top:1px solid #333;}
 .dop-items{border-collapse:collapse;}
 		table{width:99%;margin:5px;}
 		h1{font-size:18px;margin:0px;padding:0px;text-align:center;}
@@ -50,7 +51,7 @@
 	<h1><@spring.message code="dop" /></h1>
 	<h2>č.: ${dop.numberOfDeclaration?default("")}</h2>
 	
-					<table class="dop-items">
+					<table class="dop-items top">
 					
 					<tr>
 						<td class="no">1.</td>

@@ -13,5 +13,10 @@ $(function() {
 			tooltipClass: "forom-tooltip"
 		}
 	});
+	
+	$('.print').click(function(){
+		window.print();
+		return false;
+	});
 });
 

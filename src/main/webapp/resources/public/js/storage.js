@@ -16,8 +16,8 @@ $(function() {
 			}
 		}
 		
-		$('body').on("click", "#localStorage .delete", function(){
-			if (confirm("Skutečně chcete odstranit toto prohlášení?")) { 
+		$('body').on("click", ".delete", function(){
+			if (confirm("Skutečně chcete odstranit prohlášení?")) { 
 				deleteDop($(this).attr("title"));
 			}else{
 				return false;
