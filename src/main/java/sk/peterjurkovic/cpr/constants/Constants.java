@@ -116,4 +116,6 @@ public class Constants {
 	
 	
 	public static final int DOP_TOKEN_LENGTH = 20;
+	
+	public static final String DEFAULT_WEBPAGE_URL_PREFIX = "/p/"; 
 }

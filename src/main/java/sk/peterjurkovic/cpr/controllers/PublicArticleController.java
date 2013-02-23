@@ -34,7 +34,14 @@ public class PublicArticleController {
 	@Autowired
 	private ArticleService articleService;
 	
-	
+	/**
+	 * Zobrazi vereju sekciu s obsahem aktualit
+	 * 
+	 * @param modelmap
+	 * @param request
+	 * @return
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(ARTICLE_URL)
 	public String showPublicArticles(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
 		
@@ -58,7 +65,14 @@ public class PublicArticleController {
 		return "/public/articles";
 	}
 	
-	
+	/**
+	 * Zobrazi detail aktuality
+	 * 
+	 * @param String kod aktuality
+	 * @param Modelmap Model
+	 * @return String view
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(ARTICLE_URL + "/{articleCode}")
 	public String showArticleDetail(@PathVariable String articleCode, ModelMap modelmap) throws PageNotFoundEception{
 		
@@ -75,6 +89,7 @@ public class PublicArticleController {
 		modelmap.put("model", model);
 		return "/public/article-detail";
 	}
+	
 	
 	
 	

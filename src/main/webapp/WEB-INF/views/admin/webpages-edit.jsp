@@ -65,17 +65,19 @@
                     	<form:input  htmlEscape="true" path="name" maxlength="60" cssClass="w300 required" />
                     </span>
                 </p>
-                 <p>
-                	<label>
-                		<strong><em class="red">*</em>
-                			<spring:message code="webpage.code" />
-                		</strong>	
-                		<small><spring:message code="webpage.code.info"/></small>
-                	</label>
-                    <span class="field">
-                    	<form:input  htmlEscape="true" path="code"  maxlength="250" cssClass="mw500 required" />
-                    </span>
-                </p>
+                <c:if test="${isLoggedWebmaster}">
+	                 <p>
+	                	<label>
+	                		<strong><em class="red">*</em>
+	                			<spring:message code="webpage.code" />
+	                		</strong>	
+	                		<small><spring:message code="webpage.code.info"/></small>
+	                	</label>
+	                    <span class="field">
+	                    	<form:input  htmlEscape="true" path="code"  maxlength="250" cssClass="mw500 required" />
+	                    </span>
+	                </p>
+                </c:if>
                 <p>
                 	<label>
                 		<strong><em class="red">*</em>
@@ -128,17 +130,33 @@
 				     	<form:textarea path="topText" cssClass="mceEditor " />
 				     </span>
 				 </p>
-				 <p>
-				 	<label>
-				 		<spring:message code="webpage.content" />
-				 	</label>
-					<span class="field content">  				
-						<span class="msg info"><spring:message code="webpage.content.info" /></span>	
-						 <form:select path="webpageContent" cssClass="mw500">
-							  <form:options items="${model.contents}" itemValue="id" itemLabel="name" />
-						</form:select>		
-					</span>		 
-				 </p>
+				
+				 	<c:if test="${isLoggedWebmaster}">
+					 	<p>
+					 	<label>
+					 		<spring:message code="webpage.content" />
+					 	</label>
+						<span class="field content">  				
+							<span class="msg info"><spring:message code="webpage.content.info" /></span>	
+							 <form:select path="webpageContent" cssClass="mw500">
+								  <form:options items="${model.contents}" itemValue="id" itemLabel="name" />
+							</form:select>		
+						</span>
+						</p>
+					</c:if>	
+					<c:if test="${not isLoggedWebmaster and webpage.id != 0}">
+					 	<p>
+					 	<label>
+					 		<spring:message code="webpage.content.notwebmaset" />
+					 	</label>
+						<span class="field content">  				
+							<span class="msg info"><spring:message code="webpage.content.info" /></span>	
+							<span class="webpageContentName">${webpage.webpageContent.name}</span>
+							<span class="webpageContentDescr">${webpage.webpageContent.description}</span>		
+						</span>
+						</p>
+					</c:if>		 
+				 
 				 <p>
 				    <label>
 				 		<spring:message code="webpage.bottomText" />

@@ -31,7 +31,13 @@ public class PublicHomeController {
 	@Autowired
 	private StandardService standardService;
 	
-	 
+	/**
+	 * Zobrazi uvodnu stranku verejnej sekcie IS
+	 *  
+	 * @param modelmap
+	 * @return
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping("/")
 	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		

@@ -50,7 +50,14 @@ public class PublicNotifiedBodyController {
 	}
 	
 	
-	
+	/**
+	 * Zobrazi detail subjektu
+	 * 
+	 * @param code, kod subjektu
+	 * @param modelmap
+	 * @return view
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping("/subjekt/{code}")
 	public String showBasicRequirementDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
 		

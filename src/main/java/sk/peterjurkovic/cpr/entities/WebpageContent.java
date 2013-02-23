@@ -21,6 +21,8 @@ public class WebpageContent extends AbstractEntity{
 	private Long id;
 	
 	private String name;
+	
+	private String description;
 
 	@Id
 	@GeneratedValue
@@ -42,7 +44,15 @@ public class WebpageContent extends AbstractEntity{
 		this.name = name;
 	}
 
+	public String getDescription() {
+		return description;
+	}
 
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	
 	
 	
 	

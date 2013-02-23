@@ -24,6 +24,7 @@ import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.WebpageCategoryService;
 import sk.peterjurkovic.cpr.services.WebpageContentService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.web.editors.WebpageCategoryEditor;
 import sk.peterjurkovic.cpr.web.editors.WebpageContentEditor;
 
@@ -87,7 +88,7 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST)
-	public String rocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) throws ItemNotFoundException {		
+	public String pocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) throws ItemNotFoundException {		
 		if(!result.hasErrors()){
 			try{
 				createOrUpdate(form);
@@ -116,7 +117,7 @@ public class WebpageController extends SupportAdminController {
 			}
 			validateCollision(webpage, form);
 		}
-		
+
 		webpage.setTitle(form.getTitle());
 		webpage.setName(form.getName());
 		webpage.setCode(form.getCode());

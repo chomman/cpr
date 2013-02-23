@@ -109,7 +109,14 @@ public class PublicDeclarationOfPerformanceController {
 		binder.registerCustomEditor(AssessmentSystem.class, this.assessmentSystemEditor);
     }
 	
-	
+	/**
+	 * Zobrazi verejnu sekciu, obsahujuci vyhladavaci formular vyrobkov
+	 * 
+	 * @param Modelmap
+	 * @param request
+	 * @return
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(DOP_URL)
 	public String showSearchSection(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
 		
@@ -137,7 +144,15 @@ public class PublicDeclarationOfPerformanceController {
 		return "/public/declaration-of-performance";
 	}
 	
-
+	/**
+	 * Zobrazi DoP formular, prostrednictvom ktoreho je mozne vygenerovat prohlaseni
+	 * 
+	 * @param standardCode
+	 * @param modelMap
+	 * @param request
+	 * @return String View
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.GET)
 	public String showForm(@RequestParam(value="ehn", required=true) String standardCode, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		
@@ -154,6 +169,15 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	
+	/**
+	 * Vyexportuje DoP do PDF
+	 * 
+	 * @param String token, idetifikator DoP
+	 * @param request
+	 * @param response
+	 * @return String view
+	 * @throws PageNotFoundEception, ak DoP v systeme neexistuje
+	 */
 	@RequestMapping("/dop/export/pdf/{token}")
 	public PdfByXhtmlrendererView exportPdf(@PathVariable String token, HttpServletRequest request, HttpServletResponse response) throws PageNotFoundEception{
 		
@@ -162,7 +186,7 @@ public class PublicDeclarationOfPerformanceController {
 			throw new PageNotFoundEception();
 		}
 		
-		Map model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("springMacroRequestContext", new RequestContext(request, null, null, null));
 		model.put("dop", dop);
 		pdfView.setOutputFileName("file.pdf");
@@ -177,20 +201,15 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	
-	@RequestMapping("/test/{token}/test.ftl")
-	public String test(@PathVariable String token, HttpServletRequest request, HttpServletResponse response) throws PageNotFoundEception{
-		logger.info("test");
-		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
-		if(token == null){
-			throw new PageNotFoundEception();
-		}
-		
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("dop", dop);
-		return "/WEB-INF/templates/dop.ftl";
-	}
-	
-	
+	/**
+	 * Zobrazi verejnu sekciu, v ktorej je mozne editovat DoP
+	 * 
+	 * @param String token, identifikator DoP
+	 * @param ModelMap
+	 * @param request
+	 * @return String view
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(DOP_EDIT_URL + "{token}")
 	public String showEditForm(@PathVariable String token, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
@@ -205,7 +224,15 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	
-	
+	/**
+	 * Odstrani DoP na zaklade identifikatoru
+	 * 
+	 * @param String token
+	 * @param modelMap
+	 * @param request
+	 * @return String view
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(DOP_DELETE_URL + "{token}")
 	public String deleteDoP(@PathVariable String token, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		DeclarationOfPerformance dop = declarationOfPerformanceService.getByToken(token);
@@ -217,7 +244,16 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	
-	
+	/**
+	 * Zobrazi verejnu sekciu, v ktorej je mozne editovat DoP
+	 * 
+	 * @param DeclarationOfPerformanceForm form
+	 * @param result
+	 * @param modelMap
+	 * @return View
+	 * @throws ItemNotFoundException
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(value = DOP_EDIT_URL + "{token}", method = RequestMethod.POST)
 	public String processEditSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException, PageNotFoundEception {
 		declarationOfPerformanceValidator.validate(result, form);
@@ -230,7 +266,16 @@ public class PublicDeclarationOfPerformanceController {
 		}
 	}
 	
-	
+	/**
+	 * Spracuje odoslany formular.
+	 * 
+	 * @param form
+	 * @param result
+	 * @param modelMap
+	 * @return Success view
+	 * @throws ItemNotFoundException
+	 * @throws PageNotFoundEception
+	 */
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.POST)
 	public String processSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException, PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(DOP_FORM_URL);
@@ -251,7 +296,14 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	
-	
+	/**
+	 * Zobrazi vygenerovane DoP
+	 * 
+	 * @param token
+	 * @param modelMap
+	 * @param request
+	 * @return view
+	 */
 	@RequestMapping(DOP_SHOW_URL + "{token}")
 	public String showDeclarationOfPerformance(@PathVariable String token, ModelMap modelMap, HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
