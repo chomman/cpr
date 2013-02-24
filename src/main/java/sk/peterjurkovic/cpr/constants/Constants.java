@@ -98,24 +98,46 @@ public class Constants {
 	public static final String PAGE_PARAM_NAME = "page";
 	
 	
-	
+	/**
+	 * Format datumu 
+	 */
 	public static final String DATE_FORMAT = "dd.MM.yyyy";
 	
 	
-	
+	/**
+	 *  Format datumu a casu
+	 */
 	public static final String DATE_TIME_FORMAT = "dd.MM.yyyy HH:mm";
 	
 	
+	/**
+	 * Identifikator nastaveni, pod ktorym su ulozene v DB
+	 */
 	public static final Long BASIC_SETTINGS_DB_ID = Long.valueOf(1);
 	
 	
+	/**
+	 * Identifikator kategorie - hlavne menu
+	 */
 	public static final Long WEBPAGE_CATEGORY_MAIN_MENU = Long.valueOf(1);
-	
-	
+	/**
+	 * Identifikator kategorie - nezobrazovat v ziadnom menu
+	 */
+	public static final Long WEBPAGE_CATEGORY_NO_MENU = Long.valueOf(2);
+	/**
+	 * Identifikator kategorie - podmenu CPR
+	 */
 	public static final Long WEBPAGE_CATEGORY_CPR_SUBMENU = Long.valueOf(3);
 	
 	
+	/**
+	 * Dlzka jedinecneho tokenu, identifikujuceho DoP
+	 */
 	public static final int DOP_TOKEN_LENGTH = 20;
 	
+	/**
+	 * Prefix, ktory mapuje prisulusny kontroler. Automaticky sa prida ku kodu kazdej verejnej sekcie, ktoru
+	 * prida uzivatel s rolou Editor, Administrator. 
+	 */
 	public static final String DEFAULT_WEBPAGE_URL_PREFIX = "/p/"; 
 }

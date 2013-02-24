@@ -91,7 +91,7 @@ public class PublicCprController {
 		model.put("subtab", webpage.getId());
 		model.put("basicRequremets", basicRequirementService.getBasicRequirementsForPublic());
 		modelmap.put("model", model);
-		return "/public/cpr/basic-requirement";
+		return "/public/cpr/cpr-base";
 	}
 	
 	
@@ -137,7 +137,7 @@ public class PublicCprController {
 		model.put("subtab", webpage.getId());
 		model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
 		modelmap.put("model", model);
-		return "/public/cpr/assessmentsystems";
+		return "/public/cpr/cpr-base";
 	}
 	
 	
@@ -182,7 +182,7 @@ public class PublicCprController {
 		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("groups", groups);
 		modelmap.put("model", model);
-		return "/public/cpr/groups";
+		return "/public/cpr/cpr-base";
 	}
 	
 	
@@ -229,6 +229,8 @@ public class PublicCprController {
 		modelmap.put("model", model);
 		return "/public/cpr/group-detail";
 	}
+	
+	
 	
 	
 	

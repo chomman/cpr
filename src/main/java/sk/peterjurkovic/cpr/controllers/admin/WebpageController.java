@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
@@ -24,6 +26,7 @@ import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.WebpageCategoryService;
 import sk.peterjurkovic.cpr.services.WebpageContentService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.web.editors.WebpageCategoryEditor;
 import sk.peterjurkovic.cpr.web.editors.WebpageContentEditor;
@@ -117,10 +120,18 @@ public class WebpageController extends SupportAdminController {
 			}
 			validateCollision(webpage, form);
 		}
-
+		
+		User loggerUser = UserUtils.getLoggedUser();
+		
+		if(!loggerUser.isWebmaster() && form.getId() == null || form.getId() == 0){
+			webpage.setCode(Constants.DEFAULT_WEBPAGE_URL_PREFIX + CodeUtils.toSeoUrl(webpage.getName() + 
+						'-' + webpage.getId()));
+		}else if(loggerUser.isWebmaster()){
+			webpage.setCode(form.getCode());
+		}
+		
 		webpage.setTitle(form.getTitle());
 		webpage.setName(form.getName());
-		webpage.setCode(form.getCode());
 		webpage.setDescription(form.getDescription());
 		webpage.setEnabled(form.getEnabled());
 		webpage.setTopText(form.getTopText());

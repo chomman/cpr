@@ -186,10 +186,10 @@ public class PublicDeclarationOfPerformanceController {
 			throw new PageNotFoundEception();
 		}
 		
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map model = new HashMap<String, Object>();
 		model.put("springMacroRequestContext", new RequestContext(request, null, null, null));
 		model.put("dop", dop);
-		pdfView.setOutputFileName("file.pdf");
+		pdfView.setOutputFileName("dop-"+ dop.getStandard().getCode() +".pdf");
 		pdfView.setFtlTemplateName("dop.ftl");
         try {	
         	pdfView.renderMergedOutputModel(model, request, response);

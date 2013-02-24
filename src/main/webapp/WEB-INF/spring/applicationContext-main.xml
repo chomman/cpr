@@ -135,8 +135,6 @@
     <bean id="pdfByXhtmlrendererExporter" scope="singleton" class="sk.peterjurkovic.cpr.export.PdfByXhtmlrendererExporter">
         <property name="fonts">
         	<list>
-        		<value>/fonts/times.ttf</value>
-        		<value>/fonts/timesbd.ttf</value>
         		<value>/fonts/tahoma.ttf</value>
         	</list>
         </property>

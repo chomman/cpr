@@ -34,17 +34,20 @@ public class PdfByXhtmlrendererExporter {
     private Configuration configuration;
     
     private ITextRenderer renderer = new ITextRenderer();
+    
+    public static final String ENCODING = "utf-8";
 
    
     public ByteArrayOutputStream generatePdf(String ftlTemplate, Map<String, Object> model, String baseUrl) {
         try {
-            Template temp = configuration.getTemplate(ftlTemplate, "utf-8");
+            Template temp = configuration.getTemplate(ftlTemplate, ENCODING);
             ByteArrayOutputStream htmlAsOs = new ByteArrayOutputStream();
-            temp.process(model, new BufferedWriter(new OutputStreamWriter(htmlAsOs, "utf-8")));
+            temp.process(model, new BufferedWriter(new OutputStreamWriter(htmlAsOs, ENCODING)));
             htmlAsOs.close();
             ByteArrayOutputStream pdfAsOs = generatePdf(new ByteArrayInputStream(htmlAsOs.toString().getBytes()), baseUrl);
             return pdfAsOs;
         } catch (Exception e) {
+        	e.printStackTrace();
             throw new RuntimeException();
         }
     }
@@ -60,7 +63,7 @@ public class PdfByXhtmlrendererExporter {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             builder.setEntityResolver(FSEntityResolver.instance());
-            document = builder.parse(new InputSource(new InputStreamReader(xhtml, "utf-8")));
+            document = builder.parse(new InputSource(new InputStreamReader(xhtml, ENCODING)));
             renderer.setDocument(document, baseUrl);
             out = new ByteArrayOutputStream();
             renderer.layout();

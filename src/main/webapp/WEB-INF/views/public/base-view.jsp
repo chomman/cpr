@@ -5,33 +5,20 @@
 	<head>
 		<title>${model.webpage.title}</title>
 		<meta name="description" content="${model.webpage.description}" />
-		
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<a title="${model.parentWebpage.title}" href="<c:url value="${model.parentWebpage.code}" />">${model.parentWebpage.name}</a> &raquo;
 			<span>${model.webpage.name}</span>
 	</div> 
 
 		<div id="main-content">
-			 
-			 <jsp:include page="../include/left-panel.jsp" />
-
-			 <div class="right-panel">
-					<article>
-					${model.webpage.topText}
-					</article>	
-					<c:if test="${not empty model.webpage.webpageContent and model.webpage.webpageContent.id == 4}">
-						 <jsp:include page="../contents/groups.jsp" /> 
-					</c:if>	
-					<article>
-					${model.webpage.bottomText}
-					</article>
-			</div>
-			 <div class="clear"></div>		
+			<article>
+			${model.webpage.topText}
+			${model.webpage.bottomText}
+			</article>
 		</div>
 	</body>
 </html>

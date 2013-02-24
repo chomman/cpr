@@ -70,10 +70,7 @@ public class WebpageServiceImpl implements WebpageService{
 			webpage.setCreatedBy(user);
 			webpage.setCreated(new DateTime());
 			webpageDao.save(webpage);
-			if(!user.isWebmaster()){
-				webpage.setCode(Constants.DEFAULT_WEBPAGE_URL_PREFIX + CodeUtils.toSeoUrl(webpage.getName() + 
-							'-' + webpage.getId()));
-			}
+			
 		}else{
 			webpage.setChangedBy(user);
 			webpage.setChanged(new DateTime());
