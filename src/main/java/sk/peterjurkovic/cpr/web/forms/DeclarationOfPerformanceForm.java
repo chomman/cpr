@@ -38,6 +38,7 @@ public class DeclarationOfPerformanceForm {
 	}
 	
 	public void createCharacteristics(List<Requirement> requirements) {
+		characteristics.clear();
 		for(Requirement r : requirements){
 			EssentialCharacteristic item = new EssentialCharacteristic();
 			item.setRequirement(r);
@@ -45,6 +46,7 @@ public class DeclarationOfPerformanceForm {
 		}
 	}
 	public void createCharacteristics(Set<Requirement> requirements) {
+		characteristics.clear();
 		for(Requirement r : requirements){
 			EssentialCharacteristic item = new EssentialCharacteristic();
 			item.setRequirement(r);

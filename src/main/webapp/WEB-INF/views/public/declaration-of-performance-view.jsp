@@ -30,11 +30,11 @@
 				<c:if test="${empty dopNotFound}">
 				
 				<div id="dop-menu">
-					<span>Možnosti: </span> 
-					<a class="edit" href="<c:url value="/dop/delete/${model.dop.token}" />" >Upravit </a>
-					<a class="delete" href="<c:url value="/dop/delete/${model.dop.token}" />" title="${model.dop.token}" >Odstranit</a>
-					<a class="print" href="#">Vytlačit</a>
-					<a class="pdf" href="<c:url value="/dop/export/pdf/${model.dop.token}" />">Eportovat do PDF</a>
+					<span><spring:message code="options"  />: </span> 
+					<a class="edit" href="<c:url value="/dop/edit/${model.dop.token}" />" ><spring:message code="form.edit" /></a>
+					<a class="delete" href="<c:url value="/dop/delete/${model.dop.token}" />" title="${model.dop.token}" ><spring:message code="form.delete" /></a>
+					<a class="print" href="#"><spring:message  code="export.print" /></a>
+					<a class="pdf" href="<c:url value="/dop/export/pdf/${model.dop.token}" />"><spring:message  code="export.pdf" /></a>
 				</div>
 				
 				<h2 class="dop"><em><spring:message code="dop" /></em><span><strong>č.</strong> ${model.dop.numberOfDeclaration}</span></h2>

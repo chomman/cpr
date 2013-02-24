@@ -267,7 +267,7 @@ public class PublicDeclarationOfPerformanceController {
 	}
 	
 	/**
-	 * Spracuje odoslany formular.
+	 * Spracuje odoslany DoP formular.
 	 * 
 	 * @param form
 	 * @param result
@@ -374,6 +374,7 @@ public class PublicDeclarationOfPerformanceController {
 			if(dop == null){
 				throw new PageNotFoundEception();
 			}
+			dop.getEssentialCharacteristics().clear();
 		}
 		dop.setAssessmentSystem(dopWebForm.getAssessmentSystem());
 		dop.setAuthorisedRepresentative(dopWebForm.getAuthorisedRepresentative());
@@ -389,7 +390,7 @@ public class PublicDeclarationOfPerformanceController {
 			dop.setStandard(dopWebForm.getStandard());
 			declarationOfPerformanceService.createDoP(dop);
 		}else{
-			declarationOfPerformanceService.updateDop(dop);
+			// declarationOfPerformanceService.updateDop(dop);
 		}
 		return dop;
 	}
