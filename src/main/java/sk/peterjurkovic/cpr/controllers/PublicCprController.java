@@ -4,25 +4,36 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.BasicRequirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.BasicRequirementService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.pagination.PageLink;
+import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 
 @Controller
@@ -46,6 +57,8 @@ public class PublicCprController {
 	public static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
 	
 	public static final String CPR_GROUPS_URL = "/cpr/skupiny-vyrobku-podle-cpr";
+	
+	public static final String CPR_EHN_SEARCH_URL = "/cpr/vyhledavani-v-normach";
 	
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -231,7 +244,40 @@ public class PublicCprController {
 	}
 	
 	
+	@RequestMapping(value = "/ehn/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<Standard>  searchInTags(@RequestBody @RequestParam("term") String query){
+		return standardService.autocomplateSearch(query, Boolean.TRUE);
+	}
 	
+	
+	@RequestMapping(CPR_EHN_SEARCH_URL)
+	public String searchInStandard(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
+		Webpage webpage = webpageService.getWebpageByCode(CPR_EHN_SEARCH_URL);
+		if(webpage == null || !webpage.getEnabled()){
+			throw new PageNotFoundEception();
+		}
+		Map<String, Object> model = prepareBaseModel(webpage);
+		int currentPage = RequestUtils.getPageNumber(request);
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		params.put("enabled", Boolean.TRUE);
+		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
+		List<Standard> standards = standardService.getStandardPage(currentPage, params);
+		model.put("standards", standards);
+		model.put("paginationLinks", paginationLinks);
+		model.put("params", params);
+		model.put("url", CPR_EHN_SEARCH_URL);
+		modelMap.put("model", model);
+		return "/public/cpr/cpr-base";
+	}
+	
+	
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setUrl(CPR_EHN_SEARCH_URL);
+		paginger.setCurrentPage(currentPage);
+		paginger.setRowCount( standardService.getCountOfStandards(params).intValue() );
+		return paginger.getPageLinks(); 
+	}
 	
 	
 	/**

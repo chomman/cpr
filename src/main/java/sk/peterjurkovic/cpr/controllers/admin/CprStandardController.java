@@ -127,7 +127,7 @@ public class CprStandardController extends SupportAdminController {
 	 * @return String view, ktore bude interpretovane
 	 */
 	@RequestMapping("/admin/cpr/standards")
-    public String showCprGroupsPage(ModelMap modelMap,HttpServletRequest request) {
+    public String showStandards(ModelMap modelMap,HttpServletRequest request) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
@@ -178,7 +178,7 @@ public class CprStandardController extends SupportAdminController {
 		}
 		model.put("successDelete", true);
 		standardService.deleteStandard(standard);
-        return showCprGroupsPage(model, request);
+        return showStandards(model, request);
 	}
 	
 		
@@ -564,8 +564,7 @@ public class CprStandardController extends SupportAdminController {
 
 	@RequestMapping(value = "/admin/cpr/standard/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<Standard>  autocomplete(@RequestBody @RequestParam("term") String query){
-		List<Standard> result = standardService.autocomplateSearch(query);
-		return result;
+		return standardService.autocomplateSearch(query, null);
 	}
 
  

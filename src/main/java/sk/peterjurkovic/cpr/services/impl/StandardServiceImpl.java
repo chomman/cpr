@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -108,8 +109,12 @@ public class StandardServiceImpl implements StandardService {
 
 	@Override
 	@Transactional(readOnly =  true )
-	public List<Standard> autocomplateSearch(String query) {
-		return standardDao.autocomplateSearch(query);
+	public List<Standard> autocomplateSearch(String query, Boolean enabled) {
+		List<Standard> result = standardDao.autocomplateSearch(query, enabled);
+		if(result == null){
+			return new ArrayList<Standard>();
+		}
+		return result;
 	}
 	
 	
@@ -120,6 +125,7 @@ public class StandardServiceImpl implements StandardService {
 			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
 			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
 			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
+			criteria.put("enabled", ParseUtils.parseStringToBoolean(criteria.get("enabled")));
 		}
 		return criteria;
 	}

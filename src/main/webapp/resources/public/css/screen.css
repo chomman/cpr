@@ -267,7 +267,7 @@ nav ul li a:hover, nav .curr,#dop-menu a:hover{background:#8b8a8a url(../img/nav
 	border-top-left-radius: 5px;border-top-right-radius: 5px;border-top:1px solid #ddd;border-left:1px solid #ddd;border-right:1px solid #ddd;
 }
 .home-news{padding:10px 10px;margin-bottom:15px;border-bottom:1px solid #ddd;}
-.home-news strong a{font-size:15px;dispaly:block;padding-bottom:15px;}
+.home-news strong a{font-size:15px;dispaly:block;padding-bottom:15px;text-decoration: none;}
 .home-news .link{float:right;}
 
 #homepage .link{text-decoration:underline;}

@@ -39,8 +39,7 @@
 				 			<c:forEach items="${model.standards}" var="standard">
 								<div class="norm">
 				 				<span class="edit"><joda:format value="${standard.changed}" pattern="dd.MM.yyyy"/></span>
-				 				<a href="" class="blue-color link">${standard.standardId}</a>
-				 				 <span>&nbsp; ${fn:substring(standard.standardName, 0, 20)}...</span>
+				 				<a href="<c:url value="/ehn/${standard.code}" />" class="blue-color link">${standard.standardId}</a>
 				 				</div>	
 				 			</c:forEach>
 			 			</c:if>

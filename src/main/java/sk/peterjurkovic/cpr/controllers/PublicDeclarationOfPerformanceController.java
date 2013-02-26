@@ -374,7 +374,7 @@ public class PublicDeclarationOfPerformanceController {
 			if(dop == null){
 				throw new PageNotFoundEception();
 			}
-			dop.getEssentialCharacteristics().clear();
+			declarationOfPerformanceService.deleteEssentialCharacteristicByDopId(dopWebForm.getId());
 		}
 		dop.setAssessmentSystem(dopWebForm.getAssessmentSystem());
 		dop.setAuthorisedRepresentative(dopWebForm.getAuthorisedRepresentative());
@@ -390,7 +390,7 @@ public class PublicDeclarationOfPerformanceController {
 			dop.setStandard(dopWebForm.getStandard());
 			declarationOfPerformanceService.createDoP(dop);
 		}else{
-			// declarationOfPerformanceService.updateDop(dop);
+			 declarationOfPerformanceService.updateDop(dop);
 		}
 		return dop;
 	}

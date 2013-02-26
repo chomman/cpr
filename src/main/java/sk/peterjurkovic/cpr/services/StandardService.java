@@ -30,7 +30,7 @@ public interface StandardService {
 	
 	void clearStandardTags(Standard standard);
 	
-	List<Standard> autocomplateSearch(String query);
+	List<Standard> autocomplateSearch(String query, Boolean enabled);
 	
 	List<Standard> getLastEditedOrNewestStandards(int count);
 	

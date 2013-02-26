@@ -62,4 +62,9 @@ public class DeclarationOfPerformanceServiceImpl implements DeclarationOfPerform
 		return declarationOfPerformanceDao.getByToken(token);
 	}
 
+	@Override
+	public void deleteEssentialCharacteristicByDopId(Long id) {
+		declarationOfPerformanceDao.deleteEssentialCharacteristicByDopId(id);
+	}
+
 }

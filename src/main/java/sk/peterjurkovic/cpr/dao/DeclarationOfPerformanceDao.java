@@ -6,4 +6,6 @@ public interface DeclarationOfPerformanceDao  extends BaseDao<DeclarationOfPerfo
 	
 	DeclarationOfPerformance getByToken(String token);
 	
+	void deleteEssentialCharacteristicByDopId(Long id);
+	
 }

@@ -26,4 +26,13 @@ public class DeclarationOfPerformanceDaoImpl
 				.uniqueResult();
 		
 	}
+
+
+	@Override
+	public void deleteEssentialCharacteristicByDopId(Long id) {
+		sessionFactory.getCurrentSession()
+			.createQuery("delete from EssentialCharacteristic ch where ch.declarationOfPerformance.id=:id")
+			.setLong("id", id)
+			.executeUpdate();
+	}
 }

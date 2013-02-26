@@ -42,7 +42,7 @@
 								<tbody>
 									 <c:forEach items="${model.standards}" var="i">
 									 	<tr>
-									 		<td class="norm"><a href="#" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></td>
+									 		<td class="norm"><a href="<c:url value="/ehn/${i.code}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></td>
 									 		<td>${i.standardName}</td>
 									 		<td class="validity c ">
 									 			<c:if test="${not empty i.startValidity}">

@@ -1,7 +1,7 @@
 $(document).ready(function() {    
       $("input.query").autocomplete({
 			 source: function(request, response){  
-			 	 $.getJSON( $("#base").text() +"tag/autocomplete", request, function(data) {  
+			 	 $.getJSON( $("#base").text() +"ehn/autocomplete", request, function(data) {  
                  	 response( $.map( data, function( item ) {
 							return {label: item[1], value: item[1]};
 						}));

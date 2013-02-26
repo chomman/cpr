@@ -69,7 +69,6 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			query.setLong("id", id);
 		}
 		result = (Long)query.uniqueResult();
-		logger.info("Is uniqe: " + (result == 0));
 		return (result == 0);
 	}
 
@@ -86,16 +85,19 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> autocomplateSearch(final String query) {
+	public List<Standard> autocomplateSearch(final String query, final Boolean enabled) {
 		StringBuilder hql = new StringBuilder("select s.id, s.standardId, s.standardName from Standard s");
-		hql.append(" where s.standardId like :query ");
-		List<Standard> standards = new ArrayList<Standard>();
-		standards = sessionFactory.getCurrentSession()
-				.createQuery(hql.toString())
-				.setString("query", "%" + query + "%")
+		hql.append(" where s.standardId like :query or s.standardName like :query ");
+		if(enabled != null){
+			hql.append(" AND s.enabled=:enabled");
+		}
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		if(enabled != null){
+			hqlQuery.setBoolean("enabled", enabled);
+		}
+		return hqlQuery.setString("query", "%" + query + "%")
 				.setMaxResults(8)
 				.list();
-		return standards;
 	}
 	
 	
@@ -103,7 +105,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" s.standardId like CONCAT('%', :query , '%')");
+				where.add(" s.standardId like CONCAT('%', :query , '%') or s.standardName like CONCAT('%', :query , '%')");
 			}
 			if((DateTime)criteria.get("createdFrom") != null){
 				where.add(" s.created>=:createdFrom");
@@ -115,8 +117,11 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			if(groupId != null && groupId != 0){
 				where.add(" s.standardGroup.id=:groupId");
 			}
+			Boolean enabled = (Boolean)criteria.get("enabled");
+			if(enabled != null){
+				where.add(" s.enabled=:enabled");
+			}
 		}
-		logger.info((where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : ""));
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
 
 	}
@@ -128,17 +133,19 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 			DateTime createdFrom = (DateTime)criteria.get("createdFrom");
 			if(createdFrom != null){
-				logger.info(createdFrom.toDate());
 				hqlQuery.setTimestamp("createdFrom", createdFrom.toDate());
 			}
 			DateTime createdTo = (DateTime)criteria.get("createdTo");
 			if(createdTo != null){
-				logger.info(createdTo.toDate());
 				hqlQuery.setTimestamp("createdTo", createdTo.toDate());
 			}
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
 				hqlQuery.setLong("groupId", groupId);
+			}
+			Boolean enabled = (Boolean)criteria.get("enabled");
+			if(enabled != null){
+				hqlQuery.setBoolean("enabled", enabled);
 			}
 		}
 	}
