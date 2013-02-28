@@ -28,8 +28,11 @@
 						 source: function(request, response){  
 						 	 $.getJSON( $("#base").text() +"admin/cpr/standard/autocomplete", request, function(data) {  
 			                 	 response( $.map( data, function( item ) {
-			                 			 var shortText = jQuery.trim(item[1] + " " +  item[2]).substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
-										return {label: shortText, value: item[1]};
+			                 		if(item[1].toLowerCase().indexOf(request.term) >= 0){
+		                 		 		return {label: item[1], value: item[1]};
+		                 		 	}
+			                 		var shortText = item[2].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
+		                 		 	return {label: shortText, value: item[2]};
 									}));
 			            	});  
 						 },

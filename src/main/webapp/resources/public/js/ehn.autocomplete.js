@@ -1,9 +1,14 @@
 $(document).ready(function() {    
       $("input.query").autocomplete({
 			 source: function(request, response){  
+				 console.log(request);
 			 	 $.getJSON( $("#base").text() +"ehn/autocomplete", request, function(data) {  
                  	 response( $.map( data, function( item ) {
-							return {label: item[1], value: item[1]};
+	                 		if(item[1].toLowerCase().indexOf(request.term) >= 0){
+	             		 		return {label: item[1], value: item[1]};
+	             		 	}
+	                 		var shortText = item[2].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
+	             		 	return {label: shortText, value: item[2]};
 						}));
             	});  
 			 },
