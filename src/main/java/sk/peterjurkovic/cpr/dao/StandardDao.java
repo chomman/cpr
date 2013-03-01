@@ -24,7 +24,7 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	
 	List<Standard> autocomplateSearch(String query, Boolean enabled);
 	
-	List<Standard> getLastEditedOrNewestStandards(int count);
+	List<Standard> getLastEditedOrNewestStandards(int count, final Boolean enabled);
 	
 	List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup);
 	

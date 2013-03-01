@@ -51,7 +51,7 @@ public class PublicHomeController {
 		model.put("tab", webpage.getId());
 		model.put("articleUrl", PublicArticleController.ARTICLE_URL);
 		model.put("articles", articleService.getNewestArticles(COUNT_OF_NEWEST_ARTICES_FOR_HOMEPAGE));
-		model.put("standards", standardService.getLastEditedOrNewestStandards(COUNT_OF_LAST_EDITED_STANDARDS));
+		model.put("standards", standardService.getLastEditedOrNewestStandards(COUNT_OF_LAST_EDITED_STANDARDS, Boolean.TRUE));
 		modelmap.put("model", model);
 		return "/public/homepage";
 	}

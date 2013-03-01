@@ -101,7 +101,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	}
 	
 	
-	private String prepareHqlForQuery(Map<String, Object> criteria){
+	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
@@ -126,7 +126,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	}
 	
-	private void prepareHqlQueryParams(Query hqlQuery, Map<String, Object> criteria){
+	private void prepareHqlQueryParams(final Query hqlQuery,final Map<String, Object> criteria){
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));
@@ -153,21 +153,30 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> getLastEditedOrNewestStandards(final int count) {
-		StringBuilder hql = new StringBuilder("from Standard s where s.enabled=true order by s.changed desc");
+	public List<Standard> getLastEditedOrNewestStandards(final int count, final Boolean enabled) {
+		StringBuilder hql = new StringBuilder("from Standard s ");
+		if(enabled != null){
+			hql.append("where s.enabled=:enabled ");
+		}
+		hql.append(" order by s.changed desc");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		if(enabled != null){
+			hqlQuery.setBoolean("enabled", enabled);
+		}
 		hqlQuery.setMaxResults(count);
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
 		return hqlQuery.list();
 	}
 	
+	
+	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup){
+	public List<Standard> getStandardByStandardGroupForPublic(final StandardGroup standardGroup){
 		return sessionFactory.getCurrentSession()
 				.createQuery("from Standard s where s.enabled=true and s.standardGroup.id=:id order by s.standardId")
-				.setLong("id", StandardGroup.getId())
+				.setLong("id", standardGroup.getId())
 				.setCacheable(true)
 				.setCacheRegion(CacheRegion.CPR_CACHE)
 				.list();
@@ -176,7 +185,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> getStandardsByTagName(String tagName) {
+	public List<Standard> getStandardsByTagName(final String tagName) {
 		StringBuilder hql = new StringBuilder("select standard from Standard standard ");
 		hql.append(" LEFT JOIN standard.tags as tag");
 		hql.append(" where standard.enabled=true and  tag.name like CONCAT('%', :tagName , '%')");

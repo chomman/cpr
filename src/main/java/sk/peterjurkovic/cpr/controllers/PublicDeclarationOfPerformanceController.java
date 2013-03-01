@@ -27,8 +27,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.support.RequestContext;
 
 import sk.peterjurkovic.cpr.constants.Constants;
@@ -194,8 +192,7 @@ public class PublicDeclarationOfPerformanceController {
         try {	
         	pdfView.renderMergedOutputModel(model, request, response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Nastala chyba pri generovani PDF: " + token , e);
 		}
        return pdfView;
 	}

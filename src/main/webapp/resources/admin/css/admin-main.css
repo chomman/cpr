@@ -18,6 +18,7 @@ a{text-decoration:none;color:#3e4e69;}
 .roles .check{width:10%;text-align:center;padding:15px;}
 .roles .name{color:#333;font-weight:bold;width:20%}
 
+.clearmargin{margin:0 15px !important;}
 
 /* FILTER */
 .ui-autocomplete{font-size:13px !important;-webkit-box-shadow: 0px 5px 5px 3px #888;box-shadow: 0px 5px 5px 3px #888; }
@@ -111,6 +112,9 @@ box-shadow: 0px 0px 7px 1px #999; }
 .cpr-dashboard ul li a:hover{text-decoration:none;}
 .cpr-dashboard .hbox{margin-top:0;}
 
+.dashboard-standards{padding:10px;background:#fafafa;border:1px solid #ccc;font-size:14px;}
+.dashboard-standards .norm{padding:10px;border-bottom:1px dotted #ccc;color:#333}
+.dashboard-standards .norm a{display:inline-block;min-width:200px;padding-left:20px;}
 
 /* Requirement nav */
 #req-nav{font-size:12px;background:#fff6eb;border:3px solid #ffedd6;padding:8px 15px;margin-bottom:15px;}
@@ -212,6 +216,7 @@ nav .web{background-image: url(../img/menu-web.png)}
 .ico-cal{background-image:url(../img/ico_cal_large.png);}
 .ico-info{background-image:url(../img/ico_info_large.png);}
 .ico-sett{background-image:url(../img/ico_sett_large.png);}
+.ico-web{background-image:url(../img/ico_web_large.png);}
 
 .hbox{border-bottom: 2px solid #FB9337;display: inline-block; margin: 20px 0;padding: 0 20px 5px 0;}
 h1{ color:#485B79;font-size:22px;font-weight: normal;background:#fafAfa;border-bottom:1px solid #ddd;padding:15px 35px;}

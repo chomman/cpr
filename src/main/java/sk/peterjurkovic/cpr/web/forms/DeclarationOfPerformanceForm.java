@@ -10,6 +10,7 @@ import sk.peterjurkovic.cpr.entities.Requirement;
 
 public class DeclarationOfPerformanceForm {
 	
+	public static final String NPD = "NPD";
 	
 	private DeclarationOfPerformance declarationOfPerformance;
 		
@@ -42,6 +43,9 @@ public class DeclarationOfPerformanceForm {
 		for(Requirement r : requirements){
 			EssentialCharacteristic item = new EssentialCharacteristic();
 			item.setRequirement(r);
+			if(r.getNpd()){
+				item.setValue(NPD);
+			}
 			characteristics.add(item);
 		}
 	}
@@ -50,6 +54,9 @@ public class DeclarationOfPerformanceForm {
 		for(Requirement r : requirements){
 			EssentialCharacteristic item = new EssentialCharacteristic();
 			item.setRequirement(r);
+			if(r.getNpd()){
+				item.setValue(NPD);
+			}
 			characteristics.add(item);
 		}
 	}

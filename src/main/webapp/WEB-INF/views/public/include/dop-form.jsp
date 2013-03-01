@@ -117,7 +117,12 @@
 										<td class="name">${i.requirement.name}</td>
 										<td class="level">${i.requirement.levels}</td>
 										<td class="value">
-											<form:input path="characteristics[${status.index}].value"  cssClass="tt-form" title="${i.requirement.note}"  />
+											<c:if test="${i.requirement.npd}">
+												<form:input path="characteristics[${status.index}].value" disabled="true"    />
+											</c:if>
+											<c:if test="${not i.requirement.npd}">
+												<form:input path="characteristics[${status.index}].value"  cssClass="tt-form" title="${i.requirement.note}"  />
+											</c:if>
 											<form:hidden path="characteristics[${status.index}].requirement.id" />
 										</td>
 										<td class="ehn">
@@ -138,6 +143,7 @@
 					
 					
 					<div>
+					<span><em><spring:message code="cpr.requirement.npd" /></em></span>
 					 <c:if test="${declarationOfPerformance.declarationOfPerformance.id == 0}">
 					 	<input type="submit" class="button" value="<spring:message code="dop.generate" />" />
 					 </c:if>

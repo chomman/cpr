@@ -27,6 +27,11 @@
 				</a>
 			</li>
 			<li>
+				<a href="<c:url value="/admin/webpages" />" class="ico-web tt" title="<spring:message code="menu.webpages"/>" >
+					<spring:message code="menu.webpages"/>
+				</a>
+			</li>
+			<li>
 				<a href="<c:url value="/admin/users" />" class="ico-user tt" title="<spring:message code="menu.users"/>" >
 					<spring:message code="dashboard.users"/>
 				</a>
@@ -44,26 +49,21 @@
 		</ul>
 
 		<div class="hbox">
-			<h2><spring:message code="dashboard.stats"/></h2>
+			<h2><spring:message code="homepage.newest.standards" /></h2>
 		</div>
 
-		<table class="data">
-			<tr>
-				<td>Počet evidovaných norem: </td>
-				<td>125</td>
-			</tr>
-			
-			<tr>
-				<td>Počet evidovaných kategórií CPR: </td>
-				<td>35</td>
-			</tr>
-			
-			<tr>
-				<td>Počet registrovaných uživateľov: </td>
-				<td>89</td>
-			</tr>
-			
-		</table>
+		<div class="dashboard-standards">
+	 			<c:if test="${not empty model.standards}">
+		 			<c:forEach items="${model.standards}" var="standard">
+						<div class="norm">
+			 				<span class="edit"><joda:format value="${standard.changed}" pattern="${dateTimeFormat}"/></span>
+			 				<a href="<c:url value="/admin/cpr/standard/edit/${standard.id}" />" class="blue-color link">${standard.standardId}</a>
+			 				<span class="sname">${standard.standardName}</span>
+		 				</div>	
+		 			</c:forEach>
+	 			</c:if>
+	  </div>
+			 		
 		<div class="clear"></div>
 	</div>
 	

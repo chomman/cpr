@@ -48,7 +48,7 @@ public class PdfByXhtmlrendererExporter {
             return pdfAsOs;
         } catch (Exception e) {
         	e.printStackTrace();
-            throw new RuntimeException();
+        	throw new RuntimeException();
         }
     }
 

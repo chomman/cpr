@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.peterjurkovic.cpr.dao.DeclarationOfPerformanceDao;
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.services.DeclarationOfPerformanceService;
+import sk.peterjurkovic.cpr.utils.ParseUtils;
 
 
 @Service("declarationOfPerformance")
@@ -67,4 +69,24 @@ public class DeclarationOfPerformanceServiceImpl implements DeclarationOfPerform
 		declarationOfPerformanceDao.deleteEssentialCharacteristicByDopId(id);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Long getCountOfDop(Map<String, Object> criteria) {
+		return declarationOfPerformanceDao.getCountOfDop(validateCriteria(criteria));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<DeclarationOfPerformance> getDopPage(int pageNumber,Map<String, Object> criteria) {
+		return declarationOfPerformanceDao.getDopPage(pageNumber, validateCriteria(criteria));
+	}
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
+			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
+		}
+		return criteria;
+	}
+	
 }

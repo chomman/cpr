@@ -133,8 +133,8 @@ public class StandardServiceImpl implements StandardService {
 	
 	@Override
 	@Transactional(readOnly =  true )
-	public List<Standard> getLastEditedOrNewestStandards(int count) {
-		return standardDao.getLastEditedOrNewestStandards(count);
+	public List<Standard> getLastEditedOrNewestStandards(int count, Boolean enabled) {
+		return standardDao.getLastEditedOrNewestStandards(count, enabled);
 	}
 
 	

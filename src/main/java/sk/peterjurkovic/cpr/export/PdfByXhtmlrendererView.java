@@ -22,7 +22,7 @@ public class PdfByXhtmlrendererView extends AbstractView {
 	
 	private String outputFileName;
 	
-	 @Value("#{config.host}")
+	@Value("#{config.host}")
 	private String host;
 	
 	@Override
