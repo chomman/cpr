@@ -11,6 +11,8 @@ a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
 .radius,.published,#req-nav a,.btn,.cpr-dashboard li,#chars{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 
+.pdf{background:url(../../public/img/file_pdf_22x22.png) no-repeat center left;padding:0 0 0 25px;display:inline-block;}
+
 /* TABLE ROLES */
 
 .roles{background:#FFF9F0;color:#555;font-size:14px;width:100%;border:3px solid #F7E6CB;border-collapse:collapse;}
@@ -298,6 +300,29 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', end
 .detailinfo .red{color:red;font-style:normal;}
 .detailinfo a{color:#000;text-decoration:underline;}
 .analytics{height:150px;}
+
+
+/* DOP VIEW*/
+h2.dop{padding:5px 0 15px 0;text-align:center;border-bottom:1px solid #555}
+h2.dop em{display:block;font-style:normal;}
+h2.dop span{font-size:14px;}
+
+.dop-items{border:0;}
+.dop-items tr{border-bottom:1px dotted #ddd;}
+.dop-items tr.odd{ background:none; }
+.dop-items td{padding:15px 10px;vertical-align:text-top;}
+.dop-items .label,.dop-items .no{font-weight:bold;}
+.dop-items .label{max-width:300px;}
+.one-colls,.two-colls{border:none;text-align:center;margin-top:50px;width:100%;border-collapse:collapse;}
+.one-colls tr,.two-colls tr{border:none;background:none !important;}
+.one-colls td{border-top:1px dashed #333;padding-top:10px;}
+.two-colls td{width:45%;border-top:1px dashed #333;padding-top:10px;}
+#dop{border:1px solid #ccc;border-collapse:collapse;}
+#dop .name,#dop .level, #dop .value{padding: 5px 15px;border-right:1px solid #ccc;}
+#dop .name{height:50px;}
+#dop .level{text-align:center;}
+#dop .ehn{min-width:200px;}
+#dop th{background:#eee;padding:15px;}
 
 /* ERROR PAGES */
 .error-box{width:400px;margin:100px auto;padding:40px;background:#FFFAFA;border:5px solid #FFF5F5;text-align:center;}

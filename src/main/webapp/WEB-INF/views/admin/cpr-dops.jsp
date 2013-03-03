@@ -24,7 +24,7 @@
 			
 			<form class="filter" action="<c:url value="/admin/cpr/dop" />" method="get">
 				<div>
-					<span class="long"><spring:message code="cpr.dop.filter" /></span>
+					<span><spring:message code="cpr.dop.filter" /></span>
 					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
 					<span>do:</span>
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
@@ -60,6 +60,7 @@
 						<tr>
 							<tH><spring:message code="cpr.dop.created" /></th>
 							<th><spring:message code="cpr.dop.ehn" /></th>
+							<th><spring:message code="cpr.dop.export.pdf" /></th>
 							<th><spring:message code="form.view" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
@@ -71,8 +72,11 @@
 						 		<td>
 						 		<a href="<c:url value="/admin/cpr/standard/edit/${i.standard.id}" />" class="link">${i.standard.standardId}</a>
 						 		<em>${i.standard.standardName}</em></td>
+						 		<td>
+						 			<a class="pdf" href="<c:url value="/dop/export/pdf/${i.token}" />"><spring:message code="cpr.dop.export.pdf" /></a>
+						 		</td>
 						 		<td class="edit">
-						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/dop/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit DoP?" href="<c:url value="/admin/cpr/dop/${i.id}"  />">
 						 				<spring:message code="form.view" />
 						 			</a>
 						 		</td>

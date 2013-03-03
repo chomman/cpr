@@ -9,9 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.DeclarationOfPerformanceService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
@@ -26,6 +28,7 @@ public class CprDeclarationOfPerformanceController extends SupportAdminControlle
 	private DeclarationOfPerformanceService dopService;
 	
 	public CprDeclarationOfPerformanceController(){
+		setViewName("cpr-dop-view");
 		setTableItemsView("cpr-dops");
 	}
 	
@@ -42,6 +45,32 @@ public class CprDeclarationOfPerformanceController extends SupportAdminControlle
 		model.put("params", params);
 		modelMap.put("model", model);
         return getTableItemsView();
+		
+	}
+	
+	@RequestMapping("/admin/cpr/dop/{dopId}")
+	public String showDetail(@PathVariable Long dopId, ModelMap modelMap) throws ItemNotFoundException{
+		Map<String, Object> model = new HashMap<String, Object>();
+		DeclarationOfPerformance dop = dopService.getDopById(dopId);
+		if(dop == null){
+			throw new ItemNotFoundException();
+		}
+		model.put("dop", dop);
+		model.put("tab", CPR_TAB_INDEX);
+		modelMap.put("model", model);
+        return getViewName();
+		
+	}
+	
+	@RequestMapping("/admin/cpr/dop/delete/{dopId}")
+	public String delete(HttpServletRequest request, @PathVariable Long dopId, ModelMap modelMap) throws ItemNotFoundException{
+		DeclarationOfPerformance dop = dopService.getDopById(dopId);
+		if(dop == null){
+			throw new ItemNotFoundException();
+		}
+		dopService.deleteDop(dop);
+		modelMap.put("successDelete", true);
+        return showGeneratedDoP(request, modelMap);
 		
 	}
 	
