@@ -37,7 +37,7 @@
 				</a>
 			</li>
 			<li>
-				<a href="<c:url value="/admin/settings" />" class="ico-sett tt" title="<spring:message code="dashboard.settings.title"/>" >
+				<a href="<c:url value="/admin/settings/basic" />" class="ico-sett tt" title="<spring:message code="dashboard.settings.title"/>" >
 					<spring:message code="dashboard.settings"/>
 				</a>
 			</li>
