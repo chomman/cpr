@@ -10,7 +10,7 @@ a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
 .radius,.submit{-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
 
-form{margin:200px auto;width:350px;background: url(../img/header-bg.png);padding:30px;border:8px solid #fff;-webkit-box-shadow: 0px 0px 10px 5px #ccc;box-shadow: 0px 0px 10px 5px #ccc; }
+form{margin:200px auto;width:380px;background: #333;padding:30px;border:2px solid #fff;-webkit-box-shadow: 0px 0px 10px 5px #ccc;box-shadow: 0px 0px 10px 5px #ccc; }
 form .label{background:#fff;display:block;margin: 10px 0;font-size:14px;padding:11.5px 10px;;
 background: #f7f7f7;
 background: -moz-linear-gradient(top,  #f7f7f7 0%, #e5e5e5 100%);
@@ -22,8 +22,8 @@ background: linear-gradient(to bottom,  #f7f7f7 0%,#e5e5e5 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#e5e5e5',GradientType=0 );
 }
 form td{padding:10px 0px;}
-form .filed input{padding:10px 5px;border:1px solid #fff;width:275px;}
-form .submit{display:inline-block;width:350px;padding:12px;color:#fff;background: #ffa84c;cursor:pointer;
+form .filed input{padding:10px 5px;border:1px solid #fff;width:303px;}
+form .submit{display:inline-block; float:right;font-weight:bold;padding:12px;color:#fff;background: #ffa84c;cursor:pointer;
 background: -moz-linear-gradient(top,  #ffa84c 0%, #ff7b0d 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffa84c), color-stop(100%,#ff7b0d));
 background: -webkit-linear-gradient(top,  #ffa84c 0%,#ff7b0d 100%);

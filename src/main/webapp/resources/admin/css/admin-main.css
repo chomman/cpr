@@ -220,7 +220,7 @@ nav .web{background-image: url(../img/menu-web.png)}
 .ico-sett{background-image:url(../img/ico_sett_large.png);}
 .ico-web{background-image:url(../img/ico_web_large.png);}
 
-.hbox{border-bottom: 2px solid #FB9337;display: inline-block; margin: 20px 0;padding: 0 20px 5px 0;}
+.hbox{border-bottom: 2px solid #FB9337;display: inline-block; margin: 20px 0;padding: 0 0 5px 0;}
 h1{ color:#485B79;font-size:22px;font-weight: normal;background:#fafAfa;border-bottom:1px solid #ddd;padding:15px 35px;}
 h2{font-size: 16px;text-transform: uppercase;color:#555}
 
