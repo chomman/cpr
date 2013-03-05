@@ -98,7 +98,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 				where.add(" a.created >= :publishedSince ");
 			}
 			if((DateTime)criteria.get("publishedUntil") != null){
-				where.add(" a.created <= :publishedUntil ");
+				where.add(" a.created < :publishedUntil ");
 			}
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
@@ -122,7 +122,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 			}
 			DateTime publishedUntil = (DateTime)criteria.get("publishedUntil");
 			if(publishedUntil != null){
-				hqlQuery.setTimestamp("publishedUntil", publishedUntil.toDate());
+				hqlQuery.setTimestamp("publishedUntil", publishedUntil.plusDays(1).toDate());
 			}
 		   
 			Boolean enabled = (Boolean)criteria.get("enabled");

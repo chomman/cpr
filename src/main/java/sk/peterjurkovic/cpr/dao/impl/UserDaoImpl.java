@@ -127,7 +127,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 				where.add(" u.created >= :createdFrom ");
 			}
 			if((DateTime)criteria.get("createdTo") != null){
-				where.add(" u.created <= :createdTo ");
+				where.add(" u.created < :createdTo ");
 			}
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
@@ -151,7 +151,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 			}
 			DateTime publishedUntil = (DateTime)criteria.get("createdTo");
 			if(publishedUntil != null){
-				hqlQuery.setTimestamp("createdTo", publishedUntil.toDate());
+				hqlQuery.setTimestamp("createdTo", publishedUntil.plusDays(1).toDate());
 			}
 		   
 			Boolean enabled = (Boolean)criteria.get("enabled");

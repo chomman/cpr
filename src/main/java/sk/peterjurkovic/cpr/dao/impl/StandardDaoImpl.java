@@ -111,7 +111,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 				where.add(" s.created>=:createdFrom");
 			}
 			if((DateTime)criteria.get("createdTo") != null){
-				where.add(" s.created<=:createdTo");
+				where.add(" s.created<:createdTo");
 			}
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
@@ -137,7 +137,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 			DateTime createdTo = (DateTime)criteria.get("createdTo");
 			if(createdTo != null){
-				hqlQuery.setTimestamp("createdTo", createdTo.toDate());
+				hqlQuery.setTimestamp("createdTo", createdTo.plusDays(1).toDate());
 			}
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
