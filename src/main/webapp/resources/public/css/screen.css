@@ -41,6 +41,12 @@ h2.dop em{display:block;font-style:normal;}
 h2.dop span{font-size:14px;}
 
 
+#status{position:absolute;z-index:99999999;background:url(../../admin/img/tbg.png);padding:50px;display:none;}
+#status p{padding:15px 15px 15px 50px;font-size: 14px; }
+#status .ok{border:4px solid #d5f0a9;color:#548015;background:#f7ffec url(../../admin/img/ico_ok.png) no-repeat 5px center;}
+#status .err{border:4px solid #fdd1d1;color:#b21d1d;background:#fff2f2 url(../../admin/img/ico_error.png) no-repeat 5px center;}
+.formerr{border-color:red !important;}
+
 .dop-items{border:0}
 .dop-items tr{border-bottom:1px dotted #ddd;}
 .dop-items tr.odd{ background:none; }

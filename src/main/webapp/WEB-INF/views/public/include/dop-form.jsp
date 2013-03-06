@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
 
-				<form:form  htmlEscape="true"  modelAttribute="declarationOfPerformance" id="dop" method="post" action="${formUrl}" >
+				<form:form  htmlEscape="true"  modelAttribute="declarationOfPerformance" id="dop" cssClass="valid" method="post" action="${formUrl}" >
 				
 					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 					
@@ -121,7 +121,7 @@
 												<form:input path="characteristics[${status.index}].value" disabled="true"    />
 											</c:if>
 											<c:if test="${not i.requirement.npd}">
-												<form:input path="characteristics[${status.index}].value"  cssClass="tt-form" title="${i.requirement.note}"  />
+												<form:input path="characteristics[${status.index}].value"  cssClass="tt-form required" title="${i.requirement.note}"  />
 											</c:if>
 											<form:hidden path="characteristics[${status.index}].requirement.id" />
 										</td>
@@ -156,3 +156,4 @@
 					<form:hidden path="declarationOfPerformance.id"/>
 					<form:hidden path="declarationOfPerformance.standard.code"/>
 				</form:form>
+				<div id="status"></div>
