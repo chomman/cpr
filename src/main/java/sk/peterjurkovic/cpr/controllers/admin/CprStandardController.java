@@ -506,6 +506,7 @@ public class CprStandardController extends SupportAdminController {
 			}else{
 				standard.setMandates(new HashSet<Mandate>());
 			}
+			standard.setCumulative(form.getCumulative());
 			standardService.saveOrUpdate(standard);
 			standard.setTimestamp(standard.getChanged().getMillis());
 			modelMap.put("successCreate", true);

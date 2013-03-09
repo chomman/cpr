@@ -69,6 +69,8 @@ public class Standard extends AbstractEntity {
 	
 	private Set<Tag> tags;
 	
+	private Boolean cumulative;
+	
 	private Long timestamp;
 	
 	public Standard(){
@@ -79,6 +81,7 @@ public class Standard extends AbstractEntity {
 		this.requirements = new HashSet<Requirement>();
 		this.tags = new HashSet<Tag>();
 		setEnabled(Boolean.FALSE);
+		setCumulative(Boolean.FALSE);
 	}
 	
 	@Id
@@ -248,6 +251,15 @@ public class Standard extends AbstractEntity {
 
 	public void setTimestamp(Long timestamp) {
 		this.timestamp = timestamp;
+	}
+	
+	@Column(name = "is_cumulative")
+	public Boolean getCumulative() {
+		return cumulative;
+	}
+
+	public void setCumulative(Boolean cumulative) {
+		this.cumulative = cumulative;
 	}
 	
 	

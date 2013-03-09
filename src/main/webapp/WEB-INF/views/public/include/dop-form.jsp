@@ -118,7 +118,7 @@
 										<td class="level">${i.requirement.levels}</td>
 										<td class="value">
 											<c:if test="${i.requirement.npd}">
-												<form:input path="characteristics[${status.index}].value" disabled="true"    />
+												<form:input path="characteristics[${status.index}].value"    />
 											</c:if>
 											<c:if test="${not i.requirement.npd}">
 												<form:input path="characteristics[${status.index}].value"  cssClass="tt-form required" title="${i.requirement.note}"  />

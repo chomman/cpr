@@ -18,12 +18,7 @@
 		<article class="article-detail">
 			<h1>${model.article.title}</h1>
 			<span class="time"><spring:message code="published" />: 
- 				<c:if test="${not empty model.article.publishedSince}">
- 					<joda:format value="${article.publishedSince}" pattern="dd.MM.yyyy"/>
- 				</c:if>
- 				<c:if test="${empty model.article.publishedSince}">
- 					<joda:format value="${article.created}" pattern="dd.MM.yyyy"/>
- 				</c:if>
+ 				<joda:format value="${article.created}" pattern="dd.MM.yyyy"/>
 			</span>
 			${model.article.articleContent}
 	 	</article>

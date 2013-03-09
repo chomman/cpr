@@ -68,8 +68,12 @@
 				</c:if>
 
 			</table>
-			
-			
+			<c:if test="${not empty model.standard.requirements}">
+				<a class="btn-next ehn" href="<c:url value="${model.url}?ehn=${model.standard.code}" />">
+					<spring:message code="standard.dop.generate2" /> &raquo;
+				</a>
+			</c:if>
+			<div class="clear"></div>
 			<!-- CSNs  -->
 			
 			<c:if test="${not empty model.standard.standardCsns}">
