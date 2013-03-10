@@ -374,6 +374,7 @@ public class PublicDeclarationOfPerformanceController {
 			declarationOfPerformanceService.deleteEssentialCharacteristicByDopId(dopWebForm.getId());
 		}
 		dop.setAssessmentSystem(dopWebForm.getAssessmentSystem());
+		dop.setAssessmentSystem2(dopWebForm.getAssessmentSystem2());
 		dop.setAuthorisedRepresentative(dopWebForm.getAuthorisedRepresentative());
 		dop.setEssentialCharacteristics(prepareCharacteristics(form.getCharacteristics(), dop));
 		dop.setIntendedUse(dopWebForm.getIntendedUse());
@@ -382,7 +383,7 @@ public class PublicDeclarationOfPerformanceController {
 		dop.setNumberOfDeclaration(dopWebForm.getNumberOfDeclaration());
 		dop.setProductId(dopWebForm.getProductId());
 		dop.setSerialId(dopWebForm.getSerialId());
-		
+		dop.setCumulative(dopWebForm.getCumulative());
 		if(dop.getId() == null || dop.getId() == 0){
 			dop.setStandard(dopWebForm.getStandard());
 			declarationOfPerformanceService.createDoP(dop);

@@ -2,7 +2,7 @@
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
                                          "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
       
-<!-- Konfiguracia entit, z ktorych hibernate vygeneruje db tabulky -->         
+<!-- Konfiguracia entit -->         
                                 
 <hibernate-configuration>
  <session-factory name="HibernateSessionFactory">
@@ -29,6 +29,7 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.DeclarationOfPerformance"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
 	
 	 
  </session-factory>

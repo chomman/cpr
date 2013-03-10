@@ -44,6 +44,8 @@ public class DeclarationOfPerformance {
 	
 	private AssessmentSystem assessmentSystem;
 	
+	private AssessmentSystem assessmentSystem2;
+	
 	private Standard standard;
 	
 	private NotifiedBody notifiedBody;
@@ -55,6 +57,8 @@ public class DeclarationOfPerformance {
 	private DateTime created;
 	
 	private String token;
+	
+	private Boolean cumulative;
 
 	
 	public DeclarationOfPerformance(){
@@ -203,6 +207,24 @@ public class DeclarationOfPerformance {
 
 	public void setToken(String token) {
 		this.token = token;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "assessment_system_cumulative_id")
+	public AssessmentSystem getAssessmentSystem2() {
+		return assessmentSystem2;
+	}
+
+	public void setAssessmentSystem2(AssessmentSystem assessmentSystem2) {
+		this.assessmentSystem2 = assessmentSystem2;
+	}
+
+	public Boolean getCumulative() {
+		return cumulative;
+	}
+
+	public void setCumulative(Boolean cumulative) {
+		this.cumulative = cumulative;
 	}
 
 	

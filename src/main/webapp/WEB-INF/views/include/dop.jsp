@@ -39,7 +39,11 @@
 			<tr>
 				<td class="no">6.</td>
 				<td class="label"><spring:message code="dop.assessmentSystem" /></td>
-				<td class="val">${model.dop.assessmentSystem.name}</td>
+				<td class="val">${model.dop.assessmentSystem.name}
+				<c:if test="${model.dop.cumulative}">
+					a ${model.dop.assessmentSystem2.name}
+				</c:if>
+				</td>
 			</tr>	
 			
 			<tr>

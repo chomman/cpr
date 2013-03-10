@@ -100,7 +100,6 @@
 			 <constructor-arg>
 		         <util:list>
 					<ref local="daoAuthenticationProvider" />
-			<!-- 	<ref local="anonymousAuthenticationProvider" />  -->
 					<ref local="rememberMeAuthenticationProvider" /> 
 		         </util:list>
 		     </constructor-arg>
@@ -108,18 +107,7 @@
 				<bean class="org.springframework.security.authentication.DefaultAuthenticationEventPublisher" />
 			 </property>	
 		</bean>	
-		
-		<!-- 
-		<bean id="anonymousAuthFilter"   class="org.springframework.security.web.authentication.AnonymousAuthenticationFilter">
-		  <constructor-arg value="anonyms_unique_key" />
-		  <property name="userAttribute" value="anonymousUser,ROLE_ANONYMOUS"/>
-		</bean>
-		
-		<bean id="anonymousAuthenticationProvider" class="org.springframework.security.authentication.AnonymousAuthenticationProvider">
-		  <constructor-arg value="anonyms_unique_key"/>
-		</bean>
-		 -->
-		
+				
 		<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
 			<property name="userDetailsService"	ref="customUserDetailsService" /> 
 	 		<property name="saltSource" ref="passwordSaltSource" /> 
@@ -127,7 +115,6 @@
 		</bean>
 		
 		
-		<!--  Remember me konfiguracia -->
 		
 		<bean id="rememberMeFilter" class="org.springframework.security.web.authentication.rememberme.RememberMeAuthenticationFilter">
 		  <constructor-arg ref="authenticationManager" />

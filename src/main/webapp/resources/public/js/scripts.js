@@ -49,6 +49,8 @@ function validate(f){
 }
 $(function() {
 	createClasses();
+	$(document).on("click",'#isCumulative', function(){checkCumulative();});
+	checkCumulative();
 	$('.tt').tooltip({ show: {duration: "fast" }});
 	
 	$('.tt-form').tooltip({
@@ -78,6 +80,18 @@ $(function() {
 	    this.css("left", (($(window).width() - this.outerWidth()) / 2) + $(window).scrollLeft() + "px");
 	    return this;
 	};
+	
+	
 
 });
 
+function checkCumulative(){
+	var select = $('#assessmentSystem2');
+	if(select !== undefined ){
+		if($('#isCumulative').is(':checked')){
+			select.show();
+		}else{
+			select.hide();
+		}
+	}
+}

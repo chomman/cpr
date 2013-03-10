@@ -68,11 +68,11 @@
         <property name="ignoreUnresolvablePlaceholders" value="true" />
     </bean>
     
-    
+     <!-- 
     <bean id="timeZone" class="java.util.TimeZone" factory-method="getTimeZone">
         <constructor-arg value="${scheduling.time.zone}"/>
         <constructor-arg index="1" value="true"/>
-    </bean>
+    </bean> -->
     
 
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -85,16 +85,6 @@
     </property>
 	</bean>
 	
-	<!-- 
-  	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
-	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-		<property name="messageConverters">
-		  <list>
-		    <ref bean="jacksonMessageConverter"/>
-		  </list>
-		</property>
-	</bean>
-	 -->
 	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 	    <property name="messageConverters">
 	        <list>

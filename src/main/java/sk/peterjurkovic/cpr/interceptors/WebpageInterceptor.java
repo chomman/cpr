@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -20,7 +19,6 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 public class WebpageInterceptor extends HandlerInterceptorAdapter{
 	
-	protected Logger logger = Logger.getLogger(getClass());
 	@Autowired
 	private BasicSettingsService basicSettingsService;
 	@Autowired
@@ -34,7 +32,6 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 		
 		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
 		if(StringUtils.isBlank(prefix) || !prefix.equals(Constants.ADMIN_PREFIX)){
-			logger.info("WebpageInterceptor called..");
 			 Map<String, Object> commonModel = new HashMap<String, Object>();
 			 commonModel.put("settings", basicSettingsService.getBasicSettings());
 			 commonModel.put("mainMenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_MAIN_MENU));

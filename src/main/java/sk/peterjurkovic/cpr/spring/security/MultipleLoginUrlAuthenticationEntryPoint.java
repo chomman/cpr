@@ -7,9 +7,6 @@ import org.apache.log4j.Logger;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
-import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.utils.RequestUtils;
-
 
 
 public class MultipleLoginUrlAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
@@ -30,11 +27,10 @@ public class MultipleLoginUrlAuthenticationEntryPoint extends LoginUrlAuthentica
 			HttpServletRequest request, HttpServletResponse response,
 			AuthenticationException exception) {
 		
-		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
 		if(exception != null){
 			logger.error(exception.getMessage());
 		}
-		logger.info("prefix: " + prefix);
+
 		
 		/*
 		if(prefix.equals(Constants.ADMIN_PREFIX)){

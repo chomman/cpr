@@ -13,9 +13,7 @@ public class DateTimeMapper extends ObjectMapper {
 	
 	public DateTimeMapper() {
 		super();
-		logger.info("DateTimeMapper called");
 		SimpleModule module = new SimpleModule("DateTimeMapper", new Version(2, 0, 0, null));
-       // module.addSerializer(DateTime.class, new DateTimeSerializer());
         module.addDeserializer(DateTime.class, new DateTimeDeserializer());
         registerModule(module);
         

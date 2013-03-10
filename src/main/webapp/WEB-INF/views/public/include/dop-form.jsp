@@ -62,6 +62,19 @@
 						<form:select  path="declarationOfPerformance.assessmentSystem" cssClass="w300 required">
 							<form:options items="${model.assessmentSystems}" itemValue="id" itemLabel="name" />
 						</form:select>
+						
+
+						<c:if test="${model.standard.cumulative or declarationOfPerformance.declarationOfPerformance.standard.cumulative}">
+							<form:select  path="declarationOfPerformance.assessmentSystem2" id="assessmentSystem2" cssClass="margin-left w300 required">
+								<form:options items="${model.assessmentSystems}" itemValue="id" itemLabel="name" />
+							</form:select>
+							<div class="cumulaive">
+								<form:checkbox path="declarationOfPerformance.cumulative" id="isCumulative" />
+								<span><spring:message code="dop.cumulative" /></span>
+							</div>
+						</c:if>					
+						
+						
 						<div class="clear"></div>
 					</div>
 					
