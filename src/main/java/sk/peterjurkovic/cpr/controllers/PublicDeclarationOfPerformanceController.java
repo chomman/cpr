@@ -380,6 +380,9 @@ public class PublicDeclarationOfPerformanceController {
 		dop.setIntendedUse(dopWebForm.getIntendedUse());
 		dop.setManufacturer(dopWebForm.getManufacturer());
 		dop.setNotifiedBody(dopWebForm.getNotifiedBody());
+		dop.setNotifiedBody2(dopWebForm.getNotifiedBody2());
+		dop.setReport(dopWebForm.getReport());
+		dop.setReport2(dopWebForm.getReport2());
 		dop.setNumberOfDeclaration(dopWebForm.getNumberOfDeclaration());
 		dop.setProductId(dopWebForm.getProductId());
 		dop.setSerialId(dopWebForm.getSerialId());

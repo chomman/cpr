@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import sk.peterjurkovic.cpr.constants.DopTextVariable;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
@@ -120,6 +121,9 @@ public class CprAssessmentSystemController extends SupportAdminController {
 		map.addAttribute("assessmentSystem", form);
 		model.put("assessmentSystemId", assessmentSystemId);
 		model.put("tab", CPR_TAB_INDEX);
+		model.put("varId",DopTextVariable.VAR_NOAO_ID);
+		model.put("varAonoName",DopTextVariable.VAR_NOAO_NAME);
+		model.put("varSystemName",DopTextVariable.VAR_SYSTEM_NAME);
 		map.put("model", model); 
 	}
 	
@@ -142,6 +146,7 @@ public class CprAssessmentSystemController extends SupportAdminController {
 		assessmentSystem.setName(form.getName());
 		assessmentSystem.setDescription(form.getDescription());
 		assessmentSystem.setEnabled(form.getEnabled());
+		assessmentSystem.setDeclarationOfPerformanceText(form.getDeclarationOfPerformanceText());
 		assessmentSystemService.saveOrUpdateAssessmentSystem(assessmentSystem);
 	}
 	

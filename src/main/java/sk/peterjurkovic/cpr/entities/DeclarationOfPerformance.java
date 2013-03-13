@@ -46,9 +46,15 @@ public class DeclarationOfPerformance {
 	
 	private AssessmentSystem assessmentSystem2;
 	
-	private Standard standard;
-	
 	private NotifiedBody notifiedBody;
+	
+	private NotifiedBody notifiedBody2;
+	
+	private String report;
+	
+	private String report2;
+	
+	private Standard standard;
 	
 	private Set<EssentialCharacteristic> essentialCharacteristics;
 	
@@ -144,18 +150,18 @@ public class DeclarationOfPerformance {
 	public void setAssessmentSystem(AssessmentSystem assessmentSystem) {
 		this.assessmentSystem = assessmentSystem;
 	}
-
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_id")
-	public Standard getStandard() {
-		return standard;
+    @JoinColumn(name = "assessment_system_cumulative_id")
+	public AssessmentSystem getAssessmentSystem2() {
+		return assessmentSystem2;
 	}
 
-
-	public void setStandard(Standard standard) {
-		this.standard = standard;
+	public void setAssessmentSystem2(AssessmentSystem assessmentSystem2) {
+		this.assessmentSystem2 = assessmentSystem2;
 	}
-
+	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "notified_body_id")
 	public NotifiedBody getNotifiedBody() {
@@ -166,6 +172,51 @@ public class DeclarationOfPerformance {
 	public void setNotifiedBody(NotifiedBody notifiedBody) {
 		this.notifiedBody = notifiedBody;
 	}
+	
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "notified_body_cumulative_id")
+	public NotifiedBody getNotifiedBody2() {
+		return notifiedBody2;
+	}
+	
+	
+	public void setNotifiedBody2(NotifiedBody notifiedBody) {
+		this.notifiedBody2 = notifiedBody;
+	}
+	
+	@Column(name = "report")
+	public String getReport() {
+		return report;
+	}
+
+	public void setReport(String report) {
+		this.report = report;
+	}
+	
+	
+	@Column(name = "report_cumulative")
+	public String getReport2() {
+		return report2;
+	}
+
+	public void setReport2(String report2) {
+		this.report2 = report2;
+	}
+
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "standard_id")
+	public Standard getStandard() {
+		return standard;
+	}
+
+
+	public void setStandard(Standard standard) {
+		this.standard = standard;
+	}
+	
+	
 	
 	@OrderBy("id")
 	@OneToMany(mappedBy = "declarationOfPerformance", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
@@ -209,15 +260,7 @@ public class DeclarationOfPerformance {
 		this.token = token;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "assessment_system_cumulative_id")
-	public AssessmentSystem getAssessmentSystem2() {
-		return assessmentSystem2;
-	}
-
-	public void setAssessmentSystem2(AssessmentSystem assessmentSystem2) {
-		this.assessmentSystem2 = assessmentSystem2;
-	}
+	
 
 	public Boolean getCumulative() {
 		return cumulative;
@@ -226,6 +269,7 @@ public class DeclarationOfPerformance {
 	public void setCumulative(Boolean cumulative) {
 		this.cumulative = cumulative;
 	}
+
 
 	
 	

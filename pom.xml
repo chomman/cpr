@@ -308,6 +308,9 @@
 			<artifactId>core-renderer</artifactId>
 			<version>R8</version>
 		</dependency>
+		
+		
+		
    </dependencies>
     <build>
         <plugins>

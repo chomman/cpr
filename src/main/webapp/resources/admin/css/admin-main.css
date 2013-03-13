@@ -13,8 +13,11 @@ a{text-decoration:none;color:#3e4e69;}
 
 .pdf{background:url(../../public/img/file_pdf_22x22.png) no-repeat center left;padding:0 0 0 25px;display:inline-block;}
 
-/* TABLE ROLES */
+/* Assessment system form */
+.variable-info{padding:10px 0;font-size:14px !important;display:inline-block;}
+.variable-info em{font-size:14px !important;line-height:40px;color:#000 !important;}
 
+/* TABLE ROLES */
 .roles{background:#FFF9F0;color:#555;font-size:14px;width:100%;border:3px solid #F7E6CB;border-collapse:collapse;}
 .roles .odd{background:#FFF5E6;border-top:1px solid #fff;border-bottom:1px solid #fff;}
 .roles .check{width:10%;text-align:center;padding:15px;}
@@ -261,6 +264,7 @@ form p label{display: inline-block;font-weight: bold;padding:20px;text-align: le
 .field{padding:15px 20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
 .field span{font-size:12px;color:#555;margin:0 5px 0 20px;}
 .field em{color:#555;font-size:11px;}
+.field .variable{width:600px;min-height:150px;}
 form small{color:#555; display:block;padding-top:3px;font-size:11px;font-weight:normal;font-style:italic;}
 input, textarea,select{background: none repeat scroll 0 0 #FCFCFC;border: 1px solid #CCCCCC; border-radius: 2px 2px 2px 2px;box-shadow: 0 1px 3px #DDDDDD inset;color: #666666;padding: 6px 5px;}
 select{min-width:300px;}

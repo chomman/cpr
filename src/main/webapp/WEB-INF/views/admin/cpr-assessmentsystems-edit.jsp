@@ -89,6 +89,28 @@
 					     	<form:checkbox path="enabled" />
 					     </span>
 					 </p>
+					  <p class="form-head">Text, zobrazovaný při generovaní prohlášení<p>
+					  <p>
+                      	<label>
+                      		Text, který se zobrazí v DOP formuláři
+                      		<small>Text, který se zobrazí v DOP formuláři, po výběru NO/AO a Systému posuzování.</small>
+                      	</label>
+                          <span class="field">  
+                          	<form:textarea path="declarationOfPerformanceText"  cssClass="variable" />
+                          	<span class="variable-info">
+                          		V textu je možné použit naledující promjené:<br /><br />
+                          		
+                          		<strong>${fn:replace(model.varAonoName,'\\','')}</strong> - Výraz bude nahrazen za název vybrané notifikované osoby<br />
+                          		<strong>${fn:replace(model.varId,'\\','')}</strong> - Výraz bude nahrazen za identifikátor vybrané notifikované osoby<br />
+                          		
+                          		Příklad:<br />
+                          		V případě pokud formulář bude obsahovat následující text:<br />
+								<em>Notifikovaná osoba <strong>${fn:replace(model.varAonoName,'\\','')}</strong> s identifikátorem <strong>${fn:replace(model.varId,'\\','')}</strong></em><br />
+								V DOP formuláři bude jako NO / AO zvolená ITC Zlín, tak výsledný tvar textu bude:<br />
+								<em>Notifikovaná osoba <strong>Institut pro testování a certifikaci</strong> s identifikátorem <strong>AO 224 ITC</strong></em>
+                          	</span>
+                          </span>
+                      </p>
 					  <p class="form-head"><spring:message code="cpr.nb.description" /><p>
 					  <p>
                       	<label>

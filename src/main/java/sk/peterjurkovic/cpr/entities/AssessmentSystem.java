@@ -27,6 +27,8 @@ public class AssessmentSystem extends AbstractEntity {
 	
 	private String assessmentSystemCode;
 	
+	private String declarationOfPerformanceText;
+	
 	private String description;
 
 	@Id
@@ -68,6 +70,16 @@ public class AssessmentSystem extends AbstractEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@Column(name = "dop_text")
+	@Type(type = "text")
+	public String getDeclarationOfPerformanceText() {
+		return declarationOfPerformanceText;
+	}
+
+	public void setDeclarationOfPerformanceText(String declarationOfPerformanceText) {
+		this.declarationOfPerformanceText = declarationOfPerformanceText;
 	}
 	
 	
