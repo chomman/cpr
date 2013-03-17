@@ -48,6 +48,15 @@
 				</c:if>
 				</td>
 			</tr>	
+		</table>
+		<table>
+			<tr>
+				<td class="no">6.</td>
+				<td>
+					<strong class="header"><spring:message code="dop.point7" /></strong>
+					
+				</td>
+			</tr>
 		</table>	
 		
 		
