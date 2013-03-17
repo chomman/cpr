@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.support.RequestContext;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.constants.DopTextVariable;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
@@ -338,6 +339,9 @@ public class PublicDeclarationOfPerformanceController {
 			model.put("url", DOP_FORM_URL + standard.getCode());
 		}
 		model.put("standard", standard);
+		model.put("varId",DopTextVariable.VAR_NOAO_ID.replace("\\", ""));
+		model.put("varAonoName",DopTextVariable.VAR_NOAO_NAME.replace("\\", ""));
+		model.put("varReport",DopTextVariable.VAR_REPORT.replace("\\", ""));
 		//model.put("requiremets", requirementService.getRequirementsByCountryAndStandard(country, standard));
 		model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
 		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
@@ -383,6 +387,8 @@ public class PublicDeclarationOfPerformanceController {
 		dop.setNotifiedBody2(dopWebForm.getNotifiedBody2());
 		dop.setReport(dopWebForm.getReport());
 		dop.setReport2(dopWebForm.getReport2());
+		dop.setAssessmentSystemNote(dopWebForm.getAssessmentSystemNote());
+		dop.setAssessmentSystemNote2(dopWebForm.getAssessmentSystemNote2());
 		dop.setNumberOfDeclaration(dopWebForm.getNumberOfDeclaration());
 		dop.setProductId(dopWebForm.getProductId());
 		dop.setSerialId(dopWebForm.getSerialId());

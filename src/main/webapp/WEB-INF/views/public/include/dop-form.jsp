@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
 
-				<form:form  htmlEscape="true"  modelAttribute="declarationOfPerformance" id="dop" cssClass="valid" method="post" action="${formUrl}" >
+				<form:form  htmlEscape="true"  modelAttribute="declarationOfPerformance" id="dop" cssClass="valid" method="post" action="${formUrl}"  >
 				
 					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 					
@@ -55,25 +55,119 @@
 						<form:textarea cssClass="w600 h80 required" path="declarationOfPerformance.authorisedRepresentative" rows="3" />
 						<div class="clear"></div>
 					</div>
-					
-					<div class="fitem">
+<script type="text/javascript">
+	var varId = '${model.varId}',
+		varAonoName = '${model.varAonoName}',
+		varReport = '${model.varReport}',
+		standard = '${model.standard.standardId}',
+		systems = [
+		<c:forEach items="${model.assessmentSystems}" var="as">{ id: '${as.id}', name : '${as.name}', code : '${as.assessmentSystemCode}', dopText : '${as.declarationOfPerformanceText}'},</c:forEach>
+	], 
+	noao = [
+		<c:forEach items="${model.notifiedBodies}" var="i">{ id: '${i.id}', name : '${i.name}', code : '${i.notifiedBodyCode}', city : '${i.address.city}', street : '${i.address.street}', zip : '${i.address.zip}', country : '${i.country.countryName}'},</c:forEach>
+	];
+</script>
+					<div class="fitem systems">
 						<span class="no">6</span>
-						<label><spring:message code="dop.assessmentSystem" /></label>
-						<form:select  path="declarationOfPerformance.assessmentSystem" cssClass="w300 required">
-							<form:options items="${model.assessmentSystems}" itemValue="id" itemLabel="name" />
-						</form:select>
 						
+						<div class="as1" id="fbox">
+							<span class="legend"></span>
+							<div class="line">
+								<span class="label"><spring:message code="dop.as.select"/></span>
+								<form:select  path="declarationOfPerformance.assessmentSystem" cssClass="as required">
+									<option value=""><spring:message code="form.select"/></option>
+									<c:forEach items="${model.assessmentSystems}" var="as">
+										<option value="${as.id}" title="${as.assessmentSystemCode}" 
+										<c:if test="${as.id ==  declarationOfPerformance.declarationOfPerformance.assessmentSystem.id}"> selected="selected"</c:if>
+										>${as.name}</option>
+									</c:forEach>
+								</form:select>
+									<span class="label-note noaodop"><spring:message code="dop.as.note"/></span>
+									<form:input path="declarationOfPerformance.assessmentSystemNote" cssClass="noaodop note" />
+							</div>
+							<div class="line">	
+								<div class="noaodop">
+									<span class="label"><spring:message code="dop.notifiedBody" /></span>
+									<form:select path="declarationOfPerformance.notifiedBody" cssClass="w600 " >
+										<option value=""><spring:message code="form.select"/></option>
+									 <c:forEach items="${model.notifiedBodies}" var="nb" varStatus="s" >
+
+							 			<c:if test="${prev != nb.country.id }">
+							 				<optgroup label="${nb.country.countryName}"></optgroup>
+							 				<c:set value="${nb.country.id}" var="prev" />
+							 			</c:if>
+							 				<option value="${nb.id}" 
+								 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
+								 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
+								 				</c:forEach> 
+							 				>
+							 				${nb.notifiedBodyCode} - ${nb.name}
+							 				</option>			 			
+									</c:forEach>
+									 </form:select>
+								</div>
+							</div>
+							<div class="line">	
+								<div class="report">
+									<span class="label"><spring:message code="dop.report"/></span>
+									<form:input path="declarationOfPerformance.report"/>
+								</div>
+							</div>
+						</div>
+
 
 						<c:if test="${model.standard.cumulative or declarationOfPerformance.declarationOfPerformance.standard.cumulative}">
-							<form:select  path="declarationOfPerformance.assessmentSystem2" id="assessmentSystem2" cssClass="margin-left w300 required">
-								<form:options items="${model.assessmentSystems}" itemValue="id" itemLabel="name" />
-							</form:select>
-							<div class="cumulaive">
-								<form:checkbox path="declarationOfPerformance.cumulative" id="isCumulative" />
-								<span><spring:message code="dop.cumulative" /></span>
+							<div class="as1" id="cbox">
+							<span class="legend"></span>
+							<div class="line">
+								<span class="label"><spring:message code="dop.as.select"/></span>
+								<form:select  path="declarationOfPerformance.assessmentSystem2" cssClass="as2 required">
+									<option value=""><spring:message code="form.select"/></option>
+									<c:forEach items="${model.assessmentSystems}" var="as">
+										<option value="${as.id}" title="${as.assessmentSystemCode}" 
+										<c:if test="${as.id ==  declarationOfPerformance.declarationOfPerformance.assessmentSystem2.id}"> selected="selected"</c:if>
+										>${as.name}</option>
+									</c:forEach>
+								</form:select>
+									<span class="label-note noaodop"><spring:message code="dop.as.note"/></span>
+									<form:input path="declarationOfPerformance.assessmentSystemNote2" cssClass="noaodop note" />
 							</div>
-						</c:if>					
+							<div class="line">	
+								<div class="noaodop">
+									<span class="label"><spring:message code="dop.notifiedBody" /></span>
+									<form:select path="declarationOfPerformance.notifiedBody2" cssClass="w600 " >
+										<option value=""><spring:message code="form.select"/></option>
+									 <c:forEach items="${model.notifiedBodies}" var="nb" varStatus="s" >
+
+							 			<c:if test="${prev != nb.country.id }">
+							 				<optgroup label="${nb.country.countryName}"></optgroup>
+							 				<c:set value="${nb.country.id}" var="prev" />
+							 			</c:if>
+							 				<option value="${nb.id}" 
+								 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
+								 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
+								 				</c:forEach> 
+							 				>
+							 				${nb.notifiedBodyCode} - ${nb.name}
+							 				</option>			 			
+									</c:forEach>
+									 </form:select>
+								</div>
+							</div>
+							<div class="line">	
+								<div class="report">
+									<span class="label"><spring:message code="dop.report"/></span>
+									<form:input path="declarationOfPerformance.report2"/>
+								</div>
+							</div>
+						</div>
 						
+						<div class="cumulaive">
+							<form:checkbox path="declarationOfPerformance.cumulative" id="isCumulative" />
+							<span><spring:message code="dop.cumulative" /></span>
+						</div>
+						</c:if>					
+ 						
 						
 						<div class="clear"></div>
 					</div>
@@ -81,23 +175,8 @@
 					
 					<div class="fitem">
 						<span class="no">7</span>
-						<label><spring:message code="dop.notifiedBody" /></label>
-						<form:select path="declarationOfPerformance.notifiedBody" cssClass="w600" >
-						
-							 <c:forEach items="${model.notifiedBodies}" var="nb" varStatus="s" >
-					 			<c:if test="${prev != nb.country.id }">
-					 				<optgroup label="${nb.country.countryName}"></optgroup>
-					 				<c:set value="${nb.country.id}" var="prev" />
-					 			</c:if>
-					 				<option value="${nb.id}" 
-						 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
-						 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
-						 				</c:forEach> 
-					 				>
-					 				${nb.notifiedBodyCode} - ${nb.name}
-					 				</option>			 			
-							</c:forEach>
-						 </form:select>
+						<strong class="header"><spring:message code="dop.point7" /></strong>
+						<div id="render"></div>
 						<div class="clear"></div>
 					</div>
 					

@@ -123,7 +123,7 @@ public class CprAssessmentSystemController extends SupportAdminController {
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("varId",DopTextVariable.VAR_NOAO_ID);
 		model.put("varAonoName",DopTextVariable.VAR_NOAO_NAME);
-		model.put("varSystemName",DopTextVariable.VAR_SYSTEM_NAME);
+		model.put("varReport",DopTextVariable.VAR_REPORT);
 		map.put("model", model); 
 	}
 	

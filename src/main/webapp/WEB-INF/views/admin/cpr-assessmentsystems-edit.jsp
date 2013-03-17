@@ -102,6 +102,7 @@
                           		
                           		<strong>${fn:replace(model.varAonoName,'\\','')}</strong> - Výraz bude nahrazen za název vybrané notifikované osoby<br />
                           		<strong>${fn:replace(model.varId,'\\','')}</strong> - Výraz bude nahrazen za identifikátor vybrané notifikované osoby<br />
+                          		<strong>${fn:replace(model.varReport,'\\','')}</strong> - Výraz bude nahrazen za identifikátor cerfitikátu/testu<br /><br />
                           		
                           		Příklad:<br />
                           		V případě pokud formulář bude obsahovat následující text:<br />

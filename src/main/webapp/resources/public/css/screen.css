@@ -10,7 +10,7 @@ body{font-family: Arial,Tahoma, sans-serif;background:url(../img/body.png) repea
 .l{ text-align:left;}
 a{none;color:#3e4e69;}
 .blind { left: -5000px;position: absolute; top: -5000px;}
-.radius,#noao .true,.step,#dop .no,#dop .item.center,#localStorage{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+.radius,#noao .true,.step,#dop .no,#dop .item.center,#localStorage,#dop .legend,.as1{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 #wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
 .btn-next.ehn{float:left;display:inline-block;margin: 15px 0;}
 #dop-menu{background:#FAFAFA;margin:30px 0;background: rgb(255,255,255);
@@ -59,8 +59,6 @@ h2.dop span{font-size:14px;}
 .two-colls td{width:45%;border-top:1px dashed #333;}
 
 /* DOP PAGE */
-.cumulaive{display:block;background:#EBF8FF;border:2px solid #D0E7F2;clear:both;float:right;width:635px;padding:8px 15px;font-weight:bold;}
-.cumulaive input{margin:5px;}
 .margin-left{margin-left:25px;}
 .step{position:absolute;top:-15px;background:#499bea;color:#fff;padding:0px 10px;font-size:11px;border:2px solid #8DBCE8;-webkit-box-shadow: 0px 0px 5px 1px #ccc;box-shadow: 0px 0px 5px 1px #ccc; }
 #search-form{padding:15px 20px;margin:30px 0;background:#F5FBFF;font-size:15px;border:2px solid #DCECF5;position:relative;}
@@ -138,7 +136,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 #dop .item label{display:block;font-weight:bold;}
 #dop .fitem{background:#fcfcfc;border:2px solid #ddd;margin:15px 0;font-size:13px;padding:10px;position:relative;}
 #dop .fitem label{display:block;width:230px;padding:10px;text-align:right;font-weight:bold;float:left;}
-#dop .fitem input,#dop .fitem textarea,#dop .fitem select,#dop .value input,#dop .item input{background:#fff; padding:8px 10px;border:2px solid #ccc;display:block;float:left;}
+#dop .fitem input,#dop .fitem textarea,#dop .value input,#dop .item input{background:#fff; padding:8px 10px;border:2px solid #ccc;display:block;float:left;}
 #dop .fitem .no,#dop .dopitems .no{position:absolute;left:3px;padding:5px 8px;top:-10px;background:#444;color:#fff;font-size:16px;font-weight:bold; }
 #dop .fitem p{background:#FFF9E6;display:block; margin:15px 0 5px 250px;font-style:italic;padding:10px;border:2px solid #F5EBC9;color:#69540F;font-size:13px;}
 #dop .fitem optgroup{padding:12px 5px;background: #258dc8;font-style:normal;color:#fff;
@@ -155,6 +153,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#258dc8', end
 #dop .norm-wrapper{padding:10px 0;display:block;}
 #dop .norm-wrapper em{margin:0px 5px;}
 #dop .norm-wrapper a:hover{color:#000;text-decoration:none;}
+
+
+#dop .line{display:block;margin:10px 0;padding:10px 5px;border-bottom:1px dotted #C3DDF7;}
+#dop .line span{text-align:right;display:inline-block;}
+#dop .line .label{width:230px;float:left;padding:0 8px;}
+#dop .line input{display:inline-block;float:none;}
+#dop .line .note{width:310px;}
+#dop .as1{border:2px solid #C3DDF7;padding:5px;margin:20px 10px;position:relative;background:#F5FAFF}
+#dop .legend{position:absolute;top:-13px;background:#4F97E0;left:30px;padding:1px 10px;color:#fff;font-size:11px;}
+#dop .noaodop{display:inline-block;padding:0;margin:0}
+#dop select{font-size:11px;padding:5px 0 0 10px;display:inline-block;background:#fff;border:2px solid #ccc;}
+#dop select.as,#dop select.as2{width:200px;margin-right:15px;}
+#dop select option{padding:2px 5px;}
+#dop strong.header{text-align:center;display:block;padding:10px;font-size:15px;}
+
+.cumulaive{display:block;background:#EBF8FF;border:2px solid #D0E7F2;clear:both;padding:8px 15px;font-weight:bold;margin:0 10px;}
+.cumulaive input{margin:5px;}
 
 #dop .name,#dop .level, #dop .value{padding: 5px 15px;border-right:1px solid #ccc;}
 #dop .name{max-width:480px;height:50px;}
@@ -179,10 +194,9 @@ display:inline-block;color:#777777;font-family:arial;
 font-size:15px;font-weight:bold;padding:13px 24px;
 text-decoration:none;text-shadow:1px 1px 0px #ffffff;
 }
-#dop .back:hover {
-    background:#ddd !important;
-}
-
+#dop .back:hover {background:#ddd !important;}
+#dop .system-r{padding:20px 40px;}
+#dop .system-r h3{font-style:italic;}
 /* HEADER */
 #logo{display:inline-block;width:150px;background:url(../img/logo.png) no-repeat center;height:125px;float:left;}
 header{height:125px; background: url(../img/europa.png) no-repeat right ;}

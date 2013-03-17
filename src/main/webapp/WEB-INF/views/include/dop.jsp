@@ -39,30 +39,15 @@
 			<tr>
 				<td class="no">6.</td>
 				<td class="label"><spring:message code="dop.assessmentSystem" /></td>
-				<td class="val">${model.dop.assessmentSystem.name}
+				<td class="val">
+				${model.dop.assessmentSystem.name} 
+				<c:if test="${model.dop.assessmentSystemNote}"><em>(${model.dop.assessmentSystemNote})</em></c:if>
 				<c:if test="${model.dop.cumulative}">
-					a ${model.dop.assessmentSystem2.name}
+					<br /> ${model.dop.assessmentSystem2.name}
+					<c:if test="${model.dop.assessmentSystemNote2}"><em>(${model.dop.assessmentSystemNote2})</em></c:if>
 				</c:if>
 				</td>
 			</tr>	
-			
-			<tr>
-				<td class="no">7.</td>
-				<td class="label"><spring:message code="dop.aono" /></td>
-				<td class="val"><strong>${model.dop.notifiedBody.notifiedBodyCode} ${model.dop.notifiedBody.name}</strong><br />
-					${model.dop.notifiedBody.address.city}, ${model.dop.notifiedBody.address.street} ${model.dop.notifiedBody.address.zip}, ${model.dop.notifiedBody.country.countryName}
-				</td>
-			</tr>
-			
-			<tr>
-				<td class="no">8.</td>
-				<td class="label"><spring:message code="dop.ehn" /></td>
-				<td class="val">
-					<a href="<c:url value="/ehn/${model.dop.standard.code}" />" target="_blank">${model.dop.standard.standardId}</a>
-					(<em>${model.dop.standard.standardName}</em>)
-				</td>
-			</tr>
-			
 		</table>	
 		
 		

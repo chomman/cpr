@@ -46,6 +46,10 @@ public class DeclarationOfPerformance {
 	
 	private AssessmentSystem assessmentSystem2;
 	
+	private String assessmentSystemNote;
+	
+	private String assessmentSystemNote2;
+	
 	private NotifiedBody notifiedBody;
 	
 	private NotifiedBody notifiedBody2;
@@ -65,6 +69,8 @@ public class DeclarationOfPerformance {
 	private String token;
 	
 	private Boolean cumulative;
+	
+	private String eta;
 
 	
 	public DeclarationOfPerformance(){
@@ -185,6 +191,7 @@ public class DeclarationOfPerformance {
 		this.notifiedBody2 = notifiedBody;
 	}
 	
+	@Length(max = 255)
 	@Column(name = "report")
 	public String getReport() {
 		return report;
@@ -194,7 +201,7 @@ public class DeclarationOfPerformance {
 		this.report = report;
 	}
 	
-	
+	@Length(max = 255)
 	@Column(name = "report_cumulative")
 	public String getReport2() {
 		return report2;
@@ -269,8 +276,38 @@ public class DeclarationOfPerformance {
 	public void setCumulative(Boolean cumulative) {
 		this.cumulative = cumulative;
 	}
+	
+	@Column(name = "assessment_system_note")
+	@Length(max = 255)
+	public String getAssessmentSystemNote() {
+		return assessmentSystemNote;
+	}
 
+	public void setAssessmentSystemNote(String assessmentSystemNote) {
+		this.assessmentSystemNote = assessmentSystemNote;
+	}
+	
+	@Column(name = "assessment_system_note_cumulative")
+	@Length(max = 255)
+	public String getAssessmentSystemNote2() {
+		return assessmentSystemNote2;
+	}
 
+	public void setAssessmentSystemNote2(String assessmentSystemNote2) {
+		this.assessmentSystemNote2 = assessmentSystemNote2;
+	}
+
+	@Column(name = "eta_text")
+	@Type(type = "text")
+	public String getEta() {
+		return eta;
+	}
+
+	public void setEta(String eta) {
+		this.eta = eta;
+	}
+
+	
 	
 	
 }
