@@ -77,9 +77,7 @@
 								<form:select  path="declarationOfPerformance.assessmentSystem" cssClass="as required">
 									<option value=""><spring:message code="form.select"/></option>
 									<c:forEach items="${model.assessmentSystems}" var="as">
-										<option value="${as.id}" title="${as.assessmentSystemCode}" 
-										<c:if test="${as.id ==  declarationOfPerformance.declarationOfPerformance.assessmentSystem.id}"> selected="selected"</c:if>
-										>${as.name}</option>
+										<option value="${as.id}" <c:if test="${as.id ==  declarationOfPerformance.declarationOfPerformance.assessmentSystem.id}"> selected="selected" </c:if> title="${as.assessmentSystemCode}" >${as.name}</option>
 									</c:forEach>
 								</form:select>
 									<span class="label-note noaodop"><spring:message code="dop.as.note"/></span>
@@ -96,15 +94,11 @@
 							 				<optgroup label="${nb.country.countryName}"></optgroup>
 							 				<c:set value="${nb.country.id}" var="prev" />
 							 			</c:if>
-							 				<option value="${nb.id}" 
-								 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
-								 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
-								 				</c:forEach> 
-							 				>
+							 				<option value="${nb.id}" <c:if test="${nb.id == declarationOfPerformance.declarationOfPerformance.notifiedBody.id}">selected="selected"</c:if>>
 							 				${nb.notifiedBodyCode} - ${nb.name}
 							 				</option>			 			
 									</c:forEach>
-									 </form:select>
+									</form:select>
 								</div>
 							</div>
 							<div class="line">	
@@ -143,11 +137,7 @@
 							 				<optgroup label="${nb.country.countryName}"></optgroup>
 							 				<c:set value="${nb.country.id}" var="prev" />
 							 			</c:if>
-							 				<option value="${nb.id}" 
-								 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
-								 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
-								 				</c:forEach> 
-							 				>
+							 				<option value="${nb.id}" <c:if test="${nb.id == declarationOfPerformance.declarationOfPerformance.notifiedBody2.id}">selected="selected"</c:if>>
 							 				${nb.notifiedBodyCode} - ${nb.name}
 							 				</option>			 			
 									</c:forEach>

@@ -166,7 +166,7 @@ function prepareText(noaoId, systemId, report){
 	if(system === null) return;
 	text = system.dopText;
 	if(system.assessmentSystemCode !== '4'){
-		if(noaoId !== ''){
+		if(typeof(noaoId) !== 'undefined' && noaoId.length > 0){
 			noao = getNoAoById(noaoId);
 			if(noao !== null){
 				text = text.replace(varId , '<strong>'+noao.code+'</strong>');
@@ -175,10 +175,10 @@ function prepareText(noaoId, systemId, report){
 				return '<div class="system-r"><h3>'+standard+', '+ system.name +':</h3>'+text+'</div>';
 			}
 		}
+		return '';
 	}else{
 		return '<div class="system-r"><h3>'+standard+', '+ system.name +':</h3>'+text+'</div>';
 	}
-	
 }
 
 function renderText(){
