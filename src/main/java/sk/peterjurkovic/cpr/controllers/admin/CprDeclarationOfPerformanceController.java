@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.DeclarationOfPerformanceService;
+import sk.peterjurkovic.cpr.utils.DoPUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
@@ -56,6 +57,7 @@ public class CprDeclarationOfPerformanceController extends SupportAdminControlle
 			throw new ItemNotFoundException();
 		}
 		model.put("dop", dop);
+		model.put("point7", DoPUtils.makeText(dop));
 		model.put("tab", CPR_TAB_INDEX);
 		modelMap.put("model", model);
         return getViewName();

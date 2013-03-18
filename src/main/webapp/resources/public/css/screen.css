@@ -48,15 +48,17 @@ h2.dop span{font-size:14px;}
 .formerr{border-color:red !important;}
 
 .dop-items{border:0}
-.dop-items tr{border-bottom:1px dotted #ddd;}
+table .no{width:30px;}
+.dop-items tr,table.no-border tr{border-bottom:1px dotted #ddd;}
 .dop-items tr.odd{ background:none; }
 .dop-items td{padding:15px 10px;vertical-align:text-top;}
-.dop-items .label,.dop-items .no{font-weight:bold;}
-.dop-items .label{max-width:300px;}
+.dop-items .label,.dop-items .no,table.no-border .no{font-weight:bold;}
+.dop-items .label{max-width:100px;}
 .one-colls,.two-colls{border:none;text-align:center;margin-top:50px;}
 .one-colls tr,.two-colls tr{border:none;background:none !important;}
 .one-colls tr{border-top:1px dashed #333;}
 .two-colls td{width:45%;border-top:1px dashed #333;}
+table .center-val{ text-align:center;display:block;}
 
 /* DOP PAGE */
 .margin-left{margin-left:25px;}
@@ -166,7 +168,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#258dc8', end
 #dop select{font-size:11px;padding:5px 0 0 10px;display:inline-block;background:#fff;border:2px solid #ccc;}
 #dop select.as,#dop select.as2{width:200px;margin-right:15px;}
 #dop select option{padding:2px 5px;}
-#dop strong.header{text-align:center;display:block;padding:10px;font-size:15px;}
+strong.header{text-align:center;display:block;padding:10px;font-size:15px;}
 
 .cumulaive{display:block;background:#EBF8FF;border:2px solid #D0E7F2;clear:both;padding:8px 15px;font-weight:bold;margin:0 10px;}
 .cumulaive input{margin:5px;}
@@ -195,8 +197,15 @@ font-size:15px;font-weight:bold;padding:13px 24px;
 text-decoration:none;text-shadow:1px 1px 0px #ffffff;
 }
 #dop .back:hover {background:#ddd !important;}
-#dop .system-r{padding:20px 40px;}
-#dop .system-r h3{font-style:italic;}
+.system-r{padding:20px 40px;}
+.system-r h3{font-style:italic;}
+#dop textarea.eta{width:830px;margin:10px 30px;height:80px;}
+
+table.no-border{border:0px !important;}
+table.no-border .odd{background:none;}
+table.no-border tr{border-bottom:1px dotted #ccc;}
+
+
 /* HEADER */
 #logo{display:inline-block;width:150px;background:url(../img/logo.png) no-repeat center;height:125px;float:left;}
 header{height:125px; background: url(../img/europa.png) no-repeat right ;}

@@ -75,6 +75,7 @@ public class DeclarationOfPerformance {
 	
 	public DeclarationOfPerformance(){
 		this.essentialCharacteristics = new HashSet<EssentialCharacteristic>();
+		this.eta = "Neni relevantní";
 	}
 
 	@Id

@@ -86,29 +86,37 @@
 					<tr>
 						<td class="no">6.</td>
 						<td class="label"><@spring.message code="dop.assessmentSystem" /></td>
-						<td class="val">${dop.assessmentSystem.name?default("")}</td>
+						<td class="val">
+						${dop.assessmentSystem.name?default("")}
+						<#if dop.assessmentSystemNote??>
+						    <em>(${dop.assessmentSystemNote})</em>
+						</#if>
+						<#if dop.cumulative??>
+						 	<br />  ${dop.assessmentSystem2.name?default("")}
+						 	<#if dop.assessmentSystemNote2??>
+						    	<em>(${dop.assessmentSystemNote2})</em>
+							</#if>
+						</#if>
+						</td>
 					</tr>	
-					
+					</table>
+					<table>
 					<tr>
 						<td class="no">7.</td>
-						<td class="label"><@spring.message code="dop.aono" /></td>
-						<td class="val"><strong>${dop.notifiedBody.notifiedBodyCode?default("")} ${dop.notifiedBody.name?default("")}</strong><br />
-							${dop.notifiedBody.address.city?default("")}, ${dop.notifiedBody.address.street?default("")} ${dop.notifiedBody.address.zip?default("")}, ${dop.notifiedBody.country.countryName?default("")}
+						<td><strong><@spring.message code="dop.point7" /></strong>
+							${point7?default("")}
 						</td>
 					</tr>
 					
 					<tr>
 						<td class="no">8.</td>
-						<td class="label"><@spring.message code="dop.ehn" /></td>
-						<td class="val">
-							<strong>${dop.standard.standardId?default("")}</strong>
-							(<em>${dop.standard.standardName?default("")}</em>)
+						<td><strong><@spring.message code="dop.point8" /></strong>
+							${dop.eta?default("")}
 						</td>
 					</tr>
 					<tr>
 						<td class="no">9.</td>
-						<td class="label"></td>
-						<td class="val"></td>
+						<td></td>
 					</tr>
 					
 				</table>	
@@ -117,7 +125,6 @@
 					<thead>
 						<tr>
 							<th><@spring.message code="dop.table.essentialCharacteristics" /></th>
-							<th><@spring.message code="cpr.requirement.level" /></th>
 							<th><@spring.message code="dop.table.performance" /></th>
 							<th><@spring.message code="dop.table.ehn" /></th>
 						</tr>
@@ -127,7 +134,6 @@
 						<#list dop.essentialCharacteristics as i >
 							<tr>
 								<td class="name">${i.requirement.name?default("")}</td>
-								<td class="level">${i.requirement.levels?default("")}</td>
 								<td class="value">${i.value?default("")}</td>
 								<td class="ehn">
 									<strong>${dop.standard.standardId?default("")}</strong>

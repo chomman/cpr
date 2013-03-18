@@ -51,6 +51,7 @@ import sk.peterjurkovic.cpr.services.RequirementService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.TagService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.DoPUtils;
 import sk.peterjurkovic.cpr.validators.DeclarationOfPerformanceValidator;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyEditor;
@@ -187,6 +188,7 @@ public class PublicDeclarationOfPerformanceController {
 		
 		Map model = new HashMap<String, Object>();
 		model.put("springMacroRequestContext", new RequestContext(request, null, null, null));
+		model.put("point7", DoPUtils.makeText(dop));
 		model.put("dop", dop);
 		pdfView.setOutputFileName("dop-"+ dop.getStandard().getCode() +".pdf");
 		pdfView.setFtlTemplateName("dop.ftl");
@@ -315,6 +317,7 @@ public class PublicDeclarationOfPerformanceController {
 				model.put("success", true);
 			}
 			model.put("dop", dop);
+			model.put("point7", DoPUtils.makeText(dop));
 			modelMap.put("model", model);
 		}
 		
@@ -392,6 +395,7 @@ public class PublicDeclarationOfPerformanceController {
 		dop.setNumberOfDeclaration(dopWebForm.getNumberOfDeclaration());
 		dop.setProductId(dopWebForm.getProductId());
 		dop.setSerialId(dopWebForm.getSerialId());
+		dop.setEta(dopWebForm.getEta());
 		dop.setCumulative(dopWebForm.getCumulative());
 		if(dop.getId() == null || dop.getId() == 0){
 			dop.setStandard(dopWebForm.getStandard());

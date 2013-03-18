@@ -41,20 +41,29 @@
 				<td class="label"><spring:message code="dop.assessmentSystem" /></td>
 				<td class="val">
 				${model.dop.assessmentSystem.name} 
-				<c:if test="${model.dop.assessmentSystemNote}"><em>(${model.dop.assessmentSystemNote})</em></c:if>
+				<c:if test="${not empty model.dop.assessmentSystemNote}"><em>(${model.dop.assessmentSystemNote})</em></c:if>
 				<c:if test="${model.dop.cumulative}">
 					<br /> ${model.dop.assessmentSystem2.name}
-					<c:if test="${model.dop.assessmentSystemNote2}"><em>(${model.dop.assessmentSystemNote2})</em></c:if>
+					<c:if test="${not empty model.dop.assessmentSystemNote2}"><em>(${model.dop.assessmentSystemNote2})</em></c:if>
 				</c:if>
 				</td>
 			</tr>	
 		</table>
-		<table>
+		<table class="no-border">
 			<tr>
-				<td class="no">6.</td>
+				<td class="no">7.</td>
 				<td>
-					<strong class="header"><spring:message code="dop.point7" /></strong>
+					<strong><spring:message code="dop.point7" /></strong>
 					
+					${model.point7}
+				</td>
+			</tr>
+			
+			<tr>
+				<td class="no">8.</td>
+				<td>
+					<strong><spring:message code="dop.point8" /></strong>
+					<span class="center-val">${model.dop.eta}</span>
 				</td>
 			</tr>
 		</table>	
@@ -65,7 +74,6 @@
 			<thead>
 				<tr>
 					<th><spring:message code="dop.table.essentialCharacteristics" /></th>
-					<th><spring:message code="cpr.requirement.level" /></th>
 					<th><spring:message code="dop.table.performance" /></th>
 					<th><spring:message code="dop.table.ehn" /></th>
 				</tr>
@@ -75,7 +83,6 @@
 				<c:forEach items="${model.dop.essentialCharacteristics}" var="i" varStatus="status">
 					<tr>
 						<td class="name">${i.requirement.name}</td>
-						<td class="level">${i.requirement.levels}</td>
 						<td class="value">${i.value}</td>
 						<td class="ehn">
 							<a href="<c:url value="/ehn/${model.standard.code}" />" target="_blank">${model.dop.standard.standardId}</a> 

@@ -314,9 +314,13 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', end
 h2.dop{padding:5px 0 15px 0;text-align:center;border-bottom:1px solid #555}
 h2.dop em{display:block;font-style:normal;}
 h2.dop span{font-size:14px;}
-
+table.no-border{border:0px !important;}
+table.no-border .odd{background:none;}
+table.no-border tr{border-bottom:1px dotted #ccc;}
+.system-r{padding:20px 40px;}
+.system-r h3{font-style:italic;}
 .dop-items{border:0;}
-.dop-items tr{border-bottom:1px dotted #ddd;}
+.dop-items tr,table.no-border tr{border-bottom:1px dotted #ddd;}
 .dop-items tr.odd{ background:none; }
 .dop-items td{padding:15px 10px;vertical-align:text-top;}
 .dop-items .label,.dop-items .no{font-weight:bold;}
@@ -331,7 +335,7 @@ h2.dop span{font-size:14px;}
 #dop .level{text-align:center;}
 #dop .ehn{min-width:200px;}
 #dop th{background:#eee;padding:15px;}
-
+table .center-val{ text-align:center;display:block;}
 /* ERROR PAGES */
 .error-box{width:400px;margin:100px auto;padding:40px;background:#FFFAFA;border:5px solid #FFF5F5;text-align:center;}
 .error-box p{padding:10px;}

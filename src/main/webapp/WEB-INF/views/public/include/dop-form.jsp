@@ -182,11 +182,8 @@
 					
 					<div class="fitem">
 						<span class="no">8</span>
-						<label><spring:message code="dop.ehn" /></label>
-						<span class="norm-wrapper">
-						<a href="<c:url value="/ehn/${model.standard.code}" />" target="_blank">${model.standard.standardId}</a>
-						(<em>${model.standard.standardName}</em>)
-						</span>
+						<strong class="header"><spring:message code="dop.point7" /></strong>
+						<form:textarea path="declarationOfPerformance.eta" cssClass="eta"/>
 						<div class="clear"></div>
 					</div>
 					
