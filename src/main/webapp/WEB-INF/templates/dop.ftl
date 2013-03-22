@@ -92,9 +92,11 @@
 						    <em>(${dop.assessmentSystemNote})</em>
 						</#if>
 						<#if dop.cumulative??>
-						 	<br />  ${dop.assessmentSystem2.name?default("")}
-						 	<#if dop.assessmentSystemNote2??>
-						    	<em>(${dop.assessmentSystemNote2})</em>
+							<#if dop.assessmentSystem2??>
+							 	<br />  ${dop.assessmentSystem2.name?default("")}
+							 	<#if dop.assessmentSystemNote2??>
+							    	<em>(${dop.assessmentSystemNote2})</em>
+								</#if>
 							</#if>
 						</#if>
 						</td>
