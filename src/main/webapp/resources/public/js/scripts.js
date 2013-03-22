@@ -34,15 +34,17 @@ function validate(f){
 			}
 		}
 	});
-	
-	var s = $('select.required :selected');
-	if($('select.required').length  != 0){ 
-		if(s.val() === ''){
-			valid = false;
-			s.parent().addClass('formerr');
-		}else{
-			$(this).removeClass('formerr');
-		}
+	var selects = $('select.required');
+	if(selects.length  != 0){ 
+		selects.each(function(){
+			var o = $(this);
+			if(o.find("option:selected").val() === ""){
+				valid = false;	
+				o.addClass('formerr');
+			}else{
+				o.removeClass('formerr');
+			}
+		});
 	}
 	
 	return valid;	
@@ -176,27 +178,26 @@ function prepareText(noaoId, systemId, report){
 			}
 		}
 		return '';
-	}else{
-		return '<div class="system-r"><h3>'+standard+', '+ system.name +':</h3>'+text+'</div>';
 	}
+	return '<div class="system-r"><h3>'+standard+', '+ system.name +':</h3>'+text+'</div>';
 }
 
 function renderText(){
-	var html, 
+	var html = "", 
 	    o = $('#fbox'),
 		systemId = $('select.as').val(),
 		noaoId = o.find('.w600').val(),
 		report = o.find('.report input').val();
 
 	if(systemId !== ''){
-		html = prepareText(noaoId, systemId, report);
+		html += prepareText(noaoId, systemId, report);
 	}
 	o = $('#cbox');
 	if($('#isCumulative').is(':checked') && o !== undefined){
 		systemId = $('select.as2').val(),
 		noaoId = o.find('.w600').val(),
 		report = o.find('.report input').val();
-		if(systemId !== ''){
+		if(systemId.length !== 0){
 			html += prepareText(noaoId, systemId, report);
 		}
 	}

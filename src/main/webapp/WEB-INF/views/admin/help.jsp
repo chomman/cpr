@@ -19,25 +19,21 @@
 	 $(function() {$( "#help" ).accordion(); });
 	</script>
 	<div id="help">
-		<h3>Section 1</h3>
+		<h3>Kde a jak mohu přidat novou normu?</h3>
+		<div class="help-box">
+			<ol>
+				<li>Novou normu lze přidat v sekci <strong>"CPR"</strong> v podsekci <strong>"Správa norem"</strong></li>
+				<li>Kliknutím na kartu <strong>Přidat novou normu</strong></li>
+				<li>Následně je nutné zadat základní informace o přidávání normě a kliknout na tlačítko "Uložit"</li>
+			</ol>
+		</div>
+		<h3>Norma je přidána, ale nezobrazuje se ve veřejné sekci systému.</h3>
 		<div class="help-box">
 			<p>
-			Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
-			ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
-			amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
-			odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+			Aby se evidována norma zobrazovala i ve veřejné části systému, je nutné aby byla v základních nastaveních normy zaškrtunutá položka <strong>Publikovat</strong>.
 			</p>
 		</div>
-		<h3>Section 2</h3>
-		<div class="help-box">
-			<p>
-			Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
-			purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
-			velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
-			suscipit faucibus urna.
-			</p>
-		</div>
-		<h3>Section 3</h3>
+		<h3>Kde a jak mohu přidat požadavek k evidované normě?</h3>
 		<div class="help-box">
 			<p>
 			Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.

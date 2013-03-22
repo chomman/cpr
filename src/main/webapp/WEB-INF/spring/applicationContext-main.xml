@@ -122,7 +122,7 @@
        
     <bean id="pdfView" scope="request" class="sk.peterjurkovic.cpr.export.PdfByXhtmlrendererView" />
 
-    <bean id="pdfByXhtmlrendererExporter" scope="singleton" class="sk.peterjurkovic.cpr.export.PdfByXhtmlrendererExporter">
+    <bean id="pdfByXhtmlrendererExporter" scope="singleton" class="sk.peterjurkovic.cpr.export.PdfExporter">
         <property name="fonts">
         	<list>
         		<value>/fonts/tahoma.ttf</value>

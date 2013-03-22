@@ -19,7 +19,7 @@ public class DoPUtils {
 	
 	private static String replaceVariables(AssessmentSystem as, NotifiedBody nb, DeclarationOfPerformance dop){
 		String result = as.getDeclarationOfPerformanceText();
-		if(as.getAssessmentSystemCode() != "4"){
+		if(as.getAssessmentSystemCode() != "4" && nb != null){
 			result = result.replaceAll(DopTextVariable.VAR_NOAO_NAME, 
 					"<strong>"+nb.getName()+ " - " +
 							 nb.getAddress().getStreet()+", "+

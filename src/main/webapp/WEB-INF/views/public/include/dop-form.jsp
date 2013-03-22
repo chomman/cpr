@@ -86,7 +86,7 @@
 							<div class="line">	
 								<div class="noaodop">
 									<span class="label"><spring:message code="dop.notifiedBody" /></span>
-									<form:select path="declarationOfPerformance.notifiedBody" cssClass="w600 " >
+									<form:select path="declarationOfPerformance.notifiedBody" cssClass="w600 required" >
 										<option value=""><spring:message code="form.select"/></option>
 									 <c:forEach items="${model.notifiedBodies}" var="nb" varStatus="s" >
 
@@ -129,7 +129,7 @@
 							<div class="line">	
 								<div class="noaodop">
 									<span class="label"><spring:message code="dop.notifiedBody" /></span>
-									<form:select path="declarationOfPerformance.notifiedBody2" cssClass="w600 " >
+									<form:select path="declarationOfPerformance.notifiedBody2" cssClass="w600 required" >
 										<option value=""><spring:message code="form.select"/></option>
 									 <c:forEach items="${model.notifiedBodies}" var="nb" varStatus="s" >
 

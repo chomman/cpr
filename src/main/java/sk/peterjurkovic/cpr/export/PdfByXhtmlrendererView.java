@@ -16,7 +16,7 @@ import org.springframework.web.servlet.view.AbstractView;
 public class PdfByXhtmlrendererView extends AbstractView {
 	
 	@Autowired
-	private PdfByXhtmlrendererExporter pdfByXhtmlrendererExporter;
+	private PdfExporter pdfByXhtmlrendererExporter;
 	
 	private String ftlTemplateName;
 	
