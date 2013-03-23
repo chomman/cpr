@@ -13,8 +13,6 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -30,9 +28,7 @@ import freemarker.template.Template;
 
 @Component("pdfExport")
 public class PdfExporter {
-	
-	private final Log logger = LogFactory.getLog(getClass().getName());
-			
+				
     private List<Resource> fonts = new ArrayList<Resource>();
     
     private Configuration configuration;
@@ -44,14 +40,11 @@ public class PdfExporter {
    
     public ByteArrayOutputStream generatePdf(String ftlTemplate, Map<String, Object> model, String url) {
         try {
-        	logger.debug("Zpracovani sablony a modelu zahajeno");
             Template temp = configuration.getTemplate(ftlTemplate, ENCODING);
             ByteArrayOutputStream htmlAsOs = new ByteArrayOutputStream();
             temp.process(model, new BufferedWriter(new OutputStreamWriter(htmlAsOs, ENCODING)));
             htmlAsOs.close();
-            logger.debug("Zpracovani sablony a modelu dokonceno");
             String content = htmlAsOs.toString().replaceAll("&(?!amp;|nbsp;|#)", "&amp;");
-            logger.debug("Vysledek konverze sablony do XHTML je: \n" + content);
             ByteArrayOutputStream pdfAsOs = generatePdf(new ByteArrayInputStream(htmlAsOs.toString().getBytes()), url);
             return pdfAsOs;
         } catch (Exception e) {
@@ -62,7 +55,6 @@ public class PdfExporter {
 
    
     public ByteArrayOutputStream generatePdf(InputStream xhtml, String baseUrl) {
-    		logger.info("Zahajen prevod XHTML -> PDF");
         ByteArrayOutputStream out = null;
         Document document = null;
         try {
@@ -78,9 +70,7 @@ public class PdfExporter {
             renderer.layout();
             renderer.createPDF(out);
             out.close();
-            logger.info("Uspesne ukoncen prevod XHTML -> PDF");
         } catch (Exception e) {
-        	 logger.error("Chyba pri generovani PDF z XHTML: " + e.getMessage(), e);
             throw new RuntimeException();
         }
         return out;

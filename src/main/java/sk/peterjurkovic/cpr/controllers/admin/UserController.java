@@ -192,8 +192,8 @@ public class UserController extends SupportAdminController {
 		setEditFormView("user-profile");
 		User loggedUser = UserUtils.getLoggedUser();
 		
-		User persistedUser = userService.getUserById(form.getUser().getId());
-		if(persistedUser == null || !loggedUser.equals(persistedUser)){
+		User persistedUser = userService.getUserById(loggedUser.getId());
+		if(persistedUser == null){
 			createUserNotFound(Long.valueOf(-1));
 		}
 		
@@ -265,9 +265,11 @@ public class UserController extends SupportAdminController {
 		user.clearAuthorities();
 		user.setAuthoritySet(form.getSelectedAuthorities());
 		user.setCreatedBy(loggedUser);
+		user.setChanged(new DateTime());
+		user.setChangedBy(loggedUser);
 		userService.mergeUser(user);
 		
-		if(form.getSendEmail()){
+		if(form.getSendEmail() != null && form.getSendEmail()){
 			MailSender mailSender = new MailSender();
 			mailSender.sendMail(user.getFirstName() + "" + user.getLastName(), user.getEmail(), "Vytvoření uživatelského účtu", 
 					MailMessageCreator.newUserCreatedMessage(loggedUser, user, form.getPassword()));

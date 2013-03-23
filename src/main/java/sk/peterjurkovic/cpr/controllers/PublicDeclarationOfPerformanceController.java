@@ -10,10 +10,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
+
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -98,6 +102,12 @@ public class PublicDeclarationOfPerformanceController {
 	public static final String DOP_EDIT_URL = "/dop/edit/";
 	
 	public static final String DOP_DELETE_URL = "/dop/delete/";
+	
+	@Value("#{config.recaptcha_privatekey}")
+	private String reCaptchaPrivateKey;
+	
+	@Value("#{config.recaptcha_publickey}")
+	private String reCaptchaPublicKey;
 	
 	
 	private Logger logger = Logger.getLogger(getClass());
@@ -255,8 +265,11 @@ public class PublicDeclarationOfPerformanceController {
 	 * @throws PageNotFoundEception
 	 */
 	@RequestMapping(value = DOP_EDIT_URL + "{token}", method = RequestMethod.POST)
-	public String processEditSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException, PageNotFoundEception {
+	public String processEditSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException, PageNotFoundEception {
 		declarationOfPerformanceValidator.validate(result, form);
+		if(!validateCaptcha(request, form)){
+			result.rejectValue("declarationOfPerformance.id", "recaptcha.error");
+		}
 		if(result.hasErrors()){
 			prepareModel(null, form.getDeclarationOfPerformance().getStandard(), modelMap, form);
 			return "/public/declaration-of-performance-edit";
@@ -277,7 +290,7 @@ public class PublicDeclarationOfPerformanceController {
 	 * @throws PageNotFoundEception
 	 */
 	@RequestMapping(value = DOP_FORM_URL, method = RequestMethod.POST)
-	public String processSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException, PageNotFoundEception {
+	public String processSubmit(@ModelAttribute("declarationOfPerformance") @Valid DeclarationOfPerformanceForm form, BindingResult result, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException, PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(DOP_FORM_URL);
 		Standard standard = standardService.getStandardByCode(form.getDeclarationOfPerformance().getStandard().getCode());
 		if(webpage == null || !webpage.getEnabled() || standard == null  ){
@@ -285,6 +298,9 @@ public class PublicDeclarationOfPerformanceController {
 		}
 		form.getDeclarationOfPerformance().setStandard(standard);
 		declarationOfPerformanceValidator.validate(result, form);
+		if(!validateCaptcha(request, form)){
+			result.rejectValue("declarationOfPerformance.id", "recaptcha.error");
+		}
 		if(result.hasErrors()){
 			logger.info("Has some errors ..");
 			prepareModel(webpage, standard, modelMap, form);
@@ -341,6 +357,7 @@ public class PublicDeclarationOfPerformanceController {
 			model.put("tab", webpage.getId());
 			model.put("url", DOP_FORM_URL + standard.getCode());
 		}
+		model.put("publicKey", reCaptchaPublicKey);
 		model.put("standard", standard);
 		model.put("varId",DopTextVariable.VAR_NOAO_ID.replace("\\", ""));
 		model.put("varAonoName",DopTextVariable.VAR_NOAO_NAME.replace("\\", ""));
@@ -420,5 +437,30 @@ public class PublicDeclarationOfPerformanceController {
 			}
 		return newItems;
 	}
+	
+	private boolean validateCaptcha(HttpServletRequest request, DeclarationOfPerformanceForm form){
+		 String remoteAddr = request.getRemoteAddr();
+		 ReCaptchaImpl reCaptcha = new ReCaptchaImpl();
+		 reCaptcha.setPrivateKey(reCaptchaPrivateKey);
+		 ReCaptchaResponse reCaptchaResponse = reCaptcha.checkAnswer(remoteAddr, form.getRecaptcha_challenge_field(), form.getRecaptcha_response_field());
+		 return reCaptchaResponse.isValid();
+	}
+
+	public String getReCaptchaPrivateKey() {
+		return reCaptchaPrivateKey;
+	}
+
+	public void setReCaptchaPrivateKey(String reCaptchaPrivateKey) {
+		this.reCaptchaPrivateKey = reCaptchaPrivateKey;
+	}
+
+	public String getReCaptchaPublicKey() {
+		return reCaptchaPublicKey;
+	}
+
+	public void setReCaptchaPublicKey(String reCaptchaPublicKey) {
+		this.reCaptchaPublicKey = reCaptchaPublicKey;
+	}
+
 	
 }

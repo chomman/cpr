@@ -8,7 +8,7 @@
 					
 					<div class="center item">
 						<label><spring:message code="dop.numberofdeclaration" /></label>
-						<form:input cssClass="w300 required" path="declarationOfPerformance.numberOfDeclaration" />
+						<form:input cssClass="w300 required" htmlEscape="true" path="declarationOfPerformance.numberOfDeclaration" />
 						<div class="clear"></div>
 					</div>
 					
@@ -16,7 +16,7 @@
 					<div class="fitem">
 						<span class="no">1</span>
 						<label><spring:message code="dop.productid" /></label>
-						<form:input cssClass="w300 required" path="declarationOfPerformance.productId" />
+						<form:input cssClass="w300 required"  htmlEscape="true"  path="declarationOfPerformance.productId" />
 						<div class="clear"></div>
 						<p><spring:message code="dop.productid.info" /></p>
 					</div>
@@ -25,7 +25,7 @@
 					<div class="fitem">
 						<span class="no">2</span>
 						<label><spring:message code="dop.serialid" /></label>
-						<form:input cssClass="w300 required" path="declarationOfPerformance.serialId" />
+						<form:input cssClass="w300 required" htmlEscape="true"  path="declarationOfPerformance.serialId" />
 						<div class="clear"></div>
 						<p><spring:message code="dop.serialid.info" /></p>
 					</div>
@@ -34,7 +34,7 @@
 					<div class="fitem">
 						<span class="no">3</span>
 						<label><spring:message code="dop.intendedUse" /></label>
-						<form:textarea cssClass="w600 h80 required" path="declarationOfPerformance.intendedUse" rows="3" />
+						<form:textarea cssClass="w600 h80 required"  htmlEscape="true"  path="declarationOfPerformance.intendedUse" rows="3" />
 						<div class="clear"></div>
 						<p><spring:message code="dop.intendedUse.info" /></p>
 					</div>
@@ -43,7 +43,7 @@
 					<div class="fitem">
 						<span class="no">4</span>
 						<label><spring:message code="dop.manufacturer" /></label>
-						<form:textarea cssClass="w600 h80 required" path="declarationOfPerformance.manufacturer" rows="3" />
+						<form:textarea cssClass="w600 h80 required" htmlEscape="true"    path="declarationOfPerformance.manufacturer" rows="3" />
 						<div class="clear"></div>
 						<p><spring:message code="dop.manufacturer.info" /></p>
 					</div>
@@ -52,7 +52,7 @@
 					<div class="fitem">
 						<span class="no">5</span>
 						<label><spring:message code="dop.authorisedRepresentative" /></label>
-						<form:textarea cssClass="w600 h80 required" path="declarationOfPerformance.authorisedRepresentative" rows="3" />
+						<form:textarea cssClass="w600 h80 required"  htmlEscape="true"  path="declarationOfPerformance.authorisedRepresentative" rows="3" />
 						<div class="clear"></div>
 					</div>
 <script type="text/javascript">
@@ -81,7 +81,7 @@
 									</c:forEach>
 								</form:select>
 									<span class="label-note noaodop"><spring:message code="dop.as.note"/></span>
-									<form:input path="declarationOfPerformance.assessmentSystemNote" cssClass="noaodop note" />
+									<form:input htmlEscape="true"  path="declarationOfPerformance.assessmentSystemNote" cssClass="noaodop note" />
 							</div>
 							<div class="line">	
 								<div class="noaodop">
@@ -104,7 +104,7 @@
 							<div class="line">	
 								<div class="report">
 									<span class="label"><spring:message code="dop.report"/></span>
-									<form:input path="declarationOfPerformance.report"/>
+									<form:input htmlEscape="true" path="declarationOfPerformance.report"/>
 								</div>
 							</div>
 						</div>
@@ -115,7 +115,7 @@
 							<span class="legend"></span>
 							<div class="line">
 								<span class="label"><spring:message code="dop.as.select"/></span>
-								<form:select  path="declarationOfPerformance.assessmentSystem2" cssClass="as2 required">
+								<form:select  path="declarationOfPerformance.assessmentSystem2" cssClass="as2">
 									<option value=""><spring:message code="form.select"/></option>
 									<c:forEach items="${model.assessmentSystems}" var="as">
 										<option value="${as.id}" title="${as.assessmentSystemCode}" 
@@ -124,12 +124,12 @@
 									</c:forEach>
 								</form:select>
 									<span class="label-note noaodop"><spring:message code="dop.as.note"/></span>
-									<form:input path="declarationOfPerformance.assessmentSystemNote2" cssClass="noaodop note" />
+									<form:input htmlEscape="true"  path="declarationOfPerformance.assessmentSystemNote2" cssClass="noaodop note" />
 							</div>
 							<div class="line">	
 								<div class="noaodop">
 									<span class="label"><spring:message code="dop.notifiedBody" /></span>
-									<form:select path="declarationOfPerformance.notifiedBody2" cssClass="w600 required" >
+									<form:select path="declarationOfPerformance.notifiedBody2" cssClass="w600 " >
 										<option value=""><spring:message code="form.select"/></option>
 									 <c:forEach items="${model.notifiedBodies}" var="nb" varStatus="s" >
 
@@ -147,7 +147,7 @@
 							<div class="line">	
 								<div class="report">
 									<span class="label"><spring:message code="dop.report"/></span>
-									<form:input path="declarationOfPerformance.report2"/>
+									<form:input  htmlEscape="true" path="declarationOfPerformance.report2"/>
 								</div>
 							</div>
 						</div>
@@ -173,7 +173,7 @@
 					<div class="fitem">
 						<span class="no">8</span>
 						<strong class="header"><spring:message code="dop.point7" /></strong>
-						<form:textarea path="declarationOfPerformance.eta" cssClass="eta"/>
+						<form:textarea  htmlEscape="true"  path="declarationOfPerformance.eta" cssClass="eta"/>
 						<div class="clear"></div>
 					</div>
 					
@@ -197,10 +197,10 @@
 										<td class="level">${i.requirement.levels}</td>
 										<td class="value">
 											<c:if test="${i.requirement.npd}">
-												<form:input path="characteristics[${status.index}].value"    />
+												<form:input htmlEscape="true"  path="characteristics[${status.index}].value"    />
 											</c:if>
 											<c:if test="${not i.requirement.npd}">
-												<form:input path="characteristics[${status.index}].value"  cssClass="tt-form required" title="${i.requirement.note}"  />
+												<form:input htmlEscape="true"  path="characteristics[${status.index}].value"  cssClass="tt-form required" title="${i.requirement.note}"  />
 											</c:if>
 											<form:hidden path="characteristics[${status.index}].requirement.id" />
 										</td>
@@ -234,13 +234,15 @@
 					</div>
 					<form:hidden path="declarationOfPerformance.id"/>
 					<form:hidden path="declarationOfPerformance.standard.code"/>
+					<div id="captcha">
+					<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=${model.publicKey}"></script>
 					<noscript>
-					    <iframe src="http://api.recaptcha.net/noscript?k=<your_public_key>"
-					        height="300" width="500" frameborder="0"></iframe><br>
+					    <iframe src="http://api.recaptcha.net/noscript?k=${model.publicKey}"
+					        height="300" width="500" frameborder="0"></iframe>
 					    <textarea name="recaptcha_challenge_field" rows="3" cols="40">
 					    </textarea>
-					    <input type="hidden" name="recaptcha_response_field" 
-					        value="manual_challenge">
+					    <input type="hidden" name="recaptcha_response_field"   value="manual_challenge">
 					</noscript>
+					</div>
 				</form:form>
 				<div id="status"></div>

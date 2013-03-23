@@ -9,31 +9,31 @@
 			<tr>
 				<td class="no">1.</td>
 				<td class="label"><spring:message code="dop.productid" /></td>
-				<td class="val">${model.dop.productId}</td>
+				<td class="val"><c:out escapeXml="ture" value="${model.dop.productId}" /></td>
 			</tr>
 			
 			<tr>
 				<td class="no">2.</td>
 				<td class="label"><spring:message code="dop.serialid" /></td>
-				<td class="val">${model.dop.serialId}</td>
+				<td class="val"><c:out escapeXml="ture" value="${model.dop.serialId}" /></td>
 			</tr>
 			
 			<tr>
 				<td class="no">3.</td>
 				<td class="label"><spring:message code="dop.intendedUse" /></td>
-				<td class="val">${model.dop.intendedUse}</td>
+				<td class="val"><c:out escapeXml="ture" value="${model.dop.intendedUse}" /></td>
 			</tr>
 			
 			<tr>
 				<td class="no">4.</td>
 				<td class="label"><spring:message code="dop.manufacturer" /></td>
-				<td class="val">${model.dop.manufacturer}</td>
+				<td class="val"><c:out escapeXml="ture" value="${model.dop.manufacturer}" /></td>
 			</tr>	
 			
 			<tr>
 				<td class="no">5.</td>
 				<td class="label"><spring:message code="dop.authorisedRepresentative" /></td>
-				<td class="val">${model.dop.authorisedRepresentative}</td>
+				<td class="val"><c:out escapeXml="ture" value="${model.dop.authorisedRepresentative}" /></td>
 			</tr>	
 			
 			<tr>
@@ -41,10 +41,10 @@
 				<td class="label"><spring:message code="dop.assessmentSystem" /></td>
 				<td class="val">
 				${model.dop.assessmentSystem.name} 
-				<c:if test="${not empty model.dop.assessmentSystemNote}"><em>(${model.dop.assessmentSystemNote})</em></c:if>
+				<c:if test="${not empty model.dop.assessmentSystemNote}"><em>(<c:out escapeXml="ture" value="${model.dop.assessmentSystemNote}" />)</em></c:if>
 				<c:if test="${model.dop.cumulative}">
 					<br /> ${model.dop.assessmentSystem2.name}
-					<c:if test="${not empty model.dop.assessmentSystemNote2}"><em>(${model.dop.assessmentSystemNote2})</em></c:if>
+					<c:if test="${not empty model.dop.assessmentSystemNote2}"><em>(<c:out escapeXml="ture" value="${model.dop.assessmentSystemNote2}" />)</em></c:if>
 				</c:if>
 				</td>
 			</tr>	
@@ -63,7 +63,7 @@
 				<td class="no">8.</td>
 				<td>
 					<strong><spring:message code="dop.point8" /></strong>
-					<span class="center-val">${model.dop.eta}</span>
+					<span class="center-val"><c:out escapeXml="ture" value="${model.dop.eta}" /></span>
 				</td>
 			</tr>
 		</table>	
@@ -83,7 +83,7 @@
 				<c:forEach items="${model.dop.essentialCharacteristics}" var="i" varStatus="status">
 					<tr>
 						<td class="name">${i.requirement.name}</td>
-						<td class="value">${i.value}</td>
+						<td class="value"><c:out escapeXml="ture" value="${i.value}" /></td>
 						<td class="ehn">
 							<a href="<c:url value="/ehn/${model.standard.code}" />" target="_blank">${model.dop.standard.standardId}</a> 
 							<em>${i.requirement.section}</em>

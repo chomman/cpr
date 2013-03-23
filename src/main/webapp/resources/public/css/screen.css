@@ -9,6 +9,8 @@ body{font-family: Arial,Tahoma, sans-serif;background:url(../img/body.png) repea
 .c{ text-align:center;}
 .l{ text-align:left;}
 a{none;color:#3e4e69;}
+form#dop{position:relative;padding-bottom:100px}
+#captcha{position:absolute;width:320px;bottom:20px;right:320px;}
 .blind { left: -5000px;position: absolute; top: -5000px;}
 .radius,#noao .true,.step,#dop .no,#dop .item.center,#localStorage,#dop .legend,.as1{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 #wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
