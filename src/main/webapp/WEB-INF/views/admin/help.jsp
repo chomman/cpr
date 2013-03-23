@@ -155,8 +155,52 @@
 				<li>Pokud je vyplněna hodnota formulářového políčka <strong>Publikovat od: </strong>, zkontrolujte zadaný čas (nesmí být větší, než aktuální)</li>
 			</ol>
 		</div>
+		
+		
+		<h3>Jak mohu přidat novou veřejnou sekci informačního systému?</h3>
+		<div class="help-box">
+			<ol>
+				<li>Novou veřejnou sekci systému, je možné přidat v sekci <strong>Veřejné sekce</strong>, kliknutím na <strong>"Přidat veřejnou sekci"</strong></li>
+				<li>Aby se sekce zobazovala ve veřejnej části systému, musí být zaškrtnuté formulářové políčko <strong>Publikovat</strong></li>
+			</ol>
+		</div>
+		
+		
+		<h3>K čemu slouží formulářové políčko horní, resp. dolní obsah sekce?</h3>
+		<div class="help-box">
+			<p>
+				V případě, že hlavní obsah veřejné sekce obsahuje, např. <a href="<c:url value="/admin/cpr/groups" />">Skupiny výrobků podle CPR</a>,  
+				prostřednictvím formulářových políček horní, resp. dolní obsah sekce, je možné přidat doplňující informace, 
+				které se zobrazí nad, resp. pod seznamem kategorií.
+			</p><br />
+			
+			
+			<p>
+				V případě, že hlavní obsah veřejné sekce obsahuje <strong>Jen text (Horní obsah sekce + Dolní obsah sekce)</strong>,   
+				veřejná sekce bude obsahovat pouze text, definovaný ve formulářových polích horní, resp. dolní obsah sekce.
+			</p><br />
+			
+			<p><em>Přiřazovat hlavní obsah sekce má možnost, jen uživatel s rolí <strong>Webmaster</strong></em></p>
+		</div>
+		
+		
+		<h3>Jak je možné upravit generováný text v DoP formuláři, zobrazovaný v bodě 7?</h3>
+		<div class="help-box">
+			<p>
+				Generovaný text, který se zobrazuje na základě zvolených kritérií, je evidován, resp. je ho možné upravit v sekci 
+				<a href="<c:url value="/admin/cpr/assessmentsystems" />">Systémy posudzování a ověřování stálosti vlastností</a>.<br />
+				<br/>
+				Příklad:<br/><br/>
+Pokud uživatel zvolí systém 1, text, který je evidován u systému 1 se na základě definovaných proměnný transformuje na požadovaný výstup a zobrazí uživateli.
+			</p>
+		</div>
 	</div>
-
+	
+	
+	<p class="msg info">
+		Nenašli jste zde odpověď na Vaši otázku? Kontaktujte webmastera: <strong><a href="mailto:email@peterjurkovic.sk">email@peterjurkovic.sk</a></strong>
+	</p>
+		
 
 </div>
 

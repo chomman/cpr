@@ -9,4 +9,5 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	
 	List<Webpage> getPublicSection(Long sectionId);
 	
+	Long getNextIdValue();
 }

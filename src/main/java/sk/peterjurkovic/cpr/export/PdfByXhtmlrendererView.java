@@ -30,6 +30,8 @@ public class PdfByXhtmlrendererView extends AbstractView {
         ByteArrayOutputStream pdfAsOs = pdfByXhtmlrendererExporter.generatePdf(ftlTemplateName, model, host);
         response.setContentLength(pdfAsOs.size());
         response.setHeader("Content-disposition", "attachment; filename=" + outputFileName);
+        response.setContentType("application/pdf");
+        response.setHeader("Expires", "0");
         FileCopyUtils.copy(pdfAsOs.toByteArray(), response.getOutputStream());
         pdfAsOs.close();
     }

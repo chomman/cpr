@@ -21,4 +21,6 @@ public interface WebpageService {
 	void saveOrUpdate(Webpage webpage);
 	
 	List<Webpage> getPublicSection(Long sectionId);
+	
+	String getSeoUniqueUrl(String name);
 }

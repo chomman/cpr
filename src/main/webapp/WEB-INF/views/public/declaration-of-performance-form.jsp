@@ -5,6 +5,7 @@
 	<head>
 		<title>${model.webpage.title}</title>
 		<meta name="description" content="${model.webpage.description}" />
+		<script type="text/javascript" src="http://api.recaptcha.net/challenge?k=${model.publicKey}"></script>
 	</head>
 	<body>
 		

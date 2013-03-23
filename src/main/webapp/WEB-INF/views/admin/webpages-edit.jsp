@@ -67,14 +67,11 @@
                 </p>
                 <c:if test="${isLoggedWebmaster}">
 	                 <p>
-	                	<label>
-	                		<strong><em class="red">*</em>
-	                			<spring:message code="webpage.code" />
-	                		</strong>	
-	                		<small><spring:message code="webpage.code.info"/></small>
+	                	<label class="tt" title="<spring:message code="webpage.code.info"/>">
+	                		<spring:message code="webpage.code" />
 	                	</label>
 	                    <span class="field">
-	                    	<form:input  htmlEscape="true" path="code"  maxlength="250" cssClass="mw500 required" />
+	                    	<form:input  htmlEscape="true" path="code"  maxlength="250" cssClass="mw500" />
 	                    </span>
 	                </p>
                 </c:if>

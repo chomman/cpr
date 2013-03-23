@@ -8,11 +8,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.WebpageDao;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 
@@ -60,6 +62,16 @@ public class WebpageServiceImpl implements WebpageService{
 		return webpageDao.getAll();
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public String getSeoUniqueUrl(String name){
+		name = Constants.DEFAULT_WEBPAGE_URL_PREFIX + CodeUtils.toSeoUrl(name);
+		Webpage webpage = webpageDao.getByCode(name);
+		if(webpage != null){
+			return name + "-" + webpageDao.getNextIdValue();
+		}
+		return name;
+	}
 	
 	@Override
 	public void saveOrUpdate(Webpage webpage) {

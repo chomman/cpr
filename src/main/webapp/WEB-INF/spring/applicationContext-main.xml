@@ -16,7 +16,7 @@
      http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd"
      default-autowire="byName"
      >
-
+	<util:properties id="config" location="classpath:config.properties"/>
 	
 	<mvc:annotation-driven conversion-service="conversionService" />
 
@@ -38,6 +38,10 @@
     
     <context:component-scan base-package="sk.peterjurkovic.cpr.validators">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+    
+    <context:component-scan base-package="sk.peterjurkovic.cpr.mail">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>      
     
      <context:component-scan base-package="sk.peterjurkovic.cpr.web">
@@ -56,7 +60,7 @@
 	  
  
    
-   <util:properties id="config" location="classpath:config.properties"/>	
+   	
 
 
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

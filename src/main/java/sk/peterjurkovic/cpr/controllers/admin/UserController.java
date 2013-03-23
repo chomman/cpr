@@ -33,6 +33,8 @@ import sk.peterjurkovic.cpr.entities.Authority;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.UserOrder;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.mail.MailMessageCreator;
+import sk.peterjurkovic.cpr.mail.MailSender;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
@@ -264,6 +266,13 @@ public class UserController extends SupportAdminController {
 		user.setAuthoritySet(form.getSelectedAuthorities());
 		user.setCreatedBy(loggedUser);
 		userService.mergeUser(user);
+		
+		if(form.getSendEmail()){
+			MailSender mailSender = new MailSender();
+			mailSender.sendMail(user.getFirstName() + "" + user.getLastName(), user.getEmail(), "Vytvoření uživatelského účtu", 
+					MailMessageCreator.newUserCreatedMessage(loggedUser, user, form.getPassword()));
+		}
+		
 	}
 	
 	

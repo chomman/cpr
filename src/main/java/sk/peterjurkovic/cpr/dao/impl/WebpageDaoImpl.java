@@ -28,4 +28,18 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setCacheRegion(CacheRegion.WEBPAGE_CACHE);
 		return hqlQuery.list();
 	}
+
+
+	@Override
+	public Long getNextIdValue() {
+		Long nextId = (Long) sessionFactory.getCurrentSession()
+				.createQuery("SELECT MAX(webpage.id) FROM Webpage webpage")
+				.setCacheable(false)
+				.setMaxResults(1)
+				.uniqueResult();
+        if (nextId == null) {
+            return 1L;
+        }
+        return nextId + 1;
+	}
 }

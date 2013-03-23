@@ -234,5 +234,13 @@
 					</div>
 					<form:hidden path="declarationOfPerformance.id"/>
 					<form:hidden path="declarationOfPerformance.standard.code"/>
+					<noscript>
+					    <iframe src="http://api.recaptcha.net/noscript?k=<your_public_key>"
+					        height="300" width="500" frameborder="0"></iframe><br>
+					    <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+					    </textarea>
+					    <input type="hidden" name="recaptcha_response_field" 
+					        value="manual_challenge">
+					</noscript>
 				</form:form>
 				<div id="status"></div>

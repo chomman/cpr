@@ -308,9 +308,19 @@
 			<artifactId>core-renderer</artifactId>
 			<version>R8</version>
 		</dependency>
-		
-		
-		
+	
+	<!-- Emailing -->
+		<dependency>
+			<groupId>org.codemonkey.simplejavamail</groupId>
+			<artifactId>simple-java-mail</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.mail</groupId>
+			<artifactId>javax.mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
    </dependencies>
     <build>
         <plugins>

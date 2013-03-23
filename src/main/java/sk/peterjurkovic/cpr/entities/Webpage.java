@@ -43,7 +43,10 @@ public class Webpage extends AbstractEntity {
 	
 	private Long timestamp;
 	
-
+	public Webpage(){
+		setEnabled(Boolean.FALSE);
+	}
+	
 	@Id
 	@GeneratedValue
 	public Long getId() {

@@ -140,4 +140,7 @@ public class Constants {
 	 * prida uzivatel s rolou Editor, Administrator. 
 	 */
 	public static final String DEFAULT_WEBPAGE_URL_PREFIX = "/p/"; 
+	
+	
+	public static final String SYSTEM_NAME = "Informační systém CPR";
 }

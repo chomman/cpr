@@ -48,7 +48,7 @@ public class UserForm {
 	
 	private String confifmPassword;	
 	
-	
+	private Boolean sendEmail;
 	
 	
 	public void addRoles(List<Authority> authorities) {
@@ -121,6 +121,16 @@ public class UserForm {
 	}
 
 
+	public Boolean getSendEmail() {
+		return sendEmail;
+	}
+
+
+	public void setSendEmail(Boolean sendEmail) {
+		this.sendEmail = sendEmail;
+	}
+
+	
 	
 
 	

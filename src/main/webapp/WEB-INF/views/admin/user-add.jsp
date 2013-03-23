@@ -101,6 +101,14 @@
                             	<form:checkbox path="user.enabled" />
                             </span>
                         </p>
+                        <p>
+                        	<label class="tt" title="<spring:message code="user.sendemail.info" />">
+                        			<spring:message code="user.sendemail" />
+                        	</label>
+                            <span class="field">
+                            	<form:checkbox path="sendEmail" />
+                            </span>
+                        </p>
 						<p class="form-head"><spring:message code="user.roles" /></p>
 						<p class="msg info"><spring:message code="user.role.notice" /></p>
                        	<table class="roles">
