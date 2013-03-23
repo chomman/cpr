@@ -1,5 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<sec:authorize access="hasAnyRole('ROLE_WEBMASTER','ROLE_ADMIN')">	
+	<c:set var="isAdmin" value="true"/>
+</sec:authorize>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +17,8 @@
 		
 	</div>	
 	<div id="right">
+		
+		<c:if test="${isAdmin}">
 		
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
@@ -113,6 +119,12 @@
 					</form:form>
 			<span class="note"><spring:message code="form.required" /></span>
 		</div>	
+		
+		</c:if>
+		<c:if test="${not isAdmin}">
+			<h4>Neautorizovaný přístup</h4>
+		</c:if>
+		
 	</div>
 	<div class="clear"></div>	
 </div>

@@ -1,5 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<sec:authorize access="hasAnyRole('ROLE_WEBMASTER','ROLE_ADMIN')">	
+	<c:set var="isAdmin" value="true"/>
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -23,7 +26,7 @@
 		<h1><spring:message code="userlog" /></h1>
 
 		<div id="content">
-			
+			<c:if test="${isAdmin}">
 		
 			<form class="filter log" action="<c:url value="/admin/user/logs" />" method="get">
 				<div>
@@ -118,7 +121,10 @@
 					<spring:message code="alert.empty" />
 				</p>
 			</c:if>
-		
+			</c:if>
+			<c:if test="${not isAdmin}">
+				<h4>Neautorizovaný přístup</h4>
+			</c:if>
 		</div>	
 	</div>
 	<div class="clear"></div>	
