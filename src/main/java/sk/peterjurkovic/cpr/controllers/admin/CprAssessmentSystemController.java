@@ -146,7 +146,7 @@ public class CprAssessmentSystemController extends SupportAdminController {
 		assessmentSystem.setName(form.getName());
 		assessmentSystem.setDescription(form.getDescription());
 		assessmentSystem.setEnabled(form.getEnabled());
-		assessmentSystem.setDeclarationOfPerformanceText(form.getDeclarationOfPerformanceText());
+		assessmentSystem.setDeclarationOfPerformanceText(form.getDeclarationOfPerformanceText().trim().replaceAll("(\\')*", ""));
 		assessmentSystemService.saveOrUpdateAssessmentSystem(assessmentSystem);
 	}
 	
