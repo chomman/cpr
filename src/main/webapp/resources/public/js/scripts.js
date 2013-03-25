@@ -69,7 +69,6 @@ $(function() {
 	});
 	
 	$('.valid').submit(function(){
-		console.log('submited');
 		if(!validate($(this))){
 			showStatus({err : 1, msg : 'Chybně vyplněný formulář'});
 			return false;
@@ -167,12 +166,17 @@ function prepareText(noaoId, systemId, report){
 	var noao, system = getSystemById(systemId), text;
 	if(system === null) return;
 	text = system.dopText;
-	if(system.assessmentSystemCode !== '4'){
-		if(typeof(noaoId) !== 'undefined' && noaoId.length > 0){
+	if(system.code !== '4'){
+		if(noaoId !== 'undefined'  && noaoId.length > 0){
 			noao = getNoAoById(noaoId);
 			if(noao !== null){
-				text = text.replace(varId , '<strong>'+noao.code+'</strong>');
-				text = text.replace(varAonoName , '<strong>'+noao.name+' - '+noao.street +', '+noao.zip +', '+noao.city +', '+noao.country +'</strong>');
+				if(noao.code !== undefined && noao.code.length > 0){
+					text = text.replace(varId , '<strong>'+noao.code+'</strong>');
+				}
+				text = text.replace(varAonoName , '<strong>'+noao.name+' - '+
+						(noao.street !== undefined && noao.street.length > 0 ? noao.street + ', ':  '') +
+						(noao.zip !== undefined && noao.zip.length > 0 ? noao.zip + ', ':  '') +
+						(noao.city !== undefined && noao.city.length > 0 ? noao.city + ', ':  '') +', '+ noao.country +'</strong>');
 				text = text.replace(varReport , '<strong>'+report+'</strong>');
 				return '<div class="system-r"><h3>'+standard+', '+ system.name +':</h3>'+text+'</div>';
 			}
@@ -183,18 +187,17 @@ function prepareText(noaoId, systemId, report){
 }
 
 function renderText(){
-	var html = "", 
+	var html = '', 
 	    o = $('#fbox'),
-		systemId = $('select.as').val(),
+		systemId = o.find('.as option:selected').val(),
 		noaoId = o.find('.w600').val(),
 		report = o.find('.report input').val();
-
 	if(systemId !== ''){
 		html += prepareText(noaoId, systemId, report);
 	}
 	o = $('#cbox');
 	if($('#isCumulative').is(':checked') && o !== undefined){
-		systemId = $('select.as2').val(),
+		systemId = o.find('.as2 option:selected').val(),
 		noaoId = o.find('.w600').val(),
 		report = o.find('.report input').val();
 		if(systemId.length !== 0){

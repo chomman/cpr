@@ -27,7 +27,7 @@ a{text-decoration:none;color:#3e4e69;}
 
 /* HELP */
 #help{padding:20px;}
-#help h3{background-color:aqua; padding-bottom:10px;font-size:15px;cursor: pointer;}
+#help h3{padding-bottom:10px;font-size:15px;cursor: pointer;}
 #help h3 span{margin:10px 10px 0px 10px;display:inline-block;}
 #help .help-box{padding:20px 0 20px 40px;font-size:14px;}
 
@@ -69,7 +69,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f85bb', end
 
 /* TABS EDITACIA NORIEM --- */
 #tabs{border:2px solid #ccc;background:#fdfdfd;}
-#tabs a.tab{display:block;padding:15px;background:red;border-bottom:1px solid #999;font-weight:bold;
+#tabs a.tab{display:block;padding:15px;border-bottom:1px solid #999;font-weight:bold;
 background: #6d8eaa;
 background: -moz-linear-gradient(top,  #6d8eaa 0%, #44596b 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#6d8eaa), color-stop(100%,#44596b));
@@ -105,7 +105,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 
 /* CPR dashboard */
 .cpr-dashboard{background:#fff;padding:20px;list-style:none;border:1px solid #eee;}
-.cpr-dashboard>li{ background:red;padding:20px 30px;margin-bottom:10px;border:1px solid #ddd;background: #ffffff;min-height:70px;clear:both;
+.cpr-dashboard>li{ padding:20px 30px;margin-bottom:10px;border:1px solid #ddd;background: #ffffff;min-height:70px;clear:both;
 background: -moz-linear-gradient(top,  #ffffff 0%, #f6f6f6 47%, #ededed 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(47%,#f6f6f6), color-stop(100%,#ededed));
 background: -webkit-linear-gradient(top,  #ffffff 0%,#f6f6f6 47%,#ededed 100%);
@@ -182,7 +182,7 @@ table.info td{padding:5px 10px;}
 table.info .key{text-align:right;font-weight:bold;}
 
 /* CONTENT SUB NAV */
-.sub-nav{background:red;list-style:none;height:31px;padding:0 0 40px 30px;background: url(../img/sub-nav.png) repeat-x bottom;margin-bottom:10px}
+.sub-nav{list-style:none;height:31px;padding:0 0 40px 30px;background: url(../img/sub-nav.png) repeat-x bottom;margin-bottom:10px}
 .sub-nav li{position:relative;background:#fff;margin:2px;}
 .sub-nav li a{display;block;float:left;padding:12px;height:16px;font-size:14px;margin:0 3px;background:#fff;border-top:1px solid #ddd;border-right:1px solid #ddd;border-left:1px solid #ddd;}
 .sub-nav li a:hover{background: #ff8400; color: #fff;}
