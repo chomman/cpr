@@ -55,7 +55,13 @@ public class ArticleController extends SupportAdminController {
 		setEditFormView("article-edit");
 	}
 	
-	
+	/**
+	 * Zobrazi nastrankovany zoznam aktualit.
+	 * 
+	 * @param modelMap
+	 * @param request
+	 * @return String view
+	 */
 	@RequestMapping("/admin/articles")
     public String showArticlePage(ModelMap modelMap, HttpServletRequest request) {
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -73,6 +79,15 @@ public class ArticleController extends SupportAdminController {
     }
 	
 	
+	/**
+	 * Odstrani aktualidu, na zaklade daneho ID
+	 * 
+	 * @param Long ID danej aktuality
+	 * @param Model model
+	 * @param HttpServletRequest request
+	 * @return String view 
+	 * @throws ItemNotFoundException, aktualita s danoym identifikatorom neexistuje
+	 */
 	@RequestMapping( value = "/admin/article/delete/{articleId}", method = RequestMethod.GET)
 	public String deleteStandard(@PathVariable Long articleId, ModelMap model, HttpServletRequest request) throws ItemNotFoundException {
 		Article article = articleService.getArticleById(articleId);
@@ -84,6 +99,13 @@ public class ArticleController extends SupportAdminController {
         return showArticlePage(model, request);
 	}
 	
+	
+	/**
+	 * ZObrazi JSP stranku s formularom, pre pridanie novej aktuality
+	 * 
+	 * @param ModelMap model
+	 * @return String view - JSP stranka
+	 */
 	@RequestMapping("/admin/article/add")
 	public String addNewArticle(ModelMap modelMap){
 		setEditFormView("article-add");
@@ -96,6 +118,14 @@ public class ArticleController extends SupportAdminController {
 	}
 	
 	
+	/**
+	 * Vytvori novu aktualitu
+	 * 
+	 * @param Article aktualita
+	 * @param BindingResult result
+	 * @param Model model
+	 * @return String view
+	 */
 	@RequestMapping(value = "/admin/article/add", method = RequestMethod.POST)
 	public String processCreate(@Valid Article article, BindingResult result, ModelMap model){
 		setEditFormView("article-add");
@@ -110,7 +140,15 @@ public class ArticleController extends SupportAdminController {
 	}
 	
 	
-	
+	/**
+	 * Zobrazi JSP stranku, pre editaciu aktuality
+	 * 
+	 * @param Long ID danej aktuality
+	 * @param ModelMap modelMap
+	 * @param request
+	 * @return String JSP stranka
+	 * @throws ItemNotFoundException, v pipade ak aktualida s danym ID neexistuje
+	 */
 	@RequestMapping("/admin/article/edit/{articleId}")
 	public String showEditForm(@PathVariable Long articleId, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		setEditFormView("article-edit");
@@ -126,6 +164,14 @@ public class ArticleController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
+	
+	/**
+	 * Ulozi aktuality, spracuje asynchronnu poziadavku, identifikovanu na zaklade RequestBody
+	 * 
+	 * @param Article article
+	 * @param Long ID aktuality
+	 * @return RequestBody, v nasom pripade JSON, obsahujuci status aktualizacie
+	 */
 	@RequestMapping( value = "/admin/article/edit/{articleId}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody JsonResponse  processAjaxUpdate(@RequestBody Article article, @PathVariable Long articleId){
 		JsonResponse response = new JsonResponse();
@@ -147,6 +193,12 @@ public class ArticleController extends SupportAdminController {
 		return response;
 	}
 	
+	/**
+	 * Naseptavac, zobrazujuci titulky aktualit
+	 * 
+	 * @param String term
+	 * @return RequestBody, zoznam vysledkov, vo formate JSON
+	 */
 	@RequestMapping(value = "/admin/article/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<Article>  autocomplete(@RequestBody @RequestParam("term") String query){
 		return articleService.autocomplateSearch(query);

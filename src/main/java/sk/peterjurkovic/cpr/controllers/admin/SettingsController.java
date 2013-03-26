@@ -26,7 +26,12 @@ public class SettingsController extends SupportAdminController {
 	}
 	
 	
-	
+	/**
+	 * Zobrazi formular so zakladnym nastavenim systemu
+	 * 
+	 * @param ModelMap model
+	 * @return String JSP stranka
+	 */
 	@RequestMapping("/admin/settings/basic")
 	public String showBasicSettingsForm(ModelMap modelMap){
 		setEditFormView("settings-basic");
@@ -38,6 +43,14 @@ public class SettingsController extends SupportAdminController {
 	}
 	
 	
+	/**
+	 * Spracuje formular so zakladnym nastavenim systemu 
+	 * 
+	 * @param BasicSettingsform
+	 * @param BindingResult result
+	 * @param ModelMap model
+	 * @return String jsp stranka
+	 */
 	@RequestMapping(value = "/admin/settings/basic", method = RequestMethod.POST)
 	public String processSubmit(@Valid BasicSettings form, BindingResult result, ModelMap modelMap){
 		setEditFormView("settings-basic");

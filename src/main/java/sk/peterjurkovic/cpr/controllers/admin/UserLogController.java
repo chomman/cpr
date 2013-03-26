@@ -22,7 +22,13 @@ public class UserLogController extends SupportAdminController {
 	@Autowired
 	private UserLogService userLogService;
 	
-	
+	/**
+	 * Zobrazi JSP stranku s nastrankovanymi uzivatelskymi pristupmi, v pripade ak ma uzivatel na zobrazenie pravo.
+	 * 
+	 * @param ModelMap model
+	 * @param HttpServletRequest request
+	 * @return String view
+	 */
 	@RequestMapping("/admin/user/logs")
     public String showLogPage(ModelMap modelMap, HttpServletRequest request) {
 		setTableItemsView("user-logs");
@@ -40,6 +46,7 @@ public class UserLogController extends SupportAdminController {
         return getTableItemsView();
     }
 	
+
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
 		PaginationLinker paginger = new PaginationLinker(request, params);
 		paginger.setUrl("/admin/user/logs");

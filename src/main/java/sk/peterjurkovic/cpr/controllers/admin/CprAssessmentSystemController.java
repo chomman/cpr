@@ -55,9 +55,15 @@ public class CprAssessmentSystemController extends SupportAdminController {
     }
 	
 	
-	
+	/**
+	 * Odstrani system posudzovania, na zaklade daneho ID
+	 * 
+	 * @param Lond, ID systemu posudzovania, ktory ma byt odstraneny 
+	 * @param ModelMap model
+	 * @return String JSP stranka 
+	 */
 	@RequestMapping( value = "/admin/cpr/assessmentsystems/delete/{assessmentSystemId}", method = RequestMethod.GET)
-	public String deleteGroup(@PathVariable Long assessmentSystemId,  ModelMap modelMap) {
+	public String deleteAssessmentSystem(@PathVariable Long assessmentSystemId,  ModelMap modelMap) {
 						
 		AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(assessmentSystemId);
 		if(assessmentSystem == null){
@@ -94,7 +100,17 @@ public class CprAssessmentSystemController extends SupportAdminController {
 	
 	
 	
-	
+	/**
+	 * Spracuje poziadavku, ktora upravi, resp vytovri novy system posudzovania, v pripade ak je assessmentSystemID 0, 
+	 * jedna sa o udalost pridania noveho systemu, inak o editaciu
+	 * 
+	 * @param Long assessmentSystemId
+	 * @param AssessmentSystem webovy formular 
+	 * @param result
+	 * @param Model model
+	 * @return String JSP stranka
+	 * @throws ItemNotFoundException, ak dany system nie je evidovany
+	 */
 	@RequestMapping( value = "/admin/cpr/assessmentsystems/edit/{assessmentSystemId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long assessmentSystemId,  @Valid  AssessmentSystem form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 

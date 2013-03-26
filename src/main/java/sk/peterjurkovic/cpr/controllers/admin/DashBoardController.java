@@ -19,11 +19,22 @@ public class DashBoardController extends SupportAdminController {
 	@Autowired
 	private StandardService standardService;
 	
+	
+	/**
+	 * Zobrazi hlavny ovladaci panel informacneho systemu
+	 * 
+	 */
 	public DashBoardController(){
 		setViewName("dashboard");
 	}
 	
     
+	/**
+	 * Zobrazi posledne aktualizovane normy v administracnej casti iformacneho systemu
+	 * 
+	 * @param ModelMap model
+	 * @return String JSP stranka
+	 */
 	@RequestMapping("/admin/")
     public String showDashBoard(ModelMap map) {
 		

@@ -33,6 +33,13 @@ public class CprDeclarationOfPerformanceController extends SupportAdminControlle
 		setTableItemsView("cpr-dops");
 	}
 	
+	/**
+	 * Zobrazi zoznam vygenerovanych prehlaseni, presotrednictom verejnej sekcie
+	 * 
+	 * @param HttpServletRequest request
+	 * @param ModelMap model
+	 * @return String JSP stranka
+	 */
 	@RequestMapping("/admin/cpr/dop")
 	public String showGeneratedDoP(HttpServletRequest request, ModelMap modelMap){
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -49,6 +56,15 @@ public class CprDeclarationOfPerformanceController extends SupportAdminControlle
 		
 	}
 	
+	
+	/**
+	 * Zobrazi detail vygenerovaneho prehlasenia (DoP), na zaklade daneho ID 
+	 * 
+	 * @param Long identifikator DOP
+	 * @param ModelMap model
+	 * @return String view
+	 * @throws ItemNotFoundException, v pripade ak prehlasenie s danym ID sa v systeme nenachadza
+	 */
 	@RequestMapping("/admin/cpr/dop/{dopId}")
 	public String showDetail(@PathVariable Long dopId, ModelMap modelMap) throws ItemNotFoundException{
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -64,6 +80,15 @@ public class CprDeclarationOfPerformanceController extends SupportAdminControlle
 		
 	}
 	
+	/**
+	 * Odstranie prehlasenie (DoP) zo systemu, na zaklade danoe identifikatoru
+	 * 
+	 * @param HttpServletRequest request
+	 * @param Long dopId
+	 * @param ModelMap model
+	 * @return String view
+	 * @throws ItemNotFoundException
+	 */
 	@RequestMapping("/admin/cpr/dop/delete/{dopId}")
 	public String delete(HttpServletRequest request, @PathVariable Long dopId, ModelMap modelMap) throws ItemNotFoundException{
 		DeclarationOfPerformance dop = dopService.getDopById(dopId);

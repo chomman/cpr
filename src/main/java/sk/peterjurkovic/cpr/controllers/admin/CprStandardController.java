@@ -159,6 +159,14 @@ public class CprStandardController extends SupportAdminController {
 	
 	
 	
+	/**
+	 * Zobrazi JSP stranku s formularom, v ktorom je mozne editovat zakladne informacie o norme.
+	 * 
+	 * @param Long standardId
+	 * @param Model model s informaciami o norme
+	 * @return String JSP stranka
+	 * @throws ItemNotFoundException, v pripade ak sa v systeme norma s danym ID nenachadza
+	 */
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.GET)
 	public String showEditForm1(@PathVariable Long standardId, ModelMap model) throws ItemNotFoundException {
 		setEditFormView("cpr-standard-edit1");
@@ -170,6 +178,17 @@ public class CprStandardController extends SupportAdminController {
         return getEditFormView();
 	}
 	
+	
+	
+	/**
+	 * Odstranie normu na zaklade daneho ID
+	 * 
+	 * @param Long ID normy, ktora ma byt odstranena
+	 * @param Model model
+	 * @param HttpServletRequest request
+	 * @return String JSP stranka, zobrazena po odstraneni polozky
+	 * @throws ItemNotFoundException, v pripade ak sa polozka s danym ID v systeme nenachdza
+	 */
 	@RequestMapping( value = "/admin/cpr/standard/delete/{standardId}", method = RequestMethod.GET)
 	public String deleteStandard(@PathVariable Long standardId, ModelMap model, HttpServletRequest request) throws ItemNotFoundException {
 		Standard standard = standardService.getStandardById(standardId);
@@ -289,7 +308,18 @@ public class CprStandardController extends SupportAdminController {
         return getEditFormView();
    }
 	
-	
+	/**
+	 * Spracuje odoslany formular a upravi, resp vytvori novu poziadavku. V pripade ak je ID poziadavky 0, jedna sa o vytvorenie novej polozky,
+	 * inak o editaciu uz existujucej polozky.
+	 * 
+	 * @param Long identifikator normy standardId
+	 * @param Long identifikator poziadavky requirementId
+	 * @param Requirement form, odoslany formular
+	 * @param result
+	 * @param ModelMap model
+	 * @return String JSP stranka
+	 * @throws ItemNotFoundExceptionm, v pripade ak sa norma, alebo poziadavka na zaklade daneho ID v systeme nenachadza
+	 */
     @RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/req/{requirementId}", method = RequestMethod.POST)
 	public String processRequirementSubmit(@PathVariable Long standardId,@PathVariable Long requirementId, @Valid  Requirement form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
        setEditFormView("cpr-standard-edit2-requirement");
@@ -312,9 +342,16 @@ public class CprStandardController extends SupportAdminController {
 	}
    
     
-    
+    /**
+     * Odstrani poziadavok na zaklade daneho identifikatora
+     * 
+     * @param Long requirementId
+     * @param ModelMap model
+     * @return String JSP stranka
+     * @throws ItemNotFoundException, v pripade ak nie je Rquirement s danym ID v systeme evidovany
+     */
     @RequestMapping( value = "/admin/cpr/standard/requirement/delete/{requirementId}", method = RequestMethod.GET)
-	public String deleteGroup(@PathVariable Long requirementId,  ModelMap modelMap) throws ItemNotFoundException {
+	public String deleteRequirement(@PathVariable Long requirementId,  ModelMap modelMap) throws ItemNotFoundException {
 		
     	Requirement requirement =  requirementService.getRequirementById(requirementId);
 		if(requirement == null){
@@ -353,7 +390,16 @@ public class CprStandardController extends SupportAdminController {
      //##################################################
  	 //#  3	Csnonline
  	 //##################################################
-    	
+    
+    /**
+     * Zobrazi zoznam evidovanych CSN k danej norme
+     * 
+     * @param Standar identifikator normy
+     * @param ModelMap
+     * @param request
+     * @return String JSP stranak
+     * @throws ItemNotFoundException, v pripade ak sa norma s danym ID v systeme nenachadza
+     */
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/csn")
     public String showCsns(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		Map<String, Object> map = new HashMap<String, Object>();
@@ -369,7 +415,17 @@ public class CprStandardController extends SupportAdminController {
          return getEditFormView();
     }
     
-    
+    /**
+     * Zobrazi formular pre editaciu, resp pre pridanie novej CSN k norme. AK je ID csn 0, 
+     * jedna sa o pridanie noevej CSN, inak o editaciu
+     * 
+     * @param Long standardId
+     * @param Long csnId
+     * @param ModelMap model
+     * @param request
+     * @return String JSP stranka
+     * @throws ItemNotFoundException, v pripade ak sa norma s danym ID v systeme nenachadza
+     */
     @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.GET)
     public String showCsnEditForm(@PathVariable Long standardId, @PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		setEditFormView("cpr-standard-edit3-edit");
@@ -388,7 +444,17 @@ public class CprStandardController extends SupportAdminController {
     }
     
     
-    
+    /**
+     * Spracuje odoslany formular, obsahujuci CSN.
+     * 
+     * @param Long standardId
+     * @param Long csnId
+     * @param Csn form
+     * @param result
+     * @param ModelMap model
+     * @return String JSP stranka
+     * @throws ItemNotFoundException, v pripade ak sa norma s danym ID v systeme nenachadza
+     */
     @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.POST)
     public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long csnId, @Valid  Csn form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
  		setEditFormView("cpr-standard-edit3-edit");
@@ -407,6 +473,15 @@ public class CprStandardController extends SupportAdminController {
         return getEditFormView();
     }
     
+    /**
+     * Odstrani CSN  na zaklade danoe ID
+     * 
+     * @param Long csnId
+     * @param ModelMap model
+     * @param request
+     * @return String view
+     * @throws ItemNotFoundException, v pripade ak sa CSN s danym ID v systeme nenachadza
+     */
     @RequestMapping(value = "/admin/cpr/standard/csn/delete/{csnId}", method = RequestMethod.GET)
     public String deleteCsn(@PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		Csn csn = csnService.getCsnById(csnId);
@@ -444,6 +519,17 @@ public class CprStandardController extends SupportAdminController {
    }
    
     
+    
+    /**
+     * Spracuje odoslany formular, s vybranymi NOAO a priradi ich k danej norme.
+     * 
+     * @param Long standardId
+     * @param Standard form
+     * @param result
+     * @param ModelMap model
+     * @return String JSP stranka
+     * @throws ItemNotFoundException, ak sa norma s danym ID v systeme nenachadza
+     */
    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/notifiedbodies", method = RequestMethod.POST)
    public String  processNotifiedBodiesSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 	   setEditFormView("cpr-standard-edit4");
@@ -487,6 +573,17 @@ public class CprStandardController extends SupportAdminController {
  }
  
   
+ /**
+  * Ulozi odoslany formular, obsahujici mandary a systemi podudzovania, ktore maju byt priradene, k danej norme.
+  * V priapde ak formular neobsahuje polozku, ktora bola v minulosti priradena, je odstranena.
+  *  
+  * @param Long ID danej nromy, ku kotrej maju polozky pripradene
+  * @param Standard form
+  * @param result
+  * @param ModelMap model
+  * @return String JSP stranka
+  * @throws ItemNotFoundException, v pripade ak sa norma s danym ID v systeme nenachadza
+  */
  @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/other", method = RequestMethod.POST)
  public String  processOtherSettingsSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 	   setEditFormView("cpr-standard-edit5");
@@ -521,7 +618,16 @@ public class CprStandardController extends SupportAdminController {
 	 //##################################################
 	 //#  6	describe
 	 //##################################################
- 
+ 	
+ 	/**
+ 	 * Zobrazi JSP stranku, v ktorej je mozne evidovat podrobnejsi popis k norme.
+ 	 * 
+ 	 * @param Long identifikator danej normy
+ 	 * @param ModelMap model
+ 	 * @param request
+ 	 * @return String JSP stranka s formularom
+ 	 * @throws ItemNotFoundException, ak sa norma s danym ID v systeme nenachadza
+ 	 */
 	 @RequestMapping("/admin/cpr/standard/edit/{standardId}/describe")
 	 public String showStandardText(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 			setEditFormView("cpr-standard-edit6");
@@ -534,6 +640,13 @@ public class CprStandardController extends SupportAdminController {
 	     return getEditFormView();
 	}
 	
+	 /**
+	  * Spracuje asynchrone odoslany formular, resp JSON. Jakson automaticky prekonvertuje json na pozadovany objekt
+	  * 
+	  * @param Standard form
+	  * @param Long standardId
+	  * @return @ResponseBody, odpoved vo formatu JSP
+	  */
 	@RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/describe", method = RequestMethod.POST,  headers = {"content-type=application/json"})
 	public @ResponseBody JsonResponse  processAjaxTextSubmit(@Valid @RequestBody  Standard form, @PathVariable Long standardId){
 		JsonResponse response = new JsonResponse();
@@ -547,7 +660,17 @@ public class CprStandardController extends SupportAdminController {
 			response.setStatus(JsonStatus.SUCCESS);
 		   return response;
 	}
-	 
+	
+	/**
+	 * Spracuje odoslany formular, a ulozi zmeny
+	 * 
+	 * @param Long standardId
+	 * @param Standar form
+	 * @param result
+	 * @param ModelMap model
+	 * @return String JSP stranka
+	 * @throws ItemNotFoundException, ak sa norma s danym ID v systeme nenachadza
+	 */
 	@RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/describe", method = RequestMethod.POST)
 	public String  processTextSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		   setEditFormView("cpr-standard-edit6");

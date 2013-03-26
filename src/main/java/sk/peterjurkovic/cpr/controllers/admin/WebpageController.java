@@ -52,7 +52,11 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	
+	/**
+	 * Koverzia formulara (select boxov) na objekty
+	 * 
+	 * @param binder
+	 */
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(WebpageContent.class, this.webpageContentEditor);
@@ -60,7 +64,13 @@ public class WebpageController extends SupportAdminController {
     }
 	
 	
-	
+	/**
+	 * Zobrazi verejne sekcie systemu
+	 * 
+	 * @param ModelMap
+	 * @param request
+	 * @return String JSP stranka
+	 */
 	@RequestMapping("/admin/webpages")
 	public String showWebpages(ModelMap modelMap, HttpServletRequest request){
 		if(request.getParameter("successDelete") != null){
@@ -74,7 +84,16 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	
+	/**
+	 * Zobrazi formular, pre priadeni resp. editaciu verejnej sekcie sysstemu. V pripade
+	 * ak ID je rovne nule, jedna sa o pridanie novej sekcie, inak o editaciu
+	 * 
+	 * @param Long webpageId
+	 * @param Model model
+	 * @param HttpServletRequest request
+	 * @return String view
+	 * @throws ItemNotFoundException, ak sa verejna sekcia s danym ID v systeme nenachadza
+	 */
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.GET)
 	public String showForm(@PathVariable Long webpageId,  ModelMap model, HttpServletRequest request) throws ItemNotFoundException {		
 		Webpage form = null;
@@ -94,6 +113,13 @@ public class WebpageController extends SupportAdminController {
         return getEditFormView();
 	}
 	
+	/**
+	 * Ostrani verejniu sekciu na zaklade daneho IS
+	 * 
+	 * @param Long webpageId
+	 * @return String view
+	 * @throws ItemNotFoundException, ak sa verejna sekcia s danym ID v systeme nenachadza
+	 */
 	@RequestMapping( value = "/admin/webpages/delete/{webpageId}", method = RequestMethod.GET)
 	public String processDelete(@PathVariable Long webpageId) throws ItemNotFoundException {		
 		Webpage webpage = webpageService.getWebpageById(webpageId);
@@ -105,6 +131,17 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
+	/**
+	 * Spracuje odoslany formualr s odoslanou verejnou sekciu, v pripade ak je ID sekcie nula, 
+	 * jedna sa o pripadnie novej verejnej sekcie, inak o editaciu 
+	 * 
+	 * @param Long webpageId
+	 * @param BindingResultWebpageform
+	 * @param result
+	 * @param Model model
+	 * @return String view
+	 * @throws ItemNotFoundException, ak sa verejna sekcia s danym ID v systeme nenachadza
+	 */
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST)
 	public String pocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) throws ItemNotFoundException {		
 		if(!result.hasErrors()){

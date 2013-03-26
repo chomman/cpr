@@ -64,12 +64,26 @@ public class UserController extends SupportAdminController {
 	}
 	
 	
+	/**
+	 * Prekovertuje String datum na objekt
+	 * 
+	 * @param binder
+	 */
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(DateTime.class, this.dateTimeEditor);
     }
 	
 	
+	/**
+	 * Odstrani uzivatela na zaklade daneho ID, v pripade ak ma uzivatel na operaciu pravo
+	 * 
+	 * @param Long ID uzivatela, ktory ma byt odstraneny
+	 * @param ModelMap model
+	 * @param HttpServletRequestrequest
+	 * @return String JSP stranka
+	 * @throws ItemNotFoundException, v pripade ak odstranovany uzivatel s danym ID v systeme neexistuje.
+	 */
 	@RequestMapping( value = "/admin/user/delete/{userId}", method = RequestMethod.GET)
 	public String deleteUser(@PathVariable Long userId,  ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException {
 						
@@ -100,6 +114,13 @@ public class UserController extends SupportAdminController {
 	}
 	
 	
+	/**
+	 * Zobrazi nastrankovany zoznam registrovanych uzivatelov v systeme
+	 * 
+	 * @param ModelMap model
+	 * @param HttpServletRequest request
+	 * @return String jsp stranka
+	 */
 	@RequestMapping("/admin/users")
     public String showArticlePage(ModelMap modelMap, HttpServletRequest request) {
 		setTableItemsView("users");
@@ -118,6 +139,13 @@ public class UserController extends SupportAdminController {
     }
 	
 	
+	/**
+	 * Zobrazi JSP stranku s uzivatelskymi, obsahujuca evidovane uzivatelske role v systeme
+	 * 
+	 * @param ModelMap model
+	 * @param HttpServletRequest request
+	 * @return String jsp stranka
+	 */
 	@RequestMapping("/admin/user/roles")
     public String showRoles(ModelMap modelMap, HttpServletRequest request) {
 		setTableItemsView("user-roles");
@@ -129,7 +157,13 @@ public class UserController extends SupportAdminController {
     }
 	
 	
-	
+	/**
+	 * Zobrazi formular, pre pridanie noveh uzivatela
+	 * 
+	 * @param ModelMap model
+	 * @param request
+	 * @return String view
+	 */
 	@RequestMapping("/admin/user/add")
 	public String showCreateForm(ModelMap modelMap, HttpServletRequest request){
 		setEditFormView("user-add");
@@ -140,7 +174,15 @@ public class UserController extends SupportAdminController {
 	}
 	
 	
-	
+	/**
+	 * Spracuje odoslany formular, a priada noveho uzivatela, v pripade ak uzival, ktory ho odoslal ma na operaciu pravo
+	 * 
+	 * @param UserForm form
+	 * @param BindingResult result
+	 * @param ModelMap model
+	 * @return String view
+	 * @throws ItemNotFoundException, v pripade ak uzivatel s danym ID v systeme nie je evidovany
+	 */
 	@RequestMapping(value = "/admin/user/add", method = RequestMethod.POST)
 	public String processSubmit(@Valid UserForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		setEditFormView("user-add");
@@ -156,7 +198,15 @@ public class UserController extends SupportAdminController {
 	}
 	
 	
-	
+	/**
+	 * Zobrazi JSP stranku s formularom, prostrednictom ktoreho je mozne edivaat uzivatela
+	 * 
+	 * @param Long userId
+	 * @param ModelMap model
+	 * @param request
+	 * @return String view
+	 * @throws ItemNotFoundException, v pripade ak uzivatel s danym ID v systeme nie je evidovany
+	 */
 	@RequestMapping("/admin/user/edit/{userId}")
 	public String showEditForm(@PathVariable Long userId, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		setEditFormView("user-edit");
@@ -169,7 +219,13 @@ public class UserController extends SupportAdminController {
 	
 	
 	
-	
+	/**
+	 * Zobazi profil prihlaseneho uzivatela
+	 * 
+	 * @param ModelMap model
+	 * @param request
+	 * @return String view
+	 */
 	@RequestMapping("/admin/user/profile")
 	public String showProfile( ModelMap modelMap, HttpServletRequest request){
 		setEditFormView("user-profile");
@@ -186,7 +242,15 @@ public class UserController extends SupportAdminController {
 	
 	
 	
-	
+	/**
+	 * Spracije odoslany uzivatelsky profil a ulozi zmeny.
+	 * 
+	 * @param UserForm form
+	 * @param BindingResultresult
+	 * @param ModelMap model
+	 * @return String jsp stranka
+	 * @throws ItemNotFoundException, v pripade ak uzivatel s danym ID v systeme nie je evidovany
+	 */
 	@RequestMapping(value = "/admin/user/profile", method = RequestMethod.POST)
 	public String editProfile(@ModelAttribute("userForm") UserForm form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		setEditFormView("user-profile");
@@ -228,7 +292,12 @@ public class UserController extends SupportAdminController {
 	}
 	
 	
-	
+	/**
+	 * Spracuje a odosle data pre autocomplete
+	 * 
+	 * @param String term
+	 * @return RequestBody, jsp s obsahujuci uzivatelske mena
+	 */
 	@RequestMapping(value = "/admin/user/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<User>  autocomplete(@RequestBody @RequestParam("term") String query){
 		return userService.autocomplateSearch(query);
