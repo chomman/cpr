@@ -12,6 +12,10 @@ import sk.peterjurkovic.cpr.entities.AssessmentSystem;
  */
 public interface AssessmentSystemDao extends BaseDao<AssessmentSystem, Long> {
 	
+	/**
+	 * Vrati zoznam publikovanych systemov posudzovania nemennosti parametrov, 
+	 * @return List<AssessmentSystem> 
+	 */
 	List<AssessmentSystem> getAssessmentSystemsForPublic();
 	
 }
