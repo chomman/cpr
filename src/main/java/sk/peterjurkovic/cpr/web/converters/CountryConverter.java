@@ -23,10 +23,7 @@ public class CountryConverter implements Converter<String, Country> {
 	Logger logger = Logger.getLogger(getClass());
 	
 	@Override
-	public Country convert(String countryIdString) {
-		
-		logger.info("Converting: " + countryIdString);
-		
+	public Country convert(String countryIdString) {	
 		Long id;
         try {
             id = Long.valueOf(countryIdString);

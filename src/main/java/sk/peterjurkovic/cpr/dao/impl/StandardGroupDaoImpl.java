@@ -50,7 +50,6 @@ public class StandardGroupDaoImpl extends BaseDaoImpl<StandardGroup, Long> imple
 						.setString("code", code)
 						.setLong("id", id)
 						.uniqueResult();
-		logger.info("isNameUniqe count : " + result);
 		return (result == 0);
 	}
 	

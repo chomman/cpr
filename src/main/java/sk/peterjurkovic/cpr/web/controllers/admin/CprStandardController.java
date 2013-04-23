@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -608,7 +608,6 @@ public class CprStandardController extends SupportAdminController {
 			standard.setTimestamp(standard.getChanged().getMillis());
 			modelMap.put("successCreate", true);
 		}catch(CollisionException e){
-			logger.info("collision ex ...");
 			result.rejectValue("timestamp", "error.collision", e.getMessage());
 		}
 		prepeareModelForMandates(standard, modelMap);

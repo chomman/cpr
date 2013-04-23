@@ -51,7 +51,6 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 						.createQuery(hql.toString())
 						.setEntity("mandate", mandate)
 						.uniqueResult();
-		logger.info("count : " + result);
 		return (result == 0);
 	}
 	

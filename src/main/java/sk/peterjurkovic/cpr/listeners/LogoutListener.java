@@ -33,7 +33,6 @@ public class LogoutListener implements LogoutHandler, ApplicationListener<Applic
     public void onApplicationEvent(ApplicationEvent evt) {
         if (evt instanceof HttpSessionDestroyedEvent) {
             HttpSessionDestroyedEvent httpSessionDestroyedEvent = (HttpSessionDestroyedEvent)evt;
-            logger.info("Session byla smazana");
             HttpSession session = httpSessionDestroyedEvent.getSession();
             Object contextFromSessionObject = session.getAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY);
             if (contextFromSessionObject != null) {
@@ -59,7 +58,6 @@ public class LogoutListener implements LogoutHandler, ApplicationListener<Applic
                 sessionId = ((WebAuthenticationDetails)authentication.getDetails()).getSessionId();
             }
             userLogService.saveLogOut(user, new Date().getTime(), sessionId);
-            logger.info("Uzivatel byl odhlasen. Username: " + user.getUsername());
         }
     }
 

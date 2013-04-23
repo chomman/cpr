@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import org.apache.log4j.Logger;
 

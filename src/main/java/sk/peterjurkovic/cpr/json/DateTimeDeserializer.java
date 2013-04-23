@@ -18,7 +18,6 @@ import sk.peterjurkovic.cpr.constants.Constants;
 public class DateTimeDeserializer extends StdDeserializer<DateTime> {
 	
 	private DateTimeFormatter formatter = DateTimeFormat.forPattern(Constants.DATE_TIME_FORMAT);
-	private Logger logger = Logger.getLogger(getClass());
 	
 	public DateTimeDeserializer(){
 		super(DateTime.class);
@@ -30,9 +29,7 @@ public class DateTimeDeserializer extends StdDeserializer<DateTime> {
 		 		if(StringUtils.isBlank(json.getText())){
 		 			return null;
 		 		}
-		 		logger.info("TIME: " + json.getText());
 	            DateTime datetime =  formatter.parseDateTime(json.getText());
-	            logger.info(datetime.getZone());
 	            return datetime;
 	        } catch (ParseException e) {
 	            return null;

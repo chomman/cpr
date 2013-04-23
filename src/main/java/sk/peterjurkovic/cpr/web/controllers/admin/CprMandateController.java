@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.util.HashMap;
 import java.util.List;
@@ -53,7 +53,6 @@ public class CprMandateController extends SupportAdminController {
 		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
 		
 		List<Mandate> mandates = mandateService.getMandatePage(currentPage);
-		logger.info("pocet mandatu: " + mandates.size());
 		model.put("mandates", mandates);
 		model.put("paginationLinks", paginationLinks);
 		model.put("tab", CPR_TAB_INDEX);	

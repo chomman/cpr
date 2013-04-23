@@ -14,10 +14,10 @@ import sk.peterjurkovic.cpr.constants.Constants;
 public class MailSender {
 	
 	//@Value("#{config['mail.username']}")
-	private String username = "";
+	private String username = "nlfnorm@gmail.com";
 	
 	//@Value("#{config['mail.password']}")
-	private String password = "";
+	private String password = "nlfnormitc";
 	
 	//@Value("#{config['mail.smtp_auth']}")
 	private String auth = "true";
@@ -55,10 +55,6 @@ public class MailSender {
 			}else{
 				email.setText(message);
 			}
-			logger.info("Message: "+ message);
-			
-			logger.info(userSSL);
-			logger.info(username +" ,"+password+" ,"+host);
 			if(userSSL.equals("true")){
 				Mailer m = new Mailer(host, Integer.parseInt(port), username, password, TransportStrategy.SMTP_SSL);
 				m.sendMail(email);

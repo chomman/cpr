@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers;
+package sk.peterjurkovic.cpr.web.controllers;
 
 import java.util.HashMap;
 import java.util.List;

@@ -39,8 +39,6 @@ public class CustomUrlAuthenticationFailureHandler implements AuthenticationFail
 		
 		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
 		
-		logger.info("Prefix: " + prefix );
-		
 		/*
 		if(prefix.equals(Constants.ADMIN_PREFIX)){
 			return Constants.FAILURE_ROLE_ADMIN_URL;

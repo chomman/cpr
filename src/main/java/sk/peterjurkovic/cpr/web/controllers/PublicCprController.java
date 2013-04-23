@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers;
+package sk.peterjurkovic.cpr.web.controllers;
 
 import java.util.HashMap;
 import java.util.List;
@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -58,7 +57,6 @@ public class PublicCprController {
 	
 	public static final String CPR_EHN_SEARCH_URL = "/cpr/vyhledavani-v-normach";
 	
-	private Logger logger = Logger.getLogger(getClass());
 	
 	
 	/**
@@ -162,7 +160,6 @@ public class PublicCprController {
 	 */
 	@RequestMapping("/cpr/as/{assessmentSystemId}")
 	public String showAssessmentSystemDetail(@PathVariable Long assessmentSystemId, ModelMap modelmap) throws PageNotFoundEception {
-		logger.info("Showing assessment system detail .");
 		AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(assessmentSystemId);
 		Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
 		if(assessmentSystem == null || webpage == null){
@@ -189,7 +186,6 @@ public class PublicCprController {
 			throw new PageNotFoundEception();
 		}
 		List<StandardGroup> groups = standardGroupService.getStandardGroupsForPublic();
-		logger.info(groups.size());
 		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("groups", groups);
 		modelmap.put("model", model);

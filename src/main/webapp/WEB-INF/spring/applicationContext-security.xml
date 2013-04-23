@@ -12,7 +12,7 @@
 		http://www.springframework.org/schema/util/spring-util-3.1.xsd">
 		
 		
-		<security:http pattern="/resources/**" security="none" />
+		<security:http pattern="/resources/**" security="none" disable-url-rewriting="true" />
 		
 		<security:global-method-security secured-annotations="enabled" />
 		

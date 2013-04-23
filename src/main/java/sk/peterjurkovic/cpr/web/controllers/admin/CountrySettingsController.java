@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.util.HashMap;
 import java.util.List;
@@ -46,7 +46,6 @@ public class CountrySettingsController extends SupportAdminController {
 		List<Country> countries = countryService.getAllCountries();
 		model.put("countries", countries);
 		model.put("tab", TAB_INDEX);
-		logger.info("showing countires.. size: " + countries);
 		modelMap.put("model", model);
         return getTableItemsView();
 	}

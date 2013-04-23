@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.util.HashMap;
 import java.util.List;
@@ -152,7 +152,6 @@ public class ArticleController extends SupportAdminController {
 	@RequestMapping("/admin/article/edit/{articleId}")
 	public String showEditForm(@PathVariable Long articleId, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		setEditFormView("article-edit");
-		logger.info("showEditForm");
 		Article form = articleService.getArticleById(articleId);
 		if(form == null){
 			createItemNotFoundError("Aktualita s ID: "+ articleId + " se v systému nenachází");
@@ -175,7 +174,6 @@ public class ArticleController extends SupportAdminController {
 	@RequestMapping( value = "/admin/article/edit/{articleId}", method = RequestMethod.POST, produces = "application/json")
 	public @ResponseBody JsonResponse  processAjaxUpdate(@RequestBody Article article, @PathVariable Long articleId){
 		JsonResponse response = new JsonResponse();
-		logger.info("processAjaxUpdate");
 		Article persistedArticle = articleService.getArticleById(articleId);
 		if(persistedArticle == null){
 			return response;

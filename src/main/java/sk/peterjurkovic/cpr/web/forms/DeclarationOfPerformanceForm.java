@@ -7,6 +7,7 @@ import java.util.Set;
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.entities.EssentialCharacteristic;
 import sk.peterjurkovic.cpr.entities.Requirement;
+import sk.peterjurkovic.cpr.services.RequirementService;
 
 public class DeclarationOfPerformanceForm {
 	
@@ -40,6 +41,16 @@ public class DeclarationOfPerformanceForm {
 	
 	public void setCharacteristics(Set<EssentialCharacteristic> characteristics) {
 		this.characteristics = new ArrayList<EssentialCharacteristic>(characteristics);
+	}
+	
+	public void updateRequirements(RequirementService requirementService){
+		for(EssentialCharacteristic ch : characteristics){
+			Long id = ch.getRequirement().getId();
+			if(id != null){
+				Requirement r = requirementService.getRequirementById(id);
+				ch.setRequirement(r);
+			}
+		}
 	}
 	
 	public void createCharacteristics(List<Requirement> requirements) {

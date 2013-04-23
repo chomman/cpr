@@ -29,7 +29,6 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
             throws IOException, ServletException {
 		String targetUrl = getTargetUrl(request, response, authentication);
-        logger.info("Redirecting to Url: " + targetUrl);
         getRedirectStrategy().sendRedirect(request, response, targetUrl);
     }
 
@@ -37,7 +36,6 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
 	
 	protected String getTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		User user = (User)authentication.getPrincipal();
-        logger.info(user);
         /*
 		if(user.isEditorUser()){
         	return Constants.SUCCESS_ROLE_ADMIN_URL;

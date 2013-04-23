@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.controllers;
+package sk.peterjurkovic.cpr.web.controllers;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -302,7 +302,7 @@ public class PublicDeclarationOfPerformanceController {
 			result.rejectValue("declarationOfPerformance.id", "recaptcha.error");
 		}
 		if(result.hasErrors()){
-			logger.info("Has some errors ..");
+			form.updateRequirements(requirementService);
 			prepareModel(webpage, standard, modelMap, form);
 			return "/public/declaration-of-performance-form";
 		}else{

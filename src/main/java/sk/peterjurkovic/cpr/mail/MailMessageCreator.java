@@ -22,9 +22,10 @@ public class MailMessageCreator {
 		
 		StringBuffer message = new StringBuffer("<p>Dobrý den,<br><br>");
 		message.append("uživatel <b>"+author+"</b> Vám vytvořil uživatelský účet v informačním systému CPR.<br><br>");
-		message.append("Adresa informačního systému: <a href=\"\">www.text.cz</a><br>");
+		message.append("Adresa informačního systému: <a href=\"http://www.nlfnorm.cz\">www.nlfnorm.cz</a><br>");
+		message.append("Adresa administrace systému: <a href=\"http://www.nlfnorm.cz/admin/\">www.nlfnorm.cz/admin/</a><br>");
 		message.append("Vaše přihlašovací jméno: "+createdUser.getEmail()+" <br>");
-		message.append("Vaše přihlašovací heslo: "+pass+" <br> <br>");
+		message.append("Vaše přihlašovací heslo: "+pass+" <i>(po přihlášení si jej můžete změnit)</i><br> <br>");
 		message.append("Zpráva byla automaticky odeslána z informačního systému CPR</p>");
 		return message.toString();
 	}
