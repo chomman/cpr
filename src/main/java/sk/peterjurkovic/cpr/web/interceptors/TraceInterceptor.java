@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.interceptors;
+package sk.peterjurkovic.cpr.web.interceptors;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;

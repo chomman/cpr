@@ -14,7 +14,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateTime;
 
-import sk.peterjurkovic.cpr.json.DateTimeDeserializer;
+import sk.peterjurkovic.cpr.web.json.DateTimeDeserializer;
 
 
 @Entity

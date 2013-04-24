@@ -12,7 +12,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
 <!-- For parsing classes with @Aspect annotation -->
 <aop:aspectj-autoproxy/>
 
-<bean id="customizableTraceInterceptor" class="sk.peterjurkovic.cpr.interceptors.TraceInterceptor"
+<bean id="customizableTraceInterceptor" class="sk.peterjurkovic.cpr.web.interceptors.TraceInterceptor"
 p:enterMessage="Entering $[targetClassShortName].$[methodName]($[arguments])"
 p:exitMessage="Leaving $[targetClassShortName].$[methodName](): $[returnValue]"/>
 

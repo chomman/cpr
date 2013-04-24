@@ -11,7 +11,8 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import sk.peterjurkovic.cpr.editors.IdentifiableByLong;
+
+import sk.peterjurkovic.cpr.dao.impl.IdentifiableByLong;
 
 
 

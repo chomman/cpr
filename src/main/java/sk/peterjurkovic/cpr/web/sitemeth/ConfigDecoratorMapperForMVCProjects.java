@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.sitemeth;
+package sk.peterjurkovic.cpr.web.sitemeth;
 
 import com.opensymphony.module.sitemesh.Config;
 import com.opensymphony.module.sitemesh.Decorator;

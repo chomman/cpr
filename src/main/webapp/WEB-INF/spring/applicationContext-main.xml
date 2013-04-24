@@ -98,7 +98,7 @@
 	        </list>
 	    </property>
 	</bean>
-	<bean id="jacksonObjectMapper" class="sk.peterjurkovic.cpr.json.DateTimeMapper" />
+	<bean id="jacksonObjectMapper" class="sk.peterjurkovic.cpr.web.json.DateTimeMapper" />
 	<bean id="jacksonSerializationConfig" class="org.codehaus.jackson.map.SerializationConfig"
 	    factory-bean="jacksonObjectMapper" factory-method="getSerializationConfig" />
 	<bean

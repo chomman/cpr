@@ -1,9 +1,8 @@
-package sk.peterjurkovic.cpr.json;
+package sk.peterjurkovic.cpr.web.json;
 
 import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParser;
 import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.DeserializationContext;

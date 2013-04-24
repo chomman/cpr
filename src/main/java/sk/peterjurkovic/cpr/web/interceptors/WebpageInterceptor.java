@@ -1,5 +1,5 @@
 
-package sk.peterjurkovic.cpr.interceptors;
+package sk.peterjurkovic.cpr.web.interceptors;
 
 import java.util.HashMap;
 import java.util.Map;

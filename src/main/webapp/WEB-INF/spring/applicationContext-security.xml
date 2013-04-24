@@ -64,9 +64,9 @@
 	    	<property name="filterProcessesUrl" value="/j_logout"/>
 		</bean>
 		
-		<bean id="loginListener" class="sk.peterjurkovic.cpr.listeners.LoginListener" autowire="byName" />
+		<bean id="loginListener" class="sk.peterjurkovic.cpr.spring.listeners.LoginListener" autowire="byName" />
 	
-		<bean id="logoutListener" class="sk.peterjurkovic.cpr.listeners.LogoutListener" autowire="byName" />
+		<bean id="logoutListener" class="sk.peterjurkovic.cpr.spring.listeners.LogoutListener" autowire="byName" />
 	
 		<bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
 			<property name="accessDeniedHandler" ref="accessDeniedHandler" />

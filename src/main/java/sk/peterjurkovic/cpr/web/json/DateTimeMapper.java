@@ -1,15 +1,11 @@
-package sk.peterjurkovic.cpr.json;
+package sk.peterjurkovic.cpr.web.json;
 
-import org.apache.log4j.Logger;
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
 import org.joda.time.DateTime;
 
 public class DateTimeMapper extends ObjectMapper {
-	
-	
-	Logger logger = Logger.getLogger(getClass());
 	
 	public DateTimeMapper() {
 		super();

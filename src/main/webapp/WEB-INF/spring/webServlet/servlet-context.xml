@@ -36,16 +36,16 @@
 	</beans:bean>  
 	
 	
-	<beans:bean id="adminInterceptor" class="sk.peterjurkovic.cpr.interceptors.AdminInterceptor" />
+	<beans:bean id="adminInterceptor" class="sk.peterjurkovic.cpr.web.interceptors.AdminInterceptor" />
 
 	<mvc:interceptors>
 	   <mvc:interceptor>
 	     <mvc:mapping path="/admin/**" />
-	     	<beans:bean class="sk.peterjurkovic.cpr.interceptors.AdminInterceptor" />
+	     	<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.AdminInterceptor" />
 	   </mvc:interceptor>
 	   <mvc:interceptor>
 	     <mvc:mapping path="/**" />
-	     	<beans:bean class="sk.peterjurkovic.cpr.interceptors.WebpageInterceptor" />
+	     	<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.WebpageInterceptor" />
 	   </mvc:interceptor>
 	</mvc:interceptors>
 	

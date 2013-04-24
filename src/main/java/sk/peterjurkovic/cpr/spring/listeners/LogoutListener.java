@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.listeners;
+package sk.peterjurkovic.cpr.spring.listeners;
 
 import java.util.Date;
 
