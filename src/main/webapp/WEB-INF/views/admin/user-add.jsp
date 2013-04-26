@@ -1,8 +1,11 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<sec:authorize access="hasAnyRole('ROLE_WEBMASTER','ROLE_ADMIN')">	
-	<c:set var="isAdmin" value="true"/>
+<sec:authorize access="hasRole('ROLE_WEBMASTER')">	
+	<c:set var="isLoggedWebmaster" value="true"/>
 </sec:authorize>
+<sec:authorize access="hasRole('ROLE_ADMIN')">	
+	<c:set var="isLoggedAdmin" value="true"/>
+</sec:authorize>	
 
 <!DOCTYPE html>
 <html>
@@ -18,7 +21,7 @@
 	</div>	
 	<div id="right">
 		
-		<c:if test="${isAdmin}">
+		<c:if test="${isLoggedAdmin}">
 		
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
@@ -112,13 +115,28 @@
 						<p class="form-head"><spring:message code="user.roles" /></p>
 						<p class="msg info"><spring:message code="user.role.notice" /></p>
                        	<table class="roles">
-							<c:forEach items="${userForm.roles}" var="item" varStatus="i">	
-							<tr>
-								<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
-								<td class="name"><c:out value="${item.authority.name}" /></td>
-								<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
-							</tr>
-							</c:forEach>
+	
+							<c:if test="${isLoggedWebmaster}">
+									<c:forEach items="${userForm.roles}" var="item" varStatus="i">
+											<tr>
+												<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+												<td class="name"><c:out value="${item.authority.name}" /></td>
+												<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
+											</tr>
+									</c:forEach>
+								</c:if>
+								
+								<c:if test="${isLoggedAdmin and not isLoggedWebmaster}">
+									<c:forEach items="${userForm.roles}" var="item" varStatus="i">
+											<c:if test="${item.authority.code != 'ROLE_WEBMASTER'}">
+												<tr>
+													<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+													<td class="name"><c:out value="${item.authority.name}" /></td>
+													<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
+												</tr>
+											</c:if>
+									</c:forEach>
+								</c:if>			
 						</table>
                         <form:hidden path="user.id" />
                         <p class="button-box">
@@ -129,8 +147,8 @@
 		</div>	
 		
 		</c:if>
-		<c:if test="${not isAdmin}">
-			<h4>Neautorizovaný přístup</h4>
+		<c:if test="${not isLoggedAdmin}">
+			<p class="msg error"><spring:message code="error.unauthorized" /></p>
 		</c:if>
 		
 	</div>

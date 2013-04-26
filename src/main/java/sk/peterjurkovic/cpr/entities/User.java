@@ -156,15 +156,6 @@ public class User extends AbstractEntity implements UserDetails{
         return false;
     }
 	
-	
-	@Override
-    public boolean equals(Object obj) {
-        if (obj != null && obj instanceof User) {
-            return email.equals(((User)obj).getEmail());
-        }
-        return false;
-    }
-	
 	public void clearAuthorities(){
 		authoritySet.clear();
 	}

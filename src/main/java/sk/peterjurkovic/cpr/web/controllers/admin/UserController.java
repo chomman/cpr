@@ -213,7 +213,7 @@ public class UserController extends SupportAdminController {
 		UserForm form = new UserForm();
 		prepareEditForm(form, userId);
 		prepareModel(modelMap,  form);
-		modelMap.put("userIsWebmaster", form.getUser().isWebmaster());
+		
 		return getEditFormView();
 	}
 	
@@ -243,7 +243,7 @@ public class UserController extends SupportAdminController {
 	
 	
 	/**
-	 * Spracije odoslany uzivatelsky profil a ulozi zmeny.
+	 * Spracuje odoslany uzivatelsky profil a ulozi zmeny.
 	 * 
 	 * @param UserForm form
 	 * @param BindingResultresult
@@ -366,6 +366,12 @@ public class UserController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		modelMap.addAttribute("userForm", form);
 		model.put("tab", 2);
+		User formUser = form.getUser();
+		if(formUser == null){
+			modelMap.put("sameUser", false);
+		}else{
+			modelMap.put("sameUser", formUser.equals(UserUtils.getLoggedUser()));
+		}
 		modelMap.put("model", model);
 	}
 	
