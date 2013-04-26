@@ -21,7 +21,13 @@ public class BasicRequirementDaoImpl extends BaseDaoImpl<BasicRequirement, Long>
 		super(BasicRequirement.class);
 	}
 
-	
+	/**
+	 * Skontroluje, ci nazov daneho zakladneho pozadavku je jedinecny
+	 * 
+	 * @param name
+	 * @param id
+	 * @return
+	 */
 	@Override
 	public boolean isNameUniqe(final String code,final Long id) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM BasicRequirement br");
@@ -34,7 +40,11 @@ public class BasicRequirementDaoImpl extends BaseDaoImpl<BasicRequirement, Long>
 		return (result == 0);
 	}
 	
-	
+	/**
+	 * Vrati zoznam publikvoanych zakladnych poziadavkov
+	 * 
+	 * @return List<BasicRequirement>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<BasicRequirement> getBasicRequirementsForPublic(){

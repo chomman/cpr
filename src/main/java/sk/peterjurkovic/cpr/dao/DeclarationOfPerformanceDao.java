@@ -5,6 +5,12 @@ import java.util.Map;
 
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 
+/**
+ * DAO rozhranie pre manipulaciu s DoP
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 public interface DeclarationOfPerformanceDao  extends BaseDao<DeclarationOfPerformance, Long> {
 	
 	/**

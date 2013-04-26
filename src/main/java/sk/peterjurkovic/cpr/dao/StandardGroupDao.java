@@ -11,11 +11,29 @@ import sk.peterjurkovic.cpr.entities.StandardGroup;
  */
 public interface StandardGroupDao extends BaseDao<StandardGroup, Long>{
 
+	/**
+	 * Vrati pocet evidovanych noriem v danej skupine vyrobkov
+	 * 
+	 * @param StandardGroup dana skupina vyrobkov
+	 * @return Long pocet noriem, nachadzajucich sa v danej skupine
+	 */
 	Long getCoutOfStandardInGroup(StandardGroup standardGroup);
 	
 	
+	/**
+	 * Skontroluje ci je nazov skupiny jedinecny v ramci systemu
+	 * 
+	 * @param String kod skupiny code (seo url)
+	 * @param Long ID skupiny
+	 * @return TRUE, ak je jedinecna, inak FALSE
+	 */
 	boolean isGroupNameUniqe(String code, Long id);
 	
 	
+	/**
+	 * Vrati zoznam publikovanych skupin vyrobkov
+	 * 
+	 * @return List<StandardGroup> skupiny vyrobkov
+	 */
 	List<StandardGroup> getStandardGroupsForPublic();
 }

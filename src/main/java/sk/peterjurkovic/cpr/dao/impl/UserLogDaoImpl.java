@@ -41,7 +41,14 @@ public class UserLogDaoImpl extends BaseDaoImpl<UserLog, Long> implements UserLo
 	}
 	
 	
-
+	/**
+	 * Metoda vrati stranku pristupov do administracnej sekcie systemu
+	 * 
+	 * @param int cislo stranky
+	 * @param kriteria, podla ktorych sa vykona filter
+	 * 
+	 * @return stranka uzivatelskych pristpov
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UserLog> getLogPage(int pageNumber, Map<String, Object> criteria) {
@@ -61,7 +68,12 @@ public class UserLogDaoImpl extends BaseDaoImpl<UserLog, Long> implements UserLo
 
 	
 	
-	
+	/**
+	 * Vrati pocet uzivatelskych pristupov, vyhovujucich danym kriteriam
+	 * 
+	 * @param Map<String, Object> kriteria, podla ktorych sa aplikuje filter
+	 * @return Long pocet vyhovujucich zaznamov
+	 */
 	@Override
 	public Long getCountOfLogs(Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM UserLog ul");

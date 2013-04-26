@@ -17,6 +17,12 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	}
 
 	
+	/**
+	 * Na zaklade jedinecneho identifikatoru kategorie sa vratia vsetky verejne sekcie.
+	 * 
+	 * @param Long ID kategorie
+	 * @return List<Webpage> zoznam verejnych sekcii v danej kategorii
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Webpage> getPublicSection(final Long categoryId) {
@@ -29,7 +35,11 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		return hqlQuery.list();
 	}
 
-
+	/**
+	 * Vrati nasledujuce iD, ktore bude priradene pri dalsom inserte.
+	 * 
+	 * @return Long 
+	 */
 	@Override
 	public Long getNextIdValue() {
 		Long nextId = (Long) sessionFactory.getCurrentSession()

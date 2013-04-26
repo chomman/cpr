@@ -15,6 +15,12 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.DeclarationOfPerformanceDao;
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 
+/**
+ * Implementacia DAO rozhrania DoP
+ * 
+ * @see sk.peterjurkovic.cpr.dao.DeclarationOfPerformanceDao
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ */
 @Repository("declarationOfPerformanceDao")
 public class DeclarationOfPerformanceDaoImpl 
 		extends BaseDaoImpl<DeclarationOfPerformance, Long> 
@@ -26,6 +32,12 @@ public class DeclarationOfPerformanceDaoImpl
 	}
 
 	
+	/**
+	 * Vrati DoP na zaklade daneho tokenu
+	 * 
+	 * @param String textovy retazec (token), daneho DoP
+	 * @return
+	 */
 	@Override
 	public DeclarationOfPerformance getByToken(final String token) {
 		return (DeclarationOfPerformance) sessionFactory.getCurrentSession()
@@ -36,7 +48,12 @@ public class DeclarationOfPerformanceDaoImpl
 		
 	}
 
-
+	
+	/**
+	 * Odstrani DoP zo systemu
+	 * 
+	 * @param Long id
+	 */
 	@Override
 	public void deleteEssentialCharacteristicByDopId(final Long id) {
 		sessionFactory.getCurrentSession()
@@ -47,7 +64,12 @@ public class DeclarationOfPerformanceDaoImpl
 
 	
 	
-
+	/**
+	 * Vrati stranku (zoznam) DoPs, na zaklade danych kriterii
+	 * @param pageNumber
+	 * @param criteria
+	 * @return List<DeclarationOfPerformace> dops
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<DeclarationOfPerformance> getDopPage(final int pageNumber,final Map<String, Object> criteria){ 
@@ -63,7 +85,11 @@ public class DeclarationOfPerformanceDaoImpl
 	}
 
 
-	
+	/**
+	 * Vrati pocet DoPS, vyhovujuci danym kriteriam
+	 * @param criteria
+	 * @return Long pocet
+	 */
 	@Override
 	public Long getCountOfDop(final Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM DeclarationOfPerformance dop ");

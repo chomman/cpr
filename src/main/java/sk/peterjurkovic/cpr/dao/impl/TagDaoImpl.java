@@ -7,13 +7,25 @@ import org.springframework.stereotype.Repository;
 import sk.peterjurkovic.cpr.dao.TagDao;
 import sk.peterjurkovic.cpr.entities.Tag;
 
+/**
+ * Implementacia rozhrania pre pracu so stitkami {@link sk.peterjurkovic.cpr.dao.TagDao}
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ */
 @Repository("tagDao")
 public class TagDaoImpl extends BaseDaoImpl<Tag, Long> implements TagDao{
 	
 	public TagDaoImpl(){
 		super(Tag.class);
 	}
-
+	
+	
+	/**
+	 * Vyhlada vsetky stitky, podla daneho nazvu
+	 * 
+	 * @param term - vyraz, na zaklade ktoreho sa vykona hladanie
+	 * @return List<Tag> zoznam vyhovujucich tago
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Tag> searchByTagName(String tagName) {

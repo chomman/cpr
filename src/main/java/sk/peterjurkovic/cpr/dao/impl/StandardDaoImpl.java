@@ -16,6 +16,11 @@ import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 
+/**
+ * Implementacia rozhrania {@link sk.peterjurkovic.cpr.dao.StandardDao}
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ */
 @Repository("standardDao")
 public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements StandardDao {
 	
@@ -24,6 +29,12 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	}
 
 	
+	/**
+	 * Vrati pocet evidovanych noriem v danej skupine vyrobkov
+	 * 
+	 * @param StandardGroup dana skupina vyrobkov
+	 * @return Long pocet noriem, nachadzajucich sa v danej skupine
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> getStandardPage(final int pageNumber,final Map<String, Object> criteria ){
@@ -44,6 +55,15 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		return hqlQuery.list();
 	}
 	
+	
+	
+	/**
+	 * Skontroluje ci je nazov skupiny jedinecny v ramci systemu
+	 * 
+	 * @param String kod skupiny code (seo url)
+	 * @param Long ID skupiny
+	 * @return TRUE, ak je jedinecna, inak FALSE
+	 */
 	public Long getCountOfSdandards(final Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM Standard s");
 		hql.append(prepareHqlForQuery(criteria));
@@ -55,7 +75,12 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	}
 
-
+	
+	/**
+	 * Vrati zoznam publikovanych skupin vyrobkov
+	 * 
+	 * @return List<StandardGroup> skupiny vyrobkov
+	 */
 	@Override
 	public boolean isStandardIdUnique(final String standardId,final Long id) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s WHERE s.standardId=:standardId");

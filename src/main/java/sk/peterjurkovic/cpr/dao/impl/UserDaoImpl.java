@@ -19,6 +19,8 @@ import sk.peterjurkovic.cpr.enums.UserOrder;
 
 /**
  * Implementacia UserDao
+ * 
+ * @see {@link sk.peterjurkovic.cpr.dao.UserDao}
  * @author Peter Jurkovič (email@peterjurkovic.sk) 
  */
 @Repository("userDao")
@@ -28,7 +30,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
         super(User.class);
     }
 	
-	
+	/**
+	 * Vrati uzivatela na zaklade daneho uzivatelskeho mena
+	 * 
+	 * @param String uzivatelske meno hladaneho uzivatela
+	 * @return User
+	 */
 	@Override
 	public User getUserByUsername(final String username) {
 		return (User) sessionFactory.getCurrentSession()
@@ -38,7 +45,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 				.uniqueResult();
 	}
 
-	
+	/**
+	 * Vrati zoznam uzivatelov, ktorych nazov, id, meno, priezvisko vyhovuje hladanemu vyrazu
+	 * 
+	 * @param String hladany term
+	 * @return List<User> zoznam najdenych uzivatelov
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> autocomplateSearch(final String query) {
@@ -55,7 +67,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		return users;
 	}
 	
-	
+	/**
+	 * Vrati zoznam uzivatelov s danou uzivatelskou rolou
+	 * 
+	 * @param String kod uzivatelskej role
+	 * @return List<User> zoznam vyhovujucich uzivatelov
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUsersByRole(final String code) {
@@ -66,7 +83,10 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	}
 
 	
-	
+	/**
+	 * Vrati zoznam vsetkych evidovanych, aktivovanych uzivatelskych roli
+	 * @param  List<Authority> uzivatelske role
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Authority> getAllAuthorities() {
@@ -80,7 +100,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
          				.list();
 	}
 
-
+	/**
+	 * Vrati stranku uzivatelov, vyhovujucich danym kriteriam
+	 * 
+	 * @param int cislo stranky
+	 * @param Map<String, Object> kriteria
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<User> getUserPage(final int pageNumber, Map<String, Object> criteria) {
@@ -101,7 +126,13 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		return hqlQuery.list();
 	}
 
-
+	
+	/**
+	 * Vrati pocet zaznamov/uzivatelov, vyhovujucich danym kriteriam
+	 * 
+	 * @param Map<String, Object> kriteria
+	 * @return Long pocet zaznamov
+	 */
 	@Override
 	public Long getCountOfUsers(Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM User u");
@@ -161,7 +192,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		}
 	}
 
-
+	/**
+	 * Skontroluje, ci je dane uzivatelske meno v ramci systemu jedinecne
+	 * 
+	 * @param Long id uzivatela
+	 * @param String kontrolovane uzivatelske meno
+	 */
 	@Override
 	public boolean isUserNameUniqe(final Long id, final String userName) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM User u WHERE u.email=:userName");

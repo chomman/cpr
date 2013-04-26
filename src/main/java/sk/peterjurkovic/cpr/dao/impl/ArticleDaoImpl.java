@@ -15,6 +15,12 @@ import sk.peterjurkovic.cpr.dao.ArticleDao;
 import sk.peterjurkovic.cpr.entities.Article;
 import sk.peterjurkovic.cpr.enums.ArticleOrder;
 
+/**
+ * Implementacia DAO rozhrania pre manipulaciu s aktualitami
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Repository("articleDao")
 public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements ArticleDao {
 
@@ -22,7 +28,11 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		super(Article.class);
 	}
 
-	
+	/**
+	 * Vrati dalsie mozne ID
+	 * 
+	 * @return Long dalie id, tkore bude vygenerovane
+	 */
 	@Override
 	public Long getNextIdValue() {
 		Long nextId = (Long) sessionFactory.getCurrentSession()
@@ -36,7 +46,12 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
         return nextId + 1;
 	}
 
-	
+	/**
+	 * Vrati titulkty aktualit pre naseptavac, resp autocomplete
+	 * 
+	 * @param String term
+	 * @return List<Article>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Article> autocomplateSearch(final String query) {
@@ -53,7 +68,13 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	
 
 	
-	
+	/**
+	 * Vrati nastrankovanu stranku aktualitz, na zaklade danych kriterii
+	 * 
+	 * @param int cislo stranky
+	 * @param Map<String, Object> criteria
+	 * @return List<Article> stranka aktualit
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Article> getArticlePage(final int pageNumber,final Map<String, Object> criteria) {
@@ -75,6 +96,13 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		return hqlQuery.list();
 	}
 
+	
+	/**
+	 * Vrati pocet aktualit vyhovujuci danym kriteriam
+	 * 
+	 * @param Map<String, Object> criteria
+	 * @return Long pocet 
+	 */
 	@Override
 	public Long getCountOfArticles(final Map<String, Object> criteria) {
 		StringBuffer hql = new StringBuffer("SELECT count(*) FROM Article a");
@@ -150,7 +178,13 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
         return hql;
 	}
 
-
+	
+	/**
+	 * Vrati zoznam najnovsich aktualit
+	 * 
+	 * @param count pocet, resp limit ktory sa ma vratit
+	 * @return List<Article> 
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Article> getNewestArticles(int count) {
@@ -162,6 +196,11 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	}
 	
 	
+	/**
+	 * Vrati aktuality pre verejnu sekciu, kotre su aktitovane publikovane.
+	 * @param int stranka 
+	 * @return List<Article> nastrankovanz zoznam aktualit 
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Article> getArticlePageForPublic(final int pageNumber) {
@@ -174,6 +213,12 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	}
 	
 	
+	/**
+	 * Vrati pocet aktualit pre verejnu sekciu, vyhovujuci kriteriam, tz. su publikovane, datum a cas zaciatku, 
+	 * resp konca publikacie vyhovuje aktualnemu datumu
+	 * 
+	 * @return Long pocet
+	 */
 	@Override
 	public Long getCountOfArticlesForPublic() {
 		StringBuffer hql = new StringBuffer("SELECT count(*) ");

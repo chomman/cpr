@@ -6,15 +6,20 @@ import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 
+/**
+ * DAO rozhranie pre manipulaciu s poziadavkami 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 public interface RequirementDao extends BaseDao<Requirement, Long>{
 	
 	
 	/**
-	 * Vrati poziadavky na zaklade danej krajiny a normy
+	 * Vrati zoznam poziadavko na pre danu krainu a normu
 	 * 
-	 * @param country
-	 * @param standard
-	 * @return List<Requirement> zoznam parametrov/poziadavkov danej krajiny a normy
+	 * @param Country krajina
+	 * @param Standar dana norma pre kotru maju byt vratene poziadavky
+	 * @return List<Requirement> zoznam poziadavkov
 	 */
 	List<Requirement> getRequirementsByCountryAndStandard(Country country, Standard standard);
 }

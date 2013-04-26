@@ -21,7 +21,11 @@ public class AssessmentSystemDaoImpl extends BaseDaoImpl<AssessmentSystem, Long>
 		super(AssessmentSystem.class);
 	}
 	
-
+	
+	/**
+	 * Vrati zoznam publikovanych systemov posudzovania nemennosti parametrov, 
+	 * @return List<AssessmentSystem> 
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<AssessmentSystem> getAssessmentSystemsForPublic(){

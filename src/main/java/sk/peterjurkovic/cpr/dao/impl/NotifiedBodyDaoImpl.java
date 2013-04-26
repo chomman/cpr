@@ -8,15 +8,29 @@ import org.springframework.stereotype.Repository;
 import sk.peterjurkovic.cpr.dao.NotifiedBodyDao;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 
-
+/**
+ * Implementacia DAO rozhrania pre manipulaciu s notifikovanymi osobami 
+ * 
+ * {@link sk.peterjurkovic.cpr.dao.NotifiedBodyDao}
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Repository("notifiedBody")
 public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> implements NotifiedBodyDao {
 	
 	public NotifiedBodyDaoImpl(){
 		super(NotifiedBody.class);
 	}
-
 	
+	
+	
+	/**
+	 * Skontroluje, ci moze byt dana notofikovana osoba odstranena zo systemu,
+	 * resp. ci nie je pouziva v norme
+	 * 
+	 * @param notifiedBody
+	 * @return TRUE, v pripade ak moze byt dostranena, inak FALSE
+	 */
 	@Override
 	public boolean canBeDeleted(final NotifiedBody notifiedBody) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");
@@ -28,7 +42,14 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 		return (result == 0);
 	}
 
-
+	
+	/**
+	 * Skontroluje, ci je evidovana notifikovana osoba s danym nazvom
+	 * 
+	 * @param String nazov NO
+	 * @param id danej osoby, alebo 0
+	 * @return TRUE, ak nie je evidovana, inak FALSE
+	 */
 	@Override
 	public boolean isNameUniqe(final String code,final Long id) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM NotifiedBody nb");
@@ -41,7 +62,13 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 		return (result == 0);
 	}
 
-
+	
+	/**
+	 * Vrati zoznam notifikovanych osob zoskupeny podla evidovanych krajin
+	 * 
+	 * @param Boolean enabled Ak je true, vratia sa len publikovane, resp. false nepublikovane
+	 * @return List<NotifiedBody> zoznam notifkovanych osob
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled) {

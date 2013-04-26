@@ -9,7 +9,13 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.MandateDao;
 import sk.peterjurkovic.cpr.entities.Mandate;
 
-
+/**
+ * Implementacia rozhrania pre manipulaicu s mandatom
+ * 
+ * @see sk.peterjurkovic.cpr.dao.MandateDao
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Repository("mandateDao")
 public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements MandateDao {
 	
@@ -18,6 +24,12 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 	}
 
 	
+	/**
+	 * Vrati stranku mandatov
+	 * 
+	 * @param Long cislo stranky
+	 * @return List<Mandate>
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Mandate> getMandatePage(int pageNumber) {
@@ -32,8 +44,12 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 		return mandates;
 	}
 
-
 	
+	/**
+	 * Vrati celkovy pocet evidovanych mandatov.
+	 * 
+	 * @return Long 
+	 */
 	@Override
 	public Long getCountOfMandates() {
 		return (Long) sessionFactory.getCurrentSession()
@@ -42,7 +58,13 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 
 	}
 	
-	
+	/**
+	 * Skontroluje, ci moze byt dany mandat odstraneny, resp.
+	 * ci sa nenachadza v norme.
+	 * 
+	 * @param Mandate dany mandat
+	 * @return TRUE, ak moze byt odstraneny, inak FALSE
+	 */
 	@Override
 	public boolean canBeDeleted(final Mandate mandate) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");

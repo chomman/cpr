@@ -46,6 +46,8 @@ public interface BaseDao<T, ID extends Serializable> {
      * @return
      */
     public T merge(T entity);
+    
+    
     public void evict(T entity);
     
     /**
@@ -61,6 +63,13 @@ public interface BaseDao<T, ID extends Serializable> {
      * @return T
      */
     public T getByID(Long id);
+    
+    
+    /**
+     * Synchronizuje session a databazu
+     */
     public void flush();
+    
+    
     public T getByCode(String code);
 }
