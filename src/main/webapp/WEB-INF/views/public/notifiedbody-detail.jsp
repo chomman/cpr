@@ -5,7 +5,7 @@
 	<head>
 		<title>${model.notifiedBody.notifiedBodyCode} - ${fn:substring(model.notifiedBody.name, 0, 60)}</title>
 		<meta name="description" content="${model.webpage.description}" />
-		<script src="https://maps.googleapis.com/maps/api/js?v=3.5&sensor=false"></script>
+		<script src="https://maps.googleapis.com/maps/api/js?v=3.5&amp;sensor=false"></script>
 		<script src="<c:url value="/resources/public/js/google.maps.js" />"></script>
 	</head>
 	<body>
@@ -18,24 +18,24 @@
 	</div> 
 
 		<div id="main-content">
-			<article>
+			<article itemscope itemtype="http://data-vocabulary.org/Organization">
 				<hgroup>
 					<h1><spring:message code="subject" arguments="${model.notifiedBody.notifiedBodyCode}" /></h1>
-					<h2>${model.notifiedBody.name}</h2>
+					<h2 itemprop="name">${model.notifiedBody.name}</h2>
 				</hgroup>
 				
 				<div class="nb-left">
 					<strong class="head"><spring:message code="address" /></strong>
-					<ul>
+					<ul itemprop="address" itemscope  itemtype="http://data-vocabulary.org/Address">
 						<li class="bigger">${model.notifiedBody.name}</li>
-						<li><strong><spring:message code="address.street" />: </strong><span id="street">${model.notifiedBody.address.street}</span></li>
-						<li><strong><spring:message code="address.city" />: </strong><span id="city">${model.notifiedBody.address.city}</span>,<span id="zip">${model.notifiedBody.address.zip}</span></li>
-						<li><strong><spring:message code="address.country" />: </strong><span id="country">${model.notifiedBody.country.countryName}</span></li>
+						<li><strong><spring:message code="address.street" />: </strong><span id="street" itemprop="street-address">${model.notifiedBody.address.street}</span></li>
+						<li><strong><spring:message code="address.city" />: </strong><span id="city" itemprop="locality">${model.notifiedBody.address.city}</span>,<span id="zip" itemprop="postal-code">${model.notifiedBody.address.zip}</span></li>
+						<li><strong><spring:message code="address.country" />: </strong><span id="country" itemprop="country-name">${model.notifiedBody.country.countryName}</span></li>
 					</ul>
 					
 					<strong class="head"><spring:message code="contact.info" /></strong>
 					<ul>
-						<li><strong><spring:message code="form.phone" />: </strong>${model.notifiedBody.phone}</li>
+						<li><strong><spring:message code="form.phone" />: </strong><span itemprop="tel">${model.notifiedBody.phone}</span></li>
 						<li><strong><spring:message code="form.fax" />: </strong>${model.notifiedBody.fax}</li>
 						<c:if test="${not empty model.notifiedBody.email}">
 						<li><strong><spring:message code="form.email" />: </strong>
@@ -44,7 +44,7 @@
 						</c:if>	
 						<c:if test="${not empty model.notifiedBody.webpage}">
 							<li><strong><spring:message code="form.web" />: </strong>
-								<a href="http://${model.notifiedBody.webpage}" target="_blank">${model.notifiedBody.webpage}</a>
+								<a itemprop="url" href="http://${model.notifiedBody.webpage}" target="_blank">${model.notifiedBody.webpage}</a>
 							</li>
 						</c:if>	
 						

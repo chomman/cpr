@@ -384,8 +384,8 @@ public class UserController extends SupportAdminController {
 		if(user == null){
 			createUserNotFound(userId);
 		}
-		User loggerUser = UserUtils.getLoggedUser();
-		if(!loggerUser.isAdministrator() && !loggerUser.equals(user)){
+		User loggedUser = UserUtils.getLoggedUser();
+		if(!loggedUser.isAdministrator() && !loggedUser.equals(user)){
 			createAccessDenied();
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}

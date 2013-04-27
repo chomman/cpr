@@ -1,7 +1,6 @@
 $(document).ready(function() {    
       $("input.query").autocomplete({
 			 source: function(request, response){  
-				 console.log(request);
 			 	 $.getJSON( $("#base").text() +"ehn/autocomplete", request, function(data) {  
                  	 response( $.map( data, function( item ) {
 	                 		if(item[1].toLowerCase().indexOf(request.term) >= 0){

@@ -14,12 +14,8 @@ import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 @Controller
 public class AccessController extends SupportAdminController {
 	 
-		 
-	 
 	 @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
-	 public String getAdminLoginPage(HttpServletRequest request,   ModelMap model) {
-	  logger.debug("Received request to show login page");
-	  
+	 public String getAdminLoginPage(HttpServletRequest request,   ModelMap model) {	  
 	  String error = request.getParameter("login_error");
 	  
 	  if(error != null && error.equals("1")){
@@ -38,7 +34,6 @@ public class AccessController extends SupportAdminController {
 	 
 	 @RequestMapping(value = "/access-denied", method = RequestMethod.GET)
 	  public String getDeniedPage() {
-	  logger.debug("Received request to show denied page");
 	  return "/blank/access-denied";
 	 }
 }

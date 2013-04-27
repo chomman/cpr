@@ -7,10 +7,18 @@
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
+		<!--[if lt IE 9]>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<![endif]--> 
 		<script src="<c:url value="/resources/public/js/jquery-1.9.0.min.js" />"></script>
 		<script src="<c:url value="/resources/admin/js/jquery-ui-1.9.2.custom.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<decorator:head/>
+		<c:if test="${not empty commonPublic.settings.googleAnalyticsTrackingCode}">
+			<script>
+			${commonPublic.settings.googleAnalyticsTrackingCode}
+			</script>
+		</c:if> 
 	</head>
 	<body>
 		<div id="wrapper">
@@ -57,11 +65,6 @@
 				<a class="admin" href="<c:url value="/admin/login" />" title="Přihlášení do administrace systému" ><spring:message code="admin" /></a>
 			</div>
 		</footer>
-		<c:if test="${not empty commonPublic.settings.googleAnalyticsTrackingCode}">
-			<script>
-			${commonPublic.settings.googleAnalyticsTrackingCode}
-			</script>
-		</c:if> 
 		 <div id="base" class="hidden"><c:url value="/" /></div>
 	</body>
 </html>

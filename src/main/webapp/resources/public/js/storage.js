@@ -51,13 +51,10 @@ function loadFromStorage(){
 
 function deleteDop(token){
 	var dop = loadFromStorage();
-	console.log(dop);
 	if(dop !== undefined){
 		delete dop[token];
 	}
-	console.log(dop);
 	saveDop(dop);
-	console.log(loadFromStorage());
 }
 
 function printDops(){

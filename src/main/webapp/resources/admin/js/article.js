@@ -13,7 +13,6 @@ function splitDates(){
 		}
 } 
 function checkdateformat(v){;
- 	console.log(/^(\d{2}).(\d{2}).(\d{4})(\s{1})(\d{2}):(\d{2})$/.test(v));
 	return /^(\d{2}).(\d{2}).(\d{4})(\s{1})(\d{2}):(\d{2})$/.test(v);
 }
 function getDateTIme(element){
@@ -23,7 +22,6 @@ function getDateTIme(element){
 	
 	if(date.length == 0) return "";
 	datetime = (time.length == 0 ? date + " 00:00" : date + " " + time);
-	console.log(datetime);
 	if(checkdateformat(datetime)){
 		return datetime;
 	}
@@ -59,9 +57,7 @@ $(function() {
         }
         mce =  tinyMCE.get('articleContent'),
         data = serializeData(mce);
-        console.log(data);
         data = JSON.stringify(data);
-        console.log(data);
         mce.setProgressState(1); // Show progress
         $.ajax({
             url : url,
@@ -70,7 +66,6 @@ $(function() {
             dataType : "json",
             data : data,
             success : function (response) {
-            	console.log(response);
             	if(response.status == "SUCCESS"){
                     showStatus({err: 0, msg: "Úspěšně aktualizováno"});
                     $('#timestamp').val(response.result);

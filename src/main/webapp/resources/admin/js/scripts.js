@@ -68,7 +68,6 @@ function validate(f){
 	
 	var s = $('select.required :selected');
 	if($('select.required').length  != 0){ 
-		console.log('Found! :' + $('select.required').length);
 		if(s.val() === ''){
 			valid = false;
 			s.parent().addClass('formerr');

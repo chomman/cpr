@@ -6,7 +6,6 @@
             var mce =  tinyMCE.get('text');
             	mce.setProgressState(1); // Show progress
 				data.text = mce.getContent();
-            console.log(data);
             $.ajax({
                 url : url,
                 type : "POST",
