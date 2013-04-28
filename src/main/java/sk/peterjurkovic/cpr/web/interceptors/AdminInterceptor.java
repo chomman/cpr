@@ -39,4 +39,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 		 }
 		super.postHandle(request, response, handler, modelAndView);
 	}
+	
+	
+	
 }

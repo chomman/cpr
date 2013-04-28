@@ -129,7 +129,6 @@ public class ArticleController extends SupportAdminController {
 	@RequestMapping(value = "/admin/article/add", method = RequestMethod.POST)
 	public String processCreate(@Valid Article article, BindingResult result, ModelMap model){
 		setEditFormView("article-add");
-		
 		if(!result.hasErrors()){
 			articleService.createArticle(article);
 			if(article.getId() != null){

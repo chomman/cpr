@@ -62,7 +62,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 
 @Controller
-public class CprStandardController extends SupportAdminController {
+public class StandardController extends SupportAdminController{
 	
 	public static final int CPR_TAB_INDEX = 1;
 	
@@ -103,7 +103,7 @@ public class CprStandardController extends SupportAdminController {
 	@Autowired
 	private StandardValidator standardValidator;
 	
-	public CprStandardController(){
+	public StandardController(){
 		setTableItemsView("cpr-standards");
 	}
 	
@@ -150,7 +150,7 @@ public class CprStandardController extends SupportAdminController {
 	 * @return String view, nazov view s formularom
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/add", method = RequestMethod.GET)
-	public String showCrateForm(ModelMap model) {
+	public String showCreateForm(ModelMap model) {
 		setEditFormView("cpr-standard-add");
 		Standard form = createEmptyForm();
 		prepareModelForEditBasicInfo(form, model, 0L);
@@ -508,12 +508,10 @@ public class CprStandardController extends SupportAdminController {
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/notifiedbodies")
     public String showNotifiedBodies(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		setEditFormView("cpr-standard-edit4");
-		
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createStandardNotFound( standardId );
 		}
-
 		prepeareModelForNotifiedBodies(standard, modelMap);
         return getEditFormView();
    }
