@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+                                         "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+      
+<!-- Konfiguracia entit -->         
+                                
+<hibernate-configuration>
+ <session-factory name="">
+ 
+ 
+	<mapping class="sk.peterjurkovic.cpr.entities.User" />
+  	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Address"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.AssessmentSystem"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Country"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Mandate"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.NotifiedBody"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Standard"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.Csn"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.Requirement" />
+	<mapping class="sk.peterjurkovic.cpr.entities.Tag" />
+	<mapping class="sk.peterjurkovic.cpr.entities.Article" />
+	<mapping class="sk.peterjurkovic.cpr.entities.WebpageCategory" />
+	<mapping class="sk.peterjurkovic.cpr.entities.WebpageContent" />
+	<mapping class="sk.peterjurkovic.cpr.entities.Webpage" />
+	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.DeclarationOfPerformance"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
+	
+	 
+ </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+  
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd
+           http://www.springframework.org/schema/aop
+           http://www.springframework.org/schema/aop/spring-aop.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context.xsd"
+    default-autowire="byName">
+   
+   <!--
+   <bean name="standardDao" class="sk.peterjurkovic.cpr.test.StandardDaoTest" /> 
+    
+    Hlavna konfiguracia Hibernate 
+   <util:properties id="config" location="classpath:config.properties"/>
+   -->
+  
+  <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+    	<property name="location"
+      		value="classpath:config.properties">
+    	</property>
+    <property name="ignoreUnresolvablePlaceholders" value="true" />
+  
+  </bean>
+  
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+       <property name="annotatedClasses">       	
+       	<list>
+       		<value>sk.peterjurkovic.cpr.entities.User</value>
+		  	<value>sk.peterjurkovic.cpr.entities.Authority</value>
+		  	<value>sk.peterjurkovic.cpr.entities.UserLog</value>
+		  	<value>sk.peterjurkovic.cpr.entities.Address</value>
+		  	<value>sk.peterjurkovic.cpr.entities.AssessmentSystem</value>
+		  	<value>sk.peterjurkovic.cpr.entities.Country</value>
+		  	<value>sk.peterjurkovic.cpr.entities.Mandate</value>
+		  	<value>sk.peterjurkovic.cpr.entities.NotifiedBody</value>
+		  	<value>sk.peterjurkovic.cpr.entities.Standard</value>
+		  	<value>sk.peterjurkovic.cpr.entities.Csn</value>
+		  	<value>sk.peterjurkovic.cpr.entities.StandardGroup</value>
+		  	<value>sk.peterjurkovic.cpr.entities.BasicRequirement</value>
+			<value>sk.peterjurkovic.cpr.entities.Requirement</value>
+			<value>sk.peterjurkovic.cpr.entities.Tag</value>
+			<value>sk.peterjurkovic.cpr.entities.Article</value>
+			<value>sk.peterjurkovic.cpr.entities.WebpageCategory</value>
+			<value>sk.peterjurkovic.cpr.entities.WebpageContent</value>
+			<value>sk.peterjurkovic.cpr.entities.Webpage</value>
+			<value>sk.peterjurkovic.cpr.entities.BasicSettings</value>
+			<value>sk.peterjurkovic.cpr.entities.DeclarationOfPerformance</value>
+			<value>sk.peterjurkovic.cpr.entities.EssentialCharacteristic</value>
+			<value>sk.peterjurkovic.cpr.entities.ExceptionLog</value>
+       </list>
+       </property>
+       <property name="hibernateProperties">
+           <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
+                <prop key="hibernate.bytecode.use_reflection_optimizer">false</prop>
+                <prop key="hibernate.bytecode.provider">cglib</prop>
+                <prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+				<prop key="hibernate.connection.CharSet">UTF-8</prop>
+		        <prop key="hibernate.connection.characterEncoding">UTF-8</prop>
+		        <prop key="hibernate.connection.useUnicode">true</prop>
+		        <prop key="hibernate.hbm2ddl.auto">update</prop>    
+		        <prop key="hibernate.cache.use_second_level_cache">false</prop>
+                <prop key="hibernate.cache.use_structured_entries">false</prop>
+                <prop key="hibernate.cache.use_query_cache">false</prop>
+                
+           </props>
+       </property>
+       <property name="dataSource" ref="dataSource"/>
+   </bean>
+   
+            
+    <bean id="transactionManagerBean" name="transactionManagerBean" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+    	<property name="sessionFactory" ref="sessionFactory"/>
+  	</bean>	
+
+
+    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+	    <property name="url" value="jdbc:mysql://localhost:3306/cpr-test?useEncoding=true&amp;characterEncoding=UTF-8" />
+	    <property name="username" value="root" />
+	    <property name="password" value="" />
+	</bean>
+	
+	
+	<!--  Vylepsena varianta DataSource  "enterprise-ready" -->
+	<bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="${hibernate.connection.driver_class}" />
+        <property name="jdbcUrl" value="${hibernate.connection.url}" />
+        <property name="properties">
+            <props>
+				<prop key="user">${hibernate.connection.username}</prop>
+                <prop key="password">${hibernate.connection.password}</prop>
+            </props>
+        </property>
+        <property name="initialPoolSize" value="5" /> 
+        <property name="minPoolSize" value="10" /> 
+        <property name="maxPoolSize" value="50" /> 
+        <property name="maxIdleTime" value="300" /> 
+        <property name="maxStatements" value="50" /> 
+        <property name="idleConnectionTestPeriod" value="150" /> 
+    </bean>
+<!-- 
+   <tx:annotation-driven transaction-manager="transactionManagerBean"/>
+ -->
+    <context:component-scan base-package="sk.peterjurkovic.cpr.dao">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+</beans>
+

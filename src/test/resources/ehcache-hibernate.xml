@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Konfiguracia Hibernate and BigMemory Go cache 
+	Dokumentacia dostupna na: http://ehcache.org/documentation/integrations/hibernate
+	
+	Upozornenie:
+	Hibernate od verzie 4 ma integrovanu BigMemory cache. Tz., 
+	ze nie je nutne v pom.xml pridavat fragment uvedeny v dokumentacii, resp. namiesto neho je nute pridat
+	
+	 <dependency>
+	     <groupId>org.hibernate</groupId>
+	     <artifactId>hibernate-ehcache</artifactId>
+	     <version>${org.hibernate-version}</version>
+    </dependency>
+-->
+
+<ehcache>
+	
+	<diskStore path="java.io.tmpdir"/>
+	
+	
+	<!-- Default cache -->
+	<defaultCache
+        maxElementsInMemory="5000"
+        eternal="false"
+        timeToIdleSeconds="120"
+        timeToLiveSeconds="120"
+        overflowToDisk="true"
+        diskPersistent="false"     
+        />
+        
+        
+    <!-- UpdateTimestampsCache -->    
+    <cache
+		name="org.hibernate.cache.UpdateTimestampsCache"
+		maxElementsInMemory="4000"
+		overflowToDisk="true"
+		eternal="true"
+		/>
+		
+	<!-- Cache uzivatelov -->    	
+    <cache name="userCache"
+		maxElementsInMemory="50"
+        eternal="false"
+        overflowToDisk="false"
+        />		
+    
+    <!-- Cache uchovavajuca data tykajuce sa sekcie CPR -->    
+    <cache name="cprCache"
+        maxElementsInMemory="3000"
+        eternal="false"
+        overflowToDisk="false"
+        timeToLiveSeconds="604800"
+        diskPersistent="true"
+        />     
+     
+     <!-- Cache uchovavajuca data tykajuce sa redakcneho systemu -->   
+     <cache name="newsCache"
+        maxElementsInMemory="1000"
+        eternal="false"
+        overflowToDisk="false"
+        timeToLiveSeconds="604800"
+        diskPersistent="true"
+        />        
+        
+     
+     <!-- Cache uchovavajuca data tykajuce sa webovych sekcii -->   
+     <cache name="webpageCache"
+        maxElementsInMemory="1000"
+        eternal="false"
+        overflowToDisk="false"
+        timeToLiveSeconds="604800"
+        diskPersistent="true"
+        />        
+			
+</ehcache>
