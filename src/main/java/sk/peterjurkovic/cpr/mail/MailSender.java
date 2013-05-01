@@ -17,7 +17,7 @@ public class MailSender {
 	private String username = "nlfnorm@gmail.com";
 	
 	//@Value("#{config['mail.password']}")
-	private String password = "nlfnormitc";
+	private String password = "";
 	
 	//@Value("#{config['mail.smtp_auth']}")
 	private String auth = "true";
