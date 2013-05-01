@@ -16,7 +16,11 @@ import org.hibernate.annotations.TypeDefs;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 
-
+/**
+ * Entita reprezentujuca pokus, prihlasenie, alebo odhlasenie uzivatela
+ * do administracnej sekcie systemu
+ *
+ */
 @Entity
 @Table(name = "users_log")
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })

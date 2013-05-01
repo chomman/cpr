@@ -15,7 +15,11 @@ import org.joda.time.DateTime;
 import sk.peterjurkovic.cpr.dao.impl.IdentifiableByLong;
 
 
-
+/**
+ * Abstraktna entita, obsahujuca vseky spolocne atributy.
+ * @author peto
+ *
+ */
 @SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class AbstractEntity  implements Serializable, IdentifiableByLong{

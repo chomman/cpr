@@ -10,6 +10,11 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+/**
+ * Entita reprezentujuca clensku krajinu 
+ * @author peto
+ *
+ */
 @Entity
 @Table(name = "country")
 @Inheritance(strategy = InheritanceType.JOINED)

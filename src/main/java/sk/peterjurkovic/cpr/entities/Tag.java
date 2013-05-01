@@ -11,7 +11,10 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
-
+/**
+ * Stinok, resp. potencionalny nazov vyhladavaneho vyrobku, evidovany pri danej norme
+ * 
+ */
 @Entity
 @Table(name = "tag")
 public class Tag {

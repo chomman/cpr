@@ -7,7 +7,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
-
+/**
+ * Entita reprezentujuca kategoriu verejnej sekcie
+ * 
+ */
 @Entity
 @Table(name = "webpage_category")
 public class WebpageCategory extends AbstractEntity {

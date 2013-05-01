@@ -15,7 +15,12 @@ import org.hibernate.annotations.Type;
 import org.springframework.security.core.GrantedAuthority;
 
 
-
+/**
+ * Uzivatelska rola
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name = "authority")
 public class Authority extends AbstractEntity implements GrantedAuthority {

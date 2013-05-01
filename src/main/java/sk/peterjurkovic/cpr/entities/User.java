@@ -27,7 +27,11 @@ import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-
+/**
+ * Entita reprezentujuca opravneneho uzivatela informacneho systemu
+ * @author peto
+ *
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")

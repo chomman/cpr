@@ -10,6 +10,10 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
+/**
+ * Entita reprezentujuca hlavny obsah verejnej sekcie
+ * 
+ */
 @Entity
 @Table(name = "webpage_content")
 @Inheritance(strategy = InheritanceType.JOINED)

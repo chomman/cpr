@@ -13,7 +13,11 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
-
+/**
+ * Entita reprezentujuca pozadovany parameter evidovany pri harmonizovanej norme
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name="requirement")
 @Inheritance(strategy = InheritanceType.JOINED)

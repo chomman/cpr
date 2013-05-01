@@ -12,7 +12,11 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-
+/**
+ * Entita reprezentujuca zakladni pozadavek podla CPR
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name ="basic_requirement")
 @Inheritance(strategy = InheritanceType.JOINED)

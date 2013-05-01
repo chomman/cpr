@@ -15,6 +15,11 @@ import org.hibernate.annotations.TypeDefs;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 
+/**
+ * Logovanie vynimiek
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name = "exception_log")
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })

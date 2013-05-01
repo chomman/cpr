@@ -9,7 +9,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
-
+/**
+ * Zakladna charakteristika daneho DoP
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name="essential_characteristic")
 public class EssentialCharacteristic {

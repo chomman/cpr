@@ -12,7 +12,11 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
-
+/**
+ * System posudzovania nemennosti parametrov vyrobkov
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "assessment_system")

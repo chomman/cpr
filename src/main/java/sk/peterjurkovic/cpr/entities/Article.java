@@ -16,7 +16,11 @@ import org.joda.time.DateTime;
 
 import sk.peterjurkovic.cpr.web.json.DateTimeDeserializer;
 
-
+/**
+ * Entita reprezentujuca aktualitu 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name="article")
 @Inheritance(strategy = InheritanceType.JOINED)

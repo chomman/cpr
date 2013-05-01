@@ -12,7 +12,12 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 
-
+/**
+ * Zakladne nastavenia systemu
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name = "basic_settings")
 @Inheritance(strategy = InheritanceType.JOINED)

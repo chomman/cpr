@@ -13,7 +13,7 @@ public class UserDaoTest extends AbstractTest {
 	private UserDao userDao;
 	
 	@Test
-	public void testCreateUser(){
+	public void testUserCreate(){
 		User user = getUserTestInstance();
 		userDao.save(user);
 		User persistedUser = userDao.getUserByUsername(user.getEmail());

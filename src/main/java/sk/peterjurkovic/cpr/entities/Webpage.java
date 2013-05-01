@@ -15,6 +15,12 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 
+/**
+ * Entita reprezentujuca verejnu sekciu systemu
+ * 
+ * @author peto
+ *
+ */
 @Entity
 @Table(name="webpage")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -35,10 +41,17 @@ public class Webpage extends AbstractEntity {
 	
 	private WebpageCategory webpageCategory;
 	
+	/**
+	 *  horny text verejnej sekcie
+	 * */
 	private String topText;
-	
+	/**
+	 * hlavny obsah verejnej sekcie
+	 * */
 	private WebpageContent webpageContent;
-	
+	/**
+	 *  dolny text verejnej sekcie
+	 * */
 	private String bottomText;
 	
 	private Long timestamp;

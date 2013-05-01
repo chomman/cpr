@@ -22,7 +22,12 @@ import org.hibernate.validator.constraints.Length;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 
-
+/**
+ * Entita reprezentujuca vyhlasenie o parametroch
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name = "declaration_of_performance")
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })

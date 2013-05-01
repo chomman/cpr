@@ -27,7 +27,11 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
 import org.joda.time.DateTime;
 
-
+/**
+ * Entita reprezentujuca harmonizovanu normu
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ *
+ */
 @Entity
 @Table(name = "standard")
 @Inheritance(strategy = InheritanceType.JOINED)
