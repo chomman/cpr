@@ -1,5 +1,8 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.exception.ExceptionUtils;
@@ -13,6 +16,7 @@ import sk.peterjurkovic.cpr.dao.ExceptionLogDao;
 import sk.peterjurkovic.cpr.entities.ExceptionLog;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.ExceptionLogService;
+import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("exceptionLogService")
@@ -44,6 +48,33 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
 		}
 		
 		create(log);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<ExceptionLog> getExceptionLogPage(int pageNumber, Map<String, Object> criteria) {
+		return exceptionLogDao.getExceptionLogPage(pageNumber, validateCriteria(criteria));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Long getCountOfLogs(Map<String, Object> criteria) {
+		return exceptionLogDao.getCountOfLogs(validateCriteria(criteria));
+	}
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
+			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
+			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
+		}
+		return criteria;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public ExceptionLog getExceptionLogById(Long id) {
+		return exceptionLogDao.getByID(id);
 	}
 
 }

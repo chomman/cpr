@@ -92,6 +92,7 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled) {
 		return notifiedBodyDao.getNotifiedBodiesGroupedByCountry(enabled);
 	}

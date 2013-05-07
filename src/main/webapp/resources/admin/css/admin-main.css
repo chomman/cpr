@@ -346,6 +346,9 @@ table.no-border tr{border-bottom:1px dotted #ccc;}
 #dop th{background:#eee;padding:15px;}
 table .center-val{ text-align:center;display:block;}
 
+.exception{padding:10px;border:2px solid #eee;background:$fff;}
+.exception{font-size:13px;font-family: 'Lucida Console', 'Bitstream Vera Sans Mono', 'Courier New', Monaco, Courier, monospace;}
+
 /* ERROR PAGES */
 .error-box{width:400px;margin:100px auto;padding:40px;background:#FFFAFA;border:5px solid #FFF5F5;text-align:center;}
 .error-box p{padding:10px;}

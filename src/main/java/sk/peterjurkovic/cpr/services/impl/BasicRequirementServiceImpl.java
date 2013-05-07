@@ -79,6 +79,7 @@ public class BasicRequirementServiceImpl implements BasicRequirementService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<BasicRequirement> getBasicRequirementsForPublic() {
 		return basicRequirementDao.getBasicRequirementsForPublic();
 	}

@@ -18,4 +18,14 @@
 			<spring:message code="settings.countries" />
 		</a>
 	</li>
+	
+	<sec:authorize access="hasRole('ROLE_WEBMASTER')">
+		<li>
+			<a 
+		<c:if test="${model.tab == 3}">class="active"</c:if>
+		href="<c:url value="/admin/settings/exceptions"  />">
+			<spring:message code="settings.exceptions" />
+		</a>
+		</li>
+	</sec:authorize>
 </ul>

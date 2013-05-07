@@ -1,5 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<sec:authorize access="hasRole('ROLE_WEBMASTER')">	
+	<c:set var="isLoggedWebmaster" value="true"/>
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 <head>
@@ -40,6 +43,13 @@
 						<spring:message code="settings.countries" />
 					</a>
 				</li>
+				<c:if test="${isLoggedWebmaster}">
+				<li>
+					<a href="<c:url value="/admin/settings/exceptions"  />">
+						<spring:message code="settings.exceptions" />
+					</a>
+				</li>
+				</c:if>
 			</ul>
 
 		</div>	

@@ -128,6 +128,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public boolean isUserNameUniqe(Long id, String userName){
 		return userDao.isUserNameUniqe(id, userName.trim());
 	}

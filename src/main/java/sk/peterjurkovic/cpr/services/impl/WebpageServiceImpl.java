@@ -89,6 +89,7 @@ public class WebpageServiceImpl implements WebpageService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Webpage> getPublicSection(Long sectionId) {
 		return webpageDao.getPublicSection(sectionId);
 	}
