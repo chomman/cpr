@@ -23,7 +23,9 @@
 		<h1><spring:message code="settings.exceptions" /></h1>
 
 		<div id="content">
-
+		<c:if test="${not empty model.successDelete}">
+				<p class="msg ok"><spring:message code="success.delete" /></p>
+		</c:if>
 		
 			<form class="filter log" action="<c:url value="/admin/settings/exceptions" />" method="get">
 				<div>
@@ -66,6 +68,7 @@
 							<th><spring:message code="settings.exceptions.user" /></th>
 							<tH><spring:message code="settings.exceptions.type"/></th>
 							<th><spring:message code="settings.exceptions.create" /></th>
+							<th><spring:message code="form.delete" /></th>
 						</tr>
 					</thead>
 					<tbody>
@@ -83,6 +86,11 @@
 						 		<td>
 						 		<a href="<c:url value="/admin/settings/exceptions" />/${i.id}">${i.type}</a></td>
 						 		<td><joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm:ss"/></td>
+						 		<td class="delete">
+						 			<a class="confirm"  href="<c:url value="/admin/settings/exceptions/delete/${i.id}"  />">
+						 				<spring:message code="form.delete" />
+						 			</a>
+						 		</td>
 						 	</tr>
 						 </c:forEach>
 					</tbody>

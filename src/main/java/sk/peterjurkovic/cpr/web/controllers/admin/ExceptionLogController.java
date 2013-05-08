@@ -19,7 +19,12 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
-
+/**
+ * Controller pre srpacovavanie poziadaviek tykajucich sa logov vynimiek
+ * 
+ * @author Peter Jurkovic
+ *
+ */
 @Controller
 public class ExceptionLogController extends SupportAdminController {
 
@@ -42,6 +47,11 @@ public class ExceptionLogController extends SupportAdminController {
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
 		List<ExceptionLog> exceptions = exceptionLogService.getExceptionLogPage(currentPage, params);
+		
+		if(request.getParameter("successDelete") != null){
+			model.put("successDelete", true);
+		}
+		
 		model.put("exceptions", exceptions);
 		model.put("paginationLinks", paginationLinks);
 		model.put("tab", 5);
@@ -57,7 +67,7 @@ public class ExceptionLogController extends SupportAdminController {
 	 * @param id
 	 * @param modelMap
 	 * @return
-	 * @throws ItemNotFoundException
+	 * @throws ItemNotFoundException, ak polozska s danym ID neexistuje
 	 */
 	@RequestMapping("/admin/settings/exceptions/{id}")
 	public String showExceptionLogDetail(@PathVariable Long id, ModelMap modelMap) throws ItemNotFoundException{
@@ -73,6 +83,26 @@ public class ExceptionLogController extends SupportAdminController {
 		modelMap.put("model", model);
 		return getViewName();
 	}
+	
+	/**
+	 * Odstrani polozku so systemu
+	 * 
+	 * 
+	 * @param Identifikator danej polozky
+	 * @return presmeruje na zoznam evidovanych vynimiek
+	 * @throws ItemNotFoundException, ak polozska s danym ID neexistuje
+	 */
+	@RequestMapping("/admin/settings/exceptions/delete/{id}")
+	public String removeExceptionLog(@PathVariable Long id) throws ItemNotFoundException{
+		ExceptionLog exception = exceptionLogService.getExceptionLogById(id);
+		
+		if(exception == null){
+			throw new ItemNotFoundException();
+		}
+		exceptionLogService.deleteException(exception);
+		return "redirect:/admin/settings/exceptions?successDelete=1";
+	}
+	
 	
 	
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){

@@ -54,7 +54,7 @@ public class ExceptionLogDaoImpl extends BaseDaoImpl<ExceptionLog, Long> impleme
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" el.type like CONCAT('%', :query , '%')");
 			}
-			if((DateTime)criteria.get("created") != null){
+			if((DateTime)criteria.get("createdFrom") != null){
 				where.add(" el.created >= :createdFrom ");
 			}
 			if((DateTime)criteria.get("createdTo") != null){

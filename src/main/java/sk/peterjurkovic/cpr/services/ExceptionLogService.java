@@ -61,4 +61,12 @@ public interface ExceptionLogService {
 	 */
 	ExceptionLog getExceptionLogById(Long id);
 	
+	
+	/**
+	 * Odstrani danu vynimku zo systemu
+	 * 
+	 * @param exceptionLog
+	 */
+	void deleteException(ExceptionLog exceptionLog);
+	
 }

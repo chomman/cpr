@@ -43,7 +43,6 @@ public class RequestUtils {
     }
     
    
-    @SuppressWarnings("unchecked")
 	public static Map<String, Object> getRequestParameterMap(HttpServletRequest request) {
         Map<String, Object> params = new HashMap<String, Object>(request.getParameterMap().size());
         for (Enumeration<String> keys = request.getParameterNames(); keys.hasMoreElements();) {

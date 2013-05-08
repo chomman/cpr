@@ -14,10 +14,20 @@ public class UserDaoTest extends AbstractTest {
 	
 	@Test
 	public void testUserCreate(){
+		
 		User user = getUserTestInstance();
+		
 		userDao.save(user);
+		
 		User persistedUser = userDao.getUserByUsername(user.getEmail());
+		
 		Assert.assertEquals(user, persistedUser);
+		
+		userDao.remove(user);
+		
+		persistedUser = userDao.getUserByUsername(user.getEmail());
+		
+		Assert.assertEquals(null, persistedUser);
 	}
 	
 	

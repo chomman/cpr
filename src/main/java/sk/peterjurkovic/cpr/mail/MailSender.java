@@ -3,7 +3,6 @@ package sk.peterjurkovic.cpr.mail;
 import javax.mail.internet.MimeMessage.RecipientType;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
 import org.codemonkey.simplejavamail.Email;
 import org.codemonkey.simplejavamail.Mailer;
 import org.codemonkey.simplejavamail.TransportStrategy;
@@ -34,7 +33,7 @@ public class MailSender {
 	
 	private boolean isHtml  = true;
 	
-	private Logger logger =  Logger.getLogger(getClass());
+	
 	public MailSender(){
 		
 	}

@@ -77,4 +77,9 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
 		return exceptionLogDao.getByID(id);
 	}
 
+	@Override
+	public void deleteException(ExceptionLog exceptionLog) {
+		exceptionLogDao.remove(exceptionLog);
+	}
+
 }
