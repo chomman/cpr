@@ -5,9 +5,20 @@ import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 
+/**
+ * Utilita pre pracu s DoP
+ * 
+ * @author peto
+ *
+ */
 public class DoPUtils {
 	
-		
+	/**
+	 * Extrahuje z daneho dop definovane premenne, a nahradi ich za relevantne informacie
+	 * 	
+	 * @param DeclarationOfPerformance
+	 * @return vysledny text, 
+	 */
 	public static String makeText(DeclarationOfPerformance dop){
 		String result = replaceVariables(dop.getAssessmentSystem(), dop.getNotifiedBody(), dop);
 		if(dop.getCumulative() != null && dop.getCumulative()){

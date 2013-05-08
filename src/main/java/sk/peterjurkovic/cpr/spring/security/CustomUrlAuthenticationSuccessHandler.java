@@ -16,7 +16,12 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.User;
 
 
-
+/**
+ * Implementacia posluchaca uspesnych prihlaseni. Po neuspesnom prihlaseni presmeruje na definovanu url.
+ * 
+ * @author peto
+ *
+ */
 public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSuccessHandler {
 
 	

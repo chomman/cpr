@@ -5,6 +5,9 @@
 	<head>
 		<title><decorator:title/></title>
 		<meta charset="utf-8" />
+		<c:if test="${not empty model.webpage.description}">
+		<meta name="description" content="${model.webpage.description}">		
+		</c:if>
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
 		<!--[if lt IE 9]>

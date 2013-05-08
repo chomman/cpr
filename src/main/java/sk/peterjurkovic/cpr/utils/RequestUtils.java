@@ -15,8 +15,22 @@ import org.springframework.validation.FieldError;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 
+/**
+ * Utilita pre pracu s HTTP poziadavkou
+ * 
+ * @author peto
+ *
+ */
 public class RequestUtils {
 	
+	
+	/**
+	 * Ziska cast retazca na danej pozicii z url
+	 * 
+	 * @param request
+	 * @param position
+	 * @return String extrahovane data
+	 */
 	public static String getPartOfURLOnPosition(HttpServletRequest request, int position) {
         String URI = request.getRequestURI();
         String contextPath = request.getContextPath();
@@ -55,7 +69,12 @@ public class RequestUtils {
     }
     
     
-    
+    /**
+     * Ziska cislo stranky z HTTP poziadavky
+     * 
+     * @param request
+     * @return
+     */
     public static int getPageNumber(HttpServletRequest request){
 		if(request.getParameter(Constants.PAGE_PARAM_NAME) != null){
 			try{

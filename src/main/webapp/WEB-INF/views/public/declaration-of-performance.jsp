@@ -4,7 +4,6 @@
 <html>
 	<head>
 		<title>${model.webpage.title}</title>
-		<meta name="description" content="${model.webpage.description}" />
 		<script src="<c:url value="/resources/public/js/tag.autocomplete.js" />"></script>
 		<script src="<c:url value="/resources/public/js/storage.js" />"></script>
 	</head>

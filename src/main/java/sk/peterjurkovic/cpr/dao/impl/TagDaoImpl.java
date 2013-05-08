@@ -36,7 +36,7 @@ public class TagDaoImpl extends BaseDaoImpl<Tag, Long> implements TagDao{
 
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setParameter("tagName", tagName);
-		hqlQuery.setMaxResults(10);
+		hqlQuery.setMaxResults(6);
 		return hqlQuery.list();
 	}
 }

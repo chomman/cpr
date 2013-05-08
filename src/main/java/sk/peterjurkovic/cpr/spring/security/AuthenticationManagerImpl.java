@@ -13,7 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.peterjurkovic.cpr.dao.UserDao;
 import sk.peterjurkovic.cpr.entities.User;
 
-
+/**
+ * Implementacia autentizacneho managera springu
+ * 
+ * @author peto
+ *
+ */
 @Transactional(readOnly = true)
 public class AuthenticationManagerImpl implements AuthenticationManager {
 
@@ -25,12 +30,14 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
+	/**
+	 * Overi, ci su autentizacne udaje platne.
+	 * 
+	 */
 	@Override
 	public Authentication authenticate(Authentication authentication)
 			throws AuthenticationException {
-		
-		 logger.debug("Performing custom authentication");
-		 
+				 
 		 User user = null;
 		 
 		 try{
@@ -38,29 +45,23 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 			 user = userDao.getUserByUsername(authentication.getName());
 			 
 			 if(user == null){
-				 logger.error("User does not exists!");
 				 throw new BadCredentialsException("User does not exists!");
 			 }
 		 }catch(Exception ex){
-			 logger.error("User does not exists! "  + ex.getMessage() );
 			 throw new BadCredentialsException("User does not exists!");
 		 }
 		 
 		 
 		 if (  passwordEncoder.isPasswordValid(user.getPassword(), (String) authentication.getCredentials(), null) == false ) {
-			   logger.error("Wrong password!");
 			   throw new BadCredentialsException("Wrong password!");
 		 }
 		 
 		// Here's the main logic of this custom authentication manager
 		  // Username and password must be the same to authenticate
 		  if (authentication.getName().equals(authentication.getCredentials()) == true) {
-		   logger.debug("Entered username and password are the same!");
 		   throw new BadCredentialsException("Entered username and password are the same!");
 		    
 		  } else {
-		    
-		   logger.debug("User details are good and ready to go");
 		   return new UsernamePasswordAuthenticationToken(
 				   authentication.getName(),
 				   authentication.getCredentials(),

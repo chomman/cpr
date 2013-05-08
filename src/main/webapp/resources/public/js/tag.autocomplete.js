@@ -7,7 +7,7 @@ $(document).ready(function() {
 						}));
             	});  
 			 },
-			minLength: 2,
+			minLength: 1,
 			select: function( event, ui ) {
 				ui.item.value;
 			}

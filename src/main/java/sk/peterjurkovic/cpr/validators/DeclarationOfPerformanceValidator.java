@@ -8,6 +8,12 @@ import sk.peterjurkovic.cpr.entities.DeclarationOfPerformance;
 import sk.peterjurkovic.cpr.entities.EssentialCharacteristic;
 import sk.peterjurkovic.cpr.web.forms.DeclarationOfPerformanceForm;
 
+/**
+ * Validator declarationOfPerformace
+ * 
+ * @author peto
+ *
+ */
 @Component
 public class DeclarationOfPerformanceValidator {
 	

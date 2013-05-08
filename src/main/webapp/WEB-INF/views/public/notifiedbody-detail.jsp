@@ -4,7 +4,6 @@
 <html>
 	<head>
 		<title>${model.notifiedBody.notifiedBodyCode} - ${fn:substring(model.notifiedBody.name, 0, 60)}</title>
-		<meta name="description" content="${model.webpage.description}" />
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.5&amp;sensor=false"></script>
 		<script src="<c:url value="/resources/public/js/google.maps.js" />"></script>
 	</head>

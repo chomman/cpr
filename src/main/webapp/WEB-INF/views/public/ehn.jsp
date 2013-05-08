@@ -4,7 +4,7 @@
 <html>
 	<head>
 		<title>${model.standard.standardId} - ${model.standard.standardName}</title>
-		<meta name="description" content="${model.standard.standardName}" />
+		<meta name="description" content="${model.standard.standardId} - ${model.standard.standardName}" />
 	</head>
 	<body>
 		

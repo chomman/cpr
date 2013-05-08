@@ -17,7 +17,12 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 
 
-
+/**
+ * Implementacia posluchaca chybnych prihlaseni. Po neuspesnom prihlaseni presmeruje na definovanu url.
+ * 
+ * @author peto
+ *
+ */
 public class CustomUrlAuthenticationFailureHandler implements AuthenticationFailureHandler{
 	
 	protected Logger logger = Logger.getLogger(getClass());
