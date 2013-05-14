@@ -110,6 +110,7 @@
 		<table class="two-colls">
 			<tr>
 				<td><spring:message code="dop.sig.left" /></td>
+				<td class="noborder">&nbsp;</td>
 				<td><spring:message code="dop.sig.right" /></td>
 			</tr>
 		</table>				

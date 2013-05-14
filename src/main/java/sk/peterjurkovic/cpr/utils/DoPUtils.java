@@ -21,7 +21,7 @@ public class DoPUtils {
 	 */
 	public static String makeText(DeclarationOfPerformance dop){
 		String result = replaceVariables(dop.getAssessmentSystem(), dop.getNotifiedBody(), dop);
-		if(dop.getCumulative() != null && dop.getCumulative()){
+		if(dop.getCumulative() != null && dop.getCumulative() && dop.getAssessmentSystem2() != null){
 			result += replaceVariables(dop.getAssessmentSystem2(), dop.getNotifiedBody2(), dop);
 		}
 		return result;

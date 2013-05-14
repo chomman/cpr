@@ -3,7 +3,11 @@ package sk.peterjurkovic.cpr.services;
 import java.util.List;
 
 import sk.peterjurkovic.cpr.entities.StandardGroup;
-
+/**
+ * 
+ * @author peto
+ *
+ */
 public interface StandardGroupService {
 	
 	void createStandardGroup(StandardGroup standardGroup);

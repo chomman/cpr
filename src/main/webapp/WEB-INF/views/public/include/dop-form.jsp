@@ -216,7 +216,7 @@
 					
 					<div class="fitem">
 						<span class="no">10</span>
-						<span class="big"><strong><spring:message code="dop.10" /></strong></span>
+						<span class="big"><strong><spring:message code="dop.10" /><br /><spring:message code="dop.11" /></strong></span>
 						<div class="clear"></div>
 					</div>
 					

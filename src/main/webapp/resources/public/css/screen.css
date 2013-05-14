@@ -50,18 +50,19 @@ h2.dop span{font-size:14px;}
 .formerr{border-color:red !important;}
 
 .dop-items{border:0}
+
 table .no{width:30px;}
 .dop-items tr,table.no-border tr{border-bottom:1px dotted #ddd;}
 .dop-items tr.odd{ background:none; }
 .dop-items td{padding:15px 10px;vertical-align:text-top;}
 .dop-items .label,.dop-items .no,table.no-border .no{font-weight:bold;}
-.dop-items .label{max-width:100px;}
+.dop-items .label{max-width:250px;}
 .one-colls,.two-colls{border:none;text-align:center;margin-top:50px;}
 .one-colls tr,.two-colls tr{border:none;background:none !important;}
 .one-colls tr{border-top:1px dashed #333;}
-.two-colls td{width:45%;border-top:1px dashed #333;}
+.two-colls td{width:40%;border-top:1px dashed #333;}
 table .center-val{ text-align:center;display:block;}
-
+td.noborder{width:10% !important;border:none !important;}
 /* DOP PAGE */
 .margin-left{margin-left:25px;}
 .step{position:absolute;top:-15px;background:#499bea;color:#fff;padding:0px 10px;font-size:11px;border:2px solid #8DBCE8;-webkit-box-shadow: 0px 0px 5px 1px #ccc;box-shadow: 0px 0px 5px 1px #ccc; }
