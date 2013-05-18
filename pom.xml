@@ -344,7 +344,7 @@
 			
 			</plugins>
 			
-		</reporting>
+	</reporting>
     <build>
         <plugins>
         	<plugin>

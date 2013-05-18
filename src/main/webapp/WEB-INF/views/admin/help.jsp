@@ -34,13 +34,13 @@
 			<ol>
 				<li>Novou normu lze přidat v sekci <strong>"CPR"</strong> v podsekci <strong>"Správa norem"</strong></li>
 				<li>Kliknutím na kartu <strong>Přidat novou normu</strong></li>
-				<li>Následně je nutné zadat základní informace o přidávání normě a kliknout na tlačítko "Uložit"</li>
+				<li>Následně je nutné zadat základní informace o normě a kliknout na tlačítko "Uložit"</li>
 			</ol>
 		</div>
 		<h3>Norma je přidána, ale nezobrazuje se ve veřejné sekci systému.</h3>
 		<div class="help-box">
 			<p>
-			Aby se evidována norma zobrazovala i ve veřejné části systému, je nutné aby byla v základních nastaveních normy zaškrtunutá položka <strong>Publikovat</strong>.
+			Aby se evidována norma zobrazovala i ve veřejné části systému, je nutné aby byla v základních nastaveních normy označená položka <strong>Publikovat</strong>.
 			</p>
 		</div>
 		<h3>Kde a jak mohu přidat požadavek k evidované normě?</h3>
