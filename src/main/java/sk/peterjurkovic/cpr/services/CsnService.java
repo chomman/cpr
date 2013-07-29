@@ -5,61 +5,26 @@ import java.util.List;
 import sk.peterjurkovic.cpr.entities.Csn;
 
 
-/**
- * Rozhranie pre pracu s Ceskou technickou normou
- * 
- * @author Peter Jurkovic
- *
- */
+
 public interface CsnService {
 
-	/**
-	 * Vytvori novu CSN
-	 * 
-	 * @param Csn
-	 */
-	void createCsn(Csn Csn);
-	
-	/**
-	 * Aktualizuje danu CSN
-	 * 
-	 * @param Csn
-	 */
-	void updateCsn(Csn Csn);
+	void createCsn(Csn csn);
 	
 	
-	/**
-	 * Odstrani danu CSN
-	 * 
-	 * @param Csn
-	 */
-	void deleteCsn(Csn Csn);
+	void updateCsn(Csn csn);
 	
 	
-	/**
-	 * Vrati CSN na zaklade daneho identifikatora
-	 * 
-	 * @param id
-	 * @return
-	 */
-	Csn getCsnById(Long id);
+	void deleteCsn(Csn csn);
 	
 	
-	/**
-	 * Vrati evidovanych zoznam CSN
-	 * 
-	 * @return zoznam CSN
-	 */
-	List<Csn> getAllCsns();
+	Csn getById(Long id);
 	
 	
-	/**
-	 * Aktualizuje, alebo vytvori novu CSN, v pripade ak je ID NULL, jedna sa o kaciu
-	 * vytvorenia, inak o katualizaciu uz evidovanej polozky
-	 * 
-	 * @param Csn
-	 */
-	void saveOrUpdate(Csn Csn);
+	Csn getByCode(String code);
 	
 	
+	List<Csn> getAll();
+	
+	
+	void saveOrUpdate(Csn csn);
 }

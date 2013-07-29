@@ -30,6 +30,7 @@
 			<li><a href="<c:url value="/admin/" />" class="home"><spring:message code="menu.dashboard"/></a></li>
 			<li><a href="<c:url value="/admin/cpr" />" class="doc"><spring:message code="menu.cpr"/></a></li>
 			<li><a href="<c:url value="/admin/articles" />" class="cal"><spring:message code="menu.news"/></a></li>
+			<li><a href="<c:url value="/admin/csn" />" class="csn"><spring:message code="menu.csn"/></a></li>
 			<li><a href="<c:url value="/admin/webpages" />" class="web"><spring:message code="menu.webpages"/></a></li>
 			<li><a href="<c:url value="/admin/users" />" class="user"><spring:message code="menu.users"/></a></li>
 			<li><a href="<c:url value="/admin/settings/basic" />" class="sett"><spring:message code="menu.settings"/></a></li>

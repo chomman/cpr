@@ -10,85 +10,134 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.Pattern;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
-/**
- * Asociacna entita, ktora prepaja normu a CSN.
- * 
- * @author Peter Jurkovič (email@peterjurkovic.sk)
- */
-
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "standard_has_csn")
+@Table(name = "csn")
 public class Csn extends AbstractEntity {
 
 	
-	private static final long serialVersionUID = 7791L;
-	
+	private static final long serialRVersionUID = -697883831104944278L;
+
 	private Long id;
 	
-	private Standard standard;
+	private String csnId;
+		
+	private DateTime published;
 	
-	private String csnName;
+	private String classificationSymbol;
+	
+	private String czechName;
+	
+	private String englishName;
+	
+	private String ics;
+	
+	private CsnCategory csnCategory;
+	
+	private String fileName;
+	
+	private String htmlContent;
 
-	private String csnOnlineId;
-	
-	private String note;
-	
-	
-	
 	
 	@Id
 	@GeneratedValue
 	public Long getId() {
 		return id;
 	}
-	
+
 	public void setId(Long id) {
 		this.id = id;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_id")
-	public Standard getStandard() {
-		return standard;
+	@Column(name = "csn_id", length = 50)	
+	public String getCsnId() {
+		return csnId;
 	}
 
-	public void setStandard(Standard standard) {
-		this.standard = standard;
+	public void setCsnId(String csnId) {
+		this.csnId = csnId;
 	}
+
+	@Type(type = "jodaDateTime")
+	@Column(name = "csn_published")
+	public DateTime getPublished() {
+		return published;
+	}
+
+	public void setPublished(DateTime published) {
+		this.published = published;
+	}
+	
+	@Column(name = "classification_symbol", length = 10)
+	public String getClassificationSymbol() {
+		return classificationSymbol;
+	}
+
+	public void setClassificationSymbol(String classificationSymbol) {
+		this.classificationSymbol = classificationSymbol;
+	}
+
+	public String getCzechName() {
+		return czechName;
+	}
+
+	public void setCzechName(String czechName) {
+		this.czechName = czechName;
+	}
+
+	public String getEnglishName() {
+		return englishName;
+	}
+
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
+	
+	public String getIcs() {
+		return ics;
+	}
+
+	public void setIcs(String ics) {
+		this.ics = ics;
+	}
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "csn_category_id")
+	public CsnCategory getCsnCategory() {
+		return csnCategory;
+	}
+
+	public void setCsnCategory(CsnCategory csnCategory) {
+		this.csnCategory = csnCategory;
+	}
+	
+	@Column(name = "file_name", length = 64)
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+	
 	
 	@Column
-	public String getNote() {
-		return note;
+	@Type(type = "text")
+	public String getHtmlContent() {
+		return htmlContent;
 	}
 
-	public void setNote(String note) {
-		this.note = note;
+	public void setHtmlContent(String htmlContent) {
+		this.htmlContent = htmlContent;
 	}
 	
-	@Column(name ="csn_name", length = 45)
-	@NotEmpty(message = "Název ČSN musí být vyplněn.")
-	public String getCsnName() {
-		return csnName;
-	}
 	
-	public void setCsnName(String csnName) {
-		this.csnName = csnName;
-	}
-
-	@Column(name = "csn_online_id", length = 10)
-	@Pattern(regexp = "(^[0-9]{1,10}$|)*", message = "ČSN online ID obsahuje neplatnou hodnotu")
-	public String getCsnOnlineId() {
-		return csnOnlineId;
-	}
-
-	public void setCsnOnlineId(String csnOnlineId) {
-		this.csnOnlineId = csnOnlineId;
-	}
+	
+	
+	
 	
 }

@@ -15,57 +15,62 @@ import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
+
 @Service("csnService")
 @Transactional(propagation = Propagation.REQUIRED)
-public class CsnServiceImpl implements CsnService {
+public class CsnServiceImpl implements CsnService{
 	
 	@Autowired
-	private CsnDao CsnDao;
+	private CsnDao csnDao;
+	
 	@Autowired
 	private UserService userService;
 	
-	@Override
-	public void createCsn(Csn Csn) {
-		CsnDao.save(Csn);
-	}
-
-	@Override
-	public void updateCsn(Csn Csn) {
-		CsnDao.update(Csn);
-	}
-
-	@Override
-	public void deleteCsn(Csn Csn) {
-		CsnDao.remove(Csn);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public Csn getCsnById(Long id) {
-		return CsnDao.getByID(id);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
-	public List<Csn> getAllCsns() {
-		return CsnDao.getAll();
-	}
+	
 	
 	@Override
-	public void saveOrUpdate(Csn Csn) {
+	public void createCsn(Csn csn) {
+		csnDao.save(csn);
+	}
+
+	@Override
+	public void updateCsn(Csn csn) {
+		csnDao.update(csn);
+	}
+
+	@Override
+	public void deleteCsn(Csn csn) {
+		csnDao.remove(csn);
+	}
+
+	@Override
+	public Csn getById(Long id) {
+		return csnDao.getByID(id);
+	}
+
+	@Override
+	public Csn getByCode(String code) {
+		return csnDao.getByCode(code);
+	}
+
+	@Override
+	public List<Csn> getAll() {
+		return csnDao.getAll();
+	}
+
+	@Override
+	public void saveOrUpdate(Csn csn) {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
-		
-		if(Csn.getId() == null){
-			Csn.setCreatedBy(user);
-			Csn.setCreated(new DateTime());
-			CsnDao.save(Csn);
+		if(csn.getId() == null){
+			csn.setCreatedBy(user);
+			csn.setCreated(new DateTime());
+			csnDao.save(csn);
 		}else{
-			Csn.setChangedBy(user);
-			Csn.setChanged(new DateTime());
-			CsnDao.update(Csn);
+			csn.setChangedBy(user);
+			csn.setChanged(new DateTime());
+			csnDao.update(csn);
 		}
 		
 	}
 
-	
 }

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.Country;
-import sk.peterjurkovic.cpr.entities.Csn;
+import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Requirement;
@@ -38,7 +38,7 @@ import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
-import sk.peterjurkovic.cpr.services.CsnService;
+import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.RequirementService;
@@ -82,7 +82,7 @@ public class StandardController extends SupportAdminController{
 	@Autowired
 	private AssessmentSystemService assessmentSystemService;
 	@Autowired
-	private CsnService csnService;
+	private StandardCsnService standardCsnService;
 	
 	// editors
 	@Autowired
@@ -433,11 +433,11 @@ public class StandardController extends SupportAdminController{
  		if(standard == null){
  			createStandardNotFound( standardId );
  		}
- 		Csn form = null;
+ 		StandardCsn form = null;
 		if(csnId == null || csnId == 0){
 			form = createEmptyCsnForm();
 		}else{
-			form = csnService.getCsnById(csnId);
+			form = standardCsnService.getCsnById(csnId);
 		}
 		prepareModelForCsn(standard, form, modelMap);
         return getEditFormView();
@@ -449,14 +449,14 @@ public class StandardController extends SupportAdminController{
      * 
      * @param Long standardId
      * @param Long csnId
-     * @param Csn form
+     * @param StandardCsn form
      * @param result
      * @param ModelMap model
      * @return String JSP stranka
      * @throws ItemNotFoundException, v pripade ak sa norma s danym ID v systeme nenachadza
      */
     @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.POST)
-    public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long csnId, @Valid  Csn form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
+    public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long csnId, @Valid  StandardCsn form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
  		setEditFormView("cpr-standard-edit3-edit");
  		 Standard standard = standardService.getStandardById(standardId);
  	       if(standard == null){
@@ -484,12 +484,12 @@ public class StandardController extends SupportAdminController{
      */
     @RequestMapping(value = "/admin/cpr/standard/csn/delete/{csnId}", method = RequestMethod.GET)
     public String deleteCsn(@PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
- 		Csn csn = csnService.getCsnById(csnId);
- 		if(csn == null){
+ 		StandardCsn StandardCsn = standardCsnService.getCsnById(csnId);
+ 		if(StandardCsn == null){
  			createItemNotFoundError("ČSN s ID: " + csnId + " se v systému nenachází");
  		}
- 		csnService.deleteCsn(csn);
-        return "forward:/admin/cpr/standard/edit/"+csn.getStandard().getId()+"/csn";
+ 		standardCsnService.deleteCsn(StandardCsn);
+        return "forward:/admin/cpr/standard/edit/"+StandardCsn.getStandard().getId()+"/csn";
     }
     
      //##################################################
@@ -736,22 +736,22 @@ public class StandardController extends SupportAdminController{
 	
 	
 	
-	private void createOrUpdateCsn(Standard standard, Csn form) throws ItemNotFoundException{
-		Csn standardCsn = null;
+	private void createOrUpdateCsn(Standard standard, StandardCsn form) throws ItemNotFoundException{
+		StandardCsn StandardCsn = null;
 		if(form.getId() == null || form.getId() == 0){
-			standardCsn = new Csn();
+			StandardCsn = new StandardCsn();
 		}else{
-			standardCsn = csnService.getCsnById(form.getId());
-			if(standardCsn == null){
+			StandardCsn = standardCsnService.getCsnById(form.getId());
+			if(StandardCsn == null){
 				createItemNotFoundError("ČSN s ID: " + form.getId() + " se v systému nenachází");
 			}
 		}
 
-		standardCsn.setCsnName(form.getCsnName());
-		standardCsn.setNote(form.getNote());
-		standardCsn.setCsnOnlineId(form.getCsnOnlineId());
-		standardCsn.setStandard(standard);
-		csnService.saveOrUpdate(standardCsn);
+		StandardCsn.setCsnName(form.getCsnName());
+		StandardCsn.setNote(form.getNote());
+		StandardCsn.setCsnOnlineId(form.getCsnOnlineId());
+		StandardCsn.setStandard(standard);
+		standardCsnService.saveOrUpdate(StandardCsn);
 	}
 	
 	
@@ -797,7 +797,7 @@ public class StandardController extends SupportAdminController{
 		modelMap.put("model", map);
 	}
 	
-	private void prepareModelForCsn(Standard standard, Csn form,  ModelMap modelMap){
+	private void prepareModelForCsn(Standard standard, StandardCsn form,  ModelMap modelMap){
 		Map<String, Object> map = new HashMap<String, Object>();
  		modelMap.addAttribute("csn", form);
  		map.put("standardId", standard.getId());
@@ -829,8 +829,8 @@ public class StandardController extends SupportAdminController{
 		return form;
 	}
 	
-	private Csn createEmptyCsnForm(){
-		Csn form = new Csn();
+	private StandardCsn createEmptyCsnForm(){
+		StandardCsn form = new StandardCsn();
 		form.setId(0L);
 		return form;
 	}

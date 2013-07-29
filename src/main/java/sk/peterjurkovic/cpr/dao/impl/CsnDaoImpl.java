@@ -5,17 +5,11 @@ import org.springframework.stereotype.Repository;
 import sk.peterjurkovic.cpr.dao.CsnDao;
 import sk.peterjurkovic.cpr.entities.Csn;
 
-/**
- * Implementacia rozhrania sk.peterjurkovic.cpr.dao.impl.StandardCsnDao
- * @author Peter Jurkovič (email@peterjurkovic.sk)
- *
- */
-@Repository("standardCsnDao")
+
+@Repository("csnDao")
 public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
-	
 	
 	public CsnDaoImpl(){
 		super(Csn.class);
 	}
-	
 }
