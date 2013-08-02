@@ -15,3 +15,4 @@ bin/*
 .git/*
 *CVS*
 /target
+.externalToolBuilders/*

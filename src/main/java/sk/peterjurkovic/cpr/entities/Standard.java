@@ -209,7 +209,7 @@ public class Standard extends AbstractEntity {
 		this.assessmentSystems = assessmentSystems;
 	}
 	
-	 @OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public Set<StandardCsn> getStandardCsns() {
 		return StandardCsns;
 	}

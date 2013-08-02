@@ -15,10 +15,15 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.services.CsnService;
 
-
+/**
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ * @date 27.07.2013
+ */
 @Controller
 public class CsnController extends SupportAdminController {
 	
+	// položka menu
 	public static final int TAB_INDEX = 1;
 	
 	
@@ -27,8 +32,8 @@ public class CsnController extends SupportAdminController {
 	private CsnService csnService;
 	
 	public CsnController(){
-		setTableItemsView("csn-list");
-		setEditFormView("csn-edit");
+		setTableItemsView("csn/csn-list");
+		setEditFormView("csn/csn-edit");
 	}
 	
 	

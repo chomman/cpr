@@ -9,7 +9,7 @@
 <body>
 	<div id="wrapper">
 	<div id="left">
-		<jsp:include page="include/csn-nav.jsp" />
+		<jsp:include page="csn-nav.jsp" />
 	</div>
 	<div id="right">
 		<div id="breadcrumb">

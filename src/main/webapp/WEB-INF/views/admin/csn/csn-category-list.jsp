@@ -3,29 +3,29 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="menu.csn" /></title>
+<title><spring:message code="csn.category" /></title>
 </head>
 <body>
 	<div id="wrapper">
 	<div id="left">
 	
-		<jsp:include page="include/csn-nav.jsp" />
+		<jsp:include page="csn-nav.jsp" />
 		
 	</div>	
 	<div id="right">
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/csn" />"><spring:message code="menu.csn" /></a> &raquo;
-			 <span><spring:message code="menu.csn" /></span>
+			 <span><spring:message code="csn.category" /></span>
 		</div>
-		<h1><spring:message code="csn.title" /></h1>
+		<h1><spring:message code="csn.category" /></h1>
 
 		<div id="content">
 			
 			<ul class="sub-nav">
-						<li><a class="active" href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
-						<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
-					</ul>
+				<li><a class="active" href="<c:url value="/admin/csn/category"  />"><spring:message code="csn.list.new" /></a></li>
+				<li><a href="<c:url value="/admin/csn/category/edit/0"  />"><spring:message code="csn.category.new" /></a></li>
+			</ul>
 			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>
@@ -34,7 +34,7 @@
 				
 			
 				
-			<c:if test="${not empty model.csns}">
+			<c:if test="${not empty model.csnCategories}">
 				
 				<div class="search-box" >
 					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
@@ -45,9 +45,6 @@
 					<thead>
 						<tr>
 							<tH><spring:message code="csn.form.name" /></th>
-							<th><spring:message code="csn.form.published" /></th>
-							<th><spring:message code="csn.form.czechName" /></th>
-							<th><spring:message code="csn.form.category" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.edit" /></th>
@@ -57,22 +54,8 @@
 					<tbody>
 						 <c:forEach items="${model.csns}" var="i">
 						 	<tr>
-						 		<td><a href="<c:url value="/admin/csn/edit/${i.id}" />"> ${i.csnId}</a></td>
+						 		<td>${i.name}</td>
 						 		<td><joda:format value="${i.published}" pattern="yyyy"/></td>
-						 		<td>${i.czechName}</td>
-						 		<td>${i.csnCategory.name}</td>
-						 		<td class="w100">
-						 			<c:if test="${i.enabled}">
-						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
-						 					<spring:message code="yes" />
-						 				</span>
-						 			</c:if>
-						 			<c:if test="${not i.enabled}">
-						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
-						 					<spring:message code="no" />
-						 				</span>
-						 			</c:if>
-						 		</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
 						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
@@ -82,12 +65,12 @@
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">
-						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/groups/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/csn/category/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/cpr/groups/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/csn/category/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>
@@ -97,7 +80,7 @@
 				</table>
 			</c:if>
 			
-			<c:if test="${empty model.csns}">
+			<c:if test="${empty model.csnCategories}">
 				<p class="msg alert">
 					<spring:message code="alert.empty" />
 				</p>

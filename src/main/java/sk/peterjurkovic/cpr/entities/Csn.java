@@ -1,5 +1,8 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +12,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -41,6 +45,8 @@ public class Csn extends AbstractEntity {
 	private String fileName;
 	
 	private String htmlContent;
+	
+	private Set<CsnTerminology> terminologies;
 
 	
 	@Id
@@ -133,6 +139,15 @@ public class Csn extends AbstractEntity {
 
 	public void setHtmlContent(String htmlContent) {
 		this.htmlContent = htmlContent;
+	}
+
+	@OneToMany(mappedBy = "csn", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<CsnTerminology> getTerminologies() {
+		return terminologies;
+	}
+
+	public void setTerminologies(Set<CsnTerminology> terminologies) {
+		this.terminologies = terminologies;
 	}
 	
 	
