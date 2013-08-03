@@ -18,4 +18,8 @@ public interface CsnCategoryService {
 	List<CsnCategory> getAll();
 	
 	void saveOrUpdate(CsnCategory category);
+	
+	String getUniqeCsnCategoryCode(String name);
+	
+	boolean isCsnCategoryEmpty(CsnCategory category);
 }

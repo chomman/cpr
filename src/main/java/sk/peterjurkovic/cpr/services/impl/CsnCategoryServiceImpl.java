@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("csnCategoryService")
@@ -41,11 +43,13 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public CsnCategory getById(Long id) {
 		return csnCategoryDao.getByID(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<CsnCategory> getAll() {
 		return csnCategoryDao.getAll();
 	}
@@ -63,6 +67,27 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 			csnCategoryDao.update(category);
 		}
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public String getUniqeCsnCategoryCode(String name){
+		Validate.notNull(name);
+		name = CodeUtils.toSeoUrl(name);
+		if(csnCategoryDao.getByCode(name) == null){
+			return name;
+		}else{
+			return name + "-" + csnCategoryDao.getMaxId();
+		}
+		
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isCsnCategoryEmpty(CsnCategory category){
+		Validate.notNull(category);
+		return (csnCategoryDao.getCountOfCsnInCategory(category.getId()) == 0l);
+	}
+	
 	
 	
 	

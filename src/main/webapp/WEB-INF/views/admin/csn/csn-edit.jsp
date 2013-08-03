@@ -25,7 +25,7 @@
 					<tr>
 						<td class="key"><spring:message code="meta.created" /></td>
 						<td class="val">${csn.createdBy.firstName} ${csn.createdBy.lastName}</td>
-						<td class="val"><joda:format value="${article.created}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${csn.created}" pattern="${dateTimeFormat}"/></td>
 					</tr>
 					<c:if test="${not empty csn.changedBy}">
 					<tr>
@@ -38,7 +38,7 @@
 			</c:if>
 			
 			<c:url value="/admin/csn/edit/${id}" var="formUrl"/>					
-			<form:form  commandName="csn" method="post" cssStyle="valid"  action="${formUrl}" enctype="multipart/form-data">
+			<form:form  modelAttribute="csn" method="post" cssStyle="valid"  action="${formUrl}" enctype="multipart/form-data">
 				
 				<div id="ajax-result"></div>
 				

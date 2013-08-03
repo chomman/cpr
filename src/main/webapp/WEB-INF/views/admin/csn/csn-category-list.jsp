@@ -23,7 +23,7 @@
 		<div id="content">
 			
 			<ul class="sub-nav">
-				<li><a class="active" href="<c:url value="/admin/csn/category"  />"><spring:message code="csn.list.new" /></a></li>
+				<li><a class="active" href="<c:url value="/admin/csn/categories"  />"><spring:message code="csn.category.list" /></a></li>
 				<li><a href="<c:url value="/admin/csn/category/edit/0"  />"><spring:message code="csn.category.new" /></a></li>
 			</ul>
 			
@@ -36,26 +36,19 @@
 				
 			<c:if test="${not empty model.csnCategories}">
 				
-				<div class="search-box" >
-					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
-					<input id="quick-search" type="text" />
-				</div>
-			
 				<table class="data">
 					<thead>
 						<tr>
-							<tH><spring:message code="csn.form.name" /></th>
+							<tH><spring:message code="csn.category.form.name" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
-							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
 					</thead>
 					<tbody>
-						 <c:forEach items="${model.csns}" var="i">
+						 <c:forEach items="${model.csnCategories}" var="i">
 						 	<tr>
 						 		<td>${i.name}</td>
-						 		<td><joda:format value="${i.published}" pattern="yyyy"/></td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
 						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>

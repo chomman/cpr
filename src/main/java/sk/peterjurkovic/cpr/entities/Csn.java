@@ -16,7 +16,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -30,7 +30,7 @@ public class Csn extends AbstractEntity {
 	
 	private String csnId;
 		
-	private DateTime published;
+	private LocalDate published;
 	
 	private String classificationSymbol;
 	
@@ -68,16 +68,16 @@ public class Csn extends AbstractEntity {
 		this.csnId = csnId;
 	}
 
-	@Type(type = "jodaDateTime")
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	@Column(name = "csn_published")
-	public DateTime getPublished() {
+	public LocalDate getPublished() {
 		return published;
 	}
 
-	public void setPublished(DateTime published) {
+	public void setPublished(LocalDate published) {
 		this.published = published;
 	}
-	
+
 	@Column(name = "classification_symbol", length = 10)
 	public String getClassificationSymbol() {
 		return classificationSymbol;
