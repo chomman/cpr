@@ -3,7 +3,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="csn.add" /></title>
+	<title>
+		<c:if test="${id == 0}">
+			<spring:message code="csn.add" />
+		</c:if>
+		<c:if test="${id != 0}">
+			<spring:message code="csn.edit" arguments="${csn.csnId}" />
+		</c:if>
+	</title>
 	<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
 </head>
 <body>
@@ -17,9 +24,21 @@
 			 <a href="<c:url value="/admin/csn" />"><spring:message code="menu.csn" /></a> &raquo;
 			 <span><spring:message code="csn.add" /></span>
 		</div>
-		<h1><spring:message code="csn.add" /></h1>
+		<h1>
+			<c:if test="${id == 0}">
+				<spring:message code="csn.add" />
+			</c:if>
+			<c:if test="${id != 0}">
+				<spring:message code="csn.edit" arguments="${csn.csnId}" />
+			</c:if>
+		</h1>
 
 		<div id="content">
+			<ul class="sub-nav">
+				<li><a href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
+				<li><a <c:if test="${id == 0}"> class="active"</c:if> href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+			</ul>
+		
 			<c:if test="${not empty csn.createdBy}">
 				<table class="info">
 					<tr>
@@ -38,7 +57,7 @@
 			</c:if>
 			
 			<c:url value="/admin/csn/edit/${id}" var="formUrl"/>					
-			<form:form  modelAttribute="csn" method="post" cssStyle="valid"  action="${formUrl}" enctype="multipart/form-data">
+			<form:form  modelAttribute="csn" method="post" cssStyle="valid"  action="${formUrl}">
 				
 				<div id="ajax-result"></div>
 				
@@ -85,10 +104,22 @@
 				 		<spring:message code="csn.form.englishName" />:
 				 	</label>
 				     <span class="field">  
-				     	<form:input  htmlEscape="true" path="englishName" cssClass="mw500" />
+				     	<form:input  htmlEscape="true" path="englishName"  />
 				     </span>
 				 </p>
 
+				<p>
+				    <label >
+				 		<spring:message code="csn.form.category" />:
+				 	</label>
+				     <span class="field">  
+				     	<form:select path="csnCategory" cssClass="mw500" >
+				     		<form:option value="0"><spring:message code="form.select" /></form:option>
+				     		<form:options items="${model.csnCategories}" itemValue="id" itemLabel="name" /> 
+				     	</form:select>
+				     </span>
+				 </p>
+				
 				 
 				 <p class="form-head"><spring:message code="csn.basic.info.other" /><p>
 				  <p>

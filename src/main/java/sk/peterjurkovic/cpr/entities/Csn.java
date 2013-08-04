@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -16,7 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
-import org.joda.time.LocalDate;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -30,7 +30,7 @@ public class Csn extends AbstractEntity {
 	
 	private String csnId;
 		
-	private LocalDate published;
+	private String published;
 	
 	private String classificationSymbol;
 	
@@ -47,7 +47,10 @@ public class Csn extends AbstractEntity {
 	private String htmlContent;
 	
 	private Set<CsnTerminology> terminologies;
-
+	
+	public Csn(){
+		this.terminologies = new HashSet<CsnTerminology>();
+	}
 	
 	@Id
 	@GeneratedValue
@@ -64,17 +67,17 @@ public class Csn extends AbstractEntity {
 		return csnId;
 	}
 
+	
 	public void setCsnId(String csnId) {
 		this.csnId = csnId;
 	}
-
-	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
-	@Column(name = "csn_published")
-	public LocalDate getPublished() {
+	
+	@Column(length = 4)
+	public String getPublished() {
 		return published;
 	}
 
-	public void setPublished(LocalDate published) {
+	public void setPublished(String published) {
 		this.published = published;
 	}
 

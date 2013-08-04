@@ -5,16 +5,22 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Csn;
+import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
+import sk.peterjurkovic.cpr.web.editors.CsnCategoryEditor;
 
 /**
  * 
@@ -31,6 +37,10 @@ public class CsnController extends SupportAdminController {
 	
 	@Autowired
 	private CsnService csnService;
+	@Autowired
+	private CsnCategoryService csnCategoryService;
+	@Autowired
+	private CsnCategoryEditor csnCategoryEditor;
 	
 	public CsnController(){
 		setTableItemsView("csn/csn-list");
@@ -38,10 +48,17 @@ public class CsnController extends SupportAdminController {
 	}
 	
 	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(CsnCategory.class, this.csnCategoryEditor);
+    }
+	
+	
 	@RequestMapping("/admin/csn")
 	public String showCsn(ModelMap modelMap, HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("tab", TAB_INDEX);
+		model.put("csns", csnService.getAll() );
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}
@@ -62,11 +79,43 @@ public class CsnController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
+	@RequestMapping( value = "/admin/csn/edit/{id}", method = RequestMethod.POST)
+	public String processSubmit(@PathVariable Long id, Csn form,  ModelMap modelMap) throws ItemNotFoundException{
+		createOrUpdate(form);
+		modelMap.put("successCreate", true);
+		prepareModel(form, modelMap, id);
+		return getEditFormView();
+	}
 	
+	
+	private void createOrUpdate(Csn form) throws ItemNotFoundException{
+		Validate.notNull(form);
+
+		Csn csn = null;
+		
+		if(form.getId() == null || form.getId() == 0){
+			csn = new Csn();
+		}else{
+			csn = csnService.getById(form.getId());
+			if(csn == null){
+				createItemNotFoundError("ČSN with ID: " + form.getId() + " was not found.");
+			}
+		}
+		csn.setCsnId(form.getCsnId());
+		csn.setCzechName(form.getCzechName());
+		csn.setEnglishName(form.getEnglishName());
+		csn.setClassificationSymbol(form.getClassificationSymbol());
+		csn.setIcs(form.getIcs());
+		csn.setCsnCategory(form.getCsnCategory());
+		csn.setPublished(form.getPublished());
+		csnService.saveOrUpdate(csn);
+		
+	}
 	
 	private void prepareModel(Csn form, ModelMap modelMap, Long id){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("tab", 2);
+		model.put("csnCategories", csnCategoryService.getAll());
 		modelMap.put("model", model);
 		modelMap.put("id", id);
 		modelMap.addAttribute("csn", form);

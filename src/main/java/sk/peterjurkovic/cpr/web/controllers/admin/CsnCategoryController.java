@@ -19,7 +19,7 @@ import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 
 /**
- * Kontroler obsluhujúci požiadavky týkajúc sa odború ČSN
+ * Kontroler obsluhujúci požiadavky týkajúc sa odború ČSN0
  * 
  * @author Peter Jurkovič (email@peterjurkovic.sk)
  * @date 02.08.2013

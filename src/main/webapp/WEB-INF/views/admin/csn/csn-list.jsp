@@ -23,9 +23,9 @@
 		<div id="content">
 			
 			<ul class="sub-nav">
-						<li><a class="active" href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
-						<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
-					</ul>
+				<li><a class="active" href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
+				<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+			</ul>
 			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>
@@ -57,8 +57,8 @@
 					<tbody>
 						 <c:forEach items="${model.csns}" var="i">
 						 	<tr>
-						 		<td><a href="<c:url value="/admin/csn/edit/${i.id}" />"> ${i.csnId}</a></td>
-						 		<td><joda:format value="${i.published}" pattern="yyyy"/></td>
+						 		<td>${i.csnId}</td>
+						 		<td>${i.published}</td>
 						 		<td>${i.czechName}</td>
 						 		<td>${i.csnCategory.name}</td>
 						 		<td class="w100">
@@ -82,12 +82,12 @@
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">
-						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/cpr/groups/edit/${i.id}"  />">
+						 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/csn/edit/${i.id}"  />">
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/cpr/groups/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/csn/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>
