@@ -4,7 +4,15 @@
 
 	<!-- Appenders -->
 	<appender name="console" class="org.apache.log4j.ConsoleAppender">
-		<param name="Target" value="System.out" />
+		<param name="File" value="/home/page/cpr.log"/>
+        <param name="DateRollEnforced" value="true" />
+        <param name="DatePattern" value=".yyyy-MM-dd"/>
+        <param name="MaxFileSize" value="20MB"/>
+        <param name="MaxRollFileCount" value="150"/>
+        <param name="ScavengeInterval" value="30000"/>
+        <param name="BufferedIO" value="false"/>
+        <param name="CompressionAlgorithm" value="ZIP"/>
+        <param name="CompressionMinQueueSize" value="5"/>
 		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%-5p %d{HH:mm:ss} %C{1}:%M(line %L) - %m%n" />
 		</layout>
@@ -12,34 +20,14 @@
 	
 	<!-- Application Loggers -->
 	<logger name="sk.peterjurkovic.cpr">
-		<level value="debug" />
-	</logger>
-	
-	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework.core">
 		<level value="info" />
 	</logger>
 	
-	<logger name="org.springframework.beans">
-		<level value="info" />
-	</logger>
-	
-	<logger name="org.springframework.context">
-		<level value="info" />
-	</logger>
-
-	<logger name="org.springframework.web">
-		<level value="info" />
-	</logger>
-	
-	<logger name="org.springframework.aop.interceptor">
-	    <level value="info"/>
-  	</logger>
 
 	<!-- Root Logger -->
 	<root>
-		<priority value="warn" />
-		<appender-ref ref="console" />
+		<priority value="info" />
+		<appender-ref ref="file" />
 	</root>
 	
 </log4j:configuration>

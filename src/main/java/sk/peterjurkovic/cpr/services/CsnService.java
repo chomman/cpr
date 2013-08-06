@@ -27,4 +27,6 @@ public interface CsnService {
 	
 	
 	void saveOrUpdate(Csn csn);
+	
+	boolean isCsnIdUniqe(Long id, String csnId);
 }

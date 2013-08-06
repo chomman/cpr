@@ -69,13 +69,13 @@ public class CsnCategoryController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
-	@RequestMapping(value = "/admin/csn/category/edit/{id}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long id,@Valid  CsnCategory form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
+	@RequestMapping(value = "/admin/csn/category/edit/{categoryId}", method = RequestMethod.POST)
+	public String processSubmit(@PathVariable Long categoryId, @Valid  CsnCategory form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		if(!result.hasErrors()){
 			createOrUpdate(form);
         	modelMap.put("successCreate", true);
 		}
-		prepareModel(form, modelMap, id);
+		prepareModel(form, modelMap, categoryId);
 		return getEditFormView();
 	}
 	

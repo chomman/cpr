@@ -11,7 +11,7 @@
 			<spring:message code="csn.edit" arguments="${csn.csnId}" />
 		</c:if>
 	</title>
-	<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+	<script src="<c:url value="/resources/admin/quicksearch.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -120,8 +120,6 @@
 				     </span>
 				 </p>
 				
-				 
-				 <p class="form-head"><spring:message code="csn.basic.info.other" /><p>
 				  <p>
                 	<label>
                 		<spring:message code="csn.form.symbol" />:
@@ -146,6 +144,60 @@
                 </p>
 			</form:form>
 			<span class="note"><spring:message code="form.required" /></span>
+			
+			
+			<div id="terminology">
+				
+							
+				<p class="form-head"><spring:message code="csn.terminology" arguments="${csn.csnId}" /><p>
+				
+				<div class="search-box" >
+					
+					<a class="add radius" title="<spring:message code="csn.terminology.add" />" href="+ <c:url value="/admin/csn/${id}/terminology/edit/0" />">
+						<spring:message code="csn.terminology.add" />
+					</a>
+					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
+					<input id="quick-search" type="text" />
+				</div>
+				
+				<table class="data csn">
+					<thead>
+						<tr>
+							<tH><spring:message code="csn.terminology.title" /></th>
+							<th><spring:message code="csn.terminology.lang" /></th>
+							<th><spring:message code="changed" /></th>
+							<th><spring:message code="form.edit" /></th>
+							<th><spring:message code="form.delete" /></th>
+						</tr>
+					</thead>
+					<tbody>
+							 <c:forEach items="${csn.terminologies}" var="i">
+							 	<tr>
+							 		<td>${i.title}</td>
+							 		<td><spring:message code="${i.language.name}" /> </td>
+							 		<td class="last-edit">
+							 			<c:if test="${empty i.changedBy}">
+							 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
+							 			</c:if>
+							 			<c:if test="${not empty i.changedBy}">
+							 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
+							 			</c:if>
+							 		</td>
+							 		<td class="edit">
+							 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/csn/terminology/edit/${i.id}"  />">
+							 				<spring:message code="form.edit" />
+							 			</a>
+							 		</td>
+							 		<td class="delete">
+							 			<a class="confirm"  href="<c:url value="/admin/csn/terminology/delete/${i.id}"  />">
+							 				<spring:message code="form.delete" />
+							 			</a>
+							 		</td>
+							 	</tr>
+							 </c:forEach>
+					</tbody>
+				</table>
+			</div>
 		</div>	
 	</div>
 	<div class="clear"></div>	

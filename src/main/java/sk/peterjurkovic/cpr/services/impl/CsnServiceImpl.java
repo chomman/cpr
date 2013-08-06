@@ -44,16 +44,19 @@ public class CsnServiceImpl implements CsnService{
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Csn getById(Long id) {
 		return csnDao.getByID(id);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Csn getByCode(String code) {
 		return csnDao.getByCode(code);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Csn> getAll() {
 		return csnDao.getAll();
 	}
@@ -71,6 +74,12 @@ public class CsnServiceImpl implements CsnService{
 			csnDao.update(csn);
 		}
 		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isCsnIdUniqe(Long id, String csnId) {
+		return csnDao.isCsnIdUniqe(id, csnId);
 	}
 
 }

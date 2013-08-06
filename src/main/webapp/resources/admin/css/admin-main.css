@@ -132,8 +132,8 @@ box-shadow: 0px 0px 7px 1px #999; }
 
 /* Requirement nav */
 #req-nav{font-size:12px;background:#fff6eb;border:3px solid #ffedd6;padding:8px 15px;margin-bottom:15px;}
-#req-nav a:hover{background:#6AC600;}
-#req-nav a{padding:11px;margin-right:40px;display:inline-block;background: #69ba00;
+#req-nav a:hover, a.add:hover{background:#508216;}
+#req-nav a, a.add{padding:11px;margin-right:40px;display:inline-block;background: #69ba00;
 background: -moz-linear-gradient(top,  #69ba00 0%, #5da500 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#69ba00), color-stop(100%,#5da500));
 background: -webkit-linear-gradient(top,  #69ba00 0%,#5da500 100%);
@@ -353,3 +353,9 @@ table .center-val{ text-align:center;display:block;}
 .error-box{width:400px;margin:100px auto;padding:40px;background:#FFFAFA;border:5px solid #FFF5F5;text-align:center;}
 .error-box p{padding:10px;}
 .error-box a{text-decoration:underline;}
+
+
+/* TERMINOLOGY */
+#terminology{border-left:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;}
+#terminology .search-box{margin:0}
+#terminology .search-box input{width:500px;padding:10px 5px;}

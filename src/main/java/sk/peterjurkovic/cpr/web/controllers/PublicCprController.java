@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,6 +36,8 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
 public class PublicCprController {
+
+	private Logger logger = Logger.getLogger(getClass());
 	
 	@Autowired
 	private WebpageService webpageService;
@@ -73,6 +76,7 @@ public class PublicCprController {
 		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
+
 		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("subtab", webpage.getId());
 		modelmap.put("model", model);

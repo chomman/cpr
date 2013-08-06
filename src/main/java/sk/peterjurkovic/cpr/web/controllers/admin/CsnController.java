@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,9 +19,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
+import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
+import sk.peterjurkovic.cpr.services.CsnTerminologyService;
+import sk.peterjurkovic.cpr.validators.admin.CsnValidator;
 import sk.peterjurkovic.cpr.web.editors.CsnCategoryEditor;
 
 /**
@@ -40,7 +45,11 @@ public class CsnController extends SupportAdminController {
 	@Autowired
 	private CsnCategoryService csnCategoryService;
 	@Autowired
+	private CsnTerminologyService csnTerminologyService;
+	@Autowired
 	private CsnCategoryEditor csnCategoryEditor;
+	@Autowired
+	private CsnValidator csnValidator;
 	
 	public CsnController(){
 		setTableItemsView("csn/csn-list");
@@ -64,30 +73,40 @@ public class CsnController extends SupportAdminController {
 	}
 	
 	
-	@RequestMapping( value = "/admin/csn/edit/{id}", method = RequestMethod.GET)
-	public String showCsnForm(@PathVariable Long id, ModelMap modelMap) throws ItemNotFoundException{
+	@RequestMapping( value = "/admin/csn/edit/{idCsn}", method = RequestMethod.GET)
+	public String showCsnForm(@PathVariable Long idCsn, ModelMap modelMap) throws ItemNotFoundException{
 		Csn form = null;
-		if(id == 0){
+		if(idCsn == 0){
 			form = createEmptyForm();
 		}else{
-			form = csnService.getById(id);
+			form = csnService.getById(idCsn);
 			if(form == null){
-				createItemNotFoundError("ČSN with ID: " + id + " was not found.");
+				createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
 			}
 		}
-		prepareModel(form, modelMap, id);
-		return getEditFormView();
-	}
-	
-	@RequestMapping( value = "/admin/csn/edit/{id}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long id, Csn form,  ModelMap modelMap) throws ItemNotFoundException{
-		createOrUpdate(form);
-		modelMap.put("successCreate", true);
-		prepareModel(form, modelMap, id);
+		prepareModel(form, modelMap, idCsn);
 		return getEditFormView();
 	}
 	
 	
+	@RequestMapping( value = "/admin/csn/edit/{idCsn}", method = RequestMethod.POST)
+	public String processSubmit(@PathVariable Long idCsn, @Valid Csn form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
+		
+		csnValidator.validate(result, form);
+		if(!result.hasErrors()){
+			createOrUpdate(form);
+			modelMap.put("successCreate", true);
+		}
+		prepareModel(form, modelMap, idCsn);
+		return getEditFormView();
+	}
+	
+	/**
+	 * Aktualizuje, alebo vytvori novu ČSN
+	 * 
+	 * @param form
+	 * @throws ItemNotFoundException
+	 */
 	private void createOrUpdate(Csn form) throws ItemNotFoundException{
 		Validate.notNull(form);
 
@@ -109,8 +128,36 @@ public class CsnController extends SupportAdminController {
 		csn.setCsnCategory(form.getCsnCategory());
 		csn.setPublished(form.getPublished());
 		csnService.saveOrUpdate(csn);
-		
 	}
+	
+	//-------------------------------------------
+	//	TERMINOLOGIE
+	//------------------------------------------
+	
+	@RequestMapping( value = "/admin/csn/{idCsn}/terminology/edit/{idTerminology}", method = RequestMethod.GET)
+	public String showCsnForm(@PathVariable Long idCsn, @PathVariable Long idTerminology, ModelMap modelMap) throws ItemNotFoundException{
+		setEditFormView("csn-terminology-edit");
+		Csn csn = csnService.getById(idCsn);
+		if(csn == null){
+			createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
+		}
+		
+		CsnTerminology from = null;
+		
+		if(idTerminology == 0){
+			from = new CsnTerminology();
+			from.setId(0l);
+		}else{
+			from = csnTerminologyService.getById(idTerminology);
+			if(from == null){
+				createItemNotFoundError("ČSN terminology with ID: " + idTerminology + " was not found.");
+			}
+		}
+		
+		prepareModel(csn, from , modelMap, idTerminology);
+		return getEditFormView();
+	} 
+	
 	
 	private void prepareModel(Csn form, ModelMap modelMap, Long id){
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -119,6 +166,15 @@ public class CsnController extends SupportAdminController {
 		modelMap.put("model", model);
 		modelMap.put("id", id);
 		modelMap.addAttribute("csn", form);
+	}
+	
+	private void prepareModel(Csn csn, CsnTerminology form,  ModelMap modelMap, Long id){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("tab", 2);
+		model.put("csn", csn);
+		modelMap.put("model", model);
+		modelMap.put("id", id);
+		modelMap.addAttribute("csnTerminology", form);
 	}
 	
 	

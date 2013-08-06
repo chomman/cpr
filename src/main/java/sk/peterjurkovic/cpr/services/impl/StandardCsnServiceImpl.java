@@ -24,6 +24,7 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	@Autowired
 	private UserService userService;
 	
+	
 	@Override
 	public void createCsn(StandardCsn standardCsn) {
 		standardCsnDao.save(standardCsn);

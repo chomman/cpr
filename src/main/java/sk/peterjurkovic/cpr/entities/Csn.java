@@ -62,7 +62,7 @@ public class Csn extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@Column(name = "csn_id", length = 50)	
+	@Column(name = "csn_id", length = 50)
 	public String getCsnId() {
 		return csnId;
 	}
