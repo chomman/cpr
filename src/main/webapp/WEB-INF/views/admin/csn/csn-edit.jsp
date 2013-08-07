@@ -153,7 +153,7 @@
 				
 				<div class="search-box" >
 					
-					<a class="add radius" title="<spring:message code="csn.terminology.add" />" href="+ <c:url value="/admin/csn/${id}/terminology/edit/0" />">
+					<a class="add radius" title="<spring:message code="csn.terminology.add" />" href="<c:url value="/admin/csn/${id}/terminology/edit/0" />">
 						<spring:message code="csn.terminology.add" />
 					</a>
 					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
@@ -184,12 +184,12 @@
 							 			</c:if>
 							 		</td>
 							 		<td class="edit">
-							 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/csn/terminology/edit/${i.id}"  />">
+							 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/csn/${id}/terminology/edit/${i.id}"  />">
 							 				<spring:message code="form.edit" />
 							 			</a>
 							 		</td>
 							 		<td class="delete">
-							 			<a class="confirm"  href="<c:url value="/admin/csn/terminology/delete/${i.id}"  />">
+							 			<a class="confirm"  href="<c:url value="/admin/csn/${id}/terminology/delete/${i.id}"  />">
 							 				<spring:message code="form.delete" />
 							 			</a>
 							 		</td>

@@ -143,4 +143,7 @@ public class Constants {
 	
 	
 	public static final String SYSTEM_NAME = "Informační systém CPR";
+	
+	
+	public static final String CSN_DIR_PREFIX = "csn-";
 }

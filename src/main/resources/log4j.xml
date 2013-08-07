@@ -30,6 +30,7 @@
    	<!-- Application Loggers -->
 	<logger name="sk.peterjurkovic.cpr">
 		<level value="info" />
+		<appender-ref ref="baseAppender"></appender-ref>
 	</logger>
 		
 	<!-- 3rdparty Loggers -->

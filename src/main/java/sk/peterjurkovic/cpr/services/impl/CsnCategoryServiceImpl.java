@@ -60,6 +60,7 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 		if(category.getId() == null){
 			category.setCreatedBy(user);
 			category.setCreated(new DateTime());
+			
 			csnCategoryDao.save(category);
 		}else{
 			category.setChangedBy(user);

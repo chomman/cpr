@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
-import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
@@ -38,8 +37,7 @@ public class CsnController extends SupportAdminController {
 	// položka menu
 	public static final int TAB_INDEX = 1;
 	
-	
-	
+		
 	@Autowired
 	private CsnService csnService;
 	@Autowired
@@ -101,6 +99,20 @@ public class CsnController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
+	
+	@RequestMapping("/admin/csn/delete/{id}")
+	public String deleteCsn(@PathVariable Long id, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
+		
+		Csn csn = csnService.getById(id);
+		if(csn == null){
+			createItemNotFoundError("ČSN with ID: " + id + " was not found.");
+		}
+		
+		csnService.deleteCsn(csn);
+		modelMap.put("successDelete", true);
+		return showCsn(modelMap, request);
+	}
+	
 	/**
 	 * Aktualizuje, alebo vytvori novu ČSN
 	 * 
@@ -130,33 +142,6 @@ public class CsnController extends SupportAdminController {
 		csnService.saveOrUpdate(csn);
 	}
 	
-	//-------------------------------------------
-	//	TERMINOLOGIE
-	//------------------------------------------
-	
-	@RequestMapping( value = "/admin/csn/{idCsn}/terminology/edit/{idTerminology}", method = RequestMethod.GET)
-	public String showCsnForm(@PathVariable Long idCsn, @PathVariable Long idTerminology, ModelMap modelMap) throws ItemNotFoundException{
-		setEditFormView("csn-terminology-edit");
-		Csn csn = csnService.getById(idCsn);
-		if(csn == null){
-			createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
-		}
-		
-		CsnTerminology from = null;
-		
-		if(idTerminology == 0){
-			from = new CsnTerminology();
-			from.setId(0l);
-		}else{
-			from = csnTerminologyService.getById(idTerminology);
-			if(from == null){
-				createItemNotFoundError("ČSN terminology with ID: " + idTerminology + " was not found.");
-			}
-		}
-		
-		prepareModel(csn, from , modelMap, idTerminology);
-		return getEditFormView();
-	} 
 	
 	
 	private void prepareModel(Csn form, ModelMap modelMap, Long id){
@@ -168,14 +153,7 @@ public class CsnController extends SupportAdminController {
 		modelMap.addAttribute("csn", form);
 	}
 	
-	private void prepareModel(Csn csn, CsnTerminology form,  ModelMap modelMap, Long id){
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("tab", 2);
-		model.put("csn", csn);
-		modelMap.put("model", model);
-		modelMap.put("id", id);
-		modelMap.addAttribute("csnTerminology", form);
-	}
+	
 	
 	
 	private Csn createEmptyForm(){
