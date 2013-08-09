@@ -8,13 +8,27 @@
 		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/mvc
-		http://www.springframework.org/schema/mvc/spring-mvc-3.1.xsd"
+		http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
 		default-autowire="byName">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven />
+	<annotation-driven>
+		<mvc:message-converters>
+	        <beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+	            <beans:property name="supportedMediaTypes">
+	                <beans:list>
+	                    <beans:value>image/jpeg</beans:value>
+	                    <beans:value>image/png</beans:value>
+	                    <beans:value>image/gif</beans:value>
+	                </beans:list>
+	            </beans:property>
+	        </beans:bean>
+    	</mvc:message-converters>
+	</annotation-driven>
+	
+	
 	<context:component-scan base-package="sk.peterjurkovic.cpr.web.controllers" />
 
 
@@ -45,7 +59,9 @@
 	   </mvc:interceptor>
 	   <mvc:interceptor>
 	     <mvc:mapping path="/**" />
-	     	<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.WebpageInterceptor" />
+	     <exclude-mapping path="/admin/**"/>
+	     <exclude-mapping path="/image/**"/>
+	     <beans:bean class="sk.peterjurkovic.cpr.web.interceptors.WebpageInterceptor" />
 	   </mvc:interceptor>
 	</mvc:interceptors>
 	

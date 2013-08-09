@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
@@ -63,6 +64,7 @@ public class CsnTerminologyController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("tab", 2);
 		model.put("csn", csn);
+		model.put("fileDir", Constants.CSN_DIR_PREFIX + csn.getId());
 		model.put("csnTerminologyLanguage", CsnTerminologyLanguage.getAll());
 		modelMap.put("model", model);
 		modelMap.put("id", id);

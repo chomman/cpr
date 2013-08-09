@@ -146,4 +146,6 @@ public class Constants {
 	
 	
 	public static final String CSN_DIR_PREFIX = "csn-";
+	
+	public static final String DEFAULT_IMAGE_SAVE_DIR = "images/";
 }

@@ -4,7 +4,7 @@
 		<pattern>*/resources/*</pattern>
 		<pattern>*.htm</pattern>
 		<pattern>*.ftl</pattern>
-		<pattern>/admin/file-manager/*</pattern>
+		<pattern>/admin/file-manager*</pattern>
 	</excludes>
     
   <decorator name="blank" page="blank.jsp">

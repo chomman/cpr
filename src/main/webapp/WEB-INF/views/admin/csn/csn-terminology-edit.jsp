@@ -135,6 +135,7 @@
 						
 		</div>	
 	</div>
+	<div id="fileDir" class="hidden">${model.fileDir}</div>
 	<div class="clear"></div>	
 </div>
 

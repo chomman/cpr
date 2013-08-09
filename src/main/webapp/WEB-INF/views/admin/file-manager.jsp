@@ -15,10 +15,18 @@
 <body>
 	<div id="wrapper">
 
-
-
+	<c:if test="${not empty images}">
+		<c:forEach items="${images}" var="i">
+		<img src="<c:url value="/image/s/100/${i}" /> " alt="" />
+		</c:forEach>
+	
+	</c:if>
+	
+	<img src='<c:url value="/image/square/100/test.png"></c:url>' alt="" />
+	
 		<div class="upload">
 			<form:form method="POST" enctype="multipart/form-data" modelAttribute="command" >
+				
 				<span>
 					<form:errors path="*" cssClass="error" />
 				</span>
@@ -26,10 +34,11 @@
 					<spring:message code="form.file.select" />
 				</label>
 				<input type="file" name="files[0]" />
-				<form:hidden path="saveDir" />
+				
 				<input type="submit" value="<spring:message code="form.file.upload"  />" />
 			</form:form>
 		</div>
 	</div>
+	<div id="base"><c:url value="/"></c:url></div>
 </body>
 </html>

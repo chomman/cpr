@@ -2,11 +2,11 @@ package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,21 +35,29 @@ public class FileManagerController extends SupportAdminController {
 	@RequestMapping(value = "/admin/file-manager.htm", method = RequestMethod.GET)
 	public String showManager(ModelMap modelMap, HttpServletRequest request) {
 
-		String csnId = request.getParameter("csnId");
+		String dir = request.getParameter("dir");
 
-		if (csnId != null) {
-			FileDto form = new FileDto();
-			form.setSaveDir(Constants.CSN_DIR_PREFIX + csnId);
-			prepareModel(form, modelMap);
+		if (StringUtils.isBlank(dir)) {
+			dir = Constants.DEFAULT_IMAGE_SAVE_DIR;
 		}
+		
+		FileDto form = new FileDto();
+		form.setSaveDir(dir);
+		prepareModel(form, modelMap);
+		
 		return getViewName();
 	}
 
 	@RequestMapping(value = "/admin/file-manager.htm", method = RequestMethod.POST)
-	public String save(@ModelAttribute(COMMAND) FileDto form, ModelMap modelMap) {
+	public String save(@ModelAttribute(COMMAND) FileDto form, ModelMap modelMap, HttpServletRequest request) {
+		
+		String dir = request.getParameter("dir");
 
+		if (StringUtils.isBlank(dir)) {
+			dir = Constants.DEFAULT_IMAGE_SAVE_DIR;
+		}
+		
 		List<MultipartFile> files = form.getFiles();
-		List<String> fileNames = new ArrayList<String>();
 
 		if (null != files && files.size() > 0) {
 			for (MultipartFile multipartFile : files) {
@@ -57,24 +65,21 @@ public class FileManagerController extends SupportAdminController {
 				String fileName = multipartFile.getOriginalFilename();
 				try {
 					InputStream content = multipartFile.getInputStream();
-					fileService.saveFile(fileName, content, form.getSaveDir());
+					fileService.saveFile(fileName, content, dir);
 				} catch (IOException e) {
-					logger.error("Subor sa nepodarilo spracovat: "
+					logger.error("Nahravany obrazok sa neodarilo ulozit: "
 							+ e.getMessage());
 				}
-				fileNames.add(fileName);
-				// Handle file content - multipartFile.getInputStream()
-
 			}
 		}
 
 		prepareModel(form, modelMap);
-		modelMap.put("files", fileNames);
 		return getViewName();
 	}
 
 	private void prepareModel(FileDto form, ModelMap modelMap) {
 		modelMap.addAttribute(COMMAND, form );
+		modelMap.put("images", fileService.getImagesFromDirectory(form.getSaveDir()));
 	}
 
 }
