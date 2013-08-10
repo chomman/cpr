@@ -1,29 +1,27 @@
 package sk.peterjurkovic.cpr.dto;
 
-import java.util.List;
-
 import org.springframework.web.multipart.MultipartFile;
 
-public class FileDto {
-	
-	private List<MultipartFile> files;
+public class FileUploadItemDto {
 	
 	private String saveDir;
 
-	public List<MultipartFile> getFiles() {
-		return files;
-	}
-
-	public void setFiles(List<MultipartFile> files) {
-		this.files = files;
-	}
-
+	private MultipartFile fileData;
+	
 	public String getSaveDir() {
 		return saveDir;
 	}
 
 	public void setSaveDir(String saveDir) {
 		this.saveDir = saveDir;
+	}
+
+	public MultipartFile getFileData() {
+		return fileData;
+	}
+
+	public void setFileData(MultipartFile fileData) {
+		this.fileData = fileData;
 	}
 	
 	

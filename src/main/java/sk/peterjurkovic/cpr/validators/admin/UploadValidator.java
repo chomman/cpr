@@ -4,7 +4,7 @@ import org.apache.log4j.Logger;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-import sk.peterjurkovic.cpr.dto.FileDto;
+import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 
 
 public class UploadValidator implements Validator  {
@@ -42,7 +42,7 @@ public class UploadValidator implements Validator  {
 	
 	@Override
 	public boolean supports(Class<?> clazz) {
-		return FileDto.class.equals(clazz);
+		return FileUploadItemDto.class.equals(clazz);
 
 	}
 

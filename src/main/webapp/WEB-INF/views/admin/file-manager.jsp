@@ -13,32 +13,38 @@
 <script src="<c:url value="/resources/admin/js/file-manager.js" />"></script>
 </head>
 <body>
+	<div class="upload">
+		<form:form method="POST" enctype="multipart/form-data" modelAttribute="command" >
+			<label>
+				<spring:message code="form.file.select" />:
+			</label>
+			<input type="file" name="fileData" />
+			
+			<c:if test="${not empty hasErrors}">
+				<span class="error"><spring:message code="error.image.extetion" /></span>
+			</c:if>
+			
+			<input type="submit" class="button radius" value="<spring:message code="form.file.upload"  /> &raquo;" />
+		</form:form>
+	</div>
 	<div id="wrapper">
 
 	<c:if test="${not empty images}">
 		<c:forEach items="${images}" var="i">
-		<img src="<c:url value="/image/s/100/${i}" /> " alt="" />
-		</c:forEach>
-	
-	</c:if>
-	
-	<img src='<c:url value="/image/square/100/test.png"></c:url>' alt="" />
-	
-		<div class="upload">
-			<form:form method="POST" enctype="multipart/form-data" modelAttribute="command" >
-				
-				<span>
-					<form:errors path="*" cssClass="error" />
-				</span>
-				<label>
-					<spring:message code="form.file.select" />
-				</label>
-				<input type="file" name="files[0]" />
-				
-				<input type="submit" value="<spring:message code="form.file.upload"  />" />
-			</form:form>
+		<div class="imgBox">
+			<div class="h">
+				<span><spring:message code="filemanager.select" /></span>
+				<img src="<c:url value="/image/s/100/${i}" /> " alt="${i}" />
+			</div>
+			<a href="#" title="${i}"><spring:message code="form.delete" /></a>
 		</div>
+		</c:forEach>
+		<div class="clear"></div>
+	</c:if>
+		
+	
 	</div>
-	<div id="base"><c:url value="/"></c:url></div>
+	<div id="base" class="hidden"><c:url value="/"></c:url></div>
+	<div id="selector" class="hidden">${selector}</div>
 </body>
 </html>
