@@ -8,13 +8,11 @@
 			<spring:message code="cns.terminology.addNew" arguments="${model.csn.csnId}" />
 		</c:if>
 		<c:if test="${id != 0}">
-			<spring:message code="cns.terminology.edit" arguments="${model.csn.csnId};${csnTerminology.csnId}" />
+			<spring:message code="cns.terminology.edit" arguments="${model.csn.csnId};${csnTerminology.title}" argumentSeparator=";"/>
 		</c:if>
 	</title>
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
-	<script src="<c:url value="/resources/admin/jquery.fileManager.js" />"></script>
 	<c:url value="/resources/admin/css/tinymce.css" var="cssLoc"/>
-	<link rel="stylesheet" href="<c:url value="/resources/admin/filemanager/jquery.fileManager.css" />" />
 	<script> 
 		
 			tinymce.init({
@@ -23,6 +21,8 @@
 					height : 500,
 					content_css :  '${cssLoc}',
 					plugins: "image",
+					convert_urls: false
+
 			});
 	</script>
 </head>
@@ -41,7 +41,7 @@
 					<spring:message code="cns.terminology.addNew" arguments="${model.csn.csnId}" />
 				</c:if>
 				<c:if test="${id != 0}">
-					<spring:message code="cns.terminology.edit" arguments="${model.csn.csnId};${csnTerminology.csnId}" />
+					<spring:message code="cns.terminology.edit" arguments="${model.csn.csnId};${csnTerminology.title}" argumentSeparator=";" />
 				</c:if>
 			</span>
 		</div>
@@ -50,14 +50,16 @@
 			<spring:message code="cns.terminology.addNew" arguments="${model.csn.csnId}" />
 		</c:if>
 		<c:if test="${id != 0}">
-			<spring:message code="cns.terminology.edit" arguments="${model.csn.csnId};${csnTerminology.csnId}" />
+			<spring:message code="cns.terminology.edit" arguments="${model.csn.csnId};${csnTerminology.title}" argumentSeparator=";" />
 		</c:if>
 		</h1>
 
 		<div id="content">
 			<ul class="sub-nav">
+				<li><a class="csn-back" href="<c:url value="/admin/csn/edit/${model.csn.id}"  />">&laquo; <spring:message code="csn.terminology.back" /></a></li>
 				<li><a href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
-				<li><a <c:if test="${id == 0}"> class="active"</c:if> href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+				<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+				<li><a href="<c:url value="/admin/csn/${model.csn.id}/terminology/edit/0"  />"><spring:message code="csn.terminology.add" /></a></li>
 			</ul>
 		
 			<c:if test="${not empty csnTerminology.createdBy}">
@@ -77,13 +79,13 @@
 				</table>
 			</c:if>
 			
-			<c:url value="/admin/csn/edit/${model.csn.id}/terminology/edit/${id}" var="formUrl"/>					
+			<c:url value="/admin/csn/${model.csn.id}/terminology/edit/${id}" var="formUrl"/>					
 			<form:form  modelAttribute="csnTerminology" method="post" cssStyle="valid"  action="${formUrl}">
 				
 				<div id="ajax-result"></div>
 				
 				<c:if test="${not empty successCreate}">
-					<p class="msg ok"><spring:message code="success.create" /></p>
+					<p class="msg ok"><spring:message code="csn.terminology.created" /></p>
 				</c:if>
 				
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
@@ -110,15 +112,25 @@
 				 	</label>
 				     <span class="field">  
 				     	<select name="language">
+				     		<c:if test="${id == 0}">
 				     		<option value="0">
 				     			<spring:message code="form.select" />
 				     		</option>
+				     		</c:if>
 				     		<c:forEach items="${model.csnTerminologyLanguage}" var="i">
-				     			<option value="${i.code}"><c:if test="${i.code == csnTerminology.language.code}"> selected="selected"</c:if>
+				     			<option value="${i.code}" <c:if test="${i.code == csnTerminology.language.code}"> selected="selected"</c:if>>
 				     				<spring:message code="${i.name}" />
 				     			</option>
 				     		</c:forEach>
 				     	</select>
+				     </span>
+				 </p>
+				 <p>
+				    <label >
+				 		<spring:message code="cns.terminology.section" />:
+				 	</label>
+				     <span class="field">  
+				     	<form:input path="section" maxlength="25"/>
 				     </span>
 				 </p>
 				 <p class="form-head"><spring:message code="csn.terminology.head.content" /><p>
@@ -127,8 +139,15 @@
                	</p>
 				
                 <form:hidden path="id"/>
-                <p class="button-box">
-                	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+                <input type="hidden" name="csn" value="${csnTerminology.csn.id}" />
+                <p class="button-box modern">
+                	 <c:if test="${id == 0}">
+                	 	<input type="submit" class="button" value="<spring:message code="csn.terminology.form.add" />" />
+                	 </c:if>
+                	 <c:if test="${id != 0}">
+                	 	<input type="submit" class="button ajaxSave" value="<spring:message code="form.save" />" />
+                	 </c:if>
+                	 
                 </p>
 			</form:form>
 			

@@ -33,6 +33,8 @@ public class CsnTerminology extends AbstractEntity {
 	
 	private String title;
 	
+	private String section;
+	
 	private String content;
 
 	
@@ -89,6 +91,15 @@ public class CsnTerminology extends AbstractEntity {
 
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	
+	@Column(length = 25)
+	public String getSection() {
+		return section;
+	}
+
+	public void setSection(String section) {
+		this.section = section;
 	}
 	
 	

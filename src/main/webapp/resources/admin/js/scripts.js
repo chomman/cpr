@@ -114,7 +114,15 @@ $(function() {
             duration: "fast"
         }});
 
-    
+     $('input.csnOnlineReplace').on("paste keyup", function(){
+    	var val = $(this).val();
+    	if(val.length > 0 ){
+    		var regex = new RegExp(/.*\k=\d/gi);
+    		if (val.match(regex) ){
+    			$(this).val(val.substring(val.indexOf('?k=')+3));
+    		} 
+    	}
+     });
      
      $('.confirm').on('click', function () {
          return confirm('Opravdu chcete odstranit tuto položku?');

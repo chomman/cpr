@@ -46,6 +46,8 @@ public class Csn extends AbstractEntity {
 	
 	private String htmlContent;
 	
+	private String csnOnlineId;
+	
 	private Set<CsnTerminology> terminologies;
 	
 	public Csn(){
@@ -153,9 +155,14 @@ public class Csn extends AbstractEntity {
 		this.terminologies = terminologies;
 	}
 	
-	
-	
-	
-	
+	@Column(name = "csnonline_id", length = 10)
+	public String getCsnOnlineId() {
+		return csnOnlineId;
+	}
+
+	public void setCsnOnlineId(String csnOnlineId) {
+		this.csnOnlineId = csnOnlineId;
+	}
+		
 	
 }

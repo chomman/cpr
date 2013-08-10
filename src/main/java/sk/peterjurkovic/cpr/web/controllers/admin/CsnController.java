@@ -139,6 +139,7 @@ public class CsnController extends SupportAdminController {
 		csn.setIcs(form.getIcs());
 		csn.setCsnCategory(form.getCsnCategory());
 		csn.setPublished(form.getPublished());
+		csn.setCsnOnlineId(form.getCsnOnlineId());
 		csnService.saveOrUpdate(csn);
 	}
 	

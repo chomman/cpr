@@ -11,6 +11,7 @@ import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 /**
@@ -56,7 +57,7 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 	}
 	
 	@Override
-	public void saveOrUpdate(CsnTerminology csnTerminology){
+	public Long saveOrUpdate(CsnTerminology csnTerminology){
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		if(csnTerminology.getId() == null){
 			csnTerminology.setCreatedBy(user);
@@ -67,6 +68,13 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 			csnTerminology.setChanged(new DateTime());
 			csnTerminologyDao.update(csnTerminology);
 		}
+		return csnTerminology.getId();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isTitleUniqe(Long csnId, Long terminologyId, String title) {
+		return csnTerminologyDao.isTitleUniqe(csnId, terminologyId, CodeUtils.toSeoUrl(title));
 	}
 
 }

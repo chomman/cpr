@@ -282,7 +282,7 @@ select.smaller{font-size:12px;}
 select.smaller option{padding:5px 10px;}
 .button-box{padding:10px 20px 10px 240px}
 .button{background: #FB9337;border: 1px solid #F0882C;color: #FFFFFF;cursor: pointer;font-weight: bold; padding: 7px 20px;font-size:12px;}
-.button:hover{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
+.button:hover,.button-box .button:hover"{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
 .norminfo{font-size:12px;margin-left:20px;color:#555}
 textarea#header, .dscrbox{width:600px;height:100px;}
 #title{width:600px;}
@@ -359,3 +359,6 @@ table .center-val{ text-align:center;display:block;}
 #terminology{border-left:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;}
 #terminology .search-box{margin:0}
 #terminology .search-box input{width:500px;padding:10px 5px;}
+a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
+.button-box.modern{padding:15px;}
+.button-box .button{padding:10px;width:120px;font-size:15px;}

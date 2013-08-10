@@ -11,7 +11,6 @@
 			<spring:message code="csn.edit" arguments="${csn.csnId}" />
 		</c:if>
 	</title>
-	<script src="<c:url value="/resources/admin/quicksearch.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -36,7 +35,7 @@
 		<div id="content">
 			<ul class="sub-nav">
 				<li><a href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
-				<li><a <c:if test="${id == 0}"> class="active"</c:if> href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+				<li><a<c:if test="${id == 0}"> class="active"</c:if> href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
 			</ul>
 		
 			<c:if test="${not empty csn.createdBy}">
@@ -79,12 +78,21 @@
                     	<form:input path="csnId" maxlength="50" cssClass="required" />
                     </span>
                 </p>
-                  <p>
+                <p>
                 	<label>
                 		<spring:message code="csn.form.published" />:
                 	</label>
                     <span class="field">
-                    	<input type="text" class="date" id="published" maxlength="10" />
+                    	<form:input path="published" maxlength="4" />
+                    </span>
+                </p>
+                
+                <p>
+                	<label>
+                		<spring:message code="cpr.csn.onlineid" />:
+                	</label>
+                    <span class="field">
+                    	<form:input path="csnOnlineId" cssClass="csnOnlineReplace" />
                     </span>
                 </p>
                 
@@ -96,7 +104,7 @@
 				 		</strong>
 				 	</label>
 				     <span class="field">  
-				     	<form:input  htmlEscape="true" path="czechName"  cssClass="mw500 required"  />
+				     	<form:input  htmlEscape="true" path="czechName"  cssClass="mw500 required" maxlength="255" />
 				     </span>
 				 </p>
 				 <p>
@@ -104,7 +112,7 @@
 				 		<spring:message code="csn.form.englishName" />:
 				 	</label>
 				     <span class="field">  
-				     	<form:input  htmlEscape="true" path="englishName"  />
+				     	<form:input  htmlEscape="true" path="englishName"  maxlength="255"  />
 				     </span>
 				 </p>
 
@@ -125,7 +133,7 @@
                 		<spring:message code="csn.form.symbol" />:
                 	</label>
                    <span class="field">
-                    	<form:input  htmlEscape="true" path="classificationSymbol" maxlength="10" />
+                    	<form:input  htmlEscape="true" path="classificationSymbol" maxlength="10"  />
                     </span>
                 </p>
 				 <p>
@@ -133,7 +141,7 @@
                 		<spring:message code="csn.form.isc" />:
                 	</label>
                    <span class="field">
-                    	<form:input  htmlEscape="true" path="ics" maxlength="255 mw500" />
+                    	<form:input  htmlEscape="true" path="ics" class="mw500"  maxlength="255" />
                     </span>
                 </p>
                
@@ -144,60 +152,61 @@
                 </p>
 			</form:form>
 			<span class="note"><spring:message code="form.required" /></span>
-			
-			
-			<div id="terminology">
-				
-							
-				<p class="form-head"><spring:message code="csn.terminology" arguments="${csn.csnId}" /><p>
-				
-				<div class="search-box" >
+
+
+				<c:if test="${not empty id  and id != 0}">
+				<div id="terminology">			
+					<p class="form-head"><spring:message code="csn.terminology" arguments="${csn.csnId}" /><p>
 					
-					<a class="add radius" title="<spring:message code="csn.terminology.add" />" href="<c:url value="/admin/csn/${id}/terminology/edit/0" />">
-						<spring:message code="csn.terminology.add" />
-					</a>
-					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
-					<input id="quick-search" type="text" />
+					<div class="search-box" >
+						
+						<a class="add radius" title="<spring:message code="csn.terminology.add" />" href="<c:url value="/admin/csn/${id}/terminology/edit/0" />">
+							<spring:message code="csn.terminology.add" />
+						</a>
+						<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
+						<input id="quick-search" type="text" />
+					</div>
+						<table class="data csn">
+						<thead>
+							<tr>
+								<tH><spring:message code="csn.terminology.title" /></th>
+								<th><spring:message code="csn.terminology.lang" /></th>
+								<th><spring:message code="changed" /></th>
+								<th><spring:message code="form.edit" /></th>
+								<th><spring:message code="form.delete" /></th>
+							</tr>
+						</thead>
+						<tbody>
+								 <c:forEach items="${csn.terminologies}" var="i">
+								 	<tr>
+								 		<td>${i.title}</td>
+								 		<td><spring:message code="${i.language.name}" /> </td>
+								 		<td class="last-edit">
+								 			<c:if test="${empty i.changedBy}">
+								 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
+								 			</c:if>
+								 			<c:if test="${not empty i.changedBy}">
+								 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
+								 			</c:if>
+								 		</td>
+								 		<td class="edit">
+								 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/csn/${id}/terminology/edit/${i.id}"  />">
+								 				<spring:message code="form.edit" />
+								 			</a>
+								 		</td>
+								 		<td class="delete">
+								 			<a class="confirm"  href="<c:url value="/admin/csn/${id}/terminology/delete/${i.id}"  />">
+								 				<spring:message code="form.delete" />
+								 			</a>
+								 		</td>
+								 	</tr>
+								 </c:forEach>
+						</tbody>
+					</table>
 				</div>
-				
-				<table class="data csn">
-					<thead>
-						<tr>
-							<tH><spring:message code="csn.terminology.title" /></th>
-							<th><spring:message code="csn.terminology.lang" /></th>
-							<th><spring:message code="changed" /></th>
-							<th><spring:message code="form.edit" /></th>
-							<th><spring:message code="form.delete" /></th>
-						</tr>
-					</thead>
-					<tbody>
-							 <c:forEach items="${csn.terminologies}" var="i">
-							 	<tr>
-							 		<td>${i.title}</td>
-							 		<td><spring:message code="${i.language.name}" /> </td>
-							 		<td class="last-edit">
-							 			<c:if test="${empty i.changedBy}">
-							 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
-							 			</c:if>
-							 			<c:if test="${not empty i.changedBy}">
-							 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
-							 			</c:if>
-							 		</td>
-							 		<td class="edit">
-							 			<a class="tt" title="Zobrazit a upraviť položku?" href="<c:url value="/admin/csn/${id}/terminology/edit/${i.id}"  />">
-							 				<spring:message code="form.edit" />
-							 			</a>
-							 		</td>
-							 		<td class="delete">
-							 			<a class="confirm"  href="<c:url value="/admin/csn/${id}/terminology/delete/${i.id}"  />">
-							 				<spring:message code="form.delete" />
-							 			</a>
-							 		</td>
-							 	</tr>
-							 </c:forEach>
-					</tbody>
-				</table>
-			</div>
+			
+			</c:if>
+			
 		</div>	
 	</div>
 	<div class="clear"></div>	

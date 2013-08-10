@@ -226,7 +226,7 @@ nav{background:#8b8a8a url(../img/nav-bg.png) repeat-x;height:50px;padding-botto
 nav ul{list-style:none;padding:0 60px;background:url(../img/nav-bg2.png);}
 nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;}
 nav ul li:last-child{background:none;}
-nav ul li a{display:block;text-decoration:none;float:left;height:15px;padding:17px 15px;color:#fff;text-transform:uppercase;font-size:13px;margin:0 5 0 0px;}
+nav ul li a{display:block;text-decoration:none;float:left;height:15px;padding:17px 10px;color:#fff;text-transform:uppercase;font-size:13px;margin:0;}
 nav ul li a:hover, nav .curr,#dop-menu a:hover{background:#8b8a8a url(../img/nav-bg-hover.png);}
 
 

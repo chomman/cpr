@@ -24,14 +24,23 @@ public class CsnValidator {
 	public void validate(BindingResult result, Csn form){
 		
 		if(StringUtils.isBlank(form.getCsnId())){
-			result.rejectValue("csnId", "csn.error.blank");
+			result.rejectValue("csnId", "csn.error.csnId.blank");
 		}else if(!csnService.isCsnIdUniqe(form.getId(), form.getCsnId())){
 			result.rejectValue("csnId", "csn.error.csnId.uniqe" ,new Object[] {form.getCsnId() } , "");
+		}else if(form.getCsnId().length() > 50){
+			result.rejectValue("csnId", "csn.error.csnId.length");
+		}
+		
+		if(StringUtils.isNotBlank(form.getPublished()) &&  !form.getPublished().matches("\\d{4}")){
+			result.rejectValue("published", "csn.error.published");
+		}
+		
+		if(StringUtils.isNotBlank(form.getCsnOnlineId()) &&  !form.getCsnOnlineId().matches("\\d{1,10}")){
+			result.rejectValue("csnOnlineId", "csn.error.csnOnlineId");
 		}
 		
 		if(StringUtils.isBlank(form.getCzechName())){
-			result.rejectValue("csnId", "csn.error.czechName");
-
+			result.rejectValue("czechName", "csn.error.czechName");
 		}
 		
 		

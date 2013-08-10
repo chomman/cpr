@@ -20,6 +20,8 @@ public interface CsnTerminologyService {
 	
 	CsnTerminology getByCode(String code);
 	
-	void saveOrUpdate(CsnTerminology csnTerminology);
+	Long saveOrUpdate(CsnTerminology csnTerminology);
+	
+	boolean isTitleUniqe(Long csnId, Long terminologyId, String title);
 	
 }

@@ -48,8 +48,8 @@
 							<th><spring:message code="csn.form.published" /></th>
 							<th><spring:message code="csn.form.czechName" /></th>
 							<th><spring:message code="csn.form.category" /></th>
-							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="published" /></th>
+							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
 						</tr>
