@@ -1,5 +1,8 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -75,6 +78,17 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 	@Transactional(readOnly = true)
 	public boolean isTitleUniqe(Long csnId, Long terminologyId, String title) {
 		return csnTerminologyDao.isTitleUniqe(csnId, terminologyId, CodeUtils.toSeoUrl(title));
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CsnTerminology> searchInTerminology(String term) {
+		List<CsnTerminology> result = csnTerminologyDao.searchInTerminology(term);
+		if(result == null){
+			result = new ArrayList<CsnTerminology>();
+		}
+		
+		return result;
 	}
 
 }

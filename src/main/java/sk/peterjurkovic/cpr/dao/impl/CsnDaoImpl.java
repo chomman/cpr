@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -28,6 +30,18 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		}
 		result = (Long)query.uniqueResult();
 		return (result == 0);
+	}
+
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Csn> getCsnByTerminology(String terminologyTitle) {
+		StringBuilder hql = new StringBuilder("select t from CsnTerminology t ");
+		hql.append(" where t.csn.enabled=true and t.title like CONCAT('%', :terminologyTitle , '%')");
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setParameter("terminologyTitle", terminologyTitle);
+		query.setMaxResults(50);
+		return query.list();
 	}
 	
 	

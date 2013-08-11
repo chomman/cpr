@@ -91,4 +91,12 @@ public class CsnServiceImpl implements CsnService{
 		return csnDao.isCsnIdUniqe(id, csnId);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Csn> getCsnByTerminology(String terminologyTitle) {
+		return csnDao.getCsnByTerminology(terminologyTitle);
+	}
+
+	
+
 }

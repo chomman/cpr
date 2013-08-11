@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.services;
 
+import java.util.List;
+
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 
 /**
@@ -23,5 +25,7 @@ public interface CsnTerminologyService {
 	Long saveOrUpdate(CsnTerminology csnTerminology);
 	
 	boolean isTitleUniqe(Long csnId, Long terminologyId, String title);
+	
+	List<CsnTerminology> searchInTerminology(String term);
 	
 }
