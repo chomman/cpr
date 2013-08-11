@@ -57,7 +57,7 @@
 						 	<tr>
 						 		<td class="c">${i.section}</td>
 						 		<td>
-						 		   <a class="b tt" href="<c:url value="/terminology/detail/${i.id}" />" 
+						 		   <a class="b tt" href="<c:url value="${model.webpage.code}/${i.id}" />" 
 						 		   	title='<spring:message code="csn.terminology.show" arguments="${i.title}" />' >
 						 				${i.title}
 						 			</a>	

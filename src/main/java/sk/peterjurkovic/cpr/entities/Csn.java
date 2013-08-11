@@ -14,6 +14,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -147,6 +148,7 @@ public class Csn extends AbstractEntity {
 	}
 
 	@OneToMany(mappedBy = "csn", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OrderBy("section, title")
 	public Set<CsnTerminology> getTerminologies() {
 		return terminologies;
 	}

@@ -10,6 +10,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -56,11 +57,27 @@ public class PublicCsnTerminologyController {
 			model.put("query", query);
 		}
 		
-		
-		model.put("subtab", webpage.getId());
 		modelMap.put("model", model);
 		return "/public/csn/terminology-search";
 	}
+	
+	
+	@RequestMapping(PUBLIC_CSN_TERMINOLOGY_URL+ "/{id}")
+	public String showTerminologyDetial(ModelMap modelMap, @PathVariable Long id) throws PageNotFoundEception{
+		
+		Webpage webpage = webpageService.getWebpageByCode(PUBLIC_CSN_TERMINOLOGY_URL);
+		CsnTerminology termonology = csnTerminologyService.getById(id);
+		if(webpage == null || !webpage.getEnabled() || termonology == null || !termonology.getEnabled()){
+			throw new PageNotFoundEception();
+		}
+		Map<String, Object> model = prepareBaseModel(webpage);
+		model.put("subtab", webpage.getId());
+		model.put("terminology", termonology);
+		modelMap.put("model", model);
+		return "/public/csn/terminology-detail";
+	}
+	
+	
 	
 	@RequestMapping(value = "/terminology/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<CsnTerminology>  searchTerminology(@RequestBody @RequestParam("term") String query){
