@@ -14,6 +14,7 @@ bin/*
 .springBeans
 .git/*
 *CVS*
-src/production/config/*
+/src/production/config/*
+src/production/config/config.properties
 /target
 .externalToolBuilders/*
