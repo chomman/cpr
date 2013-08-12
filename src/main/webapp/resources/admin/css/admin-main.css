@@ -213,6 +213,7 @@ nav .cal{background-image: url(../img/menu-cal.png);}
 nav .user{background-image: url(../img/menu-user.png);}
 nav .sett{background-image: url(../img/menu-sett.png);min-width:100px;}
 nav .web{background-image: url(../img/menu-web.png)}
+nav .csn{background-image: url(../img/menu-csn.png)}
 
 #breadcrumb{background:#f7f7f7;padding:10px 0 10px 25px;border:1px solid #ddd;font-size:12px;}
 #breadcrumb a,#breadcrumb span{margin:0 10px;}

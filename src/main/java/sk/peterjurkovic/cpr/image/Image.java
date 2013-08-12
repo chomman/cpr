@@ -7,22 +7,16 @@ import java.awt.image.BufferedImage;
 import java.awt.image.ConvolveOp;
 import java.awt.image.Kernel;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Arrays;
 
 import javax.imageio.ImageIO;
-
+import sk.peterjurkovic.cpr.image.ImageType;
 import org.apache.commons.io.output.ByteArrayOutputStream;
-
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import com.mortennobel.imagescaling.AdvancedResizeOp;
 import com.mortennobel.imagescaling.MultiStepRescaleOp;
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGEncodeParam;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
  * This is a utility class for performing basic functions on an image,
@@ -184,7 +178,7 @@ public class Image {
      * @param softenFactor Strength of softening. 0.08 is a good value
      * @return New Image object post-softening, unless softenFactor == 0, in which 
      * case the same object is returned
-     * @throws NotImplementedException Not implemented in this class
+     * 
      */
     public Image soften(float softenFactor) {
         if (softenFactor == 0f)
@@ -280,6 +274,7 @@ public class Image {
      * @param quality The image quality
      * @throws IOException
      */
+    /*
     public void writeToJPG(File file, float quality) throws IOException {
         FileOutputStream out = new FileOutputStream(file);
 
@@ -293,7 +288,7 @@ public class Image {
         encoder.setJPEGEncodeParam(param);
         encoder.encode(img);
     }
-
+	*/
     /**
      * Free up resources associated with this image
      */

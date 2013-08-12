@@ -103,6 +103,12 @@ public class FileServiceImpl implements FileService {
 	    String filename = CodeUtils.generateProperFilename(originalFilename);
 	    String path = fileSaveDir + File.separatorChar + intoDir + File.separatorChar + filename;
 	    try {
+	    	File dir = new File(fileSaveDir + File.separatorChar + intoDir);
+	    	
+	    	if(!dir.exists()){
+	    		createDirectory(intoDir);
+	    	}
+	    	
 	        File file = new File(path);
 	        if(file.exists()){
 	        	FileUtils.forceDelete(file);

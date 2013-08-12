@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import sk.peterjurkovic.cpr.constants.ImageType;
+import sk.peterjurkovic.cpr.constants.ImageFormat;
 import sk.peterjurkovic.cpr.image.Image;
 import sk.peterjurkovic.cpr.image.ImageLoader;
 import sk.peterjurkovic.cpr.services.FileService;
@@ -45,7 +45,7 @@ public class ImageController {
 	
 
 	
-	@RequestMapping(value = "/image/"+ImageType.IMAGE_NORMAL +"/{dir}/{name:.*}")
+	@RequestMapping(value = "/image/"+ImageFormat.IMAGE_NORMAL +"/{dir}/{name:.*}")
 	public @ResponseBody byte[] showImage(
 			@PathVariable String name, 
 			@PathVariable String dir, 
@@ -72,7 +72,7 @@ public class ImageController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/image/"+ImageType.IMAGE_SQUARE +"/{size}/{dir}/{name:.*}")
+	@RequestMapping(value = "/image/"+ImageFormat.IMAGE_SQUARE +"/{size}/{dir}/{name:.*}")
 	public @ResponseBody byte[] showImage(
 			@PathVariable int size,
 			@PathVariable String name, 
@@ -98,7 +98,7 @@ public class ImageController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/image/"+ImageType.IMAGE_RESIZED +"/{size}/{dir}/{name:.*}")
+	@RequestMapping(value = "/image/"+ImageFormat.IMAGE_RESIZED +"/{size}/{dir}/{name:.*}")
 	public @ResponseBody byte[] getResizedImage(
 			@PathVariable int size,
 			@PathVariable String dir,

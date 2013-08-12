@@ -2,7 +2,6 @@ package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import sk.peterjurkovic.cpr.constants.Constants;
@@ -81,6 +81,10 @@ public class FileManagerController extends SupportAdminController {
 					} catch (IOException e) {
 						logger.warn("Nahravany obrazok: "+ fileName+ " sa neodarilo ulozit: "
 								+ e.getMessage());
+						modelMap.put("hasErrors", true );
+					}catch(MaxUploadSizeExceededException e){
+						logger.warn("Nahravany obrazok: "+ fileName+ " sa neodarilo ulozit: " + e.getMessage());
+						modelMap.put("hasErrors", true );
 					}
 				}
 				

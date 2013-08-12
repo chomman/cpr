@@ -20,7 +20,7 @@
 					language : "cs",
 					height : 500,
 					content_css :  '${cssLoc}',
-					plugins: "image",
+					plugins: "image,link,table",
 					convert_urls: false
 
 			});
