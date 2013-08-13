@@ -356,7 +356,7 @@
 		</dependency>
 		
 		
-		<!-- tika 
+		<!-- tika -->
 		<dependency>
 		    <groupId>org.apache.tika</groupId>
 		    <artifactId>tika-core</artifactId>
@@ -367,7 +367,7 @@
 		    <artifactId>tika-parsers</artifactId>
 		    <version>1.4</version>
 		</dependency>
-  -->
+  
    </dependencies>
    
    <!-- REPORTING  -->

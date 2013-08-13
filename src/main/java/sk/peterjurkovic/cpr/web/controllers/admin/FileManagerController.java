@@ -74,9 +74,11 @@ public class FileManagerController extends SupportAdminController {
 				String fileName = file.getOriginalFilename();
 				if(StringUtils.isBlank(fileName) || !imageValidator.validate(fileName)){
 					modelMap.put("hasErrors", true );
+					
 				}else{
+					InputStream content = null;
 					try {
-						InputStream content = file.getInputStream();
+						content = file.getInputStream();
 						fileService.saveFile(fileName, content, form.getSaveDir());
 					} catch (IOException e) {
 						logger.warn("Nahravany obrazok: "+ fileName+ " sa neodarilo ulozit: "
@@ -85,6 +87,14 @@ public class FileManagerController extends SupportAdminController {
 					}catch(MaxUploadSizeExceededException e){
 						logger.warn("Nahravany obrazok: "+ fileName+ " sa neodarilo ulozit: " + e.getMessage());
 						modelMap.put("hasErrors", true );
+					}finally {
+					    try {
+					    	if(content != null){
+					    		content.close();
+					    	}
+					    } catch (IOException e) {
+					    	logger.warn("Nastala chyba pri zatvaratni streamu subor: "+ fileName+ " - " + e.getMessage());
+					    }
 					}
 				}
 				

@@ -112,7 +112,7 @@
 				 		<spring:message code="csn.form.englishName" />:
 				 	</label>
 				     <span class="field">  
-				     	<form:input  htmlEscape="true" path="englishName"  maxlength="255"  />
+				     	<form:input  htmlEscape="true" path="englishName"  cssClass="mw500" maxlength="255"  />
 				     </span>
 				 </p>
 
@@ -151,10 +151,31 @@
                 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
                 </p>
 			</form:form>
+			
+
 			<span class="note"><spring:message code="form.required" /></span>
+			
+			<c:if test="${not empty id  and id != 0}">
+			
+				<!-- IMPORT -->
+			
+				<c:url value="/admin/csn/import/${id}" var="formUrl"/>					
+				<form:form  modelAttribute="uploadForm" method="post" action="${formUrl}" cssClass="csnFileUpload" enctype="multipart/form-data">
+					<p class="form-head"><spring:message code="csn.terminology.upload" arguments="${csn.csnId}" /><p>
+					 <p>
+						<label>
+							<spring:message code="csn.terminology.upload.selectfile" />:
+						</label>
+						<span class="field">
+							<input type="file" name="fileData" />
+							<input type="submit" class="button radius" value="<spring:message code="form.file.upload"  /> &raquo;" />
+						</span>	
+               		</p>
+			
+				</form:form>
 
-
-				<c:if test="${not empty id  and id != 0}">
+				<!-- CSN TERMINOLOGY -->
+				
 				<div id="terminology">			
 					<p class="form-head"><spring:message code="csn.terminology" arguments="${csn.csnId}" /><p>
 					
@@ -179,8 +200,14 @@
 						<tbody>
 								 <c:forEach items="${csn.terminologies}" var="i">
 								 	<tr>
-								 		<td>${i.title}</td>
-								 		<td><spring:message code="${i.language.name}" /> </td>
+								 		<td>
+								 			<a href="<c:url value="/admin/csn/${id}/terminology/edit/${i.id}"  />">
+							 				${i.section} ${i.title} 
+							 			</a>
+								 		</td>
+								 		<td>
+								 			<spring:message code="${i.language.name}" /> 
+								 		</td>
 								 		<td class="last-edit">
 								 			<c:if test="${empty i.changedBy}">
 								 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>

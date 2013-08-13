@@ -8,19 +8,7 @@
             <param name="ConversionPattern" value="%-5p %d{yyyy-MM-dd HH:mm:ss} %C{1}:%M(line %L) - %m%n"/>
         </layout>
     </appender> 
-    
-
-    <appender  name="fileAppender" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="/home/peto/tmp/cpr.log" />
-        <param name="MaxFileSize" value="10000KB" />
-        <param name="MaxBackupIndex" value="100" />
-        <param name="Threshold" value="INFO" />
-        <layout class="org.apache.log4j.PatternLayout">
-            <param name="ConversionPattern" value="%-5p %d{yyyy-MM-dd HH:mm:ss} %C{1}:%M(line %L) - %m%n"/>
-        </layout>
-    </appender> 
-    
-   
+       
     
     <root>
         <priority value="info"></priority>   

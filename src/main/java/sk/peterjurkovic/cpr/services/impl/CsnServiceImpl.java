@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.CsnDao;
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
+import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 
@@ -98,5 +101,16 @@ public class CsnServiceImpl implements CsnService{
 	}
 
 	
-
+	@Override
+	@Transactional(readOnly =  true )
+	public PageDto getCsnPage(int pageNumber,Map<String, Object> criteria) {
+		return csnDao.getCsnPage(pageNumber, validateCriteria(criteria));
+	}
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
+		}
+		return criteria;
+	}
 }

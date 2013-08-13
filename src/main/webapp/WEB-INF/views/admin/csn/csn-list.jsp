@@ -27,6 +27,37 @@
 				<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
 			</ul>
 			
+			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
+				<div>
+					<span class="long"><spring:message code="form.orderby" />:</span>
+					<select name="orderBy">
+						<c:forEach items="${model.orders}" var="i">
+							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
+						</c:forEach>
+					</select>
+					<span><spring:message code="cpr.standard.added" /></span>
+					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
+					<span>do:</span>
+					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
+					
+				</div>
+				<div>
+					<span class="long"><spring:message code="form.groups" />:</span>
+					<select name="groupId" class="groups">
+						<option value="0"><spring:message code="cpr.groups.all" /></option>
+						<c:forEach items="${model.groups}" var="group">
+							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.groupName}</option>
+						</c:forEach> 
+					</select>
+				</div>
+				<div>
+					<span class="long"><spring:message code="form.name" /></span>
+					<input type="text" class="query" name="query"   value="${model.params.query}" />
+					
+					<input type="submit" value="Filtrovat" class="btn" />
+				</div>
+			</form>
+			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>
 			</c:if>
@@ -36,10 +67,19 @@
 				
 			<c:if test="${not empty model.csns}">
 				
-				<div class="search-box" >
-					<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
-					<input id="quick-search" type="text" />
-				</div>
+				<!-- STRANKOVANIE -->
+				<c:if test="${not empty model.paginationLinks}" >
+					<div class="pagination">
+					<c:forEach items="${model.paginationLinks}" var="i">
+						<c:if test="${not empty i.url}">
+							<a href="<c:url value="${i.url}"  />">${i.anchor}</a>
+						</c:if>
+						<c:if test="${empty i.url}">
+							<span>${i.anchor}</span>
+						</c:if>
+					</c:forEach>
+					</div>
+				</c:if>				
 			
 				<table class="data">
 					<thead>
