@@ -40,7 +40,7 @@
 		  	<value>sk.peterjurkovic.cpr.entities.Mandate</value>
 		  	<value>sk.peterjurkovic.cpr.entities.NotifiedBody</value>
 		  	<value>sk.peterjurkovic.cpr.entities.Standard</value>
-		  	<value>sk.peterjurkovic.cpr.entities.Csn</value>
+		  	<value>sk.peterjurkovic.cpr.entities.StandardCsn</value>
 		  	<value>sk.peterjurkovic.cpr.entities.StandardGroup</value>
 		  	<value>sk.peterjurkovic.cpr.entities.BasicRequirement</value>
 			<value>sk.peterjurkovic.cpr.entities.Requirement</value>
@@ -53,6 +53,9 @@
 			<value>sk.peterjurkovic.cpr.entities.DeclarationOfPerformance</value>
 			<value>sk.peterjurkovic.cpr.entities.EssentialCharacteristic</value>
 			<value>sk.peterjurkovic.cpr.entities.ExceptionLog</value>
+			<value>sk.peterjurkovic.cpr.entities.Csn</value>
+			<value>sk.peterjurkovic.cpr.entities.CsnCategory</value>
+			<value>sk.peterjurkovic.cpr.entities.CsnTerminology</value>
        </list>
        </property>
        <property name="hibernateProperties">
@@ -83,7 +86,7 @@
 
     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 	    <property name="driverClassName" value="com.mysql.jdbc.Driver" />
-	    <property name="url" value="jdbc:mysql://localhost:3306/cpr-test?useEncoding=true&amp;characterEncoding=UTF-8" />
+	    <property name="url" value="jdbc:mysql://localhost:3306/cpr?useEncoding=true&amp;characterEncoding=UTF-8" />
 	    <property name="username" value="root" />
 	    <property name="password" value="" />
 	</bean>
@@ -109,8 +112,18 @@
 <!-- 
    <tx:annotation-driven transaction-manager="transactionManagerBean"/>
  -->
-    <context:component-scan base-package="sk.peterjurkovic.cpr.dao">
+
+    <context:component-scan base-package="sk.peterjurkovic.cpr.dao" >
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
+    
+      <context:component-scan base-package="sk.peterjurkovic.cpr.parser">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan> 
+    
+     <context:component-scan base-package="sk.peterjurkovic.cpr.service" >
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>
+    
 </beans>
 

@@ -14,12 +14,6 @@
         <priority value="info"></priority>   
         <appender-ref ref="baseAppender"></appender-ref>
     </root>
-   
-   	<!-- Application Loggers -->
-	<logger name="sk.peterjurkovic.cpr">
-		<level value="info" />
-		<appender-ref ref="baseAppender"></appender-ref>
-	</logger>
 		
 	<!-- 3rdparty Loggers -->
 	<logger name="org.springframework">

@@ -146,8 +146,13 @@ public class CsnController extends SupportAdminController {
 			}
 		MultipartFile file = uploadForm.getFileData();
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
+			long start = System.currentTimeMillis();
 			try{
-				long start = System.currentTimeMillis();
+				
+				wordDocumentParser.parse(file.getInputStream());
+				
+				/*
+				
 				Parser parser = new AutoDetectParser();
 				InputStream content = file.getInputStream();
 				BodyContentHandler handler = new BodyContentHandler();
@@ -164,6 +169,7 @@ public class CsnController extends SupportAdminController {
 				} catch (SAXException | TikaException e) {
 					logger.warn(e.getMessage());
 				}
+			*/
 			} catch (IOException e) {
 				logger.warn("Nahravany obrazok: "+ file.getOriginalFilename()+ " sa neodarilo ulozit: "
 						+ e.getMessage());
@@ -172,6 +178,9 @@ public class CsnController extends SupportAdminController {
 				logger.warn("Nahravany obrazok: "+ file.getOriginalFilename()+ " sa neodarilo ulozit: " + e.getMessage());
 				modelMap.put("hasErrors", true );
 			}
+			logger.info(String.format(
+                    "------------ Processing took %s millis\n\n",
+                    System.currentTimeMillis() - start));
 		}
 		prepareModel(csn, modelMap, idCsn);
 		return getEditFormView();
