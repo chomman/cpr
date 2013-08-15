@@ -85,8 +85,8 @@ public class FileServiceImpl implements FileService {
 	
 	@Override
 	public String saveFile(final String originalFileName, InputStream image, final String intoDir) {
-	    Validate.notNull(originalFileName);
-	    Validate.notNull(image);
+	    //Validate.notNull(originalFileName);
+	    //Validate.notNull(image);
 	    try {
 	        byte[] data = new byte[image.available()];
 	        image.read(data);

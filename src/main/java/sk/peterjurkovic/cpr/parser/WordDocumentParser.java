@@ -41,12 +41,15 @@ public class WordDocumentParser  {
 	       }
 	    	
 	    	logger.info("MetaData content: " + metadata.get(Metadata.CONTENT_TYPE));
-	    
+	    	
+	    	
 	       // As a string
 	       String html = cleanHtml(sw.toString());
-	      // html = removeHeader(html);
-	      // html = removeFirstTable(html);
+	       html = removeHeader(html);
 	       html = removeFooter(html);
+	      // html = removeFirstTable(html);
+	       
+	      
 	     
 	       logger.warn("CLEANED OUTPUT: \n" + html);  
 	       return html;
@@ -79,6 +82,7 @@ public class WordDocumentParser  {
 	       );
 	       
 	       contentHandler = new BodyContentHandler(contentHandler);
+
 	       // All done
 	       return contentHandler;
 	}
@@ -97,7 +101,7 @@ public class WordDocumentParser  {
 	
 	
 	private String removeHeader(String html){
-		return html.replaceAll("<div class=\"header\" \b[^>]*>(.*?)</div>", "");
+		return html.substring( html.indexOf("</div>")+6, html.length()  );
 	}
 	
 	private String removeFooter(String html){
@@ -107,6 +111,11 @@ public class WordDocumentParser  {
 	
 	private String removeFirstTable(String html){
 		return html.substring(0, html.indexOf("</table>"));
+	}
+	
+	
+	private void sprlit(String html){
+		String[] terminology = html.split("(?<=[<p>\\s<b>\\s\\d\\.\\s)");
 	}
 	
 	
