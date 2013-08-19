@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.parser;
 
+import org.apache.log4j.Logger;
 import org.apache.tika.sax.ContentHandlerDecorator;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -10,6 +11,8 @@ public class TikaImageRewritingContentHandler extends ContentHandlerDecorator {
 	 
 	private String imageFolder;
     private String imagePrefix;
+    
+    Logger logger =  Logger.getLogger(getClass());
      
     public TikaImageRewritingContentHandler(ContentHandler handler, String imageFolder, String imagePrefix) {
         super(handler);
@@ -45,7 +48,6 @@ public class TikaImageRewritingContentHandler extends ContentHandlerDecorator {
            }
            super.startElement(uri, localName, qName, attrs);
         } else {
-           // For any other tag, pass through as-is
            super.startElement(uri, localName, qName, origAttrs);
         }
      }

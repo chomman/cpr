@@ -1,7 +1,6 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,12 +10,6 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.apache.tika.exception.TikaException;
-import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.AutoDetectParser;
-import org.apache.tika.parser.ParseContext;
-import org.apache.tika.parser.Parser;
-import org.apache.tika.sax.BodyContentHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -29,13 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
-import org.xml.sax.SAXException;
 
 import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
+import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.parser.TikaProcessContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
@@ -99,6 +93,7 @@ public class CsnController extends SupportAdminController {
 		}
 		model.put("tab", TAB_INDEX);
 		model.put("params", params);
+		model.put("order", CsnOrderBy.getAll());
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}
@@ -137,50 +132,31 @@ public class CsnController extends SupportAdminController {
 			@ModelAttribute(IMPORT_MODEL_ATTR) FileUploadItemDto uploadForm,
 			BindingResult result,
 			@PathVariable Long idCsn, 
-			ModelMap modelMap
+			ModelMap modelMap,
+			HttpServletRequest request
 			) throws ItemNotFoundException{
 		
-		 Csn csn = csnService.getById(idCsn);
-			if(uploadForm == null){
-				createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
-			}
+		Csn csn = csnService.getById(idCsn);
+		if(uploadForm == null){
+			createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
+		}
 		MultipartFile file = uploadForm.getFileData();
+		logger.info(String.format("ZACIATOK IMPORTU:  %s", file.getOriginalFilename() ));
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
 			long start = System.currentTimeMillis();
 			try{
 				
-				wordDocumentParser.parse(file.getInputStream());
+				TikaProcessContext tikaProcessContext = new TikaProcessContext();
+				tikaProcessContext.setCsnId(csn.getId());
+				tikaProcessContext.setContextPath(request.getContextPath());
+				wordDocumentParser.parse(file.getInputStream(), tikaProcessContext);
 				
-				/*
-				
-				Parser parser = new AutoDetectParser();
-				InputStream content = file.getInputStream();
-				BodyContentHandler handler = new BodyContentHandler();
-		        Metadata metadata = new Metadata();
-				try {
-					parser.parse(content, handler, metadata, new ParseContext());
-					 for (String name : metadata.names()) {
-	                        logger.info(name + ":\t" + metadata.get(name));
-	                }
-					logger.info(handler.toString());
-					 logger.info(String.format(
-                             "------------ Processing took %s millis\n\n",
-                             System.currentTimeMillis() - start));
-				} catch (SAXException | TikaException e) {
-					logger.warn(e.getMessage());
-				}
-			*/
-			} catch (IOException e) {
-				logger.warn("Nahravany obrazok: "+ file.getOriginalFilename()+ " sa neodarilo ulozit: "
-						+ e.getMessage());
-				modelMap.put("hasErrors", true );
-			}catch(MaxUploadSizeExceededException e){
-				logger.warn("Nahravany obrazok: "+ file.getOriginalFilename()+ " sa neodarilo ulozit: " + e.getMessage());
+			} catch (IOException | MaxUploadSizeExceededException e) {
+				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));
 				modelMap.put("hasErrors", true );
 			}
-			logger.info(String.format(
-                    "------------ Processing took %s millis\n\n",
-                    System.currentTimeMillis() - start));
+			long end = System.currentTimeMillis() - start;
+			logger.info(String.format("KONIEC IMPORTU, proces trval %s ms", end));
 		}
 		prepareModel(csn, modelMap, idCsn);
 		return getEditFormView();

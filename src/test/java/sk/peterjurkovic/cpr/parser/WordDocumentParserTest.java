@@ -22,9 +22,9 @@ public class WordDocumentParserTest extends AbstractTest {
 	public void testParsing(){
 		long start = System.currentTimeMillis();
 		try{
-		
-			InputStream is =  new FileInputStream("/home/peto/tmp/cpr/csn-3/b631001.doc");
-			String html = wordDocumentParser.parse(is);
+			TikaProcessContext context = new TikaProcessContext();
+			InputStream is =  new FileInputStream("/home/peto/tmp/cpr/csn-3/6927.doc");
+			String html = wordDocumentParser.parse(is, context);
 			
 			
 			Assert.assertTrue(html.contains("<h1 class=\"footer\">"));

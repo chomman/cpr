@@ -125,5 +125,7 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>
     
+     <bean id="fileService" class="sk.peterjurkovic.cpr.services.impl.FileServiceImpl" />
+    
 </beans>
 

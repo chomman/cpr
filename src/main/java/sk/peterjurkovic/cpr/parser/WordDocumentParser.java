@@ -10,65 +10,64 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.ContentHandler;
 
-@Component("WordDocumentParser")
+import sk.peterjurkovic.cpr.services.FileService;
+
+@Component("wordDocumentParser")
 public class WordDocumentParser  {
 
 	private Logger logger = Logger.getLogger(getClass());
+	
+	@Autowired
+	private FileService fileService;
 
-	public String parse(InputStream content) {
-
+	public String parse(InputStream content, TikaProcessContext tikaProcessContext) {
+		Validate.notNull(content);
+		Validate.notNull(tikaProcessContext);
 		AutoDetectParser parser = new AutoDetectParser();
 		StringWriter sw = new StringWriter();
-	    ContentHandler handler = buildContentHandler(sw);
+	    ContentHandler handler = buildContentHandler(sw, tikaProcessContext);
 	    Metadata metadata = new Metadata();
 	    ParseContext parseContext = new ParseContext();
-	    parseContext.set(Parser.class, new TikaImageExtractingParser());
-	   // parser.parse(content, handler, metadata, parseContex);
-	    
+	    parseContext.set(Parser.class, new TikaImageExtractingParser(fileService, tikaProcessContext));
+	   
 	    try {
 	    	parser.parse( content, handler, metadata, parseContext );
 	       } catch(Exception e) {
-	    	   logger.warn("Error: " + e.getMessage());  
-	       }
+	    	   logger.warn("Pri spracovavani dokumentu nastala chyba: "+ e.getMessage());  
+	    }
 	    	
-	    	logger.info("MetaData content: " + metadata.get(Metadata.CONTENT_TYPE));
-	    	
-	    	
-	       // As a string
-	       String html = cleanHtml(sw.toString());
-	       html = removeHeader(html);
-	       html = removeFooter(html);
-	      // html = removeFirstTable(html);
-	       
-	      
-	     
-	       logger.warn("CLEANED OUTPUT: \n" + html);  
-	       return html;
+	
+		// As a string
+		String html = cleanHtml(sw.toString());
+	    logger.info("CLEANED OUTPUT: \n" + html);  
+	    return html;
 	}
 	
 	
 	
 	
-	private ContentHandler buildContentHandler(Writer output){
-		// Create the main transformer
+	private ContentHandler buildContentHandler(Writer output, TikaProcessContext tikaProcessContext){
+
+		
 	       SAXTransformerFactory factory = (SAXTransformerFactory)
-	                SAXTransformerFactory.newInstance();
-	       
+	       SAXTransformerFactory.newInstance();
 	       TransformerHandler handler = null;
 	       
 	       try {
 	          handler = factory.newTransformerHandler();
 	       } catch (TransformerConfigurationException e) {
-	    	   logger.warn("SAX Processing isn't available - " + e);
+	    	   logger.warn(String.format("SAX Processing neni dostupny: ", e));
 	       }
 	       
 	       handler.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
@@ -76,9 +75,10 @@ public class WordDocumentParser  {
 	       handler.setResult(new StreamResult(output));
 	       
 	       // Change the image links as they go past
-	       String dirName = "/image/n/csn-3", imgPrefix = "tika_";
 	       ContentHandler contentHandler = new TikaImageRewritingContentHandler(
-	             handler, dirName, imgPrefix
+	             handler, 
+	             tikaProcessContext.getNewImgSource(), 
+	             tikaProcessContext.getExtractedFilePrefix()
 	       );
 	       
 	       contentHandler = new BodyContentHandler(contentHandler);

@@ -27,34 +27,23 @@
 				<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
 			</ul>
 			
-			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
+			<form class="filter" action="<c:url value="/admin/csn" />" method="get">
 				<div>
 					<span class="long"><spring:message code="form.orderby" />:</span>
 					<select name="orderBy">
-						<c:forEach items="${model.orders}" var="i">
-							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
+						<c:forEach items="${model.order}" var="i">
+							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >
+							<spring:message code="${i.name}" />
+							</option>
 						</c:forEach>
 					</select>
-					<span><spring:message code="cpr.standard.added" /></span>
-					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
-					<span>do:</span>
-					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
-					
 				</div>
-				<div>
-					<span class="long"><spring:message code="form.groups" />:</span>
-					<select name="groupId" class="groups">
-						<option value="0"><spring:message code="cpr.groups.all" /></option>
-						<c:forEach items="${model.groups}" var="group">
-							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.groupName}</option>
-						</c:forEach> 
-					</select>
-				</div>
+
 				<div>
 					<span class="long"><spring:message code="form.name" /></span>
-					<input type="text" class="query" name="query"   value="${model.params.query}" />
+					<input type="text" class="query " name="query"   value="${model.params.query}" />
 					
-					<input type="submit" value="Filtrovat" class="btn" />
+					<input type="submit" value="Filtrovat" class="btn csn" />
 				</div>
 			</form>
 			

@@ -53,6 +53,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 	}
 	
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public PageDto getCsnPage(final int pageNumber, final Map<String, Object> criteria){
 		StringBuilder hql = new StringBuilder("from Csn csn");
@@ -82,7 +83,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		if(criteria.size() != 0){
 			
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" csn.csnId like CONCAT('%', :query , '%') or csn.czechName like CONCAT('%', :query , '%') or csn.englishName CONCAT('%', :query , '%')");
+				where.add(" csn.csnId like CONCAT('%', :query , '%') or csn.czechName like CONCAT('%', :query , '%') or csn.englishName like CONCAT('%', :query , '%') ");
 			}
 		}
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");

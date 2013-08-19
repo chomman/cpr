@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.ImageFormat;
 import sk.peterjurkovic.cpr.image.Image;
 import sk.peterjurkovic.cpr.image.ImageLoader;
@@ -28,7 +29,6 @@ import sk.peterjurkovic.cpr.services.FileService;
 public class ImageController {
 	
 	private Logger logger = Logger.getLogger(getClass());
-	
 	private static final String CACHE_CONTROL_HEADER = "Cache-Control";
     private static final String CACHE_CONTROL_VALUE = "public, max-age=315360000, post-check=315360000, pre-check=315360000";
     private static final String ETAG_HEADER = "ETag";
@@ -45,7 +45,7 @@ public class ImageController {
 	
 
 	
-	@RequestMapping(value = "/image/"+ImageFormat.IMAGE_NORMAL +"/{dir}/{name:.*}")
+	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_NORMAL +"/{dir}/{name:.*}")
 	public @ResponseBody byte[] showImage(
 			@PathVariable String name, 
 			@PathVariable String dir, 
@@ -72,7 +72,7 @@ public class ImageController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/image/"+ImageFormat.IMAGE_SQUARE +"/{size}/{dir}/{name:.*}")
+	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_SQUARE +"/{size}/{dir}/{name:.*}")
 	public @ResponseBody byte[] showImage(
 			@PathVariable int size,
 			@PathVariable String name, 
@@ -98,7 +98,7 @@ public class ImageController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/image/"+ImageFormat.IMAGE_RESIZED +"/{size}/{dir}/{name:.*}")
+	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_RESIZED +"/{size}/{dir}/{name:.*}")
 	public @ResponseBody byte[] getResizedImage(
 			@PathVariable int size,
 			@PathVariable String dir,

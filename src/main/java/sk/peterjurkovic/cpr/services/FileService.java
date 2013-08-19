@@ -20,4 +20,5 @@ public interface FileService {
 	
 	List<String> getImagesFromDirectory(String dirName);
 	
+	
 }

@@ -141,11 +141,25 @@ public class Constants {
 	 */
 	public static final String DEFAULT_WEBPAGE_URL_PREFIX = "/p/"; 
 	
+	/**
+	 * Prefix oprazkov, ktory mapuje {@see sk.peterjurkovic.cpr.web.controllers.ImageController}
+	 */
+	public static final String IMAGE_URL_PREFIX = "/image/";
+	
 	
 	public static final String SYSTEM_NAME = "Informační systém CPR";
 	
 	
+	/**
+	 * Prefix dynamicky vytvaranych loziek CSN noriem. tvar: CSN_DIR_PREFIX + csn ID
+	 */
 	public static final String CSN_DIR_PREFIX = "csn-";
 	
+	
+	/**
+	 * V pripade ak nebude nastavena podzlozka pre ukladanie suborov
+	 */
 	public static final String DEFAULT_IMAGE_SAVE_DIR = "images/";
+	
+	
 }

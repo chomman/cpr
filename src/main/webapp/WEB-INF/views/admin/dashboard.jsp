@@ -27,6 +27,11 @@
 				</a>
 			</li>
 			<li>
+				<a href="<c:url value="/admin/csn" />" class="ico-csn tt" title="<spring:message code="dashboard.csn.title"/>">
+					<spring:message code="dashboard.csn"/>
+				</a>
+			</li>
+			<li>
 				<a href="<c:url value="/admin/webpages" />" class="ico-web tt" title="<spring:message code="menu.webpages"/>" >
 					<spring:message code="menu.webpages"/>
 				</a>

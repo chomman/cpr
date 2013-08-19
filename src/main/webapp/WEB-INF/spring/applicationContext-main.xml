@@ -61,11 +61,6 @@
 	      </set>
 	    </property>
 	  </bean>
-	  
- 
-   
-   	
-
 
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">

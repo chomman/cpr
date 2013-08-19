@@ -66,6 +66,7 @@ background: linear-gradient(to bottom,  #4f85bb 0%,#4f85bb 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f85bb', endColorstr='#4f85bb',GradientType=0 );}
 .filter .btn:hover{background:#284E77;}
 
+.filter .btn.csn{margin: 0 0 0 15px;}
 
 /* TABS EDITACIA NORIEM --- */
 #tabs{border:2px solid #ccc;background:#fdfdfd;}
@@ -222,8 +223,8 @@ nav .csn{background-image: url(../img/menu-csn.png)}
 
 /* DASHBOARD */
 #dashboard{padding:20px;background:#fdfdfd;}
-#speed-nav{padding:20px;list-style:none;background:#fafafa;border:1px solid #ddd; height:130px;margin-bottom:20px;}
-#speed-nav li{margin:0 30px 0 0;background: linear-gradient(to bottom, #FFFFFF 0%, #F6F6F6 47%, #EDEDED 100%) repeat scroll 0 0 transparent;border: 1px solid #D8D8D8; border-radius: 4px 4px 4px 4px;box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;color: #333333; display: block;padding: 10px;text-align: center;text-decoration: none;float:left;-webkit-box-shadow: 0px 0px 10px 1px #ccc;box-shadow: 0px 0px 10px 1px #ccc; }
+#speed-nav{padding:20px;list-style:none;background:#fafafa;border:1px solid #ddd;margin-bottom:20px;}
+#speed-nav li{margin:10px 30px 10px 0;background: linear-gradient(to bottom, #FFFFFF 0%, #F6F6F6 47%, #EDEDED 100%) repeat scroll 0 0 transparent;border: 1px solid #D8D8D8; border-radius: 4px 4px 4px 4px;box-shadow: 0 0 3px rgba(0, 0, 0, 0.1) inset;color: #333333; display: inline-block;padding: 10px;text-align: center;text-decoration: none;-webkit-box-shadow: 0px 0px 10px 1px #ccc;box-shadow: 0px 0px 10px 1px #ccc; }
 #speed-nav li:hover{-webkit-box-shadow: 0px 0px 10px 1px #ccc;box-shadow: 0px 0px 0px 0px #ccc;background:#fafafa}
 #speed-nav li a{background-repeat:no-repeat;background-position:center 10px;display:block;padding:80px 0 0 0;width:130px;height:25px;font-size:12px;color:#363643;text-transform:uppercase;}
 .ico-cpr{background-image:url(../img/ico_cpr_large.png);}
@@ -232,6 +233,7 @@ nav .csn{background-image: url(../img/menu-csn.png)}
 .ico-info{background-image:url(../img/ico_info_large.png);}
 .ico-sett{background-image:url(../img/ico_sett_large.png);}
 .ico-web{background-image:url(../img/ico_web_large.png);}
+.ico-csn{background-image:url(../img/ico-csn.png);}
 
 .hbox{border-bottom: 2px solid #FB9337;display: inline-block; margin: 20px 0;padding: 0 0 5px 0;}
 h1{ color:#485B79;font-size:22px;font-weight: normal;background:#fafAfa;border-bottom:1px solid #ddd;padding:15px 35px;}
