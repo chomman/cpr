@@ -23,12 +23,14 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
+import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.parser.TerminologyParser;
 import sk.peterjurkovic.cpr.parser.TikaProcessContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
@@ -69,6 +71,8 @@ public class CsnController extends SupportAdminController {
 	private CsnValidator csnValidator;
 	@Autowired
 	private WordDocumentParser wordDocumentParser;
+	@Autowired
+	private TerminologyParser terminologyParser;
 	@Autowired
 	private FileService fileService;
 	
@@ -152,7 +156,11 @@ public class CsnController extends SupportAdminController {
 				TikaProcessContext tikaProcessContext = new TikaProcessContext();
 				tikaProcessContext.setCsnId(csn.getId());
 				tikaProcessContext.setContextPath(request.getContextPath());
-				wordDocumentParser.parse(file.getInputStream(), tikaProcessContext);
+				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessContext);
+				CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessContext);
+				terminologies.setCsn(csn);
+				csnTerminologyService.saveTerminologies(terminologies);
+				
 			} catch (IOException | MaxUploadSizeExceededException e) {
 				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));
 				modelMap.put("hasErrors", true );

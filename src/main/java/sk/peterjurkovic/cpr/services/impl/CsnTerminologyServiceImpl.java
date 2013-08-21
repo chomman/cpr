@@ -3,6 +3,8 @@ package sk.peterjurkovic.cpr.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.CsnTerminologyDao;
+import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
@@ -89,6 +92,32 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 		}
 		
 		return result;
+	}
+
+	@Override
+	public void saveTerminologies(CsnTerminologyDto terminologyDto) {
+		Validate.notNull(terminologyDto);
+		if(CollectionUtils.isNotEmpty(terminologyDto.getCzechTerminologies())){
+			saveTerminologies(terminologyDto.getCzechTerminologies());
+		}
+		if(CollectionUtils.isNotEmpty(terminologyDto.getEnglishTerminologies())){
+			saveTerminologies(terminologyDto.getEnglishTerminologies());
+		}
+		
+		
+	}
+	
+	@Override
+	public void saveTerminologies(List<CsnTerminology> terminologies){
+		Validate.notNull(terminologies);
+		User user = UserUtils.getLoggedUser();
+		if(CollectionUtils.isNotEmpty(terminologies)){	
+			for(CsnTerminology t : terminologies){
+				t.setCreated(new DateTime());
+				t.setCreatedBy(user);
+				csnTerminologyDao.save(t);
+			}
+		}
 	}
 
 }

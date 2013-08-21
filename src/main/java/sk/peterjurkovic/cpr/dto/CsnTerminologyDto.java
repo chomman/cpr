@@ -2,39 +2,44 @@ package sk.peterjurkovic.cpr.dto;
 
 import java.util.List;
 
+import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
-import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
 
 public class CsnTerminologyDto {
 
-	private List<CsnTerminology> terminologies;
+	private List<CsnTerminology> czechTerminologies;
 	
-	private CsnTerminologyLanguage language;
+	private List<CsnTerminology> englishTerminologies;
 	
-	private String htmlContent;
-
-	public List<CsnTerminology> getTerminologies() {
-		return terminologies;
+	public CsnTerminologyDto(List<CsnTerminology> czechTerminologies, List<CsnTerminology> englishTerminologies){
+		this.czechTerminologies = czechTerminologies;
+		this.englishTerminologies = englishTerminologies;
+	}
+	
+	public List<CsnTerminology> getCzechTerminologies() {
+		return czechTerminologies;
 	}
 
-	public void setTerminologies(List<CsnTerminology> terminologies) {
-		this.terminologies = terminologies;
+	public void setCzechTerminologies(List<CsnTerminology> czechTerminologies) {
+		this.czechTerminologies = czechTerminologies;
 	}
 
-	public CsnTerminologyLanguage getLanguage() {
-		return language;
+	public List<CsnTerminology> getEnglishTerminologies() {
+		return englishTerminologies;
 	}
 
-	public void setLanguage(CsnTerminologyLanguage language) {
-		this.language = language;
+	public void setEnglishTerminologies(List<CsnTerminology> englishTerminologies) {
+		this.englishTerminologies = englishTerminologies;
 	}
-
-	public String getHtmlContent() {
-		return htmlContent;
-	}
-
-	public void setHtmlContent(String htmlContent) {
-		this.htmlContent = htmlContent;
+	
+	
+	public void setCsn(Csn csn){
+		for(CsnTerminology t : englishTerminologies){
+			t.setCsn(csn);
+		}
+		for(CsnTerminology t : czechTerminologies){
+			t.setCsn(csn);
+		}
 	}
 	
 	

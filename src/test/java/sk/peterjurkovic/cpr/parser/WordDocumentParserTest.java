@@ -18,7 +18,7 @@ public class WordDocumentParserTest extends AbstractTest {
 	@Autowired
 	private WordDocumentParser wordDocumentParser;
 	@Autowired
-	private TerminologyParser terminologyParser;
+	private TerminologyParserImpl terminologyParserImpl;
 	
 	@Test
 	public void testParsing(){
@@ -32,7 +32,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			
 			Assert.assertEquals(true, StringUtils.isNotBlank(html));
 			
-			terminologyParser.parse(html, tikaProcessContext);
+			terminologyParserImpl.parse(html, tikaProcessContext);
 			
 			//logger.info(html);
 		} catch (IOException e) {
