@@ -34,6 +34,7 @@ import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
+import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.validators.admin.CsnValidator;
 import sk.peterjurkovic.cpr.web.editors.CsnCategoryEditor;
@@ -68,6 +69,8 @@ public class CsnController extends SupportAdminController {
 	private CsnValidator csnValidator;
 	@Autowired
 	private WordDocumentParser wordDocumentParser;
+	@Autowired
+	private FileService fileService;
 	
 	public CsnController(){
 		setTableItemsView("csn/csn-list");
@@ -150,7 +153,6 @@ public class CsnController extends SupportAdminController {
 				tikaProcessContext.setCsnId(csn.getId());
 				tikaProcessContext.setContextPath(request.getContextPath());
 				wordDocumentParser.parse(file.getInputStream(), tikaProcessContext);
-				
 			} catch (IOException | MaxUploadSizeExceededException e) {
 				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));
 				modelMap.put("hasErrors", true );

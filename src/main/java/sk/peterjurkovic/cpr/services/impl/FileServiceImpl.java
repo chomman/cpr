@@ -11,7 +11,6 @@ import javax.annotation.PostConstruct;
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -137,4 +136,11 @@ public class FileServiceImpl implements FileService {
 		return files;
 	}
 	
+	
+	public void convertImage(String inputSrc, String outpuSrc){
+		logger.info(inputSrc + " => " + outpuSrc);
+		
+	}
+	
+
 }

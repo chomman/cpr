@@ -8,6 +8,8 @@ import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -38,7 +40,8 @@ public class TikaImageExtractingParser implements Parser {
         types.add(MediaType.image("jpeg"));
         types.add(MediaType.image("png"));
         types.add(MediaType.image("tiff"));
-        types.add(MediaType.image("wmf"));
+        //types.add(MediaType.image("wmf"));
+        //types.add(MediaType.image("emf"));
         this.fileService = fileService;
         this.tikaProcessContext = tikaProcessContext;
 	}
@@ -77,6 +80,7 @@ public class TikaImageExtractingParser implements Parser {
           }
           
           if(!accept){
+        	  logger.info("File is not accepted.  Type: " + type);
         	  return;
           }
         
@@ -95,8 +99,9 @@ public class TikaImageExtractingParser implements Parser {
        
         TikaInputStream is = TikaInputStream.get(stream);
         try {
-        	logger.info(fileService.getFileSaveDir() + tikaProcessContext.getCsnDir() + File.separator + tikaProcessContext.getExtractedFilePrefix() + filename);
-        	File outFile = new File(fileService.getFileSaveDir() + tikaProcessContext.getCsnDir() + File.separator + tikaProcessContext.getExtractedFilePrefix()  + filename);
+        	String originalFileName = fileService.getFileSaveDir() + tikaProcessContext.getCsnDir() + File.separator + tikaProcessContext.getExtractedFilePrefix()  + filename;
+        	logger.info(originalFileName);
+        	File outFile = new File(originalFileName);
         	if(outFile.exists()){
         		FileUtils.forceDelete(outFile);
         	}
@@ -104,7 +109,9 @@ public class TikaImageExtractingParser implements Parser {
 			os = new FileOutputStream(outFile);
 			IOUtils.copy(is, os);
 			os.flush();
+			//fileService.convertImage(originalFileName, fileService.getFileSaveDir() + tikaProcessContext.getCsnDir() + File.separator + tikaProcessContext.getExtractedFilePrefix() + count + ".jpg");
 			tikaProcessContext.incremetCountOfExtractedFiles();
+			
 		} catch (IOException e) {
 			logger.warn("Subor: " + filename +" sa z CSN ID: " + tikaProcessContext.getCsnId() + " nepodarilo extrahovat, dovod: " + e.getMessage());
 		}finally{

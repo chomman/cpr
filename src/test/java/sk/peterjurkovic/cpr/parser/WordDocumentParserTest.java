@@ -6,6 +6,7 @@ import java.io.InputStream;
 
 import junit.framework.Assert;
 
+import org.apache.commons.lang.StringUtils;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -16,19 +17,24 @@ public class WordDocumentParserTest extends AbstractTest {
 	
 	@Autowired
 	private WordDocumentParser wordDocumentParser;
-
+	@Autowired
+	private TerminologyParser terminologyParser;
 	
 	@Test
 	public void testParsing(){
 		long start = System.currentTimeMillis();
 		try{
-			TikaProcessContext context = new TikaProcessContext();
-			InputStream is =  new FileInputStream("/home/peto/tmp/cpr/csn-3/6927.doc");
-			String html = wordDocumentParser.parse(is, context);
+			TikaProcessContext tikaProcessContext = new TikaProcessContext();
+			tikaProcessContext.setCsnId(3l);
+			tikaProcessContext.setContextPath("/cpr/");
+			InputStream is =  new FileInputStream("/home/peto/Desktop/tn.doc");
+			String html = wordDocumentParser.parse(is, tikaProcessContext);
 			
+			Assert.assertEquals(true, StringUtils.isNotBlank(html));
 			
-			Assert.assertTrue(html.contains("<h1 class=\"footer\">"));
-		
+			terminologyParser.parse(html, tikaProcessContext);
+			
+			//logger.info(html);
 		} catch (IOException e) {
 
 		}catch(MaxUploadSizeExceededException e){

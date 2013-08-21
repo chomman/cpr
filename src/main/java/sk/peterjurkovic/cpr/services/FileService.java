@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.services;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -19,6 +20,9 @@ public interface FileService {
 	String saveFile(String originalFilename, byte[] content, String intoDir);
 	
 	List<String> getImagesFromDirectory(String dirName);
+	
+	void convertImage(String i, String o);
+	
 	
 	
 }

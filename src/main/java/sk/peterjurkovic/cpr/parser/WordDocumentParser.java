@@ -43,18 +43,15 @@ public class WordDocumentParser  {
 	   
 	    try {
 	    	parser.parse( content, handler, metadata, parseContext );
+	    	String html = cleanHtml(sw.toString());
+	    	html = removeContentBefore(html);
+	    	html = removeContentAfter(html);
+	    	return html;
 	       } catch(Exception e) {
 	    	   logger.warn("Pri spracovavani dokumentu nastala chyba: "+ e.getMessage());  
-	    }
-	    	
-	
-		// As a string
-		String html = cleanHtml(sw.toString());
-	    logger.info("CLEANED OUTPUT: \n" + html);  
-	    return html;
+	    }		
+	    return null;
 	}
-	
-	
 	
 	
 	private ContentHandler buildContentHandler(Writer output, TikaProcessContext tikaProcessContext){
@@ -72,6 +69,7 @@ public class WordDocumentParser  {
 	       
 	       handler.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
 	       handler.getTransformer().setOutputProperty(OutputKeys.METHOD, "xml");
+	       handler.getTransformer().setOutputProperty(OutputKeys.ENCODING, "UTF-8");
 	       handler.setResult(new StreamResult(output));
 	       
 	       // Change the image links as they go past
@@ -89,8 +87,9 @@ public class WordDocumentParser  {
 	
 	
 	
-	private String cleanHtml(String html){
-		 return  html.replaceAll("<\\?xml.*?\\?>", "")
+	private String cleanHtml(String html){ 
+		return  html	 
+		 .replaceAll("<\\?xml.*?\\?>", "")
         .replaceAll("<p xmlns=\"http://www.w3.org/1999/xhtml\"","<p")
         .replaceAll("<h(\\d) xmlns=\"http://www.w3.org/1999/xhtml\"","<h\\1")
         .replaceAll("<div xmlns=\"http://www.w3.org/1999/xhtml\"","<div")
@@ -100,9 +99,22 @@ public class WordDocumentParser  {
 	}
 	
 	
-	private String removeHeader(String html){
-		return html.substring( html.indexOf("</div>")+6, html.length()  );
+	
+	private String removeContentBefore(String html){
+		html = html.substring( html.indexOf("####")+4, html.length());
+		html = html.substring( html.indexOf("<table>"), html.length());
+		return html;
 	}
+	
+	private String removeContentAfter(String html){
+		html = html.substring(0 , html.lastIndexOf("####"));
+		html = html.substring(0, html.lastIndexOf("</table>") + 8 );
+		return html;
+	}
+	
+	/*
+	 * 
+	
 	
 	private String removeFooter(String html){
 		logger.info("Footer found at: " + html.indexOf("<div class=\"footer\">"));
@@ -117,6 +129,11 @@ public class WordDocumentParser  {
 	private void sprlit(String html){
 		String[] terminology = html.split("(?<=[<p>\\s<b>\\s\\d\\.\\s)");
 	}
+	
+	private String removeHeader(String html){
+		return html.substring( html.indexOf("</div>")+6, html.length()  );
+	}
+	 * */
 	
 	
 }

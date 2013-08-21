@@ -3,6 +3,13 @@ package sk.peterjurkovic.cpr.parser;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.ImageFormat;
 
+
+/**
+ * 
+ * @author Peter Jurkovič (email@peterjurkovic.sk)
+ * @date Aug 20, 2013
+ *
+ */
 public class TikaProcessContext {
 	
 	private Long csnId;
@@ -67,7 +74,7 @@ public class TikaProcessContext {
 	}
 
 	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath.replaceAll("//", "");
+		this.contextPath = contextPath.replaceAll("//*", "");
 	}
 	
 	

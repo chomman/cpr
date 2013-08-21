@@ -17,7 +17,14 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
    
-	
+	<!-- 
+	<repositories>
+	  <repository>
+	    <id>cedarsoft-thirdparty</id>
+	    <url>http://maven.cedarsoft.com/content/repositories/thirdparty/</url>
+	  </repository>
+	</repositories>
+	 -->
 	
 	
    <dependencies>
@@ -367,6 +374,17 @@
 		    <artifactId>tika-parsers</artifactId>
 		    <version>1.4</version>
 		</dependency>
+		
+	
+		
+	<!-- 
+		<dependency>
+		    <groupId>org.im4java</groupId>
+		    <artifactId>im4java</artifactId>
+		    <version>1.4.0</version>
+		</dependency>
+	 -->		
+	    
   
    </dependencies>
    
