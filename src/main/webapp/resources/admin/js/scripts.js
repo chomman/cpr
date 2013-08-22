@@ -128,13 +128,24 @@ $(function() {
          return confirm('Opravdu chcete odstranit tuto položku?');
      });
      
+     $('.confirmMessage').on('click', function () {
+         return confirm($(this).attr("data-message"));
+     });
+     
+     
+     
+     
      $('.date').datepicker({
 			dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
 			monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
 			autoSize: false,
 			dateFormat: 'dd.mm.yy',
 			firstDay: 1});
+     
+     
 });
+
+
 
 (function($) {
     $.fn.extend( {

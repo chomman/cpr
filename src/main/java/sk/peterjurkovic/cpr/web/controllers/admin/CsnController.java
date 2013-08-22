@@ -31,6 +31,7 @@ import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.parser.TerminologyParser;
+import sk.peterjurkovic.cpr.parser.TerminologyParserImpl;
 import sk.peterjurkovic.cpr.parser.TikaProcessContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
@@ -58,6 +59,8 @@ public class CsnController extends SupportAdminController {
 	
 	private static final String CSN_MODEL_ATTR = "csn";
 	
+	private static final String DEFAULT_LANG_CODE = "cz";
+	
 		
 	@Autowired
 	private CsnService csnService;
@@ -71,8 +74,7 @@ public class CsnController extends SupportAdminController {
 	private CsnValidator csnValidator;
 	@Autowired
 	private WordDocumentParser wordDocumentParser;
-	@Autowired
-	private TerminologyParser terminologyParser;
+	
 	@Autowired
 	private FileService fileService;
 	
@@ -107,7 +109,7 @@ public class CsnController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = "/admin/csn/edit/{idCsn}", method = RequestMethod.GET)
-	public String showCsnForm(@PathVariable Long idCsn, ModelMap modelMap) throws ItemNotFoundException{
+	public String showCsnForm(@PathVariable Long idCsn, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		Csn form = null;
 		if(idCsn == 0){
 			form = createEmptyForm();
@@ -116,23 +118,32 @@ public class CsnController extends SupportAdminController {
 			if(form == null){
 				createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
 			}
+			if(request.getParameter("e") != null){
+				modelMap.put("importFaild", true);
+			}
+			
 		}
-		prepareModel(form, modelMap, idCsn);
+		prepareModel(form, modelMap, idCsn, RequestUtils.getLangParameter(request));
 		return getEditFormView();
 	}
 	
 	
+	
+	
 	@RequestMapping( value = "/admin/csn/edit/{idCsn}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long idCsn, @Valid Csn form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
+	public String processSubmit(@PathVariable Long idCsn, @Valid Csn form, BindingResult result, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		
 		csnValidator.validate(result, form);
 		if(!result.hasErrors()){
 			createOrUpdate(form);
 			modelMap.put("successCreate", true);
 		}
-		prepareModel(form, modelMap, idCsn);
+		prepareModel(form, modelMap, idCsn, RequestUtils.getLangParameter(request));
 		return getEditFormView();
 	}
+	
+	
+	
 	
 	@RequestMapping( value = "/admin/csn/import/{idCsn}", method = RequestMethod.POST)
 	public String processImport(
@@ -157,20 +168,24 @@ public class CsnController extends SupportAdminController {
 				tikaProcessContext.setCsnId(csn.getId());
 				tikaProcessContext.setContextPath(request.getContextPath());
 				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessContext);
+				TerminologyParser terminologyParser = new TerminologyParserImpl();
 				CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessContext);
 				terminologies.setCsn(csn);
 				csnTerminologyService.saveTerminologies(terminologies);
 				
-			} catch (IOException | MaxUploadSizeExceededException e) {
+			} catch (Exception  e) {
 				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));
 				modelMap.put("hasErrors", true );
+				return "redirect:/admin/csn/edit/"+idCsn + "?e=1";
 			}
 			long end = System.currentTimeMillis() - start;
 			logger.info(String.format("KONIEC IMPORTU, proces trval %s ms", end));
 		}
-		prepareModel(csn, modelMap, idCsn);
-		return getEditFormView();
+		prepareModel(csn, modelMap, idCsn, RequestUtils.getLangParameter(request));
+		return "redirect:/admin/csn/edit/"+idCsn;
 	 }
+	
+	
 	
 	@RequestMapping("/admin/csn/delete/{id}")
 	public String deleteCsn(@PathVariable Long id, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
@@ -184,6 +199,20 @@ public class CsnController extends SupportAdminController {
 		modelMap.put("successDelete", true);
 		return showCsn(modelMap, request);
 	}
+	
+	
+	@RequestMapping(value = "/admin/csn/{id}/terminology/delete/all",  method = RequestMethod.GET)
+	public String deleteAllTerminology(@PathVariable Long id, HttpServletRequest request, ModelMap modelMap) throws ItemNotFoundException{
+		Csn csn = csnService.getById(id);
+		if(csn == null){
+			createItemNotFoundError("ČSN with ID: " + id + " was not found.");
+		}
+		csnTerminologyService.deleteAll(csn.getTerminologies());
+		return showCsnForm(id, modelMap, request);
+	}
+	
+	
+	
 	
 	/**
 	 * Aktualizuje, alebo vytvori novu ČSN
@@ -217,10 +246,17 @@ public class CsnController extends SupportAdminController {
 	
 	
 	
-	private void prepareModel(Csn form, ModelMap modelMap, Long id){
+	private void prepareModel(Csn form, ModelMap modelMap, Long id, String lang){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("tab", 2);
 		model.put("csnCategories", csnCategoryService.getAll());
+		if(form.getId() != null && form.getId() != 0l){
+			if(StringUtils.isNotBlank(lang)){
+				model.put("terminologies", csnService.getTerminologyByCsnAndLang(form, lang));
+				model.put("lang", lang);
+			}
+		}
+		
 		modelMap.put("model", model);
 		modelMap.put("id", id);
 		modelMap.addAttribute(CSN_MODEL_ATTR, form);
@@ -243,4 +279,7 @@ public class CsnController extends SupportAdminController {
 		paginger.setRowCount(count);
 		return paginger.getPageLinks(); 
 	}
+	
+	
+	
 }

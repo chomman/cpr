@@ -101,6 +101,7 @@ $(function() {
 	$('#dop .report input').keyup(function(){
 		renderText();
 	});
+	resizeBorder();
 });
 
 function checkCumulative(){
@@ -205,6 +206,17 @@ function renderText(){
 		}
 	}
 	$("#render").html(html);
+}
+
+function resizeBorder(){
+	var max = 0;
+	if($("#terminologyNav").length > 0){
+		max = $("#terminologyNav").height();
+		if(max < $("#terminologyContent").height()){
+			max = $("#terminologyContent").height();
+		}
+		$("#main-content .border").height(max);
+	}
 }
 
 

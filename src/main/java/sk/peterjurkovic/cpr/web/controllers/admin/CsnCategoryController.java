@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.web.controllers.admin;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.Validate;
@@ -69,6 +70,8 @@ public class CsnCategoryController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
+	
+	
 	@RequestMapping(value = "/admin/csn/category/edit/{categoryId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long categoryId, @Valid  CsnCategory form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 		if(!result.hasErrors()){
@@ -78,6 +81,8 @@ public class CsnCategoryController extends SupportAdminController {
 		prepareModel(form, modelMap, categoryId);
 		return getEditFormView();
 	}
+	
+	
 	
 	@RequestMapping("/admin/csn/category/delete/{id}")
 	public String processSubmit(@PathVariable Long id, ModelMap modelMap) throws ItemNotFoundException{
@@ -97,6 +102,9 @@ public class CsnCategoryController extends SupportAdminController {
 		
 		return showCsnCategories(modelMap);
 	}
+	
+	
+	
 	
 	
 	private void prepareModel(CsnCategory form, ModelMap modelMap, Long id){
@@ -133,4 +141,7 @@ public class CsnCategoryController extends SupportAdminController {
 		categoryService.saveOrUpdate(category);
 		
 	}
+	
+	
+	
 }

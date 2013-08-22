@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
@@ -109,13 +110,21 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 	
 	@Override
 	public void saveTerminologies(List<CsnTerminology> terminologies){
-		Validate.notNull(terminologies);
 		User user = UserUtils.getLoggedUser();
 		if(CollectionUtils.isNotEmpty(terminologies)){	
 			for(CsnTerminology t : terminologies){
 				t.setCreated(new DateTime());
 				t.setCreatedBy(user);
 				csnTerminologyDao.save(t);
+			}
+		}
+	}
+	
+	@Override
+	public void deleteAll(Set<CsnTerminology> terminologies){
+		if(CollectionUtils.isNotEmpty(terminologies)){	
+			for(CsnTerminology t : terminologies){
+				csnTerminologyDao.remove(t);
 			}
 		}
 	}

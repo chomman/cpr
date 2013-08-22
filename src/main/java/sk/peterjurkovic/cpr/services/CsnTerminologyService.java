@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
+import java.util.Set;
 
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
@@ -32,5 +33,7 @@ public interface CsnTerminologyService {
 	void saveTerminologies(CsnTerminologyDto terminologies);
 	
 	void saveTerminologies(List<CsnTerminology> terminologies);
+	
+	void deleteAll(Set<CsnTerminology> terminologies);
 	
 }

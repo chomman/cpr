@@ -5,6 +5,7 @@ import java.util.Map;
 
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
+import sk.peterjurkovic.cpr.entities.CsnTerminology;
 
 
 
@@ -33,7 +34,14 @@ public interface CsnService {
 	
 	boolean isCsnIdUniqe(Long id, String csnId);
 	
+	
 	List<Csn> getCsnByTerminology(String terminologyTitle);
 	
+	
 	PageDto getCsnPage(int pageNumber,Map<String, Object> criteria);
+	
+	List<CsnTerminology> getTerminologyByCsnAndLang(Csn csn, String languageCode);
+	
+	
+	void deleteAllTerminology(Csn csn);
 }

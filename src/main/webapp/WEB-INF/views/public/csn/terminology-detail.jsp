@@ -114,13 +114,14 @@
 				
 				
 			</table>
+		
 			
 			<div class="thead">
 				
 			</div>
 			<div id="terminologyNav" class="left">
 				<ul>
-				<c:forEach items="${model.terminology.csn.terminologies}" var="i">
+				<c:forEach items="${model.terminologies}" var="i">
 					<li <c:if test="${model.terminology.id == i.id}"> class="active"</c:if>  >
 						<a href="<c:url value="${model.webpage.code}/${i.id}" />">${i.section} ${i.title}</a>
 					</li>

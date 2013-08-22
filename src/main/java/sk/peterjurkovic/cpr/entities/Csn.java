@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 
 @Entity
@@ -147,7 +148,7 @@ public class Csn extends AbstractEntity {
 		this.htmlContent = htmlContent;
 	}
 
-	@OneToMany(mappedBy = "csn", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "csn", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE}, orphanRemoval = true)
 	@OrderBy("section, title")
 	public Set<CsnTerminology> getTerminologies() {
 		return terminologies;

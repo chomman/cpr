@@ -162,6 +162,11 @@
 				<c:url value="/admin/csn/import/${id}" var="formUrl"/>					
 				<form:form  modelAttribute="uploadForm" method="post" action="${formUrl}" cssClass="csnFileUpload" enctype="multipart/form-data">
 					<p class="form-head"><spring:message code="csn.terminology.upload" arguments="${csn.csnId}" /><p>
+					 
+					 <c:if test="${not empty importFaild}">
+					 	<p class="msg error">Nastala chyba, import selhal.</p>
+					 </c:if>
+					 
 					 <p>
 						<label>
 							<spring:message code="csn.terminology.upload.selectfile" />:
@@ -178,12 +183,39 @@
 				
 				<div id="terminology">			
 					<p class="form-head"><spring:message code="csn.terminology" arguments="${csn.csnId}" /><p>
-					
-					<div class="search-box" >
-						
+					<div class="csn-edit-nav" >
 						<a class="add radius" title="<spring:message code="csn.terminology.add" />" href="<c:url value="/admin/csn/${id}/terminology/edit/0" />">
 							<spring:message code="csn.terminology.add" />
 						</a>
+						
+						<a data-message="<spring:message code="csn.terminology.delete.confirm" arguments="${csn.csnId}" />" class="delete radius confirmMessage" title="<spring:message code="csn.terminology.delete" />" href="<c:url value="/admin/csn/${id}/terminology/delete/all" />">
+							<spring:message code="csn.terminology.delete" />
+						</a>
+						
+					</div>
+					<div class="search-box" >
+						
+						<c:if test="${model.lang == 'cz' }">
+							<span class="disabled">
+								<spring:message code="csn.terminology.lang.cz" />
+							</span>
+							<a class="lang en <c:if test="${model.lang == 'en' }">disabled</c:if>" href="<c:url value="/admin/csn/edit/${id}?lang=en" />">
+								<spring:message code="csn.terminology.lang.en" />
+							</a>
+						</c:if>
+						
+						<c:if test="${model.lang == 'en' }">
+							<a class="lang cz " href="<c:url value="/admin/csn/edit/${id}?lang=cz" />">
+								<spring:message code="csn.terminology.lang.cz" />
+							</a>
+							<span class="disabled">
+								<spring:message code="csn.terminology.lang.en" />
+							</span>
+						</c:if>
+						
+						
+						
+						
 						<span title="<spring:message code="form.quicksearch.title" />" class="tt"><spring:message code="form.quicksearch" />:</span>
 						<input id="quick-search" type="text" />
 					</div>
@@ -198,7 +230,7 @@
 							</tr>
 						</thead>
 						<tbody>
-								 <c:forEach items="${csn.terminologies}" var="i">
+								 <c:forEach items="${model.terminologies}" var="i">
 								 	<tr>
 								 		<td>
 								 			<a href="<c:url value="/admin/csn/${id}/terminology/edit/${i.id}"  />">

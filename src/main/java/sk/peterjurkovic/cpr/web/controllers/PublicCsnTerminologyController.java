@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.parser.TerminologyParser;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 /**
  * 
@@ -63,16 +65,21 @@ public class PublicCsnTerminologyController {
 	
 	
 	@RequestMapping(PUBLIC_CSN_TERMINOLOGY_URL+ "/{id}")
-	public String showTerminologyDetial(ModelMap modelMap, @PathVariable Long id) throws PageNotFoundEception{
+	public String showTerminologyDetial(ModelMap modelMap, @PathVariable Long id, HttpServletRequest request) throws PageNotFoundEception{
 		
 		Webpage webpage = webpageService.getWebpageByCode(PUBLIC_CSN_TERMINOLOGY_URL);
 		CsnTerminology termonology = csnTerminologyService.getById(id);
 		if(webpage == null || !webpage.getEnabled() || termonology == null || !termonology.getEnabled()){
 			throw new PageNotFoundEception();
 		}
+		String lang = RequestUtils.getLangParameter(request);
 		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("subtab", webpage.getId());
 		model.put("terminology", termonology);
+		if(StringUtils.isNotBlank(lang)){
+			model.put("lang", lang);
+			model.put("terminologies", csnService.getTerminologyByCsnAndLang(termonology.getCsn(), lang));
+		}
 		modelMap.put("model", model);
 		return "/public/csn/terminology-detail";
 	}
@@ -84,6 +91,7 @@ public class PublicCsnTerminologyController {
 		return csnTerminologyService.searchInTerminology(query);
 	}
 	
+	TerminologyParser terminologyParser;
 	
 	/**
 	 * Pripravi zakladny model pre view

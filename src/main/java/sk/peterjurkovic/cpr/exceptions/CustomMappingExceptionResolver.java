@@ -20,6 +20,7 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 	
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request,HttpServletResponse response, Object handler, Exception ex) {
+		logger.info("V aplikacii nastala chyba: " + ex.getMessage());
 		exceptionLogService.logException(request, ex);
 		return super.doResolveException(request, response, handler, ex);
 	}

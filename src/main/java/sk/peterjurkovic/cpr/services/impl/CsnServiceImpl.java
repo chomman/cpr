@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.services.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.CsnDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
+import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.FileService;
@@ -112,5 +114,18 @@ public class CsnServiceImpl implements CsnService{
 			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
 		}
 		return criteria;
+	}
+	
+
+	@Override
+	@Transactional(readOnly =  true )
+	public List<CsnTerminology> getTerminologyByCsnAndLang(Csn csn, String languageCode) {
+		return csnDao.getTerminologyByCsnAndLang(csn, languageCode);
+	}
+
+	@Override
+	public void deleteAllTerminology(Csn csn) {
+		Validate.notNull(csn);
+		csnDao.deleteAllTerminology(csn.getId());
 	}
 }

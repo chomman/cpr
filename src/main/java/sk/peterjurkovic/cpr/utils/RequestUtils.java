@@ -10,6 +10,7 @@ import java.util.StringTokenizer;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
@@ -95,6 +96,14 @@ public class RequestUtils {
     	return errorMessages;
     }
     
+    
+    public static String getLangParameter(HttpServletRequest request){
+		String lang = request.getParameter("lang");
+		if(StringUtils.isBlank(lang)){
+			lang = "cz";
+ 		}
+		return lang;
+	}
     
     
     

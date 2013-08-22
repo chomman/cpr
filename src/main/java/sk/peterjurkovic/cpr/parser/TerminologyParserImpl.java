@@ -109,7 +109,7 @@ public class TerminologyParserImpl implements TerminologyParser{
 	    	for(int i = 0 ; i < max; i++){
 	    		CsnTerminology cz = czechTerminologies.get(i);
 	    		CsnTerminology en = englishTerminologies.get(i);
-	    		logger.info(i +" / "+getSection(cz) + " / "+ getSection(en));
+	    		logger.info((i+1) +" / "+getSection(cz) + " / "+ getSection(en));
 	    	}
 	    	
     	}
@@ -137,13 +137,13 @@ public class TerminologyParserImpl implements TerminologyParser{
 					
 					String title = b.item(0).getTextContent();
 					
-					logger.info("T/D: "+ title);
 					
 					if(StringUtils.isNotBlank(title) && title.matches("^\\s?\\d{1}\\.\\d{1,2}\\.\\d{1,3}(\\s*)(.|\\s)*$")){
 						
-						title = title.replaceAll("\\n", " ");
+						title = title.trim().replaceAll("\\n", " ");
 						
-						String[] splitedTitle = title.trim().split("(?<=(\\d\\.\\d{1,2}\\.\\d{1,3}))");
+						String[] splitedTitle = title.trim().split("\\s+", 2);
+
 						if(splitedTitle.length == 2){
 							CsnTerminology newTerminology = new CsnTerminology();
 							newTerminology.setLanguage(language);
@@ -177,9 +177,15 @@ public class TerminologyParserImpl implements TerminologyParser{
 					}
 					
 				}else{
+					logger.info("Nenasel sa element b.");
+					String c = nodeToString(node);
+					logger.info(c);
 					// terminologia je rozdelena do viacerych buniek
 					if(language.equals(CsnTerminologyLanguage.EN) && CollectionUtils.isNotEmpty(englishTerminologies)){
 						// appendneme text k predchadzajucej terminologii, ku ktorej patri
+						CsnTerminology updateTerminology = englishTerminologies.get(englishTerminologies.size() -1);
+						updateTerminology.setContent(updateTerminology.getContent() + content );
+					}else if(language.equals(CsnTerminologyLanguage.CZ) && CollectionUtils.isNotEmpty(czechTerminologies)){
 						CsnTerminology updateTerminology = englishTerminologies.get(englishTerminologies.size() -1);
 						updateTerminology.setContent(updateTerminology.getContent() + content );
 					}

@@ -13,6 +13,7 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.CsnDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
+import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 
@@ -47,7 +48,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		StringBuilder hql = new StringBuilder("select t from CsnTerminology t ");
 		hql.append(" where t.csn.enabled=true and t.title like CONCAT('%', :terminologyTitle , '%')");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
-		query.setParameter("terminologyTitle", terminologyTitle);
+		query.setString("terminologyTitle", terminologyTitle);
 		query.setMaxResults(50);
 		return query.list();
 	}
@@ -96,6 +97,25 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 				hqlQuery.setString("query", (String)criteria.get("query"));
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CsnTerminology> getTerminologyByCsnAndLang(Csn csn, String languageCode) {
+		StringBuilder hql = new StringBuilder("select t from CsnTerminology t ");
+		hql.append(" where t.csn.id=:id and t.language=:lang");
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setLong("id", csn.getId());
+		query.setString("lang", languageCode);
+		return query.list();
+	}
+
+	@Override
+	public void deleteAllTerminology(Long id) {
+		Query query =  sessionFactory.getCurrentSession()
+				.createQuery("delete from CsnTerminology t where t.csn.id=:id");
+		query.setLong("id", id);
+		query.executeUpdate();
 	}
 
 	
