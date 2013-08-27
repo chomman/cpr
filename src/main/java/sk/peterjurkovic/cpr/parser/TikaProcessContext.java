@@ -66,7 +66,7 @@ public class TikaProcessContext {
 	}
 	
 	public String getNewImgSource(){
-		return getContextPath() + "/"+ Constants.IMAGE_URL_PREFIX + ImageFormat.IMAGE_NORMAL +"/"+ getCsnDir();
+		return getContextPath() + Constants.IMAGE_URL_PREFIX + ImageFormat.IMAGE_NORMAL +"/"+ getCsnDir();
 	}
 
 	public String getContextPath() {
@@ -74,7 +74,10 @@ public class TikaProcessContext {
 	}
 
 	public void setContextPath(String contextPath) {
-		this.contextPath = contextPath.replaceAll("//*", "");
+		if (contextPath.length() > 1 ) {
+		    contextPath = contextPath.substring(0, contextPath.length()-1);
+		  }
+		this.contextPath = contextPath;
 	}
 	
 	

@@ -10,6 +10,7 @@ import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.apache.tika.metadata.Metadata;
@@ -17,6 +18,8 @@ import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
 import org.apache.tika.sax.BodyContentHandler;
+import org.jsoup.Jsoup;
+import org.jsoup.safety.Whitelist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.xml.sax.ContentHandler;
@@ -28,9 +31,15 @@ public class WordDocumentParser  {
 
 	private Logger logger = Logger.getLogger(getClass());
 	
+	public static final String TERMINOLOGY_SEPARATOR = "####";
+	
 	@Autowired
 	private FileService fileService;
+	
 
+
+	
+	
 	public String parse(InputStream content, TikaProcessContext tikaProcessContext) {
 		Validate.notNull(content);
 		Validate.notNull(tikaProcessContext);
@@ -44,6 +53,8 @@ public class WordDocumentParser  {
 	    try {
 	    	parser.parse( content, handler, metadata, parseContext );
 	    	String html = cleanHtml(sw.toString());
+	    	
+	    	logger.info("String length " + html.length());
 	    	html = removeContentBefore(html);
 	    	html = removeContentAfter(html);
 	    	return html;
@@ -64,7 +75,7 @@ public class WordDocumentParser  {
 	       try {
 	          handler = factory.newTransformerHandler();
 	       } catch (TransformerConfigurationException e) {
-	    	   logger.warn(String.format("SAX Processing neni dostupny: ", e));
+	    	   logger.warn(String.format("SAX Processing is not available: ", e));
 	       }
 	       
 	       handler.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
@@ -87,53 +98,41 @@ public class WordDocumentParser  {
 	
 	
 	
-	private String cleanHtml(String html){ 
+	private String cleanHtml(String html){
+		if(StringUtils.isBlank(html)){
+			return "";
+		}
+		Whitelist whitelist =  Whitelist.relaxed();
+		whitelist.preserveRelativeLinks(true);
+		html =  Jsoup.clean(html, "http://localhost:8080/cpr", whitelist );
 		return  html	 
-		 .replaceAll("<\\?xml.*?\\?>", "")
-        .replaceAll("<p xmlns=\"http://www.w3.org/1999/xhtml\"","<p")
-        .replaceAll("<h(\\d) xmlns=\"http://www.w3.org/1999/xhtml\"","<h\\1")
-        .replaceAll("<div xmlns=\"http://www.w3.org/1999/xhtml\"","<div")
-        .replaceAll("<table xmlns=\"http://www.w3.org/1999/xhtml\"","<table")
-        .replaceAll("&#13;","")
-        .replaceAll("<p class=\"(.*)\"","<p");
+				.replaceAll("<\\?xml.*?\\?>", "")
+				.replaceAll("(<b>\\s*</b>)", "")
+				.replaceAll("(<p>\\s*</p>)", "")
+				.replaceAll("(<div>\\s*</div>)", "")
+				.replaceAll("&#13;","")
+				.replaceAll("&#8804;", "&le;")
+				.replaceAll("&#x2264;", "&le;");
 	}
 	
 	
 	
 	private String removeContentBefore(String html){
-		html = html.substring( html.indexOf("####")+4, html.length());
+		if(StringUtils.isBlank(html)){
+			return "";
+		}
+		html = html.substring( html.indexOf(TERMINOLOGY_SEPARATOR)+4, html.length());
 		html = html.substring( html.indexOf("<table>"), html.length());
 		return html;
 	}
 	
 	private String removeContentAfter(String html){
-		html = html.substring(0 , html.lastIndexOf("####"));
+		if(StringUtils.isBlank(html)){
+			return "";
+		}
+		html = html.substring(0 , html.lastIndexOf(TERMINOLOGY_SEPARATOR));
 		html = html.substring(0, html.lastIndexOf("</table>") + 8 );
 		return html;
 	}
-	
-	/*
-	 * 
-	
-	
-	private String removeFooter(String html){
-		logger.info("Footer found at: " + html.indexOf("<div class=\"footer\">"));
-		return html.substring( 0 ,html.indexOf("<div class=\"footer\">") -1 );
-	}
-	
-	private String removeFirstTable(String html){
-		return html.substring(0, html.indexOf("</table>"));
-	}
-	
-	
-	private void sprlit(String html){
-		String[] terminology = html.split("(?<=[<p>\\s<b>\\s\\d\\.\\s)");
-	}
-	
-	private String removeHeader(String html){
-		return html.substring( html.indexOf("</div>")+6, html.length()  );
-	}
-	 * */
-	
 	
 }

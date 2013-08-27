@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
@@ -171,7 +169,9 @@ public class CsnController extends SupportAdminController {
 				TerminologyParser terminologyParser = new TerminologyParserImpl();
 				CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessContext);
 				terminologies.setCsn(csn);
+				csn.setHtmlContent(docAsHtml);
 				csnTerminologyService.saveTerminologies(terminologies);
+				csnService.saveOrUpdate(csn);
 				
 			} catch (Exception  e) {
 				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));

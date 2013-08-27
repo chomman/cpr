@@ -50,6 +50,8 @@ public class TerminologyParserImpl implements TerminologyParser{
 	
 	private static final String REMOVE_EMPTY_TAGS_REGEX = "<(\\w+)>(\\s|&nbsp;)*<\\/\\1>";
 	
+	public static final String SECTION_MATECH = "^\\s?\\d{1}\\.\\d{1,3}\\.\\d{1,3}(\\s*)(.|\\s)*$";
+	
 
 	private List<CsnTerminology> czechTerminologies = new ArrayList<CsnTerminology>();
 	
@@ -138,7 +140,7 @@ public class TerminologyParserImpl implements TerminologyParser{
 					String title = b.item(0).getTextContent();
 					
 					
-					if(StringUtils.isNotBlank(title) && title.matches("^\\s?\\d{1}\\.\\d{1,2}\\.\\d{1,3}(\\s*)(.|\\s)*$")){
+					if(StringUtils.isNotBlank(title) && title.matches(SECTION_MATECH)){
 						
 						title = title.trim().replaceAll("\\n", " ");
 						

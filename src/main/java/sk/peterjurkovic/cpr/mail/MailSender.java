@@ -6,29 +6,31 @@ import org.apache.commons.lang.StringUtils;
 import org.codemonkey.simplejavamail.Email;
 import org.codemonkey.simplejavamail.Mailer;
 import org.codemonkey.simplejavamail.TransportStrategy;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 
-// @Component
+@Component
 public class MailSender {
 	
-	//@Value("#{config['mail.username']}")
-	private String username = "nlfnorm@gmail.com";
+	@Value("#{config.mail_username}")
+	private String username;
 	
-	//@Value("#{config['mail.password']}")
-	private String password = "";
+	@Value("#{config.mail_password}")
+	private String password;
 	
-	//@Value("#{config['mail.smtp_auth']}")
-	private String auth = "true";
+	@Value("#{config.mail_smtp_auth}")
+	private String auth;
 	
-	//@Value("#{config['mail.smtp_host']}")
-	private String host = "smtp.googlemail.com";
+	@Value("#{config.mail_smtp_host}")
+	private String host;
 	
-	//@Value("#{config['mail.smtp_port']}")
-	private String port = "465";
+	@Value("#{config.mail_smtp_port}")
+	private String port;
 	
-	//@Value("#(config['mail.use_ssl'])")
-	private String userSSL = "true";
+	@Value("#{config.mail_use_ssl}")
+	private String useSSL;
 	
 	
 	private boolean isHtml  = true;
@@ -43,7 +45,7 @@ public class MailSender {
 	}
 	
 	public void sendMail(String recipientName, String emailAddress, String subject, String  message){
-		if(StringUtils.isNotBlank(username)){
+		if(StringUtils.isNotBlank(username) && StringUtils.isNotBlank(password)){
 			final Email email = new Email();
 			
 			email.setFromAddress(Constants.SYSTEM_NAME, username);
@@ -54,7 +56,7 @@ public class MailSender {
 			}else{
 				email.setText(message);
 			}
-			if(userSSL.equals("true")){
+			if(useSSL.equals("true")){
 				Mailer m = new Mailer(host, Integer.parseInt(port), username, password, TransportStrategy.SMTP_SSL);
 				m.sendMail(email);
 			}else{
@@ -113,12 +115,12 @@ public class MailSender {
 		this.isHtml = isHtml;
 	}
 
-	public String getUserSSL() {
-		return userSSL;
+	public String getUseSSL() {
+		return useSSL;
 	}
 
-	public void setUserSSL(String userSSL) {
-		this.userSSL = userSSL;
+	public void setUseSSL(String userSSL) {
+		this.useSSL = userSSL;
 	}
 
 	 
