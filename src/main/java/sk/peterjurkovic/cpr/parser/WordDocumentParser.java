@@ -50,18 +50,19 @@ public class WordDocumentParser  {
 	    ParseContext parseContext = new ParseContext();
 	    parseContext.set(Parser.class, new TikaImageExtractingParser(fileService, tikaProcessContext));
 	   
+	    String html = "";
 	    try {
 	    	parser.parse( content, handler, metadata, parseContext );
-	    	String html = cleanHtml(sw.toString());
-	    	
-	    	logger.info("String length " + html.length());
-	    	html = removeContentBefore(html);
-	    	html = removeContentAfter(html);
+	    	html = cleanHtml(sw.toString());
+	    } catch(Exception e) {
+	    	   logger.warn("Pri spracovavani dokumentu nastala chyba: "); 
+	    	   e.printStackTrace();
+	    	   return "";
+	    }	
+    	logger.info("String length " + html.length());
+    	html = removeContentBefore(html);
+    	html = removeContentAfter(html);
 	    	return html;
-	       } catch(Exception e) {
-	    	   logger.warn("Pri spracovavani dokumentu nastala chyba: "+ e.getMessage());  
-	    }		
-	    return null;
 	}
 	
 	
