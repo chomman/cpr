@@ -5,7 +5,6 @@ Web information system for Construction Products Regulation based on REGULATION 
 Improved of Standard terminology directory.
 
 Based on:
-
 * Java 7
 * Spring Framework 3.2
 * Spring Security
