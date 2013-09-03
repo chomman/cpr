@@ -77,6 +77,7 @@ public class WordDocumentParser  {
 	          handler = factory.newTransformerHandler();
 	       } catch (TransformerConfigurationException e) {
 	    	   logger.warn(String.format("SAX Processing is not available: ", e));
+	    	   return null;
 	       }
 	       
 	       handler.getTransformer().setOutputProperty(OutputKeys.INDENT, "yes");
@@ -109,10 +110,12 @@ public class WordDocumentParser  {
 		return  html	 
 				.replaceAll("<\\?xml.*?\\?>", "")
 				.replaceAll("(<b>\\s*</b>)", "")
+				.replaceAll("(<td>\\s*</td>)", "<td>&nbsp;</td>")
 				.replaceAll("(<p>\\s*</p>)", "")
 				.replaceAll("(<div>\\s*</div>)", "")
 				.replaceAll("&#13;","")
 				.replaceAll("&#8804;", "&le;")
+				.replaceAll("h1>", "b>")
 				.replaceAll("&#x2264;", "&le;");
 	}
 	
