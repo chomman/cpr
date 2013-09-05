@@ -13,7 +13,10 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
+import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
+import org.jsoup.select.NodeVisitor;
 
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
@@ -48,8 +51,17 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		}
 		
 		logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
-		
-		
+
+		for(int i = 0; i < czechTerminologies.size(); i++){
+			
+			if(czechTerminologies.get(i) != null){
+				logger.info(czechTerminologies.get(i).getSection() + " / " + czechTerminologies.get(i).getTitle());
+			}
+			
+			if(englishTerminologies.get(i) != null){
+				logger.info(englishTerminologies.get(i).getSection() + " / " + englishTerminologies.get(i).getTitle());
+			}
+		}
 		
 		return null;
 	}
@@ -60,7 +72,6 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		int collsSize = table.select("tr").first().select("td").size(); 
 		
 		Elements tds = table.select("td");
-		logger.info("tds size: " + tds.size());
 		
 		
 		if(tds.size() > 0){	
@@ -68,7 +79,6 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 			int j = 0;
 			while(iterator.hasNext()){
 				Element td = iterator.next();
-				logger.info(j +" / "+td.text());
 				if((j == 0 || j == 2) && StringUtils.isNotBlank(td.text())){
 					
 					if(j == 0){
@@ -106,7 +116,6 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		}else{
 			if(bElements.size() == 1){
 				Element b = bElements.first();
-				
 				String bContent = b.text();
 				
 				if(StringUtils.isNotBlank(bContent)){
@@ -124,13 +133,27 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				}
 				
 			}else{
-				logger.info("Bunka obsahuje viac b elementov: " + cell.html());
+				traverse(cell, lang);
+				
 			}
 			
 		}
 		
 	}
-
+	
+	private void traverse(Element cell, CsnTerminologyLanguage lang){
+		if( cell == null){
+			return;
+		}
+		List<Node> childrenNodes =  cell.childNodes();
+		
+		for(Node node : childrenNodes){
+			if (node instanceof TextNode) {
+				logger.info(((TextNode) node).text());
+		    }
+		}
+		
+	}
 	
 	
 	private void findContentAfterTable(Element table) {
@@ -151,8 +174,6 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	private CsnTerminology createNewTerminology(Matcher matcher, CsnTerminologyLanguage lang){
 		String section = matcher.group(1);
 		String title = matcher.group(3);
-		
-		logger.info(section + " / " + title);
 		
 		if(StringUtils.isNotBlank(section) && StringUtils.isNotBlank(title)){
 			 CsnTerminology newTerminology = new CsnTerminology();
