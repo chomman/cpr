@@ -25,6 +25,7 @@
 			<ul class="sub-nav">
 				<li><a class="active" href="<c:url value="/admin/csn/categories"  />"><spring:message code="csn.category.list" /></a></li>
 				<li><a href="<c:url value="/admin/csn/category/edit/0"  />"><spring:message code="csn.category.new" /></a></li>
+				<li><a href="<c:url value="/admin/csn/category/import"  />"><spring:message code="csn.category.import" /></a></li>
 			</ul>
 			
 			<c:if test="${not empty successDelete}">

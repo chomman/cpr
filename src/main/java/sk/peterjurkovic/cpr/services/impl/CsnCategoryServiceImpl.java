@@ -88,8 +88,20 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 		Validate.notNull(category);
 		return (csnCategoryDao.getCountOfCsnInCategory(category.getId()) == 0l);
 	}
+
 	
+	@Override
+	@Transactional(readOnly = true)
+	public CsnCategory getByCode(String code) {
+		return csnCategoryDao.getByCode(code);
+	}
+
 	
+	@Override
+	@Transactional(readOnly = true)
+	public CsnCategory findBySearchCode(String searchCode) {
+		return csnCategoryDao.findBySearchCode(searchCode);
+	}
 	
 	
 }

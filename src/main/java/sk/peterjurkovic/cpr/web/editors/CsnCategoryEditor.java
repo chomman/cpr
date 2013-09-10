@@ -16,7 +16,7 @@ import sk.peterjurkovic.cpr.services.CsnCategoryService;
 public class CsnCategoryEditor extends PropertyEditorSupport {
 	
 	@Autowired
-	private CsnCategoryService categoryService;
+	private CsnCategoryService csnCategoryService;
 	
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
@@ -27,7 +27,7 @@ public class CsnCategoryEditor extends PropertyEditorSupport {
 			setValue(null);
 			return;
 		}
-		setValue(categoryService.getById(id));
+		setValue(csnCategoryService.getById(id));
 	}
 	
 }

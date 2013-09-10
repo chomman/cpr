@@ -34,6 +34,15 @@ public class CsnCategoryDaoImpl  extends BaseDaoImpl<CsnCategory, Long> implemen
 	}
 
 	
+	@Override
+	public CsnCategory findBySearchCode(String searchCode) {
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("from CsnCategory c where c.searchCode=:code");
+		hqlQuery.setString("code", searchCode);
+		hqlQuery.setMaxResults(1);
+		return (CsnCategory) hqlQuery.uniqueResult();
+	}
+
+	
 	
 
 }

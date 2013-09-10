@@ -48,7 +48,11 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
     
-      <context:component-scan base-package="sk.peterjurkovic.cpr.parser">
+    <context:component-scan base-package="sk.peterjurkovic.cpr.parser">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan> 
+    
+    <context:component-scan base-package="sk.peterjurkovic.cpr.csvimport">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
 

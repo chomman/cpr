@@ -15,6 +15,8 @@ public interface CsnCategoryService {
 	
 	CsnCategory getById(Long id);
 	
+	CsnCategory getByCode(String code);
+	
 	List<CsnCategory> getAll();
 	
 	void saveOrUpdate(CsnCategory category);
@@ -22,4 +24,6 @@ public interface CsnCategoryService {
 	String getUniqeCsnCategoryCode(String name);
 	
 	boolean isCsnCategoryEmpty(CsnCategory category);
+	
+	CsnCategory findBySearchCode(String searchCode);
 }

@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.web.converters;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
@@ -19,8 +18,6 @@ public class CountryConverter implements Converter<String, Country> {
 	
 	@Autowired
 	private CountryService countryService;
-	
-	Logger logger = Logger.getLogger(getClass());
 	
 	@Override
 	public Country convert(String countryIdString) {	
