@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,6 +81,7 @@ public class CsnController extends SupportAdminController {
 	public CsnController(){
 		setTableItemsView("csn/csn-list");
 		setEditFormView("csn/csn-edit");
+		setViewName("csn/csn-csvimport");
 	}
 	
 	
@@ -212,7 +215,38 @@ public class CsnController extends SupportAdminController {
 	}
 	
 	
+	@RequestMapping(value = "/admin/csn/csvimport", method = RequestMethod.GET)
+	public String showImportPage(){
+		return getViewName();
+	}
 	
+	@RequestMapping(value = "/admin/csn/csvimport", method = RequestMethod.POST)
+	public String processCsvImport(@ModelAttribute(IMPORT_MODEL_ATTR) FileUploadItemDto uploadForm, 
+								BindingResult bindingResult,
+								HttpServletRequest request,
+								ModelMap modelMap){
+		MultipartFile file = uploadForm.getFileData();
+		Map<String, Object> model = new HashMap<String, Object>();
+		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
+			if(FilenameUtils.isExtension(file.getOriginalFilename(), "csv")){
+				/*
+				 * try {
+					
+				
+					model.put("count", 1);
+					modelMap.put("model", model);
+					modelMap.put("successCreate", true);
+				} catch (IOException e) {
+					modelMap.put("importFailed", true);
+					logger.warn("CSV subor: " +file.getOriginalFilename() + " sa nepodarilo importovat. Duvod: " + e.getMessage());
+				}
+				 * */
+			}else{
+				modelMap.put("importFailed", true);
+			}
+		}
+		return getViewName();
+	}
 	
 	/**
 	 * Aktualizuje, alebo vytvori novu ČSN

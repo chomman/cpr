@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import sk.peterjurkovic.cpr.csvimport.CsvImport;
+import sk.peterjurkovic.cpr.csvimport.CsnCategoryCsvImport;
 import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
@@ -44,7 +45,7 @@ public class CsnCategoryController extends SupportAdminController {
 	private CsnCategoryService csnCategoryService;
 	
 	@Autowired
-	private CsvImport csnCategoryCsvImport;
+	private CsnCategoryCsvImport csnCategoryCsvImport;
 	
 	public CsnCategoryController(){
 		setTableItemsView("csn/csn-category-list");
@@ -54,10 +55,16 @@ public class CsnCategoryController extends SupportAdminController {
 	
 	
 	@RequestMapping("/admin/csn/categories")
-	public String showCsnCategories(ModelMap modelMap){
+	public String showCsnCategories(ModelMap modelMap, @RequestParam(required = false, value = "code") String categoryCode){
 		Map<String, Object> model = new HashMap<String, Object>();
+		
+		if(StringUtils.isBlank(categoryCode)){
+			model.put("csnCategories", csnCategoryService.getSubRootCategories());
+		}else{
+			CsnCategory c = csnCategoryService.findBySearchCode(categoryCode);
+			model.put("categoryNode", c);
+		}		
 		model.put("tab", TAB_INDEX);
-		model.put("csnCategories", csnCategoryService.getAll());
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}
@@ -142,7 +149,7 @@ public class CsnCategoryController extends SupportAdminController {
 			modelMap.put("errorNotEmpty", true);
 		}
 		
-		return showCsnCategories(modelMap);
+		return showCsnCategories(modelMap, null);
 	}
 	
 	

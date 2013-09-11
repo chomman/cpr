@@ -13,8 +13,8 @@
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
-		<script src="<c:url value="/resources/public/js/jquery-1.9.0.min.js" />"></script>
-		<script src="<c:url value="/resources/admin/js/jquery-ui-1.9.2.custom.min.js" />"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<decorator:head/>
 		<c:if test="${not empty commonPublic.settings.googleAnalyticsTrackingCode}">

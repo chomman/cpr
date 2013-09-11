@@ -3,30 +3,36 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="csn.category.import" /></title>
+<title><spring:message code="csn.csvimport" /></title>
 </head>
 <body>
 	<div id="wrapper">
 	<div id="left">
+	
 		<jsp:include page="csn-nav.jsp" />
-	</div>
+		
+	</div>	
 	<div id="right">
+		
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/csn" />"><spring:message code="menu.csn" /></a> &raquo;
-			 <span><spring:message code="csn.category.import" /></span>
+			 <a href="<c:url value="/admin/csn" />"><spring:message code="menu.csn" /></a> &raquo;
+			 <span><spring:message code="csv.import" /></span>
+		
 		</div>
-		<h1><spring:message code="csn.category.edit" /></h1>
+		
+		<h1><spring:message code="csn.csvimport" /></h1>
 
 		<div id="content">
 			
 			<ul class="sub-nav">
-				<li><a href="<c:url value="/admin/csn/categories"  />"><spring:message code="csn.category.list" /></a></li>
-				<li><a href="<c:url value="/admin/csn/category/edit/0"  />"><spring:message code="csn.category.new" /></a></li>
-				<li><a class="active" href="<c:url value="/admin/csn/category/import"  />"><spring:message code="csn.category.import" /></a></li>
+				<li><a href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
+				<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+				<li><a class="active" href="<c:url value="/admin/csn/csvimport"  />"><spring:message code="csn.csvimport" /></a></li>
 			</ul>
-		
-			<c:url value="/admin/csn/category/import" var="formUrl"/>
+			
+			<c:url value="/admin/csn/csvimport" var="formUrl"/>
 			<form:form  modelAttribute="uploadForm" method="post" action="${formUrl}"  cssClass="csnFileUpload" enctype="multipart/form-data">	
 
 								
@@ -51,7 +57,7 @@
               		</p>
 			
 			</form:form>
-			<span class="note"><spring:message code="form.required" /></span>
+		
 		</div>	
 	</div>
 	<div class="clear"></div>	

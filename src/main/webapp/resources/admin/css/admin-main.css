@@ -6,6 +6,10 @@ body{font-family: Arial,Tahoma, sans-serif;}
 .hidden{ display:none;}
 .c{ text-align:center;}
 .l{ text-align:left;}
+
+
+
+.w40{width:40px;}
 label.tt{cursor: help;background:url(../img/info_mini.png) no-repeat 195px 5px; }
 a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
@@ -474,3 +478,42 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
     }
 
 
+.parentNode a{
+background: #3f4c6b; /* Old browsers */
+background: -moz-linear-gradient(top,  #3f4c6b 0%, #3f4c6b 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#3f4c6b), color-stop(100%,#3f4c6b)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #3f4c6b 0%,#3f4c6b 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #3f4c6b 0%,#3f4c6b 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #3f4c6b 0%,#3f4c6b 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #3f4c6b 0%,#3f4c6b 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3f4c6b', endColorstr='#3f4c6b',GradientType=0 ); /* IE6-9 */
+
+padding:15px 10px;display:block;color:#fff;letter-spacing:1px;font-size:16px;border-top:3px solid #ccc;
+}
+
+.parentNode a span{margin:10px;}
+.parentNode a:hover{background:#333656;}
+
+
+.overlay {
+    position:absolute;
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    background-color:rgba(0, 0, 0, 0.85);
+    background: url(data:;base64,iVBORw0KGgoAAAANSUhEUgAAAAIAAAACCAYAAABytg0kAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAgY0hSTQAAeiYAAICEAAD6AAAAgOgAAHUwAADqYAAAOpgAABdwnLpRPAAAABl0RVh0U29mdHdhcmUAUGFpbnQuTkVUIHYzLjUuNUmK/OAAAAATSURBVBhXY2RgYNgHxGAAYuwDAA78AjwwRoQYAAAAAElFTkSuQmCC) repeat scroll transparent\9; /* ie fallback png background image */
+    z-index:99;
+    color:white;
+-moz-opacity: 0.30;
+opacity: 0.30;
+-ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=30);
+
+}
+
+#loader{
+	z-index:999;
+	background:#fff url(../img/ajax-loader.gif) 10px center no-repeat;
+	padding:30px 30px 30px 60px;
+	border:3px solid #555;
+}

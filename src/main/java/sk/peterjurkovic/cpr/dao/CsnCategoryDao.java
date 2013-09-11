@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.dao;
 
+import java.util.List;
+
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 
 public interface CsnCategoryDao extends BaseDao<CsnCategory, Long>{
@@ -9,4 +11,6 @@ public interface CsnCategoryDao extends BaseDao<CsnCategory, Long>{
 	Long getCountOfCsnInCategory(Long categoryId);
 	
 	CsnCategory findBySearchCode(String searchCode);
+	
+	List<CsnCategory> getSubRootCategories();
 }

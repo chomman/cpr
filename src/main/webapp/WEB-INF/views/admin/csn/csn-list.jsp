@@ -25,6 +25,7 @@
 			<ul class="sub-nav">
 				<li><a class="active" href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
 				<li><a href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+				<li><a href="<c:url value="/admin/csn/csvimport"  />"><spring:message code="csn.csvimport" /></a></li>
 			</ul>
 			
 			<form class="filter" action="<c:url value="/admin/csn" />" method="get">

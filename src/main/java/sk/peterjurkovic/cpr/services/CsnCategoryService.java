@@ -26,4 +26,6 @@ public interface CsnCategoryService {
 	boolean isCsnCategoryEmpty(CsnCategory category);
 	
 	CsnCategory findBySearchCode(String searchCode);
+	
+	List<CsnCategory> getSubRootCategories();
 }

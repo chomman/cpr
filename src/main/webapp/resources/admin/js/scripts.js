@@ -1,3 +1,61 @@
+$(function() {
+	var urlPrefix = $('#base').text();
+	createClasses();
+	resize();
+	$('form.valid').submit(function(){
+		if(! validate($(this))){
+			showStatus({err : 1, msg : "Formulář je chybně vyplněn, zkontrolujte zadané data."});
+			return false;
+		}
+	});
+	
+	$('#quick-search').quicksearch('.data tbody tr');	
+	$('#req-nav select').change(function () {
+		var id = $(this).attr("id").replace("id", "");
+		window.location.href = urlPrefix + "admin/cpr/standard/edit/"+id+"/requirements?country=" + $(this).val();
+	});
+	
+	$(document).on("submit","form.csnFileUpload", showLoader);
+	
+    $('.tt').tooltip({
+        position: {
+            my: "center top",
+            at: "center bottom+10",
+        },
+        show: {
+            duration: "fast"
+        }});
+
+     $('input.csnOnlineReplace').on("paste keyup", function(){
+    	var val = $(this).val();
+    	if(val.length > 0 ){
+    		var regex = new RegExp(/.*\k=\d/gi);
+    		if (val.match(regex) ){
+    			$(this).val(val.substring(val.indexOf('?k=')+3));
+    		} 
+    	}
+     });
+     
+     $('.confirm').on('click', function () {
+         return confirm('Opravdu chcete odstranit tuto položku?');
+     });
+     
+     $('.confirmMessage').on('click', function () {
+         return confirm($(this).attr("data-message"));
+     });
+     
+     
+     
+     
+     $('.date').datepicker({
+			dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
+			monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
+			autoSize: false,
+			dateFormat: 'dd.mm.yy',
+			firstDay: 1});
+     
+     
+});
 function createClasses(){
 	$('tr:odd').addClass('odd');
 } 
@@ -87,65 +145,15 @@ jQuery.fn.center = function () {
 };
 
 
-
-$(function() {
-	var urlPrefix = $('#base').text();
-	createClasses();
-	resize();
-	$('form.valid').submit(function(){
-		if(! validate($(this))){
-			showStatus({err : 1, msg : "Formulář je chybně vyplněn, zkontrolujte zadané data."});
-			return false;
-		}
-	});
-	
-	$('#quick-search').quicksearch('.data tbody tr');	
-	$('#req-nav select').change(function () {
-		var id = $(this).attr("id").replace("id", "");
-		window.location.href = urlPrefix + "admin/cpr/standard/edit/"+id+"/requirements?country=" + $(this).val();
-	});
-	
-    $('.tt').tooltip({
-        position: {
-            my: "center top",
-            at: "center bottom+10",
-        },
-        show: {
-            duration: "fast"
-        }});
-
-     $('input.csnOnlineReplace').on("paste keyup", function(){
-    	var val = $(this).val();
-    	if(val.length > 0 ){
-    		var regex = new RegExp(/.*\k=\d/gi);
-    		if (val.match(regex) ){
-    			$(this).val(val.substring(val.indexOf('?k=')+3));
-    		} 
-    	}
-     });
-     
-     $('.confirm').on('click', function () {
-         return confirm('Opravdu chcete odstranit tuto položku?');
-     });
-     
-     $('.confirmMessage').on('click', function () {
-         return confirm($(this).attr("data-message"));
-     });
-     
-     
-     
-     
-     $('.date').datepicker({
-			dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
-			monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
-			autoSize: false,
-			dateFormat: 'dd.mm.yy',
-			firstDay: 1});
-     
-     
-});
-
-
+function showLoader(){
+	var html = '<div class="overlay"></div><div id="loader"><div>Čekejte prosím ...</div></div>';
+	$('body').append(html);
+	$loader = $('#loader');
+	$loader.center().show();
+}
+function removeLoader(){
+	$('#loader').remove();
+}
 
 (function($) {
     $.fn.extend( {
@@ -165,3 +173,11 @@ $(function() {
         }
     });
 })(jQuery);
+
+
+jQuery.fn.center = function () {
+    this.css("position","absolute");
+    this.css("top", Math.max(0, (($(window).height() - $(this).outerHeight()) / 2) + $(window).scrollTop()) + "px");
+    this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
+    return this;
+};

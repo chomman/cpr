@@ -1,0 +1,2191 @@
+01;OBECNÁ TŘÍDA
+02;STROJNÍ SOUČÁSTI
+03;STROJNÍ SOUČÁSTI - KOROZE A OCHRANA MATERIÁLU
+04;SLÉVÁRENSTVÍ
+05;SVAŘOVÁNÍ, PÁJENÍ, ŘEZÁNÍ KOVŮ A PLASTŮ
+06;TOPENÍ, PRŮMYSLOVÉ PECE, VAŘIDLA A TOPIDLA
+07;KOTLE
+08;TURBÍNY
+09;SPALOVACÍ MOTORY PÍSTOVÉ
+10;KOMPRESORY, VAKUOVÁ TECHNIKA A PNEUMATICKÁ ZAŘÍZENÍ
+11;ČERPADLA, HYDRAULICKÁ ZAŘÍZENÍ
+12;VZDUCHOTECHNICKÁ ZAŘÍZENÍ
+13;ARMATURY A POTRUBÍ
+14;CHLADICÍ TECHNIKA
+15;VÝROBKY Z PLECHU A DRÁTU
+16;VÝROBKY Z PLECHU A DRÁTU
+17;JEMNÁ MECHANIKA
+18;PRŮMYSLOVÁ AUTOMATIZACE
+19;OPTICKÉ PŘÍSTROJE, ZAŘÍZENÍ PRO KINEMATOGRAFII A REPROGRAFII
+20;OBRÁBĚCÍ STROJE NA KOVY
+21;TVÁŘECÍ STROJE
+22;NÁSTROJE
+23;NÁŘADÍ
+24;UPÍNACÍ NÁŘADÍ
+25;MĚŘICÍ A KONTROLNÍ NÁŘADÍ A PŘÍSTROJE
+26;ZAŘÍZENÍ DOPRAVNÍ A PRO MANIPULACI S MATERIÁLEM
+27;ZDVIHACÍ ZAŘÍZENÍ, STROJE PRO POVRCHOVOU TĚŽBU, STROJE A ZAŘÍZENÍ PRO ZEMNÍ, STAVEBNÍ A SILNIČNÍ PRÁCE
+28;KOLEJOVÁ VOZIDLA
+29;KOLEJOVÁ VOZIDLA
+30;SILNIČNÍ VOZIDLA
+31;LETECTVÍ A KOSMONAUTIKA
+32;LODĚ A PLOVOUCÍ ZAŘÍZENÍ
+33;ELEKTROTECHNIKA - ELEKTROTECHNICKÉ PŘEDPISY
+34;ELEKTROTECHNIKA
+35;ELEKTROTECHNIKA
+36;ELEKTROTECHNIKA
+37;ELEKTROTECHNIKA - ENERGETIKA
+38;ENERGETIKA - POŽÁRNÍ BEZPEČNOST
+39;ZBRANĚ PRO CIVILNÍ POTŘEBU
+40;JADERNÁ TECHNIKA
+41;HUTNICTVÍ - MATERIÁLOVÉ LISTY OCELÍ
+42;HUTNICTVÍ
+43;HUTNICTVÍ - STROJNÍ ZAŘÍZENÍ
+44;HORNICTVÍ
+45;HLUBINNÉ VRTÁNÍ A TĚŽBA NAFTY
+46;ZEMĚDĚLSTVÍ
+47;ZEMĚDĚLSKÉ A LESNICKÉ STROJE
+48;LESNICTVÍ
+49;PRŮMYSL DŘEVOZPRACUJÍCÍ
+50;PRŮMYSL PAPÍRENSKÝ
+51;STROJNÍ ZAŘÍZENÍ POTRAVINÁŘSKÉHO PRŮMYSLU
+52;STROJNÍ ZAŘÍZENÍ POTRAVINÁŘSKÉHO PRŮMYSLU
+53;STROJNÍ ZAŘÍZENÍ POTRAVINÁŘSKÉHO PRŮMYSLU
+56;VÝROBKY POTRAVINÁŘSKÉHO PRŮMYSLU
+57;VÝROBKY POTRAVINÁŘSKÉHO PRŮMYSLU
+58;VÝROBKY POTRAVINÁŘSKÉHO PRŮMYSLU
+62;PRŮMYSL GUMÁRENSKÝ, PRYŽ
+63;PRŮMYSL GUMÁRENSKÝ, PRYŽOVÉ VÝROBKY
+64;PLASTY
+65;VÝROBKY CHEMICKÉHO PRŮMYSLU
+66;VÝROBKY CHEMICKÉHO PRŮMYSLU
+67;VÝROBKY CHEMICKÉHO PRŮMYSLU
+68;VÝROBKY CHEMICKÉHO PRŮMYSLU
+69;STROJNÍ ZAŘÍZENÍ CHEMICKÉHO PRŮMYSLU
+70;VÝROBKY ZE SKLA A TAVENÝCH HORNIN
+71;SKLO A TAVENÉ HORNINY - MATERIÁLOVÉ LISTY A VÝROBNÍ ZAŘÍZENÍ
+72;STAVEBNÍ SUROVINY, MATERIÁLY A VÝROBKY
+73;NAVRHOVÁNÍ A PROVÁDĚNÍ STAVEB
+74;ČÁSTI STAVEB
+75;VODNÍ HOSPODÁŘSTVÍ
+76;Služby
+77;OBALY A OBALOVÁ TECHNIKA
+79;PRŮMYSL KOŽEDĚLNÝ
+80;TEXTILNÍ SUROVINY A VÝROBKY
+81;STROJNÍ ZAŘÍZENÍ TEXTILNÍHO PRŮMYSLU
+82;STROJE A ZAŘÍZENÍ PRO ÚPRAVU POVRCHU
+83;OCHRANA ŽIVOTNÍHO PROSTŘEDÍ, PRACOVNÍ A OSOBNÍ OCHRANA, BEZPEČNOST STROJNÍCH ZAŘÍZENÍ A ERGONOMIE
+84;ZDRAVOTNICTVÍ
+85;ZDRAVOTNICTVÍ
+86;ZDRAVOTNICTVÍ
+87;TELEKOMUNIKACE
+88;PRŮMYSL POLYGRAFICKÝ
+89;HUDEBNÍ NÁSTROJE
+90;KANCELÁŘSKÉ, ŠKOLNÍ A KRESLICÍ POTŘEBY
+91;VNITŘNÍ ZAŘÍZENÍ
+93;VÝSTROJNÉ ZBOŽÍ
+94;VÝSTROJNÉ ZBOŽÍ
+95;VÝSTROJNÉ ZBOŽÍ
+96;Kulturní dědictví
+97;VÝMĚNA DAT
+98;ZDRAVOTNICKÁ INFORMATIKA
+99;METROLOGIE
+01 00;Seznamy a předpisy o normách
+01 01;Pojmy všech oborů a třídění
+01 02;Vyvolená čísla, normální rozměry, statistické řízení jakosti apod.
+01 03;Jakost
+01 04;Formáty a písmo
+01 05;Všeobecná terminologie
+01 06;Oblast spolehlivosti v technice
+01 08;Systémy managementu bezpečnosti a ochrany zdraví při práci
+01 09;Systémy environmentálního managementu
+01 10;Matematika
+01 13;Fyzika
+01 14;Mechanika
+01 15;Management hospodaření s energií
+01 16;Akustika
+01 17;Optika
+01 20;Nanotechnologie
+01 23;Ochrana společnosti a obyvatel
+01 27;Směrnice pro užití barev
+01 28;Analytické normály
+01 30;Všeobecné požadavky na technickou dokumentaci
+01 31;Technické výkresy
+01 32;Výkresy ve strojírenství
+01 33;Značky pro elektrotechnická schémata
+01 34;Výkresy ve stavebnictví
+01 35;Výkresy různých oborů
+01 36;Výkresy různých oborů
+01 37;Dokumentační normy. Průmyslové systémy
+01 38;Reprografie
+01 39;Projektová a rozpočtová dokumentace
+01 40;Závity
+01 41;Nejistoty měření
+01 42;Tolerance a uložení hladkých součástí
+01 43;Tolerance a uložení závitových součástí
+01 44;Tolerance tvaru a polohy, geometrie povrchu
+01 46;Výpočtové hodnoty ozubených čelních kol
+01 47;Výpočtové hodnoty ozubených kuželových a šnekových kol
+01 48;Výpočtové hodnoty ozubených řetězových kol
+01 49;Konstrukční směrnice (zaoblení, sražení hran, střední důlky, rýhování, vroubkování, drážkování, zápichy, přídavky na obrábění)
+01 50;Všeobecné zkušební metody (pro víceúčelové použití)
+01 51;Všeobecné zkušební metody (pro víceúčelové použití)
+01 52;Oblast zkušebnictví, akreditace, certifikace
+01 59;Mazací technika
+01 63;Jednotný systém technologické přípravy výroby ve strojírenství
+01 69;Mechanizace administrativních prací
+01 70;Konstrukční a montážní směrnice
+01 80;Značení bezpečnostní, informační, orientační
+01 81;Úklidové služby
+01 82;Dopravní telematika
+01 83;Dopravní telematika
+01 84;Dopravní telematika
+01 85;Doprava
+01 93;Značky
+02 00;Balení, dodávání a značení spojovacích součástí
+02 10;Šrouby, matice, podložky. Část obecná
+02 11;Šrouby přesné a střední
+02 12;Šrouby přesné a střední (speciální)
+02 13;Šrouby hrubé
+02 14;Matice přesné
+02 15;Matice přesné a střední (speciální)
+02 16;Matice hrubé
+02 17;Zajištění a příslušenství šroubů
+02 18;Vruty a různé součásti se závitem do dřeva
+02 19;Různé závitové součásti
+02 20;Čepy, kolíky, svorníky a nýty
+02 21;Čepy, kolíky, svorníky a nýty
+02 23;Nýty
+02 25;Klíny a pera
+02 27;Upevňovací a zajišťovací součásti
+02 28;Hřebíky
+02 29;Stavěcí a pojistné kroužky
+02 30;Kluzná ložiska. Část obecná
+02 31;Součásti pohonů
+02 32;Svařovací řetězy, zkoušené, nezkoušené
+02 33;Svařovací řetězy, zkoušené, nezkoušené
+02 34;Kluzná ložiska
+02 35;Speciální ložiska
+02 36;Příslušenství valivých ložisek
+02 37;Ložiska pro letectví a kosmonautiku
+02 39;Různé
+02 42;Lana z neželezných kovů
+02 43;Lana ocelová
+02 44;Lana a jejich příslušenství
+02 46;Valivá ložiska
+02 47;Valivá ložiska
+02 48;Tělesa a víka ložisek
+02 50;Štítky, všeobecně
+02 51;Rukojeti, držadla, tlačítka
+02 52;Ruční kola, kliky
+02 58;Štítky
+02 60;Pružiny
+02 61;Pružiny
+02 62;Hřídelové spojky - mechanické neovládané
+02 64;Spojky
+02 65;Spojky
+02 70;Součásti pístových strojů
+02 72;Teploměrové jímky a jejich součásti
+02 74;Součásti pro mazací zařízení
+02 77;Spékané filtry
+02 83;Ohebné hadice
+02 84;Ohebné hadice, hřídele a příslušenství
+02 85;Ohebné hadice, hřídele a příslušenství
+02 89;Příslušenství základů, tlumení otřesů a vibrací
+02 90;Těsnění, všeobecně
+02 92;Těsnění výplňové a tvářené
+02 93;Těsnění kroužkové a jiné
+02 94;Těsnění tvarové
+02 95;Součásti pro těsnění
+03 10;Převodovky, všeobecně
+03 16;Mechanické převodovky pro pohon vozidel, letadel a strojů pro zemní práce
+03 18;Variátory
+03 80;Ochrana proti korozi, všeobecně
+03 81;Zkoušení koroze
+03 82;Oblasti koroze
+03 83;Oblasti koroze
+03 84;Dočasná ochrana. Inhibitory koroze
+03 85;Ochranné vrstvy kovové
+03 86;Ochranné vrstvy anorganické nekovové
+03 87;Ochranné vrstvy organické a kombinované
+03 88;Ochrana proti prostředím
+03 89;Třídění vnějšího prostředí
+03 90;Ochrana průmyslových zařízení systémem organických povlaků a obkladů
+04 00;Slévárenství, všeobecně
+04 20;Modely a příslušenství
+04 21;Modely a příslušenství
+04 23;Kovové modely s příslušenstvím
+04 27;Zkoušení písků a slévárenských přípravků
+04 28;Formovací hmoty
+04 40;Formátování, všeobecně
+04 43;Formátovací rámy a příslušenství
+04 65;Tlakové, kokilové nízkotlaké lití
+05 00;Svařování, všeobecně
+05 01;Svařování. Konstrukční předpisy a směrnice pro kovy
+05 02;Svařování. Výrobní směrnice a předpisy pro kovy
+05 03;Svařování. Výrobní předpisy z hlediska vybavení pracovišť a kvalifikace svářečů
+05 06;Bezpečnost svařování
+05 07;Zkoušení svářečů
+05 10;Rozbory škodlivin
+05 11;Destruktivní a nedestruktivní zkoušky svarů
+05 12;Zkoušení svarů
+05 13;Zkoušení svařitelnosti
+05 20;Stroje a zařízení, všeobecně
+05 21;Ruční a strojové svařování plamenem
+05 22;Obloukové svařování
+05 23;Obloukové svářečky
+05 24;Svařování elektrickým obloukem a plazmou
+05 25;Svařování v ochranných atmosférách
+05 26;Svařování elektrickým odporem bodové
+05 27;Švové odporové svařování
+05 28;Třecí svařování
+05 34;Řezání a drážkování
+05 42;Pomocné stroje a zařízení pro svařování, pájení a řezání kovůd
+05 46;Hořáky a příslušenství pro svařování
+05 50;Elektrody svařovací
+05 51;Elektrody svařovací
+05 52;Elektrody svařovací
+05 53;Dráty a tyčinky svařovací
+05 54;Dráty a tyčinky svařovací
+05 55;Plněné trubičkové elektrody
+05 56;Pájky
+05 57;Tavidla
+05 58;Svařování ocelí pod tavidlem
+05 59;Tvrdé pájení
+05 68;Svařování plastů
+05 69;Kombinované svařování, pájení a řezání
+06 00;Topení, průmyslové pece, všeobecně
+06 02;Ústřední vytápění, výpočty a projektování
+06 03;Ústřední vytápění, výpočty a projektování
+06 04;Ústřední vytápění, výpočty a vyhodnocení
+06 08;Ústřední vytápění, obsluha, provoz a bezpečnost
+06 10;Základní předpisy pro spotřebiče
+06 11;Otopná tělesa a příslušenství pro ústřední vytápění
+06 12;Topná a varná zařízení na pevná paliva
+06 13;Topná a varná zařízení na kapalná paliva
+06 14;Topná a varná zařízení na plynná paliva pro domácnost
+06 15;Topná a varná zařízení na paliva kombinovaná
+06 16;Topná a varná zařízení. Společné součásti
+06 18;Spotřebiče na plynná paliva, bezpečnostní a regulační prvky
+06 19;Topná a varná zařízení na plynná paliva pro průmyslové použití
+06 30;Palivové pece, všeobecně
+06 43;Palivové pece, hořáky a topné články
+06 50;Průmyslová tepelná zařízení
+06 87;Vařidla a topidla na pevná paliva a jejich součásti
+07 00;Názvosloví, hodnoty, výkony a typy kotlů
+07 02;Názvosloví, hodnoty, výkony a typy kotlů
+07 03;Tepelné aerodynamické a hydrodynamické zkoušky a výpočty
+07 04;Pevnostní hodnoty a výpočty
+07 06;Směrnice konstrukční, výrobní, montážní, provozní a pro opravy
+07 07;Směrnice konstrukční, výrobní, montážní, provozní a pro opravy
+07 40;Mlýny a třídiče
+07 53;Kotle pro ústřední vytápění
+07 58;Hořáky na plynná a kapalná paliva
+07 60;Ohřívače vzduchu
+07 64;Regulace spalovacího vzduchu
+07 70;Odstruskovací a odpopelňovací zařízení
+07 74;Napájecí voda
+07 75;Kotle a pomocná zařízení kotlů
+07 76;Vodotrubné kotle
+07 77;Balené kotle
+07 78;Válcové kotle
+07 81;Typy a druhy tlakových nádob
+07 82;Stabilní tlakové nádoby
+07 83;Kovové tlakové nádoby k dopravě plynů
+07 84;Kovové tlakové nádoby k dopravě plynů
+07 85;Kovové tlakové nádoby k dopravě plynů
+07 86;Kovové lahve na plyny a příslušenství
+08 00;Parní turbíny. Terminologie a všeobecně
+08 16;Regenerační ohříváky parních turbín
+08 19;Ohříváky parních turbín
+08 30;Spalovací turbíny. Názvosloví, všeobecná ustanovení, předpisy o zkoušení a přejímání
+08 35;Spalovací turbíny. Názvosloví, všeobecná ustanovení, předpisy o zkoušení a přejímání
+08 50;Vodní turbíny. Terminologie a všeobecně
+08 55;Automatizace vodních elektráren
+08 65;Regulace vodních turbín
+08 70;Větrné elektrárny
+09 00;Všeobecná ustanovení, konstrukční směrnice
+09 01;Všeobecná ustanovení, konstrukční směrnice
+09 06;Návody, zkoušení, přejímání, dodávání a měřicí metody
+09 07;Návody, zkoušení, přejímání, dodávání a měřicí metody
+09 08;Návody, zkoušení, přejímání, dodávání a měřicí metody
+09 31;Součásti spalovacích pístových motorů
+09 35;Součásti spalovacích pístových motorů
+09 54;Ovládací ústrojí
+09 73;Vstřikovací zařízení
+09 77;Příslušenství
+10 50;Kompresory, všeobecně
+10 51;Kompresory, kompresorové stanice, základní parametry a předpisy
+10 60;Ruční mechanizované nářadí
+10 70;Vakuová technika - všeobecně a měření ve vakuových systémech
+10 72;Stavební prvky pro vakuovou techniku
+10 90;Pneumatická zařízení, všeobecně
+10 91;Pneumatické válce
+10 92;Akumulátory
+10 94;Pneumatická šoupátka a ventily
+10 95;Příslušenství tlakovzdušných rozvodů, rozdělovače apod.
+10 96;Řídicí a upínací elementy
+11 00;Čerpadla, všeobecně
+11 01;Čerpadla, všeobecné normy konstrukční
+11 10;Součásti chránící
+11 15;Tvarovky pro čerpadla
+11 16;Nádoby, nádrže apod.
+11 17;Podvozky, nosítka, základové desky
+11 30;Čerpadla odstředivá, všeobecně; čerpadla odstředivá horizontální na studenou vodu
+11 31;Čerpadla odstředivá horizontální na horkou vodu
+11 33;Čerpadla odstředivá horizontální na ostatní kapaliny
+11 55;Čerpadla odstředivá - diagonální a axiální
+11 57;Hydrodynamická odstředivá obvodová čerpadla
+11 58;Čerpadla odstředivá - čerpací soustrojí
+11 67;Čerpadla objemová rotační
+11 70;Čerpadla objemová s kmitavým pohybem
+11 75;Čerpadla ostatní
+11 79;Čerpadla ostatní, čerpací soustrojí
+11 80;Průmyslová mazací zařízení. Všeobecně
+11 81;Průmyslová mazací zařízení. Všeobecně
+11 90;Hydrostatické mechanismy
+11 91;Hydrostatické mechanismy
+11 92;Hydrostatické mechanismy
+11 93;Hydrostatické mechanismy
+11 94;Hydrostatické mechanismy
+11 95;Hydrostatické mechanismy
+11 97;Hydrostatické mechanismy
+11 98;Hydrostatické mechanismy
+12 00;Rozdělení, směrnice, přehledy
+12 05;Potrubí kruhové, čtyřhranné a příslušenství
+12 10;Pneumatická doprava, všeobecně
+12 20;Ventilátory a dmychadla
+12 30;Radiální ventilátory
+12 40;Odlučovače
+12 50;Filtry a výměníky, všeobecně
+12 53;Zařízení pro čisté prostory
+12 56;Výměníky povrchové
+12 60;Sušárny, všeobecně a celky
+12 62;Sušárny, všeobecně a celky
+12 70;Větrání, klimatizace, odsávání
+12 71;Společné součásti
+12 78;Speciální vzduchotechnická zařízení
+13 00;Potrubí, všeobecně
+13 01;Předpisy a směrnice pro konstrukci, výrobu, montáž, údržbu, přejímání, zkoušení, dodávání apod.
+13 03;Součásti potrubí
+13 04;Součásti potrubí
+13 05;Uložení potrubí
+13 07;Uložení potrubí
+13 08;Uložení potrubí
+13 10;Příruby, všeobecně, předpisy, směrnice pro konstrukci a montáž
+13 11;Přírubová hrdla a příruby
+13 12;Přírubová hrdla a příruby
+13 13;Přírubová hrdla a příruby
+13 15;Součásti přírubových spojů (šrouby, matice, podložky, těsnění apod.)
+13 18;Různé části potrubí
+13 20;Litinové, tlakové trouby a tvarovky včetně smaltovaných
+13 21;Litinové odpadní trouby a tvarovky
+13 22;Tvarovky T a Y lisované, kované a svařované
+13 23;Hrdla, kolena, přechody
+13 26;Ohyby trubkové hladké a záhybové
+13 27;Kompenzátory
+13 28;Odvodňovače
+13 30;Armatury průmyslové, všeobecně
+13 32;Termoplastové armatury
+13 35;Ventily uzavírací
+13 37;Šoupátka
+13 38;Šoupátka
+13 39;Motýlové uzavírací klapky
+13 40;Ventily zpětné
+13 41;Kohouty
+13 42;Zpětné klapky a koše
+13 43;Pojistné ventily
+13 45;Ventily regulační
+13 47;Regulátory tlaku, hladiny, ventily plovákové
+13 48;Samočinné odvaděče kondenzátu
+13 53;Ventily uzavírací
+13 56;Armatury pro těžbu nafty
+13 58;Armatury budov
+13 59;Zdravotnětechnické armatury
+13 61;Armatury pro technické plyny
+13 63;Armatury kanalizační
+13 65;Armatury vodárenské
+13 66;Armatury protipožární
+13 67;Armatury pro kolejová vozidla
+13 70;Drobné armatury všeobecně a různé
+13 71;Drobné armatury vodovodní
+13 72;Drobné armatury vodovodní
+13 73;Drobné armatury pro ústřední topení
+13 74;Drobné armatury plynovodní
+13 75;Drobné armatury přesné
+13 76;Šroubení a součásti šroubení
+13 77;Šroubení a součásti šroubení
+13 78;Šroubení a součásti šroubení
+13 79;Šroubení a součásti šroubení
+13 81;Trubky a tvarovky z tvárné litiny
+13 82;Fitinky z temperované litiny a ocelové
+13 83;Fitinky z temperované litiny a ocelové
+13 84;Tvarovky z mědi a slitin mědi
+13 87;Potrubí a tvarovky z plastů
+13 89;Skleněné trubky a tvarovky
+13 93;Armatury z nerezivějících ocelí
+13 97;Armatury pro syntetickou chemii
+14 01;Chlazení, všeobecně
+14 03;Chlazení, všeobecně
+14 06;Směrnice a předpisy pro projektování, zkoušení, provoz, obsluhu a údržbu
+14 20;Chladicí zařízení a tepelná čerpadla
+14 22;Chladicí zařízení
+14 27;Chladicí zařízení pro domácnost
+14 30;Klimatizátory vzduchu, jednotky pro chlazení kapalin
+14 46;Chladiče, výměníky, mezichladiče
+14 51;Potrubí, hadice a jiné spojovací části pro nízkotlaká chladiva
+14 81;Izolace pro chladírenskou techniku
+15 10;Smaltované a plechové nádobí
+15 28;Pružinové vložky
+15 31;Kovová pletiva, tkaniny a sítě
+15 33;Tahokovy a děrované plechy
+15 39;Výrobky z drátů
+15 61;Drobné výrobky z plechu
+15 68;Drobné výrobky z plechu
+16 01;Hrubé kovové obaly, bubny
+16 02;Jemné kovové obaly
+16 23;Obaly kruhové
+16 28;Kanystry a konve
+16 30;Jemné obaly plechové
+16 35;Víčka na obaly
+16 51;Zámky stavební
+16 53;Zámky nábytkové
+16 57;Stavební kování, závěsy dveřní a okenní, závěsové komplety a systémy
+16 60;Kování, stavební, okenní, dveřní a nábytkové
+16 61;Kování, stavební, okenní, dveřní a nábytkové
+16 62;Kování, stavební, okenní, dveřní a nábytkové
+16 67;Kování letecké
+16 69;Kování bednové, žebříkové a jiné
+17 01;Technické kameny
+17 10;Hodinářský průmysl
+17 62;Pomocné laboratorní přístroje, zařízení a pomůcky
+17 70;Váhy, všeobecně
+17 78;Závaží vah
+17 80;Psací a kalkulační stroje
+17 81;Psací a kalkulační stroje
+17 92;Počítací stroje
+18 00;Terminologie, všeobecně
+18 01;Elektrické analogové výrobky a signály
+18 02;Konstrukce a bezpečnost elektrických výrobků
+18 03;Funkční bezpečnost elektrických a elektronických systémů
+18 04;Provozní podmínky výrobků
+18 10;Elektrické měřicí převodníky
+18 20;Systémy řízení výroby
+18 30;Systémy průmyslové automatizace
+18 40;Datové sběrnice procesů
+18 43;Číslicové řízení strojů
+18 50;Pneumatické analogové výrobky
+18 52;Pneumatické vysílače
+18 53;Pneumatické přístroje
+18 56;Pneumatická pomocná zařízení
+18 63;Elektrické servopohony
+18 65;Průmyslové roboty
+18 70;Přímočinné regulátory
+18 76;Svitky pro registrační přístroje
+18 80;Konstrukční stavebnice pro elektrotechniku
+19 00;Optika, všeobecně
+19 04;Kontrola měření a zkoušení optických výrobků
+19 05;Optické součásti, všeobecně
+19 19;Příslušenství optických filtrů a odrazky
+19 20;Lasery
+19 30;Vlnová optika
+19 31;Dalekohledy terestrické, celky
+19 40;Geodézie, všeobecně
+19 50;Oční optika, obecné požadavky
+19 51;Oční optika, brýlová skla a obruby
+19 52;Oční optika, kontaktní čočky
+19 53;Oční implantáty
+19 60;Fotografické přístroje
+19 61;Fotografické přístroje
+19 66;Zvětšovací přístroje
+19 67;Reprografické přístroje a zařízení
+19 80;Kinematografie. Značení obalů
+19 82;Kinematografické snímací filmové přístroje a zařízení na 16 mm
+19 83;Kinematografické promítací filmové přístroje a zařízení na 16 mm
+19 84;Kinematografické snímací filmové přístroje a zařízení na 35 mm
+19 85;Kinematografické promítací filmové přístroje a zařízení na 35 mm
+19 86;Kinematografické snímací a promítací filmové přístroje a zařízení na 35 mm
+19 88;Diaprojektory
+19 89;Kinematografie, společné součásti a příslušenství
+20 00;Obráběcí stroje, všeobecně
+20 02;Názvosloví a třídění
+20 03;Přesnost obráběcích strojů
+20 04;Základní parametry
+20 06;Číslicové řízení obráběcích strojů
+20 07;Bezpečnostní předpisy
+20 08;Bezpečnost nástrojů, nářadí a zařízení
+20 10;Upínání a středění obráběného materiálu
+20 15;Upínání a středění nástrojů
+20 25;Souřadnicové měřící stroje
+20 44;Obráběcí jednotky ostatní (brousicí, superfinišovací, honovací, utahovací)
+20 45;Jednotky pohonové, posuvové, včetně posuvových šroubů
+20 46;Stavebnicové uzly pro stavbu obráběcích strojů
+20 47;Různá zařízení a pomocné součásti obráběcích strojů
+20 57;Různá zařízení a pomocné součásti obráběcích strojů
+20 58;Různá zařízení a pomocné součásti obráběcích strojů
+21 00;Tvářecí stroje, všeobecně
+21 02;Názvosloví a třídění
+21 03;Přesnost tvářecích strojů
+21 04;Hlavní parametry a základní rozměry hydraulických tvářecích strojů
+21 06;Hlavní parametry a základní rozměry mechanických tvářecích strojů
+21 07;Bezpečnostní předpisy
+21 13;Upínání na tvářecích strojích pro plošné tváření
+21 14;Upínání na tvářecích strojích pro objemové tváření
+21 15;Upínání na tvářecích strojích pro tváření plastů
+22 00;Třídění norem třídy 22
+22 01;Výrobní a konstrukční směrnice
+22 02;Předpisy pro zkoušení, přejímání, použití a údržbu
+22 04;Upínací prvky
+22 05;Nože s břitovými destičkami SK pro NC stroje
+22 06;Příslušenství řezných nástrojů
+22 07;Břitové destičky z rychlořezné oceli a z řezné keramiky
+22 08;Břitové destičky ze slinutých karbidů
+22 09;Břitové destičky ze slinutých karbidů
+22 11;Šroubovité vrtáky na kovy, plasty a jiné hmoty
+22 13;Nástroje s břitovými destičkami ze slinutých karbidů na díry, zahlubování a zarovnávání
+22 14;Výhrubníky a výstružníky
+22 16;Záhlubníky, zarovnávací nástroje
+22 17;Nože na souřadnicové vrtačky, vyvrtávací tyče a hlavy s noži
+22 18;Nástroje protahovací, protlačovací apod.
+22 19;Nástroje důlní, na zdivo a kámen
+22 20;Frézy, nástroje na ozubení a pily na kovy
+22 21;Frézy válcové čelní, kotoučové, drážkovací
+22 22;Frézy zaoblovací, úhlové, kuželové a tvarové
+22 23;Frézy se vsazenými zuby a frézovací hlavy
+22 24;Frézy s břitovými destičkami ze slinutých karbidů
+22 25;Nástroje na ozubená kola čelní
+22 27;Nástroje na řetězové, drážkové, vrubové a jiné ozubení
+22 28;Frézy úhlové a tvarové
+22 29;Pilové kotouče a listy na kovy
+22 30;Závitníky
+22 32;Závitníkové čelisti
+22 33;Závitové nože a frézy
+22 34;Ostatní závitové nástroje
+22 35;Soustružnické nože z nástrojových ocelí
+22 36;Soustružnické, revolverové, automatové, hoblovací a obráběcí nože
+22 37;Nože s břitovými destičkami ze slinutých karbidů
+22 38;Nože s břitovými destičkami ze slinutých karbidů
+22 39;Revolverové nože z rychlořezné oceli a nože tvarové
+22 40;Brusivo, všeobecně
+22 41;Brousicí, lešticí, lapovací prášky a pasty
+22 44;Brousicí, honovací a superfinišovací kameny
+22 45;Brousicí a řezací kotouče
+22 46;Brousicí tělíska a diamantové lapovací a rozřezávací kotouče
+22 47;Brousicí segmenty
+22 48;Rotační kartáče a lešticí kotouče
+22 49;Orovnávací nářadí, diamantové nástroje apod.
+22 51;Sekery a různé
+22 52;Pilky a pilové listy na dřevo
+22 53;Pilky a pilové listy na dřevo
+22 56;Vrtáky, nebozezy, záhlubníky
+22 57;Frézy na dřevo
+22 59;Udržovací nářadí
+22 60;Lisovací nástroje, všeobecně
+22 61;Nůžky, řezací kolečka, průbojníky apod.
+22 62;Společné součásti střihadel
+22 63;Společné součásti střihadel sdružených a ostřihovacích nástrojů
+22 65;Střihadla a ostřihovadla
+22 70;Nástroje na tváření za studena, všeobecně
+22 71;Razidla značkovací, zdrsňovací kolečka, vyrovnávací trny
+22 72;Lisovací nástroje pro tabletování
+22 73;Nástroje tváření na pásy, plechy karoserie, trubky apod.
+22 75;Průvlaky a tažné trny
+22 81;Hlavičkáře, přítažníky, sedlíky, kovadliny, rovnací desky
+22 83;Zápustky kovací a okrajovadla
+22 86;Formy pro tlakové lití neželezných kovů, tváření plastů a pryže
+22 88;Formy pro tlakové lití neželezných kovů, tváření plastů a pryže
+22 90;Různé nástroje a nářadí
+22 91;Ruční pilníky a struháky
+22 92;Ruční pilníky a struháky
+22 94;Škrabáky na kovy
+22 96;Slévačské nářadí
+23 00;Přehled, všeobecně
+23 01;Kladiva a palice
+23 02;Kladiva a palice pro zvláštní účely
+23 03;Kleště
+23 04;Hasáky a kleště pro zvláštní účely
+23 05;Hasáky a kleště pro zvláštní účely
+23 06;Klíče
+23 07;Klíče
+23 08;Šroubováky
+23 14;Olejnice, mazací lisy
+23 16;Montážní nářadí
+23 24;Nástroje řezací, vykrajovací, hoblovací apod.
+23 28;Sekáče
+23 30;Kartáčnické výrobky, přehled, všeobecně
+23 41;Násady, topůrka, rukojeti
+23 71;Lopaty a rýče
+23 72;Krumpáče a motyky
+23 74;Různé nářadí pro zemědělství
+23 75;Vidle, hrábě, srpy, kosy
+23 78;Zednické nářadí
+23 87;Nářadí pro svařování a pájení
+23 90;Mechanické ruční nářadí, všeobecně
+23 91;Ruční strojky (nástroje)
+24 11;Vratidla a nástavce
+24 12;Držáky vodicí, redukční pouzdra a nástavky pro vrtací stroje
+24 13;Sklíčidla a upínací hlavy pro vrtací stroje
+24 14;Trny a redukční pouzdra s příslušenstvím pro frézy
+24 15;Držáky nástrojů na závity
+24 21;Upínací nářadí pro revolvery a automaty, kleštinová pouzdra
+24 22;Upínací nářadí pro automaty
+24 23;Upínací nářadí pro různé stroje (soustruhy, frézky, obrážečky a jiné)
+24 24;Upínací nářadí pro vyvrtávačky
+24 31;Svěráky, svěrky, svěrací oka apod.
+24 32;Upínací desky, úhelníky, skříně, stoly
+24 33;Upínací hroty, unašeče, srdce, upínací trny apod. pro soustruhy a brusky
+24 35;Prvky upínacích přístrojů
+24 36;Prvky upínacích přístrojů
+24 37;Prvky upínacích přístrojů
+24 38;Sklíčidla, upínací příruby, lícní desky pro obráběcí stroje apod.
+24 40;Ruční upínání obrobků
+24 41;Dělicí a hrotové přístroje
+24 42;Přístroje vrtací, frézovací, brousicí apod.
+24 67;Upínání obrobků magnetické a elektromagnetické
+24 72;Upínací držáky do vřeten NC strojů
+24 73;Upínací pouzdra se stavitelnou stopkou do držáků do vřeten NC strojů
+24 91;Nářadí pomocné
+25 00;Všeobecně
+25 01;Ověřování měřidel a měřicích zařízení všeobecně
+25 02;Ověřování konkrétních měřidel a měřicích zařízení
+25 09;Příslušenství měřicích přístrojů a registrační papíry
+25 10;Délková měřidla
+25 11;Délková měřidla
+25 12;Hmatadla, posuvky apod.
+25 14;Mikrometrická měřidla
+25 16;Úhloměry, tloušťkoměry, spároměry a drátoměry
+25 18;Číselníkové úchylkoměry a příslušenství
+25 19;Měřidla pro měření přesnosti obráběcích strojů
+25 20;Souřadnicové měřící stroje
+25 23;Přístroje na měření geometrických vlastností povrchu
+25 31;Mezní kalibry pro průměry a délkové rozměry
+25 32;Mezní a porovnávací kalibry
+25 33;Základní měrky a příslušenství, kuželové kalibry a kontrolní trny
+25 35;Kalibry na drážkové hřídele a náboje a měřidla tvarová
+25 37;Sinusová pravítka, nožová pravítka, úhelníky nožové
+25 38;Šablony poloměrové, tvarové a jiné
+25 40;Závitové kalibry pro lícování metrického závitu ISO
+25 41;Mezní kalibry na závity
+25 42;Mezní kalibry na závity
+25 43;Mezní kalibry na závity
+25 46;Ostatní závitová měřidla
+25 47;Přístroje a zařízení k měření ozubení
+25 51;Rýsovací a kontrolní nářadí
+25 53;Rýsovací a kontrolní nářadí
+25 55;Rýsovací a kontrolní nářadí
+25 57;Vodováhy, olovnice, úhlová zrcátka
+25 61;Stroje a zařízení pro měření plochy a délky
+25 70;Tlakoměry, všeobecně a součásti
+25 72;Tlakoměry
+25 74;Analyzační zařízení
+25 75;Měření objemu
+25 76;Měření objemové hmotnosti a hustoty
+25 77;Měření průtoku kapalin a plynů v uzavřených profilech
+25 78;Měřidla na měření průtoku a množství kapalin a plynů
+25 79;Viskozimetry
+25 80;Teploměry všeobecně, součásti
+25 81;Skleněné teploměry kapalinové
+25 82;Teploměry tlakové, s kontakty a pro transformátory
+25 83;Teploměry termočlánkové a odporové
+25 85;Měření tepla a indikátory pro rozdělování topných nákladů
+25 91;Defektoskopy
+25 93;Měření průtoku kapalin v otevřených korytech
+25 96;Kontrolní síta apod.
+26 00;Transportní zařízení, všeobecně
+26 03;Společné nosné dopravní prostředky
+26 04;Řetězy a řetězová kola pro transportéry
+26 06;Bezpečnostní předpisy
+26 11;Válečky
+26 13;Pásové dopravníky s korýtkovým dopravním profilem
+26 20;Korečkové elevátory
+26 25;Redlerové transportéry
+26 28;Dopravní šneky
+26 30;Transportéry s ocelovými a pryžovými pásy
+26 31;Transportéry s ocelovými a pryžovými pásy
+26 32;Transportéry s pryžovými pásy, lehké provedení
+26 35;Článkové transportéry
+26 37;Laťkové transportéry
+26 40;Poháněné závěsové tratě
+26 41;Zařízení pro plynulou dopravu kusových břemen
+26 45;Válečkové tratě gravitační
+26 46;Skluzy, tobogány
+26 47;Kladičkové tratě
+26 57;Vibrační dopravníky
+26 61;Podavače
+26 62;Uzávěry
+26 64;Podavače šnekové
+26 70;Nakladače, vykladače, výklopníky, všeobecně
+26 71;Nakladače, vykladače, výklopníky, všeobecně
+26 72;Nakladače, vykladače, výklopníky, všeobecně
+26 74;Regálové zakladače
+26 75;Prostředky lidové zábavy
+26 76;Paletovací a odpaletovací stroje
+26 86;Dopravní vozíky a tahače, všeobecně, ruční vozíky
+26 88;Vozíky s pohonem
+26 89;Vozíky s pohonem, vlečné vozíky, součásti a příslušenství
+26 90;Manipulace s materiálem, všeobecně
+26 91;Palety, přepravky, regály
+26 93;Palety, přepravky, regály
+26 94;Pracovní plošiny manipulační
+26 95;Regály
+26 96;Skladová technika. Regály
+26 97;Vyrovnávací můstky
+26 98;Nákupní vozíky
+27 00;Dopravní zařízení, všeobecně
+27 01;Dopravní zařízení, všeobecně
+27 02;Jeřáby mostové, sloupové, portálové a konzolové
+27 03;Jeřáby mostové, sloupové, portálové a konzolové
+27 05;Jeřáby různých konstrukcí
+27 06;Zdvihadla, kladkostroje
+27 08;Stojanové zvedáky
+27 15;Pojezdná kola a příslušenství
+27 18;Lanové bubny a kladky
+27 19;Háky, pojistný materiál, koncové narážky
+27 20;Součásti jeřábových drah
+27 24;Názvosloví konstrukčních dílců jeřábových drah
+27 30;Visuté lanové dráhy osobní
+27 32;Visuté lanové dráhy nákladní
+27 33;Dopravní pásy pro přepravu osob
+27 36;Lanové jeřáby a shrnovače
+27 37;Lyžařské vleky
+27 38;Důlní lanové dráhy
+27 39;Lyžařské vleky
+27 40;Výtahy, všeobecně
+27 41;Výtahy. Pohyblivé schody a pohyblivé chodníky. Elektromagnetická kompatibilita
+27 42;Výtahy - Hluk
+27 43;Šachty a strojovny výtahů
+27 44;Stavební výtahy
+27 46;Výtahy, provoz
+27 48;Šachty a strojovny výtahů
+27 50;Pohyblivé plošiny
+27 54;Parkovací systémy
+27 60;Prostředky lidové zábavy
+27 63;Vytvářecí, formovací a zhutňovací zařízení pro výrobu silikátových dílců
+27 70;Rýpadla a zakladače
+27 74;Stroje a zařízení pro zemní, stavební a silniční práce. Terminologie
+27 75;Stroje a zařízení pro zemní práce. Parametry, požadavky, měření a zkoušení
+27 76;Stroje a zařízení pro zemní práce. Parametry, požadavky, měření a zkoušení
+27 78;Stroje a zařízení pro zemní práce. Provoz a údržba
+27 79;Stroje a zařízení pro zemní práce. Bezpečnostní požadavky
+27 80;Stroje a zařízení pro zemní, stavební a silniční práce. Všeobecná ustanovení
+27 81;Stroje a zařízení pro zemní práce. Součásti, díly a komponenty
+27 82;Stroje a zařízení pro zemní práce. Nakladače, dampry, skrejpry, grejdry a pokladače potrubí
+27 83;Pojízdné stroje pro stavbu vozovek
+27 84;Stroje a zařízení pro zhutňování, dopravu a třídění materiálu
+27 85;Stroje a zařízení pro výrobu směsí pro stavebnictví
+27 86;Stroje a zařízení pro zpracování stavebních materiálů
+27 87;Stroje pro výrobu stavebních výrobků
+27 88;Stroje a provozy pro výrobu, zpracování a úpravu skla
+27 89;Víceúčelové stroje a zařízení pro zemní, stavební a silniční práce
+27 91;Drtiče nerostných materiálů
+28 00;Třídění, přehledy, pojmy
+28 01;Technické dodací předpisy vozidel
+28 03;Výpočty, konstrukční směrnice
+28 05;Pojezdy a podvozky
+28 07;Cisternové vozy
+28 09;Nákladní vozy
+28 10;Stroje a zařízení pro stavbu a údržbu kolejí
+28 11;Průmyslové elektrické lokomotivy
+28 13;Vozidla městské dopravy
+28 15;Vnitřní prostředí kolejových vozidel
+28 17;Průmyslové vozy (hutní, stavební, důlní apod.)
+28 19;Aerodynamika
+28 38;Táhlové a narážecí ústrojí, spřáhla ruční a samočinná
+28 40;Brzdová soustava
+28 42;Vypružení
+28 72;Osvětlení, vytápění a klimatizace, příslušenství
+29 30;Šroubení
+29 91;Výhybky
+30 00;Silniční vozidla, všeobecně
+30 01;Symboly, značení
+30 02;Vozidla pro dopravu osob
+30 03;Vozidla nákladní pro zvláštní účely
+30 04;Traktory, kolopásová a pásová vozidla, předpisy
+30 05;Zkoušky vozidel, měření spotřeby, jízdní vlastnosti
+30 06;Silniční dopravní telematika
+30 07;Konstrukční směrnice a předpisy
+30 08;Hrdla palivových nádrží
+30 10;Zátky, pera apod.
+30 13;Zátky, pera apod.
+30 15;Pouzdra, ložiska, klouby, objímky apod.
+30 20;Motory, všeobecně
+30 21;Písty, pístní čepy
+30 22;Klikové a rozvodové ústrojí
+30 23;Vstřikovací zařízení, karburátory, čištění paliva a oleje
+30 24;Vstřikovací zařízení, karburátory, čištění paliva a oleje
+30 26;Chlazení
+30 31;Spojky
+30 32;Klouby, hřídele apod.
+30 33;Součásti ovládání a řízení
+30 34;Brzdy kapalinové, vzduchové
+30 35;Brzdy kapalinové, vzduchové
+30 36;Spojení tahače a přívěsu
+30 37;Ráfky, kola
+30 38;Ventily duší a pneumatik
+30 40;Elektrická výstroj, všeobecně
+30 41;Zapalovací soustava
+30 42;Spouštěče, dynama, elektromotorky
+30 43;Světlomety a svítilny
+30 44;Pojistky, spínače, spojení a svorkovnice
+30 45;Vysokonapěťové součástky
+30 46;Stěrače, houkačky a přerušovače
+30 47;Odrušovací součástky
+30 50;Měřicí přístroje, všeobecně
+30 51;Elektrické měřicí přístroje
+30 52;Mechanické zvedáky a příslušenství
+30 70;Traktory, všeobecně a součásti
+30 72;Terénní vozidla
+30 74;Rám a příslušenství přívěsů
+30 76;Motocykly, součásti
+30 90;Jízdní kola
+30 94;Jízdní kola
+30 95;Jízdní kola
+30 97;Jízdní kola
+31 00;Všeobecně. Terminologie, rozdělení letadel apod.
+31 01;Letadlo všeobecně (rozměry, hmotnosti, letové vlastnosti a výkony)
+31 02;Veličiny a jednotky, standardní atmosféra, symboly
+31 03;Hluk a emise letadel
+31 04;Zabezpečení jakosti, způsobilost výrobků, značení
+31 05;Kosmonautika
+31 10;Výkresová, výrobní a provozní dokumentace (úprava, archivace, značení výrobků apod.)
+31 12;Nerozebíratelné spoje
+31 15;Hydraulické a pneumatické soustavy a prvky
+31 17;Elektrické a elektronické soustavy a prvky
+31 18;Elektrické a elektronické soustavy a prvky
+31 19;Optická vlákna a kabely
+31 20;Kovové materiály. Všeobecně, zkoušení, výběry
+31 21;Oceli. Technické specifikace
+31 23;Hliník, hořčík a jejich slitiny. Technické specifikace
+31 24;Hliník, hořčík a jejich slitiny. Materiálové listy
+31 25;Titan a slitiny titanu
+31 26;Těžké neželezné kovy. Pájky
+31 27;Hutní výrobky pro letectví. Rozměry
+31 30;Spojovací a konstrukční součásti. Všeobecné požadavky
+31 31;Šrouby
+31 32;Šrouby, matice a podložky
+31 33;Matice
+31 34;Spojovací součásti bez závitu
+31 35;Pojišťovací prvky
+31 36;Uzávěry, víka, kryty
+31 37;Lana, koncovky lan, napínáky
+31 38;Šroubení, potrubí, hadice
+31 39;Nerozebíratelné stroje
+31 41;Držáky a svěrky
+31 42;Letectví a kosmonautika. Závitová pozdra
+31 43;Nýty
+31 45;Mechanické převody
+31 47;Táhla a jejich příslušenství
+31 48;Kluzná ložiska
+31 49;Valivá ložiska
+31 55;Elektrické a elektronické systémy a prvky pohonných jednotek
+31 57;Přístroje a příslušenství
+31 62;Drak, konstrukce draku
+31 64;Přistávací zařízení, odmrazování
+31 68;Palubní přístrojové, komunikační a navigační vybavení
+31 70;Nekovové materiály. Obecně, zkoušení, výběry apod.
+31 71;Elastomery a těsnící materiály
+31 73;Termoplasty a transparentní materiály
+31 75;Lepidla
+31 76;Vyztužené plasty, kompozity
+31 77;Vyztužené plasty, kompozity
+31 79;Barvy pro nátěry (barvy, laky, ředidla, rozpouštědla apod.)
+31 80;Technologické a zkušební postupy, bezpečnost práce
+31 82;Povrchová ochrana a příprava povrchu, včetně zpevňování
+31 83;Povrchová ochrana a příprava povrchu, včetně zpevňování
+31 89;Mazadla a mazací systémy
+31 90;Letecká doprava osob
+31 91;Letecká doprava zboží
+31 93;Pozemní provozní zařízení
+31 95;Zařízení pro odledňování
+31 98;Pozemní provozní a zabezpečovací zařízení
+32 00;Lodě a plovoucí zařízení. Všeobecné normy
+32 01;Lodní těleso
+32 02;Směrnice pro konstrukci plavidel
+32 08;Parametry plavidel. Malá plavidla
+32 10;Lodní těleso. Všeobecně
+32 11;Konstrukce lodního trupu
+32 12;Konstrukce lodních nástaveb
+32 18;Kotevní řetězy
+32 22;Lodní dveře
+32 23;Lodní zábradlí
+32 24;Lodní průlezy, poklopy a víka
+32 26;Lodní pevná výstroj
+32 27;Lodní pevná výstroj
+32 30;Lodní palubní a hospodářská zařízení
+32 31;Lodní palubní a hospodářská zařízení
+32 32;Lodní palubní a hospodářská zařízení
+32 33;Uvazovací a manipulační zařízení
+32 34;Lodní palubní a hospodářská zařízení
+32 35;Lodní palubní stěžňová zařízení
+32 39;Lodní hospodářská a technologická zařízení
+32 40;Lodní propulzní, pomocná a speciální zařízení
+32 41;Hlavní stroje a motory
+32 42;Dálkové ovládání pomocného zařízení
+32 45;Lodní propulzní, pomocná a speciální zařízení
+32 50;Lodní potrubní soustavy
+32 51;Lodní potrubní soustavy
+32 52;Lodní potrubní soustavy
+32 54;Lodní potrubní soustavy
+32 55;Lodní potrubní soustavy
+32 57;Lodní potrubní soustavy
+32 59;Větrací a klimatizační soustavy
+32 60;Lodní elektrozařízení
+32 63;Zdroje elektrické energie
+32 66;Elektroinstalace na lodích
+32 67;Lodní elektrozařízení
+32 68;Slaboproudé rozvody a zařízení
+32 80;Lodní inventář
+32 82;Kotevní inventář
+32 83;Uvazovací a vlečný inventář a výstroj
+32 84;Lodní inventář
+32 85;Navigační inventář
+32 86;Záchranné prostředky
+32 89;Inventář dílen, strojoven a místností
+32 95;Příchytky, konzoly, držáky
+33 00;Terminologie - Mezinárodní slovník
+33 01;Jmenovité hodnoty a značení předmětů
+33 02;Základní požadavky na materiály
+33 03;Prostředí pro elektrická zařízení
+33 04;Koordinace izolace
+33 05;Bezpečnost elektrických zařízení
+33 06;Bezpečnost elektrických zařízení
+33 13;Bezpečnost zacházení s elektrickým zařízením
+33 15;Revize elektrických zařízení
+33 16;Revize elektrických předmětů a zařízení
+33 20;Společné zařizovací předpisy
+33 21;Společné zřizovací předpisy
+33 22;Zařizovací předpisy pro elektrická zařízení strojů
+33 23;Elektrická zařízení v různých prostředích
+33 24;Elektrická zařízení v různých objektech
+33 25;Zařízení pro sklady; jeřáby a výtahy
+33 26;Zařízení akumulátoroven
+33 30;Zařizovací předpisy pro silová zařízení
+33 31;Výrobny elektrické energie
+33 32;Rozvodná zařízení a elektrické stanice
+33 33;Rozvod elektrické energie
+33 34;Odběr elektrické energie
+33 35;Elektrická dopravní zařízení
+33 40;Sdělovací zařízení a vedení
+33 41;Radiokomunikační zařízení. Bezpečnost rádiových vysílačů
+33 42;Ochrana radiového příjmu před rušením
+33 45;Elektrická řídicí zařízení
+33 46;Operativní řízení provozu
+33 47;Automatizace dodávky elektrické energie s použitím vf přenosových systémů po distribučním vedení
+33 48;Komunikační sítě a systémy v podřízených stanicích
+33 49;Rozhraní aplikačního programu pro systémy řízení elektrické energie (EMS-API)
+33 50;Elektrotepelná zařízení
+33 60;Technologie palivových článků
+34 01;Povrchové cesty a vzdušné vzdálenosti
+34 03;Pohyblivé přívody a šňůrová vedení
+34 04;Elektrické spoje a svorky
+34 08;Ultrazvuková zařízení a hydrofony
+34 10;Obyčejná elektrická zařízení
+34 13;Zvláštní elektrická zařízení
+34 14;Elektrická zařízení v dolech
+34 15;Elektrická dopravní a trakční zařízení
+34 16;Elektrická zařízení v těžkých provozech
+34 17;Zařízení s roentgeny a radioaktivními látkami
+34 20;Ochrana sdělovacích zařízení před rušením
+34 21;Elektrická nadzemní sdělovací vedení
+34 23;Vnitřní sdělovací rozvody
+34 25;Rozhlas po vedení
+34 26;Železniční zabezpečovací zařízení
+34 27;Požární signalizace a dorozumívací zařízení
+34 28;Předpisy pro odrušení
+34 30;Elektrická bezpečnost ve zvláštních podmínkách
+34 31;Práce na elektrických zařízeních a vedeních
+34 32;Obsluha točivých strojů a transformátorů
+34 33;Návody k obsluze a rozmrazování potrubí
+34 35;Bezpečnostní tabulky a nápisy
+34 38;Ruční lisovací nástroje k zakončení elektrických kabelů
+34 51;Terminologie v elektrotechnice
+34 53;Řady napětí a kmitočtů
+34 55;Značky nahrazující nápisy
+34 56;Zkoušení a měření
+34 57;Zkoušky vlivu vnějších činitelů prostředí
+34 58;Magnetické součástky a měření
+34 59;Materiály pro elektroniku
+34 62;Izolační soustavy
+34 63;Keramické a skleněné izolační materiály
+34 64;Zkoušky elektroizolačních materiálů
+34 65;Elektroizolační materiály
+34 66;Slídové výrobky pro elektrotechniku
+34 67;Elektroizolační kapaliny
+34 70;Zkoušení vodičů a kabelů
+34 71;Vodiče a kabely v podmínkách požáru
+34 72;Jádra kabelů
+34 73;Vodiče pro vinutí
+34 74;Silové vodiče
+34 75;Šňůry a vodiče pro zvláštní účely
+34 76;Silové kabely
+34 77;Sdělovací vodiče a šňůry, nf, vf a koaxiální kabely
+34 78;Nf, přístrojové, návěstní a dálkové sdělovací kabely
+34 79;Vlnovody s příslušenstvím, letecké kabely
+34 80;Izolátory, všeobecně
+34 81;Izolátory vn, vvn a zvláštní
+34 82;Stožáry pro vedení
+34 83;Zvláštní stožáry
+34 84;Součásti venkovních vedení do 1 kV
+34 85;Konce izolátorových podpěr nn a vn
+34 86;Armatury a součásti venkovních vedení
+34 87;Armatury venkovních vedení
+34 90;Silnoproudé kabelové soubory
+34 92;Armatury trakčních a trolejových vedení
+34 93;Armatury trolejových vedení
+34 94;Armatury trolejových vedení
+45 00;Hlubinné vrtání a těžba nafty, všeobecně
+45 06;Zařízení pro geologii a geotechniku
+45 10;Závitové spojení
+45 11;Pažnice a příslušenství
+45 12;Vrtací nářadí
+45 13;Těžní nářadí
+45 14;Chytací nářadí a nástroje a speciální nářadí
+45 15;Provozní zařízení
+45 16;Všeobecná zařízení
+45 20;Systémy managementu kvality
+46 03;Všeobecné a společné, osivo a sadba
+46 06;Kontrola v rostlinné výrobě
+46 10;Rostlinné výrobky, všeobecně
+46 11;Obiloviny, luštěniny
+46 12;Obiloviny, luštěniny
+46 13;Obiloviny, luštěniny
+46 14;Obiloviny a luštěniny. Metody zkoušení
+46 15;Cereálie a cereální produkty
+46 20;Rostlinné výrobky, všeobecně
+46 21;Okopaniny
+46 22;Okopaniny
+46 23;Olejniny
+46 24;Technické rostliny
+46 25;Technické rostliny
+46 29;Ovoce a zelenina, všeobecně
+46 30;Ovoce čerstvé a suché skořápkové ovoce
+46 31;Zelenina čerstvá
+46 32;Ovoce a zelenina
+46 36;Školkařský materiál
+46 37;Školkařský materiál
+46 40;Zelinářství a květinářství, všeobecně
+46 44;Zelinářství, ostatní zelenina
+46 45;Květinářství všeobecně, trvalky
+46 47;Květinářství všeobecně, trvalky
+46 49;Okrasné stromy a keře
+46 53;Prostředí a výrobní oblasti
+46 54;Úprava půdy
+46 57;Hnojení
+46 58;Ochrana rostlin, metody
+46 60;Živočišná výroba, všeobecně
+46 61;Skot a prasata
+46 62;Ovce a kozy
+46 63;Koně
+46 64;Drůbež hrabavá
+46 65;Drůbež a drůbeží produkty
+46 68;Rybářství
+46 69;Lovná zvěř
+46 70;Výživa a krmení
+46 71;Plemenitba a inseminace
+47 00;Všeobecně
+47 01;Zemědělské stroje, bezpečnost práce, metody zkoušení a měření
+47 02;Zemědělské stroje, společné součásti
+47 03;Zemědělské stroje, společné součásti
+47 04;Lesnické stroje, bezpečnost práce, metody zkoušení a měření
+47 05;Lesnické stroje, bezpečnost práce, metody zkoušení a měření
+47 06;Zemědělské stroje, bezpečnost
+47 10;Mechanizace rostlinné výroby
+47 15;Kultivátory
+47 20;Zemědělské a lesnické stroje a traktory
+47 30;Secí stroje
+47 40;Stroje pro zavlažování a odvodňování
+47 44;Stroje, nářadí a zařízení na hubení škůdců a plevele
+47 50;Sklizňové stroje, všeobecně
+47 51;Společné součásti strojů na pícniny a obiloviny
+47 60;Lesnické stroje
+47 70;Energetické stroje
+47 80;Stacionární a mobilní zařízení
+47 84;Zařízení pro živočišnou výrobu
+47 85;Stroje k získání a ošetření mléka. Všeobecné a společné součásti
+47 86;Dojicí stroje
+47 90;Všeobecné a společné. Společné součásti - speciální zahradnické a ovocnické stroje
+48 00;Lesnictví a myslivost všeobecně
+48 02;Sortimenty surového dříví
+48 10;Ochrana lesa
+48 12;Kontrola zkoušení
+48 21;Pěstování lesa
+49 00;Všeobecně a zkoušení
+49 01;Zjišťování fyzikálních a mechanických vlastností přírodního dřeva
+49 02;Způsoby opracování dřeva, polotovarů, dílců a přířezů
+49 06;Ochrana a konzervace dřeva, polotovarů, dílců a přířezů
+49 08;Bezpečnost práce
+49 10;Pilařské výrobky neopracované, všeobecně
+49 11;Pilařské výrobky neopracované, všeobecně
+49 12;Řezivo jehličnaté a listnaté
+49 14;Pražce, mostnice apod.
+49 15;Hrubé přířezy
+49 17;Obalové přířezy a jejich komplety
+49 21;Opracované řezivo pilařské
+49 23;Dýhy, poddýžky, překližky a laťovky
+49 24;Dýhy, poddýžky, překližky a laťovky
+49 26;Desky a výrobky zvlášť upravené
+49 28;Desky z rostlého dřeva
+49 29;Vrstvené dřevo
+49 31;Drobné dřevěné výrobky pro průmysl a služby
+49 33;Obaly dřevěné
+49 37;Dřevěné výrobky pro domácnost
+49 38;Žebříky
+49 46;Korkové přípravky, výrobky apod.
+49 47;Zápalky a kuřácké potřeby
+49 51;Dřevěné školní pomůcky
+49 60;Stroje a jiná zařízení na obrábění a zpracování dřeva a výrobků ze dřeva
+49 61;Bezpečnostní a hygienické předpisy
+49 62;Kontrola, přesnost a zkoušení strojů a jiných zařízení používaných při obrábění dřeva a výrobků ze dřeva
+49 63;Dřevozpracující zařízení
+49 66;Konstrukce, rozměry a parametry strojů aj. zařízení na obrábění dřeva a výrobků ze dřeva
+49 68;Konstrukce, rozměry a parametry strojů aj. zařízení na obrábění dřeva a výrobků ze dřeva
+50 00;Výrobky průmyslu papírenského, všeobecně
+50 02;Vlákniny, zkoušení
+50 03;Papíry, zkoušení
+50 04;Papíry, zkoušení
+50 05;Chemické rozbory
+50 12;Vlákniny, sběrový papír
+50 13;Ruční a strojní lepenky a lepenky pro elektrotechniku
+50 19;Vlákniny, sběrový papír
+50 21;Tiskové papíry a kartóny
+50 24;Obalové papíry
+50 26;Papíry pro elektrotechniku
+50 28;Technické, průmyslové a surové papíry
+50 31;Ruční a strojní lepenky
+50 32;Ruční a strojní lepenky
+50 33;Korkové tapety
+50 34;Tapety a papíry zušlechtěné
+50 35;Lepenky zušlechtěné
+50 36;Lepenky krytinové a izolační
+50 50;Kartonáž
+50 53;Kartonáž
+50 56;Ostatní obaly a obalové prostředky
+50 57;Ostatní obaly a obalové prostředky
+50 58;Ostatní obaly a obalové prostředky
+50 62;Knihařské výrobky
+50 64;Poštovní obálky a hygienické papíry
+50 70;Strojní zařízení pro výrobu papíru
+51 10;Zařízení pro podniky veřejného stravování
+51 20;Potravinářské stroje. Bezpečnostní a hygienické požadavky
+51 25;Pekařské stroje
+51 30;Stroje na zpracování masa
+51 35;Nářezové stroje
+51 40;Stroje pro velkokuchyně
+51 45;Odstředivky na zpracování jedlých olejů a tuků
+51 50;Stroje na těstoviny
+51 55;Chladící tanky na mléko na farmě
+52 70;Zařízení pro nápojový průmysl a obchodní provozovny
+53 31;Stroje na zpracování masa
+56 00;Metody zkoušení a společná ustanovení
+56 01;Metody zkoušení a společná ustanovení
+56 02;Metody zkoušení a společná ustanovení
+56 03;Metody zkoušení zmrazených výrobků
+56 04;Metody zkoušení ovocných a zeleninových výrobků
+56 05;Metody zkoušení mlýnských obilných výrobků a luštěnin
+56 06;Metody zkoušení a společná ustanovení
+56 07;Mlýnské výrobky, luštěniny a rýže
+56 09;Těstoviny
+56 10;Pekárenské výrobky
+56 11;Pekařské výrobky
+56 26;Cukrářské výrobky
+56 27;Trvanlivé pečivo
+56 34;Kakaový prášek, kakaové máslo
+56 35;Čokoláda a čokoládové cukrovinky
+56 38;Čokoládové cukrovinky
+56 47;Nečokoládové cukrovinky
+56 57;Cukr
+56 58;Melasa
+56 61;Škrob a výrobky ze škrobu
+56 62;Dextriny
+56 63;Ostatní výrobky škrobáren
+56 66;Pivo, slad a sladařské výrobky
+56 68;Droždí a kvasnice
+56 70;Lihoviny. Společná ustanovení
+56 72;Lihovarské výrobky
+56 77;Vína
+56 78;Bylinná a ovocná vína, ocet, voda, limonády
+56 79;Nealkoholické nápoje v prášku
+56 81;Suché plody, sušené ovoce, zmrazené ovoce
+56 82;Výrobky z ovoce - ovocné šťávy, polotovary
+56 83;Výrobky z ovoce - mrazené, tekuté ovoce a zelenina
+56 84;Výrobky z ovoce - sirupy
+56 85;Výrobky z ovoce - ovocné šťávy
+56 86;Výrobky z ovoce - marmelády, džemy a rosoly
+56 87;Výrobky z ovoce - kompoty
+56 90;Sterilovaná kojenecká a dětská výživa
+56 91;Výrobky ze zeleniny - zmrazená zelenina
+56 92;Sterilovaná, nakládaná a sušená zelenina
+56 93;Ostatní výrobky ze zeleniny
+56 94;Sušené a sterilované houby
+56 95;Tabákové výrobky
+56 96;Pravidla správné hygienické a výrobní praxe
+56 97;Éterické oleje
+56 98;Vonné a chuťové látky pro potraviny
+56 99;Geneticky modifikované potraviny
+57 00;Obecně, značení, balení, doprava, skladování, vzorkování
+57 01;Metody zkoušení
+57 04;Včelí med
+57 05;Mléko
+57 06;Tekuté výrobky z mléka - kysané výrobky, smetana
+57 07;Tekuté výrobky z mléka - zahuštěné mléko, kakaové mléko
+57 08;Mléko sušené a sušené mléčné výrobky
+57 10;Metody zkoušení sýrů
+57 11;Tvaroh a sýry
+57 12;Sýry plísňové
+57 13;Tavené sýry
+57 14;Ostatní mléčné výrobky, jogurt, kasein apod.
+57 15;Mražené výrobky z mléka a smetany
+57 16;Máslo
+57 21;Vejce konzumní
+57 23;Výrobky z vajec
+57 30;Drůbež celá a porcovaná, čerstvá a mražená
+57 31;Drůbeží polotovary, společná ustanovení
+57 32;Drůbeží polotovary, uzené a vařené výrobky z drůbežího masa
+57 50;Výrobky z mořských ryb
+57 60;Maso a masné výrobky
+57 63;Střeva, měchýře, krev a jiné technické suroviny
+57 65;Maso výsekové, čerstvé, opracované
+57 70;Uzená masa, šunka
+57 71;Uzeniny, drobné uzenářské výrobky
+57 72;Uzeniny, salámy
+57 73;Cikánská a debrecínská pečeně
+57 74;Vařené masné výrobky
+57 76;Sterilované pokrmy - konzervy
+57 78;Zmrazené hotové pokrmy
+58 01;Metody zkoušení
+58 02;Rostlinné tuky a oleje
+58 03;Tuky živočišného původu
+58 04;Čaj
+58 05;Koření
+58 07;Polévkové přípravky a dehydrované pokrmy
+58 09;Sůl, přípravky k nakládání
+58 13;Káva, kávoviny, hořčice
+58 36;Hotová jídla - pro veřejné stravování
+58 70;Majonézy, krémy, pěny a pomazánky
+58 80;Polotovary z masa
+58 87;Sypké cereální směsi. Metody zkoušení tuků a olejů
+58 88;Metody zkoušení tuků a olejů
+62 00;Pryž, všeobecně
+62 11;Chemické zkoušky pryže
+62 14;Fyzikální zkoušky pryže
+62 15;Fyzikální zkoušky pryže
+62 20;Materiálové listy pryže
+62 30;Kaučuky
+63 00;Pryžové výrobky, všeobecně
+63 01;Pryžové výrobky, všeobecně
+63 10;Pneumatiky, všeobecně
+63 11;Pláště pro dopravní prostředky
+63 12;Pláště pro dopravní prostředky
+63 13;Pláště pro dopravní prostředky
+63 14;Duše do plášťů pro dopravní prostředky
+63 15;Zkoušení pneumatik
+63 19;Opravy plášťů
+63 30;Pryžové výrobky pro technickou potřebu
+63 38;Pryžové výrobky pro technickou potřebu
+63 52;Pryžové a plastové hadice bez koncovek
+63 53;Hadice
+63 54;Pryžové a plastové hadice s koncovkami
+63 58;Pryžové pružiny
+63 65;Výrobky z tvrdé pryže
+63 70;Ochranné prostředky
+63 74;Ochranné rukavice z pryže
+64 00;Plasty. Všeobecně
+64 01;Zkoušky tuhých nekovových materiálů
+64 02;Zkoušení plastů a výrobků z plastů
+64 03;Zkoušení plastů a výrobků z plastů
+64 04;Požárně technické vlastnosti
+64 05;Zkoušení plastů a výrobků z plastů
+64 06;Zkoušení plastů a výrobků z plastů
+64 07;Zkoušení plastů a výrobků z plastů
+64 08;Zkoušení plastů a výrobků z plastů
+64 09;Plasty. Ionexy. Metody zkoušení
+64 12;Nenasycené polyesterové pryskyřice
+64 13;Epoxidové pryskyřice
+64 14;Alkydové pryskyřice
+64 15;Fenolické pryskyřice
+64 16;Aminové pryskyřice
+64 20;Tvrditelné lisovací hmoty
+64 21;Tvrditelné lisovací hmoty
+64 22;Plasty. Lisovací hmoty práškové
+64 23;Tvrditelné lisovací hmoty
+64 24;Plasty. Polyuretany
+64 26;Plasty. Styrenové polymery
+64 27;Styrenové polymery
+64 28;Plasty. Styrenové polymery
+64 30;Termoplasty a výrobky (polotovary) z termoplastu
+64 31;Plastové rozvodné a ochranné potrubní systémy
+64 32;Termoplasty a výrobky (polotovary) z termoplastu
+64 33;Termoplasty a výrobky (polotovary) z termoplastu
+64 34;Termoplasty a výrobky (polotovary) z termoplastu
+64 35;Termoplasty a výrobky (polotovary) z termoplastu
+64 36;Termoplasty a výrobky (polotovary) z termoplastu
+64 38;Fluoroplasty
+64 39;Ostatní vinylové polymery
+64 40;Vrstvené hmoty, lamináty
+64 41;Termoplastické polyestery
+64 42;Vrstvené hmoty, lamináty
+64 43;Plasty. Deriváty celulózy
+64 44;Plasty. Polykarbonáty
+64 45;Uhlíková vlákna
+64 51;Polyfenylenethery
+64 54;Zkoušení lehčených hmot
+64 55;Lehčené plasty
+64 57;Ostatní plasty
+64 60;Fólie z rozvětveného polyetylénu
+64 62;Fólie z neměkčeného polyvinylchloridu
+64 63;Polykarbonátové folie
+64 64;Plastové potrubní systémy
+64 67;Fólie z polypropylénu
+64 68;Fólie viskózové
+64 69;Ostatní polotovary a výrobky z plastů
+64 70;Syntetické usně
+64 71;Materiály a předměty z plastů ve styku s potravinami
+64 75;Vrstvené hmoty, lamináty
+64 76;Výztuže. Vlákna
+64 78;Výztuže. Tkaniny
+64 86;Lepidla
+64 90;Vodné disperze polymerů a kopolymerů
+64 93;Kompozity. Zkoušení vlastností
+65 01;Výrobky chemického průmyslu, všeobecné a bezpečnostní předpisy
+65 02;Výrobky chemického průmyslu, všeobecné a bezpečnostní předpisy
+65 03;Zkušební metody
+65 05;Vzorkování, balení, značení
+65 10;Anorganické výrobky, kyseliny, zásady, kysličníky, všeobecně
+65 11;Kyseliny anorganické
+65 12;Kyseliny anorganické
+65 13;Zásady anorganické technické
+65 14;Zásady anorganické technické
+65 15;Kysličníky anorganické technické
+65 17;Kysličníky anorganické technické
+65 20;Soli anorganické, technické
+65 21;Soli anorganické, technické
+65 22;Soli anorganické, technické
+65 23;Soli anorganické, technické
+65 24;Soli anorganické, technické
+65 25;Soli anorganické, technické
+65 26;Soli anorganické, technické
+65 28;Soli anorganické, technické
+65 29;Soli anorganické, technické
+65 31;Soli anorganické, technické
+65 33;Soli anorganické, technické
+65 34;Soli anorganické, technické
+65 35;Soli anorganické, technické
+65 41;Soli odrezovací, žíhací, kalicí
+65 43;Plyny technické a ostatní
+65 44;Plyny technické a ostatní
+65 46;Výrobky anorganické, bělicí prostředky
+65 48;Průmyslová hnojiva a ostatní anorganické výrobky
+65 49;Průmyslová hnojiva a ostatní anorganické výrobky
+65 57;Výrobky chemického průmyslu, pesticidy
+65 60;Ropné výrobky všeobecně a zkušební metody společné více skupinám výrobků
+65 61;Zkušební metody pro světlé ropné produkty
+65 62;Zkušební metody pro ropné oleje
+65 63;Zkušební metody pro plastická maziva (Zkušební metody pro mazací tuky)
+65 64;Uhlovodíkové plyny a uhlovodíkové plyny zkapalněné, jakost a zkušební metody
+65 65;Motorová paliva a ostatní výrobky, jakost
+65 66;Minerální oleje, jakost
+65 68;Minerální oleje, jakost
+65 69;Plastická maziva (Mazací tuky)
+65 70;Zkušební metody pro asfalty a asfaltové výrobky
+65 71;Modifikované asfalty, jakost a zkušební metody
+65 72;Asfalty a ostatní výrobky
+65 73;Různé výrobky ropného průmyslu
+65 79;Topné oleje
+65 80;Dehty a výrobky z dehtu, jakost a zkušební metody
+65 81;Deriváty z pyrolýzy uhlí
+65 83;Dehty a výrobky z dehtu, jakost a zkušební metody
+65 84;Dehty a výrobky z dehtu, jakost a zkušební metody
+65 85;Výrobky získané destilací dřeva
+65 87;Polotovary pro výrobu barviv, báze naftalenová
+65 90;Organická barviva. Všeobecně a zkušební metody
+65 92;Sirná barviva
+65 95;Organická barviva ostatní
+65 96;Organické pigmenty a laky organických barviv
+65 97;Organické pigmenty a laky organických barviv
+66 01;Uhlovodíky hydrované, chlorované a alkoholy jednomocné a vícemocné
+66 02;Estery, étery, acetáty
+66 06;Změkčovadla a zvláčňovadla
+66 07;Včelí vosk technický
+66 08;Etylalkohol
+66 11;Uhlovodíky apod.
+66 12;Alkoholy jednomocné i vícemocné
+66 13;Alkoholy jednomocné i vícemocné, glyceriny
+66 14;Aldehydy mastné, kyseliny mastné apod.
+66 15;Aldehydy mastné, kyseliny mastné apod.
+66 17;Sloučeniny řady kyanové a substituované deriváty kyseliny uhličité, močovina apod.
+66 18;Ostatní alifatické sloučeniny
+66 19;Estery monokarbonových a polykarbonových kyselin
+66 21;Uhlovodíky a deriváty řady benzenové
+66 22;Uhlovodíky řady naftalenové, substituované a vícejaderné
+66 23;Fenoly s benzenovým jádrem
+66 25;Nitrované aromatické uhlovodíky
+66 27;Kyseliny aromatické, estery, aminy apod.
+66 33;Anhydridy substituované, kyseliny monokarbonové a vícekarbonové
+66 38;Sloučeniny heterocyklické
+66 40;Farmacie všeobecně
+66 41;Léčiva humánní všeobecně
+66 45;Léčiva humánní všeobecně
+66 50;Chemické dezinfekční přípravky
+66 52;Chemické dezinfekční přípravky
+66 55;Farmacie, dezinfekční přípravky
+66 56;Polotovary pro farmacii
+66 57;Přípravky na ochranu rostlin, antiparazitní prostředky
+66 60;Přípravky pro průmysl hutní, textilní, gumárenský a koželužský
+66 61;Přípravky pro průmysl hutní, textilní, gumárenský a koželužský
+66 63;Přípravky pro průmysl hutní, textilní, gumárenský a koželužský
+66 64;Fotografie
+66 65;Fotografické materiály a fotochemické výrobky
+66 66;Fotochemické výrobky
+66 67;Fotografické materiály.Bezpečnostní požadavky a požadavky z hlediska životního prostředí.
+66 68;Fotografie. Požadavky na uložení
+66 69;Fotografické materiály
+66 80;Výbušiny a pyrotechnika
+66 81;Výbušiny a pyrotechnika
+66 82;Výbušiny a pyrotechnika
+66 83;Zábavná pyrotechnika
+66 84;Adsorpční látky
+66 85;Lepidla
+66 86;Lepidla
+66 87;Konstrukční lepidla
+66 89;Brzdové a mrazuvzdorné kapaliny
+67 00;Nátěrové hmoty. Názvosloví
+67 05;Nátěrové hmoty, zkušební metody surovin
+67 06;Nátěrové hmoty, ropa a podobné výrobky
+67 08;Nátěrové hmoty, zkušební metody surovin
+67 13;Pigmenty
+67 14;Pigmenty
+67 20;Nátěrové hmoty. Všeobecné a společné
+67 30;Nátěrové hmoty a elektroizolační laky, všeobecně a zkoušení
+67 31;Nátěrové hmoty a elektroizolační hmoty, všeobecně a zkoušení
+67 32;Nátěrové hmoty olejové, bezbarvé a transparentní
+67 33;Nátěrové hmoty olejové, pigmentové
+67 34;Nátěrové hmoty olejové, pigmentové
+67 35;Nátěrové hmoty olejové, pigmentové
+67 36;Olejová ředidla, sušidla, tmely a plniče
+67 38;Nátěrové hmoty syntetické, bezbarvé a transparentní
+67 39;Nátěrové hmoty syntetické, pigmentované
+67 43;Nátěrové hmoty nitrocelulózové, asfaltové a dehtové
+67 44;Nátěrové hmoty nitrocelulózové, asfaltové a dehtové
+67 45;Nátěrové hmoty nitrocelulózové, asfaltové a dehtové
+67 46;Nátěrové hmoty nitrocelulózové, asfaltové a dehtové
+67 47;Nátěrové hmoty nitrocelulózové, asfaltové a dehtové
+67 56;Pasty brusné a lešticí
+67 58;Ředidla
+67 60;Tiskařské barvy a jejich zkoušení
+67 95;Frity smaltéřské
+68 11;Mýdla, tenzidy a detergenty
+68 15;Kosmetika, vonné kompozice
+68 20;Výrobky pro zvláštní průmyslové účely
+68 40;Čisté chemikálie a činidla, všeobecně
+68 41;Čisté chemikálie a činidla. Zkušební metody
+68 42;Čisté chemikálie a činidla anorganická, písmeno "a"
+68 43;Čisté chemikálie a činidla anorganická, písmeno "b"
+68 44;Čisté chemikálie a činidla anorganická, písmeno "c", "d", "e"
+68 45;Čisté chemikálie anorganické, písmeno "f", "g"
+68 46;Čisté chemikálie anorganické, písmeno "f", "g"
+68 47;Čisté chemikálie anorganické, písmeno "h", "ch"
+68 48;Čisté chemikálie anorganické, písmeno "h", "ch"
+68 49;Čisté chemikálie anorganické, písmeno "i", "j"
+68 50;Čisté chemikálie anorganické, písmeno "k", "l", "m"
+68 51;Čisté chemikálie anorganické, písmeno "k", "l", "m"
+68 52;Čisté chemikálie anorganické, písmeno "n", "o", "p", "r"
+68 53;Čisté chemikálie anorganické, písmeno "s", "t", "u"
+68 54;Čisté chemikálie anorganické, písmeno "s", "t", "u"
+68 55;Čisté chemikálie anorganické, písmeno "s", "t", "u"
+68 60;Čisté chemikálie organické, písmeno "a", "b"
+68 61;Čisté chemikálie organické, písmeno "c", "d"
+68 62;Čisté chemikálie organické, písmeno "e", "f", "g", "h", "ch"
+68 63;Čisté chemikálie organické, písmeno "i", "j", "k", "l", "m"
+68 64;Čisté chemikálie organické, písmeno "i", "j", "k", "l", "m"
+68 65;Čisté chemikálie organické, písmeno "n", "o"
+68 66;Čisté chemikálie organické, písmeno "p", "r", "s", "š"
+68 68;Čisté chemikálie organické, cukry
+68 69;Čisté chemikálie organické, indikátory
+68 71;Činidla
+68 73;Indikátorové papírky
+69 00;Názvosloví, předpisy, značky
+69 02;Konstrukční směrnice a základní údaje
+69 06;Příruby
+69 07;Pojistné, zabezpečovací, kontrolní, měřicí, regulační části a zařízení
+69 08;Obslužné konstrukce nádob
+69 10;Mechanická míchadla a míchací zařízení
+69 12;Stroje pro zpracování pryže a plastických hmot
+69 13;Hnětací a válcové stroje
+69 16;Rozmělňovací a rozvlákňovací stroje
+69 17;Stroje licí, tvářecí, nanášecí, dokončovací
+69 18;Stroje pro gumárenskou a plastikářskou technologii
+69 19;Stroje vyfukovací
+69 25;Pojistné membrány
+69 26;Odstředivky
+69 34;Nádobí kolonového typu
+69 49;Předpisy pro zařízení na výrobu plynu
+69 51;Odparky
+69 52;Jednoduché netopené tlakové nádoby
+69 60;Výměníky tepla
+69 61;Výměníky tepla s trubkovým svazkem ocelové
+69 63;Výměníky tepla. Instalace, provoz, údržba a zkoušení
+69 68;Části výměníků (hady, trubkové soustavy aj.)
+69 72;Kryogenické nádoby
+69 79;Vyvíječe
+69 80;Uskladňovací nádrže a nádoby
+69 81;Nadzemní uskladňovací nádrže s plochým dnem
+69 82;Ocelové nádrže
+69 83;Tlakové nádoby, součásti
+69 84;Jednorázově plnitelné tlakové nádoby na přepravu zkapalněných uhlovodíkových plynů
+69 88;Součásti nádob
+69 89;Sklolaminátové uskladňovací nádrže
+69 90;Nádrže pro přepravu nebezpečného zboží
+69 91;Příslušenství k nádržím a benzinovým čerpacím stanicím
+70 00;Názvosloví sklářského průmyslu
+70 05;Zkušební metody skla
+70 06;Zkušební metody skla
+70 10;Sklo ve stavebnictví
+70 13;Ploché sklo
+70 15;Bezpečnostní sklo
+70 16;Skleněná vlákna a výrobky z nich
+70 18;Výrobky z tavených hornin
+70 21;Sklo pro elektrotechniku a osvětlování
+70 26;Sklo pro elektrotechniku a osvětlování
+70 27;Sklo pro elektrotechniku a osvětlování
+70 30;Obalové sklo
+70 31;Nápojové sklo
+70 32;Konzervové sklo
+70 33;Sklo pro zdravotnictví a farmaceutický průmysl
+70 34;Obalové sklo pro kosmetiku
+70 35;Obalové sklo velké
+70 36;Obalové sklo ostatní
+70 40;Laboratorní sklo
+70 41;Odměrné sklo
+70 42;Laboratorní přístroje a jejich součásti
+70 43;Sklo pro laboratoře
+70 44;Sklo pro laboratoře
+70 45;Skleněné armatury, potrubí a tvarovky
+70 46;Nádoby pro technické účely
+70 48;Slinuté skleněné filtry
+70 52;Výrobky z křemenného skla
+70 71;Sklo ochranné a polooptické
+70 77;Sklo ochranné a polooptické
+70 80;Sklo užitkové
+70 81;Sklo užitkové
+70 83;Sklo užitkové
+70 90;Bižuterie a jiné ozdobnické výrobky
+70 94;Kovové polotovary pro bižuterii
+71 01;Materiálové listy skel (dříve Optická skla, TP a měření)
+71 40;Materiálové listy pro laboratorní a technická skla
+72 00;Všeobecně
+72 01;Základní zkušební metody pro silikáty
+72 05;Geologie a petrografie, všeobecně
+72 10;Zeminy, popisy a klasifikace
+72 11;Zkušební metody hornin a zemin
+72 12;Horniny stejnorodé, složené ze zrn jednoho nerostu
+72 13;Horniny složené, žula apod.
+72 14;Přírodní a umělý kámen
+72 15;Nerosty nerudné, kameniva, zeminy, tuha
+72 16;Nerosty nerudné, tuha, grafit
+72 17;Nerosty nerudné, písky, kaoliny, kameniva a zeminy, tuha, slída, azbest
+72 18;Lomařské a kamenické výrobky (z přírodního kamene) pro stavebnictví
+72 19;Nerosty nerudné, kazivec, těživec
+72 20;Strusky, škváry, popílky a křemičitý úlet
+72 21;Pojiva na bázi cementu
+72 22;Pojiva na bázi vápna
+72 23;Přísady a pomocné látky k pojivům, tmely
+72 24;Malty, maltové směsi, potěry
+72 25;Stavební prvky z přírodního kamene
+72 26;Cihlářské pálené výrobky
+72 27;Pomocné výrobky pro zděné konstrukce
+72 29;Vláknocementové trouby a tvarovky
+72 30;Betonové a železobetonové prvky a dílce
+72 31;Betonové a železobetonové trouby a tvarovky
+72 32;Betonové dlaždice a betonová krytina
+72 33;Stavební dílce speciální
+72 34;Vláknocementové výrobky
+72 36;Stavební dílce pro svislé konstrukce
+72 37;Stavební prvky a dílce pro vodorovné konstrukce
+72 43;Stavební materiály. Zkoušení odolnosti
+72 47;Keramické výrobky - kachle
+72 48;Keramické výrobky - zdravotnická keramika
+72 50;Keramické materiály pro elektrotechniku
+72 51;Stavební keramika
+72 52;Keramika kanalizační, hospodářská a chemická
+72 55;Porcelán užitkový, ozdobný, jemná keramika
+72 56;Porcelán laboratorní a chemický
+72 57;Keramické výrobky pro elektrotechniku
+72 60;Žárovzdorné výrobky, všeobecně
+72 61;Žárovzdorné výrobky šamotové, dinasové, tuhové a speciální
+72 62;Žárovzdorné tvarovky
+72 65;Žárovzdorné výrobky basické, jakost
+72 70;Izolační materiály a výrobky všeobecně
+72 71;Vnější tepelně izolační kompozitní systémy
+72 72;Izolační materiály a výrobky směsové
+72 73;Izolační materiály a výrobky z minerálních a přírodních vláken
+72 75;Speciální technická keramika
+72 76;Hydroizolační pásy a fólie
+72 80;Stavební výrobky, posuzování uvolňování nebezpečných látek
+72 91;Drtiče a podavače nerostných hmot
+72 92;Mlýny na nerostné hmoty
+72 93;Třídiče a odlučovače nerostných hmot
+73 00;Navrhování staveb, všeobecně
+73 02;Geometrická přesnost staveb
+73 03;Stavební fyzika - Teplo
+73 04;Geodetické práce
+73 05;Stavební fyzika (akustika, teplo, denní osvětelní)
+73 06;Ochrana staveb proti vodě
+73 08;Požární bezpečnost staveb
+73 09;Udržitelnost staveb
+73 10;Zakládání staveb, navrhování
+73 11;Zděné konstrukce, navrhování
+73 12;Betonové konstrukce, navrhování
+73 13;Beton a betonové konstrukce, zkoušení
+73 14;Kovové konstrukce, navrhování
+73 15;Kovové konstrukce, navrhování
+73 16;Konstrukce z plastů, navrhování
+73 17;Dřevěné konstrukce, navrhování
+73 18;Zakládání staveb, zkoušení
+73 19;Střechy, navrhování
+73 20;Stavební konstrukce a dílce, navrhování a zkoušení
+73 21;Sanace betonových konstrukcí
+73 22;Kanalizační práce
+73 23;Zděné konstrukce, provádění a zkoušení
+73 24;Betonové konstrukce, provádění
+73 25;Stavební konstrukce, zkoušení povrchu
+73 26;Kovové konstrukce, provádění
+73 28;Dřevěné konstrukce, provádění
+73 29;Ostatní konstrukce, provádění
+73 30;Zemní práce
+73 31;Stavební práce přidružené - truhlářské, tesařské a tapetářské
+73 32;Stavební práce přidružené - kamenické
+73 34;Stavební práce přidružené - obkladačské
+73 36;Stavební práce přidružené - klempířské
+73 37;Stavební práce přidružené - omítání
+73 40;Stavební objekty, všeobecně
+73 41;Funkční díly stavebních objektů
+73 42;Funkční díly stavebních objektů
+73 43;Stavby pro bydlení
+73 44;Prevence kriminality při navrhování staveb
+73 45;Zemědělské stavby
+73 49;Pozemní stavby železniční
+73 51;Stavby pro průmysl
+73 52;Stavby pro školství a kulturu
+73 53;Stavby pro správu a řízení
+73 55;Stavby pro skladování, šatny
+73 57;Ostatní stavby účelové (požární stanice, laboratoře apod.)
+73 59;Stavby pro tělesnou výchovu
+73 60;Stavby pro dopravu apod.
+73 61;Silniční komunikace
+73 62;Stavby mostní
+73 63;Železniční komunikace
+73 64;Ostatní inženýrské stavby (tramvajové, letištní apod.)
+73 65;Stavby pro vodní hospodářství, všeobecně
+73 66;Vodovody
+73 67;Kanalizace
+73 68;Vodní toky a hráze
+73 69;Rybníky, odvodňování, závlahy, meliorace
+73 70;Silniční zařízení
+73 75;Tunely a jiné podzemní stavby
+73 80;Stavební a silniční stroje
+73 81;Stavební lešení a výtahy
+73 85;Automatizační a řidící systémy budov
+73 90;Stavby civilní obrany
+74 28;Dílce, části a prvky nosných konstrukcí
+74 32;Ocelová schodiště a žebříky
+74 33;Zábradlí
+74 45;Stropy a podlahy
+74 60;Okna, dveře, přídavná ochranná zařízení a doplňky-okenice a clony
+74 61;Okna, dveře a prvky dřevěné
+74 62;Okna kovová
+74 63;Výkladce a světlíky
+74 64;Dveře a prvky dřevěné
+74 65;Dveře a prvky ocelové
+74 66;Vrata
+74 67;Okna, dveře a prvky PVC-U
+74 68;Okna
+74 69;Doplňkové části stavebních objektů - podlahové rošty
+74 70;Dveře, vrata
+74 71;Doplňkové části stavebních objektů - bytová jádra
+74 72;Lehké obvodové pláště
+74 76;Doplňkové části stavebních objektů
+74 77;Doplňkové části stavebních objektů
+75 00;Vodní hospodářství. Základní normy
+75 01;Vodní hospodářství. Názvosloví
+75 02;Vodní hospodářství. Výpočty
+75 04;Hydromeliorace
+75 07;Kanalizace. Vybavení šachet
+75 09;Vodní hospodářství. Provoz vodohospodářských děl
+75 14;Hydrologické údaje povrchových vod
+75 20;Hydrotechnika
+75 21;Úpravy vodních toků
+75 23;Vodní toky a hráze
+75 24;Nádrže a zdrže
+75 26;Stavby pro využití vodní energie
+75 29;Hydrotechnika. Přejímání, zkoušení a provoz
+75 31;Ochrana vodních zdrojů
+75 33;Ochrana vod při manipulaci se závadnými látkami a jejich skladování
+75 34;Ochrana vod při manipulaci se závadnými látkami a jejich skladování
+75 40;Hydromeliorace. Všeobecné normy
+75 41;Hydromeliorace. Průzkumné práce
+75 42;Hydromeliorace. Odvodňování
+75 43;Hydromeliorace. Závlahy
+75 45;Protierozní ochrana zemědělské půdy
+75 50;Vodárenství. Všeobecné normy
+75 51;Vodárenství. Odběr a jímání vody
+75 52;Vodárenství. Úprava vody
+75 53;Vodárenství. Úprava čerpání vody
+75 54;Vodárenství. Vodovodní potrubí
+75 55;Trubní materiály
+75 56;Vodárenství. Objekty na vodovodních řadech
+75 57;Výrobky pro úpravu vody
+75 58;Chemické výrobky pro úpravu vody
+75 59;Vodárenství. Přejímání, zkoušení, provoz
+75 60;Kanalizace. Všeobecné normy
+75 61;Kanalizace. Stokové sítě
+75 62;Kanalizace. Objekty na stokových sítích
+75 63;Kanalizace. Trubní materiály
+75 64;Kanalizace. Čištění odpadních vod
+75 65;Kanalizace. Čištění odpadních vod
+75 66;Kanalizace. Technologická zařízení
+75 67;Kanalizace. Vnitřní kanalizace
+75 69;Kanalizace. Přejímání, zkoušení a provoz
+75 70;Jakost vod. Odběr vzorků
+75 71;Jakost vod. Požadavky na jakost vod
+75 72;Jakost vod. Sledování a hodnocení jakosti vod a kalů
+75 73;Jakost vod. Fyzikální rozbor vod
+75 74;Jakost vod. Chemický rozbor vod
+75 75;Jakost vod. Chemický rozbor vod
+75 76;Jakost vod. Radiologický rozbor vod
+75 77;Jakost vod. Biologický rozbor vod
+75 78;Jakost vod. Mikrobiologický rozbor vod
+75 79;Jakost vod. Rozbor kalů
+75 80;Jakost vod. Rozbor kalů
+75 90;Vodohospodářské služby
+76 00;Poštovní služby
+76 01;Terminologie, všeobecně
+76 02;Kvalita služby
+76 03;Zpracování zásilek - identifikace, vlastnosti
+76 04;Adresní údaje
+76 05;Hybridní pošta
+76 07;Technické prostředky
+76 10;Služby pro malé a střední podniky
+76 11;Služby cestovního ruchu - Ubytování
+76 12;Služby cestovního ruchu - Agentury a kanceláře
+76 13;Služby cestovního ruchu - Rekreační potápění
+76 14;Služby cestovního ruchu - Poskytovatelé jazykových pobytů
+76 15;Překladatelské služby
+76 16;Výzkum trhu
+76 17;Bezpečnostní agentury a bezpečnostní služby
+76 18;Tisková média a zákaznická kontaktní centra
+76 19;Realitní služby
+76 20;Dopravní služby
+76 21;Facility management
+76 30;Poradenské služby
+76 31;Služby spojené se zdravím, krásou a věkem
+76 32;Vzdělávací služby
+76 33;Služby pro podniky
+76 35;Služby pro spotřebitele
+77 00;Názvosloví obalové techniky, předpisy a směrnice pro balení
+77 01;Názvosloví obalové techniky, předpisy a směrnice pro balení
+77 02;Zkoušení obalových prostředků a balení, všeobecně
+77 03;Zkoušení obalových materiálů
+77 04;Zkoušení spotřebitelských obalů a balení
+77 05;Zkoušení spotřebitelských obalů a balení
+77 06;Zkoušení obchodních a přepravních obalů a balení
+77 08;Vlastnosti a zkoušení pomocných obalových prostředků
+77 09;Vnější vlivy na obaly a balení
+77 10;Rozměrové a objemové řady obalů
+77 11;Obalové prostředky - Všeobecně
+77 12;Obalové prostředky, všeobecně
+77 13;Obalové prostředky, všeobecně
+77 15;Obalové prostředky, všeobecně
+77 18;Obalové prostředky, všeobecně
+77 20;Obalové prostředky, všeobecně
+77 30;Obaly na aerosoly
+77 40;Balení. Hmatatelné výstrahy
+77 50;Balicí stroje a zařízení
+79 00;Názvosloví, všeobecně
+79 10;Surové kůže, všeobecně
+79 11;Teletiny a hověziny
+79 12;Koniny, vepřovice, koziny, kozlečiny, skopovice a jehnětiny koželužské
+79 20;Jakost usní, všeobecně
+79 21;Usně spodkové
+79 22;Usně svrškové
+79 23;Usně rukavičkářské a oděvnické
+79 24;Kožešiny
+79 25;Usně technické
+79 26;Usně brašnářské a sedlářské
+79 27;Usně podšívkové
+79 28;Usně speciální
+79 38;Rozbory a zkoušení usní a kožišin
+79 50;Průmysl obuvnický, všeobecně
+79 52;Průmysl kožedělný - Zkoušení částí obuvi
+79 56;Obuv
+79 57;Obuv
+79 58;Obuv
+79 60;Výrobky brašnářské a sedlářské
+79 65;Výrobky brašnářské a sedlářské
+79 71;Výrobky z kožišin
+79 74;Výrobky rukavičkářské
+79 80;Strojní zařízení pro výrobu obuvi, galanterie apod.
+79 81;Strojní zařízení pro koželužny
+80 00;Textilní průmysl, všeobecně
+80 01;Zkoušení stálosti vybarvení textilních surovin a výrobků
+80 02;Zkoušení vláken
+80 03;Předpisy pro zkoušení
+80 05;Zkušební normy pro syntetická vlákna
+80 06;Zkušební normy pro syntetická vlákna
+80 07;Zkoušení nití, přízí, hedvábí apod.
+80 08;Zkoušení textilních plošných výrobků
+80 10;Rostlinná vlákna
+80 11;Přírodní textilní vlákna
+80 13;Chemická vlákna z přírodních polymerů
+80 14;Chemická vlákna ze syntetických polymerů
+80 18;Textilní odpady
+80 19;Textilní odpady
+80 20;Nitě, příze, hedvábí apod.
+80 21;Nitě, příze, hedvábí apod.
+80 23;Nitě, příze, hedvábí apod.
+80 25;Nitě, příze, hedvábí apod.
+80 26;Nitě, příze, hedvábí apod.
+80 30;Tkaniny běžné potřeby
+80 33;Tkaniny běžné potřeby
+80 36;Stuhy a prýmky
+80 41;Tkaniny zdravotnické
+80 42;Tkaniny nábytkové a dekorační
+80 44;Podlahové textilie
+80 45;Technické tkaniny pro různé účely
+80 46;Technické tkaniny pro různé účely
+80 50;Vrchní oděvy a prádlo z pletenin
+80 58;Punčochové výrobky
+80 60;Výrobky speciální a doplňky, všeobecně
+80 61;Výrobky z netkaných textilií
+80 63;Tyly, krajkoviny, vyšívané a síťované výrobky
+80 64;Tyly, krajkoviny, vyšívané a síťované výrobky
+80 69;Kloboučnické výrobky a oděvní doplňky
+80 70;Vrchní oděvy a prádlo z tkanin
+80 76;Ložní a ostatní prádlo pro domácnost
+80 77;Pracovní a ochranné oděvy
+80 78;Pracovní a ochranné oděvy
+80 81;Kusové výrobky pro technické účely
+80 84;Kusové výrobky pro technické účely
+80 85;Motouzy, šňůry a lana
+80 86;Motouzy, šňůry a lana
+80 87;Hadice, popruhy a podobné výrobky
+80 88;Peří a prachové peří
+80 89;Stuhové uzávěry
+81 00;Výrobní a konstrukční směrnice
+81 01;Výrobní a konstrukční směrnice
+81 02;Společné díly, součásti a detaily strojů a strojních zařízení textilního průmyslu
+81 06;Zkoušení, přejímání, dodávání, balení a skladování
+81 07;Ochrana, hygiena a bezpečnost práce, obsluha a údržba
+81 10;Stroje a zařízení pro přípravu a spřádání textilních surovin, všeobecně
+81 11;Stroje a zařízení pro přípravu surovin pro předení bavlny
+81 15;Stroje a zařízení pro spřádání bavlny
+81 16;Stroje a zařízení pro spřádání lnu
+81 19;Společné díly, sestavy a prvky strojů a zařízení pro přípravu a spřádání textilních surovin
+81 21;Stroje soukací, družicí a motací
+81 25;Textilní cívky
+81 26;Naváděcí a posukovací stroje
+81 30;Stroje a zařízení tkalcoven, všeobecně
+81 31;Tkací stroje člunkové
+81 34;Prošlupní zařízení a příslušenství
+81 35;Prošlupní zařízení a příslušenství
+81 36;Detaily strojů a zařízení tkalcoven
+81 37;Detaily strojů a zařízení tkalcoven
+81 38;Společné díly, sestavy a detaily tkacích strojů
+81 40;Stroje a zařízení pletáren
+81 42;Stroje a zařízení pletáren
+81 60;Stroje a zařízení pro úpravny, bělidla, barevny a tiskárny
+81 66;Úpravnické stroje
+81 70;Šicí stroje
+81 72;Šicí stroje
+81 73;Šicí stroje
+81 76;Šicí stroje
+81 90;Stroje a zařízení pro velkoprádelny, čistírny a barvírny
+81 92;Prací stroje
+81 93;Odstředivky, sušiče
+81 94;Žehliče
+81 95;Chemicky čisticí stroje
+82 10;Předpisy, zkoušení, měření
+82 20;Všeobecné a společné požadavky
+82 30;Pomocná zařízení pro lakovny
+82 40;Rozprašovací a stříkací zařízení
+82 60;Sušičky a pece
+82 80;Doplňkové provozy, stroje a zařízení
+83 00;Vzorkování venkovního a pracovního ovzduší
+83 01;Analytické metody detekční
+83 04;Přístroje na zjišťování ovzduší
+83 05;Odběr vzorků a rozbory vod
+83 06;Jakost vod
+83 07;Jakost vod
+83 09;Ochrana vodních zdrojů
+83 10;Biotechnologie
+83 19;Bezpečnostní zařízení pro první pomoc
+83 20;Pracovní a osobní ochrana
+83 21;Ochrana hlavy, očí, uší aj.
+83 22;Ochranné prostředky dýchacích orgánů
+83 23;Ochrana rukou
+83 24;Ochrana očí
+83 25;Ochrana nohou
+83 26;Ochranné pomůcky (pásy, chrániče apod.)
+83 27;Ochranné oděvy
+83 28;Ochranné oděvy
+83 29;Zkoušení materiálů na ochranné oděvy, ochranné rukavice a ochrannou obuv
+83 30;Bezpečnost strojních zařízení
+83 32;Bezpečnostní hlediska u strojů
+83 33;Bezpečnostní a ochranné systémy strojů
+83 35;Ergonomie
+83 36;Hodnocení expozice pracoviště
+83 40;Zdroje znečišťování ovzduší. Všeobecně
+83 44;Mobilní zdroje znečišťování ovzduší
+83 45;Měření emisí
+83 46;Metody a přístroje pro měření tuhých emisí
+83 47;Metody a přístroje pro měření plynných emisí
+83 48;Metody měření emisí z výrobků
+83 50;Kvalita ovzduší. Názvosloví
+83 55;Měření imisí
+83 56;Metody a přístroje pro měření tuhých imisí a spadu
+83 57;Metody a přístroje pro měření plynných imisí
+83 58;Vnitřní ovzduší
+83 61;Kvalita půdy - obecné normy, tj. názvosloví, odběr vzorků, popis půdy v terénu
+83 62;Kvalita půdy Postupy vyluhování, stanovení pH, stanovení kontuktivity, stanovení věměnné kapacity, stanovení hodnot pozadí
+83 63;Kvalita půdy - chemické metody - anorganické látky
+83 64;Kvalita půdy - biologické metody
+83 65;Kvalita půdy - biologické metody
+83 66;Kvalita půdy - fyzikální metody
+83 67;Kvalita půdy - chemické metody - organické látky
+83 68;Kaly, upravený bioodpad a půdy
+83 70;Ochrana přírody. Všeobecné požadavky
+83 71;Ochrana přírody. Hydrosféra
+83 80;Názvosloví odpadů
+83 81;Kaly, upravený bioodpad a půdy
+83 82;Biopaliva
+83 83;Tuhá alternativní paliva
+83 84;Biomasa
+83 90;Sadovnictví a krajinářství
+84 00;Názvosloví potřeb a zařízení pro zdravotnictví
+84 10;Technické pomůcky pro osoby se zdravotním postižením
+84 21;Mobilní ambulance a jejich vybavení
+84 40;Vnější protézy a ortézy
+84 61;Nábytek a vybavení pro lůžkový provoz nemocnic a jiných zdravotnických zařízení
+84 62;Nábytek a vybavení pro lůžkový provoz nemocnic a jiných zdravotnických zařízení
+84 63;Nábytek a vybavení pro lůžkový provoz nemocnic a jiných zdravotnických zařízení
+84 64;Lékařský nábytek
+84 65;Lékařský nábytek
+84 66;Lékařský nábytek
+84 70;Nosítka, vozíky
+84 71;Sterilizační přístroje
+84 72;Destilační přístroje
+84 75;Digestoře
+85 00;Lékařské nástroje a přístroje
+85 17;Zdravotnické laboratoře
+85 21;Přístroje pro anestezii a umělé dýchání
+85 27;Zdravotnické zařízení
+85 29;Chirurgické implantáty
+85 30;Aktivní implantabilní zdravotnické prostředky
+85 40;Provozní zkoušky a provozní opatření
+85 42;Materiály pro zdravotnické účely
+85 50;Systémy jakosti ve zdravotnictví
+85 51;Požadavky na provoz zdravotnických laboratoří
+85 52;Všeobecné předpisy a směrnice pro výrobky zdravotnické techniky
+85 53;Zařízení zdravotnických pracovišť
+85 57;Lékařské nástroje
+85 58;Lékařské pomůcky
+85 59;Lékařské nástroje
+85 60;Nástroje a pomůcky pro zubní lékařství
+85 61;Lékařské stříkačky
+85 62;Zařízení a přístroje pro krevní převod
+85 63;Dentální materiály
+85 70;Diagnostické systémy in vitro
+85 75;Zdravotnické prostředky složené z živočišných tkání
+86 20;Hromadně vyráběné léčivé přípravky, všeobecně
+86 29;Dentální materiály
+86 30;Imunobiologické a diagnostické preparáty, séra, očkovací látky apod.
+86 31;Imunobiologické a diagnostické preparáty, séra, očkovací látky apod.
+86 33;Imunobiologické a diagnostické preparáty, séra, očkovací látky apod.
+86 43;Půdy pro kultivaci
+86 46;Antibiotika
+86 60;Rostlinné drogy, všeobecně
+86 61;Rostlinné drogy, kůry
+86 62;Rostlinné drogy, květy
+86 64;Rostlinné drogy, listy
+86 66;Rostlinné drogy, plody
+86 67;Rostlinné drogy, natě
+86 68;Rostlinné drogy, natě
+86 69;Rostlinné drogy, semena
+86 70;Rostlinné drogy, kořeny
+86 71;Rostlinné drogy, oddenky, hlízy, ostatní
+86 80;Zřídelní produkty
+87 01;Ostatní telekomunikační normy
+87 02;Ostatní telekomunikační normy
+87 03;Ostatní telekomunikační normy
+87 04;Ostatní telekomunikační normy
+87 05;Evropské telekomunikační normy (CENELEC)
+87 10;Zkušební metody a specifikace
+87 15;Podnikové telekomunikace
+87 20;Rozbor vlivu prostředí
+87 25;Mobilní komunikace
+87 26;Mobilní komunikace
+87 27;Mobilní komunikace
+87 30;Lidský činitel
+87 35;Síťová hlediska
+87 36;Síťová hlediska
+87 40;Bezpečnost
+87 45;Pagingové systémy
+87 46;Přístupové sítě širokopásmového rádia
+87 50;Rádiové zařízení a systémy. EMC a radiové spektrum
+87 51;Rádiová zařízení a systémy. EMC a rádiové spektrum
+87 53;Transevropské svazkové rádiové sítě
+87 55;Digitální bezšňůrové telekomunikace
+87 58;Multimediální koncová zařízení a aplikace
+87 60;Družicové pozemské stanice a systémy
+87 65;Sdružené sítě
+87 70;Signalizační protokoly a spojování
+87 71;Signalizační protokoly a spojování
+87 75;Analogová a digitální koncová zařízení a přístup k síti
+87 80;Koncová zařízení a systémy s přímou platbou. Mobilita koncových bezšňůrových zařízení
+87 85;Přenos a multiplexování
+87 88;Pokročilý naváděcí a řídicí systém pozemního pohybu
+87 90;Normy vytvořené společnou technickou komisí EBU/CENELEC/ETSI
+87 95;Propojování komunikačních sítí a systémů
+87 98;Karty s integrovanými obvody
+87 99;Zpracování hovorů, hlediska přenosu a jakosti
+88 00;Tiskařské stroje
+88 01;Polygrafické názvosloví
+88 02;Úprava rukopisů, korekturní znaménka
+88 04;Úprava rukopisů, korekturní znaménka
+88 06;Měření a výpočty (zkoušení)
+88 14;Úprava barvy, ředidel, pojidel, válcoviny apod. postřikovacích emulzí a prášků
+88 20;Grafická výroba
+88 21;Předlohy pro reprodukci
+88 22;Příprava a zpracování tiskových desek
+88 30;Pravidla úpravy sazby, nátisk
+88 41;Knižní vazby, časopisy, knihy, pohlednice, technické požadavky
+88 43;Knižní vazby, časopisy, knihy, pohlednice, technické požadavky
+88 46;Knižní vazby, časopisy, knihy, pohlednice, technické požadavky
+88 50;Formáty tiskovin
+88 54;Poštovní tiskopisy
+88 56;Polygrafické výrobky, děrné štítky, plakáty
+88 61;Polygrafické výrobky, děrné štítky, plakáty
+88 71;Zařízení na písmo, materiál apod., pro všechny reprodukční techniky
+88 72;Zařízení na písmo, materiál apod., pro všechny reprodukční techniky
+89 00;Všeobecně
+90 00;Všeobecné požadavky
+90 10;Tužky
+90 11;Tužky
+90 14;Pryže
+90 15;Mechanické tužky a pera
+90 17;Mechanické tužky a pera
+90 23;Šablony pro písmo a značky
+90 25;Pomůcky pro kreslení a rýsování
+90 28;Pomůcky pro kreslení a rýsování
+90 31;Barvy, inkousty, tuše, lak na blány
+90 32;Barvy, inkousty, tuše, lak na blány
+90 41;Barvy, inkousty, tuše, lak na blány
+90 42;Barvy, inkousty, tuše, lak na blány
+90 44;Barvy, inkousty, tuše, lak na blány
+90 45;Barvy, inkousty, tuše, lak na blány
+90 65;Sešívače, děrovače apod.
+90 68;Kartotékové jezdce apod.
+90 72;Rozmnožovací blány
+90 73;Pečetní vosky
+90 85;Ostatní pomůcky
+91 00;Nábytek, společná ustanovení a základní rozměry
+91 01;Nábytek, společná ustanovení a základní rozměry
+91 02;Nábytek, bezpečnostní požadavky a zkušební metody
+91 04;Úložný nábytek
+91 06;Sedací nábytek
+91 08;Stolový nábytek
+91 09;Laboratorní nábytek
+91 10;Lehací nábytek
+91 11;Kancelářský nábytek
+91 12;Pomocný nábytek
+91 13;Kancelářský nábytek
+91 14;Soupravy a soubory
+91 15;Lůžkový nábytek
+91 17;Nábytek pro vzdělávací instituce
+91 30;Venkovní nábytek
+91 35;Hračky, modelové železnice
+91 41;Vany, kuchyňské dřezy, výlevky
+91 46;Nádržkové splachovače
+91 48;Vany, kuchyňské dřezy, výlevky, klozetové splachovače aj.
+91 60;Úschovné objekty
+91 78;Podlahové krytiny
+91 80;Nábytková kolečka
+91 81;Jevištní technologie
+93 00;Drobné kovové výrobky, všeobecně
+93 15;Háčky, očka, kroužky pro oděvy a obuv
+93 62;Zdrhovadla
+94 00;Sportovní a tělocvičné náčiní, nářadí a potřeby
+94 02;Posilovací nářadí a zařízení
+94 03;Sportovní a tělocvičné náčiní, nářadí a potřeby
+94 05;Zařízení pro tělocvičny, hřiště a dětské hřiště
+94 09;Potřeby a zařízení pro vodní sporty
+94 14;Potřeby pro míčové hry
+94 18;Potřeby pro zimní sporty
+94 19;Potřeby pro zimní sporty
+94 20;Horolezecká výzbroj
+94 28;Potřeby pro různé sporty
+94 30;Dětské hračky a vozítka
+94 34;Předměty pro péči o děti
+94 35;Předměty pro péči o děti
+94 41;Potřeby pro osobní úpravu a hygienu
+94 43;Předměty běžného užívání ve styku s potravinami
+94 44;Předměty běžného užívání ve styku s potravinami
+94 45;Předměty běžného užívání ve styku s potravinami
+94 47;Ruční kuchyňské strojky a stolní náčiní
+94 48;Kapesní nože a jídelní příbory
+94 49;Kapesní nože a jídelní příbory
+94 50;Zkoušení ochranných vrstev
+94 51;Komerční smaltované nádobí z ocelového plechu
+94 52;Drobné spotřební výrobky
+94 56;Pozinkované nádobí z ocelového plechu
+94 60;Nádobí z hliníkového plechu
+94 61;Nádobí z plechu z korozivzdorné oceli
+94 62;Nádobí z plechu z korozivzdorné oceli
+95 11;Podkovy, ozuby
+96 00;Terminologie
+96 05;Materiály
+96 10;Konzervace
+96 15;Prostředí
+96 20;Doprava a balení
+96 77;Visací zámky
+97 00;Sborníky datových prvků
+97 02;Sborníky metadat
+97 10;Číselníky
+97 20;Sborníky složených datových prvků
+97 25;Sborníky segmentů
+97 30;Sborníky zpráv
+97 31;Sborníky zpráv
+97 40;Popis datové základny
+97 41;Prezentace dat o výrobku
+97 50;Modely dokladů
+97 60;EAN, EDIFACT a abecední řazení
+97 71;Čárové kódy EAN
+97 86;Prezentace data a času
+97 90;Bankovnictví
+97 91;Bankovnictví
+97 97;Elektronická výměna dat obecně
+97 98;Elektronická výměna geografických dat
+98 00;Všeobecně - Výměna informací
+98 10;Hlavní pojmové třídy společné struktury terminologických systémů - Zprávy týkající se pacienta
+98 20;Architektura informačních systémů ve zdravotnictví - Ochrana dat
+99 00;Všeobecná ustanovení, názvosloví, značky a měřicí jednotky geometrických veličin
+99 01;Všeobecná ustanovení, názvosloví, značky a měřicí jednotky geometrických veličin
+99 03;Délková měřidla čárková
+99 05;Přesnost souřadnicových měřících strojů /SMS/
+99 06;Měřidla délková, mikrometrická a posuvná měřidla, odchylkoměry a somkátory
+99 10;Měřidla délky, odvalovací a skládací
+99 21;Zkoušky měřičů proudu, napětí a výkonu
+99 31;Teploměry skleněné
+99 41;Měřidla hmotnosti - váhy
+99 44;Měřidla mechanických zkoušek materiálu - měřidla tvrdosti
+99 47;Měřidla středního absolutního tlaku
+99 54;Zkoušky elektronických filtrů
+99 61;Měřidla objemu skleněná
+99 63;Měřidla objemu kovová
+99 64;Měřidla velkého objemu
+99 68;Měřidla průtoku a průtočného množství plynu
+99 71;Měřidla fotometrická
+99 73;Měřidla optických vlastností látek
+99 80;Všeobecná ustanovení, názvosloví, značky a měřicí jednotky fyzikálně-chemických vlastností látek
+ 
+
+

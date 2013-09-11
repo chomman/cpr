@@ -36,6 +36,7 @@
 			<ul class="sub-nav">
 				<li><a href="<c:url value="/admin/csn"  />"><spring:message code="csn.list" /></a></li>
 				<li><a<c:if test="${id == 0}"> class="active"</c:if> href="<c:url value="/admin/csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+				<li><a  href="<c:url value="/admin/csn/csvimport"  />"><spring:message code="csn.csvimport" /></a></li>
 			</ul>
 		
 			<c:if test="${not empty csn.createdBy}">

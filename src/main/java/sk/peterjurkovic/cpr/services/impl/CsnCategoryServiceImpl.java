@@ -102,6 +102,12 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 	public CsnCategory findBySearchCode(String searchCode) {
 		return csnCategoryDao.findBySearchCode(searchCode);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CsnCategory> getSubRootCategories() {
+		return csnCategoryDao.getSubRootCategories();
+	}
 	
 	
 }
