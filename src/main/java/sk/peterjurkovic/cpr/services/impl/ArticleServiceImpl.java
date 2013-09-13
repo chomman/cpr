@@ -3,7 +3,7 @@ package sk.peterjurkovic.cpr.services.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -34,7 +34,7 @@ public class ArticleServiceImpl implements ArticleService {
 		article.setCode( generateProperUrlForAction(article.getTitle(), null) );
 		article.setCreatedBy(user);
 		article.setEnabled(Boolean.FALSE);
-		article.setCreated(new DateTime());
+		article.setCreated(new LocalDateTime());
 		articleDao.save(article);
 		articleDao.flush();
 	}
@@ -43,7 +43,7 @@ public class ArticleServiceImpl implements ArticleService {
 	public void updateArticle(Article article) {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		article.setChangedBy(user);
-		article.setChanged(new DateTime());
+		article.setChanged(new LocalDateTime());
 		articleDao.update(article);
 	}
 
@@ -76,11 +76,11 @@ public class ArticleServiceImpl implements ArticleService {
 		
 		if(article.getId() == null){
 			article.setCreatedBy(user);
-			article.setCreated(new DateTime());
+			article.setCreated(new LocalDateTime());
 			articleDao.save(article);
 		}else{
 			article.setChangedBy(user);
-			article.setChanged(new DateTime());
+			article.setChanged(new LocalDateTime());
 			articleDao.update(article);
 		}
 	}

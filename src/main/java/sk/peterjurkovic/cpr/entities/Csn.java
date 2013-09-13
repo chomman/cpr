@@ -17,9 +17,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.Cascade;
-import org.hibernate.annotations.Type;
-
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "csn")
@@ -46,9 +43,11 @@ public class Csn extends AbstractEntity {
 	
 	private String fileName;
 	
-	private String htmlContent;
-	
 	private String csnOnlineId;
+	
+	private String changeLabel;
+	
+	private String bulletin;
 	
 	private Set<CsnTerminology> terminologies;
 	
@@ -93,7 +92,8 @@ public class Csn extends AbstractEntity {
 	public void setClassificationSymbol(String classificationSymbol) {
 		this.classificationSymbol = classificationSymbol;
 	}
-
+	
+	@Column(name="czech_name")
 	public String getCzechName() {
 		return czechName;
 	}
@@ -101,7 +101,8 @@ public class Csn extends AbstractEntity {
 	public void setCzechName(String czechName) {
 		this.czechName = czechName;
 	}
-
+	
+	@Column(name="english_name")
 	public String getEnglishName() {
 		return englishName;
 	}
@@ -137,17 +138,6 @@ public class Csn extends AbstractEntity {
 		this.fileName = fileName;
 	}
 	
-	
-	@Column
-	@Type(type = "text")
-	public String getHtmlContent() {
-		return htmlContent;
-	}
-
-	public void setHtmlContent(String htmlContent) {
-		this.htmlContent = htmlContent;
-	}
-
 	@OneToMany(mappedBy = "csn", fetch = FetchType.LAZY, cascade = { CascadeType.REMOVE}, orphanRemoval = true)
 	@OrderBy("section, title")
 	public Set<CsnTerminology> getTerminologies() {
@@ -166,6 +156,26 @@ public class Csn extends AbstractEntity {
 	public void setCsnOnlineId(String csnOnlineId) {
 		this.csnOnlineId = csnOnlineId;
 	}
-		
+
+	@Column(name = "label_of_change", length = 25)
+	public String getChangeLabel() {
+		return changeLabel;
+	}
+
+	public void setChangeLabel(String changeLabel) {
+		this.changeLabel = changeLabel;
+	}
+	
+	
+	@Column(name = "bulletin", length = 25)
+	public String getBulletin() {
+		return bulletin;
+	}
+
+	public void setBulletin(String bulletin) {
+		this.bulletin = bulletin;
+	}
+	
+	
 	
 }

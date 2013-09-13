@@ -182,7 +182,7 @@ public class ArticleController extends SupportAdminController {
 		if(errors.size() == 0){
 			updateArticle(article, persistedArticle);
 			response.setStatus(JsonStatus.SUCCESS);
-			response.setResult(persistedArticle.getChanged().getMillis());
+			response.setResult(persistedArticle.getChanged().toDateTime().getMillis());
 		}else{
 			response.setResult(errors);
 		}
@@ -205,7 +205,7 @@ public class ArticleController extends SupportAdminController {
 	private void prepareModel(Article form, ModelMap map){
 		Map<String, Object> model = new HashMap<String, Object>();
 		if(form.getChanged() != null){
-			form.setTimestamp(form.getChanged().getMillis());
+			form.setTimestamp(form.getChanged().toDateTime().getMillis());
 		}
 		map.addAttribute("article", form);
 		model.put("articleId", form.getId());

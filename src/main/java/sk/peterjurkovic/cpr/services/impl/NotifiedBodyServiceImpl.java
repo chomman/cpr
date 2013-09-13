@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -68,11 +68,11 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 		
 		if(notifiedBody.getId() == null){
 			notifiedBody.setCreatedBy(user);
-			notifiedBody.setCreated(new DateTime());
+			notifiedBody.setCreated(new LocalDateTime());
 			notifiedBodyDao.save(notifiedBody);
 		}else{
 			notifiedBody.setChangedBy(user);
-			notifiedBody.setChanged(new DateTime());
+			notifiedBody.setChanged(new LocalDateTime());
 			notifiedBodyDao.update(notifiedBody);
 		}
 		

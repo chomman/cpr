@@ -1,6 +1,6 @@
 package sk.peterjurkovic.cpr.web.forms.admin;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 
 public class ArticleForm {
@@ -13,9 +13,9 @@ public class ArticleForm {
 	
 	private String articleContent;
 	
-	private DateTime publishedSince;
+	private LocalDateTime publishedSince;
 	
-	private DateTime publishedUntil;
+	private LocalDateTime publishedUntil;
 	
 	private Boolean enabled;
 	
@@ -53,19 +53,19 @@ public class ArticleForm {
 		this.articleContent = articleContent;
 	}
 
-	public DateTime getPublishedSince() {
+	public LocalDateTime getPublishedSince() {
 		return publishedSince;
 	}
 
-	public void setPublishedSince(DateTime publishedSince) {
+	public void setPublishedSince(LocalDateTime publishedSince) {
 		this.publishedSince = publishedSince;
 	}
 
-	public DateTime getPublishedUntil() {
+	public LocalDateTime getPublishedUntil() {
 		return publishedUntil;
 	}
 
-	public void setPublishedUntil(DateTime publishedUntil) {
+	public void setPublishedUntil(LocalDateTime publishedUntil) {
 		this.publishedUntil = publishedUntil;
 	}
 

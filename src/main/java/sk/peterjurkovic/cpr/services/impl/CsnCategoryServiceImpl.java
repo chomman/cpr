@@ -1,9 +1,10 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.Validate;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -59,12 +60,12 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		if(category.getId() == null){
 			category.setCreatedBy(user);
-			category.setCreated(new DateTime());
+			category.setCreated(new LocalDateTime());
 			
 			csnCategoryDao.save(category);
 		}else{
 			category.setChangedBy(user);
-			category.setChanged(new DateTime());
+			category.setChanged(new LocalDateTime());
 			csnCategoryDao.update(category);
 		}
 	}
@@ -77,7 +78,7 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 		if(csnCategoryDao.getByCode(name) == null){
 			return name;
 		}else{
-			return name + "-" + csnCategoryDao.getMaxId();
+			return name + "-" + csnCategoryDao.getMaxId()+1;
 		}
 		
 	}
@@ -106,7 +107,11 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<CsnCategory> getSubRootCategories() {
-		return csnCategoryDao.getSubRootCategories();
+		List<CsnCategory> list = csnCategoryDao.getSubRootCategories();
+		if(list == null){
+			list = new ArrayList<CsnCategory>();
+		}
+		return list;
 	}
 	
 	

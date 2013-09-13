@@ -59,6 +59,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 	public PageDto getCsnPage(final int pageNumber, final Map<String, Object> criteria){
 		StringBuilder hql = new StringBuilder("from Csn csn");
 		hql.append(prepareHqlForQuery(criteria));
+		hql.append(" group by csn.id ");
 		if((Integer)criteria.get("orderBy") != null){
 			hql.append(CsnOrderBy.getSqlById((Integer)criteria.get("orderBy") ));
 		}else{

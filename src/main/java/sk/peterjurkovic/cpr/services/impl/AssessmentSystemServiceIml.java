@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -61,11 +61,11 @@ public class AssessmentSystemServiceIml implements AssessmentSystemService {
 		
 		if(assessmentSystem.getId() == null || assessmentSystem.getId() == 0){
 			assessmentSystem.setCreatedBy(user);
-			assessmentSystem.setCreated(new DateTime());
+			assessmentSystem.setCreated(new LocalDateTime());
 			assessmentSystemDao.save(assessmentSystem);
 		}else{
 			assessmentSystem.setChangedBy(user);
-			assessmentSystem.setChanged(new DateTime());
+			assessmentSystem.setChanged(new LocalDateTime());
 			assessmentSystemDao.update(assessmentSystem);
 		}
 	}

@@ -7,10 +7,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.annotations.Type;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.dao.impl.IdentifiableByLong;
 
@@ -40,13 +41,13 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
    /**
     * Datum vytvorenia
     */
-   private DateTime created = new DateTime();
+   private LocalDateTime created = new LocalDateTime();
    
    
    /**
     * Datum poslednej zmeny
     */
-   private DateTime changed;
+   private LocalDateTime changed;
    
    
    /**
@@ -101,8 +102,8 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     * @return datum
     */
    @Column(name = "created")
-   @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-   public DateTime getCreated() {
+   @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+   public LocalDateTime getCreated() {
        return created;
    }
 
@@ -112,7 +113,7 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     * @param Date
     *            : datum
     */
-   public void setCreated(DateTime created) {
+   public void setCreated(LocalDateTime created) {
        this.created = created;
    }
 
@@ -122,8 +123,8 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     * @return datum
     */
    @Column(name = "changed")
-   @Type(type="org.jadira.usertype.dateandtime.joda.PersistentDateTime")
-   public DateTime getChanged() {
+   @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+   public LocalDateTime getChanged() {
        return changed;
    }
 
@@ -134,7 +135,7 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     * @param Date
     *            : datum
     */
-   public void setChanged(DateTime changed) {
+   public void setChanged(LocalDateTime changed) {
        this.changed = changed;
    }
    

@@ -3,7 +3,7 @@ package sk.peterjurkovic.cpr.services.impl;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -140,11 +140,11 @@ public class UserServiceImpl implements UserService {
 		
 		if(user.getId() == null){
 			user.setCreatedBy(loggedUser);
-			user.setCreated(new DateTime());
+			user.setCreated(new LocalDateTime());
 			userDao.save(user);
 		}else{
 			user.setChangedBy(loggedUser);
-			user.setChanged(new DateTime());
+			user.setChanged(new LocalDateTime());
 			userDao.update(user);
 		}
 		

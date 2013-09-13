@@ -48,10 +48,9 @@ public class CsnCategoryDaoImpl  extends BaseDaoImpl<CsnCategory, Long> implemen
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CsnCategory> getSubRootCategories() {
-		 final StringBuffer hql = new StringBuffer("FROM CsnCategory c");
+		 final StringBuffer hql = new StringBuffer("select c from CsnCategory c");
          hql.append(" WHERE (c.parent IS NULL)");
          hql.append(" ORDER BY c.searchCode ASC");
-         
          final Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
          query.setCacheable(true);
          query.setCacheRegion(CacheRegion.CSN_CACHE);

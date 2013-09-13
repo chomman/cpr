@@ -44,4 +44,7 @@ public interface CsnService {
 	
 	
 	void deleteAllTerminology(Csn csn);
+	
+	void removeAll();
+	
 }

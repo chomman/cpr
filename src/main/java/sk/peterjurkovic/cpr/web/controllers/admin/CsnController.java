@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import sk.peterjurkovic.cpr.csvimport.CsnCsvImport;
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
+import sk.peterjurkovic.cpr.dto.CsvImportLogDto;
 import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
@@ -74,6 +76,8 @@ public class CsnController extends SupportAdminController {
 	private CsnValidator csnValidator;
 	@Autowired
 	private WordDocumentParser wordDocumentParser;
+	@Autowired
+	private CsnCsvImport csnCsvImport;
 	
 	@Autowired
 	private FileService fileService;
@@ -172,7 +176,6 @@ public class CsnController extends SupportAdminController {
 				TerminologyParser terminologyParser = new TerminologyParserImpl();
 				CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessContext);
 				terminologies.setCsn(csn);
-				csn.setHtmlContent(docAsHtml);
 				csnTerminologyService.saveTerminologies(terminologies);
 				csnService.saveOrUpdate(csn);
 				
@@ -227,24 +230,27 @@ public class CsnController extends SupportAdminController {
 								ModelMap modelMap){
 		MultipartFile file = uploadForm.getFileData();
 		Map<String, Object> model = new HashMap<String, Object>();
+		CsvImportLogDto log = null;
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
 			if(FilenameUtils.isExtension(file.getOriginalFilename(), "csv")){
-				/*
-				 * try {
-					
-				
-					model.put("count", 1);
-					modelMap.put("model", model);
-					modelMap.put("successCreate", true);
+				 try {
+					 log = csnCsvImport.processImport(file.getInputStream());
+					 csnService.removeAll(); 
 				} catch (IOException e) {
 					modelMap.put("importFailed", true);
 					logger.warn("CSV subor: " +file.getOriginalFilename() + " sa nepodarilo importovat. Duvod: " + e.getMessage());
 				}
-				 * */
+			
 			}else{
 				modelMap.put("importFailed", true);
 			}
 		}
+		model.put("success", false);
+		if(log != null){
+			model.put("success", true);
+			model.put("log", log);
+		}
+		modelMap.put("model", model);
 		return getViewName();
 	}
 	

@@ -212,7 +212,7 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	private void validateCollision(Webpage persitedWebpage, Webpage form) throws CollisionException{
-		if(form.getTimestamp() != null && persitedWebpage.getChanged().isAfter(form.getTimestamp())){
+		if(form.getTimestamp() != null && persitedWebpage.getChanged().toDateTime().isAfter(form.getTimestamp())){
 			throw new CollisionException();
 		}
 	}

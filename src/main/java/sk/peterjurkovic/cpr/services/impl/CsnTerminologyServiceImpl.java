@@ -6,7 +6,7 @@ import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -68,11 +68,11 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		if(csnTerminology.getId() == null){
 			csnTerminology.setCreatedBy(user);
-			csnTerminology.setCreated(new DateTime());
+			csnTerminology.setCreated(new LocalDateTime());
 			csnTerminologyDao.save(csnTerminology);
 		}else{
 			csnTerminology.setChangedBy(user);
-			csnTerminology.setChanged(new DateTime());
+			csnTerminology.setChanged(new LocalDateTime());
 			csnTerminologyDao.update(csnTerminology);
 		}
 		return csnTerminology.getId();
@@ -113,7 +113,7 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 		User user = UserUtils.getLoggedUser();
 		if(CollectionUtils.isNotEmpty(terminologies)){	
 			for(CsnTerminology t : terminologies){
-				t.setCreated(new DateTime());
+				t.setCreated(new LocalDateTime());
 				t.setCreatedBy(user);
 				csnTerminologyDao.save(t);
 			}

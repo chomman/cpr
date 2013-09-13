@@ -1,6 +1,6 @@
 package sk.peterjurkovic.cpr.services.impl;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -43,7 +43,7 @@ public class BasicSettingsServiceImpl implements BasicSettingsService {
 	public void updateBasicSettings(BasicSettings basicSettings) {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		basicSettings.setChangedBy(user);
-		basicSettings.setChanged(new DateTime());
+		basicSettings.setChanged(new LocalDateTime());
 		basicSettingsDao.merge(basicSettings);
 	}
 

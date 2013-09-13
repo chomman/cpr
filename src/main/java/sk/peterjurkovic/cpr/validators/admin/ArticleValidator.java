@@ -20,12 +20,12 @@ public class ArticleValidator {
 			errors.add("Titulek aktuality musí být vyplněn");
 		}
 		
-		if(form.getTimestamp() != null && persistedArticle.getChanged().isAfter(form.getTimestamp())){
+		if(form.getTimestamp() != null && persistedArticle.getChanged().toDateTime().isAfter(form.getTimestamp())){
 			errors.add("Při aktualizaci dat nastala kolize s jiným uživatelem.");
 		}
 		
 		if(form.getPublishedSince() != null && form.getPublishedUntil() != null){
-			 if(form.getPublishedSince().isAfter( form.getPublishedUntil().getMillis())){
+			 if(form.getPublishedSince().toDateTime().isAfter( form.getPublishedUntil().toDateTime().getMillis())){
 				 errors.add("Začátek nemůže být po skončení publikování.");
 			 }
 		}

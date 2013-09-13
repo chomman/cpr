@@ -157,11 +157,19 @@
 		
 		
 		 <!-- MySql 5.5 Connector -->   
+	    <!-- 
 	    <dependency>
 	        <groupId>mysql</groupId>
 	        <artifactId>mysql-connector-java</artifactId>
 	        <version>5.1.22</version>
 	    </dependency>
+	     -->
+	    <!-- Postgresql Connector -->  
+	    <dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901.jdbc4</version>
+		</dependency>
 		<dependency>
 			<groupId>c3p0</groupId>
 			<artifactId>c3p0</artifactId>
@@ -213,14 +221,6 @@
 			<version>3.0.1</version>
 			<scope>provided</scope>
 		</dependency>
-		<!-- 
-		<dependency>
-			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.1</version>
-			<scope>provided</scope>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
@@ -245,13 +245,13 @@
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
-			<version>2.1</version>
+			<version>2.2</version>
 		</dependency>
 				
 		<dependency>
-		  <groupId>org.jadira.usertype</groupId>
-		  <artifactId>usertype.jodatime</artifactId>
-		  <version>2.0.1</version>
+			<groupId>org.jadira.usertype</groupId>
+			<artifactId>usertype.core</artifactId>
+			<version>3.1.0.CR8</version>
 		</dependency>
 		
 		<dependency>

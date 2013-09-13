@@ -6,9 +6,10 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 
 import org.apache.log4j.Logger;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.entities.CsnCategory;
@@ -36,7 +37,7 @@ public class CsnCategoryCsvImportImpl implements CsnCategoryCsvImport{
 		
 	}
 	
-	@Transactional
+	@Transactional(propagation = Propagation.REQUIRED)
 	private int processReadFile(CSVReader reader){
 		String [] line;
 		User user = UserUtils.getLoggedUser();
@@ -92,8 +93,8 @@ public class CsnCategoryCsvImportImpl implements CsnCategoryCsvImport{
 	
 	private CsnCategory cerateCategory(String name, User user){
 		CsnCategory category = new CsnCategory();
-		category.setChanged(new DateTime());
-		category.setCreated(new DateTime());
+		category.setChanged(new LocalDateTime());
+		category.setCreated(new LocalDateTime());
 		category.setCreatedBy(user);
 		category.setName(name);
 		return category;

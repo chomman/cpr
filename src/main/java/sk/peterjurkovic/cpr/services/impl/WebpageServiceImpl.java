@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -78,12 +78,12 @@ public class WebpageServiceImpl implements WebpageService{
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		if(webpage.getId() == null){
 			webpage.setCreatedBy(user);
-			webpage.setCreated(new DateTime());
+			webpage.setCreated(new LocalDateTime());
 			webpageDao.save(webpage);
 			
 		}else{
 			webpage.setChangedBy(user);
-			webpage.setChanged(new DateTime());
+			webpage.setChanged(new LocalDateTime());
 			webpageDao.update(webpage);
 		}
 	}

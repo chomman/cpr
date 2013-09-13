@@ -13,7 +13,11 @@ public class PageDto {
 	}
 	
 	public void setCount(Long count) {
-		this.count = count;
+		if(count == null){
+			this.count = 0l;
+		}else{
+			this.count = count;
+		}
 	}
 
 	public List<Object> getItems() {

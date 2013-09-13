@@ -12,7 +12,7 @@ import javax.persistence.Transient;
 import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.web.json.DateTimeDeserializer;
 
@@ -37,9 +37,9 @@ public class Article extends AbstractEntity {
 	
 	private String articleContent;
 	
-	private DateTime publishedSince;
+	private LocalDateTime publishedSince;
 	
-	private DateTime publishedUntil;
+	private LocalDateTime publishedUntil;
 	
 	private Long timestamp;
 
@@ -84,27 +84,27 @@ public class Article extends AbstractEntity {
 	}
 
 	
-	@Type(type = "jodaDateTime")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	@Column(name = "published_since")
 	@JsonDeserialize(using=DateTimeDeserializer.class)
-	public DateTime getPublishedSince() {
+	public LocalDateTime getPublishedSince() {
 		return publishedSince;
 	}
 
 
-	public void setPublishedSince(DateTime publishedSince) {
+	public void setPublishedSince(LocalDateTime publishedSince) {
 		this.publishedSince = publishedSince;
 	}
 	
-	@Type(type = "jodaDateTime")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	@Column(name = "published_until")
 	@JsonDeserialize(using=DateTimeDeserializer.class)
-	public DateTime getPublishedUntil() {
+	public LocalDateTime getPublishedUntil() {
 		return publishedUntil;
 	}
 
 
-	public void setPublishedUntil(DateTime publishedUntil) {
+	public void setPublishedUntil(LocalDateTime publishedUntil) {
 		this.publishedUntil = publishedUntil;
 	}
 

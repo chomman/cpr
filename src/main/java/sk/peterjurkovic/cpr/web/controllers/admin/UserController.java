@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.dao.SaltSource;
@@ -334,7 +335,7 @@ public class UserController extends SupportAdminController {
 		user.clearAuthorities();
 		user.setAuthoritySet(form.getSelectedAuthorities());
 		user.setCreatedBy(loggedUser);
-		user.setChanged(new DateTime());
+		user.setChanged(new LocalDateTime());
 		user.setChangedBy(loggedUser);
 		userService.mergeUser(user);
 		

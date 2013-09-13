@@ -2,10 +2,10 @@ package sk.peterjurkovic.cpr.csvimport;
 
 import java.io.InputStream;
 
-import sk.peterjurkovic.cpr.dto.CsvImportDto;
+import sk.peterjurkovic.cpr.dto.CsvImportLogDto;
 
 
 public interface CsnCsvImport {
 
-	CsvImportDto processImport(InputStream is);
+	CsvImportLogDto processImport(InputStream is);
 }

@@ -20,7 +20,7 @@ import javax.persistence.Table;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "csn_cateogry")
+@Table(name = "csn_category")
 public class CsnCategory extends AbstractEntity {
 
 	

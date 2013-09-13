@@ -143,7 +143,8 @@ public class DeclarationOfPerformance {
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
 	}
-
+	
+	@Column(name="authorised_representative")
 	public String getAuthorisedRepresentative() {
 		return authorisedRepresentative;
 	}
@@ -245,6 +246,7 @@ public class DeclarationOfPerformance {
 	}
 
 	@Length(max = 255, message = "Podepsáný výrobce je chybne vyplněn.")
+	@Column(name="signed_manufacturer")
 	public String getSignedManufacturer() {
 		return signedManufacturer;
 	}

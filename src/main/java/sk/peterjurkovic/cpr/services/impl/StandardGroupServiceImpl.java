@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -66,11 +66,11 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 		
 		if(standardGroup.getId() == null){
 			standardGroup.setCreatedBy(user);
-			standardGroup.setCreated(new DateTime());
+			standardGroup.setCreated(new LocalDateTime());
 			standardGroupDao.save(standardGroup);
 		}else{
 			standardGroup.setChangedBy(user);
-			standardGroup.setChanged(new DateTime());
+			standardGroup.setChanged(new LocalDateTime());
 			standardGroupDao.update(standardGroup);
 		}
 		

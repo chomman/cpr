@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -69,11 +69,11 @@ public class MandateServiceImpl implements MandateService {
 		
 		if(mandate.getId() == null){
 			mandate.setCreatedBy(user);
-			mandate.setCreated(new DateTime());
+			mandate.setCreated(new LocalDateTime());
 			mandateDao.save(mandate);
 		}else{
 			mandate.setChangedBy(user);
-			mandate.setChanged(new DateTime());
+			mandate.setChanged(new LocalDateTime());
 			mandateDao.update(mandate);
 		}
 	}

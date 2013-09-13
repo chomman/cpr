@@ -155,9 +155,10 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 .red{color:red;}
 .msg{padding:18px 10px 18px 55px;font-size:14px;margin:10px;}
 .msg.alert{background:#fff5e3 url(../img/ico_alert.png) no-repeat 10px center;border:3px solid  #f3deba;color:#b66f00;}
-.msg.ok{background:#f2ffee url(../img/ico_ok.png) no-repeat 10px center;border:3px solid  #cefbbe;color:#345c01;}
-.msg.error{background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
+.msg.ok,.logResult.importSuccess{background:#f2ffee url(../img/ico_ok.png) no-repeat 10px center;border:3px solid  #cefbbe;color:#345c01;}
+.msg.error,.logResult.importFailed{background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
 .msg.info{background:#F5FAFF url(../img/ico_info.png) no-repeat 10px center;border:3px solid  #E3F0FF;color:#2F4A69;}
+
 
 .note{font-size:11px;margin:20px 0;display:block;color:#777;font-style:italic;}
 
@@ -517,3 +518,10 @@ opacity: 0.30;
 	padding:30px 30px 30px 60px;
 	border:3px solid #555;
 }
+
+.logResult{padding:10px 10px 10px 50px;margin-bottom:20px;font-size:12px;}
+.logResult p{font-size:14px;font-weight:bold;}
+.logResult table{margin:10px 0;border-collapse:collapse;}
+.logResult table tr td{padding:2px 10px;}
+.logResult table tr:hover{background:#fff;border-top:4px solid #fff;border-bottom:4px solid #fff;font-size:13px;}
+.logResult .br{border-right:1px solid #ccc;padding-right:10px;margin-right:5px;}

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -48,7 +48,7 @@ public class StandardServiceImpl implements StandardService {
 	public Standard getStandardById(Long id) {
 		Standard standard =  standardDao.getByID(id);
 		if(standard != null && standard.getChanged() != null){
-			standard.setTimestamp(standard.getChanged().getMillis());
+			standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
 		}
 		return standard;
 	}
@@ -90,13 +90,13 @@ public class StandardServiceImpl implements StandardService {
 		if(standard.getId() == null){
 			standard.setCreatedBy(user);
 			standard.setChangedBy(user);
-			standard.setCreated(new DateTime());
-			standard.setChanged(new DateTime());
+			standard.setCreated(new LocalDateTime());
+			standard.setChanged(new LocalDateTime());
 			standardDao.save(standard);
 			standardDao.flush();
 		}else{
 			standard.setChangedBy(user);
-			standard.setChanged(new DateTime());
+			standard.setChanged(new LocalDateTime());
 			standardDao.update(standard);
 		}
 		

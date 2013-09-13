@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -64,11 +64,11 @@ public class CountryServiceImpl implements CountryService {
 		
 		if(country.getId() == null){
 			country.setCreatedBy(user);
-			country.setCreated(new DateTime());
+			country.setCreated(new LocalDateTime());
 			countryDao.save(country);
 		}else{
 			country.setChangedBy(user);
-			country.setChanged(new DateTime());
+			country.setChanged(new LocalDateTime());
 			countryDao.update(country);
 		}
 	}

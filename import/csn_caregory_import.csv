@@ -1033,6 +1033,414 @@
 34 92;Armatury trakčních a trolejových vedení
 34 93;Armatury trolejových vedení
 34 94;Armatury trolejových vedení
+34 01;Povrchové cesty a vzdušné vzdálenosti
+34 03;Pohyblivé přívody a šňůrová vedení
+34 04;Elektrické spoje a svorky
+34 08;Ultrazvuková zařízení a hydrofony
+34 10;Obyčejná elektrická zařízení
+34 13;Zvláštní elektrická zařízení
+34 14;Elektrická zařízení v dolech
+34 15;Elektrická dopravní a trakční zařízení
+34 16;Elektrická zařízení v těžkých provozech
+34 17;Zařízení s roentgeny a radioaktivními látkami
+34 20;Ochrana sdělovacích zařízení před rušením
+34 21;Elektrická nadzemní sdělovací vedení
+34 23;Vnitřní sdělovací rozvody
+34 25;Rozhlas po vedení
+34 26;Železniční zabezpečovací zařízení
+34 27;Požární signalizace a dorozumívací zařízení
+34 28;Předpisy pro odrušení
+34 30;Elektrická bezpečnost ve zvláštních podmínkách
+34 31;Práce na elektrických zařízeních a vedeních
+34 32;Obsluha točivých strojů a transformátorů
+34 33;Návody k obsluze a rozmrazování potrubí
+34 35;Bezpečnostní tabulky a nápisy
+34 38;Ruční lisovací nástroje k zakončení elektrických kabelů
+34 51;Terminologie v elektrotechnice
+34 53;Řady napětí a kmitočtů
+34 55;Značky nahrazující nápisy
+34 56;Zkoušení a měření
+34 57;Zkoušky vlivu vnějších činitelů prostředí
+34 58;Magnetické součástky a měření
+34 59;Materiály pro elektroniku
+34 62;Izolační soustavy
+34 63;Keramické a skleněné izolační materiály
+34 64;Zkoušky elektroizolačních materiálů
+34 65;Elektroizolační materiály
+34 66;Slídové výrobky pro elektrotechniku
+34 67;Elektroizolační kapaliny
+34 70;Zkoušení vodičů a kabelů
+34 71;Vodiče a kabely v podmínkách požáru
+34 72;Jádra kabelů
+34 73;Vodiče pro vinutí
+34 74;Silové vodiče
+34 75;Šňůry a vodiče pro zvláštní účely
+34 76;Silové kabely
+34 77;Sdělovací vodiče a šňůry, nf, vf a koaxiální kabely
+34 78;Nf, přístrojové, návěstní a dálkové sdělovací kabely
+34 79;Vlnovody s příslušenstvím, letecké kabely
+34 80;Izolátory, všeobecně
+34 81;Izolátory vn, vvn a zvláštní
+34 82;Stožáry pro vedení
+34 83;Zvláštní stožáry
+34 84;Součásti venkovních vedení do 1 kV
+34 85;Konce izolátorových podpěr nn a vn
+34 86;Armatury a součásti venkovních vedení
+34 87;Armatury venkovních vedení
+34 90;Silnoproudé kabelové soubory
+34 92;Armatury trakčních a trolejových vedení
+34 93;Armatury trolejových vedení
+34 94;Armatury trolejových vedení
+35 00;Točivé elektrické stroje všeobecně
+35 01;Stejnosměrné stroje
+35 02;Synchronní stroje
+35 03;Asynchronní motory
+35 04;Komutátorové motory
+35 07;Zvláštní točivé elektrické stroje
+35 08;Svorkovnice, kartáče a komutátory točivých strojů
+35 09;Kryty a posunováky točivých strojů
+35 10;Transformátory a tlumivky všeobecně
+35 11;Výkonové (silové) transformátory
+35 12;Tlumivky
+35 13;Měřicí, oddělovací a přístrojové transformátory
+35 14;Součásti výkonových transformátorů
+35 15;Výkonové polovodičové měniče a usměrňovače
+35 16;Výkonové polovodičové součástky
+35 17;Tyristorové pohony
+35 18;Statické přepínací systémy
+35 19;Magneticky měkké transformátorové plechy
+35 30;Elektrické přístroje, všeobecně
+35 31;Řídicí a spouštěcí přístroje
+35 34;Elektrická dvoustavová relé
+35 35;Měřicí relé a ochrany
+35 36;Elektromagnety
+35 38;Vysokofrekvenční konektory
+35 40;Zkoušky elektronických součástek
+35 41;Silové spínače nn
+35 42;Silové spínače vn a vvn
+35 43;Spínací a řídicí zařízení nn pro průmyslové účely - induktivní
+35 44;Spínací a řídicí zařízení nn pro průmyslové účely - přístrojové a nosné lišty
+35 45;Zásuvky a vidlice
+35 46;Sdělovací zásuvky a vidlice, konektory
+35 47;Pojistky nn a vn
+35 48;Svodiče přepětí
+35 55;Harmonizovaný systém hodnocení jakosti součástek
+35 61;Elektroměry
+35 62;Elektrické měřicí přístroje
+35 64;Etalony, dekády, můstky apod.
+35 65;Elektrické měřicí přístroje včetně jaderné techniky
+35 66;Přístroje jaderné techniky
+35 68;Speciální měřicí přístroje
+35 70;Rozvodnice, přístrojové skříně a soubory
+35 71;Silové rozváděče
+35 76;Hromosvody
+35 79;Nevýbušné přírubové vývodky
+35 80;Pasivní elektronické součástky
+35 81;Rezistory, termistory a potenciometry
+35 82;Kondenzátory
+35 83;Kondenzátory pro elektroniku
+35 84;Piezoelektrické součástky a feritová jádra
+35 85;Elektronky a obrazovky
+35 86;Elektronky
+35 87;Polovodičové součástky
+35 88;Optické vláknové přepínače a optická vlákna
+35 89;Patice, držáky, objímky, zásobníky a masky
+35 90;Plošné spoje
+35 91;Stojany přenosových zařízení
+35 92;Kabely a součástky pro vláknovou optiku
+35 93;Technologie elektronické montáže
+35 97;Pomůcky pro obsluhu
+36 00;Osvětlování, všeobecně
+36 01;Žárovky
+36 02;Výbojky a zářivky
+36 03;Součásti, patice, objímky světelných zdrojů
+36 04;Vnitřní a venkovní osvětlení
+36 05;Terminologie svítidel a předřadníku
+36 06;Elektrická svítidla
+36 07;Bezpečnost elektronických fotoblesků
+36 08;Životní prostředí - elektrotechnické a elektronické produkty a systémy
+36 09;Stomatologická svítidla
+36 10;Bezpečnost elektrických spotřebičů pro domácnost
+36 11;Průmyslová elektrotepelná zařízení a spotřebiče pro domácnost
+36 12;Bezpečnost elektrických spotřebičů pro domácnost
+36 13;Bezpečnost elektrických spotřebičů pro domácnost
+36 14;Bezpečnost elektrických spotřebičů všeobecného použití
+36 15;Bezpečnost elektrického ručního nářadí
+36 19;Elektrická řídicí zařízení pro domácnost
+36 22;Točivé stroje a přístroje kolejových vozidel
+36 23;Sběrače proudu kolejových vozidel
+36 27;Trolejové sběrače jeřábů
+36 38;Elektrické sirény
+36 41;Primární články a baterie
+36 43;Akumulátory
+36 46;Fotovoltaické součástky
+36 47;Rentgeny
+36 48;Zdravotnické elektrické přístroje
+36 49;Elektrické přístroje pro laboratoře
+36 52;Světelná hledací zařízení
+36 56;Světelná signalizační zařízení
+36 57;Dálkové měření
+36 60;Drátová spojovací technika, všeobecně
+36 61;Telegrafní a telefonní přístroje
+36 67;Signály a impedance přenosových systémů
+36 70;Elektronika a rádiotechnika všeobecně
+36 71;Vysílače
+36 72;Antény
+36 73;Přijímače
+36 74;Zesilovače
+36 75;Televize
+36 76;Radioreléová a družicová zařízení a systémy
+36 77;Plynové lasery a modulátory laserů
+36 78;Navigační a bezpečnostní systémy
+36 79;Elektromagnetická pole v prostředí člověka
+36 80;Aplikovaná elektronika
+36 82;Mikrofony, sluchátka, reproduktory
+36 83;Elektroakustická zařízení
+36 84;Záznam a reprodukce zvuku
+36 85;Záznam a reprodukce obrazu
+36 86;Záznamové materiály
+36 88;Elektroakustická měření
+36 90;Informační technika všeobecně a terminologie
+36 91;Znaky, kódování, počítačová grafika a programovací jazyky
+36 92;Lokální počítačové sítě (LAN)
+36 93;Pružná magnetická média pro digitální záznam
+36 94;Optické disky
+36 95;Kancelářské zařízení
+36 96;Propojení otevřených systémů
+36 97;Identifikační karty a ochrana dat
+36 98;Zpracování a výměna dokumentů
+36 99;Propojení zařízení informační techniky
+37 00;Elektroinstalační trubky a lišty
+37 01;Úložný materiál pro vnitřní rozvod nn
+37 02;Úložný materiál pro vnitřní rozvod nn
+37 03;Upevňovací materiál pro vnitřní rozvod nn a vn
+37 04;Kabelové lávky a rošty
+37 05;Kabelové spony a příchytky
+37 06;Spojky a svorky
+37 07;Spojovací materiál pro vnitřní rozvod nn a vn
+37 08;Svorkovnice
+37 09;Praporce, svorníky a oka
+37 13;Kabelová oka a spojky
+37 15;Svornice a svorkovnice
+37 16;Koncovky upravených sdělovacích šňůr
+37 18;Rozvody a dimenzování
+37 50;Používání trubek, lišt, vodičů a kabelů
+37 51;Označování na trakčních vedeních
+37 52;Kladení vedení do podlah a stropů
+37 57;Křižovatky kabelových vedení
+37 61;Roznětnice a ohmmetry pro trhací práce
+37 66;Elektrická dopravní zařízení
+37 67;Měnírny, vedení a napájecí stanice
+37 83;Detekce hořlavých plynů a par
+38 01;Terminologie a třídění elektráren a rozvodů
+38 02;Pořizování zařízení elektráren
+38 04;Značky pro energetiku
+38 08;Přepěťové ochrany
+38 10;Elektrické dozorny
+38 11;Projekce elektráren a rozvodů
+38 17;Předpisy pro stavbu výroben, rozvoden a transformoven
+38 18;Městské trakční měnírny
+38 19;Zařízení rozvoden a stanic
+38 21;Kabelové rozvody
+38 33;Tepelné sítě. Zásobování teplem
+38 37;Transformovny
+38 43;Přenosné přípojky
+38 54;Strojovny zdrojových soustrojí
+38 55;Plynárny, všeobecně
+38 56;Příprava kalibračních plynných směsí
+38 61;Plyn, jakost, čištění
+38 64;Předpisy pro rozvod plynu
+38 65;Plynové spotřebiče
+38 66;Zařízení pro zkapalněný zemní plyn
+38 73;Generátory
+38 90;Požární předpisy, všeobecně, bezpečnost a hasicí přístroje
+38 91;Požární předpisy, všeobecně, bezpečnost a hasicí přístroje
+38 92;Stabilní hasicí zařízení
+38 93;Stříkačky a vozy
+38 94;Požární bezpečnost, příslušenství sací a útočné
+38 95;Požární bezpečnost, příslušenství sací a útočné
+38 96;Prevence a ochrana proti výbuchu
+38 97;Zařízení pro usměrňování pohybu kouře a tepla
+38 98;Požární bezpečnost, výstroj a výzbroj
+39 50;Zbraně a náboje všeobecně
+39 51;Zbraně a náboje všeobecně
+39 53;Balistická měřidla
+39 54;Střelnice
+40 10;Všeobecné materiály
+40 11;Zařízení se zdroji ionizujícího záření
+40 14;Obecné zásady bezpečnosti
+40 20;Spolehlivost jaderných elektráren a jejich zařízení
+40 34;Spouštění jaderných elektráren. Technická dokumentace spouštění jaderných elektráren
+40 36;Metrologická zajištění provozu jaderných elektráren
+40 38;Ukončení provozu jaderných elektráren
+40 40;Nomenklatura. Metody měření a zkoušení radioaktivních produktů
+40 41;Anorganické preparáty značené radionuklidy
+40 43;Uzavřené radionuklidové zářiče
+40 44;Etalony radioaktivity
+41 00;Oceli třídy 10. Materiálové listy
+41 02;Oceli třídy 10. Materiálové listy
+41 03;Oceli třídy 10. Materiálové listy
+41 04;Oceli třídy 10. Materiálové listy
+41 05;Oceli třídy 10. Materiálové listy
+41 06;Oceli třídy 10. Materiálové listy
+41 11;Oceli třídy 11. Materiálové listy
+41 13;Oceli třídy 11. Materiálové listy
+41 14;Oceli třídy 11. Materiálové listy
+41 15;Oceli třídy 11. Materiálové listy
+41 16;Oceli třídy 11. Materiálové listy
+41 17;Oceli třídy 11. Materiálové listy
+41 18;Oceli třídy 11. Materiálové listy
+41 20;Oceli třídy 12. Materiálové listy
+41 21;Oceli třídy 12. Materiálové listy
+41 30;Oceli třídy 13. Materiálové listy
+41 31;Oceli třídy 13. Materiálové listy
+41 32;Oceli třídy 13. Materiálové listy
+41 33;Oceli třídy 13. Materiálové listy
+41 41;Oceli třídy 14. Materiálové listy
+41 42;Oceli třídy 14. Materiálové listy
+41 43;Oceli třídy 14. Materiálové listy
+41 50;Oceli třídy 15. Materiálové listy
+41 51;Oceli třídy 15. Materiálové listy
+41 52;Oceli třídy 15. Materiálové listy
+41 53;Oceli třídy 15. Materiálové listy
+41 54;Oceli třídy 15. Materiálové listy
+41 61;Oceli třídy 16. Materiálové listy
+41 62;Oceli třídy 16. Materiálové listy
+41 63;Oceli třídy 16. Materiálové listy
+41 64;Oceli třídy 16. Materiálové listy
+41 65;Oceli třídy 16. Materiálové listy
+41 66;Oceli třídy 16. Materiálové listy
+41 67;Oceli třídy 16. Materiálové listy
+41 70;Oceli třídy 17. Materiálové listy
+41 71;Oceli třídy 17. Materiálové listy
+41 72;Oceli třídy 17. Materiálové listy
+41 73;Oceli třídy 17. Materiálové listy
+41 74;Oceli třídy 17. Materiálové listy
+41 75;Oceli třídy 17. Materiálové listy
+41 76;Oceli třídy 17. Materiálové listy
+41 80;Železné, ocelové a neželezné prášky, slinuté karbidy
+41 82;Železné, ocelové a neželezné prášky, slinuté karbidy
+41 83;Železné, ocelové a neželezné prášky, slinuté karbidy
+41 85;Železné, ocelové a neželezné prášky, slinuté karbidy
+41 90;Oceli třídy 19. Materiálové listy
+41 91;Oceli třídy 19. Materiálové listy
+41 92;Oceli třídy 19. Materiálové listy
+41 93;Oceli třídy 19. Materiálové listy
+41 94;Oceli třídy 19. Materiálové listy
+41 95;Oceli třídy 19. Materiálové listy
+41 96;Oceli třídy 19. Materiálové listy
+41 97;Oceli třídy 19. Materiálové listy
+41 98;Oceli třídy 19. Materiálové listy
+42 00;Všeobecné předpisy
+42 01;Tvářené výrobky z ocelí. Technické dodací předpisy
+42 02;Ingoty z ocelí. Tvářené výrobky z ocelí. Technické dodací předpisy
+42 03;Mechanické zkoušení kovů
+42 04;Technologické, metalografické a fyzikální zkoušení kovů
+42 05;Chemické zkoušení kovů a feroslitin
+42 06;Chemické zkoušení neželezných kovů a jejich slitin
+42 07;Zkoušení kovů
+42 08;Prášková metalurgie
+42 09;Výrobky z ocelí a oceli na odlitky a litiny. Technické dodací předpisy. Ukazatele jakosti. Rozměry
+42 10;Výrobky z ocelí. Technické dodací předpisy
+42 11;Feroslitiny. Slitiny dezoxidační. Technické dodací předpisy
+42 12;Surové železo. Odlitky z oceli a slitin. Kokily. Technické dodací předpisy
+42 13;Těžké a lehké neželezné kovy. Technické dodací předpisy
+42 14;Neželezné kovy. Všeobecné normy a technické dodací předpisy
+42 15;Těžké a lehké neželezné kovy. Technické dodací předpisy
+42 16;Klenotnictví. Vlastnosti kovů, označování a rozbory slitin
+42 18;Bezpečnostní předpisy
+42 19;Výrobky z oceli. Technické dodací podmínky. Jakosti
+42 20;Výrobky z ocelí. Zvláštní předpisy a ustanovení
+42 21;Surové železo, materiálové listy
+42 22;Feroslitiny a slitiny dezoxidační. Materiálové listy
+42 23;Litiny s kuličkovým grafitem. Materiálové listy
+42 24;Litiny s lupínkovým grafitem. Zvláštní slitiny železa na odlitky
+42 25;Bílé, tvrzené a temperované litiny. Materiálové listy
+42 26;Uhlíkové oceli na odlitky. Materiálové listy
+42 27;Nízkolegované a středně legované oceli na odlitky, odlévané do pískových forem. Materiálové listy
+42 28;Nízkolegované a středně legované oceli na odlitky, odlévané jiným způsobem než do pískových forem. Slitiny pro trvalé magnety. Materiálové listy
+42 29;Vysokolegované oceli na odlitky. Materiálové listy
+42 30;Měď a slitiny mědi tvářené. Materiálové listy
+42 31;Měď a slitiny mědi na odlitky. Materiálové listy
+42 32;Slitiny měď-zinek tvářené. Materiálové listy
+42 33;Slitiny měď-zinek na odlitky. Materiálové listy
+42 34;Nikl, kobalt a slitiny niklu tvářené. Materiálové listy
+42 35;Nikl, zinek a jejich slitiny na odlitky. Materiálové listy
+42 36;Olovo, cín a jejich slitiny tvářené. Materiálové listy
+42 37;Olovo, cín, antimon a jejich slitiny na odlitky. Materiálové listy
+42 38;Ušlechtilé kovy a jejich slitiny. Materiálové listy
+42 39;Nízkotavitelné slitiny neželezných kovů. Materiálové listy
+42 40;Hliník tvářený. Materiálové listy
+42 41;Hliník na odlitky. Materiálové listy
+42 42;Slitiny hliníku tvářené. Materiálové listy
+42 43;Slitiny hliníku na odlitky. Materiálové listy
+42 44;Slitiny hliníku tvářené. Materiálové listy
+42 45;Slitiny hliníku na odlitky. Materiálové listy
+42 49;Hořčík a slitiny hořčíku na odlitky. Materiálové listy
+42 50;Výrobky z ocelí. Rozměry
+42 51;Ingoty z ocelí. Předvalky z ocelí válcované za tepla. Rozměry
+42 52;Výrobky z ocelí. Rozměry
+42 53;Plechy a pásy z ocelí. Rozměry (Přednostně válcované za tepla)
+42 54;Dráty z ocelí válcované za tepla. Rozměry
+42 55;Tyče z ocelí válcované za tepla. Rozměry
+42 56;Tyče z ocelí válcované za tepla. Rozměry
+42 57;Trubky z ocelí tvářené za tepla. Trubky z ocelí svařované. Rozměry
+42 58;Výrobky z ocelí specifických tvarů. Technické dodací předpisy. Rozměry
+42 59;Tyče z ocelí válcované za tepla. Rozměry
+42 60;Tvářené výrobky z ocelí. Technické dodací podmínky a rozměry
+42 63;Plechy a pásy z ocelí válcované za studena. Rozměry
+42 64;Dráty z ocelí tvářené za studena. Rozměry
+42 65;Tyče a oceli tvářené za studena. Rozměry
+42 66;Ocelové dráty a výrobky z drátu
+42 67;Trubky z ocelí tvářené za studena (přesné). Rozměry
+42 68;Ohýbané profily ocelové
+42 69;Tenkostěnné profily ocelové. Rozměry
+42 72;Výkovky z neželezných kovů. Rozměry
+42 73;Plechy, pásy, pruhy, kotouče, folie a kaloty z hliníku a slitin hliníku. Rozměry
+42 74;Dráty z hliníku a slitin hliníku. Rozměry
+42 75;Tyče z hliníku a slitin hliníku tvářené za tepla. Rozměry
+42 76;Tyče z hliníku a slitin hliníku tvářené za studena. Rozměry
+42 77;Trubky z hliníku a slitin hliníku. Rozměry
+42 78;Profily z hliníku a slitin hliníku. Rozměry
+42 81;Kompozice. Rozměry
+42 83;Plechy, pásy, pruhy, kotouče a folie z těžkých a ušlechtilých kovů a jejich slitin. Rozměry
+42 84;Dráty z těžkých a ušlechtilých kovů a jejich slitin. Rozměry
+42 85;Tyče z těžkých neželezných kovů a jejich slitin tvářené za tepla. Rozměry
+42 86;Tyče z těžkých neželezných kovů a jejich slitin tvářené za studena. Rozměry
+42 87;Trubky z těžkých neželezných kovů a jejich slitin. Rozměry
+42 88;Profily z těžkých neželezných kovů a jejich slitin. Rozměry
+42 90;Výkovky z ocelí
+42 92;Výkovky z neželezných kovů
+42 96;Tlakové odlitky
+42 97;Zkoušení odlitků
+42 98;Různé hutní výrobky
+43 30;Válcovny ocelí a neželezných kovů (provozní soubory)
+43 35;Trubkárny, svařovny trubek, válcovny trubek za studena a tažírny trubek (provozní soubory)
+43 94;Pomocné provozy hutní výroby
+44 13;Tuhá paliva. Metody zkoušení
+44 14;Jakost tuhých paliv
+44 15;Zkoušení rud a koncentrátů
+44 16;Zkoušení rud a koncentrátů
+44 17;Zkoušení rud a koncentrátů
+44 18;Zkoušení rud a koncentrátů
+44 20;Otvírka a příprava hlubinných ložisek, všeobecně
+44 26;Důlní ocelová výztuž
+44 30;Strojní zařízení pro podzemní doly
+44 31;Volné (vyhrazeno pro takové záležitosti nerostných surovin /mimo uhlí/, které se nedají zařadit do ostat. podskupin této skupiny ani do tř. 72)
+44 42;Dobývací stroje a zařízení pro hlubinné dobývání nerostných surovin
+44 44;Výztuž porubů a řízení horského tlaku při hlubinném dobývání nerostných surovin
+44 47;Stroje a zařízení pro zakládání při hlubinném dobývání užitkových surovin
+44 50;Hornická doprava a manipulace s materiálem, všeobecně (Doprava, všeobecně)
+44 54;Stroje a zařízení svislé důlní dopravy (Vrátky, pneumatické motory a přísl.) (Klece, skipové nádoby, podstavníky) (Vybavení nádraží a posunovačů)
+44 55;Stroje a zařízení vodorovné a úklonné důlní dopravy (Vybavení těžních věží a jam) (Vyklápěče) (Důlní doprava, pomocná zařízení)
+44 57;Stroje a zařízení vodorovné a úklonné důlní dopravy (Vybavení těžních klecí a jam) (Vyklápěče) (Důlní doprava, pomocná zařízení)
+44 61;Větrání, klimatizace a úpravy mikroklimatu v dolech
+44 62;Větrání, klimatizace a úpravy mikroklimatu v podzemí dolů (Lutny a různá zařízení pro větrání)
+44 64;Ochrana proti výbuchu, ohni, záparu a jiným druhům nebezpečí v podzemí dolů (průvanům, průtržím apod.)
+44 65;Ochrana proti prachu, hluku a vibracím v hornictví
+44 70;Úprava nerostných surovin v hornictví, všeobecně (Úpravnictví, všeobecně)
+44 73;Úpravnická zařízení včetně pomocného vybavení při úpravě užitkových surovin v hornictví
+44 91;Geologie v hornictví (mimo rámec ostatních skupin a tříd) (Potrubí důlní pro stlačený vzduch a vodu)
 45 00;Hlubinné vrtání a těžba nafty, všeobecně
 45 06;Zařízení pro geologii a geotechniku
 45 10;Závitové spojení

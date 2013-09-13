@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -79,12 +79,12 @@ public class CsnServiceImpl implements CsnService{
 		csn.setCode(CodeUtils.toSeoUrl(csn.getCsnId()));
 		if(csn.getId() == null){
 			csn.setCreatedBy(user);
-			csn.setCreated(new DateTime());
+			csn.setCreated(new LocalDateTime());
 			csnDao.save(csn);
 			fileService.createDirectory(Constants.CSN_DIR_PREFIX + csn.getId());
 		}else{
 			csn.setChangedBy(user);
-			csn.setChanged(new DateTime());
+			csn.setChanged(new LocalDateTime());
 			csnDao.update(csn);
 		}
 		
@@ -127,5 +127,13 @@ public class CsnServiceImpl implements CsnService{
 	public void deleteAllTerminology(Csn csn) {
 		Validate.notNull(csn);
 		csnDao.deleteAllTerminology(csn.getId());
+	}
+
+	@Override
+	public void removeAll() {
+		List<Csn> list = getAll();
+		for(Csn csn : list){
+			deleteCsn(csn);
+		}
 	}
 }

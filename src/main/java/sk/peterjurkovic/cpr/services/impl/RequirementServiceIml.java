@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -72,11 +72,11 @@ public class RequirementServiceIml implements RequirementService {
 		
 		if(requirement.getId() == null){
 			requirement.setCreatedBy(user);
-			requirement.setCreated(new DateTime());
+			requirement.setCreated(new LocalDateTime());
 			requirementDao.save(requirement);
 		}else{
 			requirement.setChangedBy(user);
-			requirement.setChanged(new DateTime());
+			requirement.setChanged(new LocalDateTime());
 			requirementDao.update(requirement);
 		}
 		

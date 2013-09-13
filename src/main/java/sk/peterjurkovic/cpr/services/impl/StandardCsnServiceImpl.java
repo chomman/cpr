@@ -2,15 +2,15 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.StandardCsnDao;
-import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
@@ -58,11 +58,11 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 		
 		if(standardCsn.getId() == null){
 			standardCsn.setCreatedBy(user);
-			standardCsn.setCreated(new DateTime());
+			standardCsn.setCreated(new LocalDateTime());
 			standardCsnDao.save(standardCsn);
 		}else{
 			standardCsn.setChangedBy(user);
-			standardCsn.setChanged(new DateTime());
+			standardCsn.setChanged(new LocalDateTime());
 			standardCsnDao.update(standardCsn);
 		}
 		

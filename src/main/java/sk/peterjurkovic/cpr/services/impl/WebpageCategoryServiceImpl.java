@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -64,11 +64,11 @@ public class WebpageCategoryServiceImpl implements WebpageCategoryService {
 		
 		if(webpageCategory.getId() == null){
 			webpageCategory.setCreatedBy(user);
-			webpageCategory.setCreated(new DateTime());
+			webpageCategory.setCreated(new LocalDateTime());
 			categoryDao.save(webpageCategory);
 		}else{
 			webpageCategory.setChangedBy(user);
-			webpageCategory.setChanged(new DateTime());
+			webpageCategory.setChanged(new LocalDateTime());
 			categoryDao.update(webpageCategory);
 		}
 	}

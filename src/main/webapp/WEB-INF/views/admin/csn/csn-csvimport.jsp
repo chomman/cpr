@@ -32,6 +32,19 @@
 				<li><a class="active" href="<c:url value="/admin/csn/csvimport"  />"><spring:message code="csn.csvimport" /></a></li>
 			</ul>
 			
+			<c:if test="${not empty model.success}">
+				<c:if test="${model.success}">
+					<div class="logResult <c:if test="${model.log.successCount > 0}" >importSuccess</c:if><c:if test="${model.log.successCount == 0}" >importFailed</c:if>">
+						<p><spring:message code="csn.csvimport.countOfSuccessully" arguments="${model.log.successCount}" /></p>
+						<p><spring:message code="csn.csvimport.countOfFailed" arguments="${model.log.failedCount}" /></p>
+						${model.log.info}
+					</div>
+				</c:if>
+				<c:if test="${not model.success}">
+					<p class="msg error"><spring:message code="csv.import.failed" /></p>
+				</c:if>
+			</c:if>
+			
 			<c:url value="/admin/csn/csvimport" var="formUrl"/>
 			<form:form  modelAttribute="uploadForm" method="post" action="${formUrl}"  cssClass="csnFileUpload" enctype="multipart/form-data">	
 

@@ -92,6 +92,7 @@ public class ExceptionLog {
 	}
 	
 	@Type(type = "text")
+	@Column(name = "stack_trace")
 	public String getStackTrace() {
 		return stackTrace;
 	}

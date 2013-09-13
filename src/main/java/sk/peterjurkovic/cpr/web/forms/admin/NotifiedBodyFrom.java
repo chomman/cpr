@@ -1,6 +1,6 @@
 package sk.peterjurkovic.cpr.web.forms.admin;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.entities.Address;
 import sk.peterjurkovic.cpr.entities.User;
@@ -31,9 +31,9 @@ public class NotifiedBodyFrom {
 	
 	private User changedBy;
 	
-	private DateTime created;
+	private LocalDateTime created;
 	
-	private DateTime changed;
+	private LocalDateTime changed;
 
 	
 	public Long getId() {
@@ -132,19 +132,19 @@ public class NotifiedBodyFrom {
 		this.changedBy = changedBy;
 	}
 
-	public DateTime getCreated() {
+	public LocalDateTime getCreated() {
 		return created;
 	}
 
-	public void setCreated(DateTime created) {
+	public void setCreated(LocalDateTime created) {
 		this.created = created;
 	}
 
-	public DateTime getChanged() {
+	public LocalDateTime getChanged() {
 		return changed;
 	}
 
-	public void setChanged(DateTime changed) {
+	public void setChanged(LocalDateTime changed) {
 		this.changed = changed;
 	}
 	

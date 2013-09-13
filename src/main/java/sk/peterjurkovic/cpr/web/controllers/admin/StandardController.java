@@ -543,7 +543,7 @@ public class StandardController extends SupportAdminController{
 				standard.setNotifiedBodies(new HashSet<NotifiedBody>());
 			}
 			standardService.saveOrUpdate(standard);
-			standard.setTimestamp(standard.getChanged().getMillis());
+			standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
 			modelMap.put("successCreate", true);
 		} catch (CollisionException e) {
 			result.rejectValue("timestamp", "error.collision", e.getMessage());
@@ -603,7 +603,7 @@ public class StandardController extends SupportAdminController{
 			}
 			standard.setCumulative(form.getCumulative());
 			standardService.saveOrUpdate(standard);
-			standard.setTimestamp(standard.getChanged().getMillis());
+			standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
 			modelMap.put("successCreate", true);
 		}catch(CollisionException e){
 			result.rejectValue("timestamp", "error.collision", e.getMessage());
@@ -729,7 +729,7 @@ public class StandardController extends SupportAdminController{
 		
 		standardService.saveOrUpdate(standard);
 		if(standard.getChanged() != null){
-			form.setTimestamp(standard.getChanged().getMillis());
+			form.setTimestamp(standard.getChanged().toDateTime().getMillis());
 		}
 		return standard.getId();
 	}

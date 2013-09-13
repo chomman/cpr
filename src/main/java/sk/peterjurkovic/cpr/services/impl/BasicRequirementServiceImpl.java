@@ -2,7 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
-import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -63,11 +63,11 @@ public class BasicRequirementServiceImpl implements BasicRequirementService {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		if(basicRequirement.getId() == null){
 			basicRequirement.setCreatedBy(user);
-			basicRequirement.setCreated(new DateTime());
+			basicRequirement.setCreated(new LocalDateTime());
 			basicRequirementDao.save(basicRequirement);
 		}else{
 			basicRequirement.setChangedBy(user);
-			basicRequirement.setChanged(new DateTime());
+			basicRequirement.setChanged(new LocalDateTime());
 			basicRequirementDao.update(basicRequirement);
 		}
 	}
