@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.CsnCategoryDao;
+import sk.peterjurkovic.cpr.dto.CsnCategoryJsonDto;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
@@ -112,6 +113,18 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 			list = new ArrayList<CsnCategory>();
 		}
 		return list;
+	}
+	
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CsnCategoryJsonDto> getSubRootCategoriesInJsonFormat() {
+		List<CsnCategory> categoryList = csnCategoryDao.getSubRootCategories();
+		List<CsnCategoryJsonDto> jsonlist = new ArrayList<CsnCategoryJsonDto>();
+		for(CsnCategory category : categoryList){
+			jsonlist.add(category.toJsonDto());
+		}
+		return jsonlist;
 	}
 	
 	

@@ -61,6 +61,7 @@
 	     <mvc:mapping path="/**" />
 	     <exclude-mapping path="/admin/**"/>
 	     <exclude-mapping path="/image/**"/>
+	     <exclude-mapping path="/ajax/**"/>
 	     <beans:bean class="sk.peterjurkovic.cpr.web.interceptors.WebpageInterceptor" />
 	   </mvc:interceptor>
 	</mvc:interceptors>

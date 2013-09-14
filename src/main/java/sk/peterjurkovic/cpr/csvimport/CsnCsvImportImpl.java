@@ -50,8 +50,8 @@ public class CsnCsvImportImpl implements CsnCsvImport {
 		Reader fileReader = new InputStreamReader(is);
 		CSVReader csvReader = new CSVReader(fileReader, CSV_SEPARATOR, QUOTE_CHARACTER);
 		processReading(csvReader, log);
-		long end = (System.currentTimeMillis() - start) / 1000;
-		logger.info("KONEC CSV IMPORTU. Import trval: " + end + "s, pocet importovanych CSN:" + log.getSuccessCount());
+		long end = (System.currentTimeMillis() - start);
+		logger.info("KONEC CSV IMPORTU. Import trval: " + end + "ms, pocet importovanych CSN:" + log.getSuccessCount());
 		return log;
 	}
 	

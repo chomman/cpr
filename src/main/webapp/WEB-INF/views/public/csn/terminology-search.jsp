@@ -22,15 +22,34 @@
 			
 			<!-- SEARCH FORM -->
 			 <div id="sarchTerminology">
-			 	<form id="search-form">
-			 		<label for="query">
-						<spring:message code="csn.terminology.search" />:
-					</label>	
-						<input type="text" class="query" name="query" value="${model.query}"  />
-						<input type="submit" value="Vyhledat" class="btn" />
+			 	<form class="extendedSearch">
+			 		<div>
+			 			<label for="csnId">
+			 				<spring:message code="csn.terminology.csnId" />:
+			 			</label>
+			 			<input type="text" maxlength="40" name="csnId" class="field" />
+			 		</div>
+			 		<div>
+			 			<label for="csnCategory">
+			 				<spring:message code="csn.terminology.classSymbol" />:
+			 			</label>
+			 			<input type="text" maxlength="40" name="csnCategory"  class="field" />
+			 		</div>
+			 		<div>
+			 			<label for="name" ><spring:message code="csn.terminology.name" />:</label>
+			 			<input type="text" maxlength="40" name="name"  class="field" />
+			 		</div>
+			 		<div>
+				 		<label for="query">
+							<spring:message code="csn.terminology.search" />:
+						</label>	
+						<input type="text" class="query field" name="query" value="${model.query}"  />
+			 		</div>
+						<input type="submit" value="<spring:message code="csn.terminology.search" />" class="btn" />
 			 	</form>
 			 </div>
 			 
+			
 			 
 			 <!-- ALERT -->
 			 <c:if test="${empty model.terminologies and not empty model.query}">
@@ -38,6 +57,7 @@
 						<spring:message code="alert.empty" />
 					</p>
 			</c:if>
+			
 			
 			
 			<!-- RESULT TABLE -->		  

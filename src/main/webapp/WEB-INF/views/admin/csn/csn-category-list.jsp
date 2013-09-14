@@ -66,7 +66,6 @@
 				</h3>
 				
 				<c:if test="${not empty model.categoryNode.children}">
-					 <c:forEach items="${model.categoryNode.children}" var="i">
 					 	<table class="data">
 							<tbody>
 								 <c:forEach items="${model.categoryNode.children}" var="i">
@@ -89,7 +88,6 @@
 								 </c:forEach>
 							</tbody>
 						</table>
-					 </c:forEach>
 				</c:if>
 				
 				<c:if test="${ empty model.categoryNode.children}">

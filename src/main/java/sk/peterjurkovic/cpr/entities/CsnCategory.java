@@ -1,6 +1,8 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -14,8 +16,12 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderColumn;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.apache.commons.collections.CollectionUtils;
+
+import sk.peterjurkovic.cpr.dto.CsnCategoryJsonDto;
 
 
 @Entity
@@ -93,7 +99,28 @@ public class CsnCategory extends AbstractEntity {
 	public void setSearchCode(String searchCode) {
 		this.searchCode = searchCode;
 	}
-
+	
+	
+	@Transient
+	public List<CsnCategoryJsonDto> toJsonFormat(){
+		List<CsnCategoryJsonDto> list = new ArrayList<CsnCategoryJsonDto>();
+		if(CollectionUtils.isNotEmpty(children)){
+			for(CsnCategory category: children){
+				list.add(category.toJsonDto());
+			}
+		}
+		return list;
+	}
+	
+	@Transient
+	public CsnCategoryJsonDto toJsonDto(){
+		CsnCategoryJsonDto json = new CsnCategoryJsonDto();
+		json.setName(getName());
+		json.setId(getId());
+		json.setSearchCode(getSearchCode());
+		json.setCode(getCode());
+		return json;
+	}
 	
 	
 	

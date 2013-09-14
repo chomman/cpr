@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
 
+import sk.peterjurkovic.cpr.dto.CsnCategoryJsonDto;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 
 
@@ -28,4 +29,6 @@ public interface CsnCategoryService {
 	CsnCategory findBySearchCode(String searchCode);
 	
 	List<CsnCategory> getSubRootCategories();
+	
+	List<CsnCategoryJsonDto> getSubRootCategoriesInJsonFormat();
 }
