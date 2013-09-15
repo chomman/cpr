@@ -33,6 +33,8 @@ public class Csn extends AbstractEntity {
 	
 	private String classificationSymbol;
 	
+	private String categorySearchCode;
+	
 	private String czechName;
 	
 	private String englishName;
@@ -174,6 +176,15 @@ public class Csn extends AbstractEntity {
 
 	public void setBulletin(String bulletin) {
 		this.bulletin = bulletin;
+	}
+	
+	@Column(name = "category_search_code", length = 4)
+	public String getCategorySearchCode() {
+		return categorySearchCode;
+	}
+
+	public void setCategorySearchCode(String categorySearchCode) {
+		this.categorySearchCode = categorySearchCode;
 	}
 	
 	

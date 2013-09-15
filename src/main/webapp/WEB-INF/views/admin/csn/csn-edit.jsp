@@ -196,17 +196,17 @@
 					</div>
 					<div class="search-box" >
 						
-						<c:if test="${model.lang == 'cz' }">
+						<c:if test="${model.lang == 'CZ' }">
 							<span class="disabled">
 								<spring:message code="csn.terminology.lang.cz" />
 							</span>
-							<a class="lang en <c:if test="${model.lang == 'en' }">disabled</c:if>" href="<c:url value="/admin/csn/edit/${id}?lang=en" />">
+							<a class="lang en <c:if test="${model.lang == 'EN' }">disabled</c:if>" href="<c:url value="/admin/csn/edit/${id}?lang=EN" />">
 								<spring:message code="csn.terminology.lang.en" />
 							</a>
 						</c:if>
 						
-						<c:if test="${model.lang == 'en' }">
-							<a class="lang cz " href="<c:url value="/admin/csn/edit/${id}?lang=cz" />">
+						<c:if test="${model.lang == 'EN' }">
+							<a class="lang cz " href="<c:url value="/admin/csn/edit/${id}?lang=CZ" />">
 								<spring:message code="csn.terminology.lang.cz" />
 							</a>
 							<span class="disabled">

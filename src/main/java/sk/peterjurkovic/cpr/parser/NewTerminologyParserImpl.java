@@ -16,7 +16,6 @@ import org.jsoup.nodes.Element;
 import org.jsoup.nodes.Node;
 import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
-import org.jsoup.select.NodeVisitor;
 
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
@@ -44,6 +43,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				while(iterator.hasNext()){
 					extractTable(iterator.next());
 				}
+				return new CsnTerminologyDto(czechTerminologies, englishTerminologies);
 			}catch(Exception e){
 				logger.warn(e.getMessage());
 			}

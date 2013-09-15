@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -14,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.CsnTerminologyDao;
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
@@ -127,6 +129,19 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 				csnTerminologyDao.remove(t);
 			}
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public PageDto getCsnTerminologyPage(int currentPage, Map<String, Object> criteria) {
+		return csnTerminologyDao.getCsnTerminologyPage(currentPage, criteria);
+	}
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			// DOTO
+		}
+		return criteria;
 	}
 
 }

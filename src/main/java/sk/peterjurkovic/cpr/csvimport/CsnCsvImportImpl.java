@@ -103,6 +103,7 @@ public class CsnCsvImportImpl implements CsnCsvImport {
 		
 		CsnCategory category = findCsnCategory(line[4]);
 		if(category != null){
+			csn.setCategorySearchCode(category.getSearchCode());
 			csn.setCsnCategory(category);
 		}else{
 			log.appendInfo("Pro položku s označením: <b>" + line[1] + "</b> neni v DB evidovaný žádný odbor, třídicí znak: " + line[4], i);

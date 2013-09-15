@@ -32,8 +32,8 @@ import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.parser.NewTerminologyParserImpl;
 import sk.peterjurkovic.cpr.parser.TerminologyParser;
-import sk.peterjurkovic.cpr.parser.TerminologyParserImpl;
 import sk.peterjurkovic.cpr.parser.TikaProcessContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
@@ -60,8 +60,7 @@ public class CsnController extends SupportAdminController {
 	private static final String IMPORT_MODEL_ATTR = "uploadForm";
 	
 	private static final String CSN_MODEL_ATTR = "csn";
-	
-	private static final String DEFAULT_LANG_CODE = "cz";
+
 	
 		
 	@Autowired
@@ -173,12 +172,13 @@ public class CsnController extends SupportAdminController {
 				tikaProcessContext.setCsnId(csn.getId());
 				tikaProcessContext.setContextPath(request.getContextPath());
 				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessContext);
-				TerminologyParser terminologyParser = new TerminologyParserImpl();
+				TerminologyParser terminologyParser = new NewTerminologyParserImpl();
 				CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessContext);
-				terminologies.setCsn(csn);
-				csnTerminologyService.saveTerminologies(terminologies);
-				csnService.saveOrUpdate(csn);
-				
+				if(terminologies != null){
+					terminologies.setCsn(csn);
+					csnTerminologyService.saveTerminologies(terminologies);
+					csnService.saveOrUpdate(csn);
+				}
 			} catch (Exception  e) {
 				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));
 				modelMap.put("hasErrors", true );
@@ -235,7 +235,7 @@ public class CsnController extends SupportAdminController {
 			if(FilenameUtils.isExtension(file.getOriginalFilename(), "csv")){
 				 try {
 					 log = csnCsvImport.processImport(file.getInputStream());
-					 csnService.removeAll(); 
+					 //csnService.removeAll(); 
 				} catch (IOException e) {
 					modelMap.put("importFailed", true);
 					logger.warn("CSV subor: " +file.getOriginalFilename() + " sa nepodarilo importovat. Duvod: " + e.getMessage());

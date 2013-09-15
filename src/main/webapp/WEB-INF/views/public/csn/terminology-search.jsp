@@ -37,15 +37,17 @@
 			 		</div>
 			 		<div>
 			 			<label for="name" ><spring:message code="csn.terminology.name" />:</label>
-			 			<input type="text" maxlength="40" name="name"  class="field" />
+			 			<input type="text" maxlength="40" name="name"  class="field w500" />
 			 		</div>
 			 		<div>
 				 		<label for="query">
 							<spring:message code="csn.terminology.search" />:
 						</label>	
-						<input type="text" class="query field" name="query" value="${model.query}"  />
+						<input type="text" class="query field w500" name="query" value="${model.query}"  />
+			 			<input type="submit" value="<spring:message code="csn.terminology.search" />" class="btn" />
+			 			<div class="clear"></div>
 			 		</div>
-						<input type="submit" value="<spring:message code="csn.terminology.search" />" class="btn" />
+						
 			 	</form>
 			 </div>
 			 
@@ -61,7 +63,7 @@
 			
 			
 			<!-- RESULT TABLE -->		  
-			<c:if test="${not empty model.terminologies}">
+			<c:if test="${not empty model.page}">
 				<table class="group-detail">
 					<thead>
 						<tr>
@@ -73,7 +75,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						 <c:forEach items="${model.terminologies}" var="i">
+						 <c:forEach items="${model.page}" var="i">
 						 	<tr>
 						 		<td class="c">${i.section}</td>
 						 		<td>

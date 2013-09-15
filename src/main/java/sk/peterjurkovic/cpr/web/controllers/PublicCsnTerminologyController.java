@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.web.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,8 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
@@ -20,6 +21,8 @@ import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.pagination.PageLink;
+import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 /**
  * 
@@ -31,6 +34,8 @@ public class PublicCsnTerminologyController {
 
 	public static final String PUBLIC_CSN_TERMINOLOGY_URL = "/terminologicky-slovnik";
 	
+
+	
 	@Autowired
 	private WebpageService webpageService;
 	@Autowired
@@ -40,18 +45,20 @@ public class PublicCsnTerminologyController {
 	
 	
 	@RequestMapping(PUBLIC_CSN_TERMINOLOGY_URL)
-	public String showSearchForm(ModelMap modelMap, HttpServletRequest request, @RequestParam(value="query", required = false) String query) throws PageNotFoundEception{
+	public String showSearchForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
 		
 		Webpage webpage = webpageService.getWebpageByCode(PUBLIC_CSN_TERMINOLOGY_URL);
 		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
+		int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> model = prepareBaseModel(webpage);
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		PageDto page = csnTerminologyService.getCsnTerminologyPage(currentPage, params);
 		
-		
-		if(StringUtils.isNotBlank(query)){
-			model.put("terminologies", csnService.getCsnByTerminology(query));
-			model.put("query", query);
+		if(page.getCount() > 0){
+			model.put("paginationLinks", getPaginationItems(request, params, currentPage, page.getCount(), webpage));
+			model.put("page", page.getItems() );
 		}
 		
 		modelMap.put("model", model);
@@ -81,7 +88,13 @@ public class PublicCsnTerminologyController {
 	
 	
 	
-	
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count, Webpage webpage){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setUrl("/"+webpage.getCode());
+		paginger.setCurrentPage(currentPage);
+		paginger.setRowCount(count);
+		return paginger.getPageLinks(); 
+	}
 
 	
 	/**

@@ -42,7 +42,6 @@ public interface CsnService {
 	
 	List<CsnTerminology> getTerminologyByCsnAndLang(Csn csn, String languageCode);
 	
-	
 	void deleteAllTerminology(Csn csn);
 	
 	void removeAll();

@@ -13,7 +13,11 @@ a{none;color:#3e4e69;}
 form#dop{position:relative;padding-bottom:100px}
 #captcha{position:absolute;width:320px;bottom:20px;right:320px;}
 .blind { left: -5000px;position: absolute; top: -5000px;}
-.radius,#noao .true,.step,#dop .no,#dop .item.center,#localStorage,#dop .legend,.as1{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+.radius,#noao .true,.step,#dop .no,#dop .item.center,#localStorage,#dop .legend,.as1,.extendedSearch > div{
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
 #wrapper {min-height: 100%;height: auto !important;height: 100%;margin: 0 auto -81px;}
 .btn-next.ehn{float:left;display:inline-block;margin: 15px 0;}
 #dop-menu{background:#FAFAFA;margin:30px 0;background: rgb(255,255,255);
@@ -79,12 +83,17 @@ background: -ms-linear-gradient(top, #f2f2f2 0%,#f6f6f6 53%,#ffffff 100%);
 background: linear-gradient(to bottom, #f2f2f2 0%,#f6f6f6 53%,#ffffff 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', endColorstr='#ffffff',GradientType=0 );
 }
-#search-form .btn {
+#search-form .btn,
+.extendedSearch .btn {
 -moz-box-shadow:inset 0px 1px 0px 0px #caefab;-webkit-box-shadow:inset 0px 1px 0px 0px #caefab;box-shadow:inset 0px 1px 0px 0px #caefab;
 background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
 background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
 background-color:#77d42a;background-image:url(../img/ico_search.png);background-repeat:no-repeat; background-position:10px center;-moz-border-radius:6px;-webkit-border-radius:6px;border-radius:6px;border:1px solid #268a16;display:inline-block;color:#306108;font-family:arial;font-size:15px;font-weight:bold;cursor:pointer;padding:7px 0 7px 24px;width:140px;height:40px;color:#fff;}
-#search-form .btn:hover {background-color:#5cb811;}
+#search-form .btn:hover,
+.extendedSearch .btn:hover {
+	background-color:#5cb811;
+}
+
 .w150{width:130px;}
 .blue-color{color:#4390d7}
 .blue-bg{background-color: #4390d7}
@@ -505,7 +514,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 
 /* SEARCH FORM */
 .extendedSearch{padding:10px;background:#fafafa;border:2px solid #eee;}
-.extendedSearch > div{padding:8px 10px;background:#f5f5f5;border-bottom:1px solid #ddd;}
-.extendedSearch{}
-
+.extendedSearch > div{padding:8px 10px;background:#eee;margin-bottom:2px;}
+.extendedSearch div label{display:inline-block;min-width:150px;}
+.extendedSearch .field{padding:5px;border:1px solid #aaa;}
+.extendedSearch .field.w500{width:500px;}
+.extendedSearch .btn{padding:5px;height:35px;float:right;background-image:none;margin-bottom:5px;display:block;}
 
