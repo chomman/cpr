@@ -31,6 +31,10 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	private final Pattern regexPattern = Pattern.compile("^(\\d+(\\.\\d+)*)+\\s*(.*)$", Pattern.MULTILINE | Pattern.DOTALL);
 	
+	private boolean prevTDisBlank = false;
+	
+	private String middleCellContent = null;
+	
 	@Override
 	public CsnTerminologyDto parse(String html, TikaProcessContext tikaProcessContext) {
 		
@@ -43,6 +47,20 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				while(iterator.hasNext()){
 					extractTable(iterator.next());
 				}
+				
+				logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
+
+				for(int i = 0; i < czechTerminologies.size(); i++){
+					
+					if(czechTerminologies.get(i) != null){
+						logger.info(czechTerminologies.get(i).getSection() + " / " + czechTerminologies.get(i).getTitle());
+					}
+					
+					if(englishTerminologies.get(i) != null){
+						logger.info(englishTerminologies.get(i).getSection() + " / " + englishTerminologies.get(i).getTitle());
+					}
+				}
+				
 				return new CsnTerminologyDto(czechTerminologies, englishTerminologies);
 			}catch(Exception e){
 				logger.warn(e.getMessage());
@@ -50,18 +68,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 			
 		}
 		
-		logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
-
-		for(int i = 0; i < czechTerminologies.size(); i++){
-			
-			if(czechTerminologies.get(i) != null){
-				logger.info(czechTerminologies.get(i).getSection() + " / " + czechTerminologies.get(i).getTitle());
-			}
-			
-			if(englishTerminologies.get(i) != null){
-				logger.info(englishTerminologies.get(i).getSection() + " / " + englishTerminologies.get(i).getTitle());
-			}
-		}
+		
 		
 		return null;
 	}
@@ -87,7 +94,13 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 						processCell(td,  CsnTerminologyLanguage.EN);
 					}
 					
+				}else{
+					if(prevTDisBlank && StringUtils.isNotBlank(td.html())){
+						logger.info("cell before is bnank. This cells content is: " + td.html());
+						middleCellContent = td.html();
+					}
 				}
+				
 				if(j ==  (collsSize - 1)){
 					j = 0;
 				}else{
@@ -101,10 +114,19 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	}
 	
 	
+	
 	private void processCell(Element cell, CsnTerminologyLanguage lang){
 		Validate.notNull(cell);
 		
 		if(StringUtils.isBlank(cell.html())){
+			if(lang.equals(CsnTerminologyLanguage.CZ)){
+				prevTDisBlank = true;
+			}else if(prevTDisBlank && lang.equals(CsnTerminologyLanguage.EN) && StringUtils.isNotBlank(middleCellContent)){
+				// ak je bunka s ceskym a anglickym terminom prazdna, ale stredna 
+				// bunka obsahuje obsah, pripojimeho k predchadzajucemu anglickemu a ceskemu terminu
+				appendContent(middleCellContent, CsnTerminologyLanguage.CZ);
+				appendContent(middleCellContent, CsnTerminologyLanguage.EN);
+			}
 			logger.info("cell is blank");
 			return;
 		}
