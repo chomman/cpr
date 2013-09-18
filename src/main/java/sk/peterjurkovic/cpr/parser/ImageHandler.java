@@ -2,7 +2,6 @@ package sk.peterjurkovic.cpr.parser;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
@@ -34,7 +33,7 @@ public class ImageHandler implements EmbeddedResourceHandler {
 			os.flush();
 			
 		}catch (Exception e) {
-			logger.error("ERR: " + e.getMessage()); 
+			logger.error("Handle error: " + e.getMessage()); 
 		}
 
 		fileService.saveFile(fileName, stream, saveDir);

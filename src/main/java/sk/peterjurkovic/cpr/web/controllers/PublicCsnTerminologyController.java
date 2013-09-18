@@ -54,11 +54,14 @@ public class PublicCsnTerminologyController {
 		int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> model = prepareBaseModel(webpage);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		PageDto page = csnTerminologyService.getCsnTerminologyPage(currentPage, params);
-		
-		if(page.getCount() > 0){
-			model.put("paginationLinks", getPaginationItems(request, params, currentPage, page.getCount(), webpage));
-			model.put("page", page.getItems() );
+		PageDto page = null;
+		if(StringUtils.isNotBlank((String)params.get("query"))){
+			page = csnTerminologyService.getCsnTerminologyPage(currentPage, params);
+			if(page.getCount() > 0){
+				model.put("paginationLinks", getPaginationItems(request, params, currentPage, page.getCount(), webpage));
+				model.put("page", page.getItems() );
+			}
+			model.put("params", params );
 		}
 		
 		modelMap.put("model", model);

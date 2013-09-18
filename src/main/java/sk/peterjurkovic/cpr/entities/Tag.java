@@ -4,9 +4,11 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
@@ -16,6 +18,7 @@ import org.hibernate.validator.constraints.Length;
  * 
  */
 @Entity
+@SequenceGenerator(name = "tag_id_seq", sequenceName = "tag_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "tag")
 public class Tag {
 
@@ -24,7 +27,7 @@ public class Tag {
 	private Standard standard;
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "tag_id_seq")
 	public Long getId() {
 		return id;
 	}

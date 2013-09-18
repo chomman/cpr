@@ -8,8 +8,6 @@ import java.io.OutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.imageio.ImageIO;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
@@ -29,10 +27,10 @@ public class TikaImageExtractingParser implements Parser {
 	private static final long serialVersionUID = -2205312969582379000L;
 	private Set<MediaType> types;
 	private Logger logger = Logger.getLogger(getClass());
-	private TikaProcessContext tikaProcessContext;
+	private TikaProcessingContext tikaProcessingContext;
 	private FileService fileService;
 	int count = 0;
-	public TikaImageExtractingParser(FileService fileService, TikaProcessContext tikaProcessContext){
+	public TikaImageExtractingParser(FileService fileService, TikaProcessingContext tikaProcessingContext){
         types = new HashSet<MediaType>();
         types.add(MediaType.image("bmp"));
         types.add(MediaType.image("gif"));
@@ -43,7 +41,7 @@ public class TikaImageExtractingParser implements Parser {
         //types.add(MediaType.image("wmf"));
         //types.add(MediaType.image("emf"));
         this.fileService = fileService;
-        this.tikaProcessContext = tikaProcessContext;
+        this.tikaProcessingContext = tikaProcessingContext;
 	}
 	
 	@Override
@@ -94,12 +92,12 @@ public class TikaImageExtractingParser implements Parser {
         
         // Give it a sensible name if needed
         if(filename == null) {
-           filename = tikaProcessContext.getExtractedFilePrefix() + count + "." + type.substring(type.indexOf('/')+1);
+           filename = tikaProcessingContext.getExtractedFilePrefix() + count + "." + type.substring(type.indexOf('/')+1);
         }
        
         TikaInputStream is = TikaInputStream.get(stream);
         try {
-        	String originalFileName = fileService.getFileSaveDir() + tikaProcessContext.getCsnDir() + File.separator + tikaProcessContext.getExtractedFilePrefix()  + filename;
+        	String originalFileName = fileService.getFileSaveDir() + tikaProcessingContext.getCsnDir() + File.separator + tikaProcessingContext.getExtractedFilePrefix()  + filename;
         	logger.info(originalFileName);
         	File outFile = new File(originalFileName);
         	if(outFile.exists()){
@@ -109,11 +107,12 @@ public class TikaImageExtractingParser implements Parser {
 			os = new FileOutputStream(outFile);
 			IOUtils.copy(is, os);
 			os.flush();
+			tikaProcessingContext.incrementExtractedFile();
 			//fileService.convertImage(originalFileName, fileService.getFileSaveDir() + tikaProcessContext.getCsnDir() + File.separator + tikaProcessContext.getExtractedFilePrefix() + count + ".jpg");
-			tikaProcessContext.incremetCountOfExtractedFiles();
+
 			
 		} catch (IOException e) {
-			logger.warn("Subor: " + filename +" sa z CSN ID: " + tikaProcessContext.getCsnId() + " nepodarilo extrahovat, dovod: " + e.getMessage());
+			logger.warn("Subor: " + filename +" sa z CSN ID: " + tikaProcessingContext.getCsnId() + " nepodarilo extrahovat, dovod: " + e.getMessage());
 		}finally{
 			try {
 				is.close();

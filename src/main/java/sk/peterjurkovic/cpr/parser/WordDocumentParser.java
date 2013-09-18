@@ -36,38 +36,36 @@ public class WordDocumentParser  {
 	@Autowired
 	private FileService fileService;
 	
-
-
 	
-	
-	public String parse(InputStream content, TikaProcessContext tikaProcessContext) {
+	public String parse(InputStream content, TikaProcessingContext tikaProcessingContext) {
 		Validate.notNull(content);
-		Validate.notNull(tikaProcessContext);
+		Validate.notNull(tikaProcessingContext);
 		//AutoDetectParser parser = new AutoDetectParser();
 		OfficeParser parser = new OfficeParser();
 		StringWriter sw = new StringWriter();
-	    ContentHandler handler = buildContentHandler(sw, tikaProcessContext);
+	    ContentHandler handler = buildContentHandler(sw, tikaProcessingContext);
 	    Metadata metadata = new Metadata();
 	    ParseContext parseContext = new ParseContext();
-	    parseContext.set(Parser.class, new TikaImageExtractingParser(fileService, tikaProcessContext));
+	    parseContext.set(Parser.class, new TikaImageExtractingParser(fileService, tikaProcessingContext));
 	   
 	    String html = "";
 	    try {
 	    	parser.parse( content, handler, metadata, parseContext );
+	    	tikaProcessingContext.logDomParsing();
 	    	html = cleanHtml(sw.toString());
 	    } catch(Exception e) {
-	    	   logger.warn("Pri spracovavani dokumentu nastala chyba: "); 
-	    	   e.printStackTrace();
-	    	   return "";
+	    	tikaProcessingContext.logError("Pri spracovaní nastala chyba: "+ e.getMessage()); 
+	    	logger.warn(e);
+	    	return "";
 	    }	
-    	logger.info("String length " + html.length());
     	html = removeContentBefore(html);
     	html = removeContentAfter(html);
-	    	return html;
+    	tikaProcessingContext.logInfo("Dokument bol úspešne spracovaný. Počet zankov dokumentu po prečistení: "+ html.length());
+	    return html;
 	}
 	
 	
-	private ContentHandler buildContentHandler(Writer output, TikaProcessContext tikaProcessContext){
+	private ContentHandler buildContentHandler(Writer output, TikaProcessingContext tikaProcessingContext){
 
 		
 	       SAXTransformerFactory factory = (SAXTransformerFactory)
@@ -77,7 +75,7 @@ public class WordDocumentParser  {
 	       try {
 	          handler = factory.newTransformerHandler();
 	       } catch (TransformerConfigurationException e) {
-	    	   logger.warn(String.format("SAX Processing is not available: ", e));
+	    	   tikaProcessingContext.logError("Spracovanie SAXom nie je možné: "+ e.getMessage());
 	    	   return null;
 	       }
 	       
@@ -89,8 +87,8 @@ public class WordDocumentParser  {
 	       // Change the image links as they go past
 	       ContentHandler contentHandler = new TikaImageRewritingContentHandler(
 	             handler, 
-	             tikaProcessContext.getNewImgSource(), 
-	             tikaProcessContext.getExtractedFilePrefix()
+	             tikaProcessingContext.getNewImgSource(), 
+	             tikaProcessingContext.getExtractedFilePrefix()
 	       );
 	       
 	       contentHandler = new BodyContentHandler(contentHandler);

@@ -5,9 +5,11 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -23,6 +25,7 @@ import org.joda.time.DateTime;
  */
 @Entity
 @Table(name = "users_log")
+@SequenceGenerator(name = "users_log_id_seq", sequenceName = "users_log_id_seq", initialValue = 1, allocationSize =1)
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })
 public class UserLog implements Serializable  {
 	
@@ -40,8 +43,7 @@ public class UserLog implements Serializable  {
     private String sessionId;
     
     @Id
-    @Column(name = "id")
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_log_id_seq")
     public Long getId() {
         return id;
     }

@@ -4,7 +4,7 @@ import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 
 public interface TerminologyParser {
 	
-	CsnTerminologyDto parse(String html, TikaProcessContext tikaProcessContext);
+	CsnTerminologyDto parse(String html, TikaProcessingContext tikaProcessingContext);
 	
 	
 }

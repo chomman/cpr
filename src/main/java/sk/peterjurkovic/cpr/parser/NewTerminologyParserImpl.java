@@ -13,8 +13,6 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.nodes.Node;
-import org.jsoup.nodes.TextNode;
 import org.jsoup.select.Elements;
 
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
@@ -36,7 +34,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	private String middleCellContent = null;
 	
 	@Override
-	public CsnTerminologyDto parse(String html, TikaProcessContext tikaProcessContext) {
+	public CsnTerminologyDto parse(String html, TikaProcessingContext tikaProcessingContext) {
 		
 		Document doc = Jsoup.parse(html);
 		Elements tables = doc.select("table");
@@ -172,24 +170,41 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		if(els.size() > 0){
 			ListIterator<Element> iterator =  els.listIterator();
 			while(iterator.hasNext()){
+				 
 				Element currentElement = iterator.next();
-				logger.info(currentElement.outerHtml());
-				 Matcher matcher = regexPattern.matcher(currentElement.firstElementSibling().text().trim());
-				 if(matcher.matches()){
-					 logger.info("Match: " + matcher.group(0) );
-				 }
+				Elements childrens  = currentElement.children();
+				Element b = null;
+				if(childrens.size() > 0){
+					b = childrens.first();
+				}				
+				
+				if(b != null && b.tagName().equals("b")){
+					String bContent = b.html().trim();
+					if(StringUtils.isNotBlank(bContent)){
+						 Matcher matcher = regexPattern.matcher(bContent);
+						 if(matcher.matches()){
+							 // multiple terminology in one cell
+							 CsnTerminology terminology = createNewTerminology(matcher, lang);
+							 logger.info("FOUND in multiple and match: " + bContent);
+							 if(terminology != null){
+								 terminology.setContent(currentElement.outerHtml(). replace(b.outerHtml(), ""));
+								 saveTerminology(terminology);
+							 }	
+						 }else{
+							 logger.info("B content no match Appending to previous: " + currentElement.outerHtml());
+							 appendContent(currentElement.outerHtml(), lang);
+						 }
+					}
+				}else{
+					logger.info("outer Appending to previous: " + currentElement.outerHtml());
+					 appendContent(currentElement.outerHtml(), lang);
+				}
 			}
 		
 		}
-		/*
-		 * for(Node node : childrenNodes){
-			if (node instanceof TextNode) {
-				logger.info(((TextNode) node).text());
-		    }
-		}
-		 * */
-		
 	}
+	
+
 	
 	
 	private void findContentAfterTable(Element table) {
@@ -214,14 +229,28 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		if(StringUtils.isNotBlank(section) && StringUtils.isNotBlank(title)){
 			 CsnTerminology newTerminology = new CsnTerminology();
 			 newTerminology.setLanguage(lang);
-			 newTerminology.setSection(section.trim());
-			 newTerminology.setTitle(title.trim());
+			 newTerminology.setSection(trim(section.trim()));
+			 newTerminology.setTitle(removePitPairAndTrim(title));
 			 return newTerminology;
 		}
 		return null;
 	}
 	
+	private String trim(String str){
+		str = StringUtils.trimToEmpty(str); //str.trim().replaceAll("	", "");
+		return str.replaceAll("^\\p{Z}+", "");
+	}
 	
+	private String removePitPairAndTrim(String str){
+		if(StringUtils.isNotBlank(str)){
+			str = trim(str);
+			if(str.endsWith(":")){
+				return str.substring(0, str.length() - 2);
+			}
+			return str;
+		}
+		return "";
+	}
 	
 	private void appendContent(String content, CsnTerminologyLanguage lang){
 		if(StringUtils.isBlank(content)){
@@ -233,7 +262,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 			CsnTerminology updateTerminology = englishTerminologies.get(englishTerminologies.size() -1);
 			updateTerminology.setContent(updateTerminology.getContent() + content );
 		}else if(lang.equals(CsnTerminologyLanguage.CZ) && CollectionUtils.isNotEmpty(czechTerminologies)){
-			CsnTerminology updateTerminology = englishTerminologies.get(englishTerminologies.size() -1);
+			CsnTerminology updateTerminology = czechTerminologies.get(czechTerminologies.size() -1);
 			updateTerminology.setContent(updateTerminology.getContent() + content );
 		}
 	}

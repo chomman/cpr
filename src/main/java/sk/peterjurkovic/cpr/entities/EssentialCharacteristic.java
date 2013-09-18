@@ -3,9 +3,11 @@ package sk.peterjurkovic.cpr.entities;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
@@ -15,6 +17,7 @@ import org.hibernate.validator.constraints.Length;
  *
  */
 @Entity
+@SequenceGenerator(name = "essential_characteristic_id_seq", sequenceName = "essential_characteristic_id_seq", initialValue = 1, allocationSize =1)
 @Table(name="essential_characteristic")
 public class EssentialCharacteristic {
 	
@@ -27,7 +30,7 @@ public class EssentialCharacteristic {
 	private String value;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "essential_characteristic_id_seq")
 	public Long getId() {
 		return id;
 	}

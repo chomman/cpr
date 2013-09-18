@@ -30,14 +30,16 @@ import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
+import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.parser.NewTerminologyParserImpl;
 import sk.peterjurkovic.cpr.parser.TerminologyParser;
-import sk.peterjurkovic.cpr.parser.TikaProcessContext;
+import sk.peterjurkovic.cpr.parser.TikaProcessingContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
+import sk.peterjurkovic.cpr.services.CsnTerminologyLogService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
@@ -77,6 +79,8 @@ public class CsnController extends SupportAdminController {
 	private WordDocumentParser wordDocumentParser;
 	@Autowired
 	private CsnCsvImport csnCsvImport;
+	@Autowired
+	private CsnTerminologyLogService terminologyLogService;
 	
 	@Autowired
 	private FileService fileService;
@@ -162,22 +166,40 @@ public class CsnController extends SupportAdminController {
 		if(uploadForm == null){
 			createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
 		}
+		
 		MultipartFile file = uploadForm.getFileData();
 		logger.info(String.format("ZACIATOK IMPORTU:  %s", file.getOriginalFilename() ));
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
+			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
+			tikaProcessingContext.getLog().setFileName(file.getOriginalFilename());
 			long start = System.currentTimeMillis();
 			try{
 				
-				TikaProcessContext tikaProcessContext = new TikaProcessContext();
-				tikaProcessContext.setCsnId(csn.getId());
-				tikaProcessContext.setContextPath(request.getContextPath());
-				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessContext);
-				TerminologyParser terminologyParser = new NewTerminologyParserImpl();
-				CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessContext);
-				if(terminologies != null){
-					terminologies.setCsn(csn);
-					csnTerminologyService.saveTerminologies(terminologies);
-					csnService.saveOrUpdate(csn);
+				
+				tikaProcessingContext.setCsnId(csn.getId());
+				tikaProcessingContext.setContextPath(request.getContextPath());
+				tikaProcessingContext.getLog().setCsn(csn);
+				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessingContext);
+				if(StringUtils.isNotBlank(docAsHtml)){
+					tikaProcessingContext.logDomParsing();;
+					TerminologyParser terminologyParser = new NewTerminologyParserImpl();
+					CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
+					if(terminologies != null){
+						CsnTerminologyLog log = tikaProcessingContext.getLog();
+						terminologies.setCsn(csn);
+						if(terminologies.getCzechTerminologies() != null){
+							log.setCzCount(terminologies.getCzechTerminologies().size());
+						}
+						if(terminologies.getEnglishTerminologies() != null){
+							log.setEnCount(terminologies.getEnglishTerminologies().size());
+						}
+						csnTerminologyService.saveTerminologies(terminologies);
+						csnService.saveOrUpdate(csn);
+						log.setDuration(System.currentTimeMillis() - start);
+						log.setSuccess(true);
+						terminologyLogService.createWithUser(log);
+						modelMap.put("log", log);
+					}
 				}
 			} catch (Exception  e) {
 				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));

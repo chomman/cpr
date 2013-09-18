@@ -27,23 +27,23 @@
 			 			<label for="csnId">
 			 				<spring:message code="csn.terminology.csnId" />:
 			 			</label>
-			 			<input type="text" maxlength="40" name="csnId" class="field" />
+			 			<input type="text" maxlength="40" name="csnId" class="field" value="${model.params.csnId}" />
 			 		</div>
 			 		<div>
 			 			<label for="csnCategory">
 			 				<spring:message code="csn.terminology.classSymbol" />:
 			 			</label>
-			 			<input type="text" maxlength="40" name="csnCategory"  class="field" />
+			 			<input type="text" maxlength="40" name="csnCategory"  class="field" value="${model.params.csnCategory}" />
 			 		</div>
 			 		<div>
 			 			<label for="name" ><spring:message code="csn.terminology.name" />:</label>
-			 			<input type="text" maxlength="40" name="name"  class="field w500" />
+			 			<input type="text" maxlength="40" name="name"  class="field w500" value="${model.params.name}"  />
 			 		</div>
 			 		<div>
 				 		<label for="query">
 							<spring:message code="csn.terminology.search" />:
 						</label>	
-						<input type="text" class="query field w500" name="query" value="${model.query}"  />
+						<input type="text" class="query field w500" name="query" value="${model.params.query}"  />
 			 			<input type="submit" value="<spring:message code="csn.terminology.search" />" class="btn" />
 			 			<div class="clear"></div>
 			 		</div>
@@ -54,7 +54,7 @@
 			
 			 
 			 <!-- ALERT -->
-			 <c:if test="${empty model.terminologies and not empty model.query}">
+			 <c:if test="${empty model.page and not empty model.params.query}">
 					<p class="msg alert">
 						<spring:message code="alert.empty" />
 					</p>

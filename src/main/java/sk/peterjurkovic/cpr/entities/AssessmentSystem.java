@@ -3,9 +3,11 @@ package sk.peterjurkovic.cpr.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
@@ -20,6 +22,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "assessment_system")
+@SequenceGenerator(name = "assessment_system_id_seq", sequenceName = "assessment_system_id_seq", initialValue = 1, allocationSize =1)
 public class AssessmentSystem extends AbstractEntity {
 
 	
@@ -36,7 +39,7 @@ public class AssessmentSystem extends AbstractEntity {
 	private String description;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assessment_system_id_seq")
 	public Long getId() {
 		return id;
 	}

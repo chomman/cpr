@@ -58,7 +58,7 @@ public class TerminologyParserImpl implements TerminologyParser{
 	private List<CsnTerminology> englishTerminologies = new ArrayList<CsnTerminology>();
 	
 	@Override
-	public CsnTerminologyDto parse(String html, TikaProcessContext tikaProcessContext){
+	public CsnTerminologyDto parse(String html, TikaProcessingContext tikaProcessingContext){
 		
 		
 		

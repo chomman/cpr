@@ -107,7 +107,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		hql.append(" where t.csn.id=:id and t.language=:lang");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setLong("id", csn.getId());
-		query.setString("lang", languageCode);
+		query.setString("lang", languageCode.toUpperCase());
 		return query.list();
 	}
 

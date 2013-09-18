@@ -6,14 +6,15 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Type;
 
 import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
@@ -21,6 +22,7 @@ import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
+@SequenceGenerator(name = "csn_terminology_id_seq", sequenceName = "csn_terminology_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "csn_terminology")
 public class CsnTerminology extends AbstractEntity {
 
@@ -40,7 +42,7 @@ public class CsnTerminology extends AbstractEntity {
 
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "csn_terminology_id_seq")
 	public Long getId() {
 		return id;
 	}

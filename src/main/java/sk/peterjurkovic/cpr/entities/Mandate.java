@@ -3,9 +3,11 @@ package sk.peterjurkovic.cpr.entities;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
@@ -19,6 +21,7 @@ import org.hibernate.validator.constraints.URL;
  */
 @Entity
 @Table(name ="mandate")
+@SequenceGenerator(name = "mandate_id_seq", sequenceName = "mandate_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Mandate extends AbstractEntity {
 
@@ -29,7 +32,7 @@ public class Mandate extends AbstractEntity {
 	private String mandateFileUrl;
 
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mandate_id_seq")
 	public Long getId() {
 		return id;
 	}

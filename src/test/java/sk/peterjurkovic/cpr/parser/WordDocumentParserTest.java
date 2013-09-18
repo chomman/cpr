@@ -29,13 +29,13 @@ public class WordDocumentParserTest extends AbstractTest {
 	public void testParsing(){
 		long start = System.currentTimeMillis();
 		try{
-			TikaProcessContext tikaProcessContext = new TikaProcessContext();
-			tikaProcessContext.setCsnId(3l);
-			tikaProcessContext.setContextPath("/cpr/");
+			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
+			tikaProcessingContext.setCsnId(3l);
+			tikaProcessingContext.setContextPath("/cpr/");
 			InputStream is =  new FileInputStream("/home/peto/Desktop/n/60681.doc");
 			String html = null;
 			try{
-				html = wordDocumentParser.parse(is, tikaProcessContext);
+				html = wordDocumentParser.parse(is, tikaProcessingContext);
 			}catch(Exception e){
 				e.printStackTrace();
 				return;
@@ -50,7 +50,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			bw.close();
 			Assert.assertEquals(true, StringUtils.isNotBlank(html));
 			NewTerminologyParserImpl terminologyParser =  new NewTerminologyParserImpl();
-			terminologyParser.parse(html, tikaProcessContext);
+			terminologyParser.parse(html, tikaProcessingContext);
 			
 			//logger.info(html);
 		} catch (IOException e) {
