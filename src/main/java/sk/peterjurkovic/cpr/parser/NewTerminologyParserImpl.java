@@ -167,13 +167,27 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		if( cell == null){
 			return;
 		}
-		List<Node> childrenNodes =  cell.childNodes();
+		Elements els = cell.children();
+		logger.info(els.size());
+		if(els.size() > 0){
+			ListIterator<Element> iterator =  els.listIterator();
+			while(iterator.hasNext()){
+				Element currentElement = iterator.next();
+				logger.info(currentElement.outerHtml());
+				 Matcher matcher = regexPattern.matcher(currentElement.firstElementSibling().text().trim());
+				 if(matcher.matches()){
+					 logger.info("Match: " + matcher.group(0) );
+				 }
+			}
 		
-		for(Node node : childrenNodes){
+		}
+		/*
+		 * for(Node node : childrenNodes){
 			if (node instanceof TextNode) {
 				logger.info(((TextNode) node).text());
 		    }
 		}
+		 * */
 		
 	}
 	

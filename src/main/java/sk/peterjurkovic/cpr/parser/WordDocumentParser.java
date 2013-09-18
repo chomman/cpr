@@ -14,9 +14,9 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.apache.tika.metadata.Metadata;
-import org.apache.tika.parser.AutoDetectParser;
 import org.apache.tika.parser.ParseContext;
 import org.apache.tika.parser.Parser;
+import org.apache.tika.parser.microsoft.OfficeParser;
 import org.apache.tika.sax.BodyContentHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
@@ -43,7 +43,8 @@ public class WordDocumentParser  {
 	public String parse(InputStream content, TikaProcessContext tikaProcessContext) {
 		Validate.notNull(content);
 		Validate.notNull(tikaProcessContext);
-		AutoDetectParser parser = new AutoDetectParser();
+		//AutoDetectParser parser = new AutoDetectParser();
+		OfficeParser parser = new OfficeParser();
 		StringWriter sw = new StringWriter();
 	    ContentHandler handler = buildContentHandler(sw, tikaProcessContext);
 	    Metadata metadata = new Metadata();
