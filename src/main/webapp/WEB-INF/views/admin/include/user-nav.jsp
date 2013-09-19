@@ -3,6 +3,9 @@
 <sec:authorize access="hasAnyRole('ROLE_WEBMASTER','ROLE_ADMIN')">	
 	<c:set var="isAdmin" value="true"/>
 </sec:authorize>
+<sec:authorize access="hasRole('ROLE_SUPERADMIN')">	
+	<c:set var="isSuperAdmin" value="true"/>
+</sec:authorize>
 <strong class="nav-head"><spring:message code="menu.nav" /></strong>
 <ul>
 	<li>
@@ -35,7 +38,7 @@
 			<spring:message code="user.role.view" />
 		</a>
 	</li>
-	<c:if test="${isAdmin}">	
+	<c:if test="${isSuperAdmin}">	
 	<li>
 		<a 
 		<c:if test="${model.tab == 5}">class="active"</c:if>

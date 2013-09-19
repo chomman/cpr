@@ -1,17 +1,22 @@
 package sk.peterjurkovic.cpr.services;
 
+import java.util.Map;
+
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 
 public interface CsnTerminologyLogService {
 	
 	
-	public void create(CsnTerminologyLog log);
+	void create(CsnTerminologyLog log);
 	
-	public void delete(CsnTerminologyLog log);
+	void delete(CsnTerminologyLog log);
 	
-	public void update(CsnTerminologyLog log);
+	void update(CsnTerminologyLog log);
 	
-	public CsnTerminologyLog getById(Long id);
+	CsnTerminologyLog getById(Long id);
 	
-	public void createWithUser(CsnTerminologyLog log);
+	void createWithUser(CsnTerminologyLog log);
+	
+	PageDto getLogPage(int currentPage, Map<String, Object> criteria);
 }

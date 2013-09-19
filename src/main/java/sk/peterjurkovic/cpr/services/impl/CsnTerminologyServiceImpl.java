@@ -137,11 +137,6 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 		return csnTerminologyDao.getCsnTerminologyPage(currentPage, criteria);
 	}
 	
-	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
-		if(criteria.size() != 0){
-			// DOTO
-		}
-		return criteria;
-	}
+	
 
 }

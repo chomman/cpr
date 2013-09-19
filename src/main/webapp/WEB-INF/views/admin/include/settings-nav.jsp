@@ -19,7 +19,7 @@
 		</a>
 	</li>
 	
-	<sec:authorize access="hasRole('ROLE_WEBMASTER')">
+	<sec:authorize access="hasRole('ROLE_SUPERADMIN')">
 		<li>
 			<a 
 		<c:if test="${model.tab == 3}">class="active"</c:if>

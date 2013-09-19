@@ -18,4 +18,19 @@
 			<spring:message code="csn.category" />
 		</a>
 	</li>
+	<li>
+		<a 
+		<c:if test="${model.tab == 4}">class="active"</c:if>
+		href="<c:url value="/admin/csn/terminology/import" />" >
+			<spring:message code="csn.terminology.import" />
+		</a>
+	</li>
+	
+	<li>
+		<a 
+		<c:if test="${model.tab == 5}">class="active"</c:if>
+		href="<c:url value="/admin/csn/terminology/log" />" >
+			<spring:message code="csn.terminology.log" />
+		</a>
+	</li>
 </ul>
