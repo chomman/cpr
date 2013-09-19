@@ -16,6 +16,6 @@ Based on:
 * Maven
 * JSLT 1.2
 * Apache Tomcat 7
-* Mysql 5
+* PostgreSQL
 
 
