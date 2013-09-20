@@ -10,7 +10,6 @@ import java.io.InputStream;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
-import org.jsoup.safety.Whitelist;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -32,7 +31,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 			tikaProcessingContext.setCsnId(3l);
 			tikaProcessingContext.setContextPath("/cpr/");
-			InputStream is =  new FileInputStream("/home/peto/Desktop/n/60681.doc");
+			InputStream is =  new FileInputStream("/home/peto/Desktop/n/vzorce.doc");
 			String html = null;
 			try{
 				html = wordDocumentParser.parse(is, tikaProcessingContext);

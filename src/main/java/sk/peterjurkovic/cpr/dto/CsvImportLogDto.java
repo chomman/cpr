@@ -1,10 +1,10 @@
 package sk.peterjurkovic.cpr.dto;
 
-import sk.peterjurkovic.cpr.enums.CsvImportState;
+import sk.peterjurkovic.cpr.enums.ImportStatus;
 
 public class CsvImportLogDto {
 	
-	private CsvImportState state;
+	private ImportStatus status;
 	
 	private int successCount = 0;
 	
@@ -13,16 +13,17 @@ public class CsvImportLogDto {
 	private StringBuilder info;
 	
 	public CsvImportLogDto(){
-		this.state = CsvImportState.IMPORT_FAILED;
+		this.status = ImportStatus.FAILED;
 		this.info = new StringBuilder("<table>");
 	}
 	
-	public CsvImportState getState() {
-		return state;
+	
+	public ImportStatus getStatus() {
+		return status;
 	}
 
-	public void setState(CsvImportState state) {
-		this.state = state;
+	public void setStatus(ImportStatus status) {
+		this.status = status;
 	}
 
 	public int getSuccessCount() {

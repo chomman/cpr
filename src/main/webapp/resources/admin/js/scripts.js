@@ -17,6 +17,8 @@ $(function() {
 	
 	$(document).on("submit","form.csnFileUpload", showLoader);
 	
+	$(window).resize(updateNav);
+	
     $('.tt').tooltip({
         position: {
             my: "center top",
@@ -54,8 +56,16 @@ $(function() {
 			dateFormat: 'dd.mm.yy',
 			firstDay: 1});
      
-     
+     updateNav();
 });
+function updateNav(){
+	var o = $('nav');
+	if($(document).width() < 1170){
+		o.addClass("smallNav");
+	}else{
+		o.removeClass("smallNav");
+	}
+}
 function createClasses(){
 	$('tr:odd').addClass('odd');
 } 

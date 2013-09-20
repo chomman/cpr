@@ -220,6 +220,10 @@ nav .user{background-image: url(../img/menu-user.png);}
 nav .sett{background-image: url(../img/menu-sett.png);min-width:100px;}
 nav .web{background-image: url(../img/menu-web.png)}
 nav .csn{background-image: url(../img/menu-csn.png)}
+nav.smallNav{height:40px;}
+nav.smallNav li{height:40px;}
+nav.smallNav ul li a{background-image:none;padding:12px 12px 0 12px;font-weight:bold;}
+
 
 #breadcrumb{background:#f7f7f7;padding:10px 0 10px 25px;border:1px solid #ddd;font-size:12px;}
 #breadcrumb a,#breadcrumb span{margin:0 10px;}
@@ -525,3 +529,6 @@ opacity: 0.30;
 .logResult table tr td{padding:2px 10px;}
 .logResult table tr:hover{background:#fff;border-top:4px solid #fff;border-bottom:4px solid #fff;font-size:13px;}
 .logResult .br{border-right:1px solid #ccc;padding-right:10px;margin-right:5px;}
+tr.log-SUCCESS{background-color:#E6FFCF !important;}
+tr.log-INCOMPLETE{background-color:#FFEDCF !important;}
+tr.log-FAILED{background-color:#FFCFCF !important;}

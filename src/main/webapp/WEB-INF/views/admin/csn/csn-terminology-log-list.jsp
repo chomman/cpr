@@ -24,7 +24,25 @@
 			
 			
 			
-			<form class="filter" action="<c:url value="/admin/csn" />" method="get">
+			<form class="filter" action="<c:url value="/admin/csn/terminology/log" />" method="get">
+				<div>
+					<span><spring:message code="csn.terminology.log.status" />:</span>
+					<select name="importStatus" class="enabled">
+							<option value=""><spring:message code="notmatter" /></option>
+							<c:forEach items="${model.importStatuses}" var="i">
+								<option value="${i.id}" <c:if test="${model.params.importStatus == i.id}" >selected="selected"</c:if>> 
+									<spring:message code="${i.key}" />
+								</option>
+							</c:forEach>
+					</select>	
+				</div>
+				<div>
+					<span><spring:message code="cpr.dop.created" /> od: </span>
+					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
+					<span class="fixed">do:</span>
+					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
+					
+				</div>
 				<div>
 					<span class="long"><spring:message code="form.name" /></span>
 					<input type="text" class="query " name="query"   value="${model.params.query}" />
@@ -63,27 +81,23 @@
 							<th><spring:message code="csn.terminology.log.status" /></th>
 							<th><spring:message code="csn.terminology.log.count" /></th>
 							<th><spring:message code="csn.terminology.log.date" /></th>
-							<th><spring:message code="form.edit" /></th>
+							<th><spring:message code="form.view" /></th>
 						</tr>
 					</thead>
 					<tbody>
 						 <c:forEach items="${model.logs}" var="i">
-						 	<tr>
+						 	<tr class="log-${i.importStatus.id}">
 						 		<td>
 						 			<a href="<c:url value="/admin/csn/edit/${i.csn.id}"  />">
 						 				${i.csn.csnId}
 						 			</a>
 						 		</td>
-						 		<td>
-						 		<c:if test="${i.success}">
-						 				<span class="yes" ><spring:message code="yes" /></span>
-						 			</c:if>
-						 			<c:if test="${not i.success}">
-						 				<span class="no" ><spring:message code="no" /></span>
-						 			</c:if>
+						 		<td class="c">
+							 		<c:if test="${not empty i.importStatus}">
+							 			<spring:message code="${i.importStatus.key}" />
+							 		</c:if>
 						 		</td>
 						 		<td>${i.czCount} / ${i.enCount}</td>
-						 		<td>${i.csnCategory.name}</td>
 						 		<td class="last-edit">
 						 			<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
 						 		</td>

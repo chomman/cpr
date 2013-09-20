@@ -171,6 +171,7 @@ public class CsnController extends SupportAdminController {
 		logger.info(String.format("ZACIATOK IMPORTU:  %s", file.getOriginalFilename() ));
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
+			CsnTerminologyLog log = tikaProcessingContext.getLog();
 			tikaProcessingContext.getLog().setFileName(file.getOriginalFilename());
 			long start = System.currentTimeMillis();
 			try{
@@ -181,11 +182,11 @@ public class CsnController extends SupportAdminController {
 				tikaProcessingContext.getLog().setCsn(csn);
 				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessingContext);
 				if(StringUtils.isNotBlank(docAsHtml)){
-					tikaProcessingContext.logDomParsing();;
+					tikaProcessingContext.logDomParsing();
 					TerminologyParser terminologyParser = new NewTerminologyParserImpl();
 					CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
 					if(terminologies != null){
-						CsnTerminologyLog log = tikaProcessingContext.getLog();
+						
 						terminologies.setCsn(csn);
 						if(terminologies.getCzechTerminologies() != null){
 							log.setCzCount(terminologies.getCzechTerminologies().size());
@@ -206,6 +207,8 @@ public class CsnController extends SupportAdminController {
 				modelMap.put("hasErrors", true );
 				return "redirect:/admin/csn/edit/"+idCsn + "?e=1";
 			}
+			log.updateImportStatus();
+			terminologyLogService.createWithUser(log);
 			long end = System.currentTimeMillis() - start;
 			logger.info(String.format("KONIEC IMPORTU, proces trval %s ms", end));
 		}

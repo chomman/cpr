@@ -4,6 +4,8 @@ import java.beans.Transient;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,6 +17,8 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
+
+import sk.peterjurkovic.cpr.enums.ImportStatus;
 
 
 @Entity
@@ -43,6 +47,12 @@ public class CsnTerminologyLog {
 	private int imageCount = 0;
 	
 	private Csn csn;
+	
+	private ImportStatus importStatus;
+	
+	public CsnTerminologyLog(){
+		importStatus = ImportStatus.FAILED;
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "csn_terminology_log_id_seq")
@@ -134,6 +144,16 @@ public class CsnTerminologyLog {
 	public void setImageCount(int imageCount) {
 		this.imageCount = imageCount;
 	}
+	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name="import_status", length = 15)
+	public ImportStatus getImportStatus() {
+		return importStatus;
+	}
+
+	public void setImportStatus(ImportStatus importStatus) {
+		this.importStatus = importStatus;
+	}
 
 	@Transient
 	public void logInfo(String message){
@@ -163,6 +183,19 @@ public class CsnTerminologyLog {
 	@Transient
 	public void incremetImageCount(){
 		this.imageCount++;
+	}
+	
+	@Transient
+	public void updateImportStatus(){
+		if(czCount == 0 && enCount == 0){
+			importStatus = ImportStatus.FAILED;
+		}else if(czCount != enCount && enCount > 0){
+			importStatus = ImportStatus.INCOMPLETE;
+		}else if((czCount > 0 && czCount == enCount) || czCount > 0 && enCount == 0){
+			importStatus = ImportStatus.SUCCESS;
+		}else{
+			importStatus = ImportStatus.FAILED;
+		}
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)

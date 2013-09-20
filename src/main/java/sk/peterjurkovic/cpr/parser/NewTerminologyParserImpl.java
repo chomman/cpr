@@ -29,9 +29,11 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	private final Pattern regexPattern = Pattern.compile("^(\\d+(\\.\\d+)*)+\\s*(.*)$", Pattern.MULTILINE | Pattern.DOTALL);
 	
-	private boolean prevTDisBlank = false;
+	private boolean czCollisBlank = false;
 	
 	private String middleCellContent = null;
+	
+	
 	
 	@Override
 	public CsnTerminologyDto parse(String html, TikaProcessingContext tikaProcessingContext) {
@@ -46,19 +48,19 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 					extractTable(iterator.next());
 				}
 				
-				logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
-
+				
 				for(int i = 0; i < czechTerminologies.size(); i++){
 					
 					if(czechTerminologies.get(i) != null){
-						logger.info(czechTerminologies.get(i).getSection() + " / " + czechTerminologies.get(i).getTitle());
+						logger.info(tmp(czechTerminologies.get(i).getSection()) + " / " + tmp(czechTerminologies.get(i).getTitle()));
 					}
 					
 					if(englishTerminologies.get(i) != null){
-						logger.info(englishTerminologies.get(i).getSection() + " / " + englishTerminologies.get(i).getTitle());
+						logger.info(tmp(englishTerminologies.get(i).getSection()) + " / " + tmp(englishTerminologies.get(i).getTitle()));
 					}
 				}
 				
+				logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
 				return new CsnTerminologyDto(czechTerminologies, englishTerminologies);
 			}catch(Exception e){
 				logger.warn(e.getMessage());
@@ -71,38 +73,43 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		return null;
 	}
 	
+	public String tmp(String str){
+		if(StringUtils.isBlank(str)){
+			return "---";
+		}
+		return str;
+	}
+	
 	public void extractTable(Element table){
 		Validate.notNull(table);
 		
-		int collsSize = table.select("tr").first().select("td").size(); 
+		Elements trs = table.select("tr");
 		
-		Elements tds = table.select("td");
-		
-		
-		if(tds.size() > 0){	
-			ListIterator<Element> iterator =  tds.listIterator();
-			int j = 0;
-			while(iterator.hasNext()){
-				Element td = iterator.next();
-				if((j == 0 || j == 2) && StringUtils.isNotBlank(td.text())){
+		if(trs.size() > 0){
+			
+			int engTdIndex = identifyCollsOffset(table, trs.first().select("td").size());
+			logger.info("EN position index is: " + engTdIndex);
+			
+			ListIterator<Element> trIterator =  trs.listIterator();
+			while(trIterator.hasNext()){
+				Element tr = trIterator.next();
+				Elements tds = tr.select("td");
 					
-					if(j == 0){
+				ListIterator<Element> tdIterator =  tds.listIterator();
+				int index = 0;
+				while (tdIterator.hasNext()) {
+					Element td = tdIterator.next();
+					
+					if(index == 0){
 						processCell(td,  CsnTerminologyLanguage.CZ);
-					}else{
+					}else if(index == engTdIndex){
 						processCell(td,  CsnTerminologyLanguage.EN);
-					}
-					
-				}else{
-					if(prevTDisBlank && StringUtils.isNotBlank(td.html())){
+					}else if(engTdIndex == 2 && czCollisBlank && StringUtils.isNotBlank(removeEmptyTags(td.html())) ){
 						logger.info("cell before is bnank. This cells content is: " + td.html());
 						middleCellContent = td.html();
 					}
-				}
-				
-				if(j ==  (collsSize - 1)){
-					j = 0;
-				}else{
-					j++;
+					
+					index++;
 				}
 			}
 			findContentAfterTable(table);
@@ -113,13 +120,57 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	
 	
+	private int identifyCollsOffset(Element table, int tdSizeOnRow) {
+		
+		if(tdSizeOnRow == 2){
+			// tabulka ma len dva stlpce
+			// takze je iste, ze druhy obsahuje ENG terminy
+			return 1;
+		}
+		Elements trs = table.select("tr");
+		int trsSize = trs.size();
+		if(trsSize > 0){
+			int firstIndexEmpty = 0;
+			ListIterator<Element> trIterator =  trs.listIterator();
+			
+			while(trIterator.hasNext() ){
+				Element tr = trIterator.next();
+				Elements tds = tr.select("td");
+				if(tds.size() > 0){
+					ListIterator<Element> tdIterator =  tds.listIterator();
+					int index = 0;
+					while(tdIterator.hasNext()){
+						Element td = tdIterator.next();
+						if(index == 1 && StringUtils.isNotBlank(removeEmptyTags(td.html()))){
+							String c = removeEmptyTags(td.html());
+							logger.info("BUNKA NIE JE PRAZDNA: " + c);
+							firstIndexEmpty++;
+						}
+						index++;
+					}
+				}
+			}
+			
+			if(Math.floor(trsSize / 2) <  firstIndexEmpty){
+				// pocet neprazdnych buniek v druhom stlpci je vacsi 
+				// ako polovica z celkoveho poctu riadkov tabulky
+				// tz., ze anglicke terminy sa nachadzaju v riadku s indexom 1
+				logger.info("Pocet neprazdnych buniek v druhom stlpci: "+Math.floor(trsSize / 2) + " / " + firstIndexEmpty);
+				return 1;
+			}
+		}
+		return 2;
+	}
+	
+	
+
 	private void processCell(Element cell, CsnTerminologyLanguage lang){
 		Validate.notNull(cell);
 		
 		if(StringUtils.isBlank(cell.html())){
 			if(lang.equals(CsnTerminologyLanguage.CZ)){
-				prevTDisBlank = true;
-			}else if(prevTDisBlank && lang.equals(CsnTerminologyLanguage.EN) && StringUtils.isNotBlank(middleCellContent)){
+				czCollisBlank = true;
+			}else if(czCollisBlank && lang.equals(CsnTerminologyLanguage.EN) && StringUtils.isNotBlank(middleCellContent)){
 				// ak je bunka s ceskym a anglickym terminom prazdna, ale stredna 
 				// bunka obsahuje obsah, pripojimeho k predchadzajucemu anglickemu a ceskemu terminu
 				appendContent(middleCellContent, CsnTerminologyLanguage.CZ);
@@ -166,7 +217,6 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 			return;
 		}
 		Elements els = cell.children();
-		logger.info(els.size());
 		if(els.size() > 0){
 			ListIterator<Element> iterator =  els.listIterator();
 			while(iterator.hasNext()){
@@ -275,6 +325,11 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 			englishTerminologies.add(terminology);
 		}
 	}
-
+	
+	private String removeEmptyTags(String content){
+		return content.replaceAll("(<b>(\\pZ)*</b>)", "")
+				.replaceAll("(<p>(\\pZ)*</p>)", "")
+				.replaceAll("\\p{Z}", "");
+	}
 
 }

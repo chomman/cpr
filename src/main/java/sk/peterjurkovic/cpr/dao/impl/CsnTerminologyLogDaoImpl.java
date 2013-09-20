@@ -53,21 +53,21 @@ public class CsnTerminologyLogDaoImpl extends BaseDaoImpl<CsnTerminologyLog, Lon
 		if(criteria.size() != 0){
 			
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" t.csn.csnId like CONCAT('%', :query , '%') or t.csn.classificationSymbol like CONCAT('%', :query , '%') ");
+				where.add(" l.csn.csnId like CONCAT('%', :query , '%') or l.csn.classificationSymbol like CONCAT('%', :query , '%') ");
 			}
 			
 			if((Boolean)criteria.get("success") != null){
-				where.add(" success= :success");
+				where.add(" l.success= :success");
 			}
 			
 			DateTime createdFrom = (DateTime)criteria.get("createdFrom");
 			if(createdFrom != null){
-				where.add(" created >= :createdFrom");
+				where.add(" l.created >= :createdFrom");
 			}
 						
 			DateTime createdTo = (DateTime)criteria.get("createdTo");
 			if(createdTo != null){
-				where.add(" created < :createdTo");
+				where.add(" l.created < :createdTo");
 			}
 
 		}
@@ -91,8 +91,8 @@ public class CsnTerminologyLogDaoImpl extends BaseDaoImpl<CsnTerminologyLog, Lon
 			}
 			
 			DateTime createdTo = (DateTime)criteria.get("createdTo");
-			if(createdFrom != null){
-				hqlQuery.setTimestamp("createdTo", createdTo.toDate());
+			if(createdTo != null){
+				hqlQuery.setTimestamp("createdTo", createdTo.plusDays(1).toDate());
 			}
 			
 			
