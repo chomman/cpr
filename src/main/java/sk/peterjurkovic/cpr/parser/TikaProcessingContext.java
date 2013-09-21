@@ -1,7 +1,5 @@
 package sk.peterjurkovic.cpr.parser;
 
-import java.beans.Transient;
-
 import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -29,12 +27,11 @@ public class TikaProcessingContext {
 	
 	private LocalDateTime time;
 	
-	private static final DateTimeFormatter FORMATER = ReversableDateTimeFormat.forPattern("HH:mm:ss.SS");
+	private static final DateTimeFormatter FORMATER = ReversableDateTimeFormat.forPattern("dd.MM.yyy HH:mm:ss.SSS");
 	
 	public TikaProcessingContext(){
 		this.log = new CsnTerminologyLog();
 		this.time = new LocalDateTime();
-		initStart();
 	}
 	
 	public String getCsnDir() {
@@ -85,12 +82,9 @@ public class TikaProcessingContext {
 		log.incremetImageCount();
 	}
 	
-	public void initStart(){
-		logInfo("Starting process..");
-	}
 	
 	public void logDomParsing(){
-		logInfo("Starting JSOUP parsing..");
+		logInfo("Začátek čtení termínů.");
 	}
 	
 	public void logInfo(String messsage){
@@ -106,7 +100,7 @@ public class TikaProcessingContext {
 	}
 	
 	public void logFinish(){
-		logInfo("Process finished.");
+		logInfo("Konec čtení termínů.");
 	}
 	
 	public void incrementCZ(){

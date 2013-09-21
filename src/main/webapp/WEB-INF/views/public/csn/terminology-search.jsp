@@ -33,7 +33,7 @@
 			 			<label for="csnCategory">
 			 				<spring:message code="csn.terminology.classSymbol" />:
 			 			</label>
-			 			<input type="text" maxlength="40" name="csnCategory"  class="field" value="${model.params.csnCategory}" />
+			 			<input type="text" maxlength="40" name="csnCategory"  class="field csnCategory" value="${model.params.csnCategory}" />
 			 		</div>
 			 		<div>
 			 			<label for="name" ><spring:message code="csn.terminology.name" />:</label>

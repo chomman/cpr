@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.services.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -125,6 +126,15 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 			jsonlist.add(category.toJsonDto());
 		}
 		return jsonlist;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CsnCategory> autocomplete(String term) {
+		if(StringUtils.isNotBlank(term)){
+			return csnCategoryDao.autocomplete(term);
+		}
+		return new ArrayList<CsnCategory>();
 	}
 	
 	

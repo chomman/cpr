@@ -54,13 +54,13 @@ public class WordDocumentParser  {
 	    	tikaProcessingContext.logDomParsing();
 	    	html = cleanHtml(sw.toString());
 	    } catch(Exception e) {
-	    	tikaProcessingContext.logError("Pri spracovaní nastala chyba: "+ e.getMessage()); 
+	    	tikaProcessingContext.logError("při zpracování nastala chyba: "+ e.getMessage()); 
 	    	logger.warn(e);
 	    	return "";
 	    }	
     	html = removeContentBefore(html);
     	html = removeContentAfter(html);
-    	tikaProcessingContext.logInfo("Dokument bol úspešne spracovaný. Počet zankov dokumentu po prečistení: "+ html.length());
+    	tikaProcessingContext.logInfo("dokument byl úspěšně zpracován. Počet znaků dokumentu po přečištění: "+ html.length());
 	    return html;
 	}
 	
@@ -75,7 +75,8 @@ public class WordDocumentParser  {
 	       try {
 	          handler = factory.newTransformerHandler();
 	       } catch (TransformerConfigurationException e) {
-	    	   tikaProcessingContext.logError("Spracovanie SAXom nie je možné: "+ e.getMessage());
+	    	   tikaProcessingContext.logError("při zpracování nastala chyba (SAX error): "+ e.getMessage());
+	    	   logger.warn(e);
 	    	   return null;
 	       }
 	       

@@ -223,6 +223,7 @@
 						<table class="data csn">
 						<thead>
 							<tr>
+								<tH><spring:message code="cns.terminology.section" /></th>
 								<tH><spring:message code="csn.terminology.title" /></th>
 								<th><spring:message code="csn.terminology.lang" /></th>
 								<th><spring:message code="changed" /></th>
@@ -233,10 +234,10 @@
 						<tbody>
 								 <c:forEach items="${model.terminologies}" var="i">
 								 	<tr>
-								 		<td>
+								 		<td>${i.section}<td>
 								 			<a href="<c:url value="/admin/csn/${id}/terminology/edit/${i.id}"  />">
-							 				${i.section} ${i.title} 
-							 			</a>
+							 				${i.title} 
+							 				</a>
 								 		</td>
 								 		<td>
 								 			<spring:message code="${i.language.name}" /> 

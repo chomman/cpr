@@ -370,7 +370,7 @@ table .center-val{ text-align:center;display:block;}
 /* TERMINOLOGY */
 #terminology{border-left:1px solid #ccc;border-right:1px solid #ccc;border-bottom:1px solid #ccc;}
 #terminology .search-box{margin:0}
-#terminology .search-box input{width:500px;padding:10px 5px;}
+#terminology .search-box input{width:300px;padding:10px 5px;}
 a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
 .button-box.modern{padding:15px;}
 .button-box .button{padding:10px;width:120px;font-size:15px;}
@@ -385,7 +385,7 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
         -webkit-border-radius:6px;    text-decoration:none;
         border-radius:6px;font-weight:bold;
 }
-.disabled{padding:9px 15px;color:#999;
+.disabled{padding:8px;color:#999;
         background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
         background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
         background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
@@ -399,7 +399,7 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
 }
    
 .lang {
-        
+        font-size:12px;padding:8px;
         -moz-box-shadow:inset 0px 1px 0px 0px #97c4fe;
         -webkit-box-shadow:inset 0px 1px 0px 0px #97c4fe;
         box-shadow:inset 0px 1px 0px 0px #97c4fe;

@@ -31,4 +31,6 @@ public interface CsnCategoryService {
 	List<CsnCategory> getSubRootCategories();
 	
 	List<CsnCategoryJsonDto> getSubRootCategoriesInJsonFormat();
+	
+	List<CsnCategory> autocomplete(String term);
 }

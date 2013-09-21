@@ -9,10 +9,14 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.dto.PageDto;
+import sk.peterjurkovic.cpr.entities.CsnTerminology;
+import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 import sk.peterjurkovic.cpr.enums.ImportStatus;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.CsnTerminologyLogService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
@@ -31,6 +35,7 @@ public class CsnTerminologyLogController extends SupportAdminController {
 	
 	public CsnTerminologyLogController(){
 		setTableItemsView("csn/csn-terminology-log-list");
+		setViewName("csn/csn-terminology-log-detail");
 	}
 	
 	
@@ -46,6 +51,19 @@ public class CsnTerminologyLogController extends SupportAdminController {
 		model.put("importStatuses", ImportStatus.values());
 		modelMap.put("model", model);
 		return getTableItemsView();
+	}
+	
+	
+	@RequestMapping(LOG_URL+ "/{id}")
+	private String showLogDetail(@PathVariable Long id, ModelMap modelMap) throws ItemNotFoundException{
+		
+		CsnTerminologyLog log = csnTerminologyLogService.getById(id);
+		if(log == null){
+			throw new ItemNotFoundException("Log terminologie s ID " + id + " sa v systeme nenachadza");
+		}
+		
+		modelMap.put("log", log);
+		return getViewName();
 	}
 	
 	

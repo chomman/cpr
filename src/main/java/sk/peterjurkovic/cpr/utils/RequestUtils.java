@@ -100,9 +100,9 @@ public class RequestUtils {
     public static String getLangParameter(HttpServletRequest request){
 		String lang = request.getParameter("lang");
 		if(StringUtils.isBlank(lang)){
-			lang = "cz";
+			lang = "CZ";
  		}
-		return lang;
+		return lang.toUpperCase();
 	}
     
     

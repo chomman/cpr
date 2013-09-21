@@ -13,4 +13,6 @@ public interface CsnCategoryDao extends BaseDao<CsnCategory, Long>{
 	CsnCategory findBySearchCode(String searchCode);
 	
 	List<CsnCategory> getSubRootCategories();
+	
+	List<CsnCategory> autocomplete(String term);
 }

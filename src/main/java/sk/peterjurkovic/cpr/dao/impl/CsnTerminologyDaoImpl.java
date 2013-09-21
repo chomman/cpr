@@ -49,9 +49,8 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<CsnTerminology> searchInTerminology(final String term) {
-		StringBuilder hql = new StringBuilder("select distinct t.id, t.title from CsnTerminology t");
+		StringBuilder hql = new StringBuilder("select distinct t.title  from CsnTerminology t");
 		hql.append(" where t.title like CONCAT('', :term , '%')");
-		hql.append(" and  t.csn.enabled=true");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setParameter("term", term);
 		hqlQuery.setMaxResults(6);
@@ -97,7 +96,7 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("csnCategory"))){
-				where.add(" t.csn.categorySearchCode=:csnCategory ");	
+				where.add(" t.csn.classificationSymbol like CONCAT('%', :csnCategory , '%')");	
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("name"))){

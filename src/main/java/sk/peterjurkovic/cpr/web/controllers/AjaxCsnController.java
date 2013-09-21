@@ -3,7 +3,6 @@ package sk.peterjurkovic.cpr.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -52,5 +51,10 @@ public class AjaxCsnController {
 	@RequestMapping(value = "/ajax/terminology/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<CsnTerminology>  searchTerminology(@RequestBody @RequestParam("term") String query){
 		return csnTerminologyService.searchInTerminology(query);
+	}
+	
+	@RequestMapping(value = "/ajax/csn/category/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<CsnCategory>  searchCsnCategory(@RequestBody @RequestParam("term") String query){
+		return csnCategoryService.autocomplete(query);
 	}
 }

@@ -56,6 +56,18 @@ public class CsnCategoryDaoImpl  extends BaseDaoImpl<CsnCategory, Long> implemen
          query.setCacheRegion(CacheRegion.CSN_CACHE);
          return (List<CsnCategory>) query.list();
 	}
+
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<CsnCategory> autocomplete(String term) {
+		StringBuilder hql = new StringBuilder("select c.name, c.searchCode from CsnCategory c");
+		hql.append(" where c.searchCode like CONCAT('', :term , '%') order by c.searchCode asc");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setParameter("term", term);
+		hqlQuery.setMaxResults(8);
+		return hqlQuery.list();
+	}
 	
 		
 	

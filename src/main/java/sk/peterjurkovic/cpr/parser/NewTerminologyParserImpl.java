@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.parser;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.regex.Matcher;
@@ -37,6 +38,9 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	@Override
 	public CsnTerminologyDto parse(String html, TikaProcessingContext tikaProcessingContext) {
+		Validate.notNull(html);
+		Validate.notNull(tikaProcessingContext);
+		
 		
 		Document doc = Jsoup.parse(html);
 		Elements tables = doc.select("table");
@@ -47,8 +51,9 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				while(iterator.hasNext()){
 					extractTable(iterator.next());
 				}
+				compareLanguages(tikaProcessingContext);
 				
-				
+				/*
 				for(int i = 0; i < czechTerminologies.size(); i++){
 					
 					if(czechTerminologies.get(i) != null){
@@ -59,7 +64,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 						logger.info(tmp(englishTerminologies.get(i).getSection()) + " / " + tmp(englishTerminologies.get(i).getTitle()));
 					}
 				}
-				
+				*/
 				logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
 				return new CsnTerminologyDto(czechTerminologies, englishTerminologies);
 			}catch(Exception e){
@@ -332,4 +337,48 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				.replaceAll("\\p{Z}", "");
 	}
 
+	private String compareLanguages(TikaProcessingContext context){
+		int czSize = czechTerminologies.size();
+		int enSize = englishTerminologies.size();
+
+		if(czSize > 0 && enSize > 0 && czSize != enSize){
+			
+			ArrayList<CsnTerminology> czList = cloneList(czechTerminologies);
+			ArrayList<CsnTerminology> enList = cloneList(englishTerminologies);
+			
+			removeSuccessfully(czList, enList);
+			
+			for(CsnTerminology t : czList){
+				context.logAlert(String.format("Anglický termín k českému termínu: <b>%1$s / %2$s se nepodařilo spracovat</b>", t.getSection(), t.getTitle()));
+			}
+			
+			for(CsnTerminology t : enList){
+				context.logAlert(String.format("Český termín k angickému termínu: <b>%1$s / %2$s se nepodařilo spracovat</b>", t.getSection(), t.getTitle()));
+			}
+		}
+		
+		return null;
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	private ArrayList<CsnTerminology> cloneList(List<CsnTerminology> list){
+		return (ArrayList<CsnTerminology>)((ArrayList<CsnTerminology>) list).clone();
+	}
+	
+	private void removeSuccessfully(ArrayList<CsnTerminology> czList, ArrayList<CsnTerminology> enList){
+		Iterator<CsnTerminology> czIterator = czList.iterator();
+		while (czIterator.hasNext()) {
+			CsnTerminology czTerminology = czIterator.next();
+			Iterator<CsnTerminology> enIterator = enList.iterator();
+			while(enIterator.hasNext()){
+				CsnTerminology enTerminology = enIterator.next();
+				if(enTerminology.getSection().equals(czTerminology.getSection())){
+					czIterator.remove();
+					enIterator.remove();
+					break;
+				}
+			}
+		}
+	}
 }

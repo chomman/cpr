@@ -168,7 +168,7 @@ public class CsnController extends SupportAdminController {
 		}
 		
 		MultipartFile file = uploadForm.getFileData();
-		logger.info(String.format("ZACIATOK IMPORTU:  %s", file.getOriginalFilename() ));
+		
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 			CsnTerminologyLog log = tikaProcessingContext.getLog();
@@ -188,12 +188,9 @@ public class CsnController extends SupportAdminController {
 					if(terminologies != null){
 						
 						terminologies.setCsn(csn);
-						if(terminologies.getCzechTerminologies() != null){
-							log.setCzCount(terminologies.getCzechTerminologies().size());
-						}
-						if(terminologies.getEnglishTerminologies() != null){
-							log.setEnCount(terminologies.getEnglishTerminologies().size());
-						}
+						log.setCzCount(terminologies.getCzechTerminologies().size());
+						log.setEnCount(terminologies.getEnglishTerminologies().size());
+						
 						csnTerminologyService.saveTerminologies(terminologies);
 						csnService.saveOrUpdate(csn);
 						log.setDuration(System.currentTimeMillis() - start);
@@ -203,14 +200,12 @@ public class CsnController extends SupportAdminController {
 					}
 				}
 			} catch (Exception  e) {
-				logger.error(String.format("Dokument %1$s sa nepodarilo importovat dovod: %2$s",  file.getOriginalFilename(), e.getMessage()));
+				log.logError(String.format("dokument %1$s se nepodařilo importovat, duvod: %2$s",  file.getOriginalFilename(), e.getMessage()));
 				modelMap.put("hasErrors", true );
 				return "redirect:/admin/csn/edit/"+idCsn + "?e=1";
 			}
 			log.updateImportStatus();
 			terminologyLogService.createWithUser(log);
-			long end = System.currentTimeMillis() - start;
-			logger.info(String.format("KONIEC IMPORTU, proces trval %s ms", end));
 		}
 		prepareModel(csn, modelMap, idCsn, RequestUtils.getLangParameter(request));
 		return "redirect:/admin/csn/edit/"+idCsn;

@@ -197,7 +197,10 @@ public class CsnTerminologyLog {
 			importStatus = ImportStatus.FAILED;
 		}
 	}
-
+	
+	
+	
+	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "csn_id")
 	public Csn getCsn() {
