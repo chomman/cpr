@@ -2,20 +2,25 @@ package sk.peterjurkovic.cpr.web.controllers;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.support.RequestContext;
+import org.springframework.web.servlet.support.RequestContextUtils;
 
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
@@ -77,13 +82,27 @@ public class PublicCsnTerminologyController {
 		if(webpage == null || !webpage.getEnabled() || termonology == null || !termonology.getEnabled()){
 			throw new PageNotFoundEception();
 		}
+		
+		CsnTerminologyLanguage tTang = null;
+		if(termonology.getLanguage().equals(CsnTerminologyLanguage.CZ)){
+			tTang = CsnTerminologyLanguage.EN;
+		}else{
+			tTang = CsnTerminologyLanguage.CZ;
+		}
+		
+		CsnTerminology terminology2 = csnTerminologyService.getBySectionAndLang(termonology.getCsn(), termonology.getSection(), tTang);
+		
+		
 		String lang = RequestUtils.getLangParameter(request);
 		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("subtab", webpage.getId());
 		model.put("terminology", termonology);
+		if(terminology2 != null){
+			model.put("terminology2", terminology2);
+		}
 		if(StringUtils.isNotBlank(lang)){
 			model.put("lang", lang);
-			model.put("terminologies", csnService.getTerminologyByCsnAndLang(termonology.getCsn(), lang));
+			model.put("terminologies", csnService.getTerminologyByCsnAndLang(termonology.getCsn(), termonology.getLanguage().getCode()));
 		}
 		modelMap.put("model", model);
 		return "/public/csn/terminology-detail";

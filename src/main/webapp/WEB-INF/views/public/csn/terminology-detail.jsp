@@ -116,6 +116,7 @@
 			</table>
 		
 			
+			
 			<div class="thead">
 				
 			</div>
@@ -133,8 +134,18 @@
 				<div class="tbtn">&lsaquo;</div>
 			</div>
 			<div id="terminologyContent" class="right">
-				<h2>${model.terminology.section} ${model.terminology.title}</h2>
-				${model.terminology.content}
+				
+				<div class="terminology">
+					<h2>${model.terminology.section} ${model.terminology.title}</h2>
+					${model.terminology.content}
+				</div>
+				
+				<c:if test="${not empty model.terminology2}">
+					<div class="terminology second">
+						<h2>${model.terminology2.section} ${model.terminology2.title}</h2>
+						${model.terminology2.content}
+					</div>
+				</c:if>
 			</div>
 			<div class="clear"></div>
 			 

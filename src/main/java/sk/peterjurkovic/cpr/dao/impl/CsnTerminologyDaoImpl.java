@@ -11,7 +11,9 @@ import org.springframework.stereotype.Repository;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.CsnTerminologyDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
+import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
+import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
 
 /**
  * 
@@ -50,7 +52,7 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 	@Override
 	public List<CsnTerminology> searchInTerminology(final String term) {
 		StringBuilder hql = new StringBuilder("select distinct t.title  from CsnTerminology t");
-		hql.append(" where t.title like CONCAT('', :term , '%')");
+		hql.append(" where lower(t.title) like CONCAT('', lower(:term ), '%')");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setParameter("term", term);
 		hqlQuery.setMaxResults(6);
@@ -88,19 +90,19 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 		if(criteria.size() != 0){
 			
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" t.title like CONCAT('%', :query , '%') ");
+				where.add(" lower(t.title) like CONCAT('%', lower(:query) , '%') ");
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("csnId"))){
-				where.add(" t.csn.csnId like CONCAT('%', :csnId , '%') ");
+				where.add(" lower(t.csn.csnId) like CONCAT('%', lower(:csnId) , '%') ");
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("csnCategory"))){
-				where.add(" t.csn.classificationSymbol like CONCAT('%', :csnCategory , '%')");	
+				where.add(" lower(t.csn.classificationSymbol) like CONCAT('%', lower(:csnCategory) , '%')");	
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("name"))){
-				where.add(" t.csn.czechName like CONCAT('%', :name , '%') or t.csn.englishName like CONCAT('%', :name , '%') ");
+				where.add(" lower(t.csn.czechName) like CONCAT('%', lower(:name) , '%') or lower(t.csn.englishName) like CONCAT('%', lower(:name) , '%') ");
 			}
 
 		}
@@ -126,6 +128,19 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 				hqlQuery.setString("name", (String)criteria.get("name"));
 			}
 		}
+	}
+
+
+	@Override
+	public CsnTerminology getBySectionAndLang(Csn csn, String sectionCode, CsnTerminologyLanguage lang) {
+		StringBuilder hql = new StringBuilder("select t from CsnTerminology t ");
+		hql.append(" where t.section=:section and t.csn.id=:id and lower(t.language)=lower(:lang)");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setLong("id", csn.getId());
+		hqlQuery.setString("section", sectionCode);
+		hqlQuery.setString("lang", lang.getCode());
+		hqlQuery.setMaxResults(1);
+		return (CsnTerminology)hqlQuery.uniqueResult();
 	}
 	
 }

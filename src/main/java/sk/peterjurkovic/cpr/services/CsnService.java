@@ -40,10 +40,21 @@ public interface CsnService {
 	
 	PageDto getCsnPage(int pageNumber,Map<String, Object> criteria);
 	
+	
 	List<CsnTerminology> getTerminologyByCsnAndLang(Csn csn, String languageCode);
+	
 	
 	void deleteAllTerminology(Csn csn);
 	
+	
 	void removeAll();
+	
+	
+	List<Csn> autocompleteByClassificationSymbol(String term);
+	
+	
+	List<Csn> autocompleteByCsnId(String term);
+	
+	Csn getByClassificationSymbol(String cs);
 	
 }

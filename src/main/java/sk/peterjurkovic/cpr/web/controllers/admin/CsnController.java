@@ -57,7 +57,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 public class CsnController extends SupportAdminController {
 	
 	// položka menu
-	public static final int TAB_INDEX = 1;
+	private static final int TAB_INDEX = 1;
 	
 	private static final String IMPORT_MODEL_ATTR = "uploadForm";
 	

@@ -27,7 +27,7 @@
 			 			<label for="csnId">
 			 				<spring:message code="csn.terminology.csnId" />:
 			 			</label>
-			 			<input type="text" maxlength="40" name="csnId" class="field" value="${model.params.csnId}" />
+			 			<input type="text" maxlength="40" name="csnId" class="field csnId" value="${model.params.csnId}" />
 			 		</div>
 			 		<div>
 			 			<label for="csnCategory">
@@ -70,15 +70,14 @@
 							<th class="section" ><spring:message code="csn.table.secion" /></th>
 							<th><spring:message code="csn.table.terminology" /></th>
 							<th><spring:message code="csn.form.name" /></th>
-							<tH><spring:message code="csn.table.published" /></th>
 							<th><spring:message code="csn.table.name" /></th>
 						</tr>
 					</thead>
 					<tbody>
 						 <c:forEach items="${model.page}" var="i">
 						 	<tr>
-						 		<td class="c">${i.section}</td>
-						 		<td>
+						 		<td class="c section">${i.section}</td>
+						 		<td class="title">
 						 		   <a class="b tt" href="<c:url value="${model.webpage.code}/${i.id}" />" 
 						 		   	title='<spring:message code="csn.terminology.show" arguments="${i.title}" />' >
 						 				${i.title}
@@ -94,8 +93,7 @@
 											${i.csn.csnId}
 							 		</c:if>
 						 		</td>
-						 		<td class="c">${i.csn.published}</td>
-						 		<td class="c">${i.csn.czechName}</td>
+						 		<td class="c name">${i.csn.czechName}</td>
 						 	</tr>
 						 </c:forEach>
 					</tbody>

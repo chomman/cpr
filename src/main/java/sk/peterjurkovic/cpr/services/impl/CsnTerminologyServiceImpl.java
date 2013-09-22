@@ -16,8 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.peterjurkovic.cpr.dao.CsnTerminologyDao;
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
+import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -135,6 +137,12 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 	@Transactional(readOnly = true)
 	public PageDto getCsnTerminologyPage(int currentPage, Map<String, Object> criteria) {
 		return csnTerminologyDao.getCsnTerminologyPage(currentPage, criteria);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public CsnTerminology getBySectionAndLang(Csn csn, String sectionCode, CsnTerminologyLanguage lang) {
+		return csnTerminologyDao.getBySectionAndLang(csn, sectionCode, lang);
 	}
 	
 	

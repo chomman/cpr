@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
-import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.constants.Constants;
@@ -15,7 +14,6 @@ import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
-import sk.peterjurkovic.cpr.enums.StandardOrder;
 
 
 @Repository("csnDao")
@@ -117,6 +115,37 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 				.createQuery("delete from CsnTerminology t where t.csn.id=:id");
 		query.setLong("id", id);
 		query.executeUpdate();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Csn> autocompleteByClassificationSymbol(String term) {
+		StringBuilder hql = new StringBuilder("select c.csnId, c.classificationSymbol from Csn c");
+		hql.append(" where c.classificationSymbol like CONCAT('', :term , '%')");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setParameter("term", term);
+		hqlQuery.setMaxResults(8);
+		return hqlQuery.list();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Csn> autocompleteByCsnId(String term) {
+		StringBuilder hql = new StringBuilder("select c.csnId from Csn c");
+		hql.append(" where c.csnId like CONCAT('', :term , '%')");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setParameter("term", term);
+		hqlQuery.setMaxResults(8);
+		return hqlQuery.list();
+	}
+
+	@Override
+	public Csn getByClassificationSymbol(String cs) {
+		Query query =  sessionFactory.getCurrentSession().createQuery("from Csn c where c.classificationSymbol=:cs ");
+		query.setParameter("cs", cs);
+		query.setMaxResults(1);
+		query.setCacheable(false);
+		return (Csn)query.uniqueResult();
 	}
 
 	

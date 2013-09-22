@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.dto.CsnCategoryJsonDto;
+import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
@@ -53,8 +54,21 @@ public class AjaxCsnController {
 		return csnTerminologyService.searchInTerminology(query);
 	}
 	
+	
 	@RequestMapping(value = "/ajax/csn/category/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<CsnCategory>  searchCsnCategory(@RequestBody @RequestParam("term") String query){
 		return csnCategoryService.autocomplete(query);
+	}
+	
+	
+	@RequestMapping(value = "/ajax/csn/category/autocomplete/cs", method = RequestMethod.GET)
+	public @ResponseBody List<Csn>  searchCsnCategoryClassificationSymbol(@RequestBody @RequestParam("term") String query){
+		return csnService.autocompleteByClassificationSymbol(query);
+	}
+	
+	
+	@RequestMapping(value = "/ajax/csn/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<Csn>  searchInCsnIds(@RequestBody @RequestParam("term") String query){
+		return csnService.autocompleteByCsnId(query);
 	}
 }
