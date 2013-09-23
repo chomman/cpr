@@ -19,6 +19,10 @@ $(function() {
 	
 	$(window).resize(updateNav);
 	
+	if($('form.csnFileUpload').length > 0){
+		$('body').append('<div id="overlay"></div><div id="loader"><div>Čekejte prosím ...</div></div>');
+	}
+	
     $('.tt').tooltip({
         position: {
             my: "center top",
@@ -156,9 +160,8 @@ jQuery.fn.center = function () {
 
 
 function showLoader(){
-	var html = '<div class="overlay"></div><div id="loader"><div>Čekejte prosím ...</div></div>';
-	$('body').append(html);
 	$loader = $('#loader');
+	$("#overlay").show();
 	$loader.center().show();
 }
 function removeLoader(){

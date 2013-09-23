@@ -98,7 +98,9 @@ public class TikaImageExtractingParser implements Parser {
         TikaInputStream is = TikaInputStream.get(stream);
         try {
         	String originalFileName = fileService.getFileSaveDir() + tikaProcessingContext.getCsnDir() + File.separator + tikaProcessingContext.getExtractedFilePrefix()  + filename;
-        	logger.info(originalFileName);
+        	
+        	fileService.createDirectory(tikaProcessingContext.getCsnDir());
+        	
         	File outFile = new File(originalFileName);
         	if(outFile.exists()){
         		FileUtils.forceDelete(outFile);

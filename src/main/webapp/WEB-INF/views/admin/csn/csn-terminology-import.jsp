@@ -20,7 +20,7 @@
 
 		<div id="content">
 			
-		
+			<jsp:include page="csn-terminology-import-status.jsp" />
 		
 			<c:url value="/admin/csn/terminology/import" var="formUrl"/>
 			<form:form  modelAttribute="uploadForm" method="post" action="${formUrl}"  cssClass="csnFileUpload" enctype="multipart/form-data">	
@@ -41,6 +41,10 @@
 			</form:form>
 			
 			<h4>Informace k importu</h4>
+			
+			<p class="msg info">
+				Název souboru musí být ve tvaru <b>XXXXXX</b>.doc, kde  hodnota XXXXXX představuje třídící znak dané ČSN.
+			</p>
 			
 			<p class="msg info">
 				V dokumentu musí být vložen oddělovač "<strong>####</strong>", který identifikuje začátek a konec terminologie. Pomocí tohoto oddělovače se odstraní nepotřebná část dokumentu a výrazně se tak redukuje potřebný paměťový prostor.

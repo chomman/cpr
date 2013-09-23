@@ -62,6 +62,10 @@ public class CsnController extends SupportAdminController {
 	private static final String IMPORT_MODEL_ATTR = "uploadForm";
 	
 	private static final String CSN_MODEL_ATTR = "csn";
+	
+	private static final String CSN_TERMINOLOGY_LOG_PARAM = "l";
+	
+	private static final String CSN_TERMINOLOGY_ERROR_PARAM = "E";
 
 	
 		
@@ -80,7 +84,7 @@ public class CsnController extends SupportAdminController {
 	@Autowired
 	private CsnCsvImport csnCsvImport;
 	@Autowired
-	private CsnTerminologyLogService terminologyLogService;
+	private CsnTerminologyLogService csnTerminologyLogService;
 	
 	@Autowired
 	private FileService fileService;
@@ -126,8 +130,14 @@ public class CsnController extends SupportAdminController {
 			if(form == null){
 				createItemNotFoundError("ČSN with ID: " + idCsn + " was not found.");
 			}
-			if(request.getParameter("e") != null){
+			if(request.getParameter(CSN_TERMINOLOGY_ERROR_PARAM) != null){
 				modelMap.put("importFaild", true);
+			}else if(request.getParameter(CSN_TERMINOLOGY_LOG_PARAM) != null){
+				Long id = Long.valueOf(request.getParameter(CSN_TERMINOLOGY_LOG_PARAM));
+				CsnTerminologyLog log = csnTerminologyLogService.getById(id);
+				if(log != null){
+					modelMap.put("log", log);
+				}
 			}
 			
 		}
@@ -195,17 +205,18 @@ public class CsnController extends SupportAdminController {
 						csnService.saveOrUpdate(csn);
 						log.setDuration(System.currentTimeMillis() - start);
 						log.setSuccess(true);
-						terminologyLogService.createWithUser(log);
+						csnTerminologyLogService.createWithUser(log);
 						modelMap.put("log", log);
 					}
 				}
 			} catch (Exception  e) {
 				log.logError(String.format("dokument %1$s se nepodařilo importovat, duvod: %2$s",  file.getOriginalFilename(), e.getMessage()));
 				modelMap.put("hasErrors", true );
-				return "redirect:/admin/csn/edit/"+idCsn + "?e=1";
+				return "redirect:/admin/csn/edit/"+idCsn + "?"+CSN_TERMINOLOGY_ERROR_PARAM+"=1";
 			}
 			log.updateImportStatus();
-			terminologyLogService.createWithUser(log);
+			csnTerminologyLogService.createWithUser(log);
+			return "redirect:/admin/csn/edit/"+idCsn+"?"+CSN_TERMINOLOGY_LOG_PARAM+"=" + log.getId();
 		}
 		prepareModel(csn, modelMap, idCsn, RequestUtils.getLangParameter(request));
 		return "redirect:/admin/csn/edit/"+idCsn;

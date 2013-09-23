@@ -1,7 +1,7 @@
 @CHARSET "UTF-8";
 *{border:none;padding:0px;margin:0px;}
 header, footer, nav, aside, article, section{display:block }
-body{font-family: Arial,Tahoma, sans-serif;}
+body{font-family: Arial,Tahoma, sans-serif;position: relative;}
 .clear{ clear:both;}
 .hidden{ display:none;}
 .c{ text-align:center;}
@@ -154,9 +154,9 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 
 .red{color:red;}
 .msg{padding:18px 10px 18px 55px;font-size:14px;margin:10px;}
-.msg.alert{background:#fff5e3 url(../img/ico_alert.png) no-repeat 10px center;border:3px solid  #f3deba;color:#b66f00;}
-.msg.ok,.logResult.importSuccess{background:#f2ffee url(../img/ico_ok.png) no-repeat 10px center;border:3px solid  #cefbbe;color:#345c01;}
-.msg.error,.logResult.importFailed{background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
+.msg.alert,.import.alert{background:#fff5e3 url(../img/ico_alert.png) no-repeat 10px center;border:3px solid  #f3deba;color:#b66f00;}
+.msg.ok,.logResult.importSuccess,.import.success{background:#f2ffee url(../img/ico_ok.png) no-repeat 10px center;border:3px solid  #cefbbe;color:#345c01;}
+.msg.error,.logResult.importFailed,,.import.failed{background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
 .msg.info{background:#F5FAFF url(../img/ico_info.png) no-repeat 10px center;border:3px solid  #E3F0FF;color:#2F4A69;}
 
 
@@ -500,7 +500,7 @@ padding:15px 10px;display:block;color:#fff;letter-spacing:1px;font-size:16px;bor
 .parentNode a:hover{background:#333656;}
 
 
-.overlay {
+#overlay {
     position:absolute;
     top:0;
     left:0;
@@ -512,6 +512,7 @@ padding:15px 10px;display:block;color:#fff;letter-spacing:1px;font-size:16px;bor
     color:white;
 -moz-opacity: 0.30;
 opacity: 0.30;
+display:none;
 -ms-filter:"progid:DXImageTransform.Microsoft.Alpha"(Opacity=30);
 
 }
@@ -521,6 +522,7 @@ opacity: 0.30;
 	background:#fff url(../img/ajax-loader.gif) 10px center no-repeat;
 	padding:30px 30px 30px 60px;
 	border:3px solid #555;
+	display: none;
 }
 
 .logResult{padding:10px 10px 10px 50px;margin-bottom:20px;font-size:12px;}
@@ -532,3 +534,10 @@ opacity: 0.30;
 tr.log-SUCCESS{background-color:#E6FFCF !important;}
 tr.log-INCOMPLETE{background-color:#FFEDCF !important;}
 tr.log-FAILED{background-color:#FFCFCF !important;}
+
+table.import{padding:15px 15px 15px 60px;border-collapse:collapse;margin:10px 0;width:100%;}
+.import .msg td{font-size:16px;padding-top:15px;}
+.import .more td{padding-bottom:15px;}
+.import a{text-decoration:underline;}
+.import a:hover{text-decoration:none;}
+.import td{padding: 5px 10px 5px 60px;}

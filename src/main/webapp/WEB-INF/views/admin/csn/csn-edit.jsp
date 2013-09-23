@@ -164,6 +164,7 @@
 				<form:form  modelAttribute="uploadForm" method="post" action="${formUrl}" cssClass="csnFileUpload" enctype="multipart/form-data">
 					<p class="form-head"><spring:message code="csn.terminology.upload" arguments="${csn.csnId}" /><p>
 					 
+					 <jsp:include page="csn-terminology-import-status.jsp" />
 					 <c:if test="${not empty importFaild}">
 					 	<p class="msg error">Nastala chyba, import selhal.</p>
 					 </c:if>

@@ -68,10 +68,10 @@ public class CsnTerminologyImportController extends SupportAdminController {
 			
 			if(FilenameUtils.isExtension(file.getOriginalFilename(), "doc")){
 				String baseName = getClasificationSymbol(file.getOriginalFilename());
-				if(baseName.matches("\\d{4,6}")){
+				if(baseName.matches("\\d{4,7}")){
 					Csn csn = csnService.getByClassificationSymbol(baseName);
 					if(csn == null){
-						result.reject("csn.terminology.import.error.notfound", baseName);
+						result.reject("csn.terminology.import.error.notfound", new Object[]{baseName}, "") ;
 					}else{
 						TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 						CsnTerminologyLog log = tikaProcessingContext.getLog();
