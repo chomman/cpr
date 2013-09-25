@@ -57,4 +57,7 @@ public interface CsnService {
 	
 	Csn getByClassificationSymbol(String cs);
 	
+	
+	List<Csn> getCsnsByClassificationSymbol(String cs);
+	
 }

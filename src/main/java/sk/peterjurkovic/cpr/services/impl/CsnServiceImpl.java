@@ -162,4 +162,14 @@ public class CsnServiceImpl implements CsnService{
 	public Csn getByClassificationSymbol(String cs) {
 		return csnDao.getByClassificationSymbol(cs);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Csn> getCsnsByClassificationSymbol(String cs) {
+		if(StringUtils.isNotBlank(cs)){
+			return csnDao.getCsnsByClassificationSymbol(cs);
+		}
+		return new ArrayList<Csn>();
+	}
+	
 }

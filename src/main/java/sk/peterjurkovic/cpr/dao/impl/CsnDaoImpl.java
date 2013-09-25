@@ -148,6 +148,15 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		return (Csn)query.uniqueResult();
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Csn> getCsnsByClassificationSymbol(String cs) {
+		Query query =  sessionFactory.getCurrentSession().createQuery("from Csn c where c.classificationSymbol=:cs ");
+		query.setParameter("cs", cs);
+		query.setCacheable(false);
+		return query.list();
+	}
+
 	
 	
 }

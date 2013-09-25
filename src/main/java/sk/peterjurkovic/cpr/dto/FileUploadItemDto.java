@@ -2,11 +2,15 @@ package sk.peterjurkovic.cpr.dto;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import sk.peterjurkovic.cpr.entities.Csn;
+
 public class FileUploadItemDto {
 	
 	private String saveDir;
 
 	private MultipartFile fileData;
+	
+	private Csn csn;
 	
 	public String getSaveDir() {
 		return saveDir;
@@ -22,6 +26,14 @@ public class FileUploadItemDto {
 
 	public void setFileData(MultipartFile fileData) {
 		this.fileData = fileData;
+	}
+
+	public Csn getCsn() {
+		return csn;
+	}
+
+	public void setCsn(Csn csn) {
+		this.csn = csn;
 	}
 	
 	

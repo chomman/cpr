@@ -1,7 +1,10 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,10 +72,13 @@ public class CsnTerminologyImportController extends SupportAdminController {
 			if(FilenameUtils.isExtension(file.getOriginalFilename(), "doc")){
 				String baseName = getClasificationSymbol(file.getOriginalFilename());
 				if(baseName.matches("\\d{4,7}")){
-					Csn csn = csnService.getByClassificationSymbol(baseName);
-					if(csn == null){
+					List<Csn> csnList = csnService.getCsnsByClassificationSymbol(baseName);
+					if(CollectionUtils.isEmpty(csnList)){
 						result.reject("csn.terminology.import.error.notfound", new Object[]{baseName}, "") ;
+					}else if(csnList.size() > 1){
+						modelMap.put("csnList", csnList);
 					}else{
+						Csn csn = csnList.get(0);
 						TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 						CsnTerminologyLog log = tikaProcessingContext.getLog();
 						tikaProcessingContext.getLog().setFileName(file.getOriginalFilename());

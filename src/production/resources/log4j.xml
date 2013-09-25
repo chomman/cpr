@@ -3,8 +3,8 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
  	
     <appender  name="fileAppender" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="/var/public/www/logs/cpr.log" />
-        <param name="MaxFileSize" value="10000KB" />
+        <param name="File" value="/var/www/logs/cpr.log" />
+        <param name="MaxFileSize" value="15000KB" />
         <param name="MaxBackupIndex" value="100" />
         <param name="Threshold" value="INFO" />
         <layout class="org.apache.log4j.PatternLayout">
@@ -13,20 +13,17 @@
     </appender> 
     
     <root>
-        <priority value="info"></priority>   
+        <priority value="warn"></priority>   
         <appender-ref ref="fileAppender"></appender-ref>
     </root>
    
-   	<!-- Application Loggers -->
+
 	<logger name="sk.peterjurkovic.cpr">
-		<level value="info" />
+		<level value="warn" />
 		<appender-ref ref="fileAppender"></appender-ref>
 	</logger>
 		
-	<!-- 3rdparty Loggers -->
-	<logger name="org.springframework">
-		<level value="info" />
-	</logger>
+	
 			
   
 </log4j:configuration>

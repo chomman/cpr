@@ -25,4 +25,6 @@ public interface CsnDao extends BaseDao<Csn, Long>{
 	
 	Csn getByClassificationSymbol(String cs);
 	
+	List<Csn> getCsnsByClassificationSymbol(String cs);
+	
 }
