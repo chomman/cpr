@@ -28,7 +28,9 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	private List<CsnTerminology> englishTerminologies = new ArrayList<CsnTerminology>();
 	
-	private final Pattern regexPattern = Pattern.compile("^(\\d+(\\.\\d+)*)+\\s*(.*)$", Pattern.MULTILINE | Pattern.DOTALL);
+	private final Pattern sectionMatcherRegex = Pattern.compile("^(\\d+(\\.\\d+)*)+\\s*(.*)$", Pattern.MULTILINE | Pattern.DOTALL);
+	
+	private final Pattern sectionCodeMatcherRegex = Pattern.compile("^(\\d+\\.\\d+(\\.\\d+)*)$", Pattern.MULTILINE | Pattern.DOTALL);
 	
 	private boolean czCollisBlank = false;
 	
@@ -195,7 +197,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				String bContent = b.text();
 				
 				if(StringUtils.isNotBlank(bContent)){
-					 Matcher matcher = regexPattern.matcher(bContent.trim());
+					 Matcher matcher = sectionMatcherRegex.matcher(bContent.trim());
 					 CsnTerminology terminology = null;
 					 if (matcher.matches()) {
 						 terminology = createNewTerminology(matcher, lang);
@@ -225,7 +227,9 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		if(els.size() > 0){
 			ListIterator<Element> iterator =  els.listIterator();
 			while(iterator.hasNext()){
-				 
+				// pomocna premena, pozivana v pripade ak je kod sekcie oddeleny medzerov
+				String section  = ""; 
+				
 				Element currentElement = iterator.next();
 				Elements childrens  = currentElement.children();
 				Element b = null;
@@ -236,16 +240,41 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				if(b != null && b.tagName().equals("b")){
 					String bContent = b.html().trim();
 					if(StringUtils.isNotBlank(bContent)){
-						 Matcher matcher = regexPattern.matcher(bContent);
-						 if(matcher.matches()){
+						 Matcher sectionMatcher = sectionMatcherRegex.matcher(bContent);
+						 Matcher sectionCodeMatcher = sectionCodeMatcherRegex.matcher(bContent);
+						
+						 if(sectionCodeMatcher.matches()){
+							 // cislo sekcie bungky a nazov sekcie je oddeleny medzerov
+							 // nasledujuci p element musi obsahovat b element
+							 // preto sa zrovna skontroluje nalsedujuci element
+							 Element nextElement = iterator.next();
+							 Elements nextElementChildrens  = nextElement.children();
+								Element nextBelement = null;
+								// element p obsahuje
+								if(nextElementChildrens.size() == 1){
+									nextBelement = childrens.first();
+								}
+								// ak nasledujuci element existuje, a je type B, 
+								if(nextBelement != null && nextBelement.tagName().equals("b")){
+									CsnTerminology terminology = createNewTerminology(bContent, nextBelement.text(), lang);
+									if(terminology != null){
+										saveTerminology(terminology);
+									}
+								}else{
+									// rollbak
+									iterator.previous();
+								}
+								
+						 }else if(sectionMatcher.matches()){
 							 // multiple terminology in one cell
-							 CsnTerminology terminology = createNewTerminology(matcher, lang);
+							 CsnTerminology terminology = createNewTerminology(sectionMatcher, lang);
 							 logger.info("FOUND in multiple and match: " + bContent);
 							 if(terminology != null){
 								 terminology.setContent(currentElement.outerHtml(). replace(b.outerHtml(), ""));
 								 saveTerminology(terminology);
 							 }	
-						 }else{
+						 }
+						 else{
 							 logger.info("B content no match Appending to previous: " + currentElement.outerHtml());
 							 appendContent(currentElement.outerHtml(), lang);
 						 }
@@ -280,7 +309,10 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	private CsnTerminology createNewTerminology(Matcher matcher, CsnTerminologyLanguage lang){
 		String section = matcher.group(1);
 		String title = matcher.group(3);
-		
+		return createNewTerminology(section, title, lang);
+	}
+	
+	private CsnTerminology createNewTerminology(String section, String title, CsnTerminologyLanguage lang){
 		if(StringUtils.isNotBlank(section) && StringUtils.isNotBlank(title)){
 			 CsnTerminology newTerminology = new CsnTerminology();
 			 newTerminology.setLanguage(lang);

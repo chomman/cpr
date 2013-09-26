@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.constants.Constants;
@@ -59,22 +60,25 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 	public PageDto getCsnPage(final int pageNumber, final Map<String, Object> criteria){
 		StringBuilder hql = new StringBuilder("from Csn csn");
 		hql.append(prepareHqlForQuery(criteria));
-		hql.append(" group by csn.id ");
-		if((Integer)criteria.get("orderBy") != null){
-			hql.append(CsnOrderBy.getSqlById((Integer)criteria.get("orderBy") ));
-		}else{
-			hql.append(CsnOrderBy.getSqlById(1));
-		}
-		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
-		prepareHqlQueryParams(hqlQuery, criteria);
+		
+		Session session = sessionFactory.getCurrentSession();
+		Query hqlCountQuery = session.createQuery("select count(*) " + hql.toString());
+		prepareHqlQueryParams(hqlCountQuery, criteria);
 		PageDto items = new PageDto();
-		items.setCount((Long)hqlQuery.uniqueResult());
+		hqlCountQuery.setMaxResults(1);
+		items.setCount((Long)hqlCountQuery.uniqueResult());
 		if(items.getCount() > 0){
-			hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
-			prepareHqlQueryParams(hqlQuery, criteria);
-			hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
-			hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
-			items.setItems(hqlQuery.list());
+			hql.append(" group by csn.id ");
+			if((Integer)criteria.get("orderBy") != null){
+				hql.append(CsnOrderBy.getSqlById((Integer)criteria.get("orderBy") ));
+			}else{
+				hql.append(CsnOrderBy.getSqlById(1));
+			}
+			Query query = session.createQuery(hql.toString());
+			prepareHqlQueryParams(query, criteria);
+			query.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
+			query.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
+			items.setItems(query.list());
 		}
 	
 		return items;

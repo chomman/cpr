@@ -31,7 +31,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 			tikaProcessingContext.setCsnId(3l);
 			tikaProcessingContext.setContextPath("/cpr/");
-			InputStream is =  new FileInputStream("/home/peto/Desktop/n/vzorce.doc");
+			InputStream is =  new FileInputStream("/home/peto/Desktop/n/p61600.doc");
 			String html = null;
 			try{
 				html = wordDocumentParser.parse(is, tikaProcessingContext);
