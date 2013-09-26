@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.services;
 import java.util.List;
 import java.util.Map;
 
+import sk.peterjurkovic.cpr.dto.CsvImportLogDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
@@ -59,5 +60,7 @@ public interface CsnService {
 	
 	
 	List<Csn> getCsnsByClassificationSymbol(String cs);
+	
+	CsvImportLogDto saveList(List<Csn> csnList);
 	
 }

@@ -28,6 +28,8 @@ public interface CsnCategoryService {
 	
 	CsnCategory findBySearchCode(String searchCode);
 	
+	CsnCategory findByClassificationSymbol(String classificationSymbol);
+	
 	List<CsnCategory> getSubRootCategories();
 	
 	List<CsnCategoryJsonDto> getSubRootCategoriesInJsonFormat();

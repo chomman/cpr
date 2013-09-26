@@ -136,6 +136,17 @@ public class CsnCategoryServiceImpl implements CsnCategoryService{
 		}
 		return new ArrayList<CsnCategory>();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public CsnCategory findByClassificationSymbol(String classificationSymbol) {
+		CsnCategory category = null;
+		if(StringUtils.isNotBlank(classificationSymbol) && classificationSymbol.length() > 3){
+			String searchCode =  classificationSymbol.substring(0, 4);
+			category = csnCategoryDao.findBySearchCode(searchCode);
+		}
+		return category;
+	}
 	
 	
 }

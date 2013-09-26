@@ -42,10 +42,8 @@ public class CsvImportLogDto {
 		this.failedCount = failedCount;
 	}
 
-	public void appendInfo(String message, int lineNumber){
-		info.append("<tr><td class=\"br\">Řádek: ")
-			.append(lineNumber)
-			.append(" </td><td>")
+	public void appendInfo(String message){
+		info.append("<tr><td>")
 			.append(message)
 			.append("</td></tr>");
 	}

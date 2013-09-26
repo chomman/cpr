@@ -14,6 +14,7 @@ import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 
 
 @Repository("csnDao")
@@ -25,13 +26,14 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 
 	@Override
 	public boolean isCsnIdUniqe(final Long id,final String csnId) {
-		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Csn c WHERE c.csnId=:csnId");
+		String code = CodeUtils.toSeoUrl(csnId);
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Csn c WHERE c.code=:code");
 		if(id != null && id != 0){
 			hql.append(" AND c.id<>:id");
 		}
 		Long result = null;
 		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
-		query.setString("csnId", csnId);
+		query.setString("code", code);
 		if(id != null && id != 0){
 			query.setLong("id", id);
 		}

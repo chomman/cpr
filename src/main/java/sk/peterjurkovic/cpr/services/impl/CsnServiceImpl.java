@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
@@ -14,10 +15,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.CsnDao;
+import sk.peterjurkovic.cpr.dto.CsvImportLogDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
+import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.services.UserService;
@@ -36,6 +40,9 @@ public class CsnServiceImpl implements CsnService{
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private CsnCategoryService csnCategoryService;
 	
 	@Autowired
 	private FileService fileService;
@@ -170,6 +177,30 @@ public class CsnServiceImpl implements CsnService{
 			return csnDao.getCsnsByClassificationSymbol(cs);
 		}
 		return new ArrayList<Csn>();
+	}
+
+	@Override
+	public CsvImportLogDto saveList(List<Csn> csnList) {
+		CsvImportLogDto log = new CsvImportLogDto();
+		User user = UserUtils.getLoggedUser();
+		if(CollectionUtils.isNotEmpty(csnList)){
+			for(Csn csn : csnList){
+				if(isCsnIdUniqe(0l, csn.getCsnId())){
+					csn.setCreatedBy(user);
+					CsnCategory category = csnCategoryService.findByClassificationSymbol(csn.getClassificationSymbol());
+					if(category != null){
+						csn.setCsnCategory(category);
+					}else{
+						log.appendInfo("Pro položku s označením: <b>" +csn.getCsnId() + "</b> neni v DB evidovaný žádný odbor, třídicí znak: "+  csn.getClassificationSymbol());
+					}
+					log.incrementSuccess();
+				}else{
+					log.appendInfo("Položka s označením: <b>" + csn.getCsnId() + "</b> se již v databázy nachází, byla přeskočena.");
+					log.incrementFailure();
+				}
+			}
+		}
+		return log;
 	}
 	
 }
