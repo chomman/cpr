@@ -156,7 +156,7 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 .msg{padding:18px 10px 18px 55px;font-size:14px;margin:10px;}
 .msg.alert,.import.alert{background:#fff5e3 url(../img/ico_alert.png) no-repeat 10px center;border:3px solid  #f3deba;color:#b66f00;}
 .msg.ok,.logResult.importSuccess,.import.success{background:#f2ffee url(../img/ico_ok.png) no-repeat 10px center;border:3px solid  #cefbbe;color:#345c01;}
-.msg.error,.logResult.importFailed,,.import.failed{background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
+.msg.error,.logResult.importFailed,.import.failed{background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
 .msg.info{background:#F5FAFF url(../img/ico_info.png) no-repeat 10px center;border:3px solid  #E3F0FF;color:#2F4A69;}
 
 

@@ -34,6 +34,7 @@ import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.parser.NewTerminologyParserImpl;
+import sk.peterjurkovic.cpr.parser.NoSectionTerminologyParser;
 import sk.peterjurkovic.cpr.parser.TerminologyParser;
 import sk.peterjurkovic.cpr.parser.TikaProcessingContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
@@ -182,19 +183,32 @@ public class CsnController extends SupportAdminController {
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 			CsnTerminologyLog log = tikaProcessingContext.getLog();
-			tikaProcessingContext.getLog().setFileName(file.getOriginalFilename());
+			log.setFileName(file.getOriginalFilename());
 			long start = System.currentTimeMillis();
 			try{
 				
 				
 				tikaProcessingContext.setCsnId(csn.getId());
 				tikaProcessingContext.setContextPath(request.getContextPath());
-				tikaProcessingContext.getLog().setCsn(csn);
+				log.setCsn(csn);
 				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessingContext);
 				if(StringUtils.isNotBlank(docAsHtml)){
-					tikaProcessingContext.logDomParsing();
+					tikaProcessingContext.logInfo("Začátek čtení termínů");
 					TerminologyParser terminologyParser = new NewTerminologyParserImpl();
 					CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
+					
+					if(terminologies != null){
+						tikaProcessingContext.logInfo(String.format("Čtení dokončeno. Počet termínů CZ/EN: %d / %d", 
+									terminologies.getCzechTerminologies().size(), 
+									terminologies.getEnglishTerminologies().size()));
+					}
+					
+					if(terminologies == null || terminologies.areEmpty()){
+						tikaProcessingContext.logInfo("Nenašel sa žýdný termín, Začátek čtení termínů bez čísel sekcí.");
+						terminologyParser = new NoSectionTerminologyParser();
+						terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
+					}
+					
 					if(terminologies != null){
 						
 						terminologies.setCsn(csn);

@@ -106,16 +106,17 @@ public class WordDocumentParser  {
 		}
 		Whitelist whitelist =  Whitelist.relaxed();
 		whitelist.preserveRelativeLinks(true);
-		html =  Jsoup.clean(html, "http://localhost:8080/cpr", whitelist );
+		html =  Jsoup.clean(html, "http://www.nlfnorm.cz/", whitelist );
 		return  html	 
 				.replaceAll("<\\?xml.*?\\?>", "")
-				.replaceAll("(<b>(\\pZ)*</b>)", "")
+			//	.replaceAll("(<b>(\\pZ)*,?(\\pZ)*</b>)", "")
+				.replaceAll("</b>\\p{Z}*(,|.|;)?\\p{Z}*<b>", "")
 				.replaceAll("(<p>(\\pZ)*</p>)", "")
 				.replaceAll("(<div>(\\pZ)*</div>)", "")
 				.replaceAll("</b>(\\pZ)*<b>", " ")
 				.replaceAll("&#13;","")
 				.replaceAll("&#8804;", "&le;")
-				.replaceAll("h1>", "b>")
+				.replaceAll("h\\d>", "b>")
 				.replaceAll("&#x2264;", "&le;");
 	}
 	

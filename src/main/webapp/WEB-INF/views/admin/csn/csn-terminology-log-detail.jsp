@@ -27,7 +27,7 @@
 				<tr>
 					<td><strong><spring:message code="csn.form.name" /></strong></td>
 					<td>
-						<a href="<c:url value="/admin/csn/edit/${i.csn.id}"  />">
+						<a href="<c:url value="/admin/csn/edit/${log.csn.id}"  />">
 							${log.csn.csnId}:
 						</a>
 					</td>

@@ -29,9 +29,9 @@ public class WordDocumentParserTest extends AbstractTest {
 		long start = System.currentTimeMillis();
 		try{
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
-			tikaProcessingContext.setCsnId(3l);
+			tikaProcessingContext.setCsnId(100l);
 			tikaProcessingContext.setContextPath("/cpr/");
-			InputStream is =  new FileInputStream("/home/peto/Desktop/n/p61600.doc");
+			InputStream is =  new FileInputStream("/home/peto/Desktop/n/s74401.doc");
 			String html = null;
 			try{
 				html = wordDocumentParser.parse(is, tikaProcessingContext);
@@ -48,7 +48,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			bw.write("<html><head><meta charset=\"utf-8\" /><script src=\"http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js\"></script></head><body>"+html+"</body></html>");
 			bw.close();
 			Assert.assertEquals(true, StringUtils.isNotBlank(html));
-			NewTerminologyParserImpl terminologyParser =  new NewTerminologyParserImpl();
+			TerminologyParser terminologyParser = new NoSectionTerminologyParser(); // new NewTerminologyParserImpl();
 			terminologyParser.parse(html, tikaProcessingContext);
 			
 			//logger.info(html);

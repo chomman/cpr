@@ -2,6 +2,8 @@ package sk.peterjurkovic.cpr.dto;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 
@@ -40,6 +42,11 @@ public class CsnTerminologyDto {
 		for(CsnTerminology t : czechTerminologies){
 			t.setCsn(csn);
 		}
+	}
+	
+	public boolean areEmpty(){
+		 return CollectionUtils.isEmpty(czechTerminologies) && 
+				CollectionUtils.isEmpty(englishTerminologies);
 	}
 	
 	

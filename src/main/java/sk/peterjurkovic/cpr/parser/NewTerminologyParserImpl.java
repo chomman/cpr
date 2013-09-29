@@ -24,17 +24,17 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 
 	Logger logger = Logger.getLogger(getClass());
 	
-	private List<CsnTerminology> czechTerminologies = new ArrayList<CsnTerminology>();
+	protected List<CsnTerminology> czechTerminologies = new ArrayList<CsnTerminology>();
 	
-	private List<CsnTerminology> englishTerminologies = new ArrayList<CsnTerminology>();
+	protected List<CsnTerminology> englishTerminologies = new ArrayList<CsnTerminology>();
 	
 	private final Pattern sectionMatcherRegex = Pattern.compile("^(\\d+(\\.\\d+)*)+\\s*(.*)$", Pattern.MULTILINE | Pattern.DOTALL);
 	
 	private final Pattern sectionCodeMatcherRegex = Pattern.compile("^(\\d+\\.\\d+(\\.\\d+)*)$", Pattern.MULTILINE | Pattern.DOTALL);
 	
-	private boolean czCollisBlank = false;
+	protected boolean czCollisBlank = false;
 	
-	private String middleCellContent = null;
+	protected String middleCellContent = null;
 	
 	
 	
@@ -55,7 +55,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				}
 				compareLanguages(tikaProcessingContext);
 				
-				/*
+				
 				for(int i = 0; i < czechTerminologies.size(); i++){
 					
 					if(czechTerminologies.get(i) != null){
@@ -66,7 +66,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 						logger.info(tmp(englishTerminologies.get(i).getSection()) + " / " + tmp(englishTerminologies.get(i).getTitle()));
 					}
 				}
-				*/
+				
 				logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
 				return new CsnTerminologyDto(czechTerminologies, englishTerminologies);
 			}catch(Exception e){
@@ -87,7 +87,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		return str;
 	}
 	
-	public void extractTable(Element table){
+	protected void extractTable(Element table){
 		Validate.notNull(table);
 		
 		Elements trs = table.select("tr");
@@ -127,7 +127,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	
 	
-	private int identifyCollsOffset(Element table, int tdSizeOnRow) {
+	protected int identifyCollsOffset(Element table, int tdSizeOnRow) {
 		
 		if(tdSizeOnRow == 2){
 			// tabulka ma len dva stlpce
@@ -171,7 +171,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	
 
-	private void processCell(Element cell, CsnTerminologyLanguage lang){
+	protected void processCell(Element cell, CsnTerminologyLanguage lang){
 		Validate.notNull(cell);
 		
 		if(StringUtils.isBlank(cell.html())){
@@ -219,7 +219,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		
 	}
 	
-	private void traverse(Element cell, CsnTerminologyLanguage lang){
+	protected void traverse(Element cell, CsnTerminologyLanguage lang){
 		if( cell == null){
 			return;
 		}
@@ -228,7 +228,6 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 			ListIterator<Element> iterator =  els.listIterator();
 			while(iterator.hasNext()){
 				// pomocna premena, pozivana v pripade ak je kod sekcie oddeleny medzerov
-				String section  = ""; 
 				
 				Element currentElement = iterator.next();
 				Elements childrens  = currentElement.children();
@@ -247,8 +246,10 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 							 // cislo sekcie bungky a nazov sekcie je oddeleny medzerov
 							 // nasledujuci p element musi obsahovat b element
 							 // preto sa zrovna skontroluje nalsedujuci element
-							 Element nextElement = iterator.next();
-							 Elements nextElementChildrens  = nextElement.children();
+							 if(iterator.hasNext()){
+								 
+							 Element nextElementSibling = currentElement.nextElementSibling();
+							 Elements nextElementChildrens  = nextElementSibling.children();
 								Element nextBelement = null;
 								// element p obsahuje
 								if(nextElementChildrens.size() == 1){
@@ -256,15 +257,17 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 								}
 								// ak nasledujuci element existuje, a je type B, 
 								if(nextBelement != null && nextBelement.tagName().equals("b")){
-									CsnTerminology terminology = createNewTerminology(bContent, nextBelement.text(), lang);
+									String section = bContent;
+									String sectionTitle = nextElementSibling.text();
+									CsnTerminology terminology = createNewTerminology(section, sectionTitle, lang);
 									if(terminology != null){
 										saveTerminology(terminology);
 									}
 								}else{
-									// rollbak
+									// rollback
 									iterator.previous();
 								}
-								
+							}	
 						 }else if(sectionMatcher.matches()){
 							 // multiple terminology in one cell
 							 CsnTerminology terminology = createNewTerminology(sectionMatcher, lang);
@@ -291,7 +294,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 
 	
 	
-	private void findContentAfterTable(Element table) {
+	protected void findContentAfterTable(Element table) {
 		Validate.notNull(table);
 		
 		Element nextElement = table.nextElementSibling();
@@ -306,29 +309,30 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	}
 	
 	
-	private CsnTerminology createNewTerminology(Matcher matcher, CsnTerminologyLanguage lang){
+	protected CsnTerminology createNewTerminology(Matcher matcher, CsnTerminologyLanguage lang){
 		String section = matcher.group(1);
 		String title = matcher.group(3);
 		return createNewTerminology(section, title, lang);
 	}
 	
-	private CsnTerminology createNewTerminology(String section, String title, CsnTerminologyLanguage lang){
+	protected CsnTerminology createNewTerminology(String section, String title, CsnTerminologyLanguage lang){
 		if(StringUtils.isNotBlank(section) && StringUtils.isNotBlank(title)){
 			 CsnTerminology newTerminology = new CsnTerminology();
 			 newTerminology.setLanguage(lang);
 			 newTerminology.setSection(trim(section.trim()));
 			 newTerminology.setTitle(removePitPairAndTrim(title));
+			 newTerminology.setContent("");
 			 return newTerminology;
 		}
 		return null;
 	}
 	
-	private String trim(String str){
+	protected String trim(String str){
 		str = StringUtils.trimToEmpty(str); //str.trim().replaceAll("	", "");
 		return str.replaceAll("^\\p{Z}+", "");
 	}
 	
-	private String removePitPairAndTrim(String str){
+	protected String removePitPairAndTrim(String str){
 		if(StringUtils.isNotBlank(str)){
 			str = trim(str);
 			if(str.endsWith(":")){
@@ -339,7 +343,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		return "";
 	}
 	
-	private void appendContent(String content, CsnTerminologyLanguage lang){
+	protected void appendContent(String content, CsnTerminologyLanguage lang){
 		if(StringUtils.isBlank(content)){
 			logger.info("nothing to append");
 			return ;
@@ -354,7 +358,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		}
 	}
 	
-	private void saveTerminology(CsnTerminology terminology){
+	protected void saveTerminology(CsnTerminology terminology){
 		Validate.notNull(terminology);
 		if(terminology.getLanguage().equals(CsnTerminologyLanguage.CZ)){
 			czechTerminologies.add(terminology);
@@ -363,13 +367,13 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		}
 	}
 	
-	private String removeEmptyTags(String content){
+	protected String removeEmptyTags(String content){
 		return content.replaceAll("(<b>(\\pZ)*</b>)", "")
 				.replaceAll("(<p>(\\pZ)*</p>)", "")
 				.replaceAll("\\p{Z}", "");
 	}
 
-	private String compareLanguages(TikaProcessingContext context){
+	protected String compareLanguages(TikaProcessingContext context){
 		int czSize = czechTerminologies.size();
 		int enSize = englishTerminologies.size();
 
@@ -381,11 +385,11 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 			removeSuccessfully(czList, enList);
 			
 			for(CsnTerminology t : czList){
-				context.logAlert(String.format("Anglický termín k českému termínu: <b>%1$s / %2$s se nepodařilo spracovat</b>", t.getSection(), t.getTitle()));
+				context.logAlert(String.format("Anglický termín k českému termínu: <b>%1$s / %2$s</b> se nepodařilo spracovat", t.getSection(), t.getTitle()));
 			}
 			
 			for(CsnTerminology t : enList){
-				context.logAlert(String.format("Český termín k angickému termínu: <b>%1$s / %2$s se nepodařilo spracovat</b>", t.getSection(), t.getTitle()));
+				context.logAlert(String.format("Český termín k angickému termínu: <b>%1$s / %2$s</b> se nepodařilo spracovat", t.getSection(), t.getTitle()));
 			}
 		}
 		
@@ -394,11 +398,11 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 	
 	
 	@SuppressWarnings("unchecked")
-	private ArrayList<CsnTerminology> cloneList(List<CsnTerminology> list){
+	protected ArrayList<CsnTerminology> cloneList(List<CsnTerminology> list){
 		return (ArrayList<CsnTerminology>)((ArrayList<CsnTerminology>) list).clone();
 	}
 	
-	private void removeSuccessfully(ArrayList<CsnTerminology> czList, ArrayList<CsnTerminology> enList){
+	protected void removeSuccessfully(ArrayList<CsnTerminology> czList, ArrayList<CsnTerminology> enList){
 		Iterator<CsnTerminology> czIterator = czList.iterator();
 		while (czIterator.hasNext()) {
 			CsnTerminology czTerminology = czIterator.next();

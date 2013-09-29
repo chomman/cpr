@@ -88,15 +88,15 @@ public class TikaProcessingContext {
 	}
 	
 	public void logInfo(String messsage){
-		log.logInfo(time.toString(FORMATER) + " | " + messsage);
+		log.logInfo(new LocalDateTime().toString(FORMATER) + " | " + messsage);
 	}
 	
 	public void logError(String messsage){
-		log.logError(time.toString(FORMATER) + " | " + messsage);
+		log.logError(new LocalDateTime().toString(FORMATER) + " | " + messsage);
 	}
 	
 	public void logAlert(String messsage){
-		log.logAlert(time.toString(FORMATER) + " | " + messsage);
+		log.logAlert(new LocalDateTime().toString(FORMATER) + " | " + messsage);
 	}
 	
 	public void logFinish(){
