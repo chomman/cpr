@@ -1,6 +1,7 @@
 $(document).ready(function() {    
 	$("input.query").autocomplete({
 		 source: function(request, response){  
+			 response = JSON.parse(response);
 		 	 $.getJSON( $("#base").text() +"ajax/terminology/autocomplete", request, function(data) {  
 		 		 response( data );
       	});  
@@ -18,7 +19,7 @@ $(document).ready(function() {
 		 		 response( data );
      	});  
 		 },
-		minLength: 4,
+		minLength: 1,
 		select: function( event, ui ) {
 			ui.item.value;
 		}

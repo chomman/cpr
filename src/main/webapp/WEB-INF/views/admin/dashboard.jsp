@@ -61,7 +61,7 @@
 	 			<c:if test="${not empty model.standards}">
 		 			<c:forEach items="${model.standards}" var="standard">
 						<div class="norm">
-			 				<span class="edit"><joda:format value="${standard.changed}" pattern="${dateTimeFormat}"/></span>
+			 				<span class="edit"><joda:format value="${standard.changed}" pattern="${common.dateTimeFormat}"/></span>
 			 				<a href="<c:url value="/admin/cpr/standard/edit/${standard.id}" />" class="blue-color link">${standard.standardId}</a>
 			 				<span class="sname">${standard.standardName}</span>
 		 				</div>	

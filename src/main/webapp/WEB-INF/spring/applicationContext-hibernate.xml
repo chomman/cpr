@@ -67,7 +67,7 @@
         <property name="minPoolSize" value="10" /> 
         <property name="maxPoolSize" value="50" /> 
         <property name="maxIdleTime" value="300" /> 
-        <property name="maxStatements" value="50" /> 
+        <property name="maxStatements" value="150" /> 
         <property name="idleConnectionTestPeriod" value="150" /> 
     </bean>
 

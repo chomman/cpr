@@ -68,7 +68,7 @@
 					<tbody>
 						 <c:forEach items="${model.dops}" var="i">
 						 	<tr>
-						 		<td><joda:format value="${i.created}" pattern="${dateTimeFormat}"/></td>
+						 		<td><joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/></td>
 						 		<td>
 						 		<a href="<c:url value="/admin/cpr/standard/edit/${i.standard.id}" />" class="link">${i.standard.standardId}</a>
 						 		<em>${i.standard.standardName}</em></td>

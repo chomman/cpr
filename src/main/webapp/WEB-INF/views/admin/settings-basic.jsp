@@ -32,7 +32,7 @@
 							<tr>
 								<td class="key"><spring:message code="meta.edited" /></td>
 								<td class="val">${basicSettings.changedBy.firstName} ${basicSettings.changedBy.lastName}</td>
-								<td class="val"><joda:format value="${basicSettings.changed}" pattern="${dateTimeFormat}"/></td>
+								<td class="val"><joda:format value="${basicSettings.changed}" pattern="${common.dateTimeFormat}"/></td>
 							</tr>
 						</table>
 					</c:if>

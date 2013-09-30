@@ -55,7 +55,8 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				}
 				compareLanguages(tikaProcessingContext);
 				
-				
+				/*
+				 * 
 				for(int i = 0; i < czechTerminologies.size(); i++){
 					
 					if(czechTerminologies.get(i) != null){
@@ -66,6 +67,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 						logger.info(tmp(englishTerminologies.get(i).getSection()) + " / " + tmp(englishTerminologies.get(i).getTitle()));
 					}
 				}
+				 * */
 				
 				logger.info("Count of terminologies: " + czechTerminologies.size() + " / " + englishTerminologies.size());
 				return new CsnTerminologyDto(czechTerminologies, englishTerminologies);

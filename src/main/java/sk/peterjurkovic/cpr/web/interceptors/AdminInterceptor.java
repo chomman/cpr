@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.joda.time.DateTime;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.servlet.view.RedirectView;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.utils.UserUtils;
@@ -29,12 +30,13 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 			HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 	
-		 Map<String, Object> commonModel = new HashMap<String, Object>();
-		 commonModel.put("user", UserUtils.getLoggedUser());
-		 if(modelAndView != null){
+		
+		 if(modelAndView != null && !(modelAndView.getView() instanceof RedirectView)){
+			 Map<String, Object> commonModel = new HashMap<String, Object>();
+			 commonModel.put("user", UserUtils.getLoggedUser());
+			 commonModel.put("time", new DateTime().toString(Constants.DATE_TIME_FORMAT));
+			 commonModel.put("dateTimeFormat", Constants.DATE_TIME_FORMAT);
 			 modelAndView.addObject("common", commonModel);
-			 modelAndView.addObject("time", new DateTime().toString(Constants.DATE_TIME_FORMAT));
-			 modelAndView.addObject("dateTimeFormat", Constants.DATE_TIME_FORMAT);
 			 
 		 }
 		super.postHandle(request, response, handler, modelAndView);

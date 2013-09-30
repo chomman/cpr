@@ -67,13 +67,13 @@
 					<tr>
 						<td class="key"><spring:message code="meta.created" /></td>
 						<td class="val">${csnTerminology.createdBy.firstName} ${csnTerminology.createdBy.lastName}</td>
-						<td class="val"><joda:format value="${model.csn.created}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${model.csn.created}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					<c:if test="${not empty csnTerminology.changedBy}">
 					<tr>
 						<td class="key"><spring:message code="meta.edited" /></td>
 						<td class="val">${csnTerminology.changedBy.firstName} ${csnTerminology.changedBy.lastName}</td>
-						<td class="val"><joda:format value="${csnTerminology.changed}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${csnTerminology.changed}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					</c:if>
 				</table>

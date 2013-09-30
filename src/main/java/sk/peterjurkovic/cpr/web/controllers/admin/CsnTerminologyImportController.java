@@ -70,15 +70,12 @@ public class CsnTerminologyImportController extends SupportAdminController {
 		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
 			
 			if(FilenameUtils.isExtension(file.getOriginalFilename(), "doc")){
-				String baseName = getClasificationSymbol(file.getOriginalFilename());
+				String baseName = getCatalogIdOfFilename(file.getOriginalFilename());
 				if(baseName.matches("\\d{4,7}")){
-					List<Csn> csnList = csnService.getCsnsByClassificationSymbol(baseName);
-					if(CollectionUtils.isEmpty(csnList)){
+					Csn csn = csnService.getByCatalogId(baseName);
+					if(csn == null){
 						result.reject("csn.terminology.import.error.notfound", new Object[]{baseName}, "") ;
-					}else if(csnList.size() > 1){
-						modelMap.put("csnList", csnList);
 					}else{
-						Csn csn = csnList.get(0);
 						TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 						CsnTerminologyLog log = tikaProcessingContext.getLog();
 						tikaProcessingContext.getLog().setFileName(file.getOriginalFilename());
@@ -134,7 +131,7 @@ public class CsnTerminologyImportController extends SupportAdminController {
 	
 	
 	
-	private String getClasificationSymbol(String fileName){
+	private String getCatalogIdOfFilename(String fileName){
 		return FilenameUtils.getBaseName(fileName);
 	}
 	

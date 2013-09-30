@@ -78,7 +78,7 @@ public class CsnCsvImportImpl implements CsnCsvImport {
 	private Csn createNewCsn(String[] line){
 		Csn csn = new Csn();
 		// 0 - katalogove cislo
-		csn.setCsnOnlineId(line[0]);
+		csn.setCatalogId(line[0]);
 		// 1 - oznaceni csn
 		csn.setCsnId(line[1]);
 		csn.setCode(CodeUtils.toSeoUrl(line[1]));

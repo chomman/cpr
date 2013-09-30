@@ -52,7 +52,7 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 	@Override
 	public List<CsnTerminology> searchInTerminology(final String term) {
 		StringBuilder hql = new StringBuilder("select distinct t.title  from CsnTerminology t");
-		hql.append(" where lower(t.title) like CONCAT('', lower(:term ), '%')");
+		hql.append(" where unaccent(lower(t.title)) like CONCAT('', unaccent(lower(:term)), '%')");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setParameter("term", term);
 		hqlQuery.setMaxResults(6);
@@ -90,19 +90,19 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 		if(criteria.size() != 0){
 			
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" lower(t.title) like CONCAT('%', lower(:query) , '%') ");
+				where.add(" unaccent(lower(t.title)) like CONCAT('%', unaccent(lower(:query)) , '%') ");
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("csnId"))){
-				where.add(" lower(t.csn.csnId) like CONCAT('%', lower(:csnId) , '%') ");
+				where.add(" unaccent(lower(t.csn.csnId)) like CONCAT('%', unaccent(lower(:csnId)) , '%') ");
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("csnCategory"))){
-				where.add(" lower(t.csn.classificationSymbol) like CONCAT('%', lower(:csnCategory) , '%')");	
+				where.add(" unaccent(lower(t.csn.classificationSymbol)) like CONCAT('%', unaccent(lower(:csnCategory)) , '%')");	
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("name"))){
-				where.add(" lower(t.csn.czechName) like CONCAT('%', lower(:name) , '%') or lower(t.csn.englishName) like CONCAT('%', lower(:name) , '%') ");
+				where.add(" unaccent(lower(t.csn.czechName)) like CONCAT('%', unaccent(lower(:name)) , '%') or lower(t.csn.englishName) like CONCAT('%', lower(:name) , '%') ");
 			}
 
 		}
@@ -113,14 +113,12 @@ public class CsnTerminologyDaoImpl extends BaseDaoImpl<CsnTerminology, Long> imp
 	private void prepareHqlQueryParams(final Query hqlQuery,final Map<String, Object> criteria){
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				hqlQuery.setString("query", (String)criteria.get("query"));
+				hqlQuery.setString("query", ((String)criteria.get("query")).trim());
 			}
 			if(StringUtils.isNotBlank((String)criteria.get("csnId"))){
-				hqlQuery.setString("csnId", (String)criteria.get("csnId"));
+				hqlQuery.setString("csnId", ((String)criteria.get("csnId")).trim());
 			}
-			if(StringUtils.isNotBlank((String)criteria.get("csnId"))){
-				hqlQuery.setString("csnId", (String)criteria.get("csnId"));
-			}
+			
 			if(StringUtils.isNotBlank((String)criteria.get("csnCategory"))){
 				hqlQuery.setString("csnCategory", (String)criteria.get("csnCategory"));
 			}

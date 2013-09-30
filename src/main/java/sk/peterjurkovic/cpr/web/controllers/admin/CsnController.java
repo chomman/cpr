@@ -67,6 +67,12 @@ public class CsnController extends SupportAdminController {
 	private static final String CSN_TERMINOLOGY_LOG_PARAM = "l";
 	
 	private static final String CSN_TERMINOLOGY_ERROR_PARAM = "E";
+	
+	private static final String CSN_SUCCES_CREATE_PARAM = "sc";
+	
+	private static final String CSN_SUCCES_UPDATE_PARAM = "su";
+	
+	private static final String CSN_EDIT_MAPPING_URL = "/admin/csn/edit/";
 
 	
 		
@@ -121,7 +127,7 @@ public class CsnController extends SupportAdminController {
 	}
 	
 	
-	@RequestMapping( value = "/admin/csn/edit/{idCsn}", method = RequestMethod.GET)
+	@RequestMapping( value = CSN_EDIT_MAPPING_URL + "{idCsn}", method = RequestMethod.GET)
 	public String showCsnForm(@PathVariable Long idCsn, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		Csn form = null;
 		if(idCsn == 0){
@@ -139,7 +145,12 @@ public class CsnController extends SupportAdminController {
 				if(log != null){
 					modelMap.put("log", log);
 				}
+			}else if(request.getParameter(CSN_SUCCES_CREATE_PARAM) != null){
+				modelMap.put("successCreate", true);
+			}else if(request.getParameter(CSN_SUCCES_UPDATE_PARAM) != null){
+				modelMap.put("successUpdate", true);
 			}
+			
 			
 		}
 		prepareModel(form, modelMap, idCsn, RequestUtils.getLangParameter(request));
@@ -149,13 +160,16 @@ public class CsnController extends SupportAdminController {
 	
 	
 	
-	@RequestMapping( value = "/admin/csn/edit/{idCsn}", method = RequestMethod.POST)
+	@RequestMapping( value = CSN_EDIT_MAPPING_URL + "{idCsn}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long idCsn, @Valid Csn form, BindingResult result, ModelMap modelMap, HttpServletRequest request) throws ItemNotFoundException{
 		
 		csnValidator.validate(result, form);
 		if(!result.hasErrors()){
-			createOrUpdate(form);
-			modelMap.put("successCreate", true);
+			Long id = createOrUpdate(form);
+			if(idCsn == 0){
+				return "redirect:"+ CSN_EDIT_MAPPING_URL +id + "?" + CSN_SUCCES_CREATE_PARAM + "=1";
+			}
+			return "redirect:"+CSN_EDIT_MAPPING_URL+id + "?" + CSN_SUCCES_UPDATE_PARAM + "=1";
 		}
 		prepareModel(form, modelMap, idCsn, RequestUtils.getLangParameter(request));
 		return getEditFormView();
@@ -203,7 +217,7 @@ public class CsnController extends SupportAdminController {
 									terminologies.getEnglishTerminologies().size()));
 					}
 					
-					if(terminologies == null || terminologies.areEmpty()){
+					if(terminologies == null || terminologies.hasOnlyFew()){
 						tikaProcessingContext.logInfo("Nenašel sa žýdný termín, Začátek čtení termínů bez čísel sekcí.");
 						terminologyParser = new NoSectionTerminologyParser();
 						terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
@@ -305,7 +319,7 @@ public class CsnController extends SupportAdminController {
 	 * @param form
 	 * @throws ItemNotFoundException
 	 */
-	private void createOrUpdate(Csn form) throws ItemNotFoundException{
+	private Long createOrUpdate(Csn form) throws ItemNotFoundException{
 		Validate.notNull(form);
 
 		Csn csn = null;
@@ -325,8 +339,9 @@ public class CsnController extends SupportAdminController {
 		csn.setIcs(form.getIcs());
 		csn.setCsnCategory(form.getCsnCategory());
 		csn.setPublished(form.getPublished());
-		csn.setCsnOnlineId(form.getCsnOnlineId());
+		csn.setCatalogId(form.getCatalogId());
 		csnService.saveOrUpdate(csn);
+		return csn.getId();
 	}
 	
 	
@@ -334,7 +349,7 @@ public class CsnController extends SupportAdminController {
 	private void prepareModel(Csn form, ModelMap modelMap, Long id, String lang){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("tab", 2);
-		model.put("csnCategories", csnCategoryService.getAll());
+		model.put("csnCategories", csnCategoryService.getSubRootCategories());
 		if(form.getId() != null && form.getId() != 0l){
 			if(StringUtils.isNotBlank(lang)){
 				model.put("terminologies", csnService.getTerminologyByCsnAndLang(form, lang));

@@ -51,7 +51,8 @@ public class AjaxCsnController {
 	
 	@RequestMapping(value = "/ajax/terminology/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<CsnTerminology>  searchTerminology(@RequestBody @RequestParam("term") String query){
-		return csnTerminologyService.searchInTerminology(query);
+		List<CsnTerminology> list =  csnTerminologyService.searchInTerminology(query);
+		return list;
 	}
 	
 	

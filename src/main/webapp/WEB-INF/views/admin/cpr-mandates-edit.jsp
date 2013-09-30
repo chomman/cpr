@@ -49,13 +49,13 @@
 							<tr>
 								<td class="key"><spring:message code="meta.created" /></td>
 								<td class="val">${mandate.createdBy.firstName} ${mandate.createdBy.lastName}</td>
-								<td class="val"><joda:format value="${mandate.created}" pattern="${dateTimeFormat}"/></td>
+								<td class="val"><joda:format value="${mandate.created}" pattern="${common.dateTimeFormat}"/></td>
 							</tr>
 							<c:if test="${not empty mandate.changedBy}">
 							<tr>
 								<td class="key"><spring:message code="meta.edited" /></td>
 								<td class="val">${mandate.changedBy.firstName} ${mandate.changedBy.lastName}</td>
-								<td class="val"><joda:format value="${mandate.changed}" pattern="${dateTimeFormat}"/></td>
+								<td class="val"><joda:format value="${mandate.changed}" pattern="${common.dateTimeFormat}"/></td>
 							</tr>
 							</c:if>
 						</table>

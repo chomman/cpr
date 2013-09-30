@@ -28,7 +28,7 @@
     	</mvc:message-converters>
 	</annotation-driven>
 	
-	
+
 	<context:component-scan base-package="sk.peterjurkovic.cpr.web.controllers" />
 
 
@@ -50,29 +50,30 @@
 	</beans:bean>  
 	
 	
-<!-- 	<beans:bean id="adminInterceptor" class="sk.peterjurkovic.cpr.web.interceptors.AdminInterceptor" />  -->
-	
-	
 	
 	<mvc:interceptors>
-	   <mvc:interceptor>
-	     <mvc:mapping path="/admin/**" />
-	     	<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.AdminInterceptor" />
-	   </mvc:interceptor>
-	   <mvc:interceptor>
-		     <mvc:mapping path="/**" />
-		     <exclude-mapping path="/admin/**"/>
-		     <exclude-mapping path="/image/**"/>
-		     <exclude-mapping path="/ajax/**"/>
-		     <beans:bean class="sk.peterjurkovic.cpr.web.interceptors.WebpageInterceptor" />
-	   </mvc:interceptor>
-	   <mvc:interceptor>
-		    <mvc:mapping path="/**" />
-		    <exclude-mapping path="/admin/**"/>
+		 <mvc:interceptor>
+			<mvc:mapping path="/admin/**" />
 		    <exclude-mapping path="/image/**"/>
-		    <exclude-mapping path="/ajax/**"/>
-		   	<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
-	   </mvc:interceptor>
+			<exclude-mapping path="/resources/**"/>
+		   	<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.AdminInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/admin/**"/>
+			<exclude-mapping path="/image/**"/>
+			<exclude-mapping path="/ajax/**"/>
+			<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.WebpageInterceptor" />
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/**" />
+			<exclude-mapping path="/resources/**"/>
+			<exclude-mapping path="/admin/**"/>
+			<exclude-mapping path="/image/**"/>
+			<exclude-mapping path="/ajax/**"/>
+			<beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" />
+		 </mvc:interceptor>
 	</mvc:interceptors>
 	
 	

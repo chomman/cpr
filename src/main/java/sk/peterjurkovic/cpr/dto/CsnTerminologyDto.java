@@ -44,11 +44,18 @@ public class CsnTerminologyDto {
 		}
 	}
 	
-	public boolean areEmpty(){
-		 return CollectionUtils.isEmpty(czechTerminologies) && 
-				CollectionUtils.isEmpty(englishTerminologies);
-	}
 	
+   public boolean hasOnlyFew(){
+	   if(CollectionUtils.isEmpty(czechTerminologies) || CollectionUtils.isEmpty(englishTerminologies)){
+		   return true;
+	   }
+	   
+	   if(czechTerminologies.size() < 6 || englishTerminologies.size() < 6){
+		   return true;
+	   }
+	   
+	   return false;
+   }
 	
 	
 	

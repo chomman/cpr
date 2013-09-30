@@ -49,10 +49,10 @@
 						 		<td>${i.name}</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
-						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
+						 				<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
 						 			</c:if>
 						 			<c:if test="${not empty i.changedBy}">
-						 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
+						 				<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 						 			</c:if>
 						 		</td>
 						 		<td class="w100">

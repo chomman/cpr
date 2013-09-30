@@ -55,7 +55,7 @@ a{text-decoration:none;color:#3e4e69;}
 .filter.user .enabled{min-width:100px;}
 .filter .groups{font-size:12px;width:638px;}
 .filter .groups option{padding:3px 2px;}
-.filter span.long{display:block;width:100px;float:left;}
+.filter span.long{display:block;width:120px;float:left;}
 .filter.log .btn{margin-left:115px;}
 .filter .fixed{min-width:80px;text-align:center;display:inline-block;}
 .filter.user .btn{margin-left:69px;}
@@ -69,8 +69,9 @@ background: -ms-linear-gradient(top,  #4f85bb 0%,#4f85bb 100%);
 background: linear-gradient(to bottom,  #4f85bb 0%,#4f85bb 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f85bb', endColorstr='#4f85bb',GradientType=0 );}
 .filter .btn:hover{background:#284E77;}
-
 .filter .btn.csn{margin: 0 0 0 15px;}
+.filter-input-long{min-width:300px;}
+.filter-input-middle{min-width:150px;}
 
 /* TABS EDITACIA NORIEM --- */
 #tabs{border:2px solid #ccc;background:#fdfdfd;}
@@ -168,6 +169,7 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 .w100{width:100px;}
 .w200{width:200px;}
 .w300{width:300px;}
+maxw600{max-width: 500px;}
 
 /* QUICK SEARCH */
 .search-box{margin:10px 0;background:#f6f9ff;padding:8px 20px;font-size:13px;border:3px solid #e9effa;color:#555}

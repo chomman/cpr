@@ -32,13 +32,13 @@
 					<tr>
 						<td class="key"><spring:message code="meta.created" /></td>
 						<td class="val">${csnCategory.createdBy.firstName} ${csnCategory.createdBy.lastName}</td>
-						<td class="val"><joda:format value="${csnCategory.created}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${csnCategory.created}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					<c:if test="${not empty csn.changedBy}">
 					<tr>
 						<td class="key"><spring:message code="meta.edited" /></td>
 						<td class="val">${csnCateogry.changedBy.firstName} ${csnCateogry.changedBy.lastName}</td>
-						<td class="val"><joda:format value="${csnCateogry.changed}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${csnCateogry.changed}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					</c:if>
 				</table>

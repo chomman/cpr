@@ -193,6 +193,7 @@ public class CsnServiceImpl implements CsnService{
 					}else{
 						log.appendInfo("Pro položku s označením: <b>" +csn.getCsnId() + "</b> neni v DB evidovaný žádný odbor, třídicí znak: "+  csn.getClassificationSymbol());
 					}
+					createCsn(csn);
 					log.incrementSuccess();
 				}else{
 					log.appendInfo("Položka s označením: <b>" + csn.getCsnId() + "</b> se již v databázy nachází, byla přeskočena.");
@@ -201,6 +202,16 @@ public class CsnServiceImpl implements CsnService{
 			}
 		}
 		return log;
+	}
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Csn getByCatalogId(String catalogId) {
+		if(StringUtils.isNotBlank(catalogId)){
+			return csnDao.getByCatalogId(catalogId);
+		}
+		return null;
 	}
 	
 }

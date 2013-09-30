@@ -61,10 +61,13 @@ $(function() {
 			firstDay: 1});
      
      updateNav();
+     $(".chosen").chosen({
+    	 width : "510px"
+     });
 });
 function updateNav(){
 	var o = $('nav');
-	if($(document).width() < 1170){
+	if($(document).width() < 1070){
 		o.addClass("smallNav");
 	}else{
 		o.removeClass("smallNav");

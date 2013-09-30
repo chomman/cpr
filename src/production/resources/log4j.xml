@@ -11,8 +11,6 @@
             <param name="ConversionPattern" value="%-5p %d{yyyy-MM-dd HH:mm:ss} %C{1}:%M(line %L) - %m%n"/>
         </layout>
     </appender> 
-    
-   
    
 
 	<logger name="sk.peterjurkovic.cpr">

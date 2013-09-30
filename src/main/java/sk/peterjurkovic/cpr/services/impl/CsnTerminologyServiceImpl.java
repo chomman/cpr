@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -91,7 +92,10 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<CsnTerminology> searchInTerminology(String term) {
-		List<CsnTerminology> result = csnTerminologyDao.searchInTerminology(term);
+		if(StringUtils.isBlank(term)){
+			return new ArrayList<CsnTerminology>();
+		}
+		List<CsnTerminology> result = csnTerminologyDao.searchInTerminology(term.trim());
 		if(result == null){
 			result = new ArrayList<CsnTerminology>();
 		}

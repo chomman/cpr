@@ -48,7 +48,7 @@ public class Csn extends AbstractEntity {
 	
 	private String fileName;
 	
-	private String csnOnlineId;
+	private String catalogId;
 	
 	private String changeLabel;
 	
@@ -154,12 +154,12 @@ public class Csn extends AbstractEntity {
 	}
 	
 	@Column(name = "csnonline_id", length = 10)
-	public String getCsnOnlineId() {
-		return csnOnlineId;
+	public String getCatalogId() {
+		return catalogId;
 	}
 
-	public void setCsnOnlineId(String csnOnlineId) {
-		this.csnOnlineId = csnOnlineId;
+	public void setCatalogId(String csnOnlineId) {
+		this.catalogId = csnOnlineId;
 	}
 
 	@Column(name = "label_of_change", length = 25)

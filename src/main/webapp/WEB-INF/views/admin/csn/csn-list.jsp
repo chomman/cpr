@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="menu.csn" /></title>
+	<title><spring:message code="menu.csn" /></title>
+	<script src="<c:url value="/resources/public/js/terminology.autocomplete.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -39,11 +40,17 @@
 						</c:forEach>
 					</select>
 				</div>
-
 				<div>
-					<span class="long"><spring:message code="form.name" /></span>
-					<input type="text" class="query " name="query"   value="${model.params.query}" />
-					
+					<span class="long"><spring:message code="csn.form.symbol" />:</span>
+					<input type="text" class="filter-input-middle csnCategory" name="csnCategory"   value="${model.params.csnCategory}" />
+				</div>
+				<div>
+					<span class="long"><spring:message code="cpr.csn.onlineid" />:</span>
+					<input type="text" class="filter-input-middle catalogId" name="catalogId"   value="${model.params.catalogId}" />
+				</div>
+				<div>
+					<span class="long"><spring:message code="csn.search.term" />:</span>
+					<input type="text" class="filter-input-long" name="query"   value="${model.params.query}" />
 					<input type="submit" value="Filtrovat" class="btn csn" />
 				</div>
 			</form>
@@ -105,10 +112,10 @@
 						 		</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
-						 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
+						 				<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
 						 			</c:if>
 						 			<c:if test="${not empty i.changedBy}">
-						 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
+						 				<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 						 			</c:if>
 						 		</td>
 						 		<td class="edit">

@@ -44,13 +44,13 @@
 					<tr>
 						<td class="key"><spring:message code="meta.created" /></td>
 						<td class="val">${csn.createdBy.firstName} ${csn.createdBy.lastName}</td>
-						<td class="val"><joda:format value="${csn.created}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${csn.created}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					<c:if test="${not empty csn.changedBy}">
 					<tr>
 						<td class="key"><spring:message code="meta.edited" /></td>
 						<td class="val">${csn.changedBy.firstName} ${csn.changedBy.lastName}</td>
-						<td class="val"><joda:format value="${csn.changed}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${csn.changed}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					</c:if>
 				</table>
@@ -63,6 +63,9 @@
 				
 				<c:if test="${not empty successCreate}">
 					<p class="msg ok"><spring:message code="success.create" /></p>
+				</c:if>
+				<c:if test="${not empty successUpdate}">
+					<p class="msg ok"><spring:message code="success.update" /></p>
 				</c:if>
 				
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
@@ -93,7 +96,7 @@
                 		<spring:message code="cpr.csn.onlineid" />:
                 	</label>
                     <span class="field">
-                    	<form:input path="csnOnlineId" cssClass="csnOnlineReplace" />
+                    	<form:input path="catalogId" cssClass="csnOnlineReplace" />
                     </span>
                 </p>
                 
@@ -122,10 +125,17 @@
 				 		<spring:message code="csn.form.category" />:
 				 	</label>
 				     <span class="field">  
-				     	<form:select path="csnCategory" cssClass="mw500" >
-				     		<form:option value="0"><spring:message code="form.select" /></form:option>
-				     		<form:options items="${model.csnCategories}" itemValue="id" itemLabel="name" /> 
-				     	</form:select>
+				     	<select name="csnCategory" class="maxw600 chosen" data-placeholder="<spring:message code="csn.form.select.choose" />" >
+				     		<option value=""></option>
+				     		<c:forEach items="${model.csnCategories}" var="i">
+				     			<optgroup label="${i.searchCode} - ${i.name}">
+				     				<c:forEach items="${i.children}" var="c">
+				     					<option <c:if test="${csn.csnCategory.id ==  c.id}">selected="selected"</c:if> 
+				     					value="${c.id}" >${c.searchCode} - ${c.name}</option>
+				     				</c:forEach>
+				     			</optgroup> 
+				     		</c:forEach>
+				     	</select>
 				     </span>
 				 </p>
 				
@@ -245,10 +255,10 @@
 								 		</td>
 								 		<td class="last-edit">
 								 			<c:if test="${empty i.changedBy}">
-								 				<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
+								 				<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
 								 			</c:if>
 								 			<c:if test="${not empty i.changedBy}">
-								 				<joda:format value="${i.changed}" pattern="${dateTimeFormat}"/>
+								 				<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 								 			</c:if>
 								 		</td>
 								 		<td class="edit">

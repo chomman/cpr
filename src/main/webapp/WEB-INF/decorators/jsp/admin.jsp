@@ -7,6 +7,7 @@
 	<meta charset="utf-8" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/admin-main.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
 	<link rel="shortcut icon" href="<c:url value="/resources/admin/img/favico.png" />">
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -14,6 +15,7 @@
 	<!-- <script src="<c:url value="/resources/admin/js/jquery-ui-1.9.2.custom.min.js" />"></script> -->
 	<decorator:head/>
 	<script src="<c:url value="/resources/admin/js/jquery.quicksearch.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/scripts.js" />"></script>
 	
 </head>
@@ -22,7 +24,7 @@
 	<header>
 		<a href="<c:url value="/admin/" />" id="logo">CPR <span>ADMIN</span></a>
 		
-		<span id="logged-user" class="radius">${time}  <a href="<c:url value="/admin/user/profile" />">${common.user.firstName} ${common.user.lastName}</a></span>
+		<span id="logged-user" class="radius">${common.time}  <a href="<c:url value="/admin/user/profile" />">${common.user.firstName} ${common.user.lastName}</a></span>
 		<a id="logout" href="<c:url value="/j_logout" />" class="tt" title="Odhlásit se"></a>
 	</header>
 	

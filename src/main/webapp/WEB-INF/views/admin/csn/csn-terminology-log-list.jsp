@@ -99,7 +99,7 @@
 						 		</td>
 						 		<td>${i.czCount} / ${i.enCount}</td>
 						 		<td class="last-edit">
-						 			<joda:format value="${i.created}" pattern="${dateTimeFormat}"/>
+						 			<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
 						 		</td>
 						 		<td class="edit">
 						 			<a href="<c:url value="/admin/csn/terminology/log/${i.id}"  />">

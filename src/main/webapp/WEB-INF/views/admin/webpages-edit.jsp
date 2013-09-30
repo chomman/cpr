@@ -31,13 +31,13 @@
 					<tr>
 						<td class="key"><spring:message code="meta.created" /></td>
 						<td class="val">${webpage.createdBy.firstName} ${webpage.createdBy.lastName}</td>
-						<td class="val"><joda:format value="${webpage.created}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${webpage.created}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					<c:if test="${not empty webpage.changedBy}">
 					<tr>
 						<td class="key"><spring:message code="meta.edited" /></td>
 						<td class="val">${webpage.changedBy.firstName} ${webpage.changedBy.lastName}</td>
-						<td class="val"><joda:format value="${webpage.changed}" pattern="${dateTimeFormat}"/></td>
+						<td class="val"><joda:format value="${webpage.changed}" pattern="${common.dateTimeFormat}"/></td>
 					</tr>
 					</c:if>
 				</table>

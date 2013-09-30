@@ -21,6 +21,8 @@
 	<mvc:annotation-driven conversion-service="conversionService" />
 
 	<mvc:annotation-driven validator="validator" />
+	
+	<mvc:annotation-driven ignoreDefaultModelOnRedirect="true" />
 		
 	<bean name="validator"   class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 	    <property name="validationMessageSource" ref="messageSource" />

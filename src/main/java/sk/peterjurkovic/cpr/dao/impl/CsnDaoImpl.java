@@ -89,7 +89,15 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		if(criteria.size() != 0){
 			
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" csn.csnId like CONCAT('%', :query , '%') or csn.czechName like CONCAT('%', :query , '%') or csn.englishName like CONCAT('%', :query , '%') ");
+				where.add(" (unaccent(lower(csn.csnId)) like CONCAT('%', unaccent(lower(:query)) , '%') or unaccent(lower(csn.czechName)) like CONCAT('%', unaccent(lower(:query)) , '%') or csn.englishName like CONCAT('%', :query , '%')) ");
+			}
+			
+			if(StringUtils.isNotBlank((String)criteria.get("catalogId"))){
+				where.add(" csn.catalogId=:catalogId ");
+			}
+			
+			if(StringUtils.isNotBlank((String)criteria.get("csnCategory"))){
+				where.add(" csn.classificationSymbol like CONCAT('', :csnCategory , '%') ");
 			}
 		}
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
@@ -100,6 +108,12 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));
+			}
+			if(StringUtils.isNotBlank((String)criteria.get("csnCategory"))){
+				hqlQuery.setString("csnCategory", (String)criteria.get("csnCategory"));
+			}
+			if(StringUtils.isNotBlank((String)criteria.get("catalogId"))){
+				hqlQuery.setString("catalogId", (String)criteria.get("catalogId"));
 			}
 		}
 	}
@@ -138,7 +152,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 	@Override
 	public List<Csn> autocompleteByCsnId(String term) {
 		StringBuilder hql = new StringBuilder("select c.csnId from Csn c");
-		hql.append(" where c.csnId like CONCAT('', :term , '%')");
+		hql.append(" where unaccent(lower(c.csnId)) like CONCAT('%', unaccent(lower(:term)) , '%')");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setParameter("term", term);
 		hqlQuery.setMaxResults(8);
@@ -154,6 +168,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		return (Csn)query.uniqueResult();
 	}
 
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Csn> getCsnsByClassificationSymbol(String cs) {
@@ -161,6 +176,16 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 		query.setParameter("cs", cs);
 		query.setCacheable(false);
 		return query.list();
+	}
+
+	
+	@Override
+	public Csn getByCatalogId(String catalogId) {
+		Query query =  sessionFactory.getCurrentSession().createQuery("from Csn c where c.catalogId=:catalogId ");
+		query.setParameter("catalogId", catalogId);
+		query.setCacheable(false);
+		query.setMaxResults(1);
+		return (Csn)query.uniqueResult();
 	}
 
 	

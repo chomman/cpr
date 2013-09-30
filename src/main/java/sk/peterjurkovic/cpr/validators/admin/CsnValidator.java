@@ -35,7 +35,7 @@ public class CsnValidator {
 			result.rejectValue("published", "csn.error.published");
 		}
 		
-		if(StringUtils.isNotBlank(form.getCsnOnlineId()) &&  !form.getCsnOnlineId().matches("\\d{1,10}")){
+		if(StringUtils.isNotBlank(form.getCatalogId()) &&  !form.getCatalogId().matches("\\d{1,10}")){
 			result.rejectValue("csnOnlineId", "csn.error.csnOnlineId");
 		}
 		
