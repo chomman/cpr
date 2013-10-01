@@ -7,8 +7,8 @@ public enum StandardOrder {
 	
 	
 	
-	CREATE_DESC(6, "Přidání - nejnovějších", " order by s.id desc"),
-	CREATE_ASC(5, "Přidání - nejstarších", " order by s.id asc"),
+	CREATE_DESC(6, "Přidání - nejnovějších", " order by s.created desc"),
+	CREATE_ASC(5, "Přidání - nejstarších", " order by s.created asc"),
 	VALIDITY_DESC(2, "Platnosti nejnovší", " order by s.stopValidity desc"),
 	VALIDITY_ASC(1, "Platnosti nejstarší", " order by s.stopValidity asc"),
 	STANDARD_ID_ASC(3, "Označení eHN A-Z", " order by s.standardId asc"),

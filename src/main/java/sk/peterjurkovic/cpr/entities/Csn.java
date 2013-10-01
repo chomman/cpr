@@ -19,6 +19,9 @@ import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
+
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "csn_id_seq", sequenceName = "csn_id_seq", initialValue = 1, allocationSize =1)
@@ -32,7 +35,7 @@ public class Csn extends AbstractEntity {
 	
 	private String csnId;
 		
-	private String published;
+	private LocalDate published;
 	
 	private String classificationSymbol;
 	
@@ -52,7 +55,6 @@ public class Csn extends AbstractEntity {
 	
 	private String changeLabel;
 	
-	private String bulletin;
 	
 	private Set<CsnTerminology> terminologies;
 	
@@ -80,12 +82,13 @@ public class Csn extends AbstractEntity {
 		this.csnId = csnId;
 	}
 	
-	@Column(length = 4)
-	public String getPublished() {
+	@Column(name = "published")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	public LocalDate getPublished() {
 		return published;
 	}
 
-	public void setPublished(String published) {
+	public void setPublished(LocalDate published) {
 		this.published = published;
 	}
 
@@ -170,17 +173,7 @@ public class Csn extends AbstractEntity {
 	public void setChangeLabel(String changeLabel) {
 		this.changeLabel = changeLabel;
 	}
-	
-	
-	@Column(name = "bulletin", length = 25)
-	public String getBulletin() {
-		return bulletin;
-	}
-
-	public void setBulletin(String bulletin) {
-		this.bulletin = bulletin;
-	}
-	
+		
 	@Column(name = "category_search_code", length = 4)
 	public String getCategorySearchCode() {
 		return categorySearchCode;

@@ -18,6 +18,8 @@ import sk.peterjurkovic.cpr.dao.AbstractTest;
 
 
 
+
+
 public class WordDocumentParserTest extends AbstractTest {
 	
 	@Autowired
@@ -33,7 +35,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 			tikaProcessingContext.setCsnId(100l);
 			tikaProcessingContext.setContextPath("/cpr/");
-			InputStream is =  new FileInputStream("/home/peto/Desktop/n/s70578.doc");
+			InputStream is =  new FileInputStream("/home/peto/Desktop/n/s74401.doc");
 			String html = null;
 			try{
 				html = wordDocumentParser.parse(is, tikaProcessingContext);

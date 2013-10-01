@@ -4,8 +4,8 @@ import java.util.Arrays;
 import java.util.List;
 
 public enum ExceptionLogOrder {
-	CREATE_DESC(1, "Nejnovějších", " order by el.id desc"),
-	CREATE_ASC(2, "Nejstarších", " order by el.id asc"),
+	CREATE_DESC(1, "Nejnovějších", " order by el.created desc"),
+	CREATE_ASC(2, "Nejstarších", " order by el.created asc"),
 	NAME_ASC(3, "Typu A-Z", " order by el.type asc"),
 	NAME_DESC(4, "Typu Z-A", " order by el.type desc");	
 	

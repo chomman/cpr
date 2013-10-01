@@ -6,8 +6,8 @@ import java.util.List;
 public enum ArticleOrder {
 	
 	
-	CREATE_DESC(1, "Přidání - nejnovějších", " order by a.id desc"),
-	CREATE_ASC(2, "Přidání - nejstarších", " order by a.id asc"),
+	CREATE_DESC(1, "Přidání - nejnovějších", " order by a.created desc"),
+	CREATE_ASC(2, "Přidání - nejstarších", " order by a.created asc"),
 	TITLE_ASC(3, "Titulku A-Z", " order by a.title asc"),
 	TITLE_DESC(4, "Titulku Z-A", " order by a.title desc");	
 	

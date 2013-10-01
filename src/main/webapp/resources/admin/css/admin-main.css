@@ -6,7 +6,7 @@ body{font-family: Arial,Tahoma, sans-serif;position: relative;}
 .hidden{ display:none;}
 .c{ text-align:center;}
 .l{ text-align:left;}
-
+.crop-text{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
 
 
 .w40{width:40px;}
@@ -163,7 +163,9 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 
 .note{font-size:11px;margin:20px 0;display:block;color:#777;font-style:italic;}
 
+.mw150{min-width: 150px;}
 .mw300{min-width: 300px;}
+.mw60{min-width: 60px;}
 .mw500{min-width: 500px;}
 .mw600{min-width: 600px;}
 .w100{width:100px;}
@@ -250,7 +252,7 @@ nav.smallNav ul li a{background-image:none;padding:12px 12px 0 12px;font-weight:
 h1{ color:#485B79;font-size:22px;font-weight: normal;background:#fafAfa;border-bottom:1px solid #ddd;padding:15px 35px;}
 h2{font-size: 16px;text-transform: uppercase;color:#555}
 
-.data{background:#fcfcfc;border-collapse:collapse;background:#f8f8f8;font-size:12px;border:1px solid #ccc;width:100%;color:#333}
+.data{background:#fcfcfc;border-collapse:collapse;background:#f8f8f8;font-size:12px;border:1px solid #ccc;width:100%;color:#333;}
 .data tr.odd{background:#fcfcfc;}
 .data tr:hover{background:#fff6eb;}
 .data td{padding:8px 10px;line-height:21px;border-right:1px solid #ddd;border-bottom:1px solid #ddd;}

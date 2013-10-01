@@ -11,8 +11,8 @@ import java.util.List;
  */
 public enum CsnOrderBy {
 
-	CREATE_DESC(1, "orderby.csn.created.desc", " order by csn.id desc"),
-	CREATE_ASC(2, "orderby.csn.created.asc", " order by csn.id asc"),
+	CREATE_DESC(1, "orderby.csn.created.desc", " order by csn.created desc"),
+	CREATE_ASC(2, "orderby.csn.created.asc", " order by csn.created asc"),
 	CSN_ID_ASC(3, "orderby.csn.csnid.asc", " order by csn.csnId asc"),
 	CSN_ID_DESC(4, "orderby.csn.csnid.desc", " order by csn.csnId desc");	
 	

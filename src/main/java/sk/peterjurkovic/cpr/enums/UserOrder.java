@@ -5,8 +5,8 @@ import java.util.List;
 
 public enum UserOrder {
 	
-	CREATE_DESC(1, "Vytvoření - nejnovějších", " order by u.id desc"),
-	CREATE_ASC(2, "Vytvoření - nejstarších", " order by u.id asc"),
+	CREATE_DESC(1, "Vytvoření - nejnovějších", " order by u.created desc"),
+	CREATE_ASC(2, "Vytvoření - nejstarších", " order by u.created asc"),
 	FIRST_NAME(3, "Jména", " order by u.firstName asc"),
 	LAST_NAME(4, "Příjmení", " order by a.lastName desc");	
 	

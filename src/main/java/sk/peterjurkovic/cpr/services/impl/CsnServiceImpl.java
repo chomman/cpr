@@ -196,6 +196,11 @@ public class CsnServiceImpl implements CsnService{
 					createCsn(csn);
 					log.incrementSuccess();
 				}else{
+					Csn persistedCsn = getByCode(csn.getCode());
+					if(persistedCsn != null){
+						persistedCsn.setPublished(csn.getPublished());
+						csnDao.update(csn);
+					}
 					log.appendInfo("Položka s označením: <b>" + csn.getCsnId() + "</b> se již v databázy nachází, byla přeskočena.");
 					log.incrementFailure();
 				}

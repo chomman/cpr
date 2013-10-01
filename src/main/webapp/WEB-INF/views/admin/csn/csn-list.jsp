@@ -85,7 +85,6 @@
 							<th><spring:message code="csn.form.published" /></th>
 							<th><spring:message code="csn.form.czechName" /></th>
 							<th><spring:message code="csn.form.category" /></th>
-							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
 							<th><spring:message code="form.delete" /></th>
@@ -94,22 +93,12 @@
 					<tbody>
 						 <c:forEach items="${model.csns}" var="i">
 						 	<tr>
-						 		<td>${i.csnId}</td>
-						 		<td>${i.published}</td>
-						 		<td>${i.czechName}</td>
-						 		<td>${i.csnCategory.name}</td>
-						 		<td class="w100">
-						 			<c:if test="${i.enabled}">
-						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
-						 					<spring:message code="yes" />
-						 				</span>
-						 			</c:if>
-						 			<c:if test="${not i.enabled}">
-						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
-						 					<spring:message code="no" />
-						 				</span>
-						 			</c:if>
+						 		<td class="mw150">
+						 			<a title="Editovat" href="<c:url value="/admin/csn/edit/${i.id}"  />">${i.csnId}</a>
 						 		</td>
+						 		<td class="mw60 c"><joda:format value="${i.published}" pattern="MMM / yyyy"/></td>
+						 		<td >${i.czechName}</td>
+						 		<td >${i.csnCategory.name}</td>
 						 		<td class="last-edit">
 						 			<c:if test="${empty i.changedBy}">
 						 				<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
