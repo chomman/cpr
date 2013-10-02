@@ -30,11 +30,7 @@ public class CsnValidator {
 		}else if(form.getCsnId().length() > 50){
 			result.rejectValue("csnId", "csn.error.csnId.length");
 		}
-		
-		if(StringUtils.isNotBlank(form.getPublished()) &&  !form.getPublished().matches("\\d{4}")){
-			result.rejectValue("published", "csn.error.published");
-		}
-		
+				
 		if(StringUtils.isNotBlank(form.getCatalogId()) &&  !form.getCatalogId().matches("\\d{1,10}")){
 			result.rejectValue("csnOnlineId", "csn.error.csnOnlineId");
 		}

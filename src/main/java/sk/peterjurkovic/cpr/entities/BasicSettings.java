@@ -41,6 +41,8 @@ public class BasicSettings extends AbstractEntity {
 	private String googleAnalyticsTrackingCode;
 	
 	private String csnOnlineUrl;
+	
+	private String version;
 
 	
 	@Id
@@ -112,6 +114,15 @@ public class BasicSettings extends AbstractEntity {
 
 	public void setCsnOnlineUrl(String csnOnlineUrl) {
 		this.csnOnlineUrl = csnOnlineUrl;
+	}
+
+	@Column(name ="version", length = 30)
+	public String getVersion() {
+		return version;
+	}
+
+	public void setVersion(String version) {
+		this.version = version;
 	}
 	
 	

@@ -1,5 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<sec:authorize access="hasRole('ROLE_SUPERADMIN')">	
+	<c:set var="isSuperAdmin" value="true"/>
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,7 +114,14 @@
                             </span>
                         </p>
                        
-
+                       <c:if test="${isSuperAdmin}">
+	                       <p>
+	                        	<label >Verze systému:</label>
+	                            <span class="field">
+	                            	<form:input path="version" maxlength="30" cssClass="mw500 required" />
+	                            </span>
+	                        </p>
+						</c:if>
                         <p class="button-box">
                         	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
                         </p>

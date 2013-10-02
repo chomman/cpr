@@ -34,6 +34,14 @@ public class CsnTerminologyDto {
 		this.englishTerminologies = englishTerminologies;
 	}
 	
+	public int getCzSize(){
+		return czechTerminologies.size();
+	}
+	
+	public int getEnSize(){
+		return englishTerminologies.size();
+	}
+	
 	
 	public void setCsn(Csn csn){
 		for(CsnTerminology t : englishTerminologies){
@@ -44,6 +52,10 @@ public class CsnTerminologyDto {
 		}
 	}
 	
+
+   public boolean areEmpty(){
+	   return CollectionUtils.isEmpty(czechTerminologies) && CollectionUtils.isEmpty(englishTerminologies);
+   }
 	
    public boolean hasOnlyFew(){
 	   if(CollectionUtils.isEmpty(czechTerminologies) || CollectionUtils.isEmpty(englishTerminologies)){
@@ -55,6 +67,36 @@ public class CsnTerminologyDto {
 	   }
 	   
 	   return false;
+   }
+   
+   public CsnTerminologyDto compareAndGetRelevant(CsnTerminologyDto terminologies){
+	   if(terminologies == null || terminologies.areEmpty()){
+		   return this;
+	   }
+	   if(areEmpty()){
+		   return terminologies;
+	   }
+	   
+	   int enSize = terminologies.getCzSize();
+	   int czSize = terminologies.getEnSize();
+	   
+	   int thisEnSize = getEnSize();
+	   int thisCzSize = getCzSize();
+	   
+	   if(enSize != czSize && thisEnSize == thisCzSize && thisCzSize > 2){
+		   return this;
+	   }else if(thisEnSize != thisCzSize && enSize == czSize && czSize > 2){
+		   return terminologies;
+	   }
+	   
+	   
+	   if(czSize > thisCzSize){
+		   return terminologies;
+	   }
+	   
+	   
+	   
+	   return this;
    }
 	
 	

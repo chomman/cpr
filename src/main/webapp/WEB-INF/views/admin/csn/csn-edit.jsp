@@ -83,11 +83,11 @@
                     </span>
                 </p>
                 <p>
-                	<label>
+                	<label title="V případě, že není přesný den vydání známý, zvolte jakýkoliv den v daném měsíci." class="tt">
                 		<spring:message code="csn.form.published" />:
                 	</label>
                     <span class="field">
-                    	<form:input path="published" maxlength="4" />
+                    	<form:input path="published"  cssClass="date" />
                     </span>
                 </p>
                 

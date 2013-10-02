@@ -4,12 +4,9 @@ import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
 
@@ -77,7 +74,7 @@ public class NoSectionTerminologyParser extends NewTerminologyParserImpl impleme
 		
 		Elements bElements = cell.select("b");
 		if(bElements.size() == 0){
-			appendContent(cell.outerHtml(), lang);
+			appendContent(cell.html(), lang);
 			logger.info("B element not found: " + cell);
 		}else{
 			Elements childrenCellsElements = cell.children();

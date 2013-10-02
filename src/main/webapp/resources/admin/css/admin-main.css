@@ -21,6 +21,8 @@ a{text-decoration:none;color:#3e4e69;}
 .variable-info{padding:10px 0;font-size:14px !important;display:inline-block;}
 .variable-info em{font-size:14px !important;line-height:40px;color:#000 !important;}
 
+.version{margin: 20px 0;font-size: 11px;background:#f5f5f5;padding:10px;border:1px solid #ddd;color:#333}
+
 /* TABLE ROLES */
 .roles{background:#FFF9F0;color:#555;font-size:14px;width:100%;border:3px solid #F7E6CB;border-collapse:collapse;}
 .roles .odd{background:#FFF5E6;border-top:1px solid #fff;border-bottom:1px solid #fff;}
@@ -545,3 +547,11 @@ table.import{padding:15px 15px 15px 60px;border-collapse:collapse;margin:10px 0;
 .import a{text-decoration:underline;}
 .import a:hover{text-decoration:none;}
 .import td{padding: 5px 10px 5px 60px;}
+
+table.log{font-size:12px;}
+table.log td,.log-descr{padding:2px;}
+.log-descr{font-size:13px;border:1px solid #ccc;}
+.tlog{padding:7px 10px;border-bottom:1px solid #ccc;}
+.tlog.info{background:#fafafa;}
+.tlog.alert{background:#FFE9BA;}
+.tlog:hover{background:#fff;}

@@ -45,6 +45,11 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		
 		
 		Document doc = Jsoup.parse(html);
+		for (Element element : doc.select("*")) {
+	        if (!element.hasText() ) {
+	            element.remove();
+	        }
+	    }
 		Elements tables = doc.select("table");
 		
 		if(tables.select("table").size() > 0){
@@ -204,7 +209,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 					 if (matcher.matches()) {
 						 terminology = createNewTerminology(matcher, lang);
 						 if(terminology != null){
-							 terminology.setContent(cell.html().replace(bContent, ""));
+							 terminology.setContent(cell.html().replace(b.outerHtml(), ""));
 							 saveTerminology(terminology);
 						 }						 
 					 }else{
@@ -375,7 +380,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 				.replaceAll("\\p{Z}", "");
 	}
 
-	protected String compareLanguages(TikaProcessingContext context){
+	public String compareLanguages(TikaProcessingContext context){
 		int czSize = czechTerminologies.size();
 		int enSize = englishTerminologies.size();
 

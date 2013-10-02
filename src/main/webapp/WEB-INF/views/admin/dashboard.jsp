@@ -67,8 +67,8 @@
 		 				</div>	
 		 			</c:forEach>
 	 			</c:if>
-	  </div>
-			 		
+	  	</div>
+		<p class="version"><strong><spring:message code="version" />:</strong> ${model.version} </p>	
 		<div class="clear"></div>
 	</div>
 	

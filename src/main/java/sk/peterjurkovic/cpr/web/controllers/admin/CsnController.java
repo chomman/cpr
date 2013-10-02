@@ -11,6 +11,7 @@ import javax.validation.Valid;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -24,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
 import sk.peterjurkovic.cpr.csvimport.CsnCsvImport;
-import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.dto.CsvImportLogDto;
 import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
@@ -33,10 +33,6 @@ import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
-import sk.peterjurkovic.cpr.parser.NewTerminologyParserImpl;
-import sk.peterjurkovic.cpr.parser.NoSectionTerminologyParser;
-import sk.peterjurkovic.cpr.parser.TerminologyParser;
-import sk.peterjurkovic.cpr.parser.TikaProcessingContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
@@ -46,6 +42,8 @@ import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.validators.admin.CsnValidator;
 import sk.peterjurkovic.cpr.web.editors.CsnCategoryEditor;
+import sk.peterjurkovic.cpr.web.editors.DateEditor;
+import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
@@ -92,6 +90,8 @@ public class CsnController extends SupportAdminController {
 	private CsnCsvImport csnCsvImport;
 	@Autowired
 	private CsnTerminologyLogService csnTerminologyLogService;
+	@Autowired
+	private LocalDateEditor localDateEditor;
 	
 	@Autowired
 	private FileService fileService;
@@ -106,6 +106,7 @@ public class CsnController extends SupportAdminController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(CsnCategory.class, this.csnCategoryEditor);
+		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
     }
 	
 	
@@ -193,61 +194,12 @@ public class CsnController extends SupportAdminController {
 		}
 		
 		MultipartFile file = uploadForm.getFileData();
-		
-		if(file != null && StringUtils.isNotBlank(file.getOriginalFilename())){
-			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
-			CsnTerminologyLog log = tikaProcessingContext.getLog();
-			log.setFileName(file.getOriginalFilename());
-			long start = System.currentTimeMillis();
-			try{
-				
-				
-				tikaProcessingContext.setCsnId(csn.getId());
-				tikaProcessingContext.setContextPath(request.getContextPath());
-				log.setCsn(csn);
-				String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessingContext);
-				if(StringUtils.isNotBlank(docAsHtml)){
-					tikaProcessingContext.logInfo("Začátek čtení termínů");
-					TerminologyParser terminologyParser = new NewTerminologyParserImpl();
-					CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
-					
-					if(terminologies != null){
-						tikaProcessingContext.logInfo(String.format("Čtení dokončeno. Počet termínů CZ/EN: %d / %d", 
-									terminologies.getCzechTerminologies().size(), 
-									terminologies.getEnglishTerminologies().size()));
-					}
-					
-					if(terminologies == null || terminologies.hasOnlyFew()){
-						tikaProcessingContext.logInfo("Nenašel sa žýdný termín, Začátek čtení termínů bez čísel sekcí.");
-						terminologyParser = new NoSectionTerminologyParser();
-						terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
-					}
-					
-					if(terminologies != null){
-						
-						terminologies.setCsn(csn);
-						log.setCzCount(terminologies.getCzechTerminologies().size());
-						log.setEnCount(terminologies.getEnglishTerminologies().size());
-						
-						csnTerminologyService.saveTerminologies(terminologies);
-						csnService.saveOrUpdate(csn);
-						log.setDuration(System.currentTimeMillis() - start);
-						log.setSuccess(true);
-						csnTerminologyLogService.createWithUser(log);
-						modelMap.put("log", log);
-					}
-				}
-			} catch (Exception  e) {
-				log.logError(String.format("dokument %1$s se nepodařilo importovat, duvod: %2$s",  file.getOriginalFilename(), e.getMessage()));
-				modelMap.put("hasErrors", true );
-				return "redirect:/admin/csn/edit/"+idCsn + "?"+CSN_TERMINOLOGY_ERROR_PARAM+"=1";
-			}
-			log.updateImportStatus();
-			csnTerminologyLogService.createWithUser(log);
+		CsnTerminologyLog log = csnTerminologyService.processImport(file, csn, request.getContextPath());
+		if(log == null){
+			return "redirect:/admin/csn/edit/"+idCsn + "?"+CSN_TERMINOLOGY_ERROR_PARAM+"=1";
+		}else{
 			return "redirect:/admin/csn/edit/"+idCsn+"?"+CSN_TERMINOLOGY_LOG_PARAM+"=" + log.getId();
 		}
-		prepareModel(csn, modelMap, idCsn, RequestUtils.getLangParameter(request));
-		return "redirect:/admin/csn/edit/"+idCsn;
 	 }
 	
 	

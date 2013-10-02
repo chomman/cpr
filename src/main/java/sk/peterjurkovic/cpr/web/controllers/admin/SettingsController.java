@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -75,6 +76,9 @@ public class SettingsController extends SupportAdminController {
 		settings.setSystemEmail(form.getSystemEmail());
 		settings.setGoogleAnalyticsTrackingCode(form.getGoogleAnalyticsTrackingCode());
 		settings.setOwnerName(form.getOwnerName());
+		if(StringUtils.isNotBlank(form.getVersion())){
+			settings.setVersion(form.getVersion());
+		}
 		basicSettingsService.updateBasicSettings(settings);
 	}
 	

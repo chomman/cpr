@@ -35,7 +35,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 			tikaProcessingContext.setCsnId(100l);
 			tikaProcessingContext.setContextPath("/cpr/");
-			InputStream is =  new FileInputStream("/home/peto/Desktop/n/s74401.doc");
+			InputStream is =  new FileInputStream("/home/peto/Desktop/n/s70578.doc");
 			String html = null;
 			try{
 				html = wordDocumentParser.parse(is, tikaProcessingContext);
@@ -54,7 +54,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			Assert.assertEquals(true, StringUtils.isNotBlank(html));
 			TerminologyParser terminologyParser = new NoSectionTerminologyParser(); // new NewTerminologyParserImpl();
 			terminologyParser.parse(html, tikaProcessingContext);
-			
+			((SingleSectionTerminologyParser)terminologyParser).compareLanguages(tikaProcessingContext);
 			//logger.info(html);
 		} catch (IOException e) {
 			logger.error(e.getMessage());

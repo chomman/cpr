@@ -109,11 +109,11 @@ public class WordDocumentParser  {
 		html =  Jsoup.clean(html, "http://www.nlfnorm.cz/", whitelist );
 		return  html	 
 				.replaceAll("<\\?xml.*?\\?>", "")
-			//	.replaceAll("(<b>(\\pZ)*,?(\\pZ)*</b>)", "")
+				.replaceAll("<b></b>", "")
 				.replaceAll("</b>\\p{Z}*(,|.|;)?\\p{Z}*<b>", "")
-				.replaceAll("(<p>(\\pZ)*</p>)", "")
+				.replaceAll("<p>(\\pZ)*</p>", "")
 				.replaceAll("(<div>(\\pZ)*</div>)", "")
-				.replaceAll("</b>(\\pZ)*<b>", " ")
+				.replaceAll("</b>\\p{Z}*<b>", "")
 				.replaceAll("&#13;","")
 				.replaceAll("&#8804;", "&le;")
 				.replaceAll("h\\d>", "b>")

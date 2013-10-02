@@ -36,6 +36,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 			 commonModel.put("user", UserUtils.getLoggedUser());
 			 commonModel.put("time", new DateTime().toString(Constants.DATE_TIME_FORMAT));
 			 commonModel.put("dateTimeFormat", Constants.DATE_TIME_FORMAT);
+			 commonModel.put("dateFormat", Constants.DATE_FORMAT);
 			 modelAndView.addObject("common", commonModel);
 			 
 		 }

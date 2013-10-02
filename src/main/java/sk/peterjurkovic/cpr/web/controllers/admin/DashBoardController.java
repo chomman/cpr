@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sk.peterjurkovic.cpr.services.BasicSettingsService;
 import sk.peterjurkovic.cpr.services.StandardService;
 
 
@@ -18,7 +19,8 @@ public class DashBoardController extends SupportAdminController {
 	
 	@Autowired
 	private StandardService standardService;
-	
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
 	/**
 	 * Zobrazi hlavny ovladaci panel informacneho systemu
@@ -40,6 +42,7 @@ public class DashBoardController extends SupportAdminController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("standards", standardService.getLastEditedOrNewestStandards(COUNT_OF_LAST_EDITED_STANDARDS, Boolean.TRUE));
+		model.put("version", basicSettingsService.getBasicSettings().getVersion());
 		map.put("model", model);
 		return getViewName();
 	}

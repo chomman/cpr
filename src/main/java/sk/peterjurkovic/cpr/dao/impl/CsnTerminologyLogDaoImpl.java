@@ -36,6 +36,7 @@ public class CsnTerminologyLogDaoImpl extends BaseDaoImpl<CsnTerminologyLog, Lon
 		}else{
 			items.setCount(countOfItems);
 			if(items.getCount() > 0){
+				hql.append(" order by l.created desc ");
 				hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
 				prepareHqlQueryParams(hqlQuery, criteria);
 				hqlQuery.setCacheable(false);
@@ -54,6 +55,10 @@ public class CsnTerminologyLogDaoImpl extends BaseDaoImpl<CsnTerminologyLog, Lon
 			
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" l.csn.csnId like CONCAT('%', :query , '%') or l.csn.classificationSymbol like CONCAT('%', :query , '%') ");
+			}
+			
+			if(StringUtils.isNotBlank((String)criteria.get("importStatus"))){
+				where.add(" l.importStatus= :importStatus");
 			}
 			
 			if((Boolean)criteria.get("success") != null){
@@ -79,6 +84,11 @@ public class CsnTerminologyLogDaoImpl extends BaseDaoImpl<CsnTerminologyLog, Lon
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));
 			}
+			
+			if(StringUtils.isNotBlank((String)criteria.get("importStatus"))){
+				hqlQuery.setString("importStatus", (String)criteria.get("importStatus"));
+			}
+			
 			Boolean success = (Boolean)criteria.get("success");
 			if(success != null){
 				hqlQuery.setBoolean("success", success);

@@ -1,10 +1,10 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.dto.FileUploadItemDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
-import sk.peterjurkovic.cpr.parser.NewTerminologyParserImpl;
-import sk.peterjurkovic.cpr.parser.TerminologyParser;
-import sk.peterjurkovic.cpr.parser.TikaProcessingContext;
 import sk.peterjurkovic.cpr.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyLogService;
@@ -32,7 +28,7 @@ import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 @Controller
 public class CsnTerminologyImportController extends SupportAdminController {
 	
-	private static final int TAB_INDEX = 1;
+	private static final int TAB_INDEX = 4;
 	private static final String MAPPING_URL = "/admin/csn/terminology/import";
 	private static final String IMPORT_MODEL_ATTR = "uploadForm";
 	
@@ -51,8 +47,8 @@ public class CsnTerminologyImportController extends SupportAdminController {
 	}
 	
 	@RequestMapping(value = MAPPING_URL, method =  RequestMethod.GET)
-	private String showImportPage(){
-		
+	private String showImportPage(ModelMap modelMap){
+		prepareModel(modelMap);
 		return getViewName();
 	}
 	
@@ -76,39 +72,7 @@ public class CsnTerminologyImportController extends SupportAdminController {
 					if(csn == null){
 						result.reject("csn.terminology.import.error.notfound", new Object[]{baseName}, "") ;
 					}else{
-						TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
-						CsnTerminologyLog log = tikaProcessingContext.getLog();
-						tikaProcessingContext.getLog().setFileName(file.getOriginalFilename());
-						long start = System.currentTimeMillis();
-						try{
-							
-							
-							tikaProcessingContext.setCsnId(csn.getId());
-							tikaProcessingContext.setContextPath(request.getContextPath());
-							tikaProcessingContext.getLog().setCsn(csn);
-							String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessingContext);
-							if(StringUtils.isNotBlank(docAsHtml)){
-								tikaProcessingContext.logDomParsing();
-								TerminologyParser terminologyParser = new NewTerminologyParserImpl();
-								CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
-								if(terminologies != null){
-									
-									terminologies.setCsn(csn);
-									log.setCzCount(terminologies.getCzechTerminologies().size());
-									log.setEnCount(terminologies.getEnglishTerminologies().size());
-									
-									csnTerminologyService.saveTerminologies(terminologies);
-									csnService.saveOrUpdate(csn);
-									log.setDuration(System.currentTimeMillis() - start);
-									log.setSuccess(true);
-									terminologyLogService.createWithUser(log);
-								}
-							}
-						} catch (Exception  e) {
-							log.logError(String.format("dokument %1$s se nepodařilo importovat, duvod: %2$s",  file.getOriginalFilename(), e.getMessage()));
-						}
-						log.updateImportStatus();
-						terminologyLogService.createWithUser(log);
+						CsnTerminologyLog log = csnTerminologyService.processImport(file, csn, request.getContextPath());
 						modelMap.put("log", log);
 					}
 				}else{
@@ -122,13 +86,16 @@ public class CsnTerminologyImportController extends SupportAdminController {
 			result.reject("error.file.blank");
 		}
 		
-		
-		
+		prepareModel(modelMap);
 		return getViewName();
 	}
 	
 	
-	
+	private void prepareModel(ModelMap modelMap){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("tab", TAB_INDEX);
+		modelMap.put("model", model);
+	}
 	
 	
 	private String getCatalogIdOfFilename(String fileName){

@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.utils;
 
 import org.apache.commons.lang.math.NumberUtils;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
@@ -42,6 +43,23 @@ public class ParseUtils {
 				try{
 					DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
 					return formatter.parseDateTime((String)stringDateTime);
+				}catch(IllegalArgumentException ex){
+					return null;
+				}
+    		}
+		}
+    	return null;
+    }    
+    
+    public static LocalDate parseLocalDateFromStringObject(Object stringDateTime){
+    	if(stringDateTime != null){
+    		if(stringDateTime instanceof LocalDate){
+    			return (LocalDate)stringDateTime;
+    		}
+    		if(stringDateTime instanceof String){
+				try{
+					DateTimeFormatter formatter = DateTimeFormat.forPattern("dd.MM.yyyy");
+					return formatter.parseLocalDate((String)stringDateTime);
 				}catch(IllegalArgumentException ex){
 					return null;
 				}

@@ -174,7 +174,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		hql.append(" where a.enabled = true ");
 		hql.append(" and (now() >=a.publishedSince or a.publishedSince = null)");
 		hql.append(" and (now() <=a.publishedUntil or a.publishedUntil = null)");
-        hql.append(" order by a.id desc");
+        hql.append(" group by a.id ");
         return hql;
 	}
 
@@ -188,7 +188,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Article> getNewestArticles(int count) {
-		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString());
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString() + "order by a.id desc");
 		hqlQuery.setMaxResults(count);
 		hqlQuery.setCacheable(true);
 		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
@@ -204,7 +204,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Article> getArticlePageForPublic(final int pageNumber) {
-		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString());
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString() + "order by a.id desc");
 		hqlQuery.setFirstResult(Constants.PUBLIC_PAGINATION_PAGE_SIZE * ( pageNumber -1));
 		hqlQuery.setMaxResults(Constants.PUBLIC_PAGINATION_PAGE_SIZE);
 		hqlQuery.setCacheable(true);

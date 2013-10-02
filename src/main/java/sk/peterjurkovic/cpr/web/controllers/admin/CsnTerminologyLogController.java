@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.dto.PageDto;
-import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 import sk.peterjurkovic.cpr.enums.ImportStatus;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
@@ -48,6 +47,7 @@ public class CsnTerminologyLogController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("paginationLinks", getPaginationItems(request, params, currentPage, page.getCount()));
 		model.put("logs", page.getItems() );
+		model.put("tab", TAB_INDEX );
 		model.put("importStatuses", ImportStatus.values());
 		modelMap.put("model", model);
 		return getTableItemsView();
@@ -61,7 +61,9 @@ public class CsnTerminologyLogController extends SupportAdminController {
 		if(log == null){
 			throw new ItemNotFoundException("Log terminologie s ID " + id + " sa v systeme nenachadza");
 		}
-		
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("tab", TAB_INDEX );
+		modelMap.put("model", model);
 		modelMap.put("log", log);
 		return getViewName();
 	}

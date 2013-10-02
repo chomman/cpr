@@ -199,7 +199,7 @@ public class CsnServiceImpl implements CsnService{
 					Csn persistedCsn = getByCode(csn.getCode());
 					if(persistedCsn != null){
 						persistedCsn.setPublished(csn.getPublished());
-						csnDao.update(csn);
+						csnDao.update(persistedCsn);
 					}
 					log.appendInfo("Položka s označením: <b>" + csn.getCsnId() + "</b> se již v databázy nachází, byla přeskočena.");
 					log.incrementFailure();

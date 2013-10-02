@@ -27,7 +27,7 @@ public class TikaProcessingContext {
 	
 	private LocalDateTime time;
 	
-	private static final DateTimeFormatter FORMATER = ReversableDateTimeFormat.forPattern("dd.MM.yyy HH:mm:ss.SSS");
+	private static final DateTimeFormatter FORMATER = ReversableDateTimeFormat.forPattern("HH:mm:ss.SSS");
 	
 	public TikaProcessingContext(){
 		this.log = new CsnTerminologyLog();

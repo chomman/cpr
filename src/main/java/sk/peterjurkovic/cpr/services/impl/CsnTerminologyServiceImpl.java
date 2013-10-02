@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
@@ -13,14 +14,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import sk.peterjurkovic.cpr.dao.CsnTerminologyDao;
 import sk.peterjurkovic.cpr.dto.CsnTerminologyDto;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
+import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.CsnTerminologyLanguage;
+import sk.peterjurkovic.cpr.parser.NewTerminologyParserImpl;
+import sk.peterjurkovic.cpr.parser.NoSectionTerminologyParser;
+import sk.peterjurkovic.cpr.parser.SingleSectionTerminologyParser;
+import sk.peterjurkovic.cpr.parser.TerminologyParser;
+import sk.peterjurkovic.cpr.parser.TikaProcessingContext;
+import sk.peterjurkovic.cpr.parser.WordDocumentParser;
+import sk.peterjurkovic.cpr.services.CsnService;
+import sk.peterjurkovic.cpr.services.CsnTerminologyLogService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -40,6 +51,12 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 	private CsnTerminologyDao csnTerminologyDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private WordDocumentParser wordDocumentParser;
+	@Autowired
+	private CsnTerminologyLogService csnTerminologyLogService;
+	@Autowired
+	private CsnService csnService;
 	
 	@Override
 	public void createCsnTerminology(CsnTerminology csnTerminology) {
@@ -148,7 +165,69 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 	public CsnTerminology getBySectionAndLang(Csn csn, String sectionCode, CsnTerminologyLanguage lang) {
 		return csnTerminologyDao.getBySectionAndLang(csn, sectionCode, lang);
 	}
+
 	
+	public CsnTerminologyLog processImport(MultipartFile file, Csn csn, String contextPath){
+		Validate.notNull(file);
+		Validate.notNull(csn);
+		Validate.notNull(contextPath);
+		String fileName = file.getOriginalFilename();
+		if(StringUtils.isNotBlank(fileName) && FilenameUtils.isExtension(fileName, "doc")){
+			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
+			CsnTerminologyLog log = tikaProcessingContext.getLog();
+			log.setFileName(fileName);
+			long start = System.currentTimeMillis();
+			try{
+					tikaProcessingContext.setCsnId(csn.getId());
+					tikaProcessingContext.setContextPath(contextPath);
+					log.setCsn(csn);
+					String docAsHtml = wordDocumentParser.parse(file.getInputStream(), tikaProcessingContext);
+					if(StringUtils.isNotBlank(docAsHtml)){
+						tikaProcessingContext.logInfo("Začátek čtení termínů");
+						TerminologyParser terminologyParser = new NewTerminologyParserImpl();
+						CsnTerminologyDto terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
+						
+						if(terminologies != null){
+							tikaProcessingContext.logInfo(String.format("Čtení dokončeno. Počet termínů CZ/EN: %d / %d", 
+							terminologies.getCzechTerminologies().size(), 
+							terminologies.getEnglishTerminologies().size()));
+						}
+						
+						if(terminologies == null || terminologies.hasOnlyFew()){
+							tikaProcessingContext.logInfo("Nenašel sa žýdný termín, Začátek čtení termínů bez čísel sekcí.");
+							terminologyParser = new NoSectionTerminologyParser();
+							terminologies = terminologyParser.parse(docAsHtml, tikaProcessingContext);
+							terminologyParser = new SingleSectionTerminologyParser();							
+							CsnTerminologyDto terminologies2 = terminologyParser.parse(docAsHtml, tikaProcessingContext);
+							
+							if(terminologies2 != null){
+								terminologies = terminologies.compareAndGetRelevant(terminologies2);
+							}
+						}
+						
+						if(terminologies != null){
+							
+							terminologies.setCsn(csn);
+							log.setCzCount(terminologies.getCzechTerminologies().size());
+							log.setEnCount(terminologies.getEnglishTerminologies().size());
+							
+							saveTerminologies(terminologies);
+							csnService.saveOrUpdate(csn);
+							log.setDuration(System.currentTimeMillis() - start);
+							log.setSuccess(true);
+							csnTerminologyLogService.createWithUser(log);
+						}
+					}
+				} catch (Exception  e) {
+					log.logError(String.format("dokument %1$s se nepodařilo importovat, duvod: %2$s",  fileName, e.getMessage()));
+					return log;
+				}
+			log.updateImportStatus();
+			csnTerminologyLogService.createWithUser(log);
+			return log;
+		}
+		return null;
+	}
 	
 
 }
