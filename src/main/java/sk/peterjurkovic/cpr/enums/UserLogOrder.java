@@ -5,8 +5,8 @@ import java.util.List;
 
 public enum UserLogOrder {
 	
-	CREATE_DESC(1, "Nejnovějších", " order by ul.created desc"),
-	CREATE_ASC(2, "Nejstarších", " order by ul.created asc"),
+	CREATE_DESC(1, "Nejnovějších", " order by ul.loginDateAndTime desc"),
+	CREATE_ASC(2, "Nejstarších", " order by ul.loginDateAndTime asc"),
 	NAME_ASC(3, "Jména A-Z", " order by ul.user.firstName asc"),
 	NAME_DESC(4, "Jména Z-A", " order by ul.user.firstName desc");	
 	
