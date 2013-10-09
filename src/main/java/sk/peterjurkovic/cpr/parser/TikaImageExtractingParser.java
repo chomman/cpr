@@ -38,8 +38,8 @@ public class TikaImageExtractingParser implements Parser {
         types.add(MediaType.image("jpeg"));
         types.add(MediaType.image("png"));
         types.add(MediaType.image("tiff"));
-        //types.add(MediaType.image("wmf"));
-        //types.add(MediaType.image("emf"));
+        types.add(MediaType.image("wmf"));
+        types.add(MediaType.image("emf"));
         this.fileService = fileService;
         this.tikaProcessingContext = tikaProcessingContext;
 	}

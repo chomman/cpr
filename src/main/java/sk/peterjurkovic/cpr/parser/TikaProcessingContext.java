@@ -25,13 +25,11 @@ public class TikaProcessingContext {
 	
 	private CsnTerminologyLog log;
 	
-	private LocalDateTime time;
-	
+
 	private static final DateTimeFormatter FORMATER = ReversableDateTimeFormat.forPattern("HH:mm:ss.SSS");
 	
 	public TikaProcessingContext(){
 		this.log = new CsnTerminologyLog();
-		this.time = new LocalDateTime();
 	}
 	
 	public String getCsnDir() {

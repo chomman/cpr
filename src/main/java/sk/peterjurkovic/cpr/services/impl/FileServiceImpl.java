@@ -10,6 +10,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,6 +129,21 @@ public class FileServiceImpl implements FileService {
 			if(file.exists() && file.isDirectory()){
 				for(File f : file.listFiles()){
 					if(imageValidator.validate(f.getName())){
+						files.add(dirName+"/"+f.getName());
+					}
+				}
+			}
+			
+		return files;
+	}
+
+	public List<String> readDir(String dirName, String extension){
+		List<String> files = new ArrayList<String>();
+			File file = new File(fileSaveDir + "/" + dirName);
+			
+			if(file.exists() && file.isDirectory()){
+				for(File f : file.listFiles()){
+					if(FilenameUtils.isExtension(f.getName(), extension)){
 						files.add(dirName+"/"+f.getName());
 					}
 				}

@@ -10,6 +10,7 @@ import java.io.InputStream;
 import junit.framework.Assert;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
@@ -17,14 +18,12 @@ import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import sk.peterjurkovic.cpr.dao.AbstractTest;
 
 
-
-
-
 public class WordDocumentParserTest extends AbstractTest {
 	
 	@Autowired
 	private WordDocumentParser wordDocumentParser;
 	
+	private Logger logger = Logger.getLogger(getClass());
 	
 	
 	
@@ -35,7 +34,7 @@ public class WordDocumentParserTest extends AbstractTest {
 			TikaProcessingContext tikaProcessingContext = new TikaProcessingContext();
 			tikaProcessingContext.setCsnId(100l);
 			tikaProcessingContext.setContextPath("/cpr/");
-			InputStream is =  new FileInputStream("/home/peto/Desktop/n/s70578.doc");
+			InputStream is =  new FileInputStream("/home/peto/Desktop/n/v82316.doc");
 			String html = null;
 			try{
 				html = wordDocumentParser.parse(is, tikaProcessingContext);
@@ -61,9 +60,7 @@ public class WordDocumentParserTest extends AbstractTest {
 		}catch(MaxUploadSizeExceededException e){
 			
 		}
-		logger.info(String.format(
-	            "------------ Processing took %s millis\n\n",
-	            System.currentTimeMillis() - start));
+		
 	}
 	
 	

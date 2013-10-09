@@ -12,6 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 @TransactionConfiguration(transactionManager = "transactionManagerBean", defaultRollback = true)
 @Transactional
 @ContextConfiguration
-public abstract class AbstractTest extends AbstractTransactionalJUnit4SpringContextTests{
+public class AbstractTest extends AbstractTransactionalJUnit4SpringContextTests{
 
 }
