@@ -22,12 +22,9 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 /**
  * Entita reprezentujuca harmonizovanu normu
@@ -38,7 +35,6 @@ import org.joda.time.DateTime;
 @Table(name = "standard")
 @SequenceGenerator(name = "standard_id_seq", sequenceName = "standard_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
-@TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })
 public class Standard extends AbstractEntity {
 
 	
@@ -50,27 +46,23 @@ public class Standard extends AbstractEntity {
 	
 	private String replacedStandardId;
 	
-	private String standardName;
+	private String czechName;
 	
-	private DateTime startValidity;
+	private String englishName;
 	
-	private DateTime stopValidity;
+	private LocalDate startValidity;
 	
-	private DateTime startConcurrentValidity;
-	
-	private DateTime stopConcurrentValidity;
-	
+	private LocalDate stopValidity;
+		
 	private StandardGroup standardGroup;
 	
 	private String text;
-	
-	private Set<Mandate> mandates;
-	
+		
 	private Set<NotifiedBody> notifiedBodies;
 	
 	private Set<AssessmentSystem> assessmentSystems;
 	
-	private Set<StandardCsn> StandardCsns;
+	private Set<StandardCsn> standardCsns;
 	
 	private Set<Requirement> requirements;
 	
@@ -80,13 +72,15 @@ public class Standard extends AbstractEntity {
 	
 	private Long timestamp;
 	
+	private Set<StandardChange> standardChanges;
+	
 	public Standard(){
-		this.mandates = new HashSet<Mandate>();
 		this.notifiedBodies = new HashSet<NotifiedBody>();
 		this.assessmentSystems = new HashSet<AssessmentSystem>();
-		this.StandardCsns = new HashSet<StandardCsn>();
+		this.standardCsns = new HashSet<StandardCsn>();
 		this.requirements = new HashSet<Requirement>();
 		this.tags = new HashSet<Tag>();
+		this.standardChanges = new HashSet<StandardChange>();
 		setEnabled(Boolean.FALSE);
 		setCumulative(Boolean.FALSE);
 	}
@@ -123,54 +117,44 @@ public class Standard extends AbstractEntity {
 	}
 	
 	@NotEmpty(message = "Český název harmonizované normy musí být vyplněno")
-	@Column(name = "standard_name")
-	public String getStandardName() {
-		return standardName;
+	@Column(name = "czech_name")
+	public String getCzechName() {
+		return czechName;
 	}
 
-	public void setStandardName(String standardName) {
-		this.standardName = standardName;
+	public void setCzechName(String czechName) {
+		this.czechName = czechName;
 	}
 	
-	@Type(type = "jodaDateTime")
+	@Column(name = "english_name")	
+	public String getEnglishName() {
+		return englishName;
+	}
+
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
+
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@Column(name = "start_validity")
-	public DateTime getStartValidity() {
+	public LocalDate getStartValidity() {
 		return startValidity;
 	}
 
-	public void setStartValidity(DateTime startValidity) {
+	public void setStartValidity(LocalDate startValidity) {
 		this.startValidity = startValidity;
 	}
 	
-	@Type(type = "jodaDateTime")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@Column(name = "stop_validity")
-	public DateTime getStopValidity() {
+	public LocalDate getStopValidity() {
 		return stopValidity;
 	}
 
-	public void setStopValidity(DateTime stopValidity) {
+	public void setStopValidity(LocalDate stopValidity) {
 		this.stopValidity = stopValidity;
 	}
 	
-	@Type(type = "jodaDateTime")
-	@Column(name = "start_concurrent_validity")
-	public DateTime getStartConcurrentValidity() {
-		return startConcurrentValidity;
-	}
-
-	public void setStartConcurrentValidity(DateTime startConcurrentValidity) {
-		this.startConcurrentValidity = startConcurrentValidity;
-	}
-	
-	@Type(type = "jodaDateTime")
-	@Column(name = "stop_concurrent_validity")
-	public DateTime getStopConcurrentValidity() {
-		return stopConcurrentValidity;
-	}
-
-	public void setStopConcurrentValidity(DateTime stopConcurrentValidity) {
-		this.stopConcurrentValidity = stopConcurrentValidity;
-	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "standard_group_id")
@@ -181,17 +165,7 @@ public class Standard extends AbstractEntity {
 	public void setStandardGroup(StandardGroup standardGroup) {
 		this.standardGroup = standardGroup;
 	}
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "standard_has_mandate", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "mandate_id"))
-	public Set<Mandate> getMandates() {
-		return mandates;
-	}
-
-	public void setMandates(Set<Mandate> mandates) {
-		this.mandates = mandates;
-	}
-	
+		
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "standard_has_notified_body", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "notified_body_id"))
 	public Set<NotifiedBody> getNotifiedBodies() {
@@ -214,11 +188,11 @@ public class Standard extends AbstractEntity {
 	
 	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public Set<StandardCsn> getStandardCsns() {
-		return StandardCsns;
+		return standardCsns;
 	}
 
 	public void setStandardCsns(Set<StandardCsn> StandardCsns) {
-		this.StandardCsns = StandardCsns;
+		this.standardCsns = StandardCsns;
 	}
 
 	@Column
@@ -267,6 +241,15 @@ public class Standard extends AbstractEntity {
 
 	public void setCumulative(Boolean cumulative) {
 		this.cumulative = cumulative;
+	}
+	
+	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<StandardChange> getStandardChanges() {
+		return standardChanges;
+	}
+
+	public void setStandardChanges(Set<StandardChange> standardChanges) {
+		this.standardChanges = standardChanges;
 	}
 	
 	

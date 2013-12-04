@@ -14,14 +14,8 @@ public class StandardValidator {
 		
 		if(form.getStartValidity() != null && form.getStopValidity() != null){
 			
-			 if(form.getStartValidity().isAfter(form.getStopValidity().getMillis())){
+			 if(form.getStartValidity().isAfter(form.getStopValidity())){
 				 result.reject("startValidity", "Začátek platnosti nemůže být po skončení platnosti.");
-			 }
-		}
-		
-		if(form.getStartConcurrentValidity() != null && form.getStopConcurrentValidity() != null){
-			 if(form.getStartConcurrentValidity().isAfter( form.getStopConcurrentValidity().getMillis())){
-				 result.reject("startConcurrentValidity", "Začátek souběžné platnosti nemůže být po skončení souběžné platnosti.");
 			 }
 		}
 			

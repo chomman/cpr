@@ -43,7 +43,7 @@ public class NewTerminologyParserImpl implements TerminologyParser {
 		Validate.notNull(html);
 		Validate.notNull(tikaProcessingContext);
 		
-		
+	
 		Document doc = Jsoup.parse(html);
 		for (Element element : doc.select("*")) {
 	        if (!element.hasText() ) {

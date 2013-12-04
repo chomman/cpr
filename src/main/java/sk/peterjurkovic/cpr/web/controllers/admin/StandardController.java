@@ -596,11 +596,6 @@ public class StandardController extends SupportAdminController{
 			}else{
 				standard.setAssessmentSystems(new HashSet<AssessmentSystem>());
 			}
-			if(form.getMandates() != null){
-				standard.setMandates(form.getMandates());
-			}else{
-				standard.setMandates(new HashSet<Mandate>());
-			}
 			standard.setCumulative(form.getCumulative());
 			standardService.saveOrUpdate(standard);
 			standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
@@ -720,10 +715,9 @@ public class StandardController extends SupportAdminController{
 		standard.setCode(CodeUtils.toSeoUrl(form.getStandardId()));
 		standard.setStandardId(form.getStandardId());
 		standard.setReplacedStandardId(form.getReplacedStandardId());
-		standard.setStandardName(form.getStandardName());
+		standard.setCzechName(form.getCzechName());
 		standard.setStartValidity(form.getStartValidity());
 		standard.setStopValidity(form.getStopValidity());
-		standard.setStartConcurrentValidity(form.getStartConcurrentValidity());
 		standard.setStandardGroup(form.getStandardGroup());
 		standard.setEnabled(form.getEnabled());
 		
