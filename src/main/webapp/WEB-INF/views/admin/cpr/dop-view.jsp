@@ -22,7 +22,7 @@
 
 		<div id="content">
 
-			<jsp:include page="../include/dop.jsp"></jsp:include>
+			<jsp:include page="../../include/dop.jsp"></jsp:include>
 
 		</div>	
 	</div>

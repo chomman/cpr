@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
 import java.util.List;
@@ -25,12 +25,13 @@ import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.validators.admin.NotifiedBodyValidator;
+import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 
 
 @Controller
 @SessionAttributes("notifiedBody")
-public class CprNotifiedBodyController extends SupportAdminController {
+public class NotifiedBodyController extends SupportAdminController {
 	
 	public static final int CPR_TAB_INDEX = 3;
 	
@@ -44,9 +45,9 @@ public class CprNotifiedBodyController extends SupportAdminController {
 	private NotifiedBodyValidator notifiedBodyValidator;
 	
 	
-	public CprNotifiedBodyController(){
-		setEditFormView("cpr-notifiedbodies-edit");
-		setTableItemsView("cpr-notifiedbodies");
+	public NotifiedBodyController(){
+		setEditFormView("cpr/notifiedbodies-edit");
+		setTableItemsView("cpr/notifiedbodies");
 	}
 	
 	

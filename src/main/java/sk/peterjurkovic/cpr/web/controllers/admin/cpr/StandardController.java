@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -48,6 +48,7 @@ import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.validators.admin.StandardValidator;
+import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.DateEditor;
@@ -104,7 +105,7 @@ public class StandardController extends SupportAdminController{
 	private StandardValidator standardValidator;
 	
 	public StandardController(){
-		setTableItemsView("cpr-standards");
+		setTableItemsView("cpr/standards");
 	}
 	
 	
@@ -151,7 +152,7 @@ public class StandardController extends SupportAdminController{
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/add", method = RequestMethod.GET)
 	public String showCreateForm(ModelMap model) {
-		setEditFormView("cpr-standard-add");
+		setEditFormView("cpr/standard-add");
 		Standard form = createEmptyForm();
 		prepareModelForEditBasicInfo(form, model, 0L);
         return getEditFormView();
@@ -169,7 +170,7 @@ public class StandardController extends SupportAdminController{
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.GET)
 	public String showEditForm1(@PathVariable Long standardId, ModelMap model) throws ItemNotFoundException {
-		setEditFormView("cpr-standard-edit1");
+		setEditFormView("cpr/standard-edit1");
 		Standard form = standardService.getStandardById(standardId);
 		if(form == null){
 			createItemNotFoundError("Norma s ID: "+ standardId + " se v systému nenachází");
@@ -215,9 +216,9 @@ public class StandardController extends SupportAdminController{
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long standardId,  @Valid  Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 		if(standardId == 0){
-			setEditFormView("cpr-standard-add");
+			setEditFormView("cpr/standard-add");
 		}else{
-			setEditFormView("cpr-standard-edit1");
+			setEditFormView("cpr/standard-edit1");
 		}
 		standardValidator.validate(result, form);
 		Long persistedId = null;
@@ -256,7 +257,7 @@ public class StandardController extends SupportAdminController{
 	@RequestMapping("/admin/cpr/standard/edit/{standardId}/requirements")
    public String showRequirements(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		Map<String, Object> map = new HashMap<String, Object>();
-		setEditFormView("cpr-standard-edit2");
+		setEditFormView("cpr/standard-edit2");
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createStandardNotFound(standardId); 
@@ -292,7 +293,7 @@ public class StandardController extends SupportAdminController{
    @RequestMapping("/admin/cpr/standard/edit/{standardId}/req/{requirementId}")
    public String showRequirementForm(@PathVariable Long standardId,@PathVariable Long requirementId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		
-		setEditFormView("cpr-standard-edit2-requirement");
+		setEditFormView("cpr/standard-edit2-requirement");
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createStandardNotFound(standardId); 
@@ -322,7 +323,7 @@ public class StandardController extends SupportAdminController{
 	 */
     @RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/req/{requirementId}", method = RequestMethod.POST)
 	public String processRequirementSubmit(@PathVariable Long standardId,@PathVariable Long requirementId, @Valid  Requirement form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
-       setEditFormView("cpr-standard-edit2-requirement");
+       setEditFormView("cpr/standard-edit2-requirement");
        Standard standard = standardService.getStandardById(standardId);
        if(standard == null){
     	   createStandardNotFound(standardId); 
@@ -403,7 +404,7 @@ public class StandardController extends SupportAdminController{
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/csn")
     public String showCsns(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		Map<String, Object> map = new HashMap<String, Object>();
- 		setEditFormView("cpr-standard-edit3");
+ 		setEditFormView("cpr/standard-edit3");
  		Standard standard = standardService.getStandardById(standardId);
  		if(standard == null){
  			createStandardNotFound( standardId );
@@ -428,7 +429,7 @@ public class StandardController extends SupportAdminController{
      */
     @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.GET)
     public String showCsnEditForm(@PathVariable Long standardId, @PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
- 		setEditFormView("cpr-standard-edit3-edit");
+ 		setEditFormView("cpr/standard-edit3-edit");
  		Standard standard = standardService.getStandardById(standardId);
  		if(standard == null){
  			createStandardNotFound( standardId );
@@ -457,7 +458,7 @@ public class StandardController extends SupportAdminController{
      */
     @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn-edit/{csnId}", method = RequestMethod.POST)
     public String processCsnSubmit(@PathVariable Long standardId,@PathVariable Long csnId, @Valid  StandardCsn form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
- 		setEditFormView("cpr-standard-edit3-edit");
+ 		setEditFormView("cpr/standard-edit3-edit");
  		 Standard standard = standardService.getStandardById(standardId);
  	       if(standard == null){
  	    	  createStandardNotFound( standardId );
@@ -507,7 +508,7 @@ public class StandardController extends SupportAdminController{
 	 */
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/notifiedbodies")
     public String showNotifiedBodies(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
-		setEditFormView("cpr-standard-edit4");
+		setEditFormView("cpr/standard-edit4");
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createStandardNotFound( standardId );
@@ -530,7 +531,7 @@ public class StandardController extends SupportAdminController{
      */
    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/notifiedbodies", method = RequestMethod.POST)
    public String  processNotifiedBodiesSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
-	   setEditFormView("cpr-standard-edit4");
+	   setEditFormView("cpr/standard-edit4");
 	   Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createStandardNotFound( standardId );
@@ -555,18 +556,18 @@ public class StandardController extends SupportAdminController{
    
    
    //##################################################
-   //#  5	Mandates , AO/NO
+   //#  5	AssesmentsSystems
    //##################################################
   @RequestMapping("/admin/cpr/standard/edit/{standardId}/other")
   public String showOtherSettings(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
-		setEditFormView("cpr-standard-edit5");
+		setEditFormView("cpr/standard-edit5");
 		
 		Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createStandardNotFound( standardId );;
 		}
 
-		prepeareModelForMandates(standard, modelMap);
+		prepeareModelForAssessmentSystems(standard, modelMap);
       return getEditFormView();
  }
  
@@ -584,7 +585,7 @@ public class StandardController extends SupportAdminController{
   */
  @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/other", method = RequestMethod.POST)
  public String  processOtherSettingsSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
-	   setEditFormView("cpr-standard-edit5");
+	   setEditFormView("cpr/standard-edit5");
 	   Standard standard = standardService.getStandardById(standardId);
 		if(standard == null){
 			createStandardNotFound( standardId );
@@ -603,7 +604,7 @@ public class StandardController extends SupportAdminController{
 		}catch(CollisionException e){
 			result.rejectValue("timestamp", "error.collision", e.getMessage());
 		}
-		prepeareModelForMandates(standard, modelMap);
+		prepeareModelForAssessmentSystems(standard, modelMap);
 	   return getEditFormView();
  }
     
@@ -622,7 +623,7 @@ public class StandardController extends SupportAdminController{
  	 */
 	 @RequestMapping("/admin/cpr/standard/edit/{standardId}/describe")
 	 public String showStandardText(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
-			setEditFormView("cpr-standard-edit6");
+			setEditFormView("cpr/standard-edit6");
 			
 			Standard form = standardService.getStandardById(standardId);
 			if(form == null){
@@ -665,7 +666,7 @@ public class StandardController extends SupportAdminController{
 	 */
 	@RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/describe", method = RequestMethod.POST)
 	public String  processTextSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
-		   setEditFormView("cpr-standard-edit6");
+		   setEditFormView("cpr/standard-edit6");
 		   Standard standard = standardService.getStandardById(standardId);
 			if(standard == null){
 				createStandardNotFound( standardId );
@@ -782,11 +783,10 @@ public class StandardController extends SupportAdminController{
 		modelMap.put("model", map);
 	}
 	
-	private void prepeareModelForMandates(Standard standard, ModelMap modelMap){
+	private void prepeareModelForAssessmentSystems(Standard standard, ModelMap modelMap){
 		Map<String, Object> map = new HashMap<String, Object>();
 		modelMap.addAttribute("standard", standard);
 		map.put("standardId", standard.getId());
-		map.put("mandates", mandateService.getAllMandates());
 		map.put("assessmentSystem", assessmentSystemService.getAllAssessmentSystems());
 		modelMap.put("model", map);
 	}

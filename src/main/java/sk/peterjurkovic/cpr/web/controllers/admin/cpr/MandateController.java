@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
 import java.util.List;
@@ -19,20 +19,21 @@ import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
-public class CprMandateController extends SupportAdminController {
+public class MandateController extends SupportAdminController {
 
 	public static final int CPR_TAB_INDEX = 5;
 	
 	@Autowired
 	private MandateService mandateService;
 	
-	public CprMandateController(){
-		setTableItemsView("cpr-mandates");
-		setEditFormView("cpr-mandates-edit");
+	public MandateController(){
+		setTableItemsView("cpr/mandates");
+		setEditFormView("cpr/mandates-edit");
 	}
 	
 	

@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +18,11 @@ import sk.peterjurkovic.cpr.entities.BasicRequirement;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.BasicRequirementService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
+import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 
 @Controller
-public class CprBasicRequirementController extends SupportAdminController {
+public class BasicRequirementController extends SupportAdminController {
 	
 	public static final int CPR_TAB_INDEX = 6;
 	
@@ -29,9 +30,9 @@ public class CprBasicRequirementController extends SupportAdminController {
 	private BasicRequirementService basicRequirementService;
 	
 	
-	public CprBasicRequirementController(){
-		setTableItemsView("cpr-basicrequirement");
-		setEditFormView("cpr-basicrequirement-edit");
+	public BasicRequirementController(){
+		setTableItemsView("cpr/basicrequirement");
+		setEditFormView("cpr/basicrequirement-edit");
 	}
 	
 	

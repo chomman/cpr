@@ -6,5 +6,20 @@ begin;
 		  MAXVALUE 9223372036854775807
 		  START 42
 		  CACHE 1;
+	
+	CREATE SEQUENCE commission_decision_id_seq
+		  INCREMENT 1
+		  MINVALUE 1
+		  MAXVALUE 9223372036854775807
+		  START 42
+		  CACHE 1;
+		  
+	CREATE SEQUENCE standard_group_has_mandate_id_seq
+		  INCREMENT 1
+		  MINVALUE 1
+		  MAXVALUE 9223372036854775807
+		  START 42
+		  CACHE 1;
 
+		  
 end;

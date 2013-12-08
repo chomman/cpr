@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,10 +18,11 @@ import sk.peterjurkovic.cpr.constants.DopTextVariable;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
+import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 
 @Controller
-public class CprAssessmentSystemController extends SupportAdminController {
+public class AssessmentSystemController extends SupportAdminController {
 	
 	
 	public static final int CPR_TAB_INDEX = 4;
@@ -31,9 +32,9 @@ public class CprAssessmentSystemController extends SupportAdminController {
 	
 	
 	
-	public CprAssessmentSystemController(){
-		setTableItemsView("cpr-assessmentsystems");
-		setEditFormView("cpr-assessmentsystems-edit");
+	public AssessmentSystemController(){
+		setTableItemsView("cpr/assessmentsystems");
+		setEditFormView("cpr/assessmentsystems-edit");
 	}
 	
 	

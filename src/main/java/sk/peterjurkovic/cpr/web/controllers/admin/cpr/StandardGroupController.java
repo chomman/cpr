@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
 import java.util.List;
@@ -18,11 +18,11 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
-import sk.peterjurkovic.cpr.utils.CodeUtils;
+import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 @Controller
 @SessionAttributes("standardGroup")
-public class CprGroupController extends SupportAdminController {
+public class StandardGroupController extends SupportAdminController {
 	
 	
 	public static final int CPR_TAB_INDEX = 2;
@@ -31,9 +31,9 @@ public class CprGroupController extends SupportAdminController {
 	private StandardGroupService standardGroupService;
 	
 	
-	public CprGroupController(){
-		setTableItemsView("cpr-groups");
-		setEditFormView("cpr-groups-edit");
+	public StandardGroupController(){
+		setTableItemsView("cpr/groups");
+		setEditFormView("cpr/groups-edit");
 	}
 	
 	
@@ -132,7 +132,7 @@ public class CprGroupController extends SupportAdminController {
 		if (result.hasErrors()) {
 			prepareModel(form, model, standardGroupId);
         }else{
-        	if(standardGroupService.isStandardGroupNameUniqe(form.getGroupName(), form.getId())){
+        	if(standardGroupService.isStandardGroupNameUniqe(form.getCzechName(), form.getId())){
 	        	createOrUpdate(form);
 	        	model.put("successCreate", true);
 	        	if(standardGroupId == 0){
@@ -169,7 +169,7 @@ public class CprGroupController extends SupportAdminController {
 				createItemNotFoundError("Norma s ID: "+ form.getId() + " se v systému nenachází");
 			}
 		}
-		
+		/*
 		standardGroup.setCode(CodeUtils.toSeoUrl(form.getGroupName()));
 		standardGroup.setGroupName(form.getGroupName());
 		standardGroup.setDescription(form.getDescription());
@@ -178,6 +178,7 @@ public class CprGroupController extends SupportAdminController {
 		standardGroup.setUrlTitle(form.getUrlTitle());
 		standardGroup.setEnabled(form.getEnabled());
 		standardGroupService.saveOrdUpdateStandardGroup(standardGroup);
+		*/
 		return standardGroup;
 	}
 	

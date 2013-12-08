@@ -1,19 +1,23 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.URL;
 
 /**
  * Entita reprezentujuca skupinu vyrobku podla EU vesniku 305/2011
@@ -32,19 +36,18 @@ public class StandardGroup extends AbstractEntity {
 	
 	private Long id;
 	
-	private String groupName;
+	private String czechName;
 	
-	private String groupCode;
+	private String englishName;
 	
-	private String commissionDecisionFileUrl;
-		
-	private String urlTitle;
+	private CommissionDecision commissionDecision;
 	
-	private String description;
+	private Set<StandardGroupMandate> standardGroupMandates;
 	
+	public StandardGroup(){
+		this.standardGroupMandates = new HashSet<StandardGroupMandate>();
+	}
 	
-	
-
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_group_id_seq")
 	public Long getId() {
@@ -55,57 +58,45 @@ public class StandardGroup extends AbstractEntity {
 		this.id = id;
 	}
 	
-	@NotEmpty(message = "Název skupiny musí být vyplněn")
-	@Column(name = "grup_name")
-	public String getGroupName() {
-		return groupName;
+	@Column(name = "czech_name")
+	public String getCzechName() {
+		return czechName;
+	}
+
+	public void setCzechName(String czechName) {
+		this.czechName = czechName;
 	}
 	
+	@Column(name = "english_name")
+	public String getEnglishName() {
+		return englishName;
+	}
 
-	public void setGroupName(String groupName) {
-		this.groupName = groupName;
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "commission_decision_id")
+	public CommissionDecision getCommissionDecision() {
+		return commissionDecision;
+	}
+
+	public void setCommissionDecision(CommissionDecision commissionDecision) {
+		this.commissionDecision = commissionDecision;
+	}
+	
+	@OrderBy("complement")
+	@OneToMany(mappedBy = "standardGroup", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<StandardGroupMandate> getStandardGroupMandates() {
+		return standardGroupMandates;
+	}
+
+	public void setStandardGroupMandates(Set<StandardGroupMandate> standardGroupMandates) {
+		this.standardGroupMandates = standardGroupMandates;
 	}
 	
 	
-	@URL(message = "Odkaz na soubor ma chybný tvar" )
-	@Column(name = "comission_decision_file_url")
-	public String getCommissionDecisionFileUrl() {
-		return commissionDecisionFileUrl;
-	}
-
-	public void setCommissionDecisionFileUrl(String commissionDecisionFileUrl) {
-		this.commissionDecisionFileUrl = commissionDecisionFileUrl;
-	}
-
-	
-	@Column(name = "url_title", length = 25)
-	@Length(max = 25, message = "Text odkazu může mít maximálně 25 znaků")
-	public String getUrlTitle() {
-		return urlTitle;
-	}
-
-	public void setUrlTitle(String urlTitle) {
-		this.urlTitle = urlTitle;
-	}
-
-	@Column(name = "group_code", length = 15)
-	@Length(max = 15, message = "Kód skupiny může mít max. 15 znaků")
-	public String getGroupCode() {
-		return groupCode;
-	}
-
-	public void setGroupCode(String groupCode) {
-		this.groupCode = groupCode;
-	}
-
-	@Type(type = "text")
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
 	
 	
 	

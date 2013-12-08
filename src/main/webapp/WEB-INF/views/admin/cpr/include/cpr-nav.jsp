@@ -40,6 +40,13 @@
 	</li>
 	<li>
 		<a
+		<c:if test="${model.tab == 8}">class="active"</c:if>
+		 href="<c:url value="/admin/cpr/commission-decisions" />" >
+			<spring:message code="menu.cpr.commissiondecision" />
+		</a>
+	</li>
+	<li>
+		<a
 		<c:if test="${model.tab == 6}">class="active"</c:if>
 		 href="<c:url value="/admin/cpr/basicrequirements" />" >
 			<spring:message code="menu.cpr.requrements" />

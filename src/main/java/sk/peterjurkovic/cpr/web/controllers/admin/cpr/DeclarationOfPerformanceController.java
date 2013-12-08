@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.controllers.admin;
+package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,20 +17,21 @@ import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.DeclarationOfPerformanceService;
 import sk.peterjurkovic.cpr.utils.DoPUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
-public class CprDeclarationOfPerformanceController extends SupportAdminController {
+public class DeclarationOfPerformanceController extends SupportAdminController {
 		
 	public static final int CPR_TAB_INDEX = 1;
 	
 	@Autowired
 	private DeclarationOfPerformanceService dopService;
 	
-	public CprDeclarationOfPerformanceController(){
-		setViewName("cpr-dop-view");
-		setTableItemsView("cpr-dops");
+	public DeclarationOfPerformanceController(){
+		setViewName("cpr/dop-view");
+		setTableItemsView("cpr/dops");
 	}
 	
 	/**
