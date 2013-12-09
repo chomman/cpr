@@ -46,28 +46,13 @@
 					<div class="active-tab">
 					<script>
 					$(document).ready(function(){
-						
-						   $("#mandates").multiSelect({
-							   selectableHeader: "<div class='custom-header'>Vyberte z mandátů</div><input type='text' id='search' autocomplete='off' placeholder='Vyhledat ...'>",
-							   selectionHeader: "<div class='custom-header'>Vybrané mandáty</div>"
-						   });
-						   
+												   
 						   $("#assessmentSystems").multiSelect({
 							   selectableHeader: "<div class='custom-header'>Vyberte ze systémů PS</div>",
 							   selectionHeader: "<div class='custom-header'>Vybrané systémy</div>"
 						   });
-						   
-						   $('#search').quicksearch($('.ms-elem-selectable', '#ms-mandates' )).on('keydown', function(e){
-						   		console.log('searching ' + e);   
-							    if (e.keyCode == 40){
-								   $(this).trigger('focusout');
-								   $('#mandates').focus();
-								   return false;
-								}
-							}); 
-						   
-						   
-						});
+	  
+					});
 					</script>
 					<c:url value="/admin/cpr/standard/edit/${standardId}/other" var="formUrl"/>
 
@@ -80,31 +65,14 @@
 						<c:if test="${not empty successCreate}">
 							<p class="msg ok"><spring:message code="success.create" /></p>
 						</c:if>
-						
-						<!-- Mandaty -->
-						<div class="hbox">
-							<h2><spring:message code="cpr.mandates.title" /></h2>
-						</div>
-						
-						 <form:select path="mandates" cssClass="mw500 multiple" multiple="true">
-							 <c:forEach items="${model.mandates}" var="m" >
-					 				<option value="${m.id}" 
-						 				<c:forEach items="${standard.mandates}" var="sm">
-						 					<c:if test="${sm.id ==  m.id}"> selected="selected" </c:if>
-						 				</c:forEach> 
-					 				>
-					 				${m.mandateName}
-					 				</option>			 			
-							</c:forEach>
-						 </form:select>
-						 
-						 
+
+
 						 <!-- Systemy -->
 						 <div class="hbox">
 							<h2><spring:message code="cpr.as.title" /></h2>
 						 </div>
 						 
-						 
+				
 						 <form:select path="assessmentSystems" cssClass="mw500 multiple" multiple="true">
 							 <c:forEach items="${model.assessmentSystem}" var="as" >
 					 				<option value="${as.id}" 

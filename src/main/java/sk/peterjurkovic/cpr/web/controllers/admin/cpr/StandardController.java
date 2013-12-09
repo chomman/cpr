@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -26,11 +26,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.Country;
-import sk.peterjurkovic.cpr.entities.StandardCsn;
-import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
@@ -38,10 +37,10 @@ import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
-import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.RequirementService;
+import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -51,7 +50,7 @@ import sk.peterjurkovic.cpr.validators.admin.StandardValidator;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
-import sk.peterjurkovic.cpr.web.editors.DateEditor;
+import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
 import sk.peterjurkovic.cpr.web.editors.MandateCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
@@ -91,7 +90,7 @@ public class StandardController extends SupportAdminController{
 	@Autowired
 	private TagEditor tagEditor;
 	@Autowired
-	private DateEditor dateTimeEditor;
+	private LocalDateEditor localDateEditor;
 	@Autowired
 	private CountryEditor countryEditor;
 	@Autowired
@@ -112,7 +111,7 @@ public class StandardController extends SupportAdminController{
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(StandardGroup.class, this.standardGroupEditor);
-		binder.registerCustomEditor(DateTime.class, this.dateTimeEditor);
+		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 		binder.registerCustomEditor(Country.class, this.countryEditor);
 		binder.registerCustomEditor(Tag.class, this.tagEditor);
 		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);

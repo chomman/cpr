@@ -23,6 +23,7 @@ import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 
@@ -116,7 +117,7 @@ public class Standard extends AbstractEntity {
 		this.replacedStandardId = replacedStandardId;
 	}
 	
-	@NotEmpty(message = "Český název harmonizované normy musí být vyplněno")
+	@NotBlank(message = "Český název harmonizované normy musí být vyplněno")
 	@Column(name = "czech_name")
 	public String getCzechName() {
 		return czechName;
@@ -251,14 +252,5 @@ public class Standard extends AbstractEntity {
 	public void setStandardChanges(Set<StandardChange> standardChanges) {
 		this.standardChanges = standardChanges;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		
 }

@@ -33,6 +33,14 @@
 	     	<form:input path="czechName" cssClass="mw500 required" maxlength="255" />
 	     </span>
 	 </p>
+	 <p>
+	 	<label>
+	 		<spring:message code="cpr.standard.englishName" />
+	 	</label>
+	     <span class="field">
+	     	<form:input path="englishName" cssClass="mw500" maxlength="255" />
+	     </span>
+	 </p>
 	 
 	 <p>
 	 	<label>
