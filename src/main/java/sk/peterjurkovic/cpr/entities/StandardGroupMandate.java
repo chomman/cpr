@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+
+import sk.peterjurkovic.cpr.dao.impl.IdentifiableByLong;
 
 /**
  * Asociacna entita Mandatov k Skupine harzmonizovanych noriem
@@ -22,8 +26,10 @@ import javax.persistence.Table;
 @Entity
 @SequenceGenerator(name = "standard_group_has_mandate_id_seq", sequenceName = "standard_group_has_mandate_id_seq", initialValue = 1, allocationSize =1)
 @Table(name="standard_group_has_mandate")
-public class StandardGroupMandate {
+public class StandardGroupMandate implements Serializable, IdentifiableByLong {
 	
+	private static final long serialVersionUID = 8521631652902278015L;
+
 	private Long id;
 	
 	private StandardGroup standardGroup;

@@ -30,7 +30,7 @@
 	 		<spring:message code="cpr.standard.name" />
 	 	</label>
 	     <span class="field">
-	     	<form:input path="standardName" cssClass="mw500 required" maxlength="255" />
+	     	<form:input path="czechName" cssClass="mw500 required" maxlength="255" />
 	     </span>
 	 </p>
 	 
@@ -45,18 +45,7 @@
 	     </span>
 	 </p>
 	 
-	 
-	 <p>
-	 	<label>
-	 		<spring:message code="cpr.standard.concurrentvalidity.form" />
-	 	</label>
-	     <span class="field">  
-	     	<form:input path="startConcurrentValidity" maxlength="25" cssClass="date"  />
-	     	<span class="sublabel">do</span>
-	     	<form:input path="stopConcurrentValidity" maxlength="25" cssClass="date"  />
-	     </span>
-	 </p>
-	 
+	 	 
 	 <p>
 	 	<label>
 	 		<strong><em class="red">*</em>
@@ -67,7 +56,7 @@
 	     	<form:select path="standardGroup" cssClass="mw500 smaller required">
 	  			<option value=""><spring:message code="form.select"/></option>
 	  		<c:forEach items="${model.groups}" var="group">
-	  			<option value="${group.id}" <c:if test="${standard.standardGroup.id == group.id}">selected="selected"</c:if> > ${group.groupCode} - ${fn:substring(group.groupName, 0, 90)}...</option>
+	  			<option value="${group.id}" <c:if test="${standard.standardGroup.id == group.id}">selected="selected"</c:if> > ${group.code} - ${fn:substring(group.czechName, 0, 90)}...</option>
 	  		</c:forEach>
 	</form:select>
 	       </span>

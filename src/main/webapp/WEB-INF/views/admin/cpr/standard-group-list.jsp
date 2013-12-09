@@ -49,7 +49,7 @@
 						<tr>
 							<th><spring:message code="form.code" /> <spring:message code="cpr.groups" /></th>
 							<tH><spring:message code="cpr.group.czechName" /></th>
-							<th><spring:message code="cpr.group.decision" /></th>
+							<th><spring:message code="cpr.commisiondecision.name" /></th>
 							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>

@@ -1,6 +1,8 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -18,6 +20,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * Entita reprezentujuca skupinu vyrobku podla EU vesniku 305/2011
@@ -58,6 +63,7 @@ public class StandardGroup extends AbstractEntity {
 		this.id = id;
 	}
 	
+	@NotBlank(message = "Český název skupiny musí být vyplňen")
 	@Column(name = "czech_name")
 	public String getCzechName() {
 		return czechName;
@@ -97,6 +103,14 @@ public class StandardGroup extends AbstractEntity {
 	}
 	
 	
+	@Transient
+	public List<Mandate> getAssignedMandates(){
+		List<Mandate> assignedMandates = new ArrayList<Mandate>();
+		for(StandardGroupMandate sgm : standardGroupMandates){
+			assignedMandates.add(sgm.getMandate());
+		}
+		return assignedMandates;
+	}
 	
 	
 	

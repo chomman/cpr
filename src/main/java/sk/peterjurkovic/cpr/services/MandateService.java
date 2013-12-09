@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.services;
 import java.util.List;
 
 import sk.peterjurkovic.cpr.entities.Mandate;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 
 /**
  * Rozhranie pre pracu s mandatom
@@ -88,4 +89,13 @@ public interface MandateService {
 	 * @return TURE, v pripade ak moze byt odstraneny
 	 */
 	boolean canBeDeleted(final Mandate mandate);
+	
+	
+	/**
+	 * Vrati vsetky mandaty, okrem mandatov pripradenych k danej skupine
+	 * 
+	 * @param standardGroup
+	 * @return 
+	 */
+	List<Mandate> getFiltredMandates(StandardGroup standardGroup);
 }

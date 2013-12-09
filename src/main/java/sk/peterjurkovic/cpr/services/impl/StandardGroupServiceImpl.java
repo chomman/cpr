@@ -94,6 +94,14 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 	public List<StandardGroup> getStandardGroupsForPublic() {
 		return standardGroupDao.getStandardGroupsForPublic();
 	}
+
+	@Override
+	public void mergeStandardGroup(StandardGroup standardGroup) {
+		standardGroup.setChanged(new LocalDateTime());
+		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		standardGroup.setChangedBy(user);
+		standardGroupDao.merge(standardGroup);
+	}
 	
 	
 	

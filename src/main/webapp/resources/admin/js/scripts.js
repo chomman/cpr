@@ -46,6 +46,10 @@ $(function() {
          return confirm('Opravdu chcete odstranit tuto položku?');
      });
      
+     $('.confirmUnassignment').on('click', function () {
+         return confirm('Opravdu chcete odebrat mandát ze skupiny?');
+     });
+     
      $('.confirmMessage').on('click', function () {
          return confirm($(this).attr("data-message"));
      });
@@ -64,6 +68,11 @@ $(function() {
      $(".chosen").chosen({
     	 width : "510px"
      });
+     
+     $(".chosenSmall").chosen({
+    	 width : "200px"
+     });
+    
 });
 function updateNav(){
 	var o = $('nav');

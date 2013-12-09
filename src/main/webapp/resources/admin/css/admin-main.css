@@ -555,3 +555,11 @@ table.log td,.log-descr{padding:2px;}
 .tlog.info{background:#fafafa;}
 .tlog.alert{background:#FFE9BA;}
 .tlog:hover{background:#fff;}
+
+
+.inline-form{background:#F2F8FF;padding:5px;}
+.inline-field{display:inline-block;padding:10px 30px;}
+.inline-form input[type=submit]{float:right;margin:8px;cursor:pointer;}
+.data .delete.big{width:100px;text-align:center;}
+.is-not-complement{color:#1C2266;font-weight:bold;}
+.is-complement em{font-style:normal;}

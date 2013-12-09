@@ -1,7 +1,9 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.MandateDao;
 import sk.peterjurkovic.cpr.entities.Mandate;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.services.UserService;
@@ -88,6 +91,27 @@ public class MandateServiceImpl implements MandateService {
 	@Transactional(readOnly = true)
 	public boolean canBeDeleted(Mandate mandate) {
 		return mandateDao.canBeDeleted(mandate);
+	}
+
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Mandate> getFiltredMandates(StandardGroup standardGroup) {
+		List<Mandate> filtredMandates = new ArrayList<Mandate>();
+		List<Mandate> mandates = getAllMandates();
+		List<Mandate> assignedMandates = standardGroup.getAssignedMandates();
+		
+		if(CollectionUtils.isEmpty(assignedMandates)){
+			return mandates;
+		}
+		
+		for(Mandate mandate :mandates){
+			if(!assignedMandates.contains(mandate)){
+				filtredMandates.add(mandate);
+			}
+		}
+		return filtredMandates;
 	}
 
 }

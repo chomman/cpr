@@ -4,22 +4,32 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import sk.peterjurkovic.cpr.entities.CommissionDecision;
+import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.entities.StandardGroupMandate;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.CommissionDecisionService;
+import sk.peterjurkovic.cpr.services.MandateService;
+import sk.peterjurkovic.cpr.services.StandardGroupMandateService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
+import sk.peterjurkovic.cpr.web.editors.CommissionDecisionEditor;
+import sk.peterjurkovic.cpr.web.editors.MandatePropertyEditor;
 
 @Controller
 @SessionAttributes("standardGroup")
@@ -27,17 +37,31 @@ public class StandardGroupController extends SupportAdminController {
 	
 	
 	public static final int CPR_TAB_INDEX = 2;
+	private static final String SUCCESS_PARAM = "successCreate";
 
 	@Autowired
 	private StandardGroupService standardGroupService;
 	@Autowired
 	private CommissionDecisionService commissionDecisionService;
+	@Autowired
+	private CommissionDecisionEditor commissionDecisionEditor;
+	@Autowired
+	private MandateService mandateService;
+	@Autowired
+	private MandatePropertyEditor mandatePropertyEditor;
+	@Autowired
+	private StandardGroupMandateService standardGroupMandateService;
 	
 	public StandardGroupController(){
 		setTableItemsView("cpr/standard-group-list");
 		setEditFormView("cpr/standard-group-edit");
 	}
 	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(CommissionDecision.class, this.commissionDecisionEditor);
+		binder.registerCustomEditor(Mandate.class, this.mandatePropertyEditor);
+	}
 	
 	/**
 	 * Metoda kontroleru, ktora zobrazi skupiny výrobku
@@ -94,25 +118,56 @@ public class StandardGroupController extends SupportAdminController {
 	 * @param standardGroupId ID skupiny. V prípade ak je 0, jedna sa o pridanie novej skupiny
 	 * @param modelMap model, data
 	 * @return String view obsahujuce formular
+	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.GET)
-	public String showForm(@PathVariable Long standardGroupId,  ModelMap model) {
+	public String showForm(@PathVariable Long standardGroupId,  ModelMap model, HttpServletRequest request) throws ItemNotFoundException {
 						
 		StandardGroup form = null;
 	
-		// vytvorenie novej polozky
 		if(standardGroupId == 0){
 			form = createEmptyForm();
 		}else{
-			// editacia polozky
 			form = standardGroupService.getStandardGroupByid(standardGroupId);
 			if(form == null){
-				model.put("notFoundError", true);
-				return getEditFormView();
+				createItemNotFoundError("Standard group was not found [id="+standardGroupId+"]");
 			}
+		}
+		String successParam = request.getParameter(SUCCESS_PARAM);
+		if(successParam != null && successParam.equals("1")){
+			model.put(SUCCESS_PARAM, true);
 		}
 		prepareModel(form, model, standardGroupId);
         return getEditFormView();
+	}
+	
+	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}/mandate/add", method = RequestMethod.POST)
+	public String processAssignmentMandate(@PathVariable Long standardGroupId,  ModelMap model, HttpServletRequest request, @Valid StandardGroupMandate form, BindingResult result) throws ItemNotFoundException {
+		
+		StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
+		
+		if(standardGroup == null){
+			createItemNotFoundError("Standard group was not found. [id="+standardGroupId+"]");
+		}
+		
+		Mandate selectedMandate = form.getMandate();
+		
+		form.setStandardGroup(standardGroup);
+		if(selectedMandate != null  && !standardGroup.getAssignedMandates().contains(selectedMandate)){
+			standardGroupMandateService.create(form);
+		}
+		return "redirect:/admin/cpr/groups/edit/"+standardGroupId;
+	}
+	
+	
+	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}/mandate/delete/{id}")
+	public String removeMandate(@PathVariable Long standardGroupId, @PathVariable Long id) throws ItemNotFoundException {
+		StandardGroupMandate sgm = standardGroupMandateService.getById(id);
+		if(sgm != null){
+			standardGroupMandateService.delete(sgm);
+			return "redirect:/admin/cpr/groups/edit/"+standardGroupId + "?" +SUCCESS_PARAM+"=1";
+		}
+		return "redirect:/admin/cpr/groups/edit/"+standardGroupId;
 	}
 	
 	
@@ -126,26 +181,23 @@ public class StandardGroupController extends SupportAdminController {
 	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long standardGroupId,  @Valid  StandardGroup form, BindingResult result, ModelMap model) throws ItemNotFoundException {
+	public String processSubmit(@PathVariable Long standardGroupId, @Valid StandardGroup form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
 			prepareModel(form, model, standardGroupId);
         }else{
-        	if(standardGroupService.isStandardGroupNameUniqe(form.getCzechName(), form.getId())){
-	        	createOrUpdate(form);
-	        	model.put("successCreate", true);
-	        	if(standardGroupId == 0){
-	        		form = createEmptyForm();
-	        		prepareModel(form, model, standardGroupId);
-	        	}
+        	createOrUpdate(form);
+        	model.put("successCreate", true);
+        	if(standardGroupId == 0){
+        		return "redirect:/admin/cpr/groups/edit/"+form.getId() + "?" +SUCCESS_PARAM+"=1";
         	}else{
-        		result.rejectValue("groupName", "error.uniqe");
-        		prepareModel(form, model, standardGroupId);
+        		prepareModel(form, model, form.getId());
         	}
         }
-		
         return getEditFormView();
 	}
+	
+	
 	
 	
 	private void prepareModel(StandardGroup form, ModelMap map, Long standardGroupId){
@@ -154,8 +206,23 @@ public class StandardGroupController extends SupportAdminController {
 		model.put("standardGroupId", standardGroupId);
 		model.put("commissionDecisions", commissionDecisionService.getAll());
 		model.put("tab", CPR_TAB_INDEX);
+		if(standardGroupId != 0){
+			prepareMandateModel(form, map, model);
+		}
 		map.put("model", model); 
 	}
+	
+	
+	
+	private void prepareMandateModel(StandardGroup form, ModelMap map, Map<String, Object> model){
+		StandardGroupMandate standardGroupMandate = new StandardGroupMandate();
+		standardGroupMandate.setStandardGroup(form);
+		map.addAttribute("standardGroupMandate", standardGroupMandate);	
+		model.put("mandates", mandateService.getFiltredMandates(form));
+	}
+	
+	
+	
 	
 	
 	private StandardGroup createOrUpdate(StandardGroup form) throws ItemNotFoundException{
@@ -169,16 +236,14 @@ public class StandardGroupController extends SupportAdminController {
 				createItemNotFoundError("Norma s ID: "+ form.getId() + " se v systému nenachází");
 			}
 		}
-		/*
-		standardGroup.setCode(CodeUtils.toSeoUrl(form.getGroupName()));
-		standardGroup.setGroupName(form.getGroupName());
-		standardGroup.setDescription(form.getDescription());
-		standardGroup.setGroupCode(form.getGroupCode());
-		standardGroup.setCommissionDecisionFileUrl(form.getCommissionDecisionFileUrl());
-		standardGroup.setUrlTitle(form.getUrlTitle());
+		
+		standardGroup.setCode(form.getCode());
+		standardGroup.setCzechName(form.getCzechName());
+		standardGroup.setEnglishName(form.getEnglishName());;
+		standardGroup.setCommissionDecision(form.getCommissionDecision());
 		standardGroup.setEnabled(form.getEnabled());
 		standardGroupService.saveOrdUpdateStandardGroup(standardGroup);
-		*/
+		form.setId(standardGroup.getId());
 		return standardGroup;
 	}
 	

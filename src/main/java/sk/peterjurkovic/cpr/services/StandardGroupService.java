@@ -16,6 +16,8 @@ public interface StandardGroupService {
 	
 	void deleteStandardGroup(StandardGroup standardGroup);
 	
+	void mergeStandardGroup(StandardGroup standardGroup);
+	
 	StandardGroup getStandardGroupByid(Long id);
 	
 	StandardGroup getStandardGroupByCode(String code);

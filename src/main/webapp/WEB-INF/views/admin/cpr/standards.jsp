@@ -68,7 +68,7 @@
 					<select name="groupId" class="groups">
 						<option value="0"><spring:message code="cpr.groups.all" /></option>
 						<c:forEach items="${model.groups}" var="group">
-							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.groupName}</option>
+							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.czechName}</option>
 						</c:forEach> 
 					</select>
 				</div>
