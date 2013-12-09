@@ -47,8 +47,8 @@
 				<table class="data">
 					<thead>
 						<tr>
-							<tH><spring:message code="form.name" /> <spring:message code="cpr.groups" /></th>
 							<th><spring:message code="form.code" /> <spring:message code="cpr.groups" /></th>
+							<tH><spring:message code="cpr.group.czechName" /></th>
 							<th><spring:message code="cpr.group.decision" /></th>
 							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
@@ -59,9 +59,17 @@
 					<tbody>
 						 <c:forEach items="${model.groups}" var="i">
 						 	<tr>
-						 		<td><a title="Zobrazit evidované normy?" class="tt" href="<c:url value="/admin/cpr/standards?groupId=${i.id}" />"> ${i.groupName}</a></td>
-						 		<td>${i.groupCode}</td>
-						 		<td>${i.urlTitle}</td>
+						 		<td>${i.code}</td>
+						 		<td>
+						 			<a title="Zobrazit evidované normy?" class="tt" href="<c:url value="/admin/cpr/standards?groupId=${i.id}" />">
+						 			${i.czechName}
+						 			</a>
+						 		</td>
+						 		<td>
+						 			<c:if test="${not empty i.commissionDecision}">
+						 				${i.commissionDecision.czechLabel}
+						 			</c:if>
+						 		</td>
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">
 						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >

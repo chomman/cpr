@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.services.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.joda.time.LocalDateTime;
@@ -14,6 +13,7 @@ import sk.peterjurkovic.cpr.entities.CommissionDecision;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CommissionDecisionService;
 import sk.peterjurkovic.cpr.services.UserService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Service("commissionDecisionService")
@@ -55,6 +55,7 @@ public class CommissionDecisionServiceImpl implements CommissionDecisionService 
 	@Override
 	public void saveOrUpdate(CommissionDecision commissionDecision) {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		commissionDecision.setCode(CodeUtils.toSeoUrl(commissionDecision.getCzechLabel()));
 		if(commissionDecision.getId() == null){
 			commissionDecision.setCreatedBy(user);
 			commissionDecision.setCreated(new LocalDateTime());

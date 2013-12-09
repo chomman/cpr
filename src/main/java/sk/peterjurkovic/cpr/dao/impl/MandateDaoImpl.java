@@ -67,11 +67,11 @@ public class MandateDaoImpl extends BaseDaoImpl<Mandate, Long> implements Mandat
 	 */
 	@Override
 	public boolean canBeDeleted(final Mandate mandate) {
-		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");
-		hql.append(" WHERE :mandate IN ELEMENTS(s.mandates)");
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM StandardGroupMandate sgm");
+		hql.append(" WHERE sgm.mandate.id = :id ");
 		Long result = (Long)sessionFactory.getCurrentSession()
 						.createQuery(hql.toString())
-						.setEntity("mandate", mandate)
+						.setLong("id", mandate.getId())
 						.uniqueResult();
 		return (result == 0);
 	}

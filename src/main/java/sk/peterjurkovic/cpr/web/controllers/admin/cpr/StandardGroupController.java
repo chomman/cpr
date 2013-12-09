@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.services.CommissionDecisionService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
@@ -26,14 +27,15 @@ public class StandardGroupController extends SupportAdminController {
 	
 	
 	public static final int CPR_TAB_INDEX = 2;
-	
+
 	@Autowired
 	private StandardGroupService standardGroupService;
-	
+	@Autowired
+	private CommissionDecisionService commissionDecisionService;
 	
 	public StandardGroupController(){
-		setTableItemsView("cpr/groups");
-		setEditFormView("cpr/groups-edit");
+		setTableItemsView("cpr/standard-group-list");
+		setEditFormView("cpr/standard-group-edit");
 	}
 	
 	
@@ -45,13 +47,10 @@ public class StandardGroupController extends SupportAdminController {
 	 */
 	@RequestMapping("/admin/cpr/groups")
     public String showCprGroupsPage(ModelMap modelMap) {
-		
 		Map<String, Object> model = new HashMap<String, Object>();
 		List<StandardGroup> groups = standardGroupService.getAllStandardGroups();
 		model.put("groups", groups);
 		model.put("tab", CPR_TAB_INDEX);
-		
-		
 		modelMap.put("model", model);
         return getTableItemsView();
     }
@@ -153,6 +152,7 @@ public class StandardGroupController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("standardGroup", form);
 		model.put("standardGroupId", standardGroupId);
+		model.put("commissionDecisions", commissionDecisionService.getAll());
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}

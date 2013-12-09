@@ -4,7 +4,6 @@
 <html>
 	<head>
 		<title><spring:message code="cpr.groups.edit" /></title>
-		<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
 	</head>
 <body>
 	<div id="wrapper">
@@ -33,11 +32,14 @@
 			<c:if test="${empty notFoundError}">
 					
 					
+					<!-- SUB NAV -->
 					<ul class="sub-nav">
 						<li><a href="<c:url value="/admin/cpr/groups"  />"><spring:message code="cpr.groups.view" /></a></li>
 						<li><a class="active" href="<c:url value="/admin/cpr/groups/edit/0"  />"><spring:message code="cpr.groups.add" /></a></li>
 					</ul>
 				
+					
+					<!-- AUTHOR/EDITOR INFOR -->
 					<c:if test="${not empty standardGroup.createdBy}">
 						<table class="info">
 							<tr>
@@ -54,9 +56,9 @@
 							</c:if>
 						</table>
 					</c:if>
-					<script type="text/javascript"> 
-						$(function() { initWISIWIG("580", "250"); });
-					</script>
+					
+					
+					<!-- FROM  -->
 					<c:url value="/admin/cpr/groups/edit/${standardGroupId}" var="formUrl"/>
 					<form:form commandName="standardGroup" method="post" action="${formUrl}"  >
 					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
@@ -67,39 +69,50 @@
 						<p>
                         	<label>
                         		<strong><em class="red">*</em>
-                        			<spring:message code="form.name" /> <spring:message code="cpr.groups" />
+                        			<spring:message code="cpr.group.czechName" />
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input htmlEscape="true" path="groupName" maxlength="255" cssClass="mw500" />
+                            	<form:input htmlEscape="true" path="czechName" maxlength="255" cssClass="mw500" />
                             </span>
                         </p>
                         <p>
                         	<label>
-                        		<spring:message code="form.code" /> <spring:message code="cpr.groups" />
-                        		<small>Kód skupiny podle CPR.</small>
+                        		<spring:message code="cpr.group.englishName" />
                         	</label>
                             <span class="field">
-                            	<form:input htmlEscape="true" path="groupCode" cssClass="w100" maxlength="15" />
-                            </span>
-                        </p>
-                        <p>
-                        	<label>
-                        		<spring:message code="cpr.groups.fileUrl" />
-                        	</label>
-                            <span class="field">  
-                            	<form:input  htmlEscape="true" path="commissionDecisionFileUrl"  maxlength="255"  cssClass="mw500" />
+                            	<form:input htmlEscape="true" path="englishName" maxlength="255" cssClass="mw500" />
                             </span>
                         </p>
                         
                         <p>
                         	<label>
-                        		<spring:message code="cpr.group.url.title" />
+                        		<spring:message code="cpr.group.code" />                       		
                         	</label>
-                            <span class="field">  
-                            	<form:input htmlEscape="true" path="urlTitle" maxlength="25"  />
+                            <span class="field">
+                            	<form:input htmlEscape="true" path="code" cssClass="w100" maxlength="15" />
                             </span>
                         </p>
+                        
+                        <p>
+                        	<label>
+                        		<spring:message code="cpr.commisiondecision.name" />                       		
+                        	</label>
+                            <span class="field">
+                            	<form:select path="commissionDecision" cssClass="maxw600 chosen" >
+                            		<option value="" ><spring:message code="form.select" /></option>
+                            		<c:forEach items="${model.commissionDecisions}" var="i">
+                            			<option 
+	                            			<c:if test="${standardGroup.commissionDecision.id == i.id}">selected="selected"</c:if>
+	                            			value="${i.id}">
+	                            			${i.czechLabel}
+	                            			<c:if test="${not empty i.englishLabel}">${i.englishLabel}</c:if>
+                            			</option>
+                            		</c:forEach>
+                            	</form:select>
+                            </span>
+                        </p>
+                        
                         <p>
 						    <label title="<spring:message code="publish.descr" />" class="tt">
 						 		<spring:message code="publish" />
@@ -108,17 +121,7 @@
 						     	<form:checkbox path="enabled" />
 						     </span>
 						 </p>
-						<p class="form-head"><spring:message code="cpr.nb.description" /><p>
-						  <p>
-	                      	<label>
-	                      		<spring:message code="cpr.nb.description" />
-	                      		<small>Podrobnejší popis skupiny</small>
-	                      	</label>
-	                          <span class="field">  
-	                          	<form:textarea path="description"  cssClass="mceEditor defaultSize" />
-	                          </span>
-	                      </p>
-
+	
 	                      
                         <form:hidden path="id" />
                         <p class="button-box">

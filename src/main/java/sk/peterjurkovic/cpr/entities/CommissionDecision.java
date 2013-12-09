@@ -10,6 +10,9 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 /**
  * Entita reprezentujuca rozhodnutie komisie
  * 
@@ -54,6 +57,8 @@ public class CommissionDecision extends AbstractEntity {
 		return super.getId();
 	}
 	
+	@NotBlank(message = "České označení musí být vyplněno" )
+	@Length(max = 20)
 	@Column(name = "czech_label", length = 20)
 	public String getCzechLabel() {
 		return czechLabel;
@@ -62,7 +67,7 @@ public class CommissionDecision extends AbstractEntity {
 	public void setCzechLabel(String czechLabel) {
 		this.czechLabel = czechLabel;
 	}
-	
+	@Length(max = 150)
 	@Column(name = "czech_file_url", length = 150)
 	public String getCzechFileUrl() {
 		return czechFileUrl;
@@ -72,6 +77,7 @@ public class CommissionDecision extends AbstractEntity {
 		this.czechFileUrl = czechFileUrl;
 	}
 	
+	@Length(max = 20)
 	@Column(name = "english_label", length = 20)
 	public String getEnglishLabel() {
 		return englishLabel;
@@ -81,6 +87,7 @@ public class CommissionDecision extends AbstractEntity {
 		this.englishLabel = englishLabel;
 	}
 	
+	@Length(max = 150)
 	@Column(name = "english_file_url", length = 150)
 	public String getEnglishFileUrl() {
 		return englishFileUrl;
@@ -89,7 +96,7 @@ public class CommissionDecision extends AbstractEntity {
 	public void setEnglishFileUrl(String englishFileUrl) {
 		this.englishFileUrl = englishFileUrl;
 	}
-	
+	@Length(max = 150)
 	@Column(name = "draft_amendment_file_url", length = 150)
 	public String getDraftAmendmentUrl() {
 		return draftAmendmentUrl;
