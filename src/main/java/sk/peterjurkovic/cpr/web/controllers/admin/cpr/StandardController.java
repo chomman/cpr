@@ -55,6 +55,7 @@ import sk.peterjurkovic.cpr.web.editors.MandateCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.TagEditor;
+import sk.peterjurkovic.cpr.web.forms.admin.StandardForm;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
@@ -180,6 +181,7 @@ public class StandardController extends SupportAdminController{
 	
 	
 	
+	
 	/**
 	 * Odstranie normu na zaklade daneho ID
 	 * 
@@ -238,6 +240,58 @@ public class StandardController extends SupportAdminController{
 			return "redirect:/admin/cpr/standard/edit/" + persistedId;
 		}
         return getEditFormView();
+	}
+	
+	
+	
+	/**
+	 * Spracuje odoslany formular, urceny na priradenie skupiny vyrobku k danej norme
+	 * 
+	 * @param standardId
+	 * @param form
+	 * @param result
+	 * @param model
+	 * @return
+	 * @throws ItemNotFoundException
+	 */
+	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/standard-group/add", method = RequestMethod.POST)
+	public String processStandardGroupAdding(@PathVariable Long standardId,  @Valid  StandardForm form, BindingResult result, ModelMap model) throws ItemNotFoundException {
+		
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError("Standard with ID " +standardId + " was now found");
+		}
+		
+		if(!standard.getStandardGroups().contains(form.getStandardGroup())){
+			standard.getStandardGroups().add(form.getStandardGroup());
+			standardService.saveOrUpdate(standard);
+		}
+		
+		return "redirect:/admin/cpr/standard/edit/" + standardId;
+	}
+	
+	
+	
+	/**
+	 * Zrusi priradenie danej skupiny k danej norme
+	 * 
+	 * @param standardId
+	 * @param id
+	 * @return
+	 * @throws ItemNotFoundException
+	 */
+	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/standard-group/delete/{id}")
+	public String processStandardGroupAdding(@PathVariable Long standardId, @PathVariable Long id) throws ItemNotFoundException {
+		Standard standard = standardService.getStandardById(standardId);
+		final StandardGroup standardGroup = standardGroupService.getStandardGroupByid(id);
+		if(standard == null || standardGroup == null){
+			createItemNotFoundError("Standard with ID " +standardId + " was now found");
+		}
+		if(standard.getStandardGroups().contains(standardGroup)){
+			standard.getStandardGroups().remove(standardGroup);
+			standardService.saveOrUpdate(standard);
+		}
+		return "redirect:/admin/cpr/standard/edit/" + standardId;
 	}
 	
 	
@@ -718,7 +772,7 @@ public class StandardController extends SupportAdminController{
 		standard.setCzechName(form.getCzechName());
 		standard.setStartValidity(form.getStartValidity());
 		standard.setStopValidity(form.getStopValidity());
-		standard.setStandardGroup(form.getStandardGroup());
+		//standard.setStandardGroup(form.getStandardGroup());
 		standard.setEnabled(form.getEnabled());
 		
 		standardService.saveOrUpdate(standard);
@@ -754,8 +808,9 @@ public class StandardController extends SupportAdminController{
 	private void prepareModelForEditBasicInfo(Standard form, ModelMap map, Long standardId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("standard", form);
+		map.addAttribute("standardForm", new StandardForm());
 		model.put("standardId", standardId);
-		model.put("groups", standardGroupService.getAllStandardGroups());
+		model.put("standardGroups", standardGroupService.getFiltredStandardGroups(form));
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}

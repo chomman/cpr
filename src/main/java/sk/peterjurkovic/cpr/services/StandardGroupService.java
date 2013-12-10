@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
 
+import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 /**
  * 
@@ -31,4 +32,15 @@ public interface StandardGroupService {
 	boolean isStandardGroupNameUniqe(String groupName, Long standardGroupId);
 	
 	List<StandardGroup> getStandardGroupsForPublic();
+	
+	/**
+	 * Metoda vrati vsetky skupiny vyrobkov, okrem skupin priradenych k danej norme.
+	 * Tz. ak bude k danej norme priradena skupina 3, budu vratene vsetky skupiny okrem 3
+	 * 
+	 * @param standard
+	 * @return 
+	 */
+	List<StandardGroup> getFiltredStandardGroups(Standard standard);
+	
+	
 }

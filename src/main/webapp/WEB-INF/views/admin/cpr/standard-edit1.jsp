@@ -40,6 +40,44 @@
 						
 						<jsp:include page="include/cpr-standard-form1.jsp" />	
 					
+					
+					<!--  STANDARD GROUPS WRAPPER  -->
+					<div>
+						<p class="form-head"><spring:message code="cpr.standard.attachedGroups" /></p>
+						
+						
+						<!-- assigned STANDARD GROUPS -->
+						<c:if test="${not empty standard.standardGroups}">
+							<table class="data">
+								<c:forEach items="${standard.standardGroups}" var="i">
+									<tr>
+										<td class="w40 c b"><strong>${i.code}</strong></td>
+										<td>${i.czechName}</td>
+										<td class="delete big">
+											<a class="confirmUnassignment"  href="${formUrl}/standard-group/delete/${i.id}">
+								 				<spring:message code="cpr.group.unassigment" />
+								 			</a>
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
+							
+						</c:if>
+						
+						<!--  STANDARD GROUP ADDING FORM  -->	
+						<form:form cssClass="inline-form" action="${formUrl}/standard-group/add" commandName="standardForm"  method="post"  >
+						 	<div class="inline-field">
+						 		<form:select path="standardGroup" cssClass="chosen">
+									<option value="" ><spring:message code="form.select" /></option>
+									<c:forEach items="${model.standardGroups}" var="group">
+	                                 <option value="${group.id}"> ${group.code} - ${fn:substring(group.czechName, 0, 90)}...</option>
+	                         </c:forEach>
+								</form:select>
+						 	</div>
+						 	<input type="submit" class="lang mandate-add-btn" value="<spring:message code="cpr.standard.group" />" />
+						 </form:form>
+					
+					</div>
 					</div> <!-- END ACTIVE TAB -->
 					
 						<jsp:include page="include/cpr-standard-menu2.jsp" />

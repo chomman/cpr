@@ -55,7 +55,7 @@ public class Standard extends AbstractEntity {
 	
 	private LocalDate stopValidity;
 		
-	private StandardGroup standardGroup;
+	private Set<StandardGroup> standardGroups;
 	
 	private String text;
 		
@@ -80,9 +80,10 @@ public class Standard extends AbstractEntity {
 		this.assessmentSystems = new HashSet<AssessmentSystem>();
 		this.standardCsns = new HashSet<StandardCsn>();
 		this.requirements = new HashSet<Requirement>();
+		this.standardGroups = new HashSet<StandardGroup>();
 		this.tags = new HashSet<Tag>();
 		this.standardChanges = new HashSet<StandardChange>();
-		setEnabled(Boolean.FALSE);
+		setEnabled(Boolean.TRUE);
 		setCumulative(Boolean.FALSE);
 	}
 	
@@ -157,14 +158,14 @@ public class Standard extends AbstractEntity {
 	}
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_group_id")
-	public StandardGroup getStandardGroup() {
-		return standardGroup;
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "standard_is_in_standard_group", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "standard_group_id"))
+	public Set<StandardGroup> getStandardGroups() {
+		return standardGroups;
 	}
 
-	public void setStandardGroup(StandardGroup standardGroup) {
-		this.standardGroup = standardGroup;
+	public void setStandardGroups(Set<StandardGroup> standardGroups) {
+		this.standardGroups = standardGroups;
 	}
 		
 	@ManyToMany(fetch = FetchType.LAZY)
@@ -172,6 +173,7 @@ public class Standard extends AbstractEntity {
 	public Set<NotifiedBody> getNotifiedBodies() {
 		return notifiedBodies;
 	}
+
 
 	public void setNotifiedBodies(Set<NotifiedBody> notifiedBodies) {
 		this.notifiedBodies = notifiedBodies;

@@ -38,7 +38,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> getStandardPage(final int pageNumber,final Map<String, Object> criteria ){
-		StringBuffer hql = new StringBuffer("from Standard s");
+		StringBuffer hql = new StringBuffer("select s from Standard s");
 		hql.append(prepareHqlForQuery(criteria));
 		if((Integer)criteria.get("orderBy") != null){
 			hql.append(StandardOrder.getSqlById((Integer)criteria.get("orderBy") ));
@@ -50,9 +50,8 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		prepareHqlQueryParams(hqlQuery, criteria);
 		hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
 		hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
-		return hqlQuery.list();
+		hqlQuery.setCacheable(false);
+		return (List<Standard>)hqlQuery.list();
 	}
 	
 	

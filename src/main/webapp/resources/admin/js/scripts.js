@@ -47,7 +47,7 @@ $(function() {
      });
      
      $('.confirmUnassignment').on('click', function () {
-         return confirm('Opravdu chcete odebrat mandát ze skupiny?');
+         return confirm('Opravdu chcete zrušit přiřazení?');
      });
      
      $('.confirmMessage').on('click', function () {

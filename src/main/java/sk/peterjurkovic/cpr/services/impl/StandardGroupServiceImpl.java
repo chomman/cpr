@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.StandardGroupDao;
+import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
@@ -27,23 +28,23 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 	private UserService userService;
 	
 	@Override
-	public void createStandardGroup(StandardGroup standardGroup) {
+	public void createStandardGroup(final StandardGroup standardGroup) {
 		standardGroupDao.save(standardGroup);
 	}
 
 	@Override
-	public void updateStandardGroup(StandardGroup standardGroup) {
+	public void updateStandardGroup(final StandardGroup standardGroup) {
 		standardGroupDao.update(standardGroup);
 	}
 
 	@Override
-	public void deleteStandardGroup(StandardGroup standardGroup) {
+	public void deleteStandardGroup(final StandardGroup standardGroup) {
 		standardGroupDao.remove(standardGroup);
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public StandardGroup getStandardGroupByid(Long id) {
+	public StandardGroup getStandardGroupByid(final Long id) {
 		return standardGroupDao.getByID(id);
 	}
 
@@ -79,14 +80,14 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Long getCountOfStandardsInGroup(StandardGroup standardGroup) {
+	public Long getCountOfStandardsInGroup(final StandardGroup standardGroup) {
 		return standardGroupDao.getCoutOfStandardInGroup(standardGroup);
 	}
 
 	
 	@Override
 	@Transactional(readOnly = true)
-	public boolean isStandardGroupNameUniqe(String groupName, Long standardGroupId) {
+	public boolean isStandardGroupNameUniqe(final String groupName,final Long standardGroupId) {
 		return standardGroupDao.isGroupNameUniqe(CodeUtils.toSeoUrl(groupName), standardGroupId);
 	}
 
@@ -101,6 +102,15 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		standardGroup.setChangedBy(user);
 		standardGroupDao.merge(standardGroup);
+	}
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<StandardGroup> getFiltredStandardGroups(final Standard standard) {
+		List<StandardGroup> allStandardGroups = getAllStandardGroups();
+		allStandardGroups.removeAll(standard.getStandardGroups());
+		return allStandardGroups;
 	}
 	
 	

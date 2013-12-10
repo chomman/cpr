@@ -29,7 +29,7 @@ import org.joda.time.LocalDate;
 public class Csn extends AbstractEntity {
 
 	
-	private static final long serialRVersionUID = -697883831104944278L;
+	private static final long serialVersionUID = -1450591045031893045L;
 
 	private Long id;
 	

@@ -116,7 +116,7 @@
 						 <c:forEach items="${model.standards}" var="i">
 						 	<tr>
 						 		<td>${i.standardId}</td>
-						 		<td>${i.standardName}</td>
+						 		<td>${i.czechName}</td>
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">
 						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >

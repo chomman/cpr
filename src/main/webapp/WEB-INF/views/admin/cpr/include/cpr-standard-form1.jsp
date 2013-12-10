@@ -1,8 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<form:form htmlEscape="true" commandName="standard" method="post" action="${formUrl}"  cssClass="valid" >
+	<form:form htmlEscape="true" commandName="standard" method="post" action="${formUrl}"  cssClass="valid" >
 						
 	<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+	<p class="form-head"><spring:message code="csn.basic.info" /></p>
 	<c:if test="${not empty successCreate}">
 		<p class="msg ok"><spring:message code="success.create" /></p>
 	</c:if>
@@ -53,23 +54,8 @@
 	     </span>
 	 </p>
 	 
-	 	 
-	 <p>
-	 	<label>
-	 		<strong><em class="red">*</em>
-	 			<spring:message code="cpr.standard.group" />
-	 		</strong>
-	 	</label>
-	     <span class="field">  
-	     	<form:select path="standardGroup" cssClass="mw500 smaller required">
-	  			<option value=""><spring:message code="form.select"/></option>
-	  		<c:forEach items="${model.groups}" var="group">
-	  			<option value="${group.id}" <c:if test="${standard.standardGroup.id == group.id}">selected="selected"</c:if> > ${group.code} - ${fn:substring(group.czechName, 0, 90)}...</option>
-	  		</c:forEach>
-	</form:select>
-	       </span>
-	   </p>
-	   <script type="text/javascript">
+	 	
+	<script type="text/javascript">
 	$(document).ready(function() {
 	    $("#tagsField").tagit({fieldName: "tags", allowSpaces :true});
 	});
@@ -104,3 +90,5 @@
 	 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
 	 </p>
  </form:form>
+ 
+ 
