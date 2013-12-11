@@ -63,7 +63,7 @@
 						<div class="norm">
 			 				<span class="edit"><joda:format value="${standard.changed}" pattern="${common.dateTimeFormat}"/></span>
 			 				<a href="<c:url value="/admin/cpr/standard/edit/${standard.id}" />" class="blue-color link">${standard.standardId}</a>
-			 				<span class="sname">${standard.standardName}</span>
+			 				<span class="sname">${standard.czechName}</span>
 		 				</div>	
 		 			</c:forEach>
 	 			</c:if>

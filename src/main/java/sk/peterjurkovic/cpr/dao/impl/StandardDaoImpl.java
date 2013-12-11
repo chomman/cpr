@@ -110,8 +110,9 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> autocomplateSearch(final String query, final Boolean enabled) {
-		StringBuilder hql = new StringBuilder("select s.id, s.standardId, s.standardName from Standard s");
-		hql.append(" where s.standardId like :query or s.standardName like :query ");
+		StringBuilder hql = new StringBuilder("select s.id, s.standardId, s.czechName from Standard s");
+		hql.append(" where unaccent(lower(s.standardId)) like unaccent(lower(:query)) ");
+		hql.append(" or unaccent(lower(s.czechName)) like unaccent(lower(:query)) ");
 		if(enabled != null){
 			hql.append(" AND s.enabled=:enabled");
 		}
@@ -119,7 +120,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		if(enabled != null){
 			hqlQuery.setBoolean("enabled", enabled);
 		}
-		return hqlQuery.setString("query", "%" + query + "%")
+		return hqlQuery.setString("query", "%" + query)
 				.setMaxResults(8)
 				.list();
 	}
@@ -129,7 +130,9 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" s.standardId like CONCAT('%', :query , '%') or s.standardName like CONCAT('%', :query , '%')");
+				where.add(" (unaccent(lower(s.standardId)) like CONCAT('%', unaccent(lower(:query)) , '%') " +
+						" or unaccent(lower(s.czechName)) like CONCAT('%', unaccent(lower(:query)) , '%')" +
+						" or unaccent(lower(s.englishName)) like CONCAT('%', unaccent(lower(:query)) , '%')) ");
 			}
 			if((DateTime)criteria.get("createdFrom") != null){
 				where.add(" s.created>=:createdFrom");
@@ -139,7 +142,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
-				where.add(" s.standardGroup.id=:groupId");
+				where.add(" :groupId in elements(s.standardGroups)");
 			}
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
