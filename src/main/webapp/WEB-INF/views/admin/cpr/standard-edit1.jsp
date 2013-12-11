@@ -42,7 +42,7 @@
 					
 					
 					<!--  STANDARD GROUPS WRAPPER  -->
-					<div>
+					<div  class="tab-wrapp">
 						<p class="form-head"><spring:message code="cpr.standard.attachedGroups" /></p>
 						
 						
@@ -61,7 +61,11 @@
 									</tr>
 								</c:forEach>
 							</table>
-							
+						</c:if>
+						<c:if test="${empty standard.standardGroups}">
+							<p class="msg alert">
+								<spring:message code="cpr.standard.nogroup" />
+							</p>
 						</c:if>
 						
 						<!--  STANDARD GROUP ADDING FORM  -->	
@@ -78,6 +82,25 @@
 						 </form:form>
 					
 					</div>
+					
+					
+					<!--  STANDARD CHANGES WRAPPER  -->
+					<div class="tab-wrapp">
+						<p class="form-head"><spring:message code="cpr.standard.changes" /></p>
+						<c:if test="${empty standard.standardChanges}">
+							<p class="msg alert">
+								<spring:message code="cpr.standard.changes.empty" />
+							</p>
+						</c:if>
+						
+						<div class="inline-form r">
+							<a class="lang mandate-add-btn" href="<c:url value="${formUrl}/standard-change/add" />">
+								<spring:message code="cpr.standard.changes.add" />
+							</a>
+						</div>
+					</div>
+					
+					
 					</div> <!-- END ACTIVE TAB -->
 					
 						<jsp:include page="include/cpr-standard-menu2.jsp" />

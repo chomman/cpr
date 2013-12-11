@@ -6,6 +6,7 @@ body{font-family: Arial,Tahoma, sans-serif;position: relative;}
 .hidden{ display:none;}
 .c{ text-align:center;}
 .l{ text-align:left;}
+.r{ text-align:right;}
 .crop-text{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
 
 ul.tagit{width:inherit !important;}
@@ -565,4 +566,4 @@ table.log td,.log-descr{padding:2px;}
 .data .delete.big{width:100px;text-align:center;}
 .is-not-complement{color:#1C2266;font-weight:bold;}
 .is-complement em{font-style:normal;}
-
+.tab-wrapp{border:1px solid #ddd;}

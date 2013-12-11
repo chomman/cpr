@@ -120,7 +120,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<CsnTerminology> getTerminologyByCsnAndLang(Csn csn, String languageCode) {
+	public List<CsnTerminology> getTerminologyByCsnAndLang(final Csn csn,final String languageCode) {
 		StringBuilder hql = new StringBuilder("select t from CsnTerminology t ");
 		hql.append(" where t.csn.id=:id and t.language=:lang");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
@@ -130,7 +130,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 	}
 
 	@Override
-	public void deleteAllTerminology(Long id) {
+	public void deleteAllTerminology(final Long id) {
 		Query query =  sessionFactory.getCurrentSession()
 				.createQuery("delete from CsnTerminology t where t.csn.id=:id");
 		query.setLong("id", id);
@@ -139,7 +139,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Csn> autocompleteByClassificationSymbol(String term) {
+	public List<Csn> autocompleteByClassificationSymbol(final String term) {
 		StringBuilder hql = new StringBuilder("select c.csnId, c.classificationSymbol from Csn c");
 		hql.append(" where c.classificationSymbol like CONCAT('', :term , '%')");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
@@ -150,7 +150,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Csn> autocompleteByCsnId(String term) {
+	public List<Csn> autocompleteByCsnId(final String term) {
 		StringBuilder hql = new StringBuilder("select c.csnId from Csn c");
 		hql.append(" where unaccent(lower(c.csnId)) like CONCAT('%', unaccent(lower(:term)) , '%')");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
@@ -160,7 +160,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 	}
 
 	@Override
-	public Csn getByClassificationSymbol(String cs) {
+	public Csn getByClassificationSymbol(final String cs) {
 		Query query =  sessionFactory.getCurrentSession().createQuery("from Csn c where c.classificationSymbol=:cs ");
 		query.setParameter("cs", cs);
 		query.setMaxResults(1);
@@ -171,7 +171,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Csn> getCsnsByClassificationSymbol(String cs) {
+	public List<Csn> getCsnsByClassificationSymbol(final String cs) {
 		Query query =  sessionFactory.getCurrentSession().createQuery("from Csn c where c.classificationSymbol=:cs ");
 		query.setParameter("cs", cs);
 		query.setCacheable(false);
@@ -180,7 +180,7 @@ public class CsnDaoImpl extends BaseDaoImpl<Csn, Long> implements CsnDao{
 
 	
 	@Override
-	public Csn getByCatalogId(String catalogId) {
+	public Csn getByCatalogId(final String catalogId) {
 		Query query =  sessionFactory.getCurrentSession().createQuery("from Csn c where c.catalogId=:catalogId ");
 		query.setParameter("catalogId", catalogId);
 		query.setCacheable(false);
