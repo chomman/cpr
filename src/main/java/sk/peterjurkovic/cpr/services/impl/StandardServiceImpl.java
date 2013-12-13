@@ -149,4 +149,12 @@ public class StandardServiceImpl implements StandardService {
 	public List<Standard> getStandardsByTagName(String tagName) {
 		return standardDao.getStandardsByTagName(tagName);
 	}
+
+	@Override
+	public void mergeStandard(Standard standard) {
+		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		standard.setChanged(new LocalDateTime());
+		standard.setChangedBy(user);
+		standardDao.merge(standard);
+	}
 }

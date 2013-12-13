@@ -15,6 +15,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 /**
  * Entita reprezentuje zmenu eHN
@@ -57,14 +58,14 @@ public class StandardChange extends AbstractEntity{
 	}
 	
 	@Column(name = "change_code")
-	public String getName() {
+	public String getChangeCode() {
 		return changeCode;
 	}
 
-	public void setName(String name) {
-		this.changeCode = name;
+	public void setChangeCode(String changeCode) {
+		this.changeCode = changeCode;
 	}
-	
+
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@Column(name = "start_validity")
 	public LocalDate getStartValidity() {
@@ -105,6 +106,14 @@ public class StandardChange extends AbstractEntity{
 		this.standard = standard;
 	}
 	
+	public void merge(StandardChange standardChange){
+		setChangeCode(standardChange.getChangeCode());
+		setNote(standardChange.getNote());
+		setStartValidity(standardChange.getStartValidity());
+		setStopValidity(standardChange.getStopValidity());
+		setEnabled(standardChange.getEnabled());
+		setChanged(new LocalDateTime());
+	}
 	
 	
 }

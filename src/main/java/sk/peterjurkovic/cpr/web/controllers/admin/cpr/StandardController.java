@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
@@ -181,6 +183,70 @@ public class StandardController extends SupportAdminController{
 	
 	
 	
+	/**
+	 * Spracuje poziadavku zobrazenia formulara, pre pridanie/editaciu zmeny normy 
+	 * 
+	 * @param standardId
+	 * @param id
+	 * @param map
+	 * @return
+	 * @throws ItemNotFoundException
+	 */
+	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/standard-change/{id}", method = RequestMethod.GET)
+	public String showStandardChangeForm(@PathVariable Long standardId, @PathVariable Long id, ModelMap map) throws ItemNotFoundException {
+		setEditFormView("cpr/standard-edit1");
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError("Norma s ID: "+ standardId + " se v systému nenachází");
+		}
+		StandardChange form = null;
+		if(id == null || id == 0){
+			form = new StandardChange();
+			form.setId(0l);
+		}else{
+			form = standard.getStandardChangeById(id);
+			if(form == null){
+				createItemNotFoundError("Změna normy s ID: "+ id + " se v systému nenachází");
+			}
+		}
+		prepareModelForStandardChange(standard, form, map);
+        return getEditFormView();
+	}
+	
+	
+	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/standard-change/{id}", method = RequestMethod.POST)
+	public String processSubmitStandardChange(@PathVariable Long standardId, @Valid StandardChange form, BindingResult result, ModelMap model) throws ItemNotFoundException {
+		setEditFormView("cpr/standard-edit1");
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError("Norma s ID: "+ standardId + " se v systému nenachází");
+		}
+		if(StringUtils.isBlank(form.getChangeCode())){
+			result.rejectValue("changeCode", "cpr.standard.changes.error");
+		}else{
+			if(standard.createOrUpdateStandardChange(form)){
+				standardService.updateStandard(standard);
+				model.put("successCreate", true);
+			}
+		}
+		prepareModelForStandardChange(standard, form, model);
+        return getEditFormView();
+	}
+	
+	
+	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/standard-change/delete/{id}", method = RequestMethod.GET)
+	public String removeStandardChange(@PathVariable Long standardId, @PathVariable Long id, ModelMap map) throws ItemNotFoundException {
+		setEditFormView("cpr/standard-edit1");
+		Standard standard = standardService.getStandardById(standardId);
+		if(standard == null){
+			createItemNotFoundError("Norma s ID: "+ standardId + " se v systému nenachází");
+		}
+		if(standard.removeStandardChange(id)){
+			standardService.mergeStandard(standard);
+		}
+		return "redirect:/admin/cpr/standard/edit/" + standardId;
+	}
+	
 	
 	/**
 	 * Odstranie normu na zaklade daneho ID
@@ -215,7 +281,7 @@ public class StandardController extends SupportAdminController{
 	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long standardId,  @Valid  Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
+	public String processSubmit(@PathVariable Long standardId,  @Valid Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 		if(standardId == 0){
 			setEditFormView("cpr/standard-add");
 		}else{
@@ -811,6 +877,16 @@ public class StandardController extends SupportAdminController{
 		map.addAttribute("standardForm", new StandardForm());
 		model.put("standardId", standardId);
 		model.put("standardGroups", standardGroupService.getFiltredStandardGroups(form));
+		model.put("tab", CPR_TAB_INDEX);
+		map.put("model", model); 
+	}
+	
+	private void prepareModelForStandardChange(Standard standard, StandardChange form, ModelMap map){
+		Map<String, Object> model = new HashMap<String, Object>();
+		map.addAttribute("standard", standard);
+		map.addAttribute("standardChange", form);
+		model.put("standardId", standard.getId());
+		model.put("showStandardChangeForm", true);
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}

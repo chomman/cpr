@@ -303,7 +303,8 @@ select.smaller{font-size:12px;}
 select.smaller option{padding:5px 10px;}
 .button-box{padding:10px 20px 10px 240px}
 .button{background: #FB9337;border: 1px solid #F0882C;color: #FFFFFF;cursor: pointer;font-weight: bold; padding: 7px 20px;font-size:12px;}
-.button:hover,.button-box .button:hover"{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
+.button:over,.button-box .button:hover"{background:#1e1f46;box-shadow:none;border:1px solid #fff;}
+
 .norminfo{font-size:12px;margin-left:20px;color:#555}
 textarea#header, .dscrbox{width:600px;height:100px;}
 #title{width:600px;}
@@ -567,3 +568,5 @@ table.log td,.log-descr{padding:2px;}
 .is-not-complement{color:#1C2266;font-weight:bold;}
 .is-complement em{font-style:normal;}
 .tab-wrapp{border:1px solid #ddd;}
+.cancel{background:#eee;color:#999;border:1px solid #ddd;}
+.cancel:hover{background:#ddd;color:#555;border:1px solid #ccc;}

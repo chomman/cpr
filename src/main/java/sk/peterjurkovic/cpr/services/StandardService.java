@@ -14,6 +14,8 @@ public interface StandardService {
 	
 	void deleteStandard(Standard standard);
 	
+	void mergeStandard(Standard standard);
+	
 	Standard getStandardById(Long id);
 	
 	Standard getStandardByCode(String code);
@@ -37,4 +39,6 @@ public interface StandardService {
 	List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup);
 	
 	List<Standard> getStandardsByTagName(String tagName);
+	
+	
 }

@@ -15,7 +15,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -26,6 +25,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 /**
  * Entita reprezentujuca harmonizovanu normu
@@ -246,7 +246,7 @@ public class Standard extends AbstractEntity {
 		this.cumulative = cumulative;
 	}
 	
-	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<StandardChange> getStandardChanges() {
 		return standardChanges;
 	}
@@ -255,4 +255,41 @@ public class Standard extends AbstractEntity {
 		this.standardChanges = standardChanges;
 	}
 		
+	@Transient
+	public StandardChange getStandardChangeById(final Long id){
+		for(StandardChange standardChange : standardChanges){
+			if(standardChange.getId() == id){
+				return standardChange;
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public boolean removeStandardChange(final Long id){
+		StandardChange persisted = getStandardChangeById(id);
+		if(persisted != null){
+			return standardChanges.remove(persisted);
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean createOrUpdateStandardChange(final StandardChange form){
+		if(form.getId() == null || form.getId() == 0){
+			StandardChange newChange = new StandardChange();
+			newChange.merge(form);
+			newChange.setStandard(this);
+			newChange.setCreated(new LocalDateTime());
+			standardChanges.add(newChange);
+			return true;
+		}else{
+			StandardChange persisted = getStandardChangeById(form.getId());
+			if(persisted != null){
+				persisted.merge(form);
+				return true;
+			}
+		}
+		return false;
+	}
 }

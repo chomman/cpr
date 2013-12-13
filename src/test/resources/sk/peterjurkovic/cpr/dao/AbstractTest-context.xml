@@ -47,6 +47,9 @@
 		  	<value>sk.peterjurkovic.cpr.entities.Standard</value>
 		  	<value>sk.peterjurkovic.cpr.entities.StandardCsn</value>
 		  	<value>sk.peterjurkovic.cpr.entities.StandardGroup</value>
+		  	<value>sk.peterjurkovic.cpr.entities.StandardChange</value>
+  			<value>sk.peterjurkovic.cpr.entities.StandardGroupMandate</value>
+  			<value>sk.peterjurkovic.cpr.entities.CommissionDecision</value>
 		  	<value>sk.peterjurkovic.cpr.entities.BasicRequirement</value>
 			<value>sk.peterjurkovic.cpr.entities.Requirement</value>
 			<value>sk.peterjurkovic.cpr.entities.Tag</value>
