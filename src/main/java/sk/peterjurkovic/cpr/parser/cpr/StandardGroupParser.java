@@ -36,7 +36,7 @@ public class StandardGroupParser extends CprParser {
 	@Autowired
 	private StandardGroupMandateService standardGroupMandateService;
 	
-	private Logger logger = Logger.getLogger(getClass());
+	
 	
 	private Set<CommissionDecision> commissionList = new HashSet<CommissionDecision>();
 	private Set<Mandate> mandateList = new HashSet<Mandate>();

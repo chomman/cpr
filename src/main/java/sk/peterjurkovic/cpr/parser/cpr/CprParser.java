@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document;
@@ -15,13 +16,13 @@ import org.jsoup.select.Elements;
 import sk.peterjurkovic.cpr.dto.LinkDto;
 
 public abstract class CprParser {
-	
+	protected Logger logger = Logger.getLogger(getClass());	
 	protected boolean skipFirstRow = true;
 	
 	public Document getDocument(final String location){
 		if(StringUtils.isNotBlank(location)){
 			try {
-				return Jsoup.connect(location).get();
+				return Jsoup.connect(location).timeout(10000).maxBodySize(3145728).get();
 				
 			} catch (IOException e) {
 				e.printStackTrace();
