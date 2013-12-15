@@ -42,5 +42,7 @@ public interface StandardGroupService {
 	 */
 	List<StandardGroup> getFiltredStandardGroups(Standard standard);
 	
+	void flush();
+	
 	
 }

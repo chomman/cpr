@@ -61,7 +61,6 @@ public class Mandate extends AbstractEntity {
 	public void setMandateFileUrl(String mandateFileUrl) {
 		this.mandateFileUrl = mandateFileUrl;
 	}
-	
-	
+
 	
 }

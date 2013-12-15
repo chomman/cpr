@@ -57,6 +57,10 @@ public abstract class CprParser {
 		if(a != null){
 			LinkDto data = new LinkDto();
 			data.setHref( a.attr("href") );
+			String text = a.text().trim();
+			if(StringUtils.isBlank(text)){
+				return null;
+			}
 			data.setAnchorText(a.text().trim()); 
 			return data;
 		}

@@ -23,6 +23,7 @@ import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.StandardGroupMandate;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.parser.cpr.StandardGroupParser;
 import sk.peterjurkovic.cpr.services.CommissionDecisionService;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.services.StandardGroupMandateService;
@@ -55,6 +56,7 @@ public class StandardGroupController extends SupportAdminController {
 	public StandardGroupController(){
 		setTableItemsView("cpr/standard-group-list");
 		setEditFormView("cpr/standard-group-edit");
+		setViewName("cpr/standard-group-import");
 	}
 	
 	@InitBinder
@@ -198,7 +200,22 @@ public class StandardGroupController extends SupportAdminController {
 	}
 	
 	
+	@RequestMapping( value = "/admin/cpr/groups/import", method = RequestMethod.GET)
+	public String showImportPage(ModelMap modelMap) {
+		return getViewName();
+	}
 	
+	@RequestMapping( value = "/admin/cpr/groups/import", method = RequestMethod.POST)
+	public String processImport(ModelMap modelMap) {
+		StandardGroupParser parser = new StandardGroupParser();
+		parser.setCommissionDecisionService(commissionDecisionService);
+		parser.setMandateService(mandateService);
+		parser.setStandardGroupService(standardGroupService);
+		parser.setStandardGroupMandateService(standardGroupMandateService);
+		parser.parse("http://www.sgpstandard.cz/editor/files/unmz/nv190/skupiny.htm");
+		modelMap.put("successCreate", true);
+		return getViewName();
+	}
 	
 	private void prepareModel(StandardGroup form, ModelMap map, Long standardGroupId){
 		Map<String, Object> model = new HashMap<String, Object>();

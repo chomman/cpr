@@ -49,6 +49,7 @@ public class CommissionDecision extends AbstractEntity {
 	/*
 	 * URL na navrh zmeny
 	 */
+	private String draftAmendmentLabel;
 	private String draftAmendmentUrl;
 
 	@Id
@@ -105,8 +106,26 @@ public class CommissionDecision extends AbstractEntity {
 	public void setDraftAmendmentUrl(String draftAmendmentUrl) {
 		this.draftAmendmentUrl = draftAmendmentUrl;
 	}
+
+	public String getDraftAmendmentLabel() {
+		return draftAmendmentLabel;
+	}
 	
-	
+	@Length(max = 25)
+	@Column(name = "draft_amendment_label", length = 25)
+	public void setDraftAmendmentLabel(String draftAmendmentLabel) {
+		this.draftAmendmentLabel = draftAmendmentLabel;
+	}
+
+	@Override
+	public String toString() {
+		return "CommissionDecision [czechLabel=" + czechLabel
+				+ ", czechFileUrl=" + czechFileUrl + ", englishLabel="
+				+ englishLabel + ", englishFileUrl=" + englishFileUrl
+				+ ", draftAmendmentLabel=" + draftAmendmentLabel
+				+ ", draftAmendmentUrl=" + draftAmendmentUrl + "]";
+	}
+
 	
 	
 }
