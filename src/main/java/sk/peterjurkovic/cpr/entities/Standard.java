@@ -36,7 +36,7 @@ import org.joda.time.LocalDateTime;
 @Table(name = "standard")
 @SequenceGenerator(name = "standard_id_seq", sequenceName = "standard_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Standard extends AbstractEntity {
+public class  Standard extends AbstractEntity {
 
 	
 	private static final long serialVersionUID = 9891333241L;

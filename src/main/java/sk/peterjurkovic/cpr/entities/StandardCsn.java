@@ -40,6 +40,8 @@ public class StandardCsn extends AbstractEntity {
 
 	private String csnOnlineId;
 	
+	private Boolean canceled = false;
+	
 	private String note;
 	
 	
@@ -93,5 +95,47 @@ public class StandardCsn extends AbstractEntity {
 	public void setCsnOnlineId(String csnOnlineId) {
 		this.csnOnlineId = csnOnlineId;
 	}
+
+	public Boolean getCanceled() {
+		return canceled;
+	}
+	
+	@Column(name = "is_canceled")
+	public void setCanceled(Boolean canceled) {
+		this.canceled = canceled;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((csnOnlineId == null) ? 0 : csnOnlineId.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandardCsn other = (StandardCsn) obj;
+		if (csnOnlineId == null) {
+			if (other.csnOnlineId != null)
+				return false;
+		} else if (!csnOnlineId.equals(other.csnOnlineId))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
+	
 	
 }

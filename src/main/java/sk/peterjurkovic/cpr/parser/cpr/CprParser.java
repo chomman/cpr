@@ -81,6 +81,12 @@ public abstract class CprParser {
 		return linkList;
 	}
 	
+	protected String trim(String val){
+		if(StringUtils.isNotBlank(val)){
+			StringUtils.trim(val);
+		}
+		return val;
+	}
 	
 	public abstract void processRow(Elements tds);
 	

@@ -46,6 +46,7 @@
 					<script type="text/javascript"> 
 				    $(function() { 
 				    	initWISIWIG("610", "300");
+				    	var errMsg = "Nastala neočekávaná chyba, operaci zkuste zopakovat.";
 				        $('form').submit(function(e) {
 				        	e.preventDefault();
 				            var form = $( this ),
@@ -65,12 +66,12 @@
 				                	if(response.status == "SUCCESS"){
 					                    showStatus({err: 0, msg: "Úspěšně aktualizováno"});
 				                	}else{
-				                		 showStatus({err: 1, msg: "Nastala neočekávaná chyba, operaci zkuste zopakovat."});
+				                		 showStatus({err: 1, msg: errMsg });
 				                	}
 				                	mce.setProgressState(0);
 				                },
 				                error : function(xhr, status, err) {
-				                	howStatus({err: 1, msg: ERROR_MESSAGE});
+				                	showStatus({err: 1, msg: msg});
 				                    mce.setProgressState(0);
 				                }
 				            });
@@ -92,14 +93,14 @@
 						</c:if>
 						<p>
                         	<label>
-                        		<spring:message code="cpr.standard.tab.5" />
+                        		<spring:message code="cpr.standard.text" />
                         	</label>
                             <span class="field">  
                           	<form:textarea path="text"  cssClass="mceEditor bigEditorSize" />
                           </span>
                         </p>
                         <form:hidden path="standardId" />
-                        <form:hidden path="standardName" />
+                        <form:hidden path="czechName" />
                         <form:hidden path="id"  />
                         <p class="button-box">
                         	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
