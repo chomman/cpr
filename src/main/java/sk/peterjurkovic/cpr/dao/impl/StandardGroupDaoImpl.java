@@ -23,9 +23,9 @@ public class StandardGroupDaoImpl extends BaseDaoImpl<StandardGroup, Long> imple
 	 * @return Long pocet noriem
 	 */
 	@Override
-	public Long getCoutOfStandardInGroup(StandardGroup standardGroup) {
+	public Long getCoutOfStandardInGroup(final StandardGroup standardGroup) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");
-		hql.append(" WHERE s.standardGroup.id=:id");
+		hql.append(" WHERE :id in elements(s.standardGroups)");
 		return (Long) sessionFactory.getCurrentSession()
 						.createQuery(hql.toString())
 						.setLong("id", standardGroup.getId())
