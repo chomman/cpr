@@ -37,7 +37,7 @@ public class DoPUtils {
 							 nb.getAddress().getZip()+", "+
 							 nb.getAddress().getCity()+", " +
 							 nb.getCountry().getCountryName()+"</strong>");
-			result = result.replaceAll(DopTextVariable.VAR_NOAO_ID, "<strong>"+nb.getNotifiedBodyCode()+"</strong>");
+			result = result.replaceAll(DopTextVariable.VAR_NOAO_ID, "<strong>"+nb.getNoCode()+"</strong>");
 			result = result.replaceAll(DopTextVariable.VAR_REPORT, "<strong>"+dop.getReport()+"</strong>");
 		}
 		result = "<div class=\"system-r\"><h3>"+dop.getStandard().getStandardId()+", "+ as.getName() +":</h3>"+result+"</div>";

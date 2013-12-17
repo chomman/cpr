@@ -3,14 +3,16 @@ package sk.peterjurkovic.cpr.parser.cpr;
 import java.util.List;
 import java.util.Set;
 
+import javax.annotation.Resource;
+
 import org.junit.Assert;
 import org.junit.Test;
-
 import sk.peterjurkovic.cpr.dao.AbstractTest;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 
+@Resource
 public class StandardParserTest extends AbstractTest{
 	
 	@Test
@@ -32,12 +34,41 @@ public class StandardParserTest extends AbstractTest{
 		Assert.assertEquals(4, s.getStandardChanges().size());
 		Assert.assertEquals(7, s.getStandardCsns().size());
 		Assert.assertNotNull(find("Oprava 1-1.04", s.getStandardCsns()));
+		Assert.assertEquals("2005-07-01", s.getStartValidity().toString(StandardParser.FORMATTER));
+		Assert.assertEquals("2007-07-01", s.getStopValidity().toString(StandardParser.FORMATTER));
+		int i = 0;
+		for(StandardChange ch : s.getStandardChanges()){
+			switch(i){
+			case 0 :
+				Assert.assertEquals("2006-06-01", ch.getStartValidity().toString(StandardParser.FORMATTER));
+				Assert.assertEquals("2007-06-01", ch.getStopValidity().toString(StandardParser.FORMATTER));
+			break;
+			case 1 :
+				Assert.assertEquals("2005-07-01", ch.getStartValidity().toString(StandardParser.FORMATTER));
+				Assert.assertEquals("2007-07-01", ch.getStopValidity().toString(StandardParser.FORMATTER));
+			break;
+			case 2 :
+				Assert.assertEquals("2007-07-01", ch.getStartValidity().toString(StandardParser.FORMATTER));
+				Assert.assertEquals("2007-07-01", ch.getStopValidity().toString(StandardParser.FORMATTER));
+			break;
+			case 3 :
+				Assert.assertEquals("2008-01-01", ch.getStartValidity().toString(StandardParser.FORMATTER));
+				Assert.assertEquals("2008-01-01", ch.getStopValidity().toString(StandardParser.FORMATTER));
+			break;
+			}
+			i++;
+		}
 		
 		s = find("EN 450-1:2012", list);
 		Assert.assertEquals(0, s.getStandardChanges().size());
 		Assert.assertEquals(2, s.getStandardCsns().size());
 		Assert.assertTrue(find("ČSN EN 450-1 + A1", s.getStandardCsns()).getCanceled());
 		Assert.assertNotNull( find("ČSN EN 450-1:2013", s.getStandardCsns()) );
+		Assert.assertEquals("(722064) Nahrazuje ČSN EN 450-1 + A1", find("ČSN EN 450-1:2013", s.getStandardCsns()).getNote() );
+		
+		Assert.assertEquals("2013-05-01", s.getStartValidity().toString(StandardParser.FORMATTER));
+		Assert.assertEquals("2014-05-01", s.getStopValidity().toString(StandardParser.FORMATTER));
+		
 		Assert.assertEquals("(722064) Nahrazuje ČSN EN 450-1 + A1", find("ČSN EN 450-1:2013", s.getStandardCsns()).getNote() );
 	}
 	

@@ -118,8 +118,8 @@ public class  Standard extends AbstractEntity {
 		this.replacedStandardId = replacedStandardId;
 	}
 	
-	@NotBlank(message = "Český název harmonizované normy musí být vyplněno")
-	@Column(name = "czech_name")
+	//@NotBlank(message = "Český název harmonizované normy musí být vyplněno")
+	@Column(name = "czech_name", length = 300)
 	public String getCzechName() {
 		return czechName;
 	}
@@ -128,7 +128,7 @@ public class  Standard extends AbstractEntity {
 		this.czechName = czechName;
 	}
 	
-	@Column(name = "english_name")	
+	@Column(name = "english_name", length = 300)	
 	public String getEnglishName() {
 		return englishName;
 	}

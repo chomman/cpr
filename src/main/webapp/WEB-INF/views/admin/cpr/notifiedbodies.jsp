@@ -54,7 +54,12 @@
 					<tbody>
 						 <c:forEach items="${model.notifiedBodies}" var="i">
 						 	<tr>
-						 		<td>${i.notifiedBodyCode}</td>
+						 		<td>
+						 			${i.noCode}
+						 			<c:if test="${not empty i.aoCode}">
+						 				(${i.aoCode})
+						 			</c:if>
+						 		</td>
 						 		<td>${i.name}</td>
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">

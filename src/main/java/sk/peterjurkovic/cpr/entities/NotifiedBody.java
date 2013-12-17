@@ -42,7 +42,9 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private String name;
 	
-	private String notifiedBodyCode;
+	private String noCode;
+	
+	private String aoCode;
 	
 	private Address address;
 	
@@ -60,6 +62,7 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private String description;
 	
+	private String nandoCode;
 	
 	public NotifiedBody(){
 		setEnabled(Boolean.TRUE);
@@ -87,16 +90,26 @@ public class NotifiedBody extends AbstractEntity {
 	
 	
 	@NotEmpty(message = "Identifikátor osoby musí být vyplněno")
-	@Column(name = "notified_body_code", length = 25)
+	@Column(name = "no_code", length = 25)
 	@Length(max = 25, message = "Číslo osoby může mít max. 25 znaků.")
-	public String getNotifiedBodyCode() {
-		return notifiedBodyCode;
+	public String getNoCode() {
+		return noCode;
 	}
 
-	public void setNotifiedBodyCode(String notifiedBodyCode) {
-		this.notifiedBodyCode = notifiedBodyCode;
+	public void setNoCode(String noCode) {
+		this.noCode = noCode;
 	}
 	
+	@Column(name = "ao_code", length = 25)
+	@Length(max = 25, message = "Číslo osoby může mít max. 25 znaků.")	
+	public String getAoCode() {
+		return aoCode;
+	}
+
+	public void setAoCode(String aoCode) {
+		this.aoCode = aoCode;
+	}
+
 	@Valid
 	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id")
@@ -170,11 +183,20 @@ public class NotifiedBody extends AbstractEntity {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
+	@Column(name = "nando_code")
+	public String getNandoCode() {
+		return nandoCode;
+	}
+
+	public void setNandoCode(String nandoCode) {
+		this.nandoCode = nandoCode;
+	}
 
 	@Override
 	public String toString() {
 		return "NotifiedBody [id=" + id + ", name=" + name
-				+ ", notifiedBodyCode=" + notifiedBodyCode + ", address="
+				+ ", notifiedBodyCode=" + noCode + ", address="
 				+ address + ", webpage=" + webpage + ", phone=" + phone
 				+ ", fax=" + fax + ", email=" + email
 				+ ", etaCertificationAllowed=" + etaCertificationAllowed + "]";

@@ -64,5 +64,21 @@ public class StandardGroupDaoImpl extends BaseDaoImpl<StandardGroup, Long> imple
 				.setCacheRegion(CacheRegion.CPR_CACHE)
 				.list();
 	}
+
+
+	@Override
+	public StandardGroup findByMandateAndCommissionDecision(String mandateName, String cdName) {
+		StringBuilder hql = new StringBuilder("select sg from StandardGroup sg");
+		hql.append(" left join sg.standardGroupMandates as sgm ");
+		hql.append(" WHERE sgm.mandate.mandateName=:mandateName ");
+		hql.append(" AND sg.commissionDecision.czechLabel=:cdName");
+		
+		return (StandardGroup)sessionFactory.getCurrentSession()
+						.createQuery(hql.toString())
+						.setString("mandateName", mandateName)
+						.setString("cdName", cdName)
+						.uniqueResult();
+		
+	}
 	
 }

@@ -37,6 +37,7 @@ import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.parser.cpr.StandardParser;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
 import sk.peterjurkovic.cpr.services.MandateService;
@@ -143,8 +144,19 @@ public class StandardController extends SupportAdminController{
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("params", params);
 		modelMap.put("model", model);
+		if(params.get("import") != null){
+			processImport();
+		}
         return getTableItemsView();
     }
+	
+	private void processImport(){
+		StandardParser parser = new StandardParser();
+		parser.setStandardService(standardService);
+		parser.setAssessmentSystemService(assessmentSystemService);
+		parser.setNotifiedBodyService(notifiedBodyService);
+		parser.parse("http://www.sgpstandard.cz/editor/files/unmz/nv190/nv_190.htm");
+	}
 	
 	/**
 	 * Zobrazi view (stranku) s formularom umoznujuci pridat novu normu

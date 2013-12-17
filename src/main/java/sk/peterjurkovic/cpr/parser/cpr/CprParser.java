@@ -88,6 +88,13 @@ public abstract class CprParser {
 		return val;
 	}
 	
+	protected String removeWhiteSpaces(String val){
+		if(StringUtils.isNotBlank(val)){
+			return val.replaceAll("\\p{Z}", "");
+		}
+		return val;
+	}
+	
 	public abstract void processRow(Elements tds);
 	
 	public abstract void parse(String location);

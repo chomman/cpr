@@ -68,7 +68,7 @@
 				<p>
                       	<label>
                       		<strong><em class="red">*</em>
-                      			<spring:message code="cpr.nb.name" />
+                      			<spring:message code="cpr.nb.name" />:
                       		</strong>
                       	</label>
                           <span class="field">
@@ -78,16 +78,32 @@
                       <p>
                       	<label>
                       		<strong><em class="red">*</em>
-                      			<spring:message code="cpr.nb.code" />
+                      			<spring:message code="cpr.nb.code" />:
                       		</strong>
                       	</label>
                           <span class="field">
-                          	<form:input  htmlEscape="true" path="notifiedBodyCode" maxlength="25" cssClass="w200  required" />
+                          	<form:input  htmlEscape="true" path="noCode" maxlength="25" cssClass="w200  required" />
                           </span>
                       </p>
                       <p>
                       	<label>
-                      		<spring:message code="cpr.nb.eta" />
+                      		<spring:message code="cpr.nb.aoCode" />:
+                      	</label>
+                          <span class="field">
+                          	<form:input  htmlEscape="true" path="aoCode" maxlength="25" cssClass="w200  " />
+                          </span>
+                      </p>
+                      <p>
+                      	<label>
+                      		<spring:message code="cpr.nb.nandoCode" />:
+                      	</label>
+                          <span class="field">
+                          	<form:input  htmlEscape="true" path="nandoCode" cssClass="w200  " />
+                          </span>
+                      </p>
+                      <p>
+                      	<label>
+                      		<spring:message code="cpr.nb.eta" />:
                       	</label>
                           <span class="field">
                           	<form:checkbox path="etaCertificationAllowed"/>
@@ -95,13 +111,13 @@
                       </p>
                        <p>
 					    <label title="<spring:message code="publish.descr" />" class="tt">
-					 		<spring:message code="publish" />
+					 		<spring:message code="publish" />:
 					 	</label>
 					     <span class="field">  
 					     	<form:checkbox path="enabled" />
 					     </span>
 					 </p>
-                      <p class="form-head">Kontaktní informace<p>
+                      <p class="form-head">Kontaktní informace<p>:
                       <p>
                       	<label>
                       		<spring:message code="form.phone" />
@@ -113,7 +129,7 @@
                       
                       <p>
                       	<label>
-                      		<spring:message code="form.fax" />
+                      		<spring:message code="form.fax" />:
                       	</label>
                           <span class="field">  
                           	<form:input  htmlEscape="true" path="fax"  maxlength="20"  cssClass="w200 more7" />
@@ -122,7 +138,7 @@
                       
                       <p>
                       	<label>
-                      		<spring:message code="form.email" />
+                      		<spring:message code="form.email" />:
                       	</label>
                           <span class="field">  
                           	<form:input  htmlEscape="true" path="email"  maxlength="45"  cssClass="w200 email" />
@@ -131,7 +147,7 @@
                       
                       <p>
                       	<label>
-                      		<spring:message code="form.web" />
+                      		<spring:message code="form.web" />:
                       	</label>
                           <span class="field">  
                           	<form:input htmlEscape="true"  path="webpage"  maxlength="50"  cssClass="w200 more7" />
@@ -140,7 +156,7 @@
                       <p class="form-head">Adresa<p>
                        <p>
                       	<label>
-                      		<spring:message code="address.city" />
+                      		<spring:message code="address.city" />:
                       	</label>
                           <span class="field">  
                           	<form:input htmlEscape="true"  path="address.city"  maxlength="50"  cssClass="w200" />
@@ -160,7 +176,7 @@
                       <p>
                       	<label>
                       		<strong><em class="red">*</em>
-                      			<spring:message code="address.country" />
+                      			<spring:message code="address.country" />:
                       		</strong>
                       	</label>
                           <span class="field">  
@@ -173,7 +189,7 @@
 					  <p class="form-head"><spring:message code="cpr.nb.description" /><p>
 					  <p>
                       	<label>
-                      		<spring:message code="cpr.nb.description" />
+                      		<spring:message code="cpr.nb.description" />:
                       	</label>
                           <span class="field">  
                           	<form:textarea path="description"  cssClass="mceEditor defaultSize" />

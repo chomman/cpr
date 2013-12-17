@@ -176,7 +176,7 @@ public class NotifiedBodyController extends SupportAdminController {
 		
 		notifiedBody.setCode(CodeUtils.toSeoUrl(form.getName()));
 		notifiedBody.setName(form.getName());
-		notifiedBody.setNotifiedBodyCode(form.getNotifiedBodyCode());
+		notifiedBody.setNoCode(form.getNoCode());
 		notifiedBody.setEtaCertificationAllowed(form.getEtaCertificationAllowed());
 		notifiedBody.setPhone(form.getPhone());
 		notifiedBody.setFax(form.getFax());

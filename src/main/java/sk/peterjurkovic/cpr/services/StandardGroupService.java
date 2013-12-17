@@ -45,4 +45,7 @@ public interface StandardGroupService {
 	void flush();
 	
 	
+	StandardGroup findByMandateAndCommissionDecision(String mandateName, String cdName);
+	
+	
 }

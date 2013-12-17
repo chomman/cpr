@@ -119,5 +119,8 @@ public class StandardGroupServiceImpl implements StandardGroupService {
 	}
 	
 	
-	
+	@Transactional(readOnly = true)
+	public StandardGroup findByMandateAndCommissionDecision(final String mandateName,final String cdName){ 
+		return null;
+	}
 }

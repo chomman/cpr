@@ -36,4 +36,7 @@ public interface StandardGroupDao extends BaseDao<StandardGroup, Long>{
 	 * @return List<StandardGroup> skupiny vyrobkov
 	 */
 	List<StandardGroup> getStandardGroupsForPublic();
+	
+	
+	StandardGroup findByMandateAndCommissionDecision(String mandateName, String cdName);
 }
