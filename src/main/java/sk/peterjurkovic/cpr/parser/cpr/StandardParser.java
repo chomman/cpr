@@ -19,8 +19,10 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
+import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
+import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 
 public class StandardParser extends CprParser {
@@ -34,6 +36,7 @@ public class StandardParser extends CprParser {
 	private NotifiedBodyService notifiedBodyService;
 	private AssessmentSystemService assessmentSystemService;
 	private StandardService standardService;
+	private StandardGroupService standardGroupService;
 	
 	@Override
 	public void parse(String location) {
@@ -78,19 +81,7 @@ public class StandardParser extends CprParser {
 					parseAssesmentsSystems(standard,  td.select("a"));
 				break;
 				case 7:
-					Element td2 = it.next();
-					String[] mandates = removeChanges(td.text()).split(" ");
-					String[] cd = removeChanges(td2.text()).split(" ");
-					if(mandates.length == 1 && cd.length == 1){
-						
-					}else if(mandates.length == 2 && cd.length == 2){
-						
-					}else{
-						logger.warn("CAN NOT DETERMINE standardGroups. " + td.text() + " / " + td2.text());
-					}
-					
-					
-					
+					parseStandardGroups(standard, td, it.next());
 				break;
 			}
 			
@@ -101,8 +92,34 @@ public class StandardParser extends CprParser {
 		//standards.add(standard);
 	}
 	
+	private void parseStandardGroups(Standard standard, Element mandateCell, Element commissionDecisionCell){
+		String[] mandates = removeChanges(mandateCell.text()).split(" ");
+		String[] cd = removeChanges(commissionDecisionCell.text()).split(" ");
+		if(mandates.length == 1 && cd.length == 1){
+			findAndAdd(standard, mandates[0], cd[0]);
+		}else if(mandates.length == 2 && cd.length == 2){
+			findAndAdd(standard, mandates[0], cd[0]);
+			findAndAdd(standard, mandates[1], cd[1]);
+		}else{
+			logger.warn("CAN NOT DETERMINE standardGroups. " + mandateCell.text() + " / " + commissionDecisionCell.text());
+		}
+	}
+	
+	private void findAndAdd(Standard standard, String mandate, String commissionDecision){
+		StandardGroup sg = standardGroupService.findByMandateAndCommissionDecision(mandate, commissionDecision);
+		if(sg == null){
+			logStandardGroup(mandate, commissionDecision);
+		}else{
+			standard.getStandardGroups().add(sg);
+		}
+	}
+	
+	private void logStandardGroup(String td1, String td2){
+		logger.warn("StandardGroup was not found: " + td1 + " / " + td2);
+	}
+	
 	private String removeChanges(String val){
-		return trim(val.replaceAll("\\((.*)\\)", ""));
+		return trim(val.replaceAll("\\((.*)", ""));
 	}
 	
 	private void parseAssesmentsSystems(Standard standard, Elements aList){
@@ -123,7 +140,7 @@ public class StandardParser extends CprParser {
 			List<LinkDto> links =  processLinks(aList);
 			for(LinkDto l : links){
 				String[] codes = l.getAnchorText().split("\\s\\(");
-				if(codes.length == 0){
+				if(codes.length == 2){
 					final String noCode = StringUtils.trim(codes[0]);
 					final String aoCode = StringUtils.trim(codes[1].replace(")", ""));
 					NotifiedBody nb = findByNoCode(noCode);
@@ -135,6 +152,7 @@ public class StandardParser extends CprParser {
 						nb.setNandoCode(getNandoCode(l.getHref()));
 						notifiedBodyService.updateNotifiedBody(nb);
 					}
+				
 					standard.getNotifiedBodies().add(nb);
 				}
 			}
@@ -245,6 +263,7 @@ public class StandardParser extends CprParser {
 			
 			if(pText.startsWith("nahrazena") && csnList.size() > 0){
 				StandardCsn csn = csnList.get(csnList.size() - 1);
+				csn.setStandard(standard);
 				csn.setCanceled(true);
 			}
 			
@@ -253,6 +272,7 @@ public class StandardParser extends CprParser {
 				List<LinkDto> links =  processLinks(aList);
 				for(LinkDto a : links){
 					StandardCsn csn = new StandardCsn();
+					csn.setStandard(standard);
 					csn.setCsnName(cleanCsnName(a.getAnchorText()));
 					csn.setCsnOnlineId(parseCatalogNo(a.getHref()));
 					String note = getExtractNote(a.getAnchorText());
@@ -341,7 +361,7 @@ public class StandardParser extends CprParser {
 	
 	private NotifiedBody findByNoCode(String code){
 		for(NotifiedBody nb : notifiedBodies){
-			if(nb.getNoCode().equals(code)){
+			if(nb.getNoCode().equals(trim(code))){
 				return nb;
 			}
 		}
@@ -365,16 +385,9 @@ public class StandardParser extends CprParser {
 		return null;
 	}
 
-	public NotifiedBodyService getNotifiedBodyService() {
-		return notifiedBodyService;
-	}
 
 	public void setNotifiedBodyService(NotifiedBodyService notifiedBodyService) {
 		this.notifiedBodyService = notifiedBodyService;
-	}
-
-	public AssessmentSystemService getAssessmentSystemService() {
-		return assessmentSystemService;
 	}
 
 	public void setAssessmentSystemService(
@@ -382,15 +395,15 @@ public class StandardParser extends CprParser {
 		this.assessmentSystemService = assessmentSystemService;
 	}
 
-	public StandardService getStandardService() {
-		return standardService;
-	}
-
 	public void setStandardService(StandardService standardService) {
 		this.standardService = standardService;
 	}
 	
-	
+
+	public void setStandardGroupService(StandardGroupService standardGroupService) {
+		this.standardGroupService = standardGroupService;
+	}
+
 	public boolean isCatalogIdValid(String val){
 		if(StringUtils.isBlank(val)){
 			return true;

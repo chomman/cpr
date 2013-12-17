@@ -155,6 +155,7 @@ public class StandardController extends SupportAdminController{
 		parser.setStandardService(standardService);
 		parser.setAssessmentSystemService(assessmentSystemService);
 		parser.setNotifiedBodyService(notifiedBodyService);
+		parser.setStandardGroupService(standardGroupService);
 		parser.parse("http://www.sgpstandard.cz/editor/files/unmz/nv190/nv_190.htm");
 	}
 	

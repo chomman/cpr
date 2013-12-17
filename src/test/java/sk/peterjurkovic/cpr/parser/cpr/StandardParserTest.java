@@ -59,7 +59,7 @@ public class StandardParserTest extends AbstractTest{
 			i++;
 		}
 		
-		s = find("EN 450-1:2012", list);
+		s = find("	", list);
 		Assert.assertEquals(0, s.getStandardChanges().size());
 		Assert.assertEquals(2, s.getStandardCsns().size());
 		Assert.assertTrue(find("ČSN EN 450-1 + A1", s.getStandardCsns()).getCanceled());
