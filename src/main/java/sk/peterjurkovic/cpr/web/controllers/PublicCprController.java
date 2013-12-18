@@ -246,10 +246,10 @@ public class PublicCprController {
 	 * @return String view
 	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
 	 */
-	@RequestMapping("/cpr/ehn/{standardCode}")
-	public String showStandardDetail(@PathVariable String standardCode, ModelMap modelmap) throws PageNotFoundEception {
+	@RequestMapping("/cpr/ehn/{id}")
+	public String showStandardDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
-		Standard standard = standardService.getStandardByCode(standardCode);
+		Standard standard = standardService.getStandardById(id);
 		if(webpage == null || standard == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}

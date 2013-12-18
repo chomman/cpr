@@ -3,18 +3,23 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><spring:message code="error.exception" /></title>
+		<title><spring:message code="error.pageNotFound" /></title>
 	</head>
 <body>
 	
 		<div id="error-box">
-			<div class="msg error">
-				<h2><spring:message code="error.exception" /></h2>	
-				<p><spring:message code="error.exception.descr" /></p>
-				<a href="<c:url value="/" />">Zobrazit hlavní stránku  &raquo;</a>
+			<div class="msg alert">
+				<h2><spring:message code="error.pageNotFound" /></h2>	
+				<p><spring:message code="error.pageNotFound.descr" /></p>
+				<a href="<c:url value="/" />"><spring:message code="error.goToMainPage" />  &raquo;</a>
 			</div>
 		
 		</div>
-
+	<style>
+		
+#footer ,header, footer, nav, aside, article, section{display:none !important;}
+body{background:none;}
+	
+	</style>
 </body>
 </html>

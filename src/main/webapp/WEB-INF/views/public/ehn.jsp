@@ -3,15 +3,16 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.standard.standardId} - ${model.standard.standardName}</title>
-		<meta name="description" content="${model.standard.standardId} - ${model.standard.standardName}" />
+		<title>${model.standard.standardId} - ${model.standard.czechName}</title>
+		<meta name="description" content="${model.standard.standardId} - ${model.standard.czechName}" />
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<span>${model.standard.standardId} - ${model.standard.standardName}</span>
+			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo;
+			<a title="${model.parentWebpage.title}" href="<c:url value="${model.parentWebpage.code}" />">${model.parentWebpage.name}</a> &raquo; 
+			<span>${model.standard.standardId} - ${model.standard.czechName}</span>
 	</div> 
 	
 	
@@ -19,7 +20,7 @@
 		<article>
 			<hgroup>
 				<h1>${model.standard.standardId}</h1>
-				<h2>${model.standard.standardName}</h2>
+				<h2>${model.standard.czechName}</h2>
 			</hgroup>
 			
 			
@@ -36,9 +37,10 @@
 				<tr>
 					<td class="key"><strong><spring:message code="standard.group" /></strong>:</td>
 					<td>
-						<a title="${model.standard.standardGroup.groupName}" href="<c:url value="/cpr/skupina/${model.standard.standardGroup.code}" />"> 
-								${model.standard.standardGroup.groupName}
-						</a>
+						<c:forEach items="${model.standard.standardGroups}" var="i">
+							<span>${i.code} - ${i.czechName }</span> 
+						</c:forEach>
+						
 					</td>
 				</tr>
 				
@@ -53,26 +55,9 @@
 						</td>
 					</tr>
 				</c:if>
-				
-				
-				
-				<c:if test="${not empty model.standard.startConcurrentValidity}">
-					<tr>
-						<td class="key"><strong><spring:message code="cpr.standard.concurrentvalidity.form"/>:</strong></td>
-						<td><joda:format value="${model.standard.startConcurrentValidity}" pattern="dd.MM.yyyy"/>
-							<c:if test="${not empty model.standard.stopConcurrentValidity}">
-								&nbsp; - &nbsp; <joda:format value="${model.standard.stopConcurrentValidity}" pattern="dd.MM.yyyy"/>
-							</c:if>
-						</td>
-					</tr>
-				</c:if>
+
 
 			</table>
-			<c:if test="${not empty model.standard.requirements}">
-				<a class="btn-next ehn" href="<c:url value="${model.url}?ehn=${model.standard.code}" />">
-					<spring:message code="standard.dop.generate2" /> &raquo;
-				</a>
-			</c:if>
 			<div class="clear"></div>
 			<!-- CSNs  -->
 			
@@ -103,7 +88,7 @@
 					<table class="ehn-no">
 						<c:forEach items="${model.standard.notifiedBodies}" var="nb">
 							<tr>
-								<td><a href="<c:url value="/subjekt/${nb.code}" />">${nb.notifiedBodyCode}</a></td>
+								<td>${nb.noCode} (${nb.aoCode})</td>
 				 		 		<td>${nb.name}</td>
 				 		 		<td class="c">
 				 		 			<c:if test="${not empty nb.address.city}">
@@ -134,22 +119,23 @@
 			</c:if>
 			
 			<!-- Mandary  -->
-			<c:if test="${not empty model.standard.mandates}">
+			<c:if test="${not empty model.standard.standardGroups}">
 				<div class="public-box">
 					<h3><spring:message code="cpr.mandates.title" /> </h3>
 					<table class="ehn-as">
-						<c:forEach items="${model.standard.mandates}" var="m">
+						<c:forEach items="${model.standard.standardGroups}" var="i">
+							
+							<c:forEach items="${j.standardGroupMandates}"  var="j">
 							<tr>
-								<c:if test="${empty m.mandateFileUrl}">
-									<td>${m.mandateName}</td>
-								</c:if>
-								<c:if test="${not empty m.mandateFileUrl}">
-									<td>
-										<a class="file pdf" href="${m.mandateFileUrl}">${m.mandateName}</a>
-									</td>
-								</c:if>
+								<td>
+									<a class="file pdf" href="${j.mandate.mandateFileUrl}">
+										${j.mandate..mandateName}
+									</a>
+								</td>
 							</tr>
-						</c:forEach>
+							</c:forEach>
+							 
+						</c:forEach>	
 					</table>
 				</div>
 			</c:if>
