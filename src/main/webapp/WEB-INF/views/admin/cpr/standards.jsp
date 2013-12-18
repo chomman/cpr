@@ -28,11 +28,11 @@
 						 source: function(request, response){  
 						 	 $.getJSON( $("#base").text() +"admin/cpr/standard/autocomplete", request, function(data) {  
 			                 	 response( $.map( data, function( item ) {
-			                 		if(item[1].toLowerCase().indexOf(request.term) >= 0){
+			                 		if(item[1].length < 65){
 		                 		 		return {label: item[1], value: item[1]};
 		                 		 	}
-			                 		var shortText = item[2].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
-		                 		 	return {label: shortText, value: item[2]};
+			                 		var shortText = item[1].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
+		                 		 	return {label: shortText, value: item[1]};
 									}));
 			            	});  
 						 },
@@ -51,29 +51,29 @@
 			
 			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
 				<div>
-					<span class="long"><spring:message code="form.orderby" />:</span>
-					<select name="orderBy">
+					<span class="long bx"><spring:message code="form.orderby" />:</span>
+					<select name="orderBy" class="chosen-default">
 						<c:forEach items="${model.orders}" var="i">
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span><spring:message code="cpr.standard.added" /></span>
+					<span class="bx"><spring:message code="cpr.standard.added" /></span>
 					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
-					<span>do:</span>
+					<span class="bx">do:</span>
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
 				<div>
-					<span class="long"><spring:message code="form.groups" />:</span>
-					<select name="groupId" class="groups">
+					<span class="long bx"><spring:message code="form.groups" />:</span>
+					<select name="standardGroup" class="groups chosen-default">
 						<option value="0"><spring:message code="cpr.groups.all" /></option>
 						<c:forEach items="${model.groups}" var="group">
-							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.czechName}</option>
+							<option value="${group.id}" <c:if test="${group.id == model.params.standardGroup}" >selected="selected"</c:if> >${group.code} - ${group.czechName}</option>
 						</c:forEach> 
 					</select>
 				</div>
 				<div>
-					<span class="long"><spring:message code="form.name" /></span>
+					<span class="long bx"><spring:message code="form.name" /></span>
 					<input type="text" class="query" name="query"   value="${model.params.query}" />
 					
 					<input type="submit" value="Filtrovat" class="btn" />

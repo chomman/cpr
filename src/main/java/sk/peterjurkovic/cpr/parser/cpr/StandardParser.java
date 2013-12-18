@@ -290,6 +290,7 @@ public class StandardParser extends CprParser {
 					throw new IllegalArgumentException("CSN link value is empty: " + pElement.text());
 				}
 				StandardCsn csn = new StandardCsn();
+				csn.setStandard(standard);
 				csn.setCsnName(cleanCsnName(pText));
 				csn.setCsnOnlineId(parseCatalogNo(link.getHref()));
 				if(StringUtils.isBlank(csn.getCsnOnlineId())){
@@ -413,6 +414,7 @@ public class StandardParser extends CprParser {
 	
 	private String cleanCsnName(String name){
 		name = name.replace("nahrazena", "");
+		name = name.replace(": ", ":");
 		name = name.replace("Nahrazena", "");
 		name = name.replaceAll("\\(\\d{6}\\)", "");
 		name = trim(name);

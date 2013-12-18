@@ -47,7 +47,7 @@ a{text-decoration:none;color:#3e4e69;}
 .filter{background:#F2F8FA;padding:5px 10px;border:4px solid #DFEDF2;font-size:12px;margin-bottom:10px;}
 .filter input{padding:5px;width:145px;}
 .filter select{padding:4px;min-width:170px;font-size:12px; }
-.filter span{padding:5px 10px 5px 15px;color:#555;}
+.filter span.bx{padding:5px 10px 5px 15px;color:#555;}
 .filter div{padding: 3px 0;}
 .filter .date{background: url("../img/ico_calendar_input.png") no-repeat scroll 90px center #FCFCFC;width:100px;text-align:left}
 .filter.article .date{background: url("../img/ico_calendar_input.png") no-repeat scroll 145px center #FCFCFC;width:158px;text-align:left}
