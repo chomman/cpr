@@ -33,7 +33,7 @@
 			</div>
 		</c:if>					
 							
-		<table class="group-detail">
+		<table class="standards">
 			<thead>
 				<tr>
 					<th><spring:message code="cpr.standard.id" /></th>
@@ -44,7 +44,7 @@
 			</thead>
 			<tbody>
 				 <c:forEach items="${model.standards}" var="i">
-				 	<tr>
+				 	<tr <c:if test="${not empty i.standardChanges}">class="has-change"</c:if> >
 				 		<td class="norm"><a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></td>
 				 		<td>${i.czechName}</td>
 				 		<td class="validity c ">
@@ -68,6 +68,25 @@
 				 		</td>
 				 		
 				 	</tr>
+				 	<c:if test="${not empty i.standardChanges}">
+				 		<c:forEach items="${i.standardChanges}" var="j">
+					 			<tr class="standard-change">
+					 			<td class="standard-change-code">
+					 				${j.changeCode}
+					 			</td>
+					 			<td>&nbsp;</td>
+					 			<td class="validity c ">
+							 		<c:if test="${not empty j.startValidity}">
+							 				<joda:format value="${j.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+							 		</c:if>
+							 		<c:if test="${not empty j.stopValidity}">
+							 			 -	<joda:format value="${j.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+							 		</c:if>
+					 			</td>
+					 			<td>&nbsp;</td>
+					 		</tr>
+				 		</c:forEach>
+				 	</c:if>
 				 </c:forEach>
 			</tbody>
 		</table>

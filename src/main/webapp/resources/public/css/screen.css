@@ -545,4 +545,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .extendedSearch .field.w500{width:500px;}
 .extendedSearch .btn{padding:5px;height:35px;float:right;background-image:none;margin-bottom:5px;display:block;}
 
-
+.standards tr{border-bottom:0 !important;border-top:1px solid #ccc; }
+.standard-change{padding:0;background:#fcfcfc;border-top:1px solid #f7f7f7 !important;font-size:12px;}
+.standard-change td{padding:4px 10px;}
+.standard-change-code{;}

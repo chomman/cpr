@@ -194,7 +194,44 @@ public class StandardController extends SupportAdminController{
         return getEditFormView();
 	}
 	
-	
+	/**
+	 * Spracuje odoslany formular, obsahujuci zakladne informacie o norme.
+	 * 
+	 * 
+	 * @param standardId
+	 * @param form
+	 * @param result
+	 * @param model
+	 * @return String view
+	 * @throws ItemNotFoundException 
+	 */
+	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.POST)
+	public String processSubmit(@PathVariable Long standardId,  @Valid Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
+		if(standardId == 0){
+			setEditFormView("cpr/standard-add");
+		}else{
+			setEditFormView("cpr/standard-edit1");
+		}
+		standardValidator.validate(result, form);
+		if (! result.hasErrors()) {
+        	if(standardService.isStandardIdUnique(form.getStandardId(), form.getId())){
+        		try {
+        			form = createOrUpdateBasicInfo(form);
+					model.put("successCreate", true);
+				} catch (CollisionException e) {
+					result.rejectValue("timestamp", "error.collision", e.getMessage());
+				}	
+        	}else{
+        		result.rejectValue("standardId", "cpr.standard.id.error.uniqe");
+        	}
+        }
+		
+		if(!result.hasErrors() && standardId == 0){
+			return "redirect:/admin/cpr/standard/edit/" + form.getId();
+		}
+		prepareModelForEditBasicInfo(form, model, standardId);
+        return getEditFormView();
+	}
 	
 	/**
 	 * Spracuje poziadavku zobrazenia formulara, pre pridanie/editaciu zmeny normy 
@@ -282,44 +319,7 @@ public class StandardController extends SupportAdminController{
 	}
 	
 		
-	/**
-	 * Spracuje odoslany formular, obsahujuci zakladne informacie o norme.
-	 * 
-	 * 
-	 * @param standardId
-	 * @param form
-	 * @param result
-	 * @param model
-	 * @return String view
-	 * @throws ItemNotFoundException 
-	 */
-	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long standardId,  @Valid Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
-		if(standardId == 0){
-			setEditFormView("cpr/standard-add");
-		}else{
-			setEditFormView("cpr/standard-edit1");
-		}
-		standardValidator.validate(result, form);
-		Long persistedId = null;
-		if (! result.hasErrors()) {
-        	if(standardService.isStandardIdUnique(form.getStandardId(), form.getId())){
-        		try {
-					persistedId = createOrUpdateBasicInfo(form);
-					model.put("successCreate", true);
-				} catch (CollisionException e) {
-					result.rejectValue("timestamp", "error.collision", e.getMessage());
-				}	
-        	}else{
-        		result.rejectValue("standardId", "cpr.standard.id.error.uniqe");
-        	}
-        }
-		prepareModelForEditBasicInfo(form, model, standardId);
-		if(!result.hasErrors() && standardId == 0){
-			return "redirect:/admin/cpr/standard/edit/" + persistedId;
-		}
-        return getEditFormView();
-	}
+	
 	
 	
 	
@@ -825,7 +825,7 @@ public class StandardController extends SupportAdminController{
      * @throws CollisionException 
      * @throws ItemNotFoundException 
      */
-	private Long createOrUpdateBasicInfo(Standard form) throws CollisionException, ItemNotFoundException{
+	private Standard createOrUpdateBasicInfo(Standard form) throws CollisionException, ItemNotFoundException{
 		Standard standard = null;
 	
 		if(form.getId() == null || form.getId() == 0){
@@ -858,7 +858,7 @@ public class StandardController extends SupportAdminController{
 		if(standard.getChanged() != null){
 			form.setTimestamp(standard.getChanged().toDateTime().getMillis());
 		}
-		return standard.getId();
+		return standard;
 	}
 	
 	

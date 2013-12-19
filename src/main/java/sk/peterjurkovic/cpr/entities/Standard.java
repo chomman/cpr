@@ -256,9 +256,10 @@ public class  Standard extends AbstractEntity {
 	}
 		
 	@Transient
-	public StandardChange getStandardChangeById(final Long id){
+	public StandardChange getStandardChangeById(final long id){
 		for(StandardChange standardChange : standardChanges){
-			if(standardChange.getId() == id){
+			Long chId = standardChange.getId();
+			if(chId == id){
 				return standardChange;
 			}
 		}
@@ -266,7 +267,7 @@ public class  Standard extends AbstractEntity {
 	}
 	
 	@Transient
-	public boolean removeStandardChange(final Long id){
+	public boolean removeStandardChange(final long id){
 		StandardChange persisted = getStandardChangeById(id);
 		if(persisted != null){
 			return standardChanges.remove(persisted);

@@ -33,9 +33,7 @@ public class StandardChange extends AbstractEntity{
 	
 
 	private static final long serialVersionUID = 3952649472754698284L;
-	
-	private Long id;
-	
+		
 	private String changeCode;
 	
 	private LocalDate startValidity;
@@ -50,12 +48,9 @@ public class StandardChange extends AbstractEntity{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_change_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
+
 	
 	@Column(name = "change_code")
 	public String getChangeCode() {
@@ -113,39 +108,5 @@ public class StandardChange extends AbstractEntity{
 		setStopValidity(standardChange.getStopValidity());
 		setEnabled(standardChange.getEnabled());
 		setChanged(new LocalDateTime());
-	}
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((changeCode == null) ? 0 : changeCode.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StandardChange other = (StandardChange) obj;
-		if (changeCode == null) {
-			if (other.changeCode != null)
-				return false;
-		} else if (!changeCode.equals(other.changeCode))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-	
-	
+	}	
 }

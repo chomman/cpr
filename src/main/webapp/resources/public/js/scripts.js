@@ -50,7 +50,7 @@ function validate(f){
 	return valid;	
 }
 $(function() {
-	createClasses();
+	// createClasses();
 	$(document).on("click",'#isCumulative', function(){checkCumulative();});
 	checkCumulative();
 	$('.tt').tooltip({ show: {duration: "fast" }});
