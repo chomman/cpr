@@ -21,12 +21,10 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import sk.peterjurkovic.cpr.entities.CommissionDecision;
 import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
-import sk.peterjurkovic.cpr.entities.StandardGroupMandate;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.parser.cpr.StandardGroupParser;
 import sk.peterjurkovic.cpr.services.CommissionDecisionService;
 import sk.peterjurkovic.cpr.services.MandateService;
-import sk.peterjurkovic.cpr.services.StandardGroupMandateService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.CommissionDecisionEditor;
@@ -50,9 +48,7 @@ public class StandardGroupController extends SupportAdminController {
 	private MandateService mandateService;
 	@Autowired
 	private MandatePropertyEditor mandatePropertyEditor;
-	@Autowired
-	private StandardGroupMandateService standardGroupMandateService;
-	
+
 	public StandardGroupController(){
 		setTableItemsView("cpr/standard-group-list");
 		setEditFormView("cpr/standard-group-edit");
@@ -143,34 +139,7 @@ public class StandardGroupController extends SupportAdminController {
         return getEditFormView();
 	}
 	
-	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}/mandate/add", method = RequestMethod.POST)
-	public String processAssignmentMandate(@PathVariable Long standardGroupId,  ModelMap model, HttpServletRequest request, @Valid StandardGroupMandate form, BindingResult result) throws ItemNotFoundException {
-		
-		StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
-		
-		if(standardGroup == null){
-			createItemNotFoundError("Standard group was not found. [id="+standardGroupId+"]");
-		}
-		
-		Mandate selectedMandate = form.getMandate();
-		
-		form.setStandardGroup(standardGroup);
-		if(selectedMandate != null  && !standardGroup.getAssignedMandates().contains(selectedMandate)){
-			standardGroupMandateService.create(form);
-		}
-		return "redirect:/admin/cpr/groups/edit/"+standardGroupId;
-	}
 	
-	
-	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}/mandate/delete/{id}")
-	public String removeMandate(@PathVariable Long standardGroupId, @PathVariable Long id) throws ItemNotFoundException {
-		StandardGroupMandate sgm = standardGroupMandateService.getById(id);
-		if(sgm != null){
-			standardGroupMandateService.delete(sgm);
-			return "redirect:/admin/cpr/groups/edit/"+standardGroupId + "?" +SUCCESS_PARAM+"=1";
-		}
-		return "redirect:/admin/cpr/groups/edit/"+standardGroupId;
-	}
 	
 	
 	/**
@@ -211,7 +180,6 @@ public class StandardGroupController extends SupportAdminController {
 		parser.setCommissionDecisionService(commissionDecisionService);
 		parser.setMandateService(mandateService);
 		parser.setStandardGroupService(standardGroupService);
-		parser.setStandardGroupMandateService(standardGroupMandateService);
 		parser.parse("http://www.sgpstandard.cz/editor/files/unmz/nv190/skupiny.htm");
 		modelMap.put("successCreate", true);
 		return getViewName();
@@ -223,24 +191,9 @@ public class StandardGroupController extends SupportAdminController {
 		model.put("standardGroupId", standardGroupId);
 		model.put("commissionDecisions", commissionDecisionService.getAll());
 		model.put("tab", CPR_TAB_INDEX);
-		if(standardGroupId != 0){
-			prepareMandateModel(form, map, model);
-		}
+		
 		map.put("model", model); 
 	}
-	
-	
-	
-	private void prepareMandateModel(StandardGroup form, ModelMap map, Map<String, Object> model){
-		StandardGroupMandate standardGroupMandate = new StandardGroupMandate();
-		standardGroupMandate.setStandardGroup(form);
-		map.addAttribute("standardGroupMandate", standardGroupMandate);	
-		model.put("mandates", mandateService.getFiltredMandates(form));
-	}
-	
-	
-	
-	
 	
 	private StandardGroup createOrUpdate(StandardGroup form) throws ItemNotFoundException{
 		StandardGroup standardGroup = null;

@@ -9,7 +9,6 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
-import org.jsoup.helper.Validate;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -19,10 +18,8 @@ import sk.peterjurkovic.cpr.dto.LinkDto;
 import sk.peterjurkovic.cpr.entities.CommissionDecision;
 import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
-import sk.peterjurkovic.cpr.entities.StandardGroupMandate;
 import sk.peterjurkovic.cpr.services.CommissionDecisionService;
 import sk.peterjurkovic.cpr.services.MandateService;
-import sk.peterjurkovic.cpr.services.StandardGroupMandateService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 
 public class StandardGroupParser extends CprParser {
@@ -33,9 +30,7 @@ public class StandardGroupParser extends CprParser {
 	private MandateService mandateService;
 	@Autowired
 	private CommissionDecisionService commissionDecisionService;
-	@Autowired
-	private StandardGroupMandateService standardGroupMandateService;
-	
+		
 	
 	
 	private Set<CommissionDecision> commissionList = new HashSet<CommissionDecision>();
@@ -82,15 +77,15 @@ public class StandardGroupParser extends CprParser {
 			if(index == 2){
 				Elements links =  td.select("a");
 				List<LinkDto> mandateLinks =  processLinks(links);
-				Set<StandardGroupMandate> mandates = createMandates(mandateLinks, false, standardGroup);
-				standardGroup.setStandardGroupMandates(mandates);
+			//	Set<StandardGroupMandate> mandates = createMandates(mandateLinks, false, standardGroup);
+			//	standardGroup.setStandardGroupMandates(mandates);
 			}
 			
 			if(index == 3 ){
 				Elements links =  td.select("a");
 				List<LinkDto> mandateLinks =  processLinks(links);
-				Set<StandardGroupMandate> mandates = createMandates(mandateLinks, true, standardGroup);
-				standardGroup.getStandardGroupMandates().addAll(mandates);
+			//	Set<StandardGroupMandate> mandates = createMandates(mandateLinks, true, standardGroup);
+			//	standardGroup.getStandardGroupMandates().addAll(mandates);
 			}
 			
 			
@@ -143,7 +138,7 @@ public class StandardGroupParser extends CprParser {
 		val = val.replace("(konsolidované znění", "");
 		return StringUtils.trim(val);
 	}
-	
+	/*
 	private Set<StandardGroupMandate> createMandates(List<LinkDto> links, boolean isComplement, StandardGroup sg){
 		Validate.notNull(links);
 		Set<StandardGroupMandate> mandates = new HashSet<StandardGroupMandate>();
@@ -166,6 +161,8 @@ public class StandardGroupParser extends CprParser {
 		}
 		return mandates;
 	}
+	*/
+	
 	
 	private String removeBrackets(String val){
 		if(StringUtils.isNotBlank(val)){
@@ -230,11 +227,6 @@ public class StandardGroupParser extends CprParser {
 		this.commissionDecisionService = commissionDecisionService;
 	}
 
-
-	public void setStandardGroupMandateService(
-			StandardGroupMandateService standardGroupMandateService) {
-		this.standardGroupMandateService = standardGroupMandateService;
-	}
 
 
 	public void setLogger(Logger logger) {

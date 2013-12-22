@@ -107,7 +107,7 @@ background: -webkit-linear-gradient(left, #ffffff 0%,#f7f7f7 100%);
 background: -o-linear-gradient(left, #ffffff 0%,#f7f7f7 100%);
 background: -ms-linear-gradient(left, #ffffff 0%,#f7f7f7 100%);
 background: linear-gradient(to right, #ffffff 0%,#f7f7f7 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startCorlorstr='#ffffff', endColorstr='#f7f7f7',GradientType=1 );
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f7f7f7',GradientType=1 );
 }
 .left-panel .nav{list-style:none;}
 .left-panel .nav a{display:block;text-decoration:none;padding:8px 10px;color:#555; border-top:1px solid #eee;border-bottom:2px solid #ddd;background: #ffffff;margin:4px 5px;border-right:3px solid #ddd;font-size:12px;
@@ -403,29 +403,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', end
 .cpr-items div h2 a{text-decoration:underline;}
 .cpr-items div h2 a:hover{color:#000;}
 
-.groups tbody{border:2px solid #ccc;}
-.groups tr{background:#fff !important;}
-.groups td{padding:0px 0px;border-bottom:2px solid #ccc;border-left:1px solid #ddd;}
 .groups table{background:#eee;}
-.groups a{text-decoration:none !important;} 
-.groups a:hover{text-decoration:underline !important;} 
-.groups span{display:block;padding:10px;margin:0}
-.groups .groupName span{border-left:1px solid #eee;border-right:1px solid #eee;line-height:15px;} 
-.groups .groupName span.czech{background:#fff;border-bottom:1px solid #ededed;}
-.groups .groupName span.czech a{color:#333}
-.groups .groupName span.english{font-size:11px;background:#fafafa;border-bottom:0px solid #ccc;}
 
-.groups th{font-size:10px;padding:5px 0;line-height:15px;border-top:2px solid #ddd;border-left:1px solid #ccc;}
-.groups .code{text-align:center;font-weight:bold;font-size:16px;}
-.groups .mandate{width:100px;}
-.groups .mandate span, .groups .commissionDecision span{padding:0px 0 0 10px;font-size:12px;}
-.groups .mandate span a{}
-.groups .commissionDecision{width:135px;}
 
 table a{text-decoration:underline;}
 table a:hover{color:#000;text-decoration:none;}
 table .file.pdf{background:url(../img/file_pdf_22x22.png) no-repeat center left;display:block;padding:0 0 0 25px;text-align:left;text-transform:uppercase;}
-table .file.pdf.min{background:url(../img/pdf-min.png) no-repeat center left;display:block;padding:0 0 0 18px;text-align:left;text-transform:uppercase;}
 
 
 article hgroup h1{padding:3px 0 !important;border:0px !important;margin:0 !important;}
@@ -446,10 +429,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f2f2', end
 table td{padding:12px 5px;}
 table tr{border-bottom:1px solid #ccc;}
 table tr.odd{background:#fbfbfb;}
-table tr:hover td,
-table tr:hover td span,
-table tr:hover{background:#EDF5FF !important;}
-
+table tr:hover{background:#EDF5FF;}
 .groups td.l a{text-decoration:none;font-weight:bold;}
 td.norm{padding-left:10px;}
 td.validity{min-width:160px;border-right:1px solid #eee;border-left:1px solid #eee;}

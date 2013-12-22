@@ -25,9 +25,7 @@
 					<article>
 					${model.webpage.topText}
 					</article>	
-					<c:if test="${not empty model.webpage.webpageContent and model.webpage.webpageContent.id == 4}">
-						 <jsp:include page="../contents/groups.jsp" /> 
-					</c:if>	
+					
 					<c:if test="${not empty model.webpage.webpageContent and model.webpage.webpageContent.id == 2}">
 							<jsp:include page="../contents/basic-requrement.jsp" />
 					</c:if>

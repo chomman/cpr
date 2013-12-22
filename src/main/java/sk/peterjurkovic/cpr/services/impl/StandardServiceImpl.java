@@ -120,8 +120,8 @@ public class StandardServiceImpl implements StandardService {
 	
 	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
 		if(criteria.size() != 0){
-			criteria.put("standardGroup",ParseUtils.parseLongFromStringObject(criteria.get("standardGroup")));
-			//criteria.put("groupId", ParseUtils.parseLongFromStringObject(criteria.get("groupId")));
+			criteria.put("standardGroup", ParseUtils.parseLongFromStringObject("standardGroup"));
+			criteria.put("groupId", ParseUtils.parseLongFromStringObject(criteria.get("groupId")));
 			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
 			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
 			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));

@@ -47,12 +47,8 @@ public class StandardGroup extends AbstractEntity {
 	
 	private CommissionDecision commissionDecision;
 	
-	private Set<StandardGroupMandate> standardGroupMandates;
-	
-	public StandardGroup(){
-		this.standardGroupMandates = new HashSet<StandardGroupMandate>();
-	}
-	
+	private Mandate mandate;
+		
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_group_id_seq")
 	public Long getId() {
@@ -91,26 +87,18 @@ public class StandardGroup extends AbstractEntity {
 	public void setCommissionDecision(CommissionDecision commissionDecision) {
 		this.commissionDecision = commissionDecision;
 	}
-	
-	@OrderBy("complement")
-	@OneToMany(mappedBy = "standardGroup", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	public Set<StandardGroupMandate> getStandardGroupMandates() {
-		return standardGroupMandates;
+
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mandate_id")
+	public Mandate getMandate() {
+		return mandate;
 	}
 
-	public void setStandardGroupMandates(Set<StandardGroupMandate> standardGroupMandates) {
-		this.standardGroupMandates = standardGroupMandates;
+	public void setMandate(Mandate mandate) {
+		this.mandate = mandate;
 	}
 	
 	
-	@Transient
-	public List<Mandate> getAssignedMandates(){
-		List<Mandate> assignedMandates = new ArrayList<Mandate>();
-		for(StandardGroupMandate sgm : standardGroupMandates){
-			assignedMandates.add(sgm.getMandate());
-		}
-		return assignedMandates;
-	}
 	
 	
 	

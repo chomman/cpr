@@ -1,7 +1,6 @@
 package sk.peterjurkovic.cpr.parser.cpr;
 
 import java.util.List;
-import java.util.Set;
 
 import junit.framework.Assert;
 
@@ -9,7 +8,6 @@ import org.junit.Test;
 
 import sk.peterjurkovic.cpr.dao.AbstractTest;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
-import sk.peterjurkovic.cpr.entities.StandardGroupMandate;
 
 public class StandardGroupParserTest extends AbstractTest {
 
@@ -27,14 +25,14 @@ public class StandardGroupParserTest extends AbstractTest {
 		Assert.assertEquals(g.getCode(), "1");
 		Assert.assertEquals(g.getCommissionDecision().getCzechLabel(), "99/94/ES");
 		Assert.assertEquals(g.getCommissionDecision().getEnglishLabel(), "99/94/EC");
-		Assert.assertEquals(find(g.getStandardGroupMandates(), "M/100").getMandate().getMandateName() , "M/100");
-		Assert.assertEquals(find(g.getStandardGroupMandates(), "M/100").isComplement() , false);
+		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/100").getMandate().getMandateName() , "M/100");
+		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/100").isComplement() , false);
 		
 		g = find(groups, "4");
 		Assert.assertEquals(g.getCommissionDecision().getCzechLabel(), "99/91/ES");
-		Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103_rev").getMandate().getMandateName() , "M/103_rev");
-		Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103").getMandate().getMandateName() , "M/103");
-		Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103_rev").isComplement() , false);
+		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103_rev").getMandate().getMandateName() , "M/103_rev");
+		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103").getMandate().getMandateName() , "M/103");
+		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103_rev").isComplement() , false);
 		Assert.assertEquals(g.getCommissionDecision().getDraftAmendmentLabel(), "Construct 09/847");
 		g = find(groups, "5");
 		Assert.assertEquals(g.getCommissionDecision().getCzechLabel(), "95/467/ES");
@@ -58,12 +56,5 @@ public class StandardGroupParserTest extends AbstractTest {
 		return null;
 	}
 	
-	private StandardGroupMandate find(Set<StandardGroupMandate> groups, String code){
-		for(StandardGroupMandate sgm : groups){
-			if(sgm.getMandate().getMandateName().equals(code)){
-				return sgm;
-			}
-		}
-		return null;
-	}
+	
 }

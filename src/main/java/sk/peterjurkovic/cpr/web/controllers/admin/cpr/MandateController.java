@@ -27,6 +27,8 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 public class MandateController extends SupportAdminController {
 
 	public static final int CPR_TAB_INDEX = 5;
+	private static final String MANDATE_URL = "/admin/cpr/mandates";
+	private static final String SUCCESS_PARAM = "success";
 	
 	@Autowired
 	private MandateService mandateService;
@@ -44,7 +46,7 @@ public class MandateController extends SupportAdminController {
 	 * @param HttpServletRequest poziadavka
 	 * @return String view
 	 */
-	@RequestMapping("/admin/cpr/mandates")
+	@RequestMapping(MANDATE_URL)
 	public String showMandates(ModelMap modelMap, HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
 		int currentPage = RequestUtils.getPageNumber(request);
@@ -71,8 +73,8 @@ public class MandateController extends SupportAdminController {
 	 * @param ModelMap model
 	 * @return String view s editacnym formularom
 	 */
-	@RequestMapping( value = "/admin/cpr/mandates/edit/{mandateId}", method = RequestMethod.GET)
-	public String showForm(@PathVariable Long mandateId,  ModelMap model) {
+	@RequestMapping( value = MANDATE_URL +"/edit/{mandateId}", method = RequestMethod.GET)
+	public String showForm(@PathVariable Long mandateId,  ModelMap model, HttpServletRequest request) {
 						
 		Mandate form = null;
 	
@@ -84,6 +86,9 @@ public class MandateController extends SupportAdminController {
 				model.put("notFoundError", true);
 				return getEditFormView();
 			}
+		}
+		if(request.getParameter(SUCCESS_PARAM) != null){
+			model.put("successCreate", true);
 		}
 		prepareModel(form, model, mandateId);
         return getEditFormView();
@@ -102,7 +107,7 @@ public class MandateController extends SupportAdminController {
 	 * @return String view
 	 * @throws ItemNotFoundException 
 	 */
-	@RequestMapping( value = "/admin/cpr/mandates/edit/{mandateId}", method = RequestMethod.POST)
+	@RequestMapping( value = MANDATE_URL +"/edit/{mandateId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long mandateId,  @Valid  Mandate form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
@@ -127,7 +132,7 @@ public class MandateController extends SupportAdminController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping( value = "/admin/cpr/mandates/delete/{mandateId}", method = RequestMethod.GET)
+	@RequestMapping( value = MANDATE_URL +" /delete/{mandateId}", method = RequestMethod.GET)
 	public String deleteGroup(@PathVariable Long mandateId,  ModelMap modelMap, HttpServletRequest request) {
 						
 		Mandate mandate = mandateService.getMandateById(mandateId);
@@ -146,7 +151,7 @@ public class MandateController extends SupportAdminController {
 	}
 	
 	
-	private void createOrUpdate(Mandate form) throws ItemNotFoundException{
+	private Mandate createOrUpdate(Mandate form) throws ItemNotFoundException{
 		Mandate mandate = null;
 			
 		if(form.getId() == 0){
@@ -161,13 +166,50 @@ public class MandateController extends SupportAdminController {
 		mandate.setMandateName(form.getMandateName());
 		mandate.setMandateFileUrl(form.getMandateFileUrl());
 		mandateService.saveOrUpdateMandate(mandate);
+		return mandate;
 	}	
+	
+	
+	@RequestMapping( value = MANDATE_URL +"/edit/{mandateId}/change/add", method = RequestMethod.POST)
+	public String processAssignmentMandate(@PathVariable Long mandateId,  ModelMap model, HttpServletRequest request, @Valid Mandate mandateChange, BindingResult result) throws ItemNotFoundException {
+		
+		Mandate mandate = mandateService.getMandateById(mandateId);
+		
+		if(mandate == null){
+			createItemNotFoundError("Mandate was not found. [id="+mandateId+"]");
+		}
+		
+		if(!mandate.getChanges().contains(mandateChange) && !mandate.equals(mandateChange)){
+			mandate.getChanges().add(mandateChange);
+			mandateService.updateMandate(mandate);
+			return "redirect:"+MANDATE_URL+"/edit/"+mandateId + "?" +SUCCESS_PARAM+"=1";
+		}
+		
+		return "redirect:"+MANDATE_URL+"/edit/"+mandateId;
+	}
+	
+	
+	@RequestMapping( value = MANDATE_URL+ "/edit/{mandateId}/change/delete/{id}")
+	public String removeMandate(@PathVariable Long mandateId, @PathVariable Long id) throws ItemNotFoundException {
+		Mandate mandate = mandateService.getMandateById(mandateId);
+		Mandate mandateChange = mandateService.getMandateById(id);
+		if(mandate != null && mandateChange != null){
+			if(mandate.getChanges().remove(mandateChange)){
+				mandateService.updateMandate(mandate);
+				return "redirect:"+MANDATE_URL+"/edit/"+mandateId + "?" +SUCCESS_PARAM+"=1";
+			}
+		}
+		return "redirect:"+MANDATE_URL+"/edit/"+mandateId;
+	}
+	
 	
 	
 	private void prepareModel(Mandate form, ModelMap map, Long mandateId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("mandate", form);
+		map.addAttribute("mandateChange", new Mandate());
 		model.put("mandateId", mandateId);
+		model.put("mandates", mandateService.getAllMandates());
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}
@@ -182,7 +224,7 @@ public class MandateController extends SupportAdminController {
 	
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
 		PaginationLinker paginger = new PaginationLinker(request, params);
-		paginger.setUrl("/admin/cpr/mandates");
+		paginger.setUrl(MANDATE_URL);
 		paginger.setCurrentPage(currentPage);
 		paginger.setRowCount( mandateService.getCountOfMandates().intValue() );
 		return paginger.getPageLinks(); 

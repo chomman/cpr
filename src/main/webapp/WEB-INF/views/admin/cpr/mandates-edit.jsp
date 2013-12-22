@@ -87,6 +87,45 @@
                             </span>
                         </p>
                        
+                       
+                       	<!--  MANDATE CHANGES -->
+						<c:if test="${mandateId != 0}">
+							
+							<!-- assigned MANDATES -->
+							<c:if test="${not empty mandate.changes}">
+								<p class="form-head"><spring:message code="cpr.group.assignedMandates" /></p>
+								<table class="data">
+									<c:forEach items="${mandate.changes}" var="i">
+										<tr>
+											<td>${i.mandateName}</td>
+											<td class="delete big">
+												<a class="confirmUnassignment"  href="${formUrl}/change/delete/${i.id}">
+									 				<spring:message code="cpr.group.unassigment" />
+									 			</a>
+											</td>
+										</tr>
+									</c:forEach>
+								</table>
+								
+							</c:if>
+							
+							
+							<!-- assign new MANDATE -->
+							<div>
+								<p class="form-head"><spring:message code="cpr.group.mandates" /></p>
+								<form:form cssClass="inline-form" commandName="mandateChange" method="post" action="${formUrl}/change/add"  >
+									<div class="inline-field">
+										<form:select path="mandate" cssClass="chosenSmall">
+											<option value="" ><spring:message code="form.select" /></option>
+											<form:options items="${model.mandates}" itemLabel="mandateName" itemValue="id" />
+										</form:select>
+									</div>
+									<input type="submit" class="lang mandate-add-btn" value="<spring:message code="cpr.group.add" />" />
+								</form:form>
+							</div>
+						</c:if>
+                       
+                       
                         <form:hidden path="id" />
                         <p class="button-box">
                         	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

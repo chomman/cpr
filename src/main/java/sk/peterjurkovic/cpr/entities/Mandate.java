@@ -1,12 +1,19 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -30,7 +37,14 @@ public class Mandate extends AbstractEntity {
 	private Long id;
 	private String mandateName;
 	private String mandateFileUrl;
+	private Set<Mandate> changes;
 
+	
+	public Mandate(){
+		changes = new HashSet<Mandate>();
+	}
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mandate_id_seq")
 	public Long getId() {
@@ -61,6 +75,18 @@ public class Mandate extends AbstractEntity {
 	public void setMandateFileUrl(String mandateFileUrl) {
 		this.mandateFileUrl = mandateFileUrl;
 	}
+	
+	@OneToMany( fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@JoinTable(name = "mandate_has_changes")
+	public Set<Mandate> getChanges() {
+		return changes;
+	}
+
+	public void setChanges(Set<Mandate> changes) {
+		this.changes = changes;
+	}
+	
+	
 
 	
 }

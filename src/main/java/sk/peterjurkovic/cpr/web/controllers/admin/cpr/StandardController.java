@@ -864,21 +864,21 @@ public class StandardController extends SupportAdminController{
 	
 	
 	private void createOrUpdateCsn(Standard standard, StandardCsn form) throws ItemNotFoundException{
-		StandardCsn standardCsn = null;
+		StandardCsn StandardCsn = null;
 		if(form.getId() == null || form.getId() == 0){
-			standardCsn = new StandardCsn();
+			StandardCsn = new StandardCsn();
 		}else{
-			standardCsn = standardCsnService.getCsnById(form.getId());
-			if(standardCsn == null){
+			StandardCsn = standardCsnService.getCsnById(form.getId());
+			if(StandardCsn == null){
 				createItemNotFoundError("ČSN s ID: " + form.getId() + " se v systému nenachází");
 			}
 		}
 
-		standardCsn.setCsnName(form.getCsnName());
-		standardCsn.setNote(form.getNote());
-		standardCsn.setCsnOnlineId(form.getCsnOnlineId());
-		standardCsn.setStandard(standard);
-		standardCsnService.saveOrUpdate(standardCsn);
+		StandardCsn.setCsnName(form.getCsnName());
+		StandardCsn.setNote(form.getNote());
+		StandardCsn.setCsnOnlineId(form.getCsnOnlineId());
+		StandardCsn.setStandard(standard);
+		standardCsnService.saveOrUpdate(StandardCsn);
 	}
 	
 	

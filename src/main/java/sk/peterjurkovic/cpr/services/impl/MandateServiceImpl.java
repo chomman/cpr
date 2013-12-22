@@ -100,18 +100,9 @@ public class MandateServiceImpl implements MandateService {
 	public List<Mandate> getFiltredMandates(StandardGroup standardGroup) {
 		List<Mandate> filtredMandates = new ArrayList<Mandate>();
 		List<Mandate> mandates = getAllMandates();
-		List<Mandate> assignedMandates = standardGroup.getAssignedMandates();
-		
-		if(CollectionUtils.isEmpty(assignedMandates)){
-			return mandates;
-		}
-		
-		for(Mandate mandate :mandates){
-			if(!assignedMandates.contains(mandate)){
-				filtredMandates.add(mandate);
-			}
-		}
-		return filtredMandates;
+		return null;
+		// TODO
+		//return filtredMandates;
 	}
 
 }

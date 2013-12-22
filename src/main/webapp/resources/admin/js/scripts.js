@@ -72,9 +72,6 @@ $(function() {
      $(".chosenSmall").chosen({
     	 width : "200px"
      });
-     
-     $(".chosen-default").chosen();
-
     
 });
 function updateNav(){

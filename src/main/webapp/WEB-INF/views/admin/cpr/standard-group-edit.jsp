@@ -129,56 +129,7 @@
 					</form:form>
 			</c:if>
 			
-			<!--  MANDATY -->
-			<c:if test="${standardGroupId != 0}">
-				
-				<!-- assigned MANDATES -->
-				<c:if test="${not empty standardGroup.standardGroupMandates}">
-					<p class="form-head"><spring:message code="cpr.group.assignedMandates" /></p>
-					<table class="data">
-						<c:forEach items="${standardGroup.standardGroupMandates}" var="i">
-							<tr>
-								<td>
-									<span 	<c:if test="${i.complement}">class="is-complement"</c:if>
-											<c:if test="${not i.complement}">class="is-not-complement"</c:if> >
-										${i.mandate.mandateName} 
-										<c:if test="${i.complement}">
-											<em>(<spring:message code="cpr.group.complement" />)</em>
-										</c:if>
-									</span>
-								</td>
-								<td class="delete big">
-									<a class="confirmUnassignment"  href="${formUrl}/mandate/delete/${i.id}">
-						 				<spring:message code="cpr.group.unassigment" />
-						 			</a>
-								</td>
-							</tr>
-						</c:forEach>
-					</table>
-					
-				</c:if>
-				
-				
-				<!-- assign new MANDATE -->
-				<div>
-					<p class="form-head"><spring:message code="cpr.group.mandates" /></p>
-					<form:form cssClass="inline-form" commandName="standardGroupMandate" method="post" action="${formUrl}/mandate/add"  >
-						<div class="inline-field">
-							<form:select path="mandate" cssClass="chosenSmall">
-								<option value="" ><spring:message code="form.select" /></option>
-								<form:options items="${model.mandates}" itemLabel="mandateName" itemValue="id" />
-							</form:select>
-						</div>
-						<div class="inline-field">
-							<form:label path="complement">
-								<spring:message code="cpr.group.complement" />:
-							</form:label>
-							<form:checkbox path="complement" />
-						</div>
-						<input type="submit" class="lang mandate-add-btn" value="<spring:message code="cpr.group.add" />" />
-					</form:form>
-				</div>
-			</c:if>
+		
 		
 			<span class="note"><spring:message code="form.required" /></span>
 		</div>	

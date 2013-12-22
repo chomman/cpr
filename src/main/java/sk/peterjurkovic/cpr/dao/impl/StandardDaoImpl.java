@@ -109,18 +109,10 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> autocomplateSearch(String query, final Boolean enabled) {
-		StringBuilder hql =  new StringBuilder();
-		query = query.toLowerCase();
-		
-		if(query.startsWith("en")){
-			hql.append("select s.id, s.standardId from Standard s");
-			hql.append(" where unaccent(lower(s.standardId)) like unaccent(lower(:query)) || '%' ");
-		}else{
-			hql.append("select s.id, s.czechName from Standard s");
-			hql.append(" where unaccent(lower(s.czechName)) like unaccent(lower(:query)) || '%' ");
-		}
-		
+	public List<Standard> autocomplateSearch(final String query, final Boolean enabled) {
+		StringBuilder hql = new StringBuilder("select s.id, s.standardId, s.czechName from Standard s");
+		hql.append(" where unaccent(lower(s.standardId)) like unaccent(lower(:query)) ");
+		hql.append(" or unaccent(lower(s.czechName)) like unaccent(lower(:query)) ");
 		if(enabled != null){
 			hql.append(" AND s.enabled=:enabled");
 		}
@@ -128,7 +120,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		if(enabled != null){
 			hqlQuery.setBoolean("enabled", enabled);
 		}
-		return hqlQuery.setString("query", query)
+		return hqlQuery.setString("query", "%" + query)
 				.setMaxResults(8)
 				.list();
 	}
@@ -148,9 +140,9 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			if((DateTime)criteria.get("createdTo") != null){
 				where.add(" s.created<:createdTo");
 			}
-			Long groupId = (Long)criteria.get("standardGroup");
+			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
-				where.add(" :standardGroup in elements(s.standardGroups)");
+				where.add(" :groupId in elements(s.standardGroups)");
 			}
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
@@ -174,9 +166,9 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			if(createdTo != null){
 				hqlQuery.setTimestamp("createdTo", createdTo.plusDays(1).toDate());
 			}
-			Long groupId = (Long)criteria.get("standardGroup");
+			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
-				hqlQuery.setLong("standardGroup", groupId);
+				hqlQuery.setLong("groupId", groupId);
 			}
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
