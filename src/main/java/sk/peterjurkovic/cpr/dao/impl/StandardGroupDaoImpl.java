@@ -19,7 +19,7 @@ public class StandardGroupDaoImpl extends BaseDaoImpl<StandardGroup, Long> imple
 	/**
 	 * Metoda vrati pocet noriem v danej skupine.
 	 * 
-	 * @param StandardGroup skupina norem
+	 * @param StandardForm skupina norem
 	 * @return Long pocet noriem
 	 */
 	@Override

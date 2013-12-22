@@ -29,6 +29,7 @@ import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.CommissionDecisionEditor;
 import sk.peterjurkovic.cpr.web.editors.MandatePropertyEditor;
+import sk.peterjurkovic.cpr.web.forms.admin.MandateForm;
 
 @Controller
 @SessionAttributes("standardGroup")
@@ -36,6 +37,7 @@ public class StandardGroupController extends SupportAdminController {
 	
 	
 	public static final int CPR_TAB_INDEX = 2;
+	private static final String DEFAULT_URL = "/admin/cpr/groups";
 	private static final String SUCCESS_PARAM = "successCreate";
 
 	@Autowired
@@ -67,7 +69,7 @@ public class StandardGroupController extends SupportAdminController {
 	 * @param modelMap model
 	 * @return String view, ktore bude interpretovane
 	 */
-	@RequestMapping("/admin/cpr/groups")
+	@RequestMapping(DEFAULT_URL)
     public String showCprGroupsPage(ModelMap modelMap) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		List<StandardGroup> groups = standardGroupService.getAllStandardGroups();
@@ -88,7 +90,7 @@ public class StandardGroupController extends SupportAdminController {
 	 * @param map Model 
 	 * @return String view
 	 */
-	@RequestMapping( value = "/admin/cpr/groups/delete/{standardGroupId}", method = RequestMethod.GET)
+	@RequestMapping( value = DEFAULT_URL + "/delete/{standardGroupId}", method = RequestMethod.GET)
 	public String deleteGroup(@PathVariable Long standardGroupId,  ModelMap modelMap) {
 						
 		StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
@@ -118,7 +120,7 @@ public class StandardGroupController extends SupportAdminController {
 	 * @return String view obsahujuce formular
 	 * @throws ItemNotFoundException 
 	 */
-	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.GET)
+	@RequestMapping( value = DEFAULT_URL + "/edit/{standardGroupId}", method = RequestMethod.GET)
 	public String showForm(@PathVariable Long standardGroupId,  ModelMap model, HttpServletRequest request) throws ItemNotFoundException {
 						
 		StandardGroup form = null;
@@ -151,7 +153,7 @@ public class StandardGroupController extends SupportAdminController {
 	 * @return String view
 	 * @throws ItemNotFoundException 
 	 */
-	@RequestMapping( value = "/admin/cpr/groups/edit/{standardGroupId}", method = RequestMethod.POST)
+	@RequestMapping(  value = DEFAULT_URL + "/edit/{standardGroupId}", method = RequestMethod.POST)
 	public String processSubmit(@PathVariable Long standardGroupId, @Valid StandardGroup form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 
 		if (result.hasErrors()) {
@@ -160,7 +162,7 @@ public class StandardGroupController extends SupportAdminController {
         	createOrUpdate(form);
         	model.put("successCreate", true);
         	if(standardGroupId == 0){
-        		return "redirect:/admin/cpr/groups/edit/"+form.getId() + "?" +SUCCESS_PARAM+"=1";
+        		return "redirect:"+DEFAULT_URL+"/edit/"+form.getId() + "?" +SUCCESS_PARAM+"=1";
         	}else{
         		prepareModel(form, model, form.getId());
         	}
@@ -169,12 +171,45 @@ public class StandardGroupController extends SupportAdminController {
 	}
 	
 	
-	@RequestMapping( value = "/admin/cpr/groups/import", method = RequestMethod.GET)
+	@RequestMapping(value = DEFAULT_URL +"/edit/{standardGroupId}/mandate/add", method =  RequestMethod.POST)
+	public String processAssignmentMandate(@PathVariable Long standardGroupId,  ModelMap model, HttpServletRequest request, @Valid MandateForm mandateChangeForm, BindingResult result) throws ItemNotFoundException {
+		
+		StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
+		final Mandate mandate = mandateChangeForm.getMandate();
+		if(mandate == null){
+			 createItemNotFoundError("Mandate was not found");
+		}
+		
+		if(!standardGroup.getMandates().contains(mandate)){
+			standardGroup.getMandates().add(mandate);
+			standardGroupService.updateStandardGroup(standardGroup);
+			return "redirect:"+DEFAULT_URL+"/edit/"+standardGroupId + "?" +SUCCESS_PARAM+"=1";
+		}
+		
+		return "redirect:"+DEFAULT_URL+"/edit/"+standardGroupId;
+	}
+	
+	
+	@RequestMapping( value = DEFAULT_URL+ "/edit/{standardGroupId}/mandate/delete/{id}")
+	public String removeMandate(@PathVariable Long standardGroupId, @PathVariable Long id) throws ItemNotFoundException {
+		StandardGroup standardGroup = standardGroupService.getStandardGroupByid(standardGroupId);
+		Mandate mandate = mandateService.getMandateById(id);
+		if(standardGroup != null && mandate != null){
+			if(standardGroup.getMandates().remove(mandate)){
+				mandateService.updateMandate(mandate);
+				return "redirect:"+DEFAULT_URL+"/edit/"+standardGroupId + "?" +SUCCESS_PARAM+"=1";
+			}
+		}
+		return "redirect:"+DEFAULT_URL+"/edit/"+standardGroupId;
+	}
+	
+	
+	@RequestMapping( value = DEFAULT_URL+ "/import", method = RequestMethod.GET)
 	public String showImportPage(ModelMap modelMap) {
 		return getViewName();
 	}
 	
-	@RequestMapping( value = "/admin/cpr/groups/import", method = RequestMethod.POST)
+	@RequestMapping( value =  DEFAULT_URL +"/import", method = RequestMethod.POST)
 	public String processImport(ModelMap modelMap) {
 		StandardGroupParser parser = new StandardGroupParser();
 		parser.setCommissionDecisionService(commissionDecisionService);
@@ -185,15 +220,23 @@ public class StandardGroupController extends SupportAdminController {
 		return getViewName();
 	}
 	
+	
+	
 	private void prepareModel(StandardGroup form, ModelMap map, Long standardGroupId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("standardGroup", form);
 		model.put("standardGroupId", standardGroupId);
 		model.put("commissionDecisions", commissionDecisionService.getAll());
+		if(standardGroupId != 0){
+			map.addAttribute("mandateForm", new MandateForm());
+			model.put("mandates", mandateService.getFiltredMandates(form));
+		}
 		model.put("tab", CPR_TAB_INDEX);
-		
 		map.put("model", model); 
 	}
+	
+	
+	
 	
 	private StandardGroup createOrUpdate(StandardGroup form) throws ItemNotFoundException{
 		StandardGroup standardGroup = null;
@@ -216,6 +259,8 @@ public class StandardGroupController extends SupportAdminController {
 		form.setId(standardGroup.getId());
 		return standardGroup;
 	}
+	
+	
 	
 	private StandardGroup createEmptyForm(){
 		StandardGroup form = new StandardGroup();

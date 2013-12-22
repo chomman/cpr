@@ -32,7 +32,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	/**
 	 * Vrati pocet evidovanych noriem v danej skupine vyrobkov
 	 * 
-	 * @param StandardGroup dana skupina vyrobkov
+	 * @param StandardForm dana skupina vyrobkov
 	 * @return Long pocet noriem, nachadzajucich sa v danej skupine
 	 */
 	@SuppressWarnings("unchecked")

@@ -98,4 +98,6 @@ public interface MandateService {
 	 * @return 
 	 */
 	List<Mandate> getFiltredMandates(StandardGroup standardGroup);
+	
+	List<Mandate> getFiltredMandates(Mandate mandate);
 }

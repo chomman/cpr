@@ -67,6 +67,8 @@
 							<p class="msg ok"><spring:message code="success.create" /></p>
 						</c:if>
 						
+						
+						<p class="form-head"><spring:message code="basic.info" /></p>
 						<p>
                         	<label>
                         		<strong><em class="red">*</em>
@@ -127,6 +129,53 @@
                         	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
                         </p>
 					</form:form>
+					
+					
+					<!--  MANDATEs -->
+					<c:if test="${standardGroupId != 0}">
+							
+						<!-- assigned MANDATES -->
+						<c:if test="${not empty standardGroup.mandates}">
+							<p class="form-head"><spring:message code="cpr.group.mandates" /></p>
+							<table class="data">
+								<c:forEach items="${standardGroup.mandates}" var="i">
+									<tr>
+										<td><strong>${i.mandateName}</strong></td>
+										<td>
+											<c:if test="${not empty i.changes}">
+												<em>(<c:forEach items="${i.changes}" var="j"  varStatus="loop" >
+												${j.mandateName}
+												<c:if test="${!loop.last}">,</c:if>
+												</c:forEach>)</em>
+											</c:if>
+										</td>
+										<td class="delete big">
+											<a class="confirmUnassignment"  href="${formUrl}/mandate/delete/${i.id}">
+								 				<spring:message code="cpr.group.unassigment" />
+								 			</a>
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
+							
+						</c:if>
+						
+						
+						<!-- assign new MANDATE -->
+						<div>
+							<p class="form-head"><spring:message code="cpr.group.mandates.add" /></p>
+							<form:form cssClass="inline-form" commandName="mandateForm" method="post" action="${formUrl}/mandate/add"  >
+								<div class="inline-field">
+									<form:select path="mandate" cssClass="chosenSmall">
+										<option value="" ><spring:message code="form.select" /></option>
+										<form:options items="${model.mandates}" itemLabel="mandateName" itemValue="id" />
+									</form:select>
+								</div>
+								<input type="submit" class="lang mandate-add-btn" value="<spring:message code="cpr.group.mandates.add.btn" />" />
+							</form:form>
+						</div>
+					</c:if>
+					
 			</c:if>
 			
 		

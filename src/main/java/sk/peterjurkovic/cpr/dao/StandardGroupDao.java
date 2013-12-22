@@ -14,7 +14,7 @@ public interface StandardGroupDao extends BaseDao<StandardGroup, Long>{
 	/**
 	 * Vrati pocet evidovanych noriem v danej skupine vyrobkov
 	 * 
-	 * @param StandardGroup dana skupina vyrobkov
+	 * @param StandardForm dana skupina vyrobkov
 	 * @return Long pocet noriem, nachadzajucich sa v danej skupine
 	 */
 	Long getCoutOfStandardInGroup(StandardGroup standardGroup);

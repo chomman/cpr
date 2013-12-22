@@ -1,8 +1,5 @@
 package sk.peterjurkovic.cpr.entities;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,12 +12,11 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.NotBlank;
 
@@ -47,7 +43,7 @@ public class StandardGroup extends AbstractEntity {
 	
 	private CommissionDecision commissionDecision;
 	
-	private Mandate mandate;
+	private Set<Mandate> mandates;
 		
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_group_id_seq")
@@ -87,16 +83,18 @@ public class StandardGroup extends AbstractEntity {
 	public void setCommissionDecision(CommissionDecision commissionDecision) {
 		this.commissionDecision = commissionDecision;
 	}
+	
 
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "mandate_id")
-	public Mandate getMandate() {
-		return mandate;
+	@OneToMany( fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@JoinTable(name = "standard_group_has_mandate")
+	public Set<Mandate> getMandates() {
+		return mandates;
 	}
 
-	public void setMandate(Mandate mandate) {
-		this.mandate = mandate;
+	public void setMandates(Set<Mandate> mandates) {
+		this.mandates = mandates;
 	}
+
 	
 	
 	

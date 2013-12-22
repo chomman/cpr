@@ -54,7 +54,6 @@ import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
-import sk.peterjurkovic.cpr.web.editors.MandateCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.TagEditor;
@@ -101,8 +100,7 @@ public class StandardController extends SupportAdminController{
 	private NotifiedBodyCollectionEditor notifiedBodiesEditor;
 	@Autowired
 	private AssessmentSystemCollectionEditor assessmentSystemCollectionEditor;
-	@Autowired
-	private MandateCollectionEditor mandateCollectionEditor;
+
 	
 	@Autowired
 	private StandardValidator standardValidator;
@@ -120,7 +118,6 @@ public class StandardController extends SupportAdminController{
 		binder.registerCustomEditor(Tag.class, this.tagEditor);
 		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
-		binder.registerCustomEditor(Set.class, "mandates", this.mandateCollectionEditor);
     }
 	
 	
@@ -887,7 +884,7 @@ public class StandardController extends SupportAdminController{
 	private void prepareModelForEditBasicInfo(Standard form, ModelMap map, Long standardId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("standard", form);
-		map.addAttribute("standardForm", new StandardForm());
+		map.addAttribute("standardForm", new StandardGroup());
 		model.put("standardId", standardId);
 		model.put("standardGroups", standardGroupService.getFiltredStandardGroups(form));
 		model.put("tab", CPR_TAB_INDEX);

@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -20,6 +22,8 @@ import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.MandateService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
+import sk.peterjurkovic.cpr.web.editors.MandatePropertyEditor;
+import sk.peterjurkovic.cpr.web.forms.admin.MandateForm;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
@@ -32,11 +36,20 @@ public class MandateController extends SupportAdminController {
 	
 	@Autowired
 	private MandateService mandateService;
+	@Autowired
+	private MandatePropertyEditor mandatePropertyEditor;
 	
 	public MandateController(){
 		setTableItemsView("cpr/mandates");
 		setEditFormView("cpr/mandates-edit");
 	}
+	
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Mandate.class, this.mandatePropertyEditor);
+		
+    }
 	
 	
 	/**
@@ -171,12 +184,12 @@ public class MandateController extends SupportAdminController {
 	
 	
 	@RequestMapping( value = MANDATE_URL +"/edit/{mandateId}/change/add", method = RequestMethod.POST)
-	public String processAssignmentMandate(@PathVariable Long mandateId,  ModelMap model, HttpServletRequest request, @Valid Mandate mandateChange, BindingResult result) throws ItemNotFoundException {
+	public String processAssignmentMandate(@PathVariable Long mandateId,  ModelMap model, HttpServletRequest request, @Valid MandateForm mandateForm, BindingResult result) throws ItemNotFoundException {
 		
 		Mandate mandate = mandateService.getMandateById(mandateId);
-		
+		final Mandate mandateChange = mandateForm.getMandate();
 		if(mandate == null){
-			createItemNotFoundError("Mandate was not found. [id="+mandateId+"]");
+			 createItemNotFoundError("Mandate was not found. [id="+mandateId+"]");
 		}
 		
 		if(!mandate.getChanges().contains(mandateChange) && !mandate.equals(mandateChange)){
@@ -207,9 +220,9 @@ public class MandateController extends SupportAdminController {
 	private void prepareModel(Mandate form, ModelMap map, Long mandateId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("mandate", form);
-		map.addAttribute("mandateChange", new Mandate());
+		map.addAttribute("mandateForm", new MandateForm());
 		model.put("mandateId", mandateId);
-		model.put("mandates", mandateService.getAllMandates());
+		model.put("mandates", mandateService.getFiltredMandates(form));
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}

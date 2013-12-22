@@ -1,9 +1,7 @@
 package sk.peterjurkovic.cpr.services.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,12 +95,21 @@ public class MandateServiceImpl implements MandateService {
 	
 	@Override
 	@Transactional(readOnly = true)
+	public List<Mandate> getFiltredMandates(final Mandate mandate) {
+		List<Mandate> allMandates = getAllMandates();
+		allMandates.removeAll(mandate.getChanges());
+		allMandates.remove(mandate);
+		return allMandates;
+	}
+
+	@Override
 	public List<Mandate> getFiltredMandates(StandardGroup standardGroup) {
-		List<Mandate> filtredMandates = new ArrayList<Mandate>();
-		List<Mandate> mandates = getAllMandates();
-		return null;
-		// TODO
-		//return filtredMandates;
+		List<Mandate> allMandates = getAllMandates();
+		for(Mandate m : standardGroup.getMandates()){
+			allMandates.removeAll(m.getChanges());
+			allMandates.remove(m);
+		}
+		return allMandates;
 	}
 
 }
