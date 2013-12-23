@@ -221,7 +221,6 @@ public class  Standard extends AbstractEntity {
 	public void setText(String text) {
 		this.text = text;
 	}
- 
 	
 	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public Set<Requirement> getRequirements() {
