@@ -14,6 +14,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import sk.peterjurkovic.cpr.dto.LinkDto;
+import sk.peterjurkovic.cpr.dto.StandardDto;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
@@ -54,6 +55,7 @@ public class StandardParser extends CprParser {
 	public void processRow(Elements tds) {
 		ListIterator<Element> it =  tds.listIterator();
 		int index = 0;
+		StandardDto standardDto = new StandardDto();
 		Standard standard = new Standard();
 		while (it.hasNext()) {
 			Element td = it.next();
@@ -263,7 +265,6 @@ public class StandardParser extends CprParser {
 			
 			if(pText.startsWith("nahrazena") && csnList.size() > 0){
 				StandardCsn csn = csnList.get(csnList.size() - 1);
-				csn.setStandard(standard);
 				csn.setCanceled(true);
 			}
 			
@@ -272,7 +273,6 @@ public class StandardParser extends CprParser {
 				List<LinkDto> links =  processLinks(aList);
 				for(LinkDto a : links){
 					StandardCsn csn = new StandardCsn();
-					csn.setStandard(standard);
 					csn.setCsnName(cleanCsnName(a.getAnchorText()));
 					csn.setCsnOnlineId(parseCatalogNo(a.getHref()));
 					String note = getExtractNote(a.getAnchorText());

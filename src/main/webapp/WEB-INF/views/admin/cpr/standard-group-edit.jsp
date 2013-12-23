@@ -107,7 +107,7 @@
                             		<c:forEach items="${model.commissionDecisions}" var="i">
                             			<option 
 	                            			<c:if test="${standardGroup.commissionDecision.id == i.id}">selected="selected"</c:if>
-	                            			value="${i.id}">${i.czechLabel}<c:if test="${not empty i.englishLabel}">/${i.englishLabel}</c:if>
+	                            			value="${i.id}">${i.czechLabel}<c:if test="${not empty i.englishLabel}"> - ${i.englishLabel}</c:if>
                             			</option>
                             		</c:forEach>
                             	</form:select>

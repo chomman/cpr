@@ -614,12 +614,12 @@ public class StandardController extends SupportAdminController{
      */
     @RequestMapping(value = "/admin/cpr/standard/csn/delete/{csnId}", method = RequestMethod.GET)
     public String deleteCsn(@PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
- 		StandardCsn StandardCsn = standardCsnService.getCsnById(csnId);
- 		if(StandardCsn == null){
+ 		StandardCsn standardCsn = standardCsnService.getCsnById(csnId);
+ 		if(standardCsn == null){
  			createItemNotFoundError("ČSN s ID: " + csnId + " se v systému nenachází");
  		}
- 		standardCsnService.deleteCsn(StandardCsn);
-        return "forward:/admin/cpr/standard/edit/"+StandardCsn.getStandard().getId()+"/csn";
+ 		standardCsnService.deleteCsn(standardCsn);
+        return "forward:/admin/cpr/standards";
     }
     
      //##################################################
@@ -861,21 +861,27 @@ public class StandardController extends SupportAdminController{
 	
 	
 	private void createOrUpdateCsn(Standard standard, StandardCsn form) throws ItemNotFoundException{
-		StandardCsn StandardCsn = null;
+		StandardCsn standardCsn = null;
 		if(form.getId() == null || form.getId() == 0){
-			StandardCsn = new StandardCsn();
+			standardCsn = new StandardCsn();
+			
 		}else{
-			StandardCsn = standardCsnService.getCsnById(form.getId());
-			if(StandardCsn == null){
+			standardCsn = standard.getStandardCsnId(form.getId());
+			if(standardCsn == null){
 				createItemNotFoundError("ČSN s ID: " + form.getId() + " se v systému nenachází");
 			}
 		}
 
-		StandardCsn.setCsnName(form.getCsnName());
-		StandardCsn.setNote(form.getNote());
-		StandardCsn.setCsnOnlineId(form.getCsnOnlineId());
-		StandardCsn.setStandard(standard);
-		standardCsnService.saveOrUpdate(StandardCsn);
+		standardCsn.setCsnName(form.getCsnName());
+		standardCsn.setNote(form.getNote());
+		standardCsn.setCsnOnlineId(form.getCsnOnlineId());
+		
+		if(standardCsn.getId() == null){
+			standardCsnService.createCsn(standardCsn);
+			standard.getStandardCsns().add(standardCsn);
+		}
+		
+		standardService.updateStandard(standard);
 	}
 	
 	
@@ -884,7 +890,7 @@ public class StandardController extends SupportAdminController{
 	private void prepareModelForEditBasicInfo(Standard form, ModelMap map, Long standardId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("standard", form);
-		map.addAttribute("standardForm", new StandardGroup());
+		map.addAttribute("standardForm", new StandardForm());
 		model.put("standardId", standardId);
 		model.put("standardGroups", standardGroupService.getFiltredStandardGroups(form));
 		model.put("tab", CPR_TAB_INDEX);

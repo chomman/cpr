@@ -26,16 +26,14 @@ import org.hibernate.validator.constraints.NotEmpty;
 @Entity
 @SequenceGenerator(name = "standard_has_csn_id_seq", sequenceName = "standard_has_csn_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "standard_has_csn")
+@Table(name = "standard_csn")
 public class StandardCsn extends AbstractEntity {
 
 	
 	private static final long serialVersionUID = 7791L;
 	
 	private Long id;
-	
-	private Standard standard;
-	
+		
 	private String csnName;
 
 	private String csnOnlineId;
@@ -43,8 +41,6 @@ public class StandardCsn extends AbstractEntity {
 	private Boolean canceled = false;
 	
 	private String note;
-	
-	
 	
 	
 	@Id
@@ -55,16 +51,6 @@ public class StandardCsn extends AbstractEntity {
 	
 	public void setId(Long id) {
 		this.id = id;
-	}
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_id")
-	public Standard getStandard() {
-		return standard;
-	}
-
-	public void setStandard(Standard standard) {
-		this.standard = standard;
 	}
 	
 	@Column
@@ -114,6 +100,7 @@ public class StandardCsn extends AbstractEntity {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
+	
 
 	@Override
 	public boolean equals(Object obj) {

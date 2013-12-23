@@ -17,14 +17,17 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -81,6 +84,8 @@ public class  Standard extends AbstractEntity {
 	
 	private Set<StandardChange> standardChanges;
 	
+	private Standard replaceStandard;
+	
 	public Standard(){
 		this.notifiedBodies = new HashSet<NotifiedBody>();
 		this.assessmentSystems = new HashSet<AssessmentSystem>();
@@ -116,7 +121,7 @@ public class  Standard extends AbstractEntity {
 	}
 	
 	@Length(max = 45, message = "Nahrazená harmonizovaná norma může mít max. 45 znaků")
-	@Column(name = "replaced_standard_id", length = 45)
+	@Column(name = "replaced_standard_code", length = 45)
 	public String getReplacedStandardId() {
 		return replacedStandardId;
 	}
@@ -196,7 +201,9 @@ public class  Standard extends AbstractEntity {
 		this.assessmentSystems = assessmentSystems;
 	}
 	
-	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@ManyToMany(fetch = FetchType.LAZY)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+    @JoinTable(name = "standard_has_csn", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "standard_csn_id"))
 	public Set<StandardCsn> getStandardCsns() {
 		return standardCsns;
 	}
@@ -261,13 +268,35 @@ public class  Standard extends AbstractEntity {
 	public void setStandardChanges(Set<StandardChange> standardChanges) {
 		this.standardChanges = standardChanges;
 	}
-		
+	
+
+	@JoinColumn(name = "replaced_standard_id",  insertable = false, updatable = false)
+	@ManyToOne(cascade = CascadeType.DETACH)
+	public Standard getReplaceStandard() {
+		return replaceStandard;
+	}
+
+	public void setReplaceStandard(Standard replaceStandard) {
+		this.replaceStandard = replaceStandard;
+	}
+
 	@Transient
 	public StandardChange getStandardChangeById(final long id){
 		for(StandardChange standardChange : standardChanges){
 			Long chId = standardChange.getId();
 			if(chId == id){
 				return standardChange;
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public StandardCsn getStandardCsnId(final long id){
+		for(StandardCsn csn : standardCsns){
+			Long csnId = csn.getId();
+			if(csnId == id){
+				return csn;
 			}
 		}
 		return null;
