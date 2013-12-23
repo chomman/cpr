@@ -2,11 +2,14 @@ package sk.peterjurkovic.cpr.parser.cpr;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
 import org.jsoup.nodes.Document;
@@ -50,6 +53,7 @@ public class StandardGroupParser extends CprParser {
 		
 		StandardGroup standardGroup = new StandardGroup();
 		CommissionDecision cd = new CommissionDecision();
+		Set<Mandate> gruopMandates = new HashSet<Mandate>();
 		cd.setChanged(new LocalDateTime());
 		cd.setCreated(new LocalDateTime());
 		
@@ -74,18 +78,20 @@ public class StandardGroupParser extends CprParser {
 				}
 			}
 			
+			
 			if(index == 2){
 				Elements links =  td.select("a");
 				List<LinkDto> mandateLinks =  processLinks(links);
-			//	Set<StandardGroupMandate> mandates = createMandates(mandateLinks, false, standardGroup);
-			//	standardGroup.setStandardGroupMandates(mandates);
+				gruopMandates = createMandates(mandateLinks);
+				if(CollectionUtils.isNotEmpty(gruopMandates)){
+					standardGroup.setMandates(gruopMandates);
+				}
 			}
 			
 			if(index == 3 ){
 				Elements links =  td.select("a");
 				List<LinkDto> mandateLinks =  processLinks(links);
-			//	Set<StandardGroupMandate> mandates = createMandates(mandateLinks, true, standardGroup);
-			//	standardGroup.getStandardGroupMandates().addAll(mandates);
+				createMandates(mandateLinks, gruopMandates);
 			}
 			
 			
@@ -96,6 +102,7 @@ public class StandardGroupParser extends CprParser {
 				if(a != null){
 					cd.setCzechFileUrl(a.getHref());
 					cd.setCzechLabel(clean(a.getAnchorText()));
+					cd.setConsolidatedVersion(isConsolidedVersion(td.text()));
 				}
 			}
 			
@@ -107,6 +114,7 @@ public class StandardGroupParser extends CprParser {
 					if(j == 0){
 						cd.setEnglishLabel(clean(a.getAnchorText()));
 						cd.setEnglishFileUrl(a.getHref());
+						cd.setConsolidatedVersion(isConsolidedVersion(td.text()));
 					}else{
 						cd.setDraftAmendmentLabel(clean(a.getAnchorText()));
 						cd.setDraftAmendmentUrl(a.getHref());
@@ -132,18 +140,25 @@ public class StandardGroupParser extends CprParser {
 		}
 	}
 	
+	private boolean isConsolidedVersion(String cellText){
+		if(StringUtils.isBlank(cellText)){
+			return false;
+		}
+		return cellText.contains("konsolidované");
+	}
+	
 	
 	private String clean(String val){
 		val = val.replace("(konsolidované znění)", "");
 		val = val.replace("(konsolidované znění", "");
 		return StringUtils.trim(val);
 	}
-	/*
-	private Set<StandardGroupMandate> createMandates(List<LinkDto> links, boolean isComplement, StandardGroup sg){
+	
+	
+	private Set<Mandate> createMandates(List<LinkDto> links){
 		Validate.notNull(links);
-		Set<StandardGroupMandate> mandates = new HashSet<StandardGroupMandate>();
+		Set<Mandate> mandates = new HashSet<Mandate>();
 		for(LinkDto link : links){
-			StandardGroupMandate sgm = new StandardGroupMandate();
 			Mandate m = new Mandate();
 			m.setChanged(new LocalDateTime());
 			m.setCreated(new LocalDateTime());
@@ -151,17 +166,45 @@ public class StandardGroupParser extends CprParser {
 			m.setMandateFileUrl(link.getHref());
 			m.setMandateName(link.getAnchorText());
 			m = insert(m);
-			sgm.setMandate(m);
-			sgm.setComplement(isComplement);
-			sgm.setStandardGroup(sg);
-			if(standardGroupMandateService != null){
-				standardGroupMandateService.create(sgm);
-			}
-			mandates.add(sgm);
+			mandates.add(m);
 		}
 		return mandates;
 	}
-	*/
+	
+	private Set<Mandate> createMandates(List<LinkDto> links, Set<Mandate> groupMandates){
+		Validate.notNull(links);
+		Set<Mandate> mandates = new HashSet<Mandate>();
+		Mandate mainMandate = null;
+		if(groupMandates != null && groupMandates.size() > 0){
+			Iterator<Mandate> i = groupMandates.iterator();
+			while(i.hasNext()){
+				Mandate tmpMandate = i.next();
+				if(!tmpMandate.getMandateName().contains("rev")){
+					mainMandate = tmpMandate;
+				}
+			}
+			
+				
+		}
+		for(LinkDto link : links){
+			Mandate m = new Mandate();
+			m.setChanged(new LocalDateTime());
+			m.setCreated(new LocalDateTime());
+			m.setEnabled(true);
+			m.setMandateFileUrl(link.getHref());
+			m.setMandateName(link.getAnchorText());
+			m = insert(m);
+			mandates.add(m);
+			if(mainMandate != null){
+				mainMandate.getChanges().add(m);
+				if(mandateService != null){
+					mandateService.updateMandate(mainMandate);
+				}
+			}
+		}
+		return mandates;
+	}
+	
 	
 	
 	private String removeBrackets(String val){
@@ -181,9 +224,11 @@ public class StandardGroupParser extends CprParser {
 	private Mandate insert(Mandate m){
 		for(Mandate savedMandate : mandateList){
 			if(savedMandate.getMandateName().equals(m.getMandateName())){
+				logger.info("Mandate with code: " + m.getMandateName() + " found");
 				return savedMandate;
 			}
 		}
+		logger.info("Mandate NOT FOUND: " + m.getMandateName() + " creating");
 		if(mandateService != null){
 			mandateService.saveOrUpdateMandate(m);
 		}

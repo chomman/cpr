@@ -51,6 +51,11 @@ public class CommissionDecision extends AbstractEntity {
 	 */
 	private String draftAmendmentLabel;
 	private String draftAmendmentUrl;
+	
+	/*
+	 * Jedna sa o konsolidovane zneni 
+	 */
+	private Boolean consolidatedVersion = Boolean.FALSE;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "commission_decision_id_seq")
@@ -116,6 +121,17 @@ public class CommissionDecision extends AbstractEntity {
 	public void setDraftAmendmentLabel(String draftAmendmentLabel) {
 		this.draftAmendmentLabel = draftAmendmentLabel;
 	}
+	
+	@Column(name = "consolidated_version")
+	public Boolean getConsolidatedVersion() {
+		return consolidatedVersion;
+	}
+
+
+	public void setConsolidatedVersion(Boolean consolidatedVersion) {
+		this.consolidatedVersion = consolidatedVersion;
+	}
+	
 
 	@Override
 	public String toString() {

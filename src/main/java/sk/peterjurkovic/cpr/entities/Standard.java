@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -26,6 +28,8 @@ import org.hibernate.validator.constraints.NotBlank;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 
 /**
  * Entita reprezentujuca harmonizovanu normu
@@ -73,6 +77,8 @@ public class  Standard extends AbstractEntity {
 	
 	private Long timestamp;
 	
+	private StandardStatus standardStatus;
+	
 	private Set<StandardChange> standardChanges;
 	
 	public Standard(){
@@ -85,6 +91,7 @@ public class  Standard extends AbstractEntity {
 		this.standardChanges = new HashSet<StandardChange>();
 		setEnabled(Boolean.TRUE);
 		setCumulative(Boolean.FALSE);
+		this.standardStatus = StandardStatus.NORMAL;
 	}
 	
 	@Id
@@ -293,4 +300,16 @@ public class  Standard extends AbstractEntity {
 		}
 		return false;
 	}
+
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "standard_status", length = 15)
+	public StandardStatus getStandardStatus() {
+		return standardStatus;
+	}
+
+	public void setStandardStatus(StandardStatus standardStatus) {
+		this.standardStatus = standardStatus;
+	}
+	
+	
 }

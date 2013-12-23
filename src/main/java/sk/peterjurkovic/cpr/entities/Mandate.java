@@ -12,7 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -76,8 +78,8 @@ public class Mandate extends AbstractEntity {
 		this.mandateFileUrl = mandateFileUrl;
 	}
 	
-	@OneToMany( fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
-	@JoinTable(name = "mandate_has_changes")
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "mandate_has_changes", joinColumns = @JoinColumn(name = "mandate_id"), inverseJoinColumns = @JoinColumn(name = "mandate_change_id"))
 	public Set<Mandate> getChanges() {
 		return changes;
 	}
@@ -85,6 +87,44 @@ public class Mandate extends AbstractEntity {
 	public void setChanges(Set<Mandate> changes) {
 		this.changes = changes;
 	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((mandateName == null) ? 0 : mandateName.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Mandate other = (Mandate) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (mandateName == null) {
+			if (other.mandateName != null)
+				return false;
+		} else if (!mandateName.equals(other.mandateName))
+			return false;
+		return true;
+	}
+
+	
+	
+	
 	
 	
 

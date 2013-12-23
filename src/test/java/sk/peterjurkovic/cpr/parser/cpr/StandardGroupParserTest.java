@@ -1,12 +1,14 @@
 package sk.peterjurkovic.cpr.parser.cpr;
 
 import java.util.List;
+import java.util.Set;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 import sk.peterjurkovic.cpr.dao.AbstractTest;
+import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 
 public class StandardGroupParserTest extends AbstractTest {
@@ -25,14 +27,24 @@ public class StandardGroupParserTest extends AbstractTest {
 		Assert.assertEquals(g.getCode(), "1");
 		Assert.assertEquals(g.getCommissionDecision().getCzechLabel(), "99/94/ES");
 		Assert.assertEquals(g.getCommissionDecision().getEnglishLabel(), "99/94/EC");
-		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/100").getMandate().getMandateName() , "M/100");
-		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/100").isComplement() , false);
+		Assert.assertEquals( find(g.getMandates(), "M/100").getMandateName() , "M/100");
+		// zmeny mandatov
+		Assert.assertNotNull( find(find(g.getMandates(), "M/100").getChanges(), "M/139") );
+		Assert.assertNotNull( find(find(g.getMandates(), "M/100").getChanges(), "M/130") );
+		Assert.assertNotNull( find(find(g.getMandates(), "M/100").getChanges(), "M/126") );
+
 		
 		g = find(groups, "4");
 		Assert.assertEquals(g.getCommissionDecision().getCzechLabel(), "99/91/ES");
-		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103_rev").getMandate().getMandateName() , "M/103_rev");
-		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103").getMandate().getMandateName() , "M/103");
-		//Assert.assertEquals(find(g.getStandardGroupMandates(), "M/103_rev").isComplement() , false);
+		// hlavne mandaty
+		Assert.assertEquals( find(g.getMandates(), "M/103").getMandateName() , "M/103");
+		Assert.assertEquals( find(g.getMandates(), "M/103_rev").getMandateName() , "M/103_rev");
+		// zmeny mandatov
+		Assert.assertNotNull( find(find(g.getMandates(), "M/103").getChanges(), "M/126") );
+		Assert.assertNotNull( find(find(g.getMandates(), "M/103").getChanges(), "M/130") );
+		Assert.assertNotNull( find(find(g.getMandates(), "M/103").getChanges(), "M/137") );
+		Assert.assertNotNull( find(find(g.getMandates(), "M/103").getChanges(), "M/138") );
+		Assert.assertNotNull( find(find(g.getMandates(), "M/103").getChanges(), "M/367") );
 		Assert.assertEquals(g.getCommissionDecision().getDraftAmendmentLabel(), "Construct 09/847");
 		g = find(groups, "5");
 		Assert.assertEquals(g.getCommissionDecision().getCzechLabel(), "95/467/ES");
@@ -56,5 +68,14 @@ public class StandardGroupParserTest extends AbstractTest {
 		return null;
 	}
 	
+	
+	private Mandate find(Set<Mandate> mandates, String code){
+		for(Mandate m : mandates){
+			if(m.getMandateName().equals(code)){
+				return m;
+			}
+		}
+		return null;
+	}
 	
 }
