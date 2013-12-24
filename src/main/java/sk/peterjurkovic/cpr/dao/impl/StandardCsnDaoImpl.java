@@ -17,5 +17,14 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 	public StandardCsnDaoImpl(){
 		super(StandardCsn.class);
 	}
+
+	@Override
+	public StandardCsn getByCatalogNo(final String catalogNumber) {
+		return (StandardCsn)sessionFactory.getCurrentSession()
+				.createQuery("FROM StandardCsn csn WHERE csn.csnOnlineId=:csnOnlineId ")
+				.setString("csnOnlineId", catalogNumber.trim())
+				.setMaxResults(1)
+				.uniqueResult();
+	}
 	
 }

@@ -83,13 +83,13 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	@Override
 	public boolean isStandardIdUnique(final String standardId,final Long id) {
 		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s WHERE s.standardId=:standardId");
-		if(id != 0){
+		if(id != null && id != 0){
 			hql.append(" AND s.id<>:id");
 		}
 		Long result = null;
 		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setString("standardId", standardId);
-		if(id != 0){
+		if(id != null && id != 0){
 			query.setLong("id", id);
 		}
 		result = (Long)query.uniqueResult();

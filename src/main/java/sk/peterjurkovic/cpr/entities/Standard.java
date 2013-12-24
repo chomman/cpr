@@ -19,13 +19,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -202,7 +200,7 @@ public class  Standard extends AbstractEntity {
 	}
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@OnDelete(action = OnDeleteAction.CASCADE)
+	@Cascade(value = { org.hibernate.annotations.CascadeType.DETACH })
     @JoinTable(name = "standard_has_csn", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "standard_csn_id"))
 	public Set<StandardCsn> getStandardCsns() {
 		return standardCsns;
@@ -268,9 +266,8 @@ public class  Standard extends AbstractEntity {
 		this.standardChanges = standardChanges;
 	}
 	
-
+	@ManyToOne
 	@JoinColumn(name = "replaced_standard_id",  insertable = false, updatable = false)
-	@ManyToOne(cascade = CascadeType.DETACH)
 	public Standard getReplaceStandard() {
 		return replaceStandard;
 	}

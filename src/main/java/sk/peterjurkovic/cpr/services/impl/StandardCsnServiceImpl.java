@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,6 +67,15 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 			standardCsnDao.update(standardCsn);
 		}
 		
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public StandardCsn getByCatalogNo(final String catalogNumber) {
+		if(StringUtils.isBlank(catalogNumber)){
+			return null;
+		}
+		return standardCsnDao.getByCatalogNo(catalogNumber);
 	}
 
 	

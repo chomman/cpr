@@ -9,5 +9,7 @@ import sk.peterjurkovic.cpr.entities.StandardCsn;
  *
  */
 public interface StandardCsnDao extends BaseDao<StandardCsn, Long>{
-
+	
+	StandardCsn getByCatalogNo(String catalogNumber);
+	
 }

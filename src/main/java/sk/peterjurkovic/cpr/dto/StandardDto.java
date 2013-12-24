@@ -36,7 +36,7 @@ public class StandardDto {
 	}
 	
 	
-	private void createCopy(){
+	public void createCopy(){
 		replacedStandard = new Standard();
 		replacedStandard.setAssessmentSystems(current.getAssessmentSystems());
 		replacedStandard.setCode(current.getCode());

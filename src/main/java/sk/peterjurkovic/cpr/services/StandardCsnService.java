@@ -62,4 +62,7 @@ public interface StandardCsnService {
 	void saveOrUpdate(StandardCsn StandardCsn);
 	
 	
+	StandardCsn getByCatalogNo(String catalogNumber);
+	
+	
 }

@@ -21,10 +21,13 @@ import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
+import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 
 public class StandardParser extends CprParser {
 	
@@ -38,6 +41,7 @@ public class StandardParser extends CprParser {
 	private AssessmentSystemService assessmentSystemService;
 	private StandardService standardService;
 	private StandardGroupService standardGroupService;
+	private StandardCsnService standardCsnService;
 	
 	@Override
 	public void parse(String location) {
@@ -56,13 +60,13 @@ public class StandardParser extends CprParser {
 		ListIterator<Element> it =  tds.listIterator();
 		int index = 0;
 		StandardDto standardDto = new StandardDto();
-		Standard standard = new Standard();
+		Standard standard = standardDto.getCurrent();
 		while (it.hasNext()) {
 			Element td = it.next();
 			switch(index){
 				case  0:
-					parseStandardCodes(standard, td.select("p"));
-					standardService.saveOrUpdate(standard);
+					parseStandardCodes(standardDto, td.select("p"));
+					persist(standard);
 				break;
 				case  1:
 					parseStandardCsns(standard, td.select("p"));
@@ -91,6 +95,9 @@ public class StandardParser extends CprParser {
 		}
 		logger.info("Staving standard: " + standard.getStandardId());
 		standardService.saveOrUpdate(standard);
+		if(standardDto.getReplacedStandard() != null){
+			persist(standardDto.getReplacedStandard());
+		}
 		//standards.add(standard);
 	}
 	
@@ -203,12 +210,13 @@ public class StandardParser extends CprParser {
 		}
 	}
 
-	private void parseStandardCodes(Standard standard,Elements pList){
+	private void parseStandardCodes(StandardDto standardDto ,Elements pList){
 		if(pList.size() == 0){
 			throw new IllegalArgumentException("Standard ID collum is empty, WTF?");
 		}
+		Standard standard = standardDto.getCurrent();
 		if(pList.size() == 1){
-			standard.setStandardId(trim(pList.first().text().trim().replace(": ", ":")));
+			standard.setStandardId(trim(clearStandardCode(pList.first().text())));
 		}else{
 			List<String> vals = new ArrayList<String>();
 			ListIterator<Element> it =  pList.listIterator();
@@ -221,23 +229,22 @@ public class StandardParser extends CprParser {
 				standard.setStandardId(vals.get(0));
 				StandardChange sch = new StandardChange();
 				sch.setStandard(standard);
-				sch.setChangeCode(vals.get(1));
+				sch.setChangeCode(clearStandardCode(vals.get(1)));
 				standard.getStandardChanges().add(sch);
 			}else{
-				if(trim(vals.get(1)).startsWith("nahrazena")){
-					standard.setStandardId(vals.get(2));
-					standard.setReplacedStandardId(vals.get(0));
-					
+				if(trim(vals.get(1)).contains("nahrazena")){
+					// index 2 obsauje kod novej eHN, index 0 stara, nahradena eHN
+					createWithCanceled(standardDto, vals.get(2), vals.get(0));
 					if(vals.size() == 4){
-						if(trim(vals.get(3)).startsWith("zatím neharmonizována")){
-							standard.setText("zatím neharmonizována");
+						if(trim(vals.get(3)).contains("zatím neharmonizována")){
+							standard.setStandardStatus(StandardStatus.NON_HARMONIZED);
 						}
 					}
 				}else if(trim(vals.get(1)).equals("nahrazuje")){
-					standard.setStandardId(vals.get(0));
-					standard.setReplacedStandardId(vals.get(2));
+					// index 0 obsauje kod novej eHN, index 2 stara, nahradena eHN
+					createWithCanceled(standardDto, vals.get(0), vals.get(2));
 				}else{
-					standard.setStandardId(vals.get(0));
+					standard.setStandardId(clearStandardCode(vals.get(0)));
 					for(int i = 1; i < vals.size(); i ++){
 						StandardChange sch = new StandardChange();
 						sch.setChangeCode(removeWhiteSpaces(vals.get(i).replace("/", "")));
@@ -251,13 +258,35 @@ public class StandardParser extends CprParser {
 		}
 	}
 	
+	private void createWithCanceled(StandardDto standardDto, String newStanadard,String canceledStandard){
+		standardDto.getCurrent().setStandardId(clearStandardCode(newStanadard));
+		standardDto.createCopy();
+		standardDto.getReplacedStandard().setStandardId(clearStandardCode(canceledStandard));
+		standardDto.setReplacedStandard( persist(standardDto.getReplacedStandard()) );
+		standardDto.getCurrent().setReplaceStandard(standardDto.getReplacedStandard());
+	}
+	
+	private Standard persist(Standard s){
+		if(standardService != null){
+			s.setCode(CodeUtils.toSeoUrl(s.getStandardId()));
+			Standard persisted = standardService.getStandardByCode(s.getCode());
+			if(persisted == null){
+				standardService.saveOrUpdate(s);
+				return s;
+			}
+			return persisted;
+		}
+		return s;
+	}
+	
+	private String clearStandardCode(String name){
+		return name.trim().replaceAll(":\\s+", ":");
+	}
+	
 	private void parseStandardCsns(Standard standard, Elements pList){
 		ListIterator<Element> it =  pList.listIterator();
 		List<StandardCsn> csnList = new ArrayList<StandardCsn>();
 		
-		if(standard.getStandardId().equals("EN 13229: 2001")){
-			logger.info("EN 13229: 2001");
-		}
 		Integer replaceIndex = null;
 		while (it.hasNext()) {
 			Element pElement = it.next();
@@ -282,6 +311,7 @@ public class StandardParser extends CprParser {
 					if(StringUtils.isBlank(csn.getCsnOnlineId())){
 						logger.warn("INVALI CSN ONLINE ID Standard: " + standard.getStandardId());
 					}
+					csn = persist(csn);
 					csnList.add(csn);
 				}
 			}else if(aList.size() == 1){
@@ -295,6 +325,7 @@ public class StandardParser extends CprParser {
 				if(StringUtils.isBlank(csn.getCsnOnlineId())){
 					logger.warn("INVALI CSN ONLINE ID Standard: " + standard.getStandardId());
 				}
+				csn = persist(csn);
 				csnList.add(csn);
 				if(replaceIndex != null && csnList.size() - 1 == replaceIndex){
 					csnList.get(replaceIndex).setCanceled(true);
@@ -322,7 +353,17 @@ public class StandardParser extends CprParser {
 		standard.getStandardCsns().addAll(csnList);
 	}
 	
-
+	private StandardCsn persist(StandardCsn csn){
+		if(standardCsnService != null){
+			 StandardCsn persited =	standardCsnService.getByCatalogNo(csn.getCsnOnlineId());
+			 if(persited == null){
+				 standardCsnService.saveOrUpdate(csn);
+				 return csn;
+			 }
+			 return persited;
+		}
+		return csn;
+	}
 	
 	public void parseNames(Standard standard, Elements pList){
 		if(pList.size() != 2){
@@ -402,6 +443,11 @@ public class StandardParser extends CprParser {
 
 	public void setStandardGroupService(StandardGroupService standardGroupService) {
 		this.standardGroupService = standardGroupService;
+	}
+
+	
+	public void setStandardCsnService(StandardCsnService standardCsnService) {
+		this.standardCsnService = standardCsnService;
 	}
 
 	public boolean isCatalogIdValid(String val){
