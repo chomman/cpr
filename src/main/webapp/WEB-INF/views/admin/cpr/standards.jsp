@@ -52,7 +52,7 @@
 			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
 				<div>
 					<span class="long"><spring:message code="form.orderby" />:</span>
-					<select name="orderBy">
+					<select name="orderBy" class="chosenSmall">
 						<c:forEach items="${model.orders}" var="i">
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
@@ -68,7 +68,7 @@
 					<select name="groupId" class="groups">
 						<option value="0"><spring:message code="cpr.groups.all" /></option>
 						<c:forEach items="${model.groups}" var="group">
-							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.czechName}</option>
+							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.code} - ${group.czechName}</option>
 						</c:forEach> 
 					</select>
 				</div>
@@ -114,8 +114,13 @@
 					</thead>
 					<tbody>
 						 <c:forEach items="${model.standards}" var="i">
-						 	<tr>
-						 		<td>${i.standardId}</td>
+						 	<c:if test="${not empty i.standardStatus }">
+						 		<tr class="${i.standardStatus.cssClass}">
+						 	</c:if>
+						 	<c:if test="${empty i.standardStatus }">
+						 		<tr>
+						 	</c:if>
+						 		<td class="standarardId">${i.standardId}</td>
 						 		<td>${i.czechName}</td>
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">

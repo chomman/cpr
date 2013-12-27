@@ -23,14 +23,6 @@
 	 </p>
 	 <p>
 	 	<label>
-	 		<spring:message code="cpr.standard.replacedStandardId" />
-	 	</label>
-	     <span class="field">
-	     	<form:input  path="replacedStandardId" cssClass="w200" maxlength="45" />
-	     </span>
-	 </p>
-	 <p>
-	 	<label>
 	 		<em class="red">*</em>
 	 		<spring:message code="cpr.standard.name" />
 	 	</label>
@@ -88,33 +80,7 @@
 	     	<input type="text" id="standardPicker" />	
 	     	<form:hidden path="replaceStandard" id="pickerVal" />
 	     </span>
-	 </p>
-	 
-	 
-	 
-	<!-- 	
-	<script type="text/javascript">
-	$(document).ready(function() {
-	    //$("#tagsField").tagit({fieldName: "tags", allowSpaces :true});
-	});
-	</script>
-  
-    <p>
-   	<label class="tt">
-   		<spring:message code="cpr.standard.tags" />
-   		<small><spring:message code="cpr.standard.tags.descr" /></small>
-   	</label>
-       <div class="field relative">  
-       	<ul id="tagsField">
-			    <c:forEach items="${standard.tags}" var="tag">
-					<li>${tag.name}</li>
-				 </c:forEach>
-		</ul>
-		<div class="clear"></div>
-	  </div>
-	</p>
-    -->
-	                
+	 </p>         
 	<p>
 	    <label title="<spring:message code="publish.descr" />" class="tt">
 	 		<spring:message code="publish" />

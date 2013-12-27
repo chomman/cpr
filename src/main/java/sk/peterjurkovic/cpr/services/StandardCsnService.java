@@ -65,4 +65,7 @@ public interface StandardCsnService {
 	StandardCsn getByCatalogNo(String catalogNumber);
 	
 	
+	List<StandardCsn> autocomplete(String term);
+	
+	
 }

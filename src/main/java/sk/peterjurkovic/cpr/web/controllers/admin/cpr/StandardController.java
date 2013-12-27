@@ -56,6 +56,7 @@ import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
+import sk.peterjurkovic.cpr.web.editors.StandardCsnPropertyEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
 import sk.peterjurkovic.cpr.web.editors.TagEditor;
@@ -104,6 +105,8 @@ public class StandardController extends SupportAdminController{
 	private AssessmentSystemCollectionEditor assessmentSystemCollectionEditor;
 	@Autowired
 	private StandardPropertyEditor standardPropertyEditor;
+	@Autowired
+	private StandardCsnPropertyEditor standardCsnPropertyEditor;
 	
 	@Autowired
 	private StandardValidator standardValidator;
@@ -119,6 +122,7 @@ public class StandardController extends SupportAdminController{
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 		binder.registerCustomEditor(Country.class, this.countryEditor);
 		binder.registerCustomEditor(Standard.class, this.standardPropertyEditor);
+		binder.registerCustomEditor(StandardCsn.class, this.standardCsnPropertyEditor);
 		binder.registerCustomEditor(Tag.class, this.tagEditor);
 		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
@@ -537,16 +541,16 @@ public class StandardController extends SupportAdminController{
      */
     @RequestMapping("/admin/cpr/standard/edit/{standardId}/csn")
     public String showCsns(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
- 		Map<String, Object> map = new HashMap<String, Object>();
+ 		Map<String, Object> model = new HashMap<String, Object>();
  		setEditFormView("cpr/standard-edit3");
  		Standard standard = standardService.getStandardById(standardId);
  		if(standard == null){
  			createStandardNotFound( standardId );
  		}
  		modelMap.addAttribute("standard", standard);
- 		map.put("standardId", standardId);
- 		map.put("tab", CPR_TAB_INDEX);
- 		modelMap.put("model", map);
+ 		model.put("standardId", standardId);
+ 		model.put("tab", CPR_TAB_INDEX);
+ 		modelMap.put("model", model);
          return getEditFormView();
     }
     
@@ -873,7 +877,8 @@ public class StandardController extends SupportAdminController{
 		standardCsn.setCsnName(form.getCsnName());
 		standardCsn.setNote(form.getNote());
 		standardCsn.setCsnOnlineId(form.getCsnOnlineId());
-		
+		standardCsn.setStandardStatus(form.getStandardStatus());
+		standardCsn.setReplaceStandardCsn(form.getReplaceStandardCsn());
 		if(standardCsn.getId() == null){
 			standardCsnService.createCsn(standardCsn);
 			standard.getStandardCsns().add(standardCsn);
@@ -941,6 +946,7 @@ public class StandardController extends SupportAdminController{
  		modelMap.addAttribute("csn", form);
  		map.put("standardId", standard.getId());
  		map.put("standardName", standard.getStandardId());
+ 		map.put("standardStatuses", StandardStatus.getAll());
  		map.put("csnId", form.getId());
  		map.put("tab", CPR_TAB_INDEX);
  		modelMap.put("model", map);

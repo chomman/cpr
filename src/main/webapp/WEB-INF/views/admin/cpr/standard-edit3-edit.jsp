@@ -4,6 +4,7 @@
 <html>
 <head>
 <title><spring:message code="cpr.standard.edit" arguments="${model.standardName}" /></title>
+<script src="<c:url value="/resources/admin/js/standard-csn.picker.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -77,6 +78,31 @@
 		                    	<span class="norminfo" >http://www.sgpstandard.cz/editor/files/on_line/csn-redirect.php?k=<strong class="red">90588</strong></span>
 		                    </span>
 	                    </p>
+	                    <c:if test="${not empty csn.replaceStandardCsn}">
+						 	<script type="text/javascript">
+								$(document).ready(function() {
+									selectStandard('${csn.replaceStandardCsn.csnName}', ${csn.replaceStandardCsn.id});
+								});
+							</script>
+					  
+						 </c:if>
+	                    <p>
+						 	<label>
+						 		<spring:message code="cpr.standard.status" />
+						 	</label>
+						     <span class="field standard-picker">  
+						     	<form:select path="standardStatus" cssClass="chosenSmall">
+						     		<c:forEach items="${model.standardStatuses}" var="i">
+					                       <option value="${i}" <c:if test="${i ==  csn.standardStatus}">selected="selected"</c:if> >
+					                       		<spring:message code="${i.name}" />
+					                       </option>
+					               </c:forEach>
+						     	</form:select>
+						     	<span id="standard-replaced-label" class="resetmargin"></span>	
+						     	<input type="text" id="standardPicker" />	
+						     	<form:hidden path="replaceStandardCsn" id="pickerVal" />
+						     </span>
+						 </p>         
 	                    <p>
 		                	<label>
 		                		<spring:message code="cpr.csn.note" />

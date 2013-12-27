@@ -60,8 +60,13 @@
 							</thead>
 							<tbody>
 								 <c:forEach items="${standard.standardCsns}" var="i">
-								 	<tr>
-								 		<td>${i.csnName}</td>
+								 	<c:if test="${not empty i.standardStatus }">
+								 		<tr class="${i.standardStatus.cssClass}">
+								 	</c:if>
+								 	<c:if test="${empty i.standardStatus }">
+								 		<tr>
+								 	</c:if>
+								 		<td class="standarardId">${i.csnName}</td>
 								 		<td class="last-edit">
 								 			<c:if test="${empty i.changedBy}">
 								 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>

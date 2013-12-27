@@ -16,9 +16,11 @@ import sk.peterjurkovic.cpr.dto.CsnCategoryJsonDto;
 import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
+import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.services.CsnCategoryService;
 import sk.peterjurkovic.cpr.services.CsnService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
+import sk.peterjurkovic.cpr.services.StandardCsnService;
 
 @Controller
 public class AjaxCsnController {
@@ -29,6 +31,8 @@ public class AjaxCsnController {
 	private CsnCategoryService csnCategoryService;
 	@Autowired
 	private CsnTerminologyService csnTerminologyService;
+	@Autowired
+	private StandardCsnService standardCsnService;
 	
 		
 	
@@ -71,5 +75,11 @@ public class AjaxCsnController {
 	@RequestMapping(value = "/ajax/csn/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<Csn>  searchInCsnIds(@RequestBody @RequestParam("term") String query){
 		return csnService.autocompleteByCsnId(query);
+	}
+	
+	
+	@RequestMapping(value = "/ajax/standard-csn/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<StandardCsn>  searchInStandardCsns(@RequestBody @RequestParam("term") String term){
+		return standardCsnService.autocomplete(term);
 	}
 }

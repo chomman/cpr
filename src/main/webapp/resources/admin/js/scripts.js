@@ -69,6 +69,10 @@ $(function() {
     	 width : "510px"
      });
      
+     $("select").not(".chosen, .chosenSmall").chosen({
+    	 width : "510px"
+     });
+     
      $(".chosenSmall").chosen({
     	 width : "200px"
      });

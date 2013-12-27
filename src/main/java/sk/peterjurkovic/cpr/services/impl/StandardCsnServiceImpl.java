@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -76,6 +77,15 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 			return null;
 		}
 		return standardCsnDao.getByCatalogNo(catalogNumber);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<StandardCsn> autocomplete(final String term) {
+		if(StringUtils.isBlank(term)){
+			return new ArrayList<StandardCsn>();
+		}
+		return standardCsnDao.autocomplete(term);
 	}
 
 	

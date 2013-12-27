@@ -62,7 +62,6 @@ public class StandardParserTest extends AbstractTest{
 		s = find("	", list);
 		Assert.assertEquals(0, s.getStandardChanges().size());
 		Assert.assertEquals(2, s.getStandardCsns().size());
-		Assert.assertTrue(find("ČSN EN 450-1 + A1", s.getStandardCsns()).getCanceled());
 		Assert.assertNotNull( find("ČSN EN 450-1:2013", s.getStandardCsns()) );
 		Assert.assertEquals("(722064) Nahrazuje ČSN EN 450-1 + A1", find("ČSN EN 450-1:2013", s.getStandardCsns()).getNote() );
 		

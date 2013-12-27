@@ -1,5 +1,8 @@
 package sk.peterjurkovic.cpr.dao.impl;
 
+import java.util.List;
+
+import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.dao.StandardCsnDao;
@@ -25,6 +28,17 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 				.setString("csnOnlineId", catalogNumber.trim())
 				.setMaxResults(1)
 				.uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StandardCsn> autocomplete(final String term) {
+		StringBuilder hql = new StringBuilder("select csn.id, csn.csnName from StandardCsn csn");
+		hql.append(" where unaccent(lower(csn.csnName)) like unaccent(:query) ");
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		return hqlQuery.setString("query",  term.toLowerCase() + "%")
+				.setMaxResults(8)
+				.list();
 	}
 	
 }

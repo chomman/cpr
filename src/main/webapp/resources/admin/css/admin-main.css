@@ -576,3 +576,9 @@ table.log td,.log-descr{padding:2px;}
 .standard-link-cancel{color:red !important;cursor:pointer;}
 .standard-link-cancel:hover{text-decoration:none;}
 .resetmargin{margin: 0 0 0 5px !important;}
+
+.status-canceled{background-color:#FFE8E8;}
+.status-canceled.odd{background-color:#FFF0F0 !important;}
+.status-non-harmonized{background-color:#FFFCE8;}
+
+.status-canceled .standarardId{color:#CC0000;}

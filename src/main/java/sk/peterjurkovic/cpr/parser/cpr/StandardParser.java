@@ -294,7 +294,7 @@ public class StandardParser extends CprParser {
 			
 			if(pText.startsWith("nahrazena") && csnList.size() > 0){
 				StandardCsn csn = csnList.get(csnList.size() - 1);
-				csn.setCanceled(true);
+				//csn.setCanceled(true);
 			}
 			
 			Elements aList = pElement.select("a");
@@ -328,7 +328,7 @@ public class StandardParser extends CprParser {
 				csn = persist(csn);
 				csnList.add(csn);
 				if(replaceIndex != null && csnList.size() - 1 == replaceIndex){
-					csnList.get(replaceIndex).setCanceled(true);
+					//csnList.get(replaceIndex).setCanceled(true);
 					StandardCsn prevCsn = csnList.get(replaceIndex - 1);
 					prevCsn.setNote(prevCsn.getNote()+ " "+ pText);
 				}

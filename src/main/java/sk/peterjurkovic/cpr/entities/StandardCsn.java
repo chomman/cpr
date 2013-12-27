@@ -2,7 +2,8 @@ package sk.peterjurkovic.cpr.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,8 @@ import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 
 /**
  * Asociacna entita, ktora prepaja normu a CSN.
@@ -38,10 +41,16 @@ public class StandardCsn extends AbstractEntity {
 
 	private String csnOnlineId;
 	
-	private Boolean canceled = false;
+	private StandardStatus standardStatus;
 	
 	private String note;
 	
+	private StandardCsn replaceStandardCsn;
+	
+	
+	public StandardCsn(){
+		this.standardStatus = StandardStatus.NORMAL;
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_has_csn_id_seq")
@@ -81,14 +90,25 @@ public class StandardCsn extends AbstractEntity {
 	public void setCsnOnlineId(String csnOnlineId) {
 		this.csnOnlineId = csnOnlineId;
 	}
+	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "standard_csn_status", length = 15)
+	public StandardStatus getStandardStatus() {
+		return standardStatus;
+	}
 
-	public Boolean getCanceled() {
-		return canceled;
+	public void setStandardStatus(StandardStatus standardStatus) {
+		this.standardStatus = standardStatus;
 	}
 	
-	@Column(name = "is_canceled")
-	public void setCanceled(Boolean canceled) {
-		this.canceled = canceled;
+	@ManyToOne
+	@JoinColumn(name = "replaced_standard_csn_id")
+	public StandardCsn getReplaceStandardCsn() {
+		return replaceStandardCsn;
+	}
+
+	public void setReplaceStandardCsn(StandardCsn replaceStandardCsn) {
+		this.replaceStandardCsn = replaceStandardCsn;
 	}
 
 	@Override
