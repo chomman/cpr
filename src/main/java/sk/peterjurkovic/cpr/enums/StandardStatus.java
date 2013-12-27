@@ -5,17 +5,19 @@ import java.util.List;
 
 public enum StandardStatus {
 	
-	NORMAL(1, "standardStatus.normal"),
-	CANCELED(2,"standardStatus.replaced" ),
-	NON_HARMONIZED(3,"standardStatus.nonHarmonized");
+	NORMAL(1, "standardStatus.normal", ""),
+	CANCELED(2,"standardStatus.canceled" ,"status-canceled"),
+	NON_HARMONIZED(3,"standardStatus.nonHarmonized","status-non-harmonized");
 	
 	private int id;
 	private String name;
+	private String cssClass;
 	
 	
-	private StandardStatus(int id, String name){
+	private StandardStatus(int id, String name, String cssClass){
 		this.id = id;
 		this.name = name;
+		this.cssClass =  cssClass;
 	}
 
 
@@ -27,7 +29,12 @@ public enum StandardStatus {
 	public String getName() {
 		return name;
 	}
-	
+		
+	public String getCssClass() {
+		return cssClass;
+	}
+
+
 	public static List<StandardStatus> getAll() {
         return Arrays.asList(values());
     }

@@ -120,7 +120,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		if(enabled != null){
 			hqlQuery.setBoolean("enabled", enabled);
 		}
-		return hqlQuery.setString("query", "%" + query)
+		return hqlQuery.setString("query",  query + "%")
 				.setMaxResults(8)
 				.list();
 	}

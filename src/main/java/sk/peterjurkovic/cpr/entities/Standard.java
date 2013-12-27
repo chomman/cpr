@@ -267,7 +267,7 @@ public class  Standard extends AbstractEntity {
 	}
 	
 	@ManyToOne
-	@JoinColumn(name = "replaced_standard_id",  insertable = false, updatable = false)
+	@JoinColumn(name = "replaced_standard_id")
 	public Standard getReplaceStandard() {
 		return replaceStandard;
 	}

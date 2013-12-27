@@ -570,3 +570,9 @@ table.log td,.log-descr{padding:2px;}
 .tab-wrapp{border:1px solid #ddd;}
 .cancel{background:#eee;color:#999;border:1px solid #ddd;}
 .cancel:hover{background:#ddd;color:#555;border:1px solid #ccc;}
+
+.picker-item{padding:5px;text-decoration:underline;}
+.standard-link{margin-left:10px;}
+.standard-link-cancel{color:red !important;cursor:pointer;}
+.standard-link-cancel:hover{text-decoration:none;}
+.resetmargin{margin: 0 0 0 5px !important;}

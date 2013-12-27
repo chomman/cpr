@@ -21,11 +21,6 @@ public class StandardValidator {
 			
 	}
 	
-	public void validateCollision(Standard form, Standard persitedStandard) throws CollisionException{
-		if(form.getTimestamp() != null && persitedStandard.getChanged().toDateTime().isAfter(form.getTimestamp())){
-			throw new CollisionException("Při aktualizaci dat nastala kolize s jiným uživatelem.");
-		}
-	}
 
 
 }	

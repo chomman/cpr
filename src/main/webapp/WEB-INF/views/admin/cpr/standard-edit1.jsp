@@ -5,7 +5,7 @@
 <head>
 <title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
 <link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.tagit.css" />" />
-<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
+<script src="<c:url value="/resources/admin/js/standard.picker.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">

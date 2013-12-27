@@ -35,6 +35,7 @@ import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.parser.cpr.StandardParser;
@@ -56,6 +57,7 @@ import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
 import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
+import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
 import sk.peterjurkovic.cpr.web.editors.TagEditor;
 import sk.peterjurkovic.cpr.web.forms.admin.StandardForm;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
@@ -100,7 +102,8 @@ public class StandardController extends SupportAdminController{
 	private NotifiedBodyCollectionEditor notifiedBodiesEditor;
 	@Autowired
 	private AssessmentSystemCollectionEditor assessmentSystemCollectionEditor;
-
+	@Autowired
+	private StandardPropertyEditor standardPropertyEditor;
 	
 	@Autowired
 	private StandardValidator standardValidator;
@@ -115,6 +118,7 @@ public class StandardController extends SupportAdminController{
 		binder.registerCustomEditor(StandardGroup.class, this.standardGroupEditor);
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 		binder.registerCustomEditor(Country.class, this.countryEditor);
+		binder.registerCustomEditor(Standard.class, this.standardPropertyEditor);
 		binder.registerCustomEditor(Tag.class, this.tagEditor);
 		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
@@ -666,19 +670,16 @@ public class StandardController extends SupportAdminController{
 		if(standard == null){
 			createStandardNotFound( standardId );
 		}
-		try {
-			standardValidator.validateCollision(form, standard);
-			if(form.getNotifiedBodies() != null){
-				standard.setNotifiedBodies(form.getNotifiedBodies());
-			}else{
-				standard.setNotifiedBodies(new HashSet<NotifiedBody>());
-			}
-			standardService.saveOrUpdate(standard);
-			standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
-			modelMap.put("successCreate", true);
-		} catch (CollisionException e) {
-			result.rejectValue("timestamp", "error.collision", e.getMessage());
+
+		if(form.getNotifiedBodies() != null){
+			standard.setNotifiedBodies(form.getNotifiedBodies());
+		}else{
+			standard.setNotifiedBodies(new HashSet<NotifiedBody>());
 		}
+		standardService.saveOrUpdate(standard);
+		standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
+		modelMap.put("successCreate", true);
+		
 	   prepeareModelForNotifiedBodies(standard, modelMap);
 	   return getEditFormView();
    }
@@ -720,20 +721,17 @@ public class StandardController extends SupportAdminController{
 		if(standard == null){
 			createStandardNotFound( standardId );
 		}
-		try{
-			standardValidator.validateCollision(form, standard);
-			if(form.getAssessmentSystems() != null){
-				standard.setAssessmentSystems(form.getAssessmentSystems());
-			}else{
-				standard.setAssessmentSystems(new HashSet<AssessmentSystem>());
-			}
-			standard.setCumulative(form.getCumulative());
-			standardService.saveOrUpdate(standard);
-			standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
-			modelMap.put("successCreate", true);
-		}catch(CollisionException e){
-			result.rejectValue("timestamp", "error.collision", e.getMessage());
+		
+		if(form.getAssessmentSystems() != null){
+			standard.setAssessmentSystems(form.getAssessmentSystems());
+		}else{
+			standard.setAssessmentSystems(new HashSet<AssessmentSystem>());
 		}
+		standard.setCumulative(form.getCumulative());
+		standardService.saveOrUpdate(standard);
+		standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
+		modelMap.put("successCreate", true);
+		
 		prepeareModelForAssessmentSystems(standard, modelMap);
 	   return getEditFormView();
  }
@@ -833,7 +831,6 @@ public class StandardController extends SupportAdminController{
 			if(standard == null){
 				createStandardNotFound(form.getId());
 			}
-			standardValidator.validateCollision(form, standard);
 			standardService.clearStandardTags(standard);
 		}
 		Set<Tag> tags = form.getTags();
@@ -849,9 +846,9 @@ public class StandardController extends SupportAdminController{
 		standard.setCzechName(form.getCzechName());
 		standard.setStartValidity(form.getStartValidity());
 		standard.setStopValidity(form.getStopValidity());
-		//standard.setStandardGroup(form.getStandardGroup());
+		standard.setStandardStatus(form.getStandardStatus());
 		standard.setEnabled(form.getEnabled());
-		
+		standard.setReplaceStandard(form.getReplaceStandard());
 		standardService.saveOrUpdate(standard);
 		if(standard.getChanged() != null){
 			form.setTimestamp(standard.getChanged().toDateTime().getMillis());
@@ -893,6 +890,7 @@ public class StandardController extends SupportAdminController{
 		map.addAttribute("standard", form);
 		map.addAttribute("standardForm", new StandardForm());
 		model.put("standardId", standardId);
+		model.put("standardStatuses", StandardStatus.getAll() );
 		model.put("standardGroups", standardGroupService.getFiltredStandardGroups(form));
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 

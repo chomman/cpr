@@ -53,17 +53,52 @@
 	 	</label>
 	     <span class="field">  
 	     	<form:input path="startValidity" maxlength="25" cssClass="date"  />
-	     	<span class="sublabel">do</span>
-	     	<form:input path="stopValidity" maxlength="25" cssClass="date"  />
 	     </span>
 	 </p>
 	 
-	 	
+	 <p>
+	 	<label class="tt" title="<spring:message code="cpr.standard.validity.to.descr" />">
+	 		<spring:message code="cpr.standard.validity.to" />
+	 	</label>
+	     <span class="field">  
+	     	<form:input path="stopValidity" maxlength="25" cssClass="date"  />
+	     </span>
+	 </p>
+	 <c:if test="${not empty standard.replaceStandard}">
+	 	<script type="text/javascript">
+			$(document).ready(function() {
+				selectStandard('${standard.replaceStandard.standardId}', ${standard.replaceStandard.id});
+			});
+		</script>
+  
+	 </c:if>
+	 <p>
+	 	<label>
+	 		<spring:message code="cpr.standard.status" />
+	 	</label>
+	     <span class="field standard-picker">  
+	     	<form:select path="standardStatus" cssClass="chosenSmall">
+	     		<c:forEach items="${model.standardStatuses}" var="i">
+                       <option value="${i}" <c:if test="${i ==  standard.standardStatus}">selected="selected"</c:if> >
+                       		<spring:message code="${i.name}" />
+                       </option>
+               </c:forEach>
+	     	</form:select>
+	     	<span id="standard-replaced-label" class="resetmargin"></span>	
+	     	<input type="text" id="standardPicker" />	
+	     	<form:hidden path="replaceStandard" id="pickerVal" />
+	     </span>
+	 </p>
+	 
+	 
+	 
+	<!-- 	
 	<script type="text/javascript">
 	$(document).ready(function() {
-	    $("#tagsField").tagit({fieldName: "tags", allowSpaces :true});
+	    //$("#tagsField").tagit({fieldName: "tags", allowSpaces :true});
 	});
 	</script>
+  
     <p>
    	<label class="tt">
    		<spring:message code="cpr.standard.tags" />
@@ -78,6 +113,7 @@
 		<div class="clear"></div>
 	  </div>
 	</p>
+    -->
 	                
 	<p>
 	    <label title="<spring:message code="publish.descr" />" class="tt">
