@@ -1,12 +1,8 @@
-  var $input = $("#standardPicker"), 
-$statusSelect = $('#standardStatus'),
-$inputLabel = $('#standard-replaced-label');
-  
 $(document).ready(function() {    
   
     refreshInputLabel();
     
-    $input.autocomplete({
+    $("#standardPicker").autocomplete({
 			 source: function(request, response){  
 			 	 $.getJSON( $("#base").text() +"admin/cpr/standard/autocomplete", request, function(data) {  
                  	 response( $.map( data, function( item ) {
@@ -27,7 +23,8 @@ $(document).ready(function() {
     $('#standardStatus').change( refreshInputLabel );
     
     function refreshInputLabel(){
-    	var selectedVal = $('#standardStatus').find("option:selected").val().toLowerCase();
+    	var selectedVal = $('#standardStatus').find("option:selected").val().toLowerCase(),
+    		$inputLabel = $('#standard-replaced-label');
     	if(selectedVal === "canceled"){
     		$inputLabel.text('norma je nahrazena: ');
     	}else{
@@ -39,8 +36,7 @@ $(document).ready(function() {
 
 function cancelSelection(){
 	$('.picker-item').remove();
-	$input.val('');
-	$input.show();
+	$("#standardPicker").val('').show();
 	$('#pickerVal').val('');
 }
 
