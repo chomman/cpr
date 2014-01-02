@@ -32,6 +32,7 @@ import sk.peterjurkovic.cpr.entities.Requirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
+import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
@@ -301,6 +302,29 @@ public class StandardController extends SupportAdminController{
 			standardService.mergeStandard(standard);
 		}
 		return "redirect:/admin/cpr/standard/edit/" + standardId;
+	}
+	
+	
+
+	@RequestMapping( value = "/admin/cpr/standard-csn/{csnId}/change/{id}", method = RequestMethod.GET)
+	public String showStandardCsnChangeForm(@PathVariable Long csnId, @PathVariable Long id, ModelMap map) throws ItemNotFoundException {
+		setEditFormView("cpr/standard-edit3-edit-change");
+		StandardCsn csn = standardCsnService.getCsnById(csnId);
+		if(csn == null){
+			createItemNotFoundError("CSN ID: "+ csnId + " se v systému nenachází");
+		}
+		StandardCsnChange form = null;
+		if(id == null || id == 0){
+			form = new StandardCsnChange();
+			form.setId(0l);
+		}else{
+			form = csn.getStandardCsnChangeById(id);
+			if(form == null){
+				createItemNotFoundError("Změna normy s ID: "+ id + " se v systému nenachází");
+			}
+		}
+		prepareModelForStandardCsnChange(csn, form, map);
+        return getEditFormView();
 	}
 	
 	
@@ -907,6 +931,14 @@ public class StandardController extends SupportAdminController{
 		map.addAttribute("standardChange", form);
 		model.put("standardId", standard.getId());
 		model.put("showStandardChangeForm", true);
+		model.put("tab", CPR_TAB_INDEX);
+		map.put("model", model); 
+	}
+	
+	private void prepareModelForStandardCsnChange(StandardCsn csn, StandardCsnChange form, ModelMap map){
+		Map<String, Object> model = new HashMap<String, Object>();
+		map.addAttribute("csn", csn);
+		map.addAttribute("standardCsnChange", form);
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}

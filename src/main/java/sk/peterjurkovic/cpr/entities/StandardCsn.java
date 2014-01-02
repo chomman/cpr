@@ -21,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import sk.peterjurkovic.cpr.enums.StandardStatus;
@@ -139,38 +140,15 @@ public class StandardCsn extends AbstractEntity {
 		this.standardCsnChanges = standardCsnChanges;
 	}
 
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((csnOnlineId == null) ? 0 : csnOnlineId.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
+	public StandardCsnChange getStandardCsnChangeById(Long id){
+		if(CollectionUtils.isEmpty(standardCsnChanges)){
+			return null;
+		}
+		for(final StandardCsnChange change : standardCsnChanges){
+			if(change.getId() == id){
+				return change;
+			}
+		}
+		return null;
 	}
-	
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StandardCsn other = (StandardCsn) obj;
-		if (csnOnlineId == null) {
-			if (other.csnOnlineId != null)
-				return false;
-		} else if (!csnOnlineId.equals(other.csnOnlineId))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-	
-	
 }
