@@ -8,7 +8,7 @@ body{font-family: Arial,Tahoma, sans-serif;position: relative;}
 .l{ text-align:left;}
 .r{ text-align:right;}
 .crop-text{text-overflow:ellipsis;white-space:nowrap;overflow:hidden;}
-
+.bold{font-weight: bodl;}
 ul.tagit{width:inherit !important;}
 
 label.tt{cursor: help;background:url(../img/info_mini.png) no-repeat 195px 5px; }
@@ -582,3 +582,7 @@ table.log td,.log-descr{padding:2px;}
 .status-non-harmonized{background-color:#FFFCE8;}
 
 .status-canceled .standarardId{color:#CC0000;}
+.standard-csn-change .standardId{background:red;}
+
+.standard-csn-change td{padding:4px;;}
+.standard-csn-change .standarardId{font-size:12px;color:#555;background:url(../img/tree.png) no-repeat 10px center;padding-left:30px;}

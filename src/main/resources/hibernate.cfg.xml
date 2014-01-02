@@ -18,6 +18,7 @@
   	<mapping class="sk.peterjurkovic.cpr.entities.NotifiedBody"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.Standard"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsn"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsnChange"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardChange"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.CommissionDecision"/>

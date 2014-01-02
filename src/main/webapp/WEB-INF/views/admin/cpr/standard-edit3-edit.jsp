@@ -59,7 +59,7 @@
 						<p>
 		                	<label>
 		                		<strong><em class="red">*</em>
-		                			<spring:message code="cpr.csn.name" />
+		                			<spring:message code="cpr.csn.name" />:
 		                		</strong>
 		                	</label>
 		                    <span class="field">
@@ -68,7 +68,7 @@
 	                    </p>
 	                    <p>
 		                	<label title="ČSN online ID je číselný identifikátor PDF dokumentu obsahující normu" class="tt">
-	                			<spring:message code="cpr.csn.onlineid" />
+	                			<spring:message code="cpr.csn.onlineid" />:
 	                			<small>
 	                			Příklad ČSN online ID je znázorněn červenou barvou.<br />
 	                			</small>
@@ -78,6 +78,14 @@
 		                    	<span class="norminfo" >http://www.sgpstandard.cz/editor/files/on_line/csn-redirect.php?k=<strong class="red">90588</strong></span>
 		                    </span>
 	                    </p>
+	                    <p>
+		                	<label>
+		                		<spring:message code="csn.table.classification" />:
+		                	</label>
+		                    <span class="field">
+		                    	<form:input path="classificationSymbol" maxlength="10"  cssClass="w100" />
+		                    </span>
+	                    </p>    
 	                    <c:if test="${not empty csn.replaceStandardCsn}">
 						 	<script type="text/javascript">
 								$(document).ready(function() {
@@ -86,9 +94,10 @@
 							</script>
 					  
 						 </c:if>
+						 
 	                    <p>
 						 	<label>
-						 		<spring:message code="cpr.standard.status" />
+						 		<spring:message code="cpr.standard.status" />:
 						 	</label>
 						     <span class="field standard-picker">  
 						     	<form:select path="standardStatus" cssClass="chosenSmall">
@@ -102,7 +111,8 @@
 						     	<input type="text" id="standardPicker" />	
 						     	<form:hidden path="replaceStandardCsn" id="pickerVal" />
 						     </span>
-						 </p>         
+						 </p>
+						     
 	                    <p>
 		                	<label>
 		                		<spring:message code="cpr.csn.note" />
@@ -116,7 +126,41 @@
 	                   	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
 	                   </p>
 				</form:form>
-					<!-- END FORM -->	
+					<!-- END FORM -->
+					
+					<!--  CSN CHANGES WRAPPER  -->
+					<div class="tab-wrapp">
+						<p class="form-head"><spring:message code="cpr.csn.changes" /></p>
+						<c:if test="${empty csn.standardCsnChanges}">
+							<p class="msg alert">
+								<spring:message code="cpr.standard.changes.empty" />
+							</p>
+						</c:if>
+						<c:if test="${not empty csn.standardCsnChanges}">
+							<table class="data">
+								<c:forEach items="${csn.standardCsnChanges}" var="i">
+									<tr>
+										<td class="b">
+											<a title="Editovat" class="tt b" href="${formUrl}/standard-csn-change/${i.id}">${i.changeCode}</a>
+										</td>
+										<td class="last-edit"><joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/></td>
+										<td class="delete big">
+											<a class="confirm"  href="${formUrl}/standard-change/delete/${i.id}">
+								 				<spring:message code="form.delete" />
+								 			</a>
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
+						</c:if>
+						
+						<div class="inline-form r">
+							<a class="lang mandate-add-btn" href="${formUrl}/standard-csn-change/0">
+								<spring:message code="cpr.standard.changes.add" />
+							</a>
+						</div>
+					</div>
+						
 					</div> <!-- END ACTIVE TAB -->
 
 					<jsp:include page="include/cpr-standard-menu4.jsp" />

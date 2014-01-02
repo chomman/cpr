@@ -81,7 +81,7 @@ public class StandardGroupParser extends CprParser {
 			
 			if(index == 2){
 				Elements links =  td.select("a");
-				List<LinkDto> mandateLinks =  processLinks(links);
+				List<LinkDto> mandateLinks =  extractLinks(links);
 				gruopMandates = createMandates(mandateLinks);
 				if(CollectionUtils.isNotEmpty(gruopMandates)){
 					standardGroup.setMandates(gruopMandates);
@@ -90,7 +90,7 @@ public class StandardGroupParser extends CprParser {
 			
 			if(index == 3 ){
 				Elements links =  td.select("a");
-				List<LinkDto> mandateLinks =  processLinks(links);
+				List<LinkDto> mandateLinks =  extractLinks(links);
 				createMandates(mandateLinks, gruopMandates);
 			}
 			
@@ -108,7 +108,7 @@ public class StandardGroupParser extends CprParser {
 			
 			if(index == 5 ){
 				Elements els =  td.select("a");
-				List<LinkDto> links =  processLinks(els);
+				List<LinkDto> links =  extractLinks(els);
 				int j = 0;
 				for(LinkDto a : links){
 					if(j == 0){

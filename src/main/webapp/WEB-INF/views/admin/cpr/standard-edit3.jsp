@@ -60,33 +60,57 @@
 							</thead>
 							<tbody>
 								 <c:forEach items="${standard.standardCsns}" var="i">
-								 	<c:if test="${not empty i.standardStatus }">
-								 		<tr class="${i.standardStatus.cssClass}">
-								 	</c:if>
-								 	<c:if test="${empty i.standardStatus }">
-								 		<tr>
-								 	</c:if>
-								 		<td class="standarardId">${i.csnName}</td>
-								 		<td class="last-edit">
-								 			<c:if test="${empty i.changedBy}">
-								 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>
-								 			</c:if>
-								 			<c:if test="${not empty i.changedBy}">
-								 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / HH:mm"/>
-								 			</c:if>
-								 		</td>
-								 		<td class="edit">												
-								 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${i.id}"  />">
-								 				<spring:message code="form.edit" />
-								 			</a>
-								 		</td>
-								 		<td class="delete">
-								 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/csn/delete/${i.id}"  />">
-								 				<spring:message code="form.delete" />
-								 			</a>
-								 		</td>
-								 	</tr>
-								 </c:forEach>
+									 	<c:if test="${not empty i.standardStatus }">
+									 		<tr class="${i.standardStatus.cssClass}">
+									 	</c:if>
+									 	<c:if test="${empty i.standardStatus }">
+									 		<tr>
+									 	</c:if>
+									 		<td class="standarardId bold">${i.csnName}</td>
+									 		<td class="last-edit">
+									 			<c:if test="${empty i.changedBy}">
+									 				<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>
+									 			</c:if>
+									 			<c:if test="${not empty i.changedBy}">
+									 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / HH:mm"/>
+									 			</c:if>
+									 		</td>
+									 		<td class="edit">												
+									 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${i.id}"  />">
+									 				<spring:message code="form.edit" />
+									 			</a>
+									 		</td>
+									 		<td class="delete">
+									 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/csn/delete/${i.id}"  />">
+									 				<spring:message code="form.delete" />
+									 			</a>
+									 		</td>
+									 	</tr>
+									 		 
+									 		 <c:forEach items="${i.standardCsnChanges}" var="j">
+									 		 	<tr class="standard-csn-change">
+									 		 		<td class="standarardId">${j.changeCode}</td>
+									 		 		<td class="last-edit">
+											 			<c:if test="${empty j.changedBy}">
+											 				<joda:format value="${j.created}" pattern="dd.MM.yyyy / HH:mm"/>
+											 			</c:if>
+											 			<c:if test="${not empty j.changedBy}">
+											 				<joda:format value="${j.changed}" pattern="dd.MM.yyyy / HH:mm"/>
+											 			</c:if>
+											 		</td>
+											 		<td class="edit">												
+											 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${i.id}"  />">
+											 				<spring:message code="form.edit" />
+											 			</a>
+											 		</td>
+											 		<td class="delete">
+											 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/csn/delete/${i.id}"  />">
+											 				<spring:message code="form.delete" />
+											 			</a>
+											 		</td>
+									 		 	</tr>
+									 		 </c:forEach>
+									 </c:forEach>
 							</tbody>
 						</table>
 					</c:if>

@@ -1,9 +1,14 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -11,6 +16,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
@@ -43,13 +49,17 @@ public class StandardCsn extends AbstractEntity {
 	
 	private StandardStatus standardStatus;
 	
+	private String classificationSymbol;
+	
 	private String note;
 	
 	private StandardCsn replaceStandardCsn;
 	
+	private Set<StandardCsnChange> standardCsnChanges;
 	
 	public StandardCsn(){
 		this.standardStatus = StandardStatus.NORMAL;
+		this.standardCsnChanges = new HashSet<StandardCsnChange>();
 	}
 	
 	@Id
@@ -109,6 +119,24 @@ public class StandardCsn extends AbstractEntity {
 
 	public void setReplaceStandardCsn(StandardCsn replaceStandardCsn) {
 		this.replaceStandardCsn = replaceStandardCsn;
+	}
+	
+	@Column(name = "classification_symbol", length = 10)
+	public String getClassificationSymbol() {
+		return classificationSymbol;
+	}
+
+	public void setClassificationSymbol(String classificationSymbol) {
+		this.classificationSymbol = classificationSymbol;
+	}
+	
+	@OneToMany(mappedBy = "standardCsn", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	public Set<StandardCsnChange> getStandardCsnChanges() {
+		return standardCsnChanges;
+	}
+
+	public void setStandardCsnChanges(Set<StandardCsnChange> standardCsnChanges) {
+		this.standardCsnChanges = standardCsnChanges;
 	}
 
 	@Override

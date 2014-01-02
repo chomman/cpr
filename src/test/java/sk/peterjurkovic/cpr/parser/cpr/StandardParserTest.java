@@ -7,10 +7,12 @@ import javax.annotation.Resource;
 
 import org.junit.Assert;
 import org.junit.Test;
+
 import sk.peterjurkovic.cpr.dao.AbstractTest;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
+import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 
 @Resource
 public class StandardParserTest extends AbstractTest{
@@ -21,19 +23,31 @@ public class StandardParserTest extends AbstractTest{
 		parser.parse("http://www.sgpstandard.cz/editor/files/unmz/nv190/nv_190.htm");
 		List<Standard> list = parser.getStandards();
 		
-		Assert.assertNotNull(find("EN 1096-4: 2004", list));
-		Standard s = find("EN 54-2: 1997", list);
-		Assert.assertNotNull(find("A1: 2006", s));
+		Assert.assertNotNull(find("EN 1096-4:2004", list));
+		Standard s = find("EN 54-2:1997", list);
+		Assert.assertNotNull(find("A1:2006", s));
 		
-		Assert.assertEquals("EN 295-10: 2005", find("EN 295-4:2013", list).getReplacedStandardId());
+		Assert.assertNotNull(find("EN 295-4:2013", list));
+		Assert.assertEquals("EN 295-10:2005", find("EN 295-4:2013", list).getReplaceStandard().getStandardId());
 		
-		Assert.assertEquals("EN 450-1+A1: 2007", find("EN 450-1:2012", list).getReplacedStandardId());
+		Assert.assertNotNull(find("EN 450-1:2012", list));
+		Assert.assertEquals("EN 450-1+A1:2007", find("EN 450-1:2012", list).getReplaceStandard().getStandardId());
 		
-		Assert.assertEquals("EN 845-2: 2003", find("EN 845-2:2013", list).getReplacedStandardId());
-		s = find("EN 13229: 2001", list);
+		Assert.assertNotNull(find("EN 845-2:2013", list));
+		Assert.assertEquals("EN 845-2:2003", find("EN 845-2:2013", list).getReplaceStandard().getStandardId());
+		
+		
+		s = find("EN 13229:2001", list);
 		Assert.assertEquals(4, s.getStandardChanges().size());
-		Assert.assertEquals(7, s.getStandardCsns().size());
-		Assert.assertNotNull(find("Oprava 1-1.04", s.getStandardCsns()));
+		Assert.assertEquals(1, s.getStandardCsns().size());
+		
+		Set<StandardCsnChange> csnChanges = s.getStandardCsns().iterator().next().getStandardCsnChanges();  
+		Assert.assertNotNull(csnChanges);
+		Assert.assertEquals(6, csnChanges.size());
+		
+		s = find("EN 13229:2001", list);
+		Assert.assertNotNull(s);
+		Assert.assertEquals(1, s.getStandardCsns().size());
 		Assert.assertEquals("2005-07-01", s.getStartValidity().toString(StandardParser.FORMATTER));
 		Assert.assertEquals("2007-07-01", s.getStopValidity().toString(StandardParser.FORMATTER));
 		int i = 0;
@@ -59,16 +73,6 @@ public class StandardParserTest extends AbstractTest{
 			i++;
 		}
 		
-		s = find("	", list);
-		Assert.assertEquals(0, s.getStandardChanges().size());
-		Assert.assertEquals(2, s.getStandardCsns().size());
-		Assert.assertNotNull( find("ČSN EN 450-1:2013", s.getStandardCsns()) );
-		Assert.assertEquals("(722064) Nahrazuje ČSN EN 450-1 + A1", find("ČSN EN 450-1:2013", s.getStandardCsns()).getNote() );
-		
-		Assert.assertEquals("2013-05-01", s.getStartValidity().toString(StandardParser.FORMATTER));
-		Assert.assertEquals("2014-05-01", s.getStopValidity().toString(StandardParser.FORMATTER));
-		
-		Assert.assertEquals("(722064) Nahrazuje ČSN EN 450-1 + A1", find("ČSN EN 450-1:2013", s.getStandardCsns()).getNote() );
 	}
 	
 	

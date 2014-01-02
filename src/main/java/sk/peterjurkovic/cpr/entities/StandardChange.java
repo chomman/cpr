@@ -108,5 +108,35 @@ public class StandardChange extends AbstractEntity{
 		setStopValidity(standardChange.getStopValidity());
 		setEnabled(standardChange.getEnabled());
 		setChanged(new LocalDateTime());
-	}	
+	}
+
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((changeCode == null) ? 0 : changeCode.hashCode());
+		return result;
+	}
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandardChange other = (StandardChange) obj;
+		if (changeCode == null) {
+			if (other.changeCode != null)
+				return false;
+		} else if (!changeCode.equals(other.changeCode))
+			return false;
+		return true;
+	}
+	
+	
 }

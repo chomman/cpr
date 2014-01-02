@@ -37,16 +37,13 @@ public class StandardDto {
 	
 	
 	public void createCopy(){
-		replacedStandard = new Standard();
-		replacedStandard.setAssessmentSystems(current.getAssessmentSystems());
-		replacedStandard.setCode(current.getCode());
-		replacedStandard.setStandardChanges(current.getStandardChanges());
+		if(replacedStandard == null){
+			replacedStandard = new Standard();
+			replacedStandard.setCode(current.getCode());
+			replacedStandard.setStandardStatus(StandardStatus.CANCELED);
+		}
 		replacedStandard.setCzechName(current.getCzechName());
 		replacedStandard.setEnglishName(current.getEnglishName());
-		replacedStandard.setNotifiedBodies(current.getNotifiedBodies());
-		replacedStandard.setStandardGroups(current.getStandardGroups());
-		replacedStandard.setStandardStatus(StandardStatus.CANCELED);
-		replacedStandard.setStandardCsns(current.getStandardCsns());
 	}
 	
 }

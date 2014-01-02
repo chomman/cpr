@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dto.LinkDto;
 import sk.peterjurkovic.cpr.dto.StandardDto;
@@ -20,6 +25,7 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
+import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
@@ -32,6 +38,8 @@ import sk.peterjurkovic.cpr.utils.CodeUtils;
 public class StandardParser extends CprParser {
 	
 	public static final DateTimeFormatter FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd");	
+	
+	private static final Pattern CLASSIFICATION_SYMBOL_PATTERN = Pattern.compile(".*\\((\\d+)\\).*");
 
 	private List<Standard> standards  = new ArrayList<Standard>();
 	private List<NotifiedBody> notifiedBodies;
@@ -44,12 +52,16 @@ public class StandardParser extends CprParser {
 	private StandardCsnService standardCsnService;
 	
 	@Override
+	@Transactional
 	public void parse(String location) {
 		Document doc = getDocument(location);
 		Elements tables = doc.select("table.MsoNormalTable");
-		logger.info("count of tables : "  + tables.size());
-		notifiedBodies = notifiedBodyService.getAllNotifiedBodies();
-		assessmentSystems = assessmentSystemService.getAllAssessmentSystems();
+		if(notifiedBodyService != null){
+			notifiedBodies = notifiedBodyService.getAllNotifiedBodies();
+		}
+		if(assessmentSystemService != null){
+			assessmentSystems = assessmentSystemService.getAllAssessmentSystems();
+		}
 		if(tables.size() == 2){
 			processTable ( tables.get(1) );
 		}
@@ -72,7 +84,7 @@ public class StandardParser extends CprParser {
 					parseStandardCsns(standard, td.select("p"));
 				break;
 				case 2:
-					 parseNames(standard,  td.select("p"));
+					parseNames(standard,  td.select("p"));
 				break;
 				case 3:
 					parseDates(standard,  td.select("p"), true);
@@ -93,34 +105,52 @@ public class StandardParser extends CprParser {
 			
 			index++;
 		}
-		logger.info("Staving standard: " + standard.getStandardId());
-		standardService.saveOrUpdate(standard);
+		
 		if(standardDto.getReplacedStandard() != null){
+			logger.info("Updating canceled standard: " + standardDto.getReplacedStandard().getStandardId());
 			persist(standardDto.getReplacedStandard());
+			
 		}
-		//standards.add(standard);
+		logger.info("Staving standard: " + standard.getStandardId());
+		if(standardService != null){
+			standardService.saveOrUpdate(standard);
+		}
+		standards.add(standard);
 	}
 	
 	private void parseStandardGroups(Standard standard, Element mandateCell, Element commissionDecisionCell){
+		if(standardGroupService == null){
+			return;
+		}
 		String[] mandates = removeChanges(mandateCell.text()).split(" ");
 		String[] cd = removeChanges(commissionDecisionCell.text()).split(" ");
-		if(mandates.length == 1 && cd.length == 1){
+		if(cd.length == 1){
 			findAndAdd(standard, mandates[0], cd[0]);
-		}else if(mandates.length == 2 && cd.length == 2){
-			findAndAdd(standard, mandates[0], cd[0]);
-			findAndAdd(standard, mandates[1], cd[1]);
+		}else if(cd.length == 2){
+			if(!findAndAdd(standard, mandates[0], cd[0]) && 
+			   !findAndAdd(standard, mandates[1], cd[1])){
+				logger.info("Standard groups was not found, switching objects");
+				if(!findAndAdd(standard, mandates[0], cd[1]) && 
+				   !findAndAdd(standard, mandates[1], cd[0])){
+					logger.info("Standard groups was not found after switched");
+				}else{
+					logger.info("Standard groups FOUND.");
+				}
+			}
 		}else{
 			logger.warn("CAN NOT DETERMINE standardGroups. " + mandateCell.text() + " / " + commissionDecisionCell.text());
 		}
 	}
 	
-	private void findAndAdd(Standard standard, String mandate, String commissionDecision){
+	private boolean findAndAdd(Standard standard, String mandate, String commissionDecision){
 		StandardGroup sg = standardGroupService.findByMandateAndCommissionDecision(mandate, commissionDecision);
 		if(sg == null){
 			logStandardGroup(mandate, commissionDecision);
 		}else{
 			standard.getStandardGroups().add(sg);
+			return true;
 		}
+		return false;
 	}
 	
 	private void logStandardGroup(String td1, String td2){
@@ -128,12 +158,12 @@ public class StandardParser extends CprParser {
 	}
 	
 	private String removeChanges(String val){
-		return trim(val.replaceAll("\\((.*)", ""));
+		return trim(val.replaceAll("\\((.*)\\)", "").replaceAll(",", ""));
 	}
 	
 	private void parseAssesmentsSystems(Standard standard, Elements aList){
-		if(aList.size() > 0){
-			List<LinkDto> links =  processLinks(aList);
+		if(aList.size() > 0 && assessmentSystemService != null){
+			List<LinkDto> links =  extractLinks(aList);
 			for(LinkDto l : links){
 				AssessmentSystem as = findAsByNoCode(l.getAnchorText());
 				if(as == null){
@@ -145,8 +175,8 @@ public class StandardParser extends CprParser {
 	}
 	
 	private void parseNotifiedBodies(Standard standard, Elements aList){
-		if(aList.size() > 0){
-			List<LinkDto> links =  processLinks(aList);
+		if(aList.size() > 0 && notifiedBodyService != null){
+			List<LinkDto> links =  extractLinks(aList);
 			for(LinkDto l : links){
 				String[] codes = l.getAnchorText().split("\\s\\(");
 				if(codes.length == 2){
@@ -283,6 +313,40 @@ public class StandardParser extends CprParser {
 		return name.trim().replaceAll(":\\s+", ":");
 	}
 	
+	
+	private StandardCsn createCsn(String name, String href){
+		StandardCsn csn = new StandardCsn();
+		csn.setCsnName(cleanCsnName(name));
+		csn.setCsnOnlineId(parseCatalogNo(href));
+		if(StringUtils.isBlank(csn.getCsnOnlineId())){
+			logger.warn("INVALI CSN ONLINE ID of CSN: " + name);
+		}
+		return persist(csn);
+		
+	}
+	
+	
+	private void createCsnChange(String name, String href, List<StandardCsn> csnList){
+		StandardCsnChange csnChange = new StandardCsnChange();
+		csnChange.setChangeCode(cleanCsnName(name));
+		csnChange.setCsnOnlineId(parseCatalogNo(href));
+		csnChange.setCreated(new LocalDateTime());
+		if(StringUtils.isBlank(csnChange.getCsnOnlineId())){
+			logger.warn("INVALI CSN ONLINE ID of CSN: " + name);
+		}
+		StandardCsn csn = csnList.get(csnList.size() - 1);
+		csnChange.setStandardCsn(csn);
+		String cs = parseClassificationSymbol(name);
+		if(StringUtils.isNotBlank(cs)){
+			csn.setClassificationSymbol(cs);
+		}
+		csn.getStandardCsnChanges().add(csnChange);
+		if(standardCsnService != null){
+			standardCsnService.saveOrUpdate(csn);
+		}
+	}
+	
+	
 	private void parseStandardCsns(Standard standard, Elements pList){
 		ListIterator<Element> it =  pList.listIterator();
 		List<StandardCsn> csnList = new ArrayList<StandardCsn>();
@@ -294,50 +358,32 @@ public class StandardParser extends CprParser {
 			
 			if(pText.startsWith("nahrazena") && csnList.size() > 0){
 				StandardCsn csn = csnList.get(csnList.size() - 1);
-				//csn.setCanceled(true);
+				csn.setStandardStatus(StandardStatus.CANCELED);
 			}
-			
+			logger.info("pText content: " + pText);
 			Elements aList = pElement.select("a");
-			if(aList.size() > 1){
-				List<LinkDto> links =  processLinks(aList);
-				for(LinkDto a : links){
-					StandardCsn csn = new StandardCsn();
-					csn.setCsnName(cleanCsnName(a.getAnchorText()));
-					csn.setCsnOnlineId(parseCatalogNo(a.getHref()));
-					String note = getExtractNote(a.getAnchorText());
-					if(note != null){
-						csn.setNote(note);
+			if(aList.size() > 0){
+				List<LinkDto> links = extractLinks(aList);
+				for(LinkDto link : links){
+					if(pText.contains("Oprava") || pText.contains("Změna")){
+						createCsnChange((links.size() > 1 ? link.getAnchorText() : pText), link.getHref(), csnList);
+					}else{
+						csnList.add(createCsn(pText, link.getHref()));
 					}
-					if(StringUtils.isBlank(csn.getCsnOnlineId())){
-						logger.warn("INVALI CSN ONLINE ID Standard: " + standard.getStandardId());
-					}
-					csn = persist(csn);
-					csnList.add(csn);
 				}
-			}else if(aList.size() == 1){
-				LinkDto link = extractLink(aList.first());
-				if(link == null){
-					throw new IllegalArgumentException("CSN link value is empty: " + pElement.text());
-				}
-				StandardCsn csn = new StandardCsn();
-				csn.setCsnName(cleanCsnName(pText));
-				csn.setCsnOnlineId(parseCatalogNo(link.getHref()));
-				if(StringUtils.isBlank(csn.getCsnOnlineId())){
-					logger.warn("INVALI CSN ONLINE ID Standard: " + standard.getStandardId());
-				}
-				csn = persist(csn);
-				csnList.add(csn);
 				if(replaceIndex != null && csnList.size() - 1 == replaceIndex){
-					//csnList.get(replaceIndex).setCanceled(true);
+					csnList.get(replaceIndex).setStandardStatus(StandardStatus.CANCELED);
 					StandardCsn prevCsn = csnList.get(replaceIndex - 1);
+					csnList.get(replaceIndex).setReplaceStandardCsn(prevCsn);
 					prevCsn.setNote(prevCsn.getNote()+ " "+ pText);
+					prevCsn.setReplaceStandardCsn(csnList.get(replaceIndex));
 				}
 			}else if(aList.size() == 0){ 
 				
 				if(csnList.size() > 0){
 					
 					StandardCsn csn = csnList.get(csnList.size()-1);
-					
+					csn.setClassificationSymbol(parseClassificationSymbol(pText));
 					if(csn.getNote() == null){
 						csn.setNote(pText);
 					}else{
@@ -349,8 +395,25 @@ public class StandardParser extends CprParser {
 				}
 				
 			}
+			
+			if(csnList.size() > 1 && 
+					csnList.get(csnList.size() - 2).getStandardStatus().equals(StandardStatus.CANCELED) && 
+					csnList.get(csnList.size() - 2).getReplaceStandardCsn() == null){
+				// predchadzajuca CSN je zrusena, ale nema nastavenu CSN, ktora ju nahradzuje
+				// preto ju je nutne nastavit
+				csnList.get(csnList.size() - 2).setReplaceStandardCsn(csnList.get(csnList.size() - 2));
+			}
 		}
 		standard.getStandardCsns().addAll(csnList);
+	}
+	
+	private String parseClassificationSymbol(String pText){
+		Matcher matches =  CLASSIFICATION_SYMBOL_PATTERN.matcher(pText);
+		if(matches.find()){
+			logger.info("Classification symbol found: " + matches.group(1));
+			return matches.group(1);
+		}
+		return null;
 	}
 	
 	private StandardCsn persist(StandardCsn csn){
@@ -401,6 +464,9 @@ public class StandardParser extends CprParser {
 	
 	
 	private NotifiedBody findByNoCode(String code){
+		if(CollectionUtils.isEmpty(notifiedBodies )){
+			return null;
+		}
 		for(NotifiedBody nb : notifiedBodies){
 			if(nb.getNoCode().equals(trim(code))){
 				return nb;
@@ -418,6 +484,9 @@ public class StandardParser extends CprParser {
 	
 	
 	private AssessmentSystem findAsByNoCode(String code){
+		if(CollectionUtils.isEmpty(assessmentSystems)){
+			return null;
+		}
 		for(AssessmentSystem as : assessmentSystems){
 			if(as.getAssessmentSystemCode().equals(code)){
 				return as;

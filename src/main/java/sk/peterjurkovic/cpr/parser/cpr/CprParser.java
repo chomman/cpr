@@ -68,7 +68,7 @@ public abstract class CprParser {
 		return null;		
 	}
 	
-	public List<LinkDto> processLinks(Elements links){
+	public List<LinkDto> extractLinks(Elements links){
 		Validate.notNull(links);
 		List<LinkDto> linkList = new ArrayList<LinkDto>(); 
 		ListIterator<Element> tdIterator =  links.listIterator();
@@ -79,6 +79,17 @@ public abstract class CprParser {
 			}
 		}
 		return linkList;
+	}
+	
+	public LinkDto searchNotEmptyLink(Elements links){
+		Validate.notNull(links);
+		List<LinkDto> linksDto = extractLinks(links);
+		for(LinkDto l : linksDto){
+			if(StringUtils.isNotBlank(l.getAnchorText())){
+				return l;
+			}
+		}
+		return null;
 	}
 	
 	protected String trim(String val){
