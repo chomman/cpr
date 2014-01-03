@@ -13,6 +13,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.NotBlank;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+
 
 @Entity
 @Table(name = "standard_csn_has_change")
@@ -29,8 +34,13 @@ public class StandardCsnChange extends AbstractEntity {
 	
 	private StandardCsn standardCsn;
 	
+	private LocalDate date;
+	
 	private String note;
 	
+	public StandardCsnChange(){
+		setCreated(new LocalDateTime());
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_csn_change_id_seq")
@@ -39,6 +49,7 @@ public class StandardCsnChange extends AbstractEntity {
 	}
 
 	
+	@NotBlank
 	@Column(name = "change_code")
 	public String getChangeCode() {
 		return changeCode;
@@ -82,33 +93,17 @@ public class StandardCsnChange extends AbstractEntity {
 		this.note = note;
 	}
 
-
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((csnOnlineId == null) ? 0 : csnOnlineId.hashCode());
-		return result;
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	@Column(name = "change_date")
+	public LocalDate getDate() {
+		return date;
 	}
 
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StandardCsnChange other = (StandardCsnChange) obj;
-		if (csnOnlineId == null) {
-			if (other.csnOnlineId != null)
-				return false;
-		} else if (!csnOnlineId.equals(other.csnOnlineId))
-			return false;
-		return true;
+	public void setDate(LocalDate date) {
+		this.date = date;
 	}
+
 	
 	
 }

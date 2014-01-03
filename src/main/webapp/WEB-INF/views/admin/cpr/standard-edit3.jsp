@@ -91,20 +91,21 @@
 									 		 	<tr class="standard-csn-change">
 									 		 		<td class="standarardId">${j.changeCode}</td>
 									 		 		<td class="last-edit">
-											 			<c:if test="${empty j.changedBy}">
-											 				<joda:format value="${j.created}" pattern="dd.MM.yyyy / HH:mm"/>
-											 			</c:if>
-											 			<c:if test="${not empty j.changedBy}">
-											 				<joda:format value="${j.changed}" pattern="dd.MM.yyyy / HH:mm"/>
+											 			<c:if test="${empty j.date}">-</c:if>
+											 			<c:if test="${not empty j.date}">
+											 				<span class="tt" 
+											 					  title="<spring:message code="cpr.csn.change.date" />">
+											 				<joda:format value="${j.date}" pattern="dd.MM.yyyy"/>
+											 				</span>
 											 			</c:if>
 											 		</td>
 											 		<td class="edit">												
-											 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${i.id}"  />">
+											 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard-csn/${i.id}/change/${j.id}"  />">
 											 				<spring:message code="form.edit" />
 											 			</a>
 											 		</td>
 											 		<td class="delete">
-											 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/csn/delete/${i.id}"  />">
+											 			<a class="confirm" href="<c:url value="/admin/cpr/standard-csn/${i.id}/change/${j.id}/delete"  />">
 											 				<spring:message code="form.delete" />
 											 			</a>
 											 		</td>

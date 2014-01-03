@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
@@ -13,6 +14,7 @@ import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 
@@ -221,6 +223,18 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		query.setParameter("tagName", tagName);
 		query.setMaxResults(50);
 		return query.list();
+	}
+
+
+	@Override
+	public Standard getStandardByCsn(final StandardCsn csn) {
+		Validate.notNull(csn);
+		StringBuilder hql = new StringBuilder("from Standard s ");
+		hql.append(" WHERE :id in elements(s.standardCsns)");
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setLong("id", csn.getId());
+		query.setMaxResults(1);
+		return (Standard)query.uniqueResult();
 	}
 	
 }

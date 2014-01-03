@@ -140,7 +140,7 @@ public class StandardCsn extends AbstractEntity {
 		this.standardCsnChanges = standardCsnChanges;
 	}
 
-	public StandardCsnChange getStandardCsnChangeById(Long id){
+	public StandardCsnChange getStandardCsnChangeById(long id){
 		if(CollectionUtils.isEmpty(standardCsnChanges)){
 			return null;
 		}

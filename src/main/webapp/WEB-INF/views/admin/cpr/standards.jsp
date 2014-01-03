@@ -120,7 +120,11 @@
 						 	<c:if test="${empty i.standardStatus }">
 						 		<tr>
 						 	</c:if>
-						 		<td class="standarardId">${i.standardId}</td>
+						 		<td class="standarardId">
+							 		<a title="Zobrazit a upraviť položku" href="<c:url value="/admin/cpr/standard/edit/${i.id}"  />">
+							 			${i.standardId}
+							 		</a>
+						 		</td>
 						 		<td>${i.czechName}</td>
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">

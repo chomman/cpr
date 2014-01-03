@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.StandardService;
@@ -140,13 +141,13 @@ public class StandardServiceImpl implements StandardService {
 	
 	@Override
 	@Transactional(readOnly =  true )
-	public List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup) {
+	public List<Standard> getStandardByStandardGroupForPublic(final StandardGroup StandardGroup) {
 		return standardDao.getStandardByStandardGroupForPublic(StandardGroup);
 	}
 
 	@Override
 	@Transactional(readOnly =  true )
-	public List<Standard> getStandardsByTagName(String tagName) {
+	public List<Standard> getStandardsByTagName(final String tagName) {
 		return standardDao.getStandardsByTagName(tagName);
 	}
 
@@ -156,5 +157,11 @@ public class StandardServiceImpl implements StandardService {
 		standard.setChanged(new LocalDateTime());
 		standard.setChangedBy(user);
 		standardDao.merge(standard);
+	}
+
+	@Override
+	@Transactional(readOnly =  true )
+	public Standard getStandardByCsn(final StandardCsn csn) {
+		return standardDao.getStandardByCsn(csn);
 	}
 }
