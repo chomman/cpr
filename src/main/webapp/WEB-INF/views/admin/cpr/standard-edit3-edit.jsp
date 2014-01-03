@@ -43,6 +43,11 @@
 						<a class="view" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn" />">
 							&laquo; <spring:message code="cpr.csn.view" />
 						</a>
+						<c:if test="${csn.id != 0}">
+							<a href="<c:url value="/admin/cpr/standard-csn/${csn.id}/change/0"  />">
+								 <spring:message code="cpr.csn.change.add"  arguments="${csn.csnName}"  /> +
+							</a>
+						</c:if>
 					</div>
 					
 					
@@ -155,7 +160,7 @@
 						</c:if>
 						
 						<div class="inline-form r">
-							<a class="lang mandate-add-btn" href="${formUrl}/standard-csn-change/0">
+							<a class="lang mandate-add-btn" href="<c:url value="/admin/cpr/standard-csn/${csn.id}/change/0"  />">
 								<spring:message code="cpr.standard.changes.add" />
 							</a>
 						</div>

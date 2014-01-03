@@ -4,6 +4,7 @@
 <html>
 <head>
 <title><spring:message code="menu.cpr.norm" /></title>
+<script src="<c:url value="/resources/public/js/standard.autocomplate.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -41,6 +42,17 @@
 							ui.item.value;
 						}
 				});
+			      
+			      $.getJSON( $("#base").text() +"ajax/standard-filter", function(data) {  
+			    	    console.log(data);
+						$('.async').each(function(){
+								var $this = $(this),
+									paramName = $this.attr('name'),
+									attrName = $this.attr("data-items");
+								$this.html(generateOption($.urlParam(paramName), data[attrName]));
+						});
+						refreshSelect();
+			    	});     
 			});
 			</script>
 			
@@ -49,32 +61,37 @@
 				<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
 			</ul>
 			
-			<form class="filter" action="<c:url value="/admin/cpr/standards" />" method="get">
+			<form class="filter"  action="<c:url value="/admin/cpr/standards" />" method="get">
 				<div>
-					<span class="long"><spring:message code="form.orderby" />:</span>
+					<span class="filter-label long"><spring:message code="form.orderby" />:</span>
 					<select name="orderBy" class="chosenSmall">
 						<c:forEach items="${model.orders}" var="i">
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span><spring:message code="cpr.standard.added" /></span>
+					<span class="filter-label"><spring:message code="cpr.standard.added" /></span>
 					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
-					<span>do:</span>
+					<span class="filter-label">do:</span>
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
 				<div>
-					<span class="long"><spring:message code="form.groups" />:</span>
-					<select name="groupId" class="groups">
-						<option value="0"><spring:message code="cpr.groups.all" /></option>
-						<c:forEach items="${model.groups}" var="group">
-							<option value="${group.id}" <c:if test="${group.id == model.params.groupId}" >selected="selected"</c:if> >${group.code} - ${group.czechName}</option>
-						</c:forEach> 
-					</select>
+					<span class="filter-label long"><spring:message code="form.groups" />:</span>
+					<select name="groupId" class="groups async" data-items="standardGroups"></select>
 				</div>
 				<div>
-					<span class="long"><spring:message code="form.name" /></span>
-					<input type="text" class="query" name="query"   value="${model.params.query}" />
+					<span class="filter-label long"><spring:message code="cpr.standard.filter.mandate" />:</span>
+					<select name="mandateId" class="async chosenSmall" data-items="mandates"></select>
+					<span class="filter-label"><spring:message code="cpr.commisiondecision.name" />:</span>
+					<select name="commissionDecisionId" class="async chosenSmall" data-items="commissionDecisions"></select>
+				</div>
+				<div>
+					<span class="filter-label long"><spring:message code="cpr.nb.filter" />:</span>
+					<input type="text" class="query-aono mw500" name="query-aono" value="${model.params.query-aono}" />
+				</div>
+				<div>
+					<span class="filter-label long"><spring:message code="form.name" />/Označení</span>
+					<input type="text" class="query " name="query"   value="${model.params.query}" />
 					
 					<input type="submit" value="Filtrovat" class="btn" />
 				</div>

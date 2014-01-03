@@ -97,4 +97,7 @@ public interface NotifiedBodyService {
 	 * @return zoznam notifikovanych osob
 	 */
 	List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled);
+	
+	
+	List<NotifiedBody> autocomplete(String term, Boolean enabled);
 }

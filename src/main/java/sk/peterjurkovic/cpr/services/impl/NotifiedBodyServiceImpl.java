@@ -1,7 +1,9 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -95,6 +97,15 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	@Transactional(readOnly = true)
 	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled) {
 		return notifiedBodyDao.getNotifiedBodiesGroupedByCountry(enabled);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<NotifiedBody> autocomplete(final String term, final Boolean enabled) {
+		if(StringUtils.isBlank(term)){
+			return new ArrayList<NotifiedBody>();
+		}
+		return notifiedBodyDao.autocomplete(term.toLowerCase(), enabled);
 	}
 	
 	

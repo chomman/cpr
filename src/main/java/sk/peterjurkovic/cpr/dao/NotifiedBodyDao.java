@@ -38,4 +38,6 @@ public interface NotifiedBodyDao extends BaseDao<NotifiedBody, Long> {
 	 * @return List<NotifiedBody> zoznam notifkovanych osob
 	 */
 	List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled);
+	
+	List<NotifiedBody> autocomplete(String term, Boolean enabled);
 }

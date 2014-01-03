@@ -69,15 +69,34 @@ $(function() {
     	 width : "510px"
      });
      
-     $("select").not(".chosen, .chosenSmall").chosen({
+     $("select").not(".chosen, .chosenSmall, .chosenMini").chosen({
     	 width : "510px"
      });
      
      $(".chosenSmall").chosen({
     	 width : "200px"
      });
-    
+     $(".chosenMini").chosen({
+    	 width : "110px"
+     });
+     createSelects();
 });
+function createSelects(){
+	$(".chosen").chosen({
+   	 width : "510px"
+    });
+    
+    $("select").not(".chosen, .chosenSmall").chosen({
+   	 width : "510px"
+    });
+    
+    $(".chosenSmall").chosen({
+   	 width : "200px"
+    });
+}
+function refreshSelect(){
+	$("select").trigger("chosen:updated");
+}
 function updateNav(){
 	var o = $('nav');
 	if($(document).width() < 1070){

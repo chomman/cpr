@@ -130,12 +130,25 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
+		String hql = "";
+		
+		if(StringUtils.isNotBlank((String)criteria.get("query-aono"))){
+			hql = " left join s.notifiedBodies nb ";
+		}
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" (unaccent(lower(s.standardId)) like CONCAT('%', unaccent(lower(:query)) , '%') " +
 						" or unaccent(lower(s.czechName)) like CONCAT('%', unaccent(lower(:query)) , '%')" +
 						" or unaccent(lower(s.englishName)) like CONCAT('%', unaccent(lower(:query)) , '%')) ");
 			}
+			
+			if(StringUtils.isNotBlank((String)criteria.get("query-aono"))){
+				where.add(" (unaccent(lower(nb.name)) like CONCAT('%', unaccent(:queryNb) , '%') " +
+						" or unaccent(lower(nb.aoCode)) like CONCAT('%', unaccent(:queryNb) , '%') " +
+						" or unaccent(lower(nb.noCode)) like CONCAT('%', unaccent(:queryNb) , '%')) ");
+	
+			}
+			
 			if((DateTime)criteria.get("createdFrom") != null){
 				where.add(" s.created>=:createdFrom");
 			}
@@ -151,7 +164,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 				where.add(" s.enabled=:enabled");
 			}
 		}
-		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
+		return hql + (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
 
 	}
 	
@@ -171,6 +184,9 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
 				hqlQuery.setLong("groupId", groupId);
+			}
+			if(StringUtils.isNotBlank((String)criteria.get("query-aono"))){
+				hqlQuery.setString("queryNb", (String)criteria.get("query-aono"));
 			}
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){

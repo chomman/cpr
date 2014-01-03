@@ -16,6 +16,7 @@
 	<decorator:head/>
 	<script src="<c:url value="/resources/admin/js/jquery.quicksearch.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
+	<script src="<c:url value="/resources/public/js/common.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/scripts.js" />"></script>
 	
 </head>
