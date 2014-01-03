@@ -95,7 +95,7 @@ function createSelects(){
     });
 }
 function refreshSelect(){
-	$("select").trigger("chosen:updated");
+	$("select.async").trigger("chosen:updated");
 }
 function updateNav(){
 	var o = $('nav');

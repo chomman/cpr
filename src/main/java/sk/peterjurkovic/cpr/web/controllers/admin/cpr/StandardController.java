@@ -140,12 +140,14 @@ public class StandardController extends SupportAdminController{
 		Map<String, Object> model = new HashMap<String, Object>();
 		int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
+		final int count = standardService.getCountOfStandards(params).intValue();
+		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage, count);
 		List<Standard> standards = standardService.getStandardPage(currentPage, params);
 		model.put("standards", standards);
+		model.put("count", count);
 		model.put("paginationLinks", paginationLinks);
 		model.put("orders", StandardOrder.getAll());
-		//model.put("groups", standardGroupService.getAllStandardGroups());
+		model.put("standardStatuses", StandardStatus.getAll());
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("params", params);
 		modelMap.put("model", model);
@@ -896,11 +898,11 @@ public class StandardController extends SupportAdminController{
 	}
 
 	
-	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
 		PaginationLinker paginger = new PaginationLinker(request, params);
 		paginger.setUrl("/admin/cpr/standards");
 		paginger.setCurrentPage(currentPage);
-		paginger.setRowCount( standardService.getCountOfStandards(params).intValue() );
+		paginger.setRowCount( count );
 		return paginger.getPageLinks(); 
 	}
 	

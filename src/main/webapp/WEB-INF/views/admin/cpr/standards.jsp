@@ -40,19 +40,21 @@
 						minLength: 2,
 						select: function( event, ui ) {
 							ui.item.value;
-						}
+					}
 				});
 			      
-			      $.getJSON( $("#base").text() +"ajax/standard-filter", function(data) {  
-			    	    console.log(data);
-						$('.async').each(function(){
-								var $this = $(this),
-									paramName = $this.attr('name'),
-									attrName = $this.attr("data-items");
-								$this.html(generateOption($.urlParam(paramName), data[attrName]));
-						});
-						refreshSelect();
-			    	});     
+			    loadFilterData(); 
+			    
+			    if(isStandardAdvancedSarch()){
+			    	showAdvancedForm();
+			    }
+			    $('.filter').on('click', '.filter-advanced-btn', showAdvancedForm);
+			    
+			    function showAdvancedForm(){
+			    	$('.filter-advanced-btn').remove();
+			    	$('.filter-advanced').removeClass('filter-advanced');
+			    	return false;
+			    }
 			});
 			</script>
 			
@@ -62,7 +64,7 @@
 			</ul>
 			
 			<form class="filter"  action="<c:url value="/admin/cpr/standards" />" method="get">
-				<div>
+				<div class="filter-advanced">
 					<span class="filter-label long"><spring:message code="form.orderby" />:</span>
 					<select name="orderBy" class="chosenSmall">
 						<c:forEach items="${model.orders}" var="i">
@@ -75,27 +77,60 @@
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
-				<div>
+				<div class="filter-advanced">
 					<span class="filter-label long"><spring:message code="form.groups" />:</span>
-					<select name="groupId" class="groups async" data-items="standardGroups"></select>
+					<select name="groupId" class="groups async" data-items="standardGroups">
+						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
+					</select>
 				</div>
-				<div>
-					<span class="filter-label long"><spring:message code="cpr.standard.filter.mandate" />:</span>
-					<select name="mandateId" class="async chosenSmall" data-items="mandates"></select>
-					<span class="filter-label"><spring:message code="cpr.commisiondecision.name" />:</span>
-					<select name="commissionDecisionId" class="async chosenSmall" data-items="commissionDecisions"></select>
+				<div class="filter-advanced">
+					<span class="filter-label long"><spring:message code="cpr.commisiondecision.name" />:</span>
+					<select name="commissionDecisionId" class="async chosenSmall" data-items="commissionDecisions">
+						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
+					</select>
+				
+					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="cpr.standard.filter.mandate" />:</span>
+					<select name="mandateId" class="async chosenSmall" data-items="mandates">
+						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
+					</select>
 				</div>
-				<div>
+				
+				<div class="filter-advanced">
+					<span class="filter-label long"><spring:message code="cpr.standard.filter.as" />:</span>
+					<select name="assessmentSystemId" class="async chosenSmall" data-items="assessmentSystems">
+						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
+					</select>
+				
+					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="cpr.standard.filter.status" />: &nbsp;</span>
+					<select name="standardStatus" class="chosenSmall">
+						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
+						<c:forEach items="${model.standardStatuses}" var="i">
+	                       <option value="${i}" <c:if test="${i.code == model.params.standardStatus}">selected="selected"</c:if> >
+	                       		<spring:message code="${i.name}" />
+	                       </option>
+		               </c:forEach>
+					</select>
+				</div>
+				
+				<div class="filter-advanced">
 					<span class="filter-label long"><spring:message code="cpr.nb.filter" />:</span>
-					<input type="text" class="query-aono mw500" name="query-aono" value="${model.params.query-aono}" />
+					<input type="text" class="query-aono mw500" name="queryNb" value="${model.params.queryNb}" />
 				</div>
 				<div>
 					<span class="filter-label long"><spring:message code="form.name" />/Označení</span>
 					<input type="text" class="query " name="query"   value="${model.params.query}" />
 					
-					<input type="submit" value="Filtrovat" class="btn" />
+					<input type="submit" value="Filtrovat" class="btn filter-btn-standard" />
+					<a href="#" class="filter-advanced-btn">
+						<spring:message code="cpr.standard.filter.advanced" />
+					</a>
 				</div>
 			</form>
+			
+			
+			<div class="items-count">
+				<span><spring:message code="items.count" arguments="${model.count}" /></span>
+			</div>
 			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>

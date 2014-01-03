@@ -130,10 +130,19 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
-		String hql = "";
+		StringBuilder hql = new StringBuilder(" left join s.standardGroups sg ");
 		
-		if(StringUtils.isNotBlank((String)criteria.get("query-aono"))){
-			hql = " left join s.notifiedBodies nb ";
+		Long mandateId = (Long)criteria.get("mandateId");
+		if(mandateId != null && mandateId != 0){
+			hql.append(" left join sg.mandates m ");
+		}
+		
+		if(StringUtils.isNotBlank((String)criteria.get("queryNb"))){
+			hql.append(" left join s.notifiedBodies nb ");
+		}
+		Long assessmentSystemId = (Long)criteria.get("mandateId");
+		if(assessmentSystemId != null && assessmentSystemId != 0){
+			hql.append(" left join s.assessmentSystem as ");
 		}
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
@@ -142,10 +151,15 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 						" or unaccent(lower(s.englishName)) like CONCAT('%', unaccent(lower(:query)) , '%')) ");
 			}
 			
-			if(StringUtils.isNotBlank((String)criteria.get("query-aono"))){
+			if(StringUtils.isNotBlank((String)criteria.get("queryNb"))){
 				where.add(" (unaccent(lower(nb.name)) like CONCAT('%', unaccent(:queryNb) , '%') " +
 						" or unaccent(lower(nb.aoCode)) like CONCAT('%', unaccent(:queryNb) , '%') " +
 						" or unaccent(lower(nb.noCode)) like CONCAT('%', unaccent(:queryNb) , '%')) ");
+	
+			}
+			
+			if(StringUtils.isNotBlank((String)criteria.get("standardStatus"))){
+				where.add(" s.standardStatus=:standardStatus ");
 	
 			}
 			
@@ -157,8 +171,21 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 			Long groupId = (Long)criteria.get("groupId");
 			if(groupId != null && groupId != 0){
-				where.add(" :groupId in elements(s.standardGroups)");
+				where.add(" sg.id=:groupId ");
 			}
+	
+			if(mandateId != null && mandateId != 0){
+				where.add(" m.id=:mandateId ");
+			}
+			Long commissionDecisionId = (Long)criteria.get("commissionDecisionId");
+			if(commissionDecisionId != null && commissionDecisionId != 0){
+				where.add(" sg.commissionDecision.id=:commissionDecisionId ");
+			}
+			
+			if(assessmentSystemId != null && assessmentSystemId != 0){
+				hql.append(" as.id=:assessmentSystemId ");
+			}
+			
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
 				where.add(" s.enabled=:enabled");
@@ -185,8 +212,23 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			if(groupId != null && groupId != 0){
 				hqlQuery.setLong("groupId", groupId);
 			}
-			if(StringUtils.isNotBlank((String)criteria.get("query-aono"))){
-				hqlQuery.setString("queryNb", (String)criteria.get("query-aono"));
+			Long commissionDecisionId = (Long)criteria.get("commissionDecisionId");
+			if(commissionDecisionId != null && commissionDecisionId != 0){
+				hqlQuery.setLong("commissionDecisionId", commissionDecisionId);
+			}
+			Long mandateId = (Long)criteria.get("mandateId");
+			if(mandateId != null && mandateId != 0){
+				hqlQuery.setLong("mandateId", mandateId);
+			}
+			Long assessmentSystemId = (Long)criteria.get("assessmentSystemId");
+			if(assessmentSystemId != null && assessmentSystemId != 0){
+				hqlQuery.setLong("assessmentSystemId", assessmentSystemId);
+			}
+			if(StringUtils.isNotBlank((String)criteria.get("standardStatus"))){
+				hqlQuery.setString("standardStatus", (String)criteria.get("standardStatus"));
+			}
+			if(StringUtils.isNotBlank((String)criteria.get("queryNb"))){
+				hqlQuery.setString("queryNb", (String)criteria.get("queryNb"));
 			}
 			Boolean enabled = (Boolean)criteria.get("enabled");
 			if(enabled != null){
