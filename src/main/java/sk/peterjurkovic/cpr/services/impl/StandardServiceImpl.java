@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
@@ -122,14 +123,15 @@ public class StandardServiceImpl implements StandardService {
 	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
 		if(criteria.size() != 0){
 			//criteria.put("standardGroup", ParseUtils.parseLongFromStringObject("standardGroup"));
-			criteria.put("groupId", ParseUtils.parseLongFromStringObject(criteria.get("groupId")));
-			criteria.put("commissionDecisionId", ParseUtils.parseLongFromStringObject(criteria.get("commissionDecisionId")));
-			criteria.put("mandateId", ParseUtils.parseLongFromStringObject(criteria.get("mandateId")));
-			criteria.put("assessmentSystemId", ParseUtils.parseLongFromStringObject(criteria.get("assessmentSystemId")));
-			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
-			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
-			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
-			criteria.put("enabled", ParseUtils.parseStringToBoolean(criteria.get("enabled")));
+			criteria.put(Filter.STANDARD_GROUP, ParseUtils.parseLongFromStringObject(criteria.get(Filter.STANDARD_GROUP)));
+			criteria.put(Filter.COMMISION_DECISION, ParseUtils.parseLongFromStringObject(criteria.get(Filter.COMMISION_DECISION)));
+			criteria.put(Filter.MANDATE, ParseUtils.parseLongFromStringObject(criteria.get(Filter.MANDATE)));
+			criteria.put(Filter.NOTIFIED_BODY, ParseUtils.parseLongFromStringObject(criteria.get(Filter.NOTIFIED_BODY)));
+			criteria.put(Filter.ASSESMENT_SYSTEM, ParseUtils.parseLongFromStringObject(criteria.get(Filter.ASSESMENT_SYSTEM)));
+			criteria.put(Filter.ORDER, ParseUtils.parseIntFromStringObject(criteria.get(Filter.ORDER)));
+			criteria.put(Filter.CREATED_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(Filter.CREATED_TO)));
+			criteria.put(Filter.CREATED_FROM, ParseUtils.parseDateTimeFromStringObject(criteria.get(Filter.CREATED_FROM)));
+			criteria.put(Filter.ENABLED, ParseUtils.parseStringToBoolean(criteria.get(Filter.ENABLED)));
 		}
 		return criteria;
 	}

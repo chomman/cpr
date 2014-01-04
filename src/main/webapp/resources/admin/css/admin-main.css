@@ -602,3 +602,8 @@ table.log td,.log-descr{padding:2px;}
 .standard-csn-change .standarardId{font-size:12px;color:#555;background:url(../img/tree.png) no-repeat 10px center;padding-left:30px;}
 .standard-csn-change .edit,
 .standard-csn-change .delete{padding-left:10px;}
+
+.pj-wrapp{padding:8px 5px !important;display:inline-block;}
+.pj-wrapp .pj-picker-item{font-weight:bold;font-size:14px;color:blue}
+.pj-wrapp .pj-cancel{color:red;font-weight:normal;margin-left:20px;text-decoration:underline;cursor:pointer;}
+.pj-wrapp .pj-cancel:hover{text-decoration:none;}

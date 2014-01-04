@@ -89,7 +89,7 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<NotifiedBody> autocomplete(final String term, final Boolean enabled) {
-		StringBuilder hql = new StringBuilder("select n.name, n.aoCode, n.noCode from NotifiedBody n");
+		StringBuilder hql = new StringBuilder("select n.id, n.name, n.aoCode, n.noCode from NotifiedBody n");
 		hql.append(" where (unaccent(lower(n.name)) like unaccent(:query) ");
 		hql.append(" or unaccent(lower(n.aoCode)) like unaccent(:query) ");
 		hql.append(" or unaccent(lower(n.noCode)) like unaccent(:query)) ");

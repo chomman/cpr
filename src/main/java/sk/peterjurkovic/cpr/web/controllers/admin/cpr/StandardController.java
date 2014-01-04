@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
@@ -143,6 +144,7 @@ public class StandardController extends SupportAdminController{
 		final int count = standardService.getCountOfStandards(params).intValue();
 		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage, count);
 		List<Standard> standards = standardService.getStandardPage(currentPage, params);
+		params.put(Filter.NOTIFIED_BODY, getNotifiedBody(params.get(Filter.NOTIFIED_BODY)));
 		model.put("standards", standards);
 		model.put("count", count);
 		model.put("paginationLinks", paginationLinks);
@@ -156,6 +158,14 @@ public class StandardController extends SupportAdminController{
 		}
         return getTableItemsView();
     }
+	
+	private NotifiedBody getNotifiedBody(final Object id){
+		Long nbid = ParseUtils.parseLongFromStringObject(id);
+		if(nbid != null && nbid != 0){
+			return notifiedBodyService.getNotifiedBodyById(nbid);
+		}
+		return null;
+	}
 	
 	private void processImport(){
 		StandardParser parser = new StandardParser();

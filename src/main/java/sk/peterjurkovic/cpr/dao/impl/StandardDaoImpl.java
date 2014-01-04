@@ -12,6 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
@@ -132,15 +133,16 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		List<String> where = new ArrayList<String>();
 		StringBuilder hql = new StringBuilder(" left join s.standardGroups sg ");
 		
-		Long mandateId = (Long)criteria.get("mandateId");
+		Long mandateId = (Long)criteria.get(Filter.MANDATE);
 		if(mandateId != null && mandateId != 0){
 			hql.append(" left join sg.mandates m ");
 		}
 		
-		if(StringUtils.isNotBlank((String)criteria.get("queryNb"))){
-			hql.append(" left join s.notifiedBodies nb ");
+		Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
+		if(notifiedBodyId != null && notifiedBodyId != 0){
+			hql.append(" join s.notifiedBodies nb ");
 		}
-		Long assessmentSystemId = (Long)criteria.get("mandateId");
+		Long assessmentSystemId = (Long)criteria.get(Filter.ASSESMENT_SYSTEM);
 		if(assessmentSystemId != null && assessmentSystemId != 0){
 			hql.append(" left join s.assessmentSystem as ");
 		}
@@ -151,25 +153,22 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 						" or unaccent(lower(s.englishName)) like CONCAT('%', unaccent(lower(:query)) , '%')) ");
 			}
 			
-			if(StringUtils.isNotBlank((String)criteria.get("queryNb"))){
-				where.add(" (unaccent(lower(nb.name)) like CONCAT('%', unaccent(:queryNb) , '%') " +
-						" or unaccent(lower(nb.aoCode)) like CONCAT('%', unaccent(:queryNb) , '%') " +
-						" or unaccent(lower(nb.noCode)) like CONCAT('%', unaccent(:queryNb) , '%')) ");
-	
+			if(notifiedBodyId != null && notifiedBodyId != 0){
+				where.add(" nb.id=:notifiedBodyId ");
 			}
 			
-			if(StringUtils.isNotBlank((String)criteria.get("standardStatus"))){
+			if(StringUtils.isNotBlank((String)criteria.get(Filter.STANDARD_STAUTS))){
 				where.add(" s.standardStatus=:standardStatus ");
 	
 			}
 			
-			if((DateTime)criteria.get("createdFrom") != null){
+			if((DateTime)criteria.get(Filter.CREATED_FROM) != null){
 				where.add(" s.created>=:createdFrom");
 			}
-			if((DateTime)criteria.get("createdTo") != null){
+			if((DateTime)criteria.get(Filter.CREATED_TO) != null){
 				where.add(" s.created<:createdTo");
 			}
-			Long groupId = (Long)criteria.get("groupId");
+			Long groupId = (Long)criteria.get(Filter.STANDARD_GROUP);
 			if(groupId != null && groupId != 0){
 				where.add(" sg.id=:groupId ");
 			}
@@ -177,7 +176,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			if(mandateId != null && mandateId != 0){
 				where.add(" m.id=:mandateId ");
 			}
-			Long commissionDecisionId = (Long)criteria.get("commissionDecisionId");
+			Long commissionDecisionId = (Long)criteria.get(Filter.COMMISION_DECISION);
 			if(commissionDecisionId != null && commissionDecisionId != 0){
 				where.add(" sg.commissionDecision.id=:commissionDecisionId ");
 			}
@@ -186,7 +185,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 				hql.append(" as.id=:assessmentSystemId ");
 			}
 			
-			Boolean enabled = (Boolean)criteria.get("enabled");
+			Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
 			if(enabled != null){
 				where.add(" s.enabled=:enabled");
 			}
@@ -200,37 +199,38 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));
 			}
-			DateTime createdFrom = (DateTime)criteria.get("createdFrom");
+			DateTime createdFrom = (DateTime)criteria.get(Filter.CREATED_FROM);
 			if(createdFrom != null){
 				hqlQuery.setTimestamp("createdFrom", createdFrom.toDate());
 			}
-			DateTime createdTo = (DateTime)criteria.get("createdTo");
+			DateTime createdTo = (DateTime)criteria.get(Filter.CREATED_TO);
 			if(createdTo != null){
 				hqlQuery.setTimestamp("createdTo", createdTo.plusDays(1).toDate());
 			}
-			Long groupId = (Long)criteria.get("groupId");
+			Long groupId = (Long)criteria.get(Filter.STANDARD_GROUP);
 			if(groupId != null && groupId != 0){
 				hqlQuery.setLong("groupId", groupId);
 			}
-			Long commissionDecisionId = (Long)criteria.get("commissionDecisionId");
+			Long commissionDecisionId = (Long)criteria.get(Filter.COMMISION_DECISION);
 			if(commissionDecisionId != null && commissionDecisionId != 0){
 				hqlQuery.setLong("commissionDecisionId", commissionDecisionId);
 			}
-			Long mandateId = (Long)criteria.get("mandateId");
+			Long mandateId = (Long)criteria.get(Filter.MANDATE);
 			if(mandateId != null && mandateId != 0){
 				hqlQuery.setLong("mandateId", mandateId);
 			}
-			Long assessmentSystemId = (Long)criteria.get("assessmentSystemId");
+			Long assessmentSystemId = (Long)criteria.get(Filter.ASSESMENT_SYSTEM);
 			if(assessmentSystemId != null && assessmentSystemId != 0){
 				hqlQuery.setLong("assessmentSystemId", assessmentSystemId);
 			}
-			if(StringUtils.isNotBlank((String)criteria.get("standardStatus"))){
+			if(StringUtils.isNotBlank((String)criteria.get(Filter.STANDARD_STAUTS))){
 				hqlQuery.setString("standardStatus", (String)criteria.get("standardStatus"));
 			}
-			if(StringUtils.isNotBlank((String)criteria.get("queryNb"))){
-				hqlQuery.setString("queryNb", (String)criteria.get("queryNb"));
+			Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
+			if(notifiedBodyId != null && notifiedBodyId != 0){
+				hqlQuery.setLong("notifiedBodyId", notifiedBodyId);
 			}
-			Boolean enabled = (Boolean)criteria.get("enabled");
+			Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
 			if(enabled != null){
 				hqlQuery.setBoolean("enabled", enabled);
 			}

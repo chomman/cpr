@@ -38,9 +38,9 @@ function isBlank(str){
 	return false;
 }
 function isStandardAdvancedSarch(){
-	var params = ['createdFrom', 'createdTo', 'orderBy', 'groupId', 
+	var params = ['createdFrom', 'createdTo', 'groupId', 
 	           'commissionDecisionId','mandateId','assessmentSystemId',
-	           'standardStatus', 'queryNb'];
+	           'standardStatus', 'notifiedBody'];
 	return isAdvancedSarch(params);
 }
 function isAdvancedSarch(params){
@@ -50,6 +50,12 @@ function isAdvancedSarch(params){
 		}
 	}
 	return false;
+}
+
+function startsWith(str, term){
+	str = str.toLowerCase();
+	term = term.toLowerCase();
+    return str.indexOf(term.toLowerCase()) == 0;
 }
 
 function getOption(val, label, isSelected){

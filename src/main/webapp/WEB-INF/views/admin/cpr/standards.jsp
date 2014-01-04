@@ -4,7 +4,8 @@
 <html>
 <head>
 <title><spring:message code="menu.cpr.norm" /></title>
-<script src="<c:url value="/resources/public/js/standard.autocomplate.js" />"></script>
+<script src="<c:url value="/resources/public/js/standard.autoc omplate.js" />"></script>
+<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -55,6 +56,10 @@
 			    	$('.filter-advanced').removeClass('filter-advanced');
 			    	return false;
 			    }
+			    $('input[name=notifiedBody]').remotePicker({
+			    	<c:if test="${not empty model.params.notifiedBody}">item: {id: ${model.params.notifiedBody.id}, value: '${model.params.notifiedBody.noCode} - ${model.params.notifiedBody.name}'},</c:if>    	
+			    	sourceUrl : $("#base").text() +"ajax/autocomplete/aono"			    	
+			    });
 			});
 			</script>
 			
@@ -114,7 +119,7 @@
 				
 				<div class="filter-advanced">
 					<span class="filter-label long"><spring:message code="cpr.nb.filter" />:</span>
-					<input type="text" class="query-aono mw500" name="queryNb" value="${model.params.queryNb}" />
+					<input type="text" class="query-aono mw500" name="notifiedBody" />
 				</div>
 				<div>
 					<span class="filter-label long"><spring:message code="form.name" />/Označení</span>

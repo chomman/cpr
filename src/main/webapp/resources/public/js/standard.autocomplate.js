@@ -1,5 +1,5 @@
 $(document).ready(function() {  
-	
+	/*
 	function startsWith(str, term){
 		str = str.toLowerCase();
 		term = term.toLowerCase();
@@ -33,4 +33,5 @@ $(document).ready(function() {
 				ui.item.value;
 			}
 	});
+	*/
 });
