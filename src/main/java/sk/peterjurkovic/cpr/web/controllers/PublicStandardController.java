@@ -36,7 +36,6 @@ public class PublicStandardController {
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("standard", standard);
-		model.put("parentWebpage", webpageService.getWebpageByCode(PublicCprController.CPR_INDEX_URL ));
 		model.put("url", PublicDeclarationOfPerformanceController.DOP_FORM_URL);
 		modelMap.put("model", model);
 		return "public/ehn";

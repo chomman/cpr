@@ -50,7 +50,7 @@ public class PublicCprController {
 	@Autowired
 	private StandardGroupService standardGroupService;
 	
-	public static final String CPR_INDEX_URL = "/cpr";
+	public static final String CPR_INDEX_URL = "/harmonizovane-normy";
 	
 	public static final String CPR_BASIC_REQUREMENT_URL = "/cpr/zakladni-pozadavky-podle-cpr";
 	
@@ -70,17 +70,34 @@ public class PublicCprController {
 	 * @throws PageNotFoundEception
 	 */
 	@RequestMapping(CPR_INDEX_URL)
-	public String home(ModelMap modelmap) throws PageNotFoundEception {
+	public String home(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode(CPR_INDEX_URL);
 		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
-
+		
 		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("subtab", webpage.getId());
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		if(params == null || params.size() == 0){
+			model.put("showStandardGroups", true);
+		}else{
+			model.put("showStandardGroups", false);
+			int currentPage = RequestUtils.getPageNumber(request);
+			params.put("enabled", Boolean.TRUE);
+			
+			List<Standard> standards = standardService.getStandardPage(currentPage, params);
+			List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
+			model.put("standards", standards);
+			model.put("paginationLinks", paginationLinks);
+			model.put("params", params);
+		}
+		
+		
+		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
+		model.put("webpage", webpage);
 		modelmap.put("model", model);
-		return "/public/cpr/index";
+		return "/public/cpr/harmonized-standards";
 	}
 	
 	
@@ -271,7 +288,7 @@ public class PublicCprController {
 	
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
 		PaginationLinker paginger = new PaginationLinker(request, params);
-		paginger.setUrl(CPR_EHN_SEARCH_URL);
+		paginger.setUrl(CPR_INDEX_URL);
 		paginger.setCurrentPage(currentPage);
 		paginger.setRowCount( standardService.getCountOfStandards(params).intValue() );
 		return paginger.getPageLinks(); 
