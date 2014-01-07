@@ -232,12 +232,12 @@ header .itc-name{margin:5px 0 0 50px;padding:5px 0 0 130px;width:350px;backgroun
 
 
 /* NAVIGATION */
-nav{background:#8b8a8a url(../img/nav-bg.png) repeat-x;height:50px;padding-bottom:7px; }
+nav{background:#8b8a8a url(../img/nav-bg.png) repeat-x;height:45px; }
 nav ul{list-style:none;padding:0 60px;background:url(../img/nav-bg2.png);}
-nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;}
+nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;background:red;}
 nav ul li:last-child{background:none;}
-nav ul li a{display:block;text-decoration:none;float:left;height:15px;padding:17px 10px;color:#fff;text-transform:uppercase;font-size:13px;margin:0;}
-nav ul li a:hover, nav .curr,#dop-menu a:hover{background:#8b8a8a url(../img/nav-bg-hover.png);}
+nav ul li a{display:block;text-decoration:none;float:left;padding:14px 10px 12px 10px;color:#fff;font-size:13px;margin:0;font-weight:bold;}
+nav ul li a:hover, nav .curr,#dop-menu a:hover{background:blue; ;}
 
 
 
