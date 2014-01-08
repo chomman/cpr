@@ -84,7 +84,7 @@
 				</div>
 				<div class="filter-advanced">
 					<span class="filter-label long"><spring:message code="form.groups" />:</span>
-					<select name="groupId" class="groups async" data-items="standardGroups">
+					<select name="standardGroup" class="groups async" data-items="standardGroups">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
 				</div>

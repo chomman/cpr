@@ -15,7 +15,7 @@ public class Filter {
 	
 	
 	/* STANDARD FILTER */
-	public static final String STANDARD_GROUP 		= "groupId";
+	public static final String STANDARD_GROUP 		= "standardGroup";
 	public static final String COMMISION_DECISION 	= "commissionDecisionId";
 	public static final String MANDATE 				= "mandateId";
 	public static final String NOTIFIED_BODY 		= "notifiedBody";

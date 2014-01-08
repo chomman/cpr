@@ -71,18 +71,17 @@ public class PublicCprController {
 	 */
 	@RequestMapping(CPR_INDEX_URL)
 	public String home(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
-		
 		Webpage webpage = webpageService.getWebpageByCode(CPR_INDEX_URL);
 		if(webpage == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
 		}
-		
 		Map<String, Object> model = prepareBaseModel(webpage);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		if(params == null || params.size() == 0){
 			model.put("showStandardGroups", true);
 		}else{
 			model.put("showStandardGroups", false);
+			
 			int currentPage = RequestUtils.getPageNumber(request);
 			params.put("enabled", Boolean.TRUE);
 			
@@ -92,8 +91,6 @@ public class PublicCprController {
 			model.put("paginationLinks", paginationLinks);
 			model.put("params", params);
 		}
-		
-		
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
 		model.put("webpage", webpage);
 		modelmap.put("model", model);

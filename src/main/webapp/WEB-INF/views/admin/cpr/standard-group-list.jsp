@@ -62,7 +62,7 @@
 						 	<tr>
 						 		<td>${i.code}</td>
 						 		<td>
-						 			<a title="Zobrazit evidované normy?" class="tt" href="<c:url value="/admin/cpr/standards?groupId=${i.id}" />">
+						 			<a title="Zobrazit evidované normy?" class="tt" href="<c:url value="/admin/cpr/standards?standardGroup=${i.id}" />">
 						 			${i.czechName}
 						 			</a>
 						 		</td>

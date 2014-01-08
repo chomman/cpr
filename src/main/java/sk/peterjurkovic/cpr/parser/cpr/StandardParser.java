@@ -108,6 +108,8 @@ public class StandardParser extends CprParser {
 		
 		if(standardDto.getReplacedStandard() != null){
 			logger.info("Updating canceled standard: " + standardDto.getReplacedStandard().getStandardId());
+			standardDto.getReplacedStandard().setReplaceStandard(standardDto.getCurrent());
+			standardDto.getCurrent().setReplaceStandard(standardDto.getReplacedStandard());
 			persist(standardDto.getReplacedStandard());
 			
 		}
