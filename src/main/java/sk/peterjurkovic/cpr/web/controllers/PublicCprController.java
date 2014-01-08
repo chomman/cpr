@@ -60,8 +60,7 @@ public class PublicCprController {
 	
 	public static final String CPR_EHN_SEARCH_URL = "/cpr/vyhledavani-v-normach";
 	
-	
-	
+		
 	/**
 	 * Zobrazi zoznam podsekcii CPR
 	 * 
