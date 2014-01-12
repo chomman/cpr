@@ -192,7 +192,14 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
    public Boolean getEnabled() {
        return enabled;
    }
-
+   
+   @Transient
+   public boolean isEnabled(){
+	   if(getEnabled() == null || !getEnabled()){
+		   return false;
+	   }
+	   return true;
+   }
 
    /**
     * Metoda nastavuje promennou enabled

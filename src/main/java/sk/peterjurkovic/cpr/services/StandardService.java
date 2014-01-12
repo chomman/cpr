@@ -43,4 +43,6 @@ public interface StandardService {
 	
 	Standard getStandardByCsn(StandardCsn csn);
 	
+	List<Standard> getStandardsByStandardGroupCode(String standardGroupCode);
+	
 }

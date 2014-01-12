@@ -35,7 +35,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 
 @Controller
-public class PublicCprController {
+public class PublicCprController extends PublicSupportController{
 
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -50,16 +50,22 @@ public class PublicCprController {
 	@Autowired
 	private StandardGroupService standardGroupService;
 	
-	public static final String CPR_INDEX_URL = "/harmonizovane-normy";
+	public static final String CPR_INDEX_URL = "/cpr";
 	
-	public static final String CPR_BASIC_REQUREMENT_URL = "/cpr/zakladni-pozadavky-podle-cpr";
+	public static final String STANDARDS_URL = "/harmonizovane-normy";
 	
-	public static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
+	public static final String STANDARD_GROUP_URL = "/harmonizovane-normy-rozdelene-do-skupin-vyrobku-cpr";
 	
-	public static final String CPR_GROUPS_URL = "/cpr/skupiny-vyrobku-podle-cpr";
+	public static final String STANDARD_GROUP_DETAIL_URL = "/skupina/{code}";
 	
-	public static final String CPR_EHN_SEARCH_URL = "/cpr/vyhledavani-v-normach";
 	
+	@RequestMapping(CPR_INDEX_URL)
+	public String cprIndex(ModelMap modelmap) throws PageNotFoundEception{
+		final Webpage webpage = getWebpage(CPR_INDEX_URL);
+		Map<String, Object> model = prepareBaseModel(webpage);
+		modelmap.put("model", model);
+		return "/public/cpr/index";
+	}
 		
 	/**
 	 * Zobrazi zoznam podsekcii CPR
@@ -68,28 +74,18 @@ public class PublicCprController {
 	 * @return
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping(CPR_INDEX_URL)
+	@RequestMapping(STANDARDS_URL)
 	public String home(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
-		Webpage webpage = webpageService.getWebpageByCode(CPR_INDEX_URL);
-		if(webpage == null || !webpage.getEnabled()){
-			throw new PageNotFoundEception();
-		}
+		final Webpage webpage = getWebpage(CPR_INDEX_URL);
 		Map<String, Object> model = prepareBaseModel(webpage);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		if(params == null || params.size() == 0){
-			model.put("showStandardGroups", true);
-		}else{
-			model.put("showStandardGroups", false);
-			
-			int currentPage = RequestUtils.getPageNumber(request);
-			params.put("enabled", Boolean.TRUE);
-			
-			List<Standard> standards = standardService.getStandardPage(currentPage, params);
-			List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
-			model.put("standards", standards);
-			model.put("paginationLinks", paginationLinks);
-			model.put("params", params);
-		}
+		final int currentPage = RequestUtils.getPageNumber(request);
+		params.put("enabled", Boolean.TRUE);
+		List<Standard> standards = standardService.getStandardPage(currentPage, params);
+		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
+		model.put("standards", standards);
+		model.put("paginationLinks", paginationLinks);
+		model.put("params", params);
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
 		model.put("webpage", webpage);
 		modelmap.put("model", model);
@@ -98,95 +94,6 @@ public class PublicCprController {
 	
 	
 	
-	/**
-	 * Zobrazi zoznam zakladnych poziadavkov
-	 * 
-	 * @param Modelmap model
-	 * @return String view
-	 * @throws PageNotFoundEception, ak je stranka deaktivovana, alebo sa v zaznav v DB nenachadza
-	 */
-	@RequestMapping(CPR_BASIC_REQUREMENT_URL)
-	public String requirements(ModelMap modelmap) throws PageNotFoundEception {
-		
-		Webpage webpage = webpageService.getWebpageByCode(CPR_BASIC_REQUREMENT_URL);
-		if(webpage == null || !webpage.getEnabled()){
-			throw new PageNotFoundEception();
-		}
-		
-		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("subtab", webpage.getId());
-		model.put("basicRequremets", basicRequirementService.getBasicRequirementsForPublic());
-		modelmap.put("model", model);
-		return "/public/cpr/cpr-base";
-	}
-	
-	
-	
-	/**
-	 * Zobrazi detail zakladneho pozadavku
-	 * 
-	 * @param String code
-	 * @param Modelmap model
-	 * @return String view
-	 * @throws PageNotFoundEception ak webova sekce neexistuje, alebo je deaktivovana.
-	 */
-	@RequestMapping("/cpr/br/{code}")
-	public String showBasicRequirementDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
-		
-		BasicRequirement basicRequirement = basicRequirementService.getBasicRequirementByCode(code);
-		Webpage webpage = webpageService.getWebpageByCode(CPR_BASIC_REQUREMENT_URL);
-		if(basicRequirement == null || webpage == null || !webpage.getEnabled()){
-			throw new PageNotFoundEception();
-		}
-		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("basicRequirement", basicRequirement);
-		modelmap.put("model", model);
-		return "/public/cpr/basic-requirement-detail";
-	}
-	
-	
-	/**
-	 * Zobrazi systemy posudzovania zhody.
-	 * 
-	 * @param ModelMap model
-	 * @return String view
-	 * @throws PageNotFoundEception, ak je verejna sekce deaktivovana, alebo neexistuje
-	 */
-	@RequestMapping(CPR_ASSESSMENT_SYSTEMS_URL)
-	public String assessmentSystems(ModelMap modelmap) throws PageNotFoundEception {
-		
-		Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
-		if(webpage == null || !webpage.getEnabled()){
-			throw new PageNotFoundEception();
-		}
-		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("subtab", webpage.getId());
-		model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
-		modelmap.put("model", model);
-		return "/public/cpr/cpr-base";
-	}
-	
-	
-	/**
-	 * Zobrazi detail systemu posudzovania zhody
-	 * 
-	 * @param Long assessmentSystemId
-	 * @param Modelmap model
-	 * @return String view
-	 * @throws PageNotFoundEception, ak je system deaktivovany, alebo neexistuje
-	 */
-	@RequestMapping("/cpr/as/{assessmentSystemId}")
-	public String showAssessmentSystemDetail(@PathVariable Long assessmentSystemId, ModelMap modelmap) throws PageNotFoundEception {
-		AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(assessmentSystemId);
-		Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
-		if(assessmentSystem == null || webpage == null){
-			throw new PageNotFoundEception();
-		}
-		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("assessmentSystem", assessmentSystem);
-		modelmap.put("model", model);
-		return "/public/cpr/assessmentSystem-detail";
-	}
 	
 	
 	/**
@@ -196,15 +103,12 @@ public class PublicCprController {
 	 * @return String view
 	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
 	 */
-	@RequestMapping(CPR_GROUPS_URL)
+	@RequestMapping(STANDARD_GROUP_URL)
 	public String showCprGroups(ModelMap modelmap) throws PageNotFoundEception {
-		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
-		if(webpage == null || !webpage.getEnabled()){
-			throw new PageNotFoundEception();
-		}
+		Webpage webpage = getWebpage(STANDARD_GROUP_URL);
 		List<StandardGroup> groups = standardGroupService.getStandardGroupsForPublic();
 		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("groups", groups);
+		model.put("standardGroups", groups);
 		modelmap.put("model", model);
 		return "/public/cpr/cpr-base";
 	}
@@ -218,18 +122,18 @@ public class PublicCprController {
 	 * @return String view
 	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
 	 */
-	@RequestMapping("/cpr/skupina/{groupCode}")
-	public String showCprGroupDetail(@PathVariable String groupCode, ModelMap modelmap) throws PageNotFoundEception {
-		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
-		StandardGroup group = standardGroupService.getStandardGroupByCode(groupCode);
-		if(webpage == null || group == null || !webpage.getEnabled()){
+	@RequestMapping(STANDARD_GROUP_DETAIL_URL)
+	public String showCprGroupDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
+		Webpage webpage = webpageService.getWebpageByCode(STANDARD_GROUP_URL);
+		StandardGroup stadnardGroup = standardGroupService.getStandardGroupByCode(code);
+		if(stadnardGroup == null){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("group", group);
-		model.put("standards", standardService.getStandardByStandardGroupForPublic(group));
+		model.put("group", stadnardGroup);
+		model.put("standards", standardService.getStandardByStandardGroupForPublic(stadnardGroup));
 		modelmap.put("model", model);
-		return "/public/cpr/group-detail";
+		return "/public/cpr/standard-group-detail";
 	}
 	
 	
@@ -243,7 +147,7 @@ public class PublicCprController {
 	 */
 	@RequestMapping("/cpr/ehn/{id}")
 	public String showStandardDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
-		Webpage webpage = webpageService.getWebpageByCode(CPR_GROUPS_URL);
+		Webpage webpage = webpageService.getWebpageByCode(STANDARD_GROUP_URL);
 		Standard standard = standardService.getStandardById(id);
 		if(webpage == null || standard == null || !webpage.getEnabled()){
 			throw new PageNotFoundEception();
@@ -261,25 +165,6 @@ public class PublicCprController {
 	}
 	
 	
-	@RequestMapping(CPR_EHN_SEARCH_URL)
-	public String searchInStandard(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
-		Webpage webpage = webpageService.getWebpageByCode(CPR_EHN_SEARCH_URL);
-		if(webpage == null || !webpage.getEnabled()){
-			throw new PageNotFoundEception();
-		}
-		Map<String, Object> model = prepareBaseModel(webpage);
-		int currentPage = RequestUtils.getPageNumber(request);
-		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		params.put("enabled", Boolean.TRUE);
-		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
-		List<Standard> standards = standardService.getStandardPage(currentPage, params);
-		model.put("standards", standards);
-		model.put("paginationLinks", paginationLinks);
-		model.put("params", params);
-		model.put("url", CPR_EHN_SEARCH_URL);
-		modelMap.put("model", model);
-		return "/public/cpr/cpr-base";
-	}
 	
 	
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){

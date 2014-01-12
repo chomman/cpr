@@ -18,30 +18,12 @@
 
 		<div id="main-content">
 			 
-			 <c:if test="${model.webpage.webpageContent.id != 9 }">
-				 <jsp:include page="../include/left-panel.jsp" />
-				 <div class="right-panel">
+			 <c:if test="${not empty model.webpage.webpageContent}">
+			 	<c:if test="${model.webpage.webpageContent.id == 4}">
+					<jsp:include page="include/standard-groups.jsp" />
+				</c:if>
 			 </c:if>
-					<article>
-					${model.webpage.topText}
-					</article>	
-					
-					<c:if test="${not empty model.webpage.webpageContent and model.webpage.webpageContent.id == 2}">
-							<jsp:include page="../contents/basic-requrement.jsp" />
-					</c:if>
-					<c:if test="${not empty model.webpage.webpageContent and model.webpage.webpageContent.id == 3}">
-							 <jsp:include page="../contents/assessmentsystems.jsp" /> 
-					</c:if>
-					<c:if test="${not empty model.webpage.webpageContent and model.webpage.webpageContent.id == 9}">
-							 <jsp:include page="../contents/ehn-search.jsp" /> 
-					</c:if>
-					<article>
-					${model.webpage.bottomText}
-					</article>
-			<c:if test="${model.webpage.webpageContent.id != 9 }">		
-				</div>
-				 <div class="clear"></div>		
-			</c:if>
+			 
 		</div>
 	</body>
 </html>

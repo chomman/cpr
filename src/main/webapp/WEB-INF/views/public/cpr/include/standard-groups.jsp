@@ -1,7 +1,11 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
+<h1>${model.webpage.title}</h1>
 
+<c:if test="${not empty model.webpage.topText}">
+	<article>${model.webpage.topText}</article>
+</c:if>
 <c:if test="${not empty model.standardGroups}">
 				
 	<table class="groups">
@@ -21,29 +25,33 @@
 			 		<td class="c code">${i.code}</td>
 			 		<td class="groupName">
 				 		<span class="czech">
-				 			<a href="<c:url value="${model.parentWebpage.code}" />?standardGroup=${i.id}" >${i.czechName}</a>
+				 			<a href="<c:url value="/skupina/${i.code}" />">${i.czechName}</a>
 				 		</span>
 				 		<span class="english">
-				 			<a href="<c:url value="${model.parentWebpage.code}" />?standardGroup=${i.id}" >${i.englishName}</a>
+				 			<a href="<c:url value="/skupina/${i.code}" />">${i.englishName}</a>
 				 		</span>
 			 		</td>
 			 		<td class="mandate">
-				 		<c:forEach items="${i.standardGroupMandates}" var="j">
-				 			<c:if test="${not j.complement}">
+				 		<c:if test="${not empty i.mandates}" >
+				 			<c:forEach items="${i.mandates}" var="m">
 				 				<span class="main">
-				 					<a target="_blank" class="file pdf min" href="${j.mandate.mandateFileUrl}">${j.mandate.mandateName}</a>
+				 					<a target="_blank" class="file pdf min" href="${m.mandateFileUrl}">${m.mandateName}</a>
 				 				</span>
-				 			</c:if>
-				 		</c:forEach>
+			 				</c:forEach>
+			 			</c:if>
 			 		</td>
 			 		<td class="mandate">
-				 		<c:forEach items="${i.standardGroupMandates}" var="j">
-				 			<c:if test="${j.complement}">
-				 				<span class="complement">
-				 					<a class="file pdf min" target="_blank" href="${j.mandate.mandateFileUrl}">${j.mandate.mandateName}</a>
-				 				</span>
-				 			</c:if>
-				 		</c:forEach>
+			 			<c:if test="${not empty i.mandates}" >
+				 			<c:forEach items="${i.mandates}" var="m">
+				 				<c:if test="${not empty m.changes}">
+				 					<c:forEach items="${m.changes}" var="ch">
+						 				<span class="complement">
+						 					<a class="file pdf min" target="_blank" href="${ch.mandateFileUrl}">${ch.mandateName}</a>
+						 				</span>		 		
+						 		 	</c:forEach>
+				 				</c:if>
+			 				</c:forEach>
+			 			</c:if>
 			 		</td>
 			 		<td class="commissionDecision">
 				 		<c:if test="${not empty i.commissionDecision}">
@@ -63,4 +71,13 @@
 			 </c:forEach>
 		</tbody>
 	</table>
+</c:if>
+<c:if test="${empty model.standardGroups}">
+	<p class="msg alert">
+		<spring:message code="alert.empty" />
+	</p>
+</c:if>
+
+<c:if test="${not empty model.webpage.bottomText}">
+	<article>${model.webpage.bottomText}</article>
 </c:if>

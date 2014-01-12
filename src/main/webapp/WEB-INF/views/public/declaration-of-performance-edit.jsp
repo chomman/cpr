@@ -16,7 +16,7 @@
 		<div id="main-content">
 			<h1>Editace <spring:message code="dop" /></h1>
 			<c:url value="/dop/edit" var="formUrl"/>	
-			<jsp:include page="include/dop-form.jsp" />	
+			<%--<jsp:include page="include/dop-form.jsp" /> --%>	
 			 
 		</div>
 	</body>

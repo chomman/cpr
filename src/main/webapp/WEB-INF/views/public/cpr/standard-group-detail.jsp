@@ -12,7 +12,7 @@
 			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo;
 			<a title="${model.parentWebpage.title}" href="<c:url value="${model.parentWebpage.code}" />">${model.parentWebpage.name}</a> &raquo;
 			<a title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">${model.webpage.name}</a> &raquo;
-			<span>${fn:substring(model.group.czechName, 0, 75)}...</span>
+			<span>${fn:substring(model.group.czechName, 0, 55)}...</span>
 	</div> 
 		<a class="back" title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">&laquo; <spring:message code="backto"/> ${model.webpage.name}</a> 
 		<div id="main-content">
@@ -20,14 +20,14 @@
 				
 					<article>
 						<hgroup>
-							<h1><spring:message code="group.code" arguments="${model.group.groupCode}" /></h1>
+							<h1><spring:message code="group.code" arguments="${model.group.code}" /></h1>
 							<h2>${model.group.czechName}</h2>
 						</hgroup>
 					
-						<p>${model.group.description}</p>
+					
 					</article>	
 					
-					<jsp:include page="../include/standard-table.jsp" />
+					<jsp:include page="include/standard-table.jsp" />
 			</div>
 			 
 	</body>

@@ -21,7 +21,7 @@
 				
 				<c:url value="${model.webpage.code}" var="formUrl"/>	
 
-				<jsp:include page="include/dop-form.jsp" />
+				<%-- <jsp:include page="include/dop-form.jsp" /> --%>
 			
 			</c:if>
 			 <article>

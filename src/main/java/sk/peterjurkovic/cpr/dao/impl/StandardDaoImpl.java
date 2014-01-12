@@ -258,12 +258,24 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	
 	
-	@SuppressWarnings("unchecked")
+	
 	@Override
 	public List<Standard> getStandardByStandardGroupForPublic(final StandardGroup standardGroup){
+		Validate.notNull(standardGroup);
+		Validate.notEmpty(standardGroup.getCode());
+		return getStandardsByStandardGroupCode(standardGroup.getCode());
+	}
+	
+	
+	@SuppressWarnings("unchecked")
+	public List<Standard> getStandardsByStandardGroupCode(final String standardGroupCode){
+		StringBuilder hql = new StringBuilder("select s from Standard s ");
+		hql.append("join s.standardGroups as standardGroup ");
+		hql.append("where standardGroup.code=:code and s.enabled=true ");
+		hql.append("order by s.standardId");
 		return sessionFactory.getCurrentSession()
-				.createQuery("from Standard s where s.enabled=true and s.standardGroup.id=:id order by s.standardId")
-				.setLong("id", standardGroup.getId())
+				.createQuery(hql.toString())
+				.setString("code", standardGroupCode)
 				.setCacheable(true)
 				.setCacheRegion(CacheRegion.CPR_CACHE)
 				.list();

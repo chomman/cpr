@@ -169,4 +169,9 @@ public class StandardServiceImpl implements StandardService {
 	public Standard getStandardByCsn(final StandardCsn csn) {
 		return standardDao.getStandardByCsn(csn);
 	}
+	
+	@Transactional(readOnly =  true )
+	public List<Standard> getStandardsByStandardGroupCode(final String standardGroupCode){
+		return standardDao.getStandardsByStandardGroupCode(standardGroupCode);
+	}
 }

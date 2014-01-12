@@ -18,7 +18,7 @@
 
 		<div id="main-content">
 			 
-			 <jsp:include page="../include/left-panel.jsp" />
+			 <%--  <jsp:include page="../include/left-panel.jsp" /> --%>
 			 
 			 <div class="right-panel">
 		 		<article>
