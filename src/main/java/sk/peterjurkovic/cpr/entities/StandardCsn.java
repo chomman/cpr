@@ -22,7 +22,9 @@ import javax.persistence.Table;
 import javax.validation.constraints.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.LocalDate;
 
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 
@@ -49,6 +51,8 @@ public class StandardCsn extends AbstractEntity {
 	private String csnOnlineId;
 	
 	private StandardStatus standardStatus;
+	
+	private LocalDate statusDate;
 	
 	private String classificationSymbol;
 	
@@ -139,7 +143,17 @@ public class StandardCsn extends AbstractEntity {
 	public void setStandardCsnChanges(Set<StandardCsnChange> standardCsnChanges) {
 		this.standardCsnChanges = standardCsnChanges;
 	}
+	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	@Column(name = "status_date")
+	public LocalDate getStatusDate() {
+		return statusDate;
+	}
 
+	public void setStatusDate(LocalDate statusDate) {
+		this.statusDate = statusDate;
+	}
+	
 	public StandardCsnChange getStandardCsnChangeById(long id){
 		if(CollectionUtils.isEmpty(standardCsnChanges)){
 			return null;

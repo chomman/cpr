@@ -117,7 +117,14 @@
 						     	<form:hidden path="replaceStandardCsn" id="pickerVal" />
 						     </span>
 						 </p>
-						     
+						 <p id="statusDateWrapp" <c:if test="${empty csn.statusDate}">class="hidden"</c:if> >
+						 	<label>
+						 		<spring:message code="standardStatus.date" />:
+						 	</label>
+						     <span class="field">  
+						     	<form:input path="statusDate" maxlength="25" cssClass="date"  />
+						     </span>
+						 </p>      
 	                    <p>
 		                	<label>
 		                		<spring:message code="cpr.csn.note" />

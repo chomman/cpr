@@ -452,7 +452,7 @@ table tr:hover{background:#EDF5FF !important;}
 
 .groups td.l a{text-decoration:none;font-weight:bold;}
 td.norm{padding-left:10px;}
-td.validity{min-width:160px;border-right:1px solid #eee;border-left:1px solid #eee;}
+td.validity{min-width:140px;border-right:1px solid #eee;border-left:1px solid #eee;}
 td.as a{font-weight:bold;}
 .back {
 -moz-box-shadow:inset 0px 1px 0px 0px #caefab;-webkit-box-shadow:inset 0px 1px 0px 0px #caefab;box-shadow:inset 0px 1px 0px 0px #caefab;
@@ -545,7 +545,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .extendedSearch .field.w500{width:500px;}
 .extendedSearch .btn{padding:5px;height:35px;float:right;background-image:none;margin-bottom:5px;display:block;}
 
-.standards tr{border-bottom:0 !important;border-top:1px solid #ccc; }
-.standard-change{padding:0;background:#fcfcfc;border-top:1px solid #f7f7f7 !important;font-size:12px;}
+
+.standards td{border-right:1px solid #eee;}
+.standards{font-size:12px;}
+.standards .norm{max-width: 150px;}
+.standards .aono{width:120px;}
+.standards .aono span{display:inline-block;}
+.standards tr{border-bottom:0 !important;border-top:1px solid #aaa; }
+.standard-change{border-top:1px solid #eee !important;background:#fafafa;}
 .standard-change td{padding:4px 10px;}
-.standard-change-code{;}
+.standard-change-code{}
+.standard-change:hover .standard-change-code span,
+.standard-change-code span{font-size:12px;background: url(../../admin/img/tree.png) no-repeat 0px center !important;padding:0 0 0 18px !important;display:block;}

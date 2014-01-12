@@ -9,7 +9,9 @@
 					<th><spring:message code="cpr.standard.id" /></th>
 					<tH><spring:message code="cpr.standard.name" /></th>
 					<th><spring:message code="standard.validity" /></th>
+					<th><spring:message code="standard.noao" /></th>
 					<th><spring:message code="assessment" /></th>
+					<th><spring:message code="standard.standardGroups" /></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -25,6 +27,25 @@
 				 			 -	<joda:format value="${i.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
 				 			</c:if>
 				 		</td>
+				 		<td class="aono c">
+				 			<c:if test="${not empty i.notifiedBodies}">
+				 				<c:forEach items="${i.notifiedBodies}" var="j" >
+				 					<span>
+				 					<c:if test="${not empty j.nandoCode}">
+					 					<a target="_blank" class="tt" title="${j.name}" href="${model.noaoUrl}${j.nandoCode}">
+					 						${j.noCode} <c:if test="${not empty j.aoCode }">(${j.aoCode})</c:if>
+					 					</a> 
+				 					</c:if>
+				 					<c:if test="${empty j.nandoCode}">
+					 					${j.noCode} <c:if test="${not empty j.aoCode }">(${j.aoCode})</c:if>
+				 					</c:if>
+				 					</span>
+				 				</c:forEach>
+				 			</c:if>
+				 			<c:if test="${empty i.notifiedBodies}">
+				 				-
+				 			</c:if>
+				 		</td>
 				 		<td class="as c">
 				 			<c:if test="${not empty i.assessmentSystems}">
 				 				<c:forEach items="${i.assessmentSystems}" var="as"  varStatus="status">
@@ -36,13 +57,27 @@
 				 				-
 				 			</c:if>
 				 		</td>
+				 		<td class="standardGroups c">
+				 			<c:if test="${not empty i.standardGroups}">
+				 				<c:forEach items="${i.standardGroups}" var="j" varStatus="status">
+				 					<a class="tt" title="${j.czechName}"
+				 					 href="<c:url value="/skupina/${j.code}" />">
+				 						<strong>${j.code}</strong>
+				 					</a>
+				 					<c:if test="${not status.last}">, </c:if> 
+				 				</c:forEach>
+				 			</c:if>
+				 			<c:if test="${empty i.standardGroups}">
+				 				- 
+				 			</c:if>
+				 		</td>
 				 		
 				 	</tr>
 				 	<c:if test="${not empty i.standardChanges}">
 				 		<c:forEach items="${i.standardChanges}" var="j">
-					 			<tr class="standard-change">
+					 		<tr class="standard-change">
 					 			<td class="standard-change-code">
-					 				${j.changeCode}
+					 				<span>${j.changeCode}</span>
 					 			</td>
 					 			<td>&nbsp;</td>
 					 			<td class="validity c ">
@@ -53,6 +88,8 @@
 							 			 -	<joda:format value="${j.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
 							 		</c:if>
 					 			</td>
+					 			<td>&nbsp;</td>
+					 			<td>&nbsp;</td>
 					 			<td>&nbsp;</td>
 					 		</tr>
 				 		</c:forEach>

@@ -14,7 +14,7 @@
 	<p>
 	 	<label>
 	 		<strong><em class="red">*</em>
-	 			<spring:message code="cpr.standard.id" />
+	 			<spring:message code="cpr.standard.id" />:
 	 		</strong>
 	 	</label>
 	     <span class="field">
@@ -24,7 +24,7 @@
 	 <p>
 	 	<label>
 	 		<em class="red">*</em>
-	 		<spring:message code="cpr.standard.name" />
+	 		<spring:message code="cpr.standard.name" />:
 	 	</label>
 	     <span class="field">
 	     	<form:input path="czechName" cssClass="mw500 required" maxlength="255" />
@@ -32,7 +32,7 @@
 	 </p>
 	 <p>
 	 	<label>
-	 		<spring:message code="cpr.standard.englishName" />
+	 		<spring:message code="cpr.standard.englishName" />:
 	 	</label>
 	     <span class="field">
 	     	<form:input path="englishName" cssClass="mw500" maxlength="255" />
@@ -41,7 +41,7 @@
 	 
 	 <p>
 	 	<label>
-	 		<spring:message code="cpr.standard.validity.from" />
+	 		<spring:message code="cpr.standard.validity.from" />:
 	 	</label>
 	     <span class="field">  
 	     	<form:input path="startValidity" maxlength="25" cssClass="date"  />
@@ -50,7 +50,7 @@
 	 
 	 <p>
 	 	<label class="tt" title="<spring:message code="cpr.standard.validity.to.descr" />">
-	 		<spring:message code="cpr.standard.validity.to" />
+	 		<spring:message code="cpr.standard.validity.to" />:
 	 	</label>
 	     <span class="field">  
 	     	<form:input path="stopValidity" maxlength="25" cssClass="date"  />
@@ -64,9 +64,9 @@
 		</script>
   
 	 </c:if>
-	 <p>
+	 <p <c:if test="${not empty add}">class="hidden"</c:if> >
 	 	<label>
-	 		<spring:message code="cpr.standard.status" />
+	 		<spring:message code="cpr.standard.status" />:
 	 	</label>
 	     <span class="field standard-picker">  
 	     	<form:select path="standardStatus" cssClass="chosenSmall">
@@ -80,10 +80,18 @@
 	     	<input type="text" id="standardPicker" />	
 	     	<form:hidden path="replaceStandard" id="pickerVal" />
 	     </span>
-	 </p>         
-	<p>
+	 </p> 
+	 <p id="statusDateWrapp" <c:if test="${empty standard.statusDate}">class="hidden"</c:if> >
+	 	<label>
+	 		<spring:message code="standardStatus.date" />:
+	 	</label>
+	     <span class="field">  
+	     	<form:input path="statusDate" maxlength="25" cssClass="date"  />
+	     </span>
+	 </p>        
+	<p <c:if test="${not empty add}">class="hidden"</c:if> >
 	    <label title="<spring:message code="publish.descr" />" class="tt">
-	 		<spring:message code="publish" />
+	 		<spring:message code="publish" />:
 	 	</label>
 	     <span class="field">  
 	     	<form:checkbox path="enabled" />
@@ -94,6 +102,9 @@
 	 <form:hidden path="timestamp"/>
 	 <p class="button-box">
 	 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+	 	 <c:if test="${not empty add}">
+	 	 	<span class="mini-info"><spring:message code="form.moreinfo" /></span>
+	 	 </c:if>
 	 </p>
  </form:form>
  

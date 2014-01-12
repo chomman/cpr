@@ -80,6 +80,8 @@ public class  Standard extends AbstractEntity {
 	
 	private StandardStatus standardStatus;
 	
+	private LocalDate statusDate;
+	
 	private Set<StandardChange> standardChanges;
 	
 	private Standard replaceStandard;
@@ -167,7 +169,16 @@ public class  Standard extends AbstractEntity {
 		this.stopValidity = stopValidity;
 	}
 	
-	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	@Column(name = "status_date")
+	public LocalDate getStatusDate() {
+		return statusDate;
+	}
+
+	public void setStatusDate(LocalDate statusDate) {
+		this.statusDate = statusDate;
+	}
+
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "standard_is_in_standard_group", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "standard_group_id"))
 	public Set<StandardGroup> getStandardGroups() {

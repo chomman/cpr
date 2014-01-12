@@ -1,3 +1,10 @@
+var datepickerOpts = {
+		dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
+		monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
+		autoSize: false,
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1
+};
 $(function() {
 	var urlPrefix = $('#base').text();
 	createClasses();
@@ -57,13 +64,7 @@ $(function() {
      
      
      
-     $('.date').datepicker({
-			dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
-			monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
-			autoSize: false,
-			dateFormat: 'dd.mm.yy',
-			firstDay: 1});
-     
+     $('.date').datepicker(datepickerOpts);
      updateNav();
      $(".chosen").chosen({
     	 width : "510px"

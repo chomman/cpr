@@ -8,7 +8,7 @@
 </c:if>
 <c:if test="${not empty model.standardGroups}">
 				
-	<table class="groups">
+	<table class="groups ">
 		<thead>
 			<tr>
 				<th><spring:message code="standardGroups.code" /></th>

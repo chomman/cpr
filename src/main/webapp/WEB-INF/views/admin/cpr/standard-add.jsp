@@ -33,6 +33,7 @@
 					</ul>
 				
 					<c:url value="/admin/cpr/standard/edit/0" var="formUrl"/>
+					<c:url value="true" var="add"/>
 					<%@ include file="include/cpr-standard-form1.jsp" %>
 					
 			<span class="note"><spring:message code="form.required" /></span>

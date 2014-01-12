@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.entities.AssessmentSystem;
-import sk.peterjurkovic.cpr.entities.BasicRequirement;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Webpage;
@@ -58,6 +57,8 @@ public class PublicCprController extends PublicSupportController{
 	
 	public static final String STANDARD_GROUP_DETAIL_URL = "/skupina/{code}";
 	
+	@Value("#{config['ce.europe.aono']}")
+	private String ceEuropeNotifiedBodyDetailUrl;
 	
 	@RequestMapping(CPR_INDEX_URL)
 	public String cprIndex(ModelMap modelmap) throws PageNotFoundEception{
@@ -187,6 +188,7 @@ public class PublicCprController extends PublicSupportController{
 		model.put("webpage", webpage);
 		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
 		model.put("tab", 3);
+		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		return model;
 	}

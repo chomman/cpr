@@ -807,6 +807,7 @@ public class StandardController extends SupportAdminController{
 		standard.setStandardStatus(form.getStandardStatus());
 		standard.setEnabled(form.getEnabled());
 		standard.setReplaceStandard(form.getReplaceStandard());
+		standard.setStatusDate(form.getStatusDate());
 		standardService.saveOrUpdate(standard);
 		if(standard.getChanged() != null){
 			form.setTimestamp(standard.getChanged().toDateTime().getMillis());

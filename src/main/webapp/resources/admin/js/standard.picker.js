@@ -38,6 +38,7 @@ function cancelSelection(){
 	$('.picker-item').remove();
 	$("#standardPicker").val('').show();
 	$('#pickerVal').val('');
+	$('#statusDateWrapp').addClass('hidden').find('input').val('');
 }
 
 
@@ -52,5 +53,8 @@ function selectStandard(code, id){
 	html += '<span class="resetmargin picker-item standard-link-cancel">zrušit provázání</span>';
 	$("#standardPicker").after(html).hide();
 	$('#pickerVal').val(id);
+	var o = $('#statusDateWrapp');
+	o.removeClass('hidden');
+	o.find('input').datepicker(datepickerOpts);
 }
 
