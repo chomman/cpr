@@ -39,3 +39,8 @@
 .filter-advanced{display: none;}
 .filter .query-aono,
 .filter .query{width:490px !important;border:1px solid #bbb;padding:7px 8px;margin-top:4px;}
+
+.pj-wrapp{padding:8px 5px !important;display:inline-block;}
+.pj-wrapp .pj-picker-item{font-weight:bold;font-size:14px;color:blue}
+.pj-wrapp .pj-cancel{color:red;font-weight:normal;margin-left:20px;text-decoration:underline;cursor:pointer;}
+.pj-wrapp .pj-cancel:hover{text-decoration:none;}
