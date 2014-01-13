@@ -95,9 +95,7 @@ function createSelects(){
    	 width : "200px"
     });
 }
-function refreshSelect(){
-	$("select.async").trigger("chosen:updated");
-}
+
 function updateNav(){
 	var o = $('nav');
 	if($(document).width() < 1070){

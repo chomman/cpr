@@ -87,7 +87,7 @@ public class Constants {
 	 */
 	public static final int PUBLIC_PAGINATION_PAGE_SIZE =  10; 
 	
-	
+	public static final int PUBLIC_STANDARD_PAGE_SIZE =  600; 
 	
 	
 	/** PAGE_PARAM_NAME

@@ -28,7 +28,9 @@ function loadFilterData(){
 			refreshSelect();
 	    }); 
 }
-
+function refreshSelect(){
+	$("select.async").trigger("chosen:updated");
+}
 function isBlank(str){
 	if(typeof str === 'undefined' || 
 			str === null || 

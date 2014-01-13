@@ -15,7 +15,7 @@ import sk.peterjurkovic.cpr.entities.StandardGroup;
 public interface StandardDao extends BaseDao<Standard, Long> {
 	
 	
-	List<Standard> getStandardPage(int pageNumber, Map<String, Object> criteria);
+	List<Standard> getStandardPage(int pageNumber, Map<String, Object> criteria, int limit);
 	
 	Long getCountOfSdandards(Map<String, Object> criteria);
 	

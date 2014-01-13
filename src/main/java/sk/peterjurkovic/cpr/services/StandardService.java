@@ -25,6 +25,8 @@ public interface StandardService {
 	
 	List<Standard> getStandardPage(int pageNumber, Map<String,Object> criteria);
 	
+	List<Standard> getStandardPage(int pageNumber, Map<String,Object> criteria, int limit);
+	
 	Long getCountOfStandards(Map<String,Object> criteria);
 	
 	boolean isStandardIdUnique(String standardId, Long id);

@@ -7,10 +7,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,16 +22,25 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.constants.Filter;
+import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.StandardOrder;
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.BasicRequirementService;
+import sk.peterjurkovic.cpr.services.NotifiedBodyService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
+import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
+import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
@@ -48,6 +60,16 @@ public class PublicCprController extends PublicSupportController{
 	private AssessmentSystemService assessmentSystemService;
 	@Autowired
 	private StandardGroupService standardGroupService;
+	@Autowired
+	private NotifiedBodyService notifiedBodyService;
+	
+	// editors
+	@Autowired
+	private StandardGroupEditor standardGroupEditor;
+	@Autowired
+	private LocalDateEditor localDateEditor;
+	@Autowired
+	private StandardPropertyEditor standardPropertyEditor;
 	
 	public static final String CPR_INDEX_URL = "/cpr";
 	
@@ -59,6 +81,16 @@ public class PublicCprController extends PublicSupportController{
 	
 	@Value("#{config['ce.europe.aono']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
+	
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(StandardGroup.class, this.standardGroupEditor);
+		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
+		binder.registerCustomEditor(Standard.class, this.standardPropertyEditor);
+    }
+	
+	
 	
 	@RequestMapping(CPR_INDEX_URL)
 	public String cprIndex(ModelMap modelmap) throws PageNotFoundEception{
@@ -77,16 +109,21 @@ public class PublicCprController extends PublicSupportController{
 	 */
 	@RequestMapping(STANDARDS_URL)
 	public String home(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
-		final Webpage webpage = getWebpage(CPR_INDEX_URL);
+		final Webpage webpage = getWebpage(STANDARDS_URL);
 		Map<String, Object> model = prepareBaseModel(webpage);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
 		params.put("enabled", Boolean.TRUE);
-		List<Standard> standards = standardService.getStandardPage(currentPage, params);
-		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
+		final int count = standardService.getCountOfStandards(params).intValue();
+		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage, count);
+		List<Standard> standards = standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);
+		params.put(Filter.NOTIFIED_BODY, getNotifiedBody(params.get(Filter.NOTIFIED_BODY)));
+		model.put("count", count);
 		model.put("standards", standards);
 		model.put("paginationLinks", paginationLinks);
 		model.put("params", params);
+		model.put("orders", StandardOrder.getAll());
+		model.put("standardStatuses", StandardStatus.getAll());
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
 		model.put("webpage", webpage);
 		modelmap.put("model", model);
@@ -94,7 +131,13 @@ public class PublicCprController extends PublicSupportController{
 	}
 	
 	
-	
+	private NotifiedBody getNotifiedBody(final Object id){
+		Long nbid = ParseUtils.parseLongFromStringObject(id);
+		if(nbid != null && nbid != 0){
+			return notifiedBodyService.getNotifiedBodyById(nbid);
+		}
+		return null;
+	}
 	
 	
 	/**
@@ -168,11 +211,11 @@ public class PublicCprController extends PublicSupportController{
 	
 	
 	
-	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,final int currentPage, final int count){
 		PaginationLinker paginger = new PaginationLinker(request, params);
 		paginger.setUrl(CPR_INDEX_URL);
 		paginger.setCurrentPage(currentPage);
-		paginger.setRowCount( standardService.getCountOfStandards(params).intValue() );
+		paginger.setRowCount( count );
 		return paginger.getPageLinks(); 
 	}
 	

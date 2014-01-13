@@ -11,7 +11,6 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.constants.CacheRegion;
-import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
@@ -40,7 +39,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> getStandardPage(final int pageNumber,final Map<String, Object> criteria ){
+	public List<Standard> getStandardPage(final int pageNumber,final Map<String, Object> criteria, final int limit ){
 		StringBuffer hql = new StringBuffer("select s from Standard s");
 		hql.append(prepareHqlForQuery(criteria));
 		if((Integer)criteria.get("orderBy") != null){
@@ -51,8 +50,8 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
-		hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
+		hqlQuery.setFirstResult(limit * ( pageNumber -1));
+		hqlQuery.setMaxResults(limit);
 		hqlQuery.setCacheable(false);
 		return (List<Standard>)hqlQuery.list();
 	}

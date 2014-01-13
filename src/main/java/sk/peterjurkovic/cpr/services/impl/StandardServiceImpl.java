@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.Standard;
@@ -70,7 +71,7 @@ public class StandardServiceImpl implements StandardService {
 	@Override
 	@Transactional(readOnly =  true )
 	public List<Standard> getStandardPage(int pageNumber,Map<String, Object> criteria) {
-		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria));
+		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria), Constants.ADMIN_PAGINATION_PAGE_SIZE);
 	}
 
 	@Override
@@ -173,5 +174,10 @@ public class StandardServiceImpl implements StandardService {
 	@Transactional(readOnly =  true )
 	public List<Standard> getStandardsByStandardGroupCode(final String standardGroupCode){
 		return standardDao.getStandardsByStandardGroupCode(standardGroupCode);
+	}
+
+	@Override
+	public List<Standard> getStandardPage(final int pageNumber, Map<String, Object> criteria,final int limit) {
+		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria), limit);
 	}
 }

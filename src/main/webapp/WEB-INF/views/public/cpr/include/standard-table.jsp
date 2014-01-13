@@ -16,8 +16,18 @@
 			</thead>
 			<tbody>
 				 <c:forEach items="${model.standards}" var="i">
-				 	<tr <c:if test="${not empty i.standardChanges}">class="has-change"</c:if> >
-				 		<td class="norm"><a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></td>
+				 	<tr 
+				 	class="<c:if test="${not empty i.standardChanges}">has-change</c:if> <c:if test="${not empty i.standardStatus }">${i.standardStatus.cssClass}</c:if>" 
+				 	<c:if test="${not empty i.standardStatus and i.standardStatus.id != 1}"> title="<spring:message code='${i.standardStatus.name}' />" </c:if>
+				 	>
+				 		
+				 		<td class="norm">
+				 		
+				 			<span><a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></span>
+				 			<c:if test="${not empty i.replaceStandard}">
+				 				<span <c:if test="${not empty i.standardStatus and i.standardStatus.id == 2}">class="s-cancelated"</c:if> >${i.standardId}</span>
+				 			</c:if>
+				 		</td>
 				 		<td>${i.czechName}</td>
 				 		<td class="validity c ">
 				 			<c:if test="${not empty i.startValidity}">
