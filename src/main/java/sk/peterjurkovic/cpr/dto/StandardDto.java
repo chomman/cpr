@@ -46,4 +46,10 @@ public class StandardDto {
 		replacedStandard.setEnglishName(current.getEnglishName());
 	}
 	
+	public void updateReferences(){
+		if(replacedStandard != null){
+			current.setReplaceStandard(replacedStandard);
+			replacedStandard.setReplaceStandard(current);
+		}
+	}
 }

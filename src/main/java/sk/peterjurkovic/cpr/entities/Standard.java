@@ -46,8 +46,6 @@ public class  Standard extends AbstractEntity {
 	
 	private static final long serialVersionUID = 9891333241L;
 	
-	private Long id;
-	
 	private String standardId;
 	
 	private String replacedStandardId;
@@ -102,12 +100,9 @@ public class  Standard extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	@NotEmpty(message = "Označení harmonizované normy musí být vyplněno")
 	@Length(max = 45, message = "Označení harmonizované normy může mít max. 45 znaků")

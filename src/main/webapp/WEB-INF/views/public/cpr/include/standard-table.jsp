@@ -25,7 +25,7 @@
 				 		
 				 			<span><a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></span>
 				 			<c:if test="${not empty i.replaceStandard}">
-				 				<span <c:if test="${not empty i.standardStatus and i.standardStatus.id == 2}">class="s-cancelated"</c:if> >${i.standardId}</span>
+				 				<span <c:if test="${not empty i.standardStatus and i.standardStatus.id == 2}">class="s-cancelated"</c:if> >${i.replaceStandard.standardId}</span>
 				 			</c:if>
 				 		</td>
 				 		<td>${i.czechName}</td>

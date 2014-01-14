@@ -215,7 +215,7 @@ public class StandardGroupController extends SupportAdminController {
 		parser.setCommissionDecisionService(commissionDecisionService);
 		parser.setMandateService(mandateService);
 		parser.setStandardGroupService(standardGroupService);
-		parser.parse("http://www.sgpstandard.cz/editor/files/unmz/nv190/skupiny.htm");
+		parser.parse("http://nv190.peterjurkovic.sk/skupiny.htm");
 		modelMap.put("successCreate", true);
 		return getViewName();
 	}

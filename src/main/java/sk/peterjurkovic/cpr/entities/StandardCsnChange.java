@@ -104,6 +104,32 @@ public class StandardCsnChange extends AbstractEntity {
 		this.date = date;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((csnOnlineId == null) ? 0 : csnOnlineId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandardCsnChange other = (StandardCsnChange) obj;
+		if (csnOnlineId == null) {
+			if (other.csnOnlineId != null)
+				return false;
+		} else if (!csnOnlineId.equals(other.csnOnlineId))
+			return false;
+		return true;
+	}
+
 	
 	
 }

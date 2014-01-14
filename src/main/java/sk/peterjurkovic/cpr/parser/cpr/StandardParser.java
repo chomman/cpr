@@ -72,34 +72,34 @@ public class StandardParser extends CprParser {
 		ListIterator<Element> it =  tds.listIterator();
 		int index = 0;
 		StandardDto standardDto = new StandardDto();
-		Standard standard = standardDto.getCurrent();
 		while (it.hasNext()) {
 			Element td = it.next();
 			switch(index){
 				case  0:
 					parseStandardCodes(standardDto, td.select("p"));
-					persist(standard);
+					standardDto.setCurrent(	persist(standardDto.getCurrent()) );
+					
 				break;
 				case  1:
-					parseStandardCsns(standard, td.select("p"));
+					parseStandardCsns(standardDto.getCurrent(), td.select("p"));
 				break;
 				case 2:
-					parseNames(standard,  td.select("p"));
+					parseNames(standardDto.getCurrent(),  td.select("p"));
 				break;
 				case 3:
-					parseDates(standard,  td.select("p"), true);
+					parseDates(standardDto.getCurrent(),  td.select("p"), true);
 				break;
 				case 4:
-					parseDates(standard,  td.select("p"), false);
+					parseDates(standardDto.getCurrent(),  td.select("p"), false);
 				break;
 				case 5:
-					parseNotifiedBodies(standard,  td.select("a"));
+					parseNotifiedBodies(standardDto.getCurrent(),  td.select("a"));
 				break;
 				case 6:
-					parseAssesmentsSystems(standard,  td.select("a"));
+					parseAssesmentsSystems(standardDto.getCurrent(),  td.select("a"));
 				break;
 				case 7:
-					parseStandardGroups(standard, td, it.next());
+					parseStandardGroups(standardDto.getCurrent(), td, it.next());
 				break;
 			}
 			
@@ -108,16 +108,18 @@ public class StandardParser extends CprParser {
 		
 		if(standardDto.getReplacedStandard() != null){
 			logger.info("Updating canceled standard: " + standardDto.getReplacedStandard().getStandardId());
-			standardDto.getReplacedStandard().setReplaceStandard(standardDto.getCurrent());
-			standardDto.getCurrent().setReplaceStandard(standardDto.getReplacedStandard());
+			standardDto.updateReferences();
 			persist(standardDto.getReplacedStandard());
-			
 		}
-		logger.info("Staving standard: " + standard.getStandardId());
+		
+		if(standardDto.getCurrent().getStandardId().equals("EN 197-1:2011")){
+			logger.info("EN 197-1:2011");
+		}
+		logger.info("Staving standard: " + standardDto.getCurrent().getStandardId());
 		if(standardService != null){
-			standardService.saveOrUpdate(standard);
+			standardService.saveOrUpdate(standardDto.getCurrent());
 		}
-		standards.add(standard);
+		standards.add(standardDto.getCurrent());
 	}
 	
 	private void parseStandardGroups(Standard standard, Element mandateCell, Element commissionDecisionCell){
@@ -127,7 +129,9 @@ public class StandardParser extends CprParser {
 		String[] mandates = removeChanges(mandateCell.text()).split(" ");
 		String[] cd = removeChanges(commissionDecisionCell.text()).split(" ");
 		if(cd.length == 1){
-			findAndAdd(standard, mandates[0], cd[0]);
+			if(!findAndAdd(standard, mandates[0], cd[0])){
+				logger.info("Standard groups was not found for: " +  mandates[0] + cd[0]);
+			}
 		}else if(cd.length == 2){
 			if(!findAndAdd(standard, mandates[0], cd[0]) && 
 			   !findAndAdd(standard, mandates[1], cd[1])){
@@ -292,10 +296,13 @@ public class StandardParser extends CprParser {
 	
 	private void createWithCanceled(StandardDto standardDto, String newStanadard,String canceledStandard){
 		standardDto.getCurrent().setStandardId(clearStandardCode(newStanadard));
+		if(standardDto.getCurrent().getId() == null){
+			persist(standardDto.getCurrent());
+		}
 		standardDto.createCopy();
 		standardDto.getReplacedStandard().setStandardId(clearStandardCode(canceledStandard));
 		standardDto.setReplacedStandard( persist(standardDto.getReplacedStandard()) );
-		standardDto.getCurrent().setReplaceStandard(standardDto.getReplacedStandard());
+		//standardDto.getCurrent().setReplaceStandard(standardDto.getReplacedStandard());
 	}
 	
 	private Standard persist(Standard s){
@@ -362,7 +369,6 @@ public class StandardParser extends CprParser {
 				StandardCsn csn = csnList.get(csnList.size() - 1);
 				csn.setStandardStatus(StandardStatus.CANCELED);
 			}
-			logger.info("pText content: " + pText);
 			Elements aList = pElement.select("a");
 			if(aList.size() > 0){
 				List<LinkDto> links = extractLinks(aList);
@@ -389,7 +395,9 @@ public class StandardParser extends CprParser {
 					if(csn.getNote() == null){
 						csn.setNote(pText);
 					}else{
-						csn.setNote(csn.getNote() + " " + pText);
+						if(!csn.getNote().equals(pText)){
+							csn.setNote(csn.getNote() + " " + pText);
+						}
 					}
 					if(pText.startsWith("Nahrazuje")){
 						replaceIndex = csnList.size();
@@ -412,7 +420,6 @@ public class StandardParser extends CprParser {
 	private String parseClassificationSymbol(String pText){
 		Matcher matches =  CLASSIFICATION_SYMBOL_PATTERN.matcher(pText);
 		if(matches.find()){
-			logger.info("Classification symbol found: " + matches.group(1));
 			return matches.group(1);
 		}
 		return null;
@@ -455,6 +462,14 @@ public class StandardParser extends CprParser {
 		}
 		String r =  hrefValue.substring(hrefValue.indexOf("?k=") + 3, hrefValue.length());
 		if(!isCatalogIdValid(r)){
+			if(hrefValue.contains("nahled")){
+				int start = hrefValue.lastIndexOf("/");
+				int end  = hrefValue.lastIndexOf("_n");
+				r = hrefValue.substring(start +1, end );
+				if(isCatalogIdValid(r)){
+					return r;
+				}
+			}
 			return "";
 		}
 		return r;

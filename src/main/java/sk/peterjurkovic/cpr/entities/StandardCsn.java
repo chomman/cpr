@@ -43,9 +43,7 @@ public class StandardCsn extends AbstractEntity {
 
 	
 	private static final long serialVersionUID = 7791L;
-	
-	private Long id;
-		
+			
 	private String csnName;
 
 	private String csnOnlineId;
@@ -70,12 +68,9 @@ public class StandardCsn extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_has_csn_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	@Column
 	public String getNote() {
@@ -165,4 +160,32 @@ public class StandardCsn extends AbstractEntity {
 		}
 		return null;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = super.hashCode();
+		result = prime * result
+				+ ((csnOnlineId == null) ? 0 : csnOnlineId.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (!super.equals(obj))
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StandardCsn other = (StandardCsn) obj;
+		if (csnOnlineId == null) {
+			if (other.csnOnlineId != null)
+				return false;
+		} else if (!csnOnlineId.equals(other.csnOnlineId))
+			return false;
+		return true;
+	}
+	
+	
 }

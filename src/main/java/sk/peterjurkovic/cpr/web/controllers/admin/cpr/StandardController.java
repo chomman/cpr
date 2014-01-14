@@ -174,7 +174,7 @@ public class StandardController extends SupportAdminController{
 		parser.setNotifiedBodyService(notifiedBodyService);
 		parser.setStandardGroupService(standardGroupService);
 		parser.setStandardCsnService(standardCsnService);
-		parser.parse("http://www.sgpstandard.cz/editor/files/unmz/nv190/nv_190.htm");
+		parser.parse("http://nv190.peterjurkovic.sk/_nv_190.htm");
 	}
 	
 	/**

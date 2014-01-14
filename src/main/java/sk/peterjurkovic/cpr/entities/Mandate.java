@@ -3,7 +3,6 @@ package sk.peterjurkovic.cpr.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +14,6 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -36,7 +34,6 @@ public class Mandate extends AbstractEntity {
 
 	
 	private static final long serialVersionUID = 815498413L;
-	private Long id;
 	private String mandateName;
 	private String mandateFileUrl;
 	private Set<Mandate> changes;
@@ -50,12 +47,9 @@ public class Mandate extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "mandate_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 	
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
 	@NotEmpty(message = "Název mandátu musí být vyplněn")
 	@Length( max = 25, message= "Název mandátu může mít max. 25 znaků")
@@ -93,7 +87,6 @@ public class Mandate extends AbstractEntity {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result
 				+ ((mandateName == null) ? 0 : mandateName.hashCode());
 		return result;
@@ -109,11 +102,6 @@ public class Mandate extends AbstractEntity {
 		if (getClass() != obj.getClass())
 			return false;
 		Mandate other = (Mandate) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
 		if (mandateName == null) {
 			if (other.mandateName != null)
 				return false;
@@ -121,12 +109,5 @@ public class Mandate extends AbstractEntity {
 			return false;
 		return true;
 	}
-
-	
-	
-	
-	
-	
-
 	
 }
