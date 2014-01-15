@@ -802,6 +802,7 @@ public class StandardController extends SupportAdminController{
 		standard.setStandardId(form.getStandardId());
 		standard.setReplacedStandardId(form.getReplacedStandardId());
 		standard.setCzechName(form.getCzechName());
+		standard.setEnglishName(form.getEnglishName());
 		standard.setStartValidity(form.getStartValidity());
 		standard.setStopValidity(form.getStopValidity());
 		standard.setStandardStatus(form.getStandardStatus());
