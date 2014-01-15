@@ -23,6 +23,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
+import sk.peterjurkovic.cpr.entities.AssessmentSystem;
+import sk.peterjurkovic.cpr.entities.BasicRequirement;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
@@ -75,9 +77,13 @@ public class PublicCprController extends PublicSupportController{
 	
 	public static final String STANDARDS_URL = "/harmonizovane-normy";
 	
-	public static final String STANDARD_GROUP_URL = "/harmonizovane-normy-rozdelene-do-skupin-vyrobku-cpr";
+	public static final String STANDARD_GROUP_URL = "/cpr/skupiny-vyrobku";
 	
-	public static final String STANDARD_GROUP_DETAIL_URL = "/skupina/{code}";
+	public static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
+	
+	public static final String CPR_BASIC_REQUREMENT_URL = "/cpr/zakladni-pozadavky-podle-cpr";
+    
+    public static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
 	
 	@Value("#{config['ce.europe.aono']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
@@ -130,7 +136,95 @@ public class PublicCprController extends PublicSupportController{
 		return "/public/cpr/harmonized-standards";
 	}
 	
-	
+	/**
+     * Zobrazi detail zakladneho pozadavku
+     *
+     * @param String code
+     * @param Modelmap model
+     * @return String view
+     * @throws PageNotFoundEception ak webova sekce neexistuje, alebo je deaktivovana.
+     */
+    @RequestMapping("/cpr/br/{code}")
+    public String showBasicRequirementDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
+            
+            BasicRequirement basicRequirement = basicRequirementService.getBasicRequirementByCode(code);
+            Webpage webpage = webpageService.getWebpageByCode(CPR_BASIC_REQUREMENT_URL);
+            if(basicRequirement == null || webpage == null || !webpage.getEnabled()){
+                    throw new PageNotFoundEception();
+            }
+            Map<String, Object> model = prepareBaseModel(webpage);
+            model.put("basicRequirement", basicRequirement);
+            modelmap.put("model", model);
+            return "/public/cpr/basic-requirement-detail";
+    }
+    
+    
+    /**
+     * Zobrazi zoznam zakladnych poziadavkov
+     *
+     * @param Modelmap model
+     * @return String view
+     * @throws PageNotFoundEception, ak je stranka deaktivovana, alebo sa v zaznav v DB nenachadza
+     */
+    @RequestMapping(CPR_BASIC_REQUREMENT_URL)
+    public String requirements(ModelMap modelmap) throws PageNotFoundEception {
+            
+            Webpage webpage = webpageService.getWebpageByCode(CPR_BASIC_REQUREMENT_URL);
+            if(webpage == null || !webpage.getEnabled()){
+                    throw new PageNotFoundEception();
+            }
+            
+            Map<String, Object> model = prepareBaseModel(webpage);
+            model.put("subtab", webpage.getId());
+            model.put("basicRequremets", basicRequirementService.getBasicRequirementsForPublic());
+            modelmap.put("model", model);
+            return "/public/cpr/cpr-base";
+    }
+    
+    /**
+     * Zobrazi systemy posudzovania zhody.
+     *
+     * @param ModelMap model
+     * @return String view
+     * @throws PageNotFoundEception, ak je verejna sekce deaktivovana, alebo neexistuje
+     */
+    @RequestMapping(CPR_ASSESSMENT_SYSTEMS_URL)
+    public String assessmentSystems(ModelMap modelmap) throws PageNotFoundEception {
+            
+            Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
+            if(webpage == null || !webpage.getEnabled()){
+                    throw new PageNotFoundEception();
+            }
+            Map<String, Object> model = prepareBaseModel(webpage);
+            model.put("subtab", webpage.getId());
+            model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
+            modelmap.put("model", model);
+            return "/public/cpr/cpr-base";
+    }
+    
+    
+    /**
+     * Zobrazi detail systemu posudzovania zhody
+     *
+     * @param Long assessmentSystemId
+     * @param Modelmap model
+     * @return String view
+     * @throws PageNotFoundEception, ak je system deaktivovany, alebo neexistuje
+     */
+    @RequestMapping("/cpr/as/{assessmentSystemId}")
+    public String showAssessmentSystemDetail(@PathVariable Long assessmentSystemId, ModelMap modelmap) throws PageNotFoundEception {
+            AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(assessmentSystemId);
+            Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
+            if(assessmentSystem == null || webpage == null){
+                    throw new PageNotFoundEception();
+            }
+            Map<String, Object> model = prepareBaseModel(webpage);
+            model.put("assessmentSystem", assessmentSystem);
+            modelmap.put("model", model);
+            return "/public/cpr/assessmentSystem-detail";
+    }
+    
+    
 	private NotifiedBody getNotifiedBody(final Object id){
 		Long nbid = ParseUtils.parseLongFromStringObject(id);
 		if(nbid != null && nbid != 0){

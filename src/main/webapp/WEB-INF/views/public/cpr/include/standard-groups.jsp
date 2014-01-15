@@ -25,10 +25,10 @@
 			 		<td class="c code">${i.code}</td>
 			 		<td class="groupName">
 				 		<span class="czech">
-				 			<a href="<c:url value="/skupina/${i.code}" />">${i.czechName}</a>
+				 			<a href="<c:url value="/cpr/skupina/${i.code}" />">${i.czechName}</a>
 				 		</span>
 				 		<span class="english">
-				 			<a href="<c:url value="/skupina/${i.code}" />">${i.englishName}</a>
+				 			<a href="<c:url value="/cpr/skupina/${i.code}" />">${i.englishName}</a>
 				 		</span>
 			 		</td>
 			 		<td class="mandate">

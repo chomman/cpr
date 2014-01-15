@@ -20,13 +20,12 @@
 			 
 			 <%--  <jsp:include page="../include/left-panel.jsp" /> --%>
 			 
-			 <div class="right-panel">
-		 		<article>
-		 			<h1>${model.assessmentSystem.name}</h1>
-		 			${model.assessmentSystem.description}
-		 		</article>
-			 </div>
-			 <div class="clear"></div>
+
+ 		<article class="full-width">
+ 			<h1>${model.assessmentSystem.name}</h1>
+ 			${model.assessmentSystem.description}
+ 		</article>
+
 			
 		</div>
 	</body>

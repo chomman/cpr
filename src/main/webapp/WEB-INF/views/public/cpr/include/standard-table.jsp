@@ -22,13 +22,25 @@
 				 	>
 				 		
 				 		<td class="norm">
-				 		
 				 			<span><a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></span>
-				 			<c:if test="${not empty i.replaceStandard}">
-				 				<span <c:if test="${not empty i.standardStatus and i.standardStatus.id == 2}">class="s-cancelated"</c:if> >${i.replaceStandard.standardId}</span>
-				 			</c:if>
+				 				
+		 					<c:if test="${not empty i.replaceStandard and i.standardStatus.id == 2}">
+			 					<span  class="s-replaced" >
+			 						<spring:message code="replaced" />
+			 						<a href="<c:url value="/ehn/${i.replaceStandard.id}" />">${i.replaceStandard.standardId}</a>
+			 					</span>
+		 					</c:if>
+		 					<c:if test="${not empty i.replaceStandard and i.replaceStandard.standardStatus.id == 2}">
+			 					<span class="s-replace" >
+			 						<spring:message code="replace" />
+			 						<a href="<c:url value="/ehn/${i.replaceStandard.id}" />" >${i.replaceStandard.standardId}</a>
+			 					</span>
+		 					</c:if>
 				 		</td>
-				 		<td>${i.czechName}</td>
+				 		<td class="s-name">
+				 			<span class="s-czechName tt" title='${i.englishName}'  >${i.czechName}</span>
+				 			
+				 		</td>
 				 		<td class="validity c ">
 				 			<c:if test="${not empty i.startValidity}">
 				 				<joda:format value="${i.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
@@ -71,7 +83,7 @@
 				 			<c:if test="${not empty i.standardGroups}">
 				 				<c:forEach items="${i.standardGroups}" var="j" varStatus="status">
 				 					<a class="tt" title="${j.czechName}"
-				 					 href="<c:url value="/skupina/${j.code}" />">
+				 					 href="<c:url value="/cpr/skupina/${j.code}" />">
 				 						<strong>${j.code}</strong>
 				 					</a>
 				 					<c:if test="${not status.last}">, </c:if> 

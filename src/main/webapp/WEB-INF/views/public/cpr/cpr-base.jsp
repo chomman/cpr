@@ -22,6 +22,10 @@
 			 	<c:if test="${model.webpage.webpageContent.id == 4}">
 					<jsp:include page="include/standard-groups.jsp" />
 				</c:if>
+				
+				<c:if test="${model.webpage.webpageContent.id == 3}">
+					<jsp:include page="../contents/assessmentsystems.jsp" />
+				</c:if>
 			 </c:if>
 			 
 		</div>

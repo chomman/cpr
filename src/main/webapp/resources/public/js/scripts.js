@@ -104,6 +104,8 @@ $(function() {
 	resizeBorder();
 });
 
+
+
 function checkCumulative(){
 	var box = $('#cbox');
 	if(box !== undefined ){
