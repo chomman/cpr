@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardCsnChange;
+import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardService;
@@ -76,7 +77,10 @@ public class StandardCsnController extends SupportAdminController {
 			model.put("paginationLinks", getPaginationItems(request,params, currentPage, page.getCount()));
 			model.put("csns", page.getItems() );
 		}
-		
+		model.put("tab", CPR_TAB_INDEX);
+		model.put("params", params);
+		model.put("order", CsnOrderBy.getAll());
+		map.put("model", model);
 		return getTableItemsView();
 	}
 	
