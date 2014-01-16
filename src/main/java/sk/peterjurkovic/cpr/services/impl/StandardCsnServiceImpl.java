@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDateTime;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.StandardCsnDao;
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
@@ -57,7 +59,6 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	@Override
 	public void saveOrUpdate(StandardCsn standardCsn) {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
-		
 		if(standardCsn.getId() == null){
 			standardCsn.setCreatedBy(user);
 			standardCsn.setCreated(new LocalDateTime());
@@ -87,6 +88,11 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 		}
 		return standardCsnDao.autocomplete(term);
 	}
-
+	
+	@Override
+	@Transactional(readOnly = true)
+	public PageDto getPage(int pageNumber, Map<String, Object> criteria){
+		return standardCsnDao.getPage(pageNumber, criteria);
+	}
 	
 }

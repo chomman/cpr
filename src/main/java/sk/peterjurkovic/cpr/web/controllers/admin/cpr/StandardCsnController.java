@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,14 +20,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardService;
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
+import sk.peterjurkovic.cpr.web.pagination.PageLink;
+import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 /**
  * Controller spracovavajuci poziadavky Zmien ČSN
@@ -41,7 +46,7 @@ public class StandardCsnController extends SupportAdminController {
 	private static final int CPR_TAB_INDEX = 1;
 	private static final String SUCCESS_PARAM = "successCreate";
 	private static final String MAPPING_URL = "/admin/cpr/standard-csn/{csnId}/change/{id}";
-	
+	private static final String STANDARD_CSN_LIST_URL = "/admin/cpr/standard-csn";
 	
 	@Autowired
 	private StandardCsnService standardCsnService;
@@ -51,6 +56,7 @@ public class StandardCsnController extends SupportAdminController {
 	private LocalDateEditor localDateEditor;
 	
 	public StandardCsnController(){
+		setTableItemsView("cpr/standard-csn");
 		setViewName("cpr/standard-csn-change");
 	}
 	
@@ -60,6 +66,27 @@ public class StandardCsnController extends SupportAdminController {
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
     }
 	
+	@RequestMapping( value = STANDARD_CSN_LIST_URL , method = RequestMethod.GET)
+	public String showStandardCsns(ModelMap map, HttpServletRequest request){
+		Map<String, Object> model = new HashMap<String, Object>();
+		int currentPage = RequestUtils.getPageNumber(request);
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		PageDto page = standardCsnService.getPage(currentPage, params);
+		if(page.getCount() > 0){
+			model.put("paginationLinks", getPaginationItems(request,params, currentPage, page.getCount()));
+			model.put("csns", page.getItems() );
+		}
+		
+		return getTableItemsView();
+	}
+	
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setUrl(STANDARD_CSN_LIST_URL);
+		paginger.setCurrentPage(currentPage);
+		paginger.setRowCount(count);
+		return paginger.getPageLinks(); 
+	}
 	
 	@RequestMapping( value = MAPPING_URL, method = RequestMethod.GET)
 	public String showStandardCsnChangeForm(

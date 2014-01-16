@@ -1,7 +1,9 @@
 package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
+import java.util.Map;
 
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 
 
@@ -66,6 +68,8 @@ public interface StandardCsnService {
 	
 	
 	List<StandardCsn> autocomplete(String term);
+	
+	PageDto getPage(int pageNumber, Map<String, Object> criteria);
 	
 	
 }
