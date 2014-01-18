@@ -7,7 +7,14 @@
 		<a 
 		<c:if test="${model.tab == 1}">class="active"</c:if>
 		 href="<c:url value="/admin/cpr/standards" />" >
-			<spring:message code="menu.cpr.norm" />
+			<spring:message code="menu.cpr.ehn" />
+		</a>
+	</li>
+	<li>
+		<a 
+		<c:if test="${model.tab == 9}">class="active"</c:if>
+		 href="<c:url value="/admin/cpr/standard-csn" />" >
+			<spring:message code="menu.cpr.csn" />
 		</a>
 	</li>
 	<li>

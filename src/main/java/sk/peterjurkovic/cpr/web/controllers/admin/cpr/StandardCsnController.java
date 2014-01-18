@@ -25,6 +25,7 @@ import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.services.BasicSettingsService;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
@@ -44,7 +45,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 @Controller
 public class StandardCsnController extends SupportAdminController {
 	
-	private static final int CPR_TAB_INDEX = 1;
+	private static final int CPR_TAB_INDEX = 9;
 	private static final String SUCCESS_PARAM = "successCreate";
 	private static final String MAPPING_URL = "/admin/cpr/standard-csn/{csnId}/change/{id}";
 	private static final String STANDARD_CSN_LIST_URL = "/admin/cpr/standard-csn";
@@ -55,9 +56,11 @@ public class StandardCsnController extends SupportAdminController {
 	private StandardService standardService;
 	@Autowired
 	private LocalDateEditor localDateEditor;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
 	public StandardCsnController(){
-		setTableItemsView("cpr/standard-csn");
+		setTableItemsView("cpr/standard-csn-list");
 		setViewName("cpr/standard-csn-change");
 	}
 	
@@ -77,8 +80,10 @@ public class StandardCsnController extends SupportAdminController {
 			model.put("paginationLinks", getPaginationItems(request,params, currentPage, page.getCount()));
 			model.put("csns", page.getItems() );
 		}
+		model.put("count", page.getCount());
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("params", params);
+		model.put("settings", basicSettingsService.getBasicSettings());
 		model.put("order", CsnOrderBy.getAll());
 		map.put("model", model);
 		return getTableItemsView();
