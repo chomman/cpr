@@ -24,6 +24,7 @@ import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.BasicSettingsService;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
@@ -47,8 +48,8 @@ public class StandardCsnController extends SupportAdminController {
 	
 	private static final int CPR_TAB_INDEX = 9;
 	private static final String SUCCESS_PARAM = "successCreate";
-	private static final String MAPPING_URL = "/admin/cpr/standard-csn/{csnId}/change/{id}";
-	private static final String STANDARD_CSN_LIST_URL = "/admin/cpr/standard-csn";
+	private static final String MAPPING_URL = "/admin/cpr/standard-csn";
+	private static final String SUCCESS_CREATE = "successCreate";
 	
 	@Autowired
 	private StandardCsnService standardCsnService;
@@ -60,6 +61,7 @@ public class StandardCsnController extends SupportAdminController {
 	private BasicSettingsService basicSettingsService;
 	
 	public StandardCsnController(){
+		setEditFormView("cpr/standard-csn-edit");
 		setTableItemsView("cpr/standard-csn-list");
 		setViewName("cpr/standard-csn-change");
 	}
@@ -70,7 +72,7 @@ public class StandardCsnController extends SupportAdminController {
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
     }
 	
-	@RequestMapping( value = STANDARD_CSN_LIST_URL , method = RequestMethod.GET)
+	@RequestMapping( value = MAPPING_URL , method = RequestMethod.GET)
 	public String showStandardCsns(ModelMap map, HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
 		int currentPage = RequestUtils.getPageNumber(request);
@@ -89,15 +91,29 @@ public class StandardCsnController extends SupportAdminController {
 		return getTableItemsView();
 	}
 	
-	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
-		PaginationLinker paginger = new PaginationLinker(request, params);
-		paginger.setUrl(STANDARD_CSN_LIST_URL);
-		paginger.setCurrentPage(currentPage);
-		paginger.setRowCount(count);
-		return paginger.getPageLinks(); 
+	
+	
+	
+	@RequestMapping( value = MAPPING_URL + "/edit/{id}" , method = RequestMethod.GET)
+	public String showEditForm(@PathVariable Long id, ModelMap map, HttpServletRequest request) throws ItemNotFoundException{
+		StandardCsn form = null;	
+		if(id == 0){
+			form = new StandardCsn();
+			form.setId(0l);
+		}else{
+			form = standardCsnService.getCsnById(id);
+			if(form == null){
+				createItemNotFoundError("StadardCsn with ID: " + id + " was not found.");
+			}
+		}
+		if(StringUtils.isNotBlank(request.getParameter(SUCCESS_CREATE))){
+			map.put(SUCCESS_CREATE, true);
+		}
+		prepareMode(form, map);
+		return getEditFormView();
 	}
 	
-	@RequestMapping( value = MAPPING_URL, method = RequestMethod.GET)
+	@RequestMapping( value = MAPPING_URL + "/{csnId}/change/{id}", method = RequestMethod.GET)
 	public String showStandardCsnChangeForm(
 			HttpServletRequest request,
 			@PathVariable Long csnId, 
@@ -123,7 +139,9 @@ public class StandardCsnController extends SupportAdminController {
 	
 	
 	
-	@RequestMapping( value = MAPPING_URL, method = RequestMethod.POST)
+	
+	
+	@RequestMapping( value = MAPPING_URL + "/{csnId}/change/{id}", method = RequestMethod.POST)
 	public String processSubmit(
 			@PathVariable Long csnId, 
 			@PathVariable Long id,
@@ -139,8 +157,36 @@ public class StandardCsnController extends SupportAdminController {
 		return "redirect:/admin/cpr/standard-csn/"+csnId+"/change/" + createOrUpdate(form, csn) + "?"+SUCCESS_PARAM+"=1";
 	}
 	
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setUrl(MAPPING_URL);
+		paginger.setCurrentPage(currentPage);
+		paginger.setRowCount(count);
+		return paginger.getPageLinks(); 
+	}
 	
+	private void prepareMode(StandardCsn form, ModelMap map){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("tab", CPR_TAB_INDEX);
+		model.put("standardStatuses", StandardStatus.getAll());
+		map.addAttribute("csn", form);
+		map.put("model", model);
+	}
 	
+	private void createOrUpdate(StandardCsn form) throws ItemNotFoundException{
+		StandardCsn csn = null;
+		if(form.getId() != null && form.getId() > 0){
+			csn = standardCsnService.getCsnById(form.getId());
+			if(csn == null){
+				createItemNotFoundError("StandardCsn with ID " + form.getId() + " was not found.");
+			}
+		}else{
+			csn = new StandardCsn();
+		}
+		csn.merge(form);
+		standardCsnService.updateReferencedStandard(csn);
+		standardCsnService.saveOrUpdate(csn);
+	}
 	
 	private long createOrUpdate(StandardCsnChange form, StandardCsn csn) throws ItemNotFoundException{
 		StandardCsnChange csnChange = null;

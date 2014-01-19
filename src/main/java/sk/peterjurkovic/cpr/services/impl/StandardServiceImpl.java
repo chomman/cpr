@@ -17,6 +17,7 @@ import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
@@ -165,6 +166,7 @@ public class StandardServiceImpl implements StandardService {
 		standardDao.merge(standard);
 	}
 
+	
 	@Override
 	@Transactional(readOnly =  true )
 	public Standard getStandardByCsn(final StandardCsn csn) {

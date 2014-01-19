@@ -15,6 +15,7 @@ import sk.peterjurkovic.cpr.dao.StandardCsnDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
@@ -70,6 +71,31 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 		}
 		
 	}
+	
+	
+	@Override
+	public boolean updateReferencedStandard(StandardCsn csn){
+		StandardCsn replaced = csn.getReplaceStandardCsn();
+		StandardStatus status = csn.getStandardStatus();
+		if(status == null || status.equals(StandardStatus.NORMAL)){
+			if(replaced != null){
+				replaced.setStandardStatus(StandardStatus.NORMAL);
+				replaced.setReplaceStandardCsn(null);
+				saveOrUpdate(replaced);
+				return true;
+			}
+		}else{
+			if(replaced != null && !replaced.getStandardStatus().equals(StandardStatus.CANCELED)){
+				replaced.setReplaceStandardCsn(csn);
+				replaced.setStandardStatus(StandardStatus.CANCELED);
+				saveOrUpdate(replaced);
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	
 
 	@Override
 	@Transactional(readOnly = true)

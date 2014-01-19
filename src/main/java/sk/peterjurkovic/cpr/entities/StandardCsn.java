@@ -19,6 +19,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
@@ -186,6 +187,18 @@ public class StandardCsn extends AbstractEntity {
 			return false;
 		return true;
 	}
+	
+	
+	@Transient
+	public void merge(StandardCsn csn){
+		csnName = csn.getCsnName();
+		note = csn.getNote();
+		classificationSymbol = csn.getClassificationSymbol();
+		csnOnlineId = csn.getCsnOnlineId();
+		standardStatus = csn.getStandardStatus();
+		replaceStandardCsn = csn.getReplaceStandardCsn();
+	}
+	
 	
 	
 }

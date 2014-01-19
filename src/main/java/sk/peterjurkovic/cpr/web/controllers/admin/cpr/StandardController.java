@@ -829,17 +829,12 @@ public class StandardController extends SupportAdminController{
 				createItemNotFoundError("ČSN s ID: " + form.getId() + " se v systému nenachází");
 			}
 		}
-
-		standardCsn.setCsnName(form.getCsnName());
-		standardCsn.setNote(form.getNote());
-		standardCsn.setCsnOnlineId(form.getCsnOnlineId());
-		standardCsn.setStandardStatus(form.getStandardStatus());
-		standardCsn.setReplaceStandardCsn(form.getReplaceStandardCsn());
+		standardCsn.merge(form);
 		if(standardCsn.getId() == null){
 			standardCsnService.createCsn(standardCsn);
 			standard.getStandardCsns().add(standardCsn);
 		}
-		
+		standardCsnService.updateReferencedStandard(standardCsn);
 		standardService.updateStandard(standard);
 	}
 	

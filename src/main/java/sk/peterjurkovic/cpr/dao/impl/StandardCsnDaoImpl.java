@@ -64,11 +64,6 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 		items.setCount((Long)hqlCountQuery.uniqueResult());
 		if(items.getCount() > 0){
 			hql.append(" group by csn.id ");
-			if((Integer)criteria.get("orderBy") != null){
-				hql.append(CsnOrderBy.getSqlById((Integer)criteria.get("orderBy") ));
-			}else{
-				hql.append(CsnOrderBy.getSqlById(1));
-			}
 			Query query = session.createQuery(hql.toString());
 			prepareHqlQueryParams(query, criteria);
 			query.setCacheable(false);
@@ -100,7 +95,8 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 		if(criteria.size() != 0){
 			
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" (unaccent(lower(csn.csnName)) like CONCAT('%', unaccent(lower(:query)) , '%')  ");
+				where.add(" (unaccent(lower(csn.csnName)) like CONCAT('%', unaccent(lower(:query)) , '%')  OR " + 
+						  " csn.csnOnlineId = :query OR csn.classificationSymbol=:query ) " );
 			}
 			
 			if(StringUtils.isNotBlank((String)criteria.get("csnOnlineId"))){
