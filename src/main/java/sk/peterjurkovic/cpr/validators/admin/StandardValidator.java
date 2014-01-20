@@ -4,7 +4,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 import sk.peterjurkovic.cpr.entities.Standard;
-import sk.peterjurkovic.cpr.exceptions.CollisionException;
 
 @Component
 public class StandardValidator {

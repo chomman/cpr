@@ -283,6 +283,7 @@ public class PublicCprController extends PublicSupportController{
 	 * @return String view
 	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
 	 */
+	/*
 	@RequestMapping("/cpr/ehn/{id}")
 	public String showStandardDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(STANDARD_GROUP_URL);
@@ -295,7 +296,22 @@ public class PublicCprController extends PublicSupportController{
 		modelmap.put("model", model);
 		return "/public/cpr/group-detail";
 	}
+	*
+	*/
 	
+	@RequestMapping("/ehn/{id}")
+	public String showEhn(@PathVariable Long id,  ModelMap modelMap) throws PageNotFoundEception{
+		final Webpage webpage = getWebpage(STANDARDS_URL);
+		final Standard standard = standardService.getStandardById(id);
+		if(standard == null || !standard.getEnabled() || webpage == null || standard == null || !webpage.getEnabled()){
+			throw new PageNotFoundEception();
+		}
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("standard", standard);
+		model.put("webpage", webpage);
+		modelMap.put("model", model);
+		return "public/ehn";
+	}
 	
 	@RequestMapping(value = "/ehn/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<Standard>  searchInTags(@RequestBody @RequestParam("term") String query){

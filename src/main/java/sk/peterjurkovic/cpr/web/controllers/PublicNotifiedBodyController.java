@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +25,9 @@ public class PublicNotifiedBodyController {
 	@Autowired
 	private WebpageService webpageService;
 	
+	@Value("#{config['ce.europe.aono']}")
+	private String ceEuropeNotifiedBodyDetailUrl;
+	
 	public static final String NOTIFIE_BODY_URL = "/prehled-subjektu";
 	
 	
@@ -43,6 +47,7 @@ public class PublicNotifiedBodyController {
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
+		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		model.put("tab", webpage.getId());
 		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
 		modelmap.put("model", model);
@@ -58,16 +63,17 @@ public class PublicNotifiedBodyController {
 	 * @return view
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping("/subjekt/{code}")
-	public String showBasicRequirementDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
+	@RequestMapping("/subjekt/{id}")
+	public String showBasicRequirementDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
 		
-		NotifiedBody notifiedBody = notifiedBodyService.getNotifiedBodyByCode(code);
+		NotifiedBody notifiedBody = notifiedBodyService.getNotifiedBodyById(id);
 		Webpage webpage = webpageService.getWebpageByCode(NOTIFIE_BODY_URL);
 		if(notifiedBody == null || webpage == null || !notifiedBody.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
+		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		model.put("tab", webpage.getId());
 		model.put("notifiedBody", notifiedBody);
 		modelmap.put("model", model);

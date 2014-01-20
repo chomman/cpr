@@ -182,4 +182,36 @@ public class StandardServiceImpl implements StandardService {
 	public List<Standard> getStandardPage(final int pageNumber, Map<String, Object> criteria,final int limit) {
 		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria), limit);
 	}
+	
+	
+	@Override
+	public boolean updateReferencedStandard(Standard standard){
+		Standard referencedStandard = standard.getReplaceStandard();
+		StandardStatus status = standard.getStandardStatus();
+		if(referencedStandard != null){
+			if(status == null || status.equals(StandardStatus.NORMAL) || status.equals(StandardStatus.NON_HARMONIZED)){
+					// ak sa niejedna o cyklicku zavislost
+				if(!referencedStandard.equals(standard) &&
+					(referencedStandard.getReplaceStandard() == null || !referencedStandard.getReplaceStandard().equals(standard)) &&
+					 referencedStandard.getStandardStatus() != null && !referencedStandard.getStandardStatus().equals(StandardStatus.CANCELED)){
+						referencedStandard.setStandardStatus(StandardStatus.CANCELED);
+						referencedStandard.setReplaceStandard(standard);
+						saveOrUpdate(referencedStandard);
+						return true;
+					}
+					
+			}else{
+				if(status.equals(StandardStatus.CANCELED) && 
+				   !referencedStandard.equals(standard) && 
+				   (referencedStandard.getReplaceStandard() == null || !referencedStandard.getReplaceStandard().equals(standard))){
+					referencedStandard.setReplaceStandard(standard);
+					saveOrUpdate(referencedStandard);
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+		
+	
 }

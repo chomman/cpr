@@ -593,3 +593,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 }
 
 #s-tooltip{position: absolute;min-width: 200px;padding:5px;border: 3px solid #fff;}
+
+.block-item{display:block;font-size:13px;border-bottom:1px solid #eee;padding:5px;}
+.w100{width: 100px;}

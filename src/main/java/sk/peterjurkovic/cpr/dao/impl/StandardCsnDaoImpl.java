@@ -13,7 +13,6 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.StandardCsnDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
-import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 
 /**
  * Implementacia rozhrania sk.peterjurkovic.cpr.dao.impl.StandardCsnDao
@@ -108,6 +107,34 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 			}
 		}
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
+	}
+
+	@Override
+	public boolean isStandardCsnUnique(final StandardCsn csn) {
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM StandardCsn csn WHERE ( csn.csnOnlineId=:csnOnlineId");
+		hql.append(" OR csn.csnName = :csnName ) ");
+		if(csn.getId() != null && csn.getId() != 0){
+			hql.append(" AND csn.id<>:id");
+		}
+		Long result = null;
+		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setString("csnOnlineId", csn.getCsnOnlineId().trim());
+		query.setString("csnName", csn.getCsnName().trim());
+		query.setCacheable(false);
+		if(csn.getId() != null && csn.getId() != 0){
+			query.setLong("id", csn.getId());
+		}
+		result = (Long)query.uniqueResult();
+		return (result == 0);
+	}
+
+	
+	@Override
+	public void deleteStandardCsn(StandardCsn csn) {
+		Query query = sessionFactory.getCurrentSession().createQuery("update StandardCsn csn set csn.replaceStandardCsn=NULL WHERE csn.replaceStandardCsn.id=:id " );
+		query.setLong("id", csn.getId());
+		query.executeUpdate();
+		remove(csn);
 	}
 	
 }

@@ -112,7 +112,7 @@ public class StandardCsn extends AbstractEntity {
 		this.standardStatus = standardStatus;
 	}
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "replaced_standard_csn_id")
 	public StandardCsn getReplaceStandardCsn() {
 		return replaceStandardCsn;
@@ -197,6 +197,7 @@ public class StandardCsn extends AbstractEntity {
 		csnOnlineId = csn.getCsnOnlineId();
 		standardStatus = csn.getStandardStatus();
 		replaceStandardCsn = csn.getReplaceStandardCsn();
+		statusDate = csn.getStatusDate();
 	}
 	
 	

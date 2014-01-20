@@ -50,6 +50,17 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	public StandardCsn getCsnById(Long id) {
 		return standardCsnDao.getByID(id);
 	}
+	
+	
+	/**
+	 * Odstrani danu CSN a pripadne referencie aktualizuje na NULL
+	 * 
+	 * @param csn
+	 */
+	@Override
+	public void deleteStandardCsn(StandardCsn csn){
+		standardCsnDao.deleteStandardCsn(csn);
+	}
 
 	@Override
 	@Transactional(readOnly = true)
@@ -75,21 +86,26 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	
 	@Override
 	public boolean updateReferencedStandard(StandardCsn csn){
-		StandardCsn replaced = csn.getReplaceStandardCsn();
+		StandardCsn referencedCsn = csn.getReplaceStandardCsn();
 		StandardStatus status = csn.getStandardStatus();
-		if(status == null || status.equals(StandardStatus.NORMAL)){
-			if(replaced != null){
-				replaced.setStandardStatus(StandardStatus.NORMAL);
-				replaced.setReplaceStandardCsn(null);
-				saveOrUpdate(replaced);
-				return true;
-			}
-		}else{
-			if(replaced != null && !replaced.getStandardStatus().equals(StandardStatus.CANCELED)){
-				replaced.setReplaceStandardCsn(csn);
-				replaced.setStandardStatus(StandardStatus.CANCELED);
-				saveOrUpdate(replaced);
-				return true;
+		if(referencedCsn != null){
+			if(status == null || status.equals(StandardStatus.NORMAL) || status.equals(StandardStatus.NON_HARMONIZED)){
+				if( !referencedCsn.equals(csn) && 
+					(referencedCsn.getReplaceStandardCsn() == null || !referencedCsn.getReplaceStandardCsn().equals(csn)) &&
+					referencedCsn.getStandardStatus() != null && !referencedCsn.getStandardStatus().equals(StandardStatus.CANCELED)){
+						referencedCsn.setStandardStatus(StandardStatus.CANCELED);
+						referencedCsn.setReplaceStandardCsn(csn);
+						saveOrUpdate(referencedCsn);
+					return true;
+				}
+			}else{
+				if(status.equals(StandardStatus.CANCELED) && 
+				   !referencedCsn.equals(csn) && 
+				   (referencedCsn.getReplaceStandardCsn() == null || !referencedCsn.getReplaceStandardCsn().equals(csn))){
+					referencedCsn.setReplaceStandardCsn(csn);
+					saveOrUpdate(referencedCsn);
+					return true;
+				}
 			}
 		}
 		return false;
@@ -121,4 +137,12 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 		return standardCsnDao.getPage(pageNumber, criteria);
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isStandardCsnUnique(StandardCsn csn){
+		if(StringUtils.isBlank(csn.getCsnOnlineId())){
+			return true;
+		}
+		return standardCsnDao.isStandardCsnUnique(csn);
+	}
 }

@@ -24,8 +24,8 @@
 		<div id="content">
 						
 			<ul class="sub-nav">
-				<li><a class="active" href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li>
-				<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
+				<li><a class="active" href="<c:url value="/admin/cpr/standard-csn"  />"><spring:message code="cpr.standard.view" /></a></li>
+				<li><a href="<c:url value="/admin/cpr/standard-csn/edit/0"  />"><spring:message code="cpr.standard.add" /></a></li>
 			</ul>
 			
 			<form class="filter" method="get">
@@ -119,7 +119,7 @@
 						 			</a>
 						 		</td>
 						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/delete/${i.id}"  />">
+						 			<a class="confirm"  href="<c:url value="/admin/cpr/standard-csn/delete/${i.id}"  />">
 						 				<spring:message code="form.delete" />
 						 			</a>
 						 		</td>

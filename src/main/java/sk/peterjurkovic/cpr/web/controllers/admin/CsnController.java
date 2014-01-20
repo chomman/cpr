@@ -42,7 +42,6 @@ import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.validators.admin.CsnValidator;
 import sk.peterjurkovic.cpr.web.editors.CsnCategoryEditor;
-import sk.peterjurkovic.cpr.web.editors.DateEditor;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
 import sk.peterjurkovic.cpr.web.pagination.PageLink;
 import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;

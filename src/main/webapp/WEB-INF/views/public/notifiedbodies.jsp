@@ -35,23 +35,45 @@
 		 				<tr>
 	 						<th class="c code"><spring:message code="cpr.nb.code" /></th>
 	 						<th class="l name"><spring:message code="cpr.nb.name" /></th>
-	 						<th class="c city"><spring:message code="no.city" /></th>
+	 						<!--  <th class="c city"><spring:message code="no.city" /></th>-->
 	 						<th class="eta">&nbsp;</th>
+	 						<th class="c">NANDO</th>
 		 				</tr>
 		 			</c:if>
 		 		 
 		 		 	<tr class="hove">
-		 		 		<td class="c"><a href="<c:url value="/subjekt/${nb.code}" />">${nb.notifiedBodyCode}</a></td>
+		 		 		<td class="c">
+		 		 			<a href="<c:url value="/subjekt/${nb.id}" />">
+		 		 				${nb.noCode}
+		 		 				<c:if test="${not empty nb.aoCode}">
+		 		 					(${nb.aoCode})
+		 		 				</c:if>
+		 		 			</a>
+		 		 		</td>
 		 		 		<td>${nb.name}</td>
+		 		 		<!-- 
 		 		 		<td class="c">
 		 		 			<c:if test="${not empty nb.address.city}">
 		 		 			${nb.address.city}
 		 		 			</c:if>
 		 		 		</td>
+		 		 		-->
 		 		 		<td >
 		 		 			<c:if test="${nb.etaCertificationAllowed}">
 								<span class="true tt" title="<spring:message code="eta" />">ETA</span>
 							</c:if>
+		 		 		</td>
+		 		 		<td class="c w100">
+		 		 			
+		 					<c:if test="${not empty nb.nandoCode}">
+			 					<a target="_blank" href="${model.noaoUrl}${nb.nandoCode}">
+			 						<spring:message code="more.info" />
+			 					</a> 
+		 					</c:if>
+		 					<c:if test="${empty nb.nandoCode}">
+			 					-
+		 					</c:if>
+		 					
 		 		 		</td>
 		 		 	</tr>
 				</c:forEach>

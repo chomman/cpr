@@ -72,4 +72,11 @@ public interface StandardCsnService {
 	PageDto getPage(int pageNumber, Map<String, Object> criteria);
 	
 	boolean updateReferencedStandard(StandardCsn csn);
+	
+	boolean isStandardCsnUnique(StandardCsn csn);
+	
+	void deleteStandardCsn(StandardCsn csn);
+	
+	
+
 }

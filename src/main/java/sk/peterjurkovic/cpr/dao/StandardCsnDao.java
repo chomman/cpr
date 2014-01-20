@@ -20,4 +20,8 @@ public interface StandardCsnDao extends BaseDao<StandardCsn, Long>{
 	
 	PageDto getPage(int pageNumber, Map<String, Object> criteria);
 	
+	boolean isStandardCsnUnique(StandardCsn csn);
+	
+	void deleteStandardCsn(StandardCsn csn);
+	
 }

@@ -239,6 +239,9 @@ public class StandardController extends SupportAdminController{
         	if(standardService.isStandardIdUnique(form.getStandardId(), form.getId())){
         		try {
         			form = createOrUpdateBasicInfo(form);
+        			if(form.getReplaceStandard() != null && standardService.updateReferencedStandard(form)){
+        				model.put("referencedStandard", form.getReplaceStandard());
+        			}
 					model.put("successCreate", true);
 				} catch (CollisionException e) {
 					result.rejectValue("timestamp", "error.collision", e.getMessage());

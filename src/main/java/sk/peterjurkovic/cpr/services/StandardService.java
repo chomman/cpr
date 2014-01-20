@@ -47,4 +47,6 @@ public interface StandardService {
 	
 	List<Standard> getStandardsByStandardGroupCode(String standardGroupCode);
 	
+	boolean updateReferencedStandard(Standard standard);
+	
 }

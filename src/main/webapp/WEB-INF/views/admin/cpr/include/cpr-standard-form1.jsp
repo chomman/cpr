@@ -7,6 +7,21 @@
 	
 	<p class="form-head"><spring:message code="csn.basic.info" /></p>
 	
+	<c:if test="${not empty model.updatedStandard}">
+		<p class="msg info">
+			<spring:message code="cpr.csn.referencedStandard" />
+			<strong>
+				<a href="<c:url value="/admin/cpr/standard/edit/${model.updatedStandard.id}" />">
+					${model.updatedStandard.standardId}
+				</a>
+			</strong>
+			
+			<c:if test="${not empty model.updatedStandard.standardStatus }">
+				(<spring:message code="${model.updatedStandard.standardStatus.name}" />)
+			</c:if>
+			
+		</p>
+	</c:if>
 	
 	<c:if test="${not empty successCreate}">
 		<p class="msg ok"><spring:message code="success.create" /></p>

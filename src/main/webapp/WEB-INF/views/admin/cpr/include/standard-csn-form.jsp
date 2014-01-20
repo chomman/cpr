@@ -4,6 +4,23 @@
 <form:form  commandName="csn" method="post" action="${formUrl}" cssClass="valid" >
 					
 	<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+	
+	<c:if test="${not empty updatedStandard}">
+		<p class="msg info">
+			<spring:message code="cpr.csn.referencedStandard" />
+			<strong>
+				<a href="<c:url value="/admin/cpr/standard-csn/edit/${updatedStandard.id}" />">
+					${updatedStandard.csnName}
+				</a>
+			</strong>
+			
+			<c:if test="${not empty updatedStandard.standardStatus }">
+				(<spring:message code="${updatedStandard.standardStatus.name}" />)
+			</c:if>
+			
+		</p>
+	</c:if>
+	
 	<c:if test="${not empty successCreate}">
 		<p class="msg ok"><spring:message code="success.create" /></p>
 	</c:if>
@@ -86,36 +103,38 @@
 		</p>
 </form:form>
 <!-- END FORM -->
-	
-<!--  CSN CHANGES WRAPPER  -->
-<div class="tab-wrapp">
-		<p class="form-head"><spring:message code="cpr.csn.changes" /></p>
-		<c:if test="${empty csn.standardCsnChanges}">
-			<p class="msg alert">
-				<spring:message code="cpr.standard.changes.empty" />
-			</p>
-		</c:if>
-		<c:if test="${not empty csn.standardCsnChanges}">
-			<table class="data">
-				<c:forEach items="${csn.standardCsnChanges}" var="i">
-					<tr>
-						<td class="b">
-							<a title="Editovat" class="tt b" href="${formUrl}/standard-csn-change/${i.id}">${i.changeCode}</a>
-						</td>
-						<td class="last-edit"><joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/></td>
-						<td class="delete big">
-							<a class="confirm"  href="${formUrl}/standard-change/delete/${i.id}">
-				 				<spring:message code="form.delete" />
-				 			</a>
-						</td>
-					</tr>
-				</c:forEach>
-			</table>
-		</c:if>
-		
-		<div class="inline-form r">
-			<a class="lang mandate-add-btn" href="<c:url value="/admin/cpr/standard-csn/${csn.id}/change/0"  />">
-				<spring:message code="cpr.standard.changes.add" />
-			</a>
-		</div>
-</div>
+
+<c:if test="${not empty csn.id and csn.id > 0}">
+	<!--  CSN CHANGES WRAPPER  -->
+	<div class="tab-wrapp">
+			<p class="form-head"><spring:message code="cpr.csn.changes" /></p>
+			<c:if test="${empty csn.standardCsnChanges}">
+				<p class="msg alert">
+					<spring:message code="cpr.standard.changes.empty" />
+				</p>
+			</c:if>
+			<c:if test="${not empty csn.standardCsnChanges}">
+				<table class="data">
+					<c:forEach items="${csn.standardCsnChanges}" var="i">
+						<tr>
+							<td class="b">
+								<a title="Editovat" class="tt b" href="${formUrl}/standard-csn-change/${i.id}">${i.changeCode}</a>
+							</td>
+							<td class="last-edit"><joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/></td>
+							<td class="delete big">
+								<a class="confirm"  href="${formUrl}/standard-change/delete/${i.id}">
+					 				<spring:message code="form.delete" />
+					 			</a>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</c:if>
+			
+			<div class="inline-form r">
+				<a class="lang mandate-add-btn" href="<c:url value="/admin/cpr/standard-csn/${csn.id}/change/0"  />">
+					<spring:message code="cpr.standard.changes.add" />
+				</a>
+			</div>
+	</div>
+</c:if>

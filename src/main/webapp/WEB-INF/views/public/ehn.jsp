@@ -11,7 +11,7 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo;
-			<a title="${model.parentWebpage.title}" href="<c:url value="${model.parentWebpage.code}" />">${model.parentWebpage.name}</a> &raquo; 
+			<a title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">${model.webpage.name}</a> &raquo; 
 			<span>${model.standard.standardId} - ${model.standard.czechName}</span>
 	</div> 
 	
@@ -38,9 +38,8 @@
 					<td class="key"><strong><spring:message code="standard.group" /></strong>:</td>
 					<td>
 						<c:forEach items="${model.standard.standardGroups}" var="i">
-							<span>${i.code} - ${i.czechName }</span> 
+							<a class="block-item" href="<c:url value="/cpr/skupina/${i.code}" />">${i.code} - ${i.czechName}</a> 
 						</c:forEach>
-						
 					</td>
 				</tr>
 				
@@ -68,12 +67,34 @@
 						<c:forEach items="${model.standard.standardCsns}" var="csn">
 							<tr>
 								<td class="name key">
-									<a class="file pdf" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.csnOnlineId)}">
-										${csn.csnName}
-									</a>	
+									<c:if test="${not empty csn.csnOnlineId }">
+										<a class="file pdf" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.csnOnlineId)}">
+											${csn.csnName}
+										</a>
+									</c:if>
+									<c:if test="${empty csn.csnOnlineId }">
+										<span class="file pdf">${csn.csnName}</span>
+									</c:if>
 								</td>
 								<td>${csn.note}</td>
 							</tr>
+					 		<c:forEach items="${csn.standardCsnChanges}" var="j">
+						 		<tr class="standard-change csn-change">
+						 			<td class="standard-change-code">
+						 				<span>
+							 				<c:if test="${not empty j.csnOnlineId }">
+												<a class="file pdf min" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', j.csnOnlineId)}">
+													${j.changeCode}
+												</a>
+											</c:if>
+											<c:if test="${empty j.csnOnlineId }">
+												${j.changeCode}>
+											</c:if>
+										</span>
+						 			</td>					
+						 			<td>${csn.note}</td>
+						 		</tr>
+					 		</c:forEach>
 						</c:forEach>
 					</table>
 					<p class="msg info"><spring:message code="csnonline.info" /></p>
