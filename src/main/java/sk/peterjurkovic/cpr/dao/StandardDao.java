@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.dao;
 import java.util.List;
 import java.util.Map;
 
+import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
@@ -34,4 +35,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	Standard getStandardByCsn(StandardCsn csn);
 	
 	List<Standard> getStandardsByStandardGroupCode(String standardGroupCode);
+	
+	List<Standard> getStandardsByNotifiedBody(NotifiedBody notifiedBody);
 }

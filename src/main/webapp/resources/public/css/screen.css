@@ -235,10 +235,21 @@ header .itc-name{margin:5px 0 0 50px;padding:5px 0 0 130px;width:350px;backgroun
 /* NAVIGATION */
 nav{background:#8b8a8a url(../img/nav-bg.png) repeat-x;height:45px; }
 nav ul{list-style:none;padding:0 60px;background:url(../img/nav-bg2.png);}
-nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;background:red;}
+nav ul li{display:inline-block;float;left;padding:0 10px 0 3px;background:url(../img/nav-sep.png) no-repeat center right;}
 nav ul li:last-child{background:none;}
 nav ul li a{display:block;text-decoration:none;float:left;padding:14px 10px 12px 10px;color:#fff;font-size:13px;margin:0;font-weight:bold;}
-nav ul li a:hover, nav .curr,#dop-menu a:hover{background:blue; ;}
+ nav ul li a:hover, nav .curr,#dop-menu a:hover{
+background: #258dc8;
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzI1OGRjOCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMyNThkYzgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #258dc8 0%, #258dc8 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#258dc8), color-stop(100%,#258dc8));
+background: -webkit-linear-gradient(top,  #258dc8 0%,#258dc8 100%);
+background: -o-linear-gradient(top,  #258dc8 0%,#258dc8 100%);
+background: -ms-linear-gradient(top,  #258dc8 0%,#258dc8 100%);
+background: linear-gradient(to bottom,  #258dc8 0%,#258dc8 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#258dc8', endColorstr='#258dc8',GradientType=0 );
+
+ } 
 
 
 

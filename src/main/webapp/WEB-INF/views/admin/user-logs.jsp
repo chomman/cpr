@@ -30,20 +30,20 @@
 		
 			<form class="filter log" action="<c:url value="/admin/user/logs" />" method="get">
 				<div>
-					<span class="long"><spring:message code="form.orderby" />:</span>
-					<select name="orderBy">
+					<span class="long filter-label"><spring:message code="form.orderby" />:</span>
+					<select name="orderBy" class="chosenSmall">
 						<c:forEach items="${model.orders}" var="i">
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span><spring:message code="date" /> od:</span>
+					<span class="filter-label"><spring:message code="date" /> od:</span>
 					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
-					<span>do:</span>
+					<span class="filter-label">do:</span>
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
 				<div>
-					<span class="long"><spring:message code="userlog.user" /></span>
+					<span class="long filter-label"><spring:message code="userlog.user" /></span>
 					<input type="text" class="query" name="query"   value="${model.params.query}" />
 					<input type="submit" value="Filtrovat" class="btn" />
 				</div>

@@ -31,8 +31,8 @@
 			
 			<form class="filter" action="<c:url value="/admin/csn" />" method="get">
 				<div>
-					<span class="long"><spring:message code="form.orderby" />:</span>
-					<select name="orderBy">
+					<span class="long filter-label"><spring:message code="form.orderby" />:</span>
+					<select name="orderBy" class="chosenSmall">
 						<c:forEach items="${model.order}" var="i">
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >
 							<spring:message code="${i.name}" />
@@ -41,15 +41,15 @@
 					</select>
 				</div>
 				<div>
-					<span class="long"><spring:message code="csn.form.symbol" />:</span>
+					<span class="long filter-label"><spring:message code="csn.form.symbol" />:</span>
 					<input type="text" class="filter-input-middle csnCategory" name="csnCategory"   value="${model.params.csnCategory}" />
 				</div>
 				<div>
-					<span class="long"><spring:message code="cpr.csn.onlineid" />:</span>
+					<span class="long filter-label"><spring:message code="cpr.csn.onlineid" />:</span>
 					<input type="text" class="filter-input-middle catalogId" name="catalogId"   value="${model.params.catalogId}" />
 				</div>
 				<div>
-					<span class="long"><spring:message code="csn.search.term" />:</span>
+					<span class="long filter-label"><spring:message code="csn.search.term" />:</span>
 					<input type="text" class="filter-input-long" name="query"   value="${model.params.query}" />
 					<input type="submit" value="Filtrovat" class="btn csn" />
 				</div>

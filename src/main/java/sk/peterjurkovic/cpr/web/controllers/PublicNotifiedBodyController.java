@@ -14,6 +14,7 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
+import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 
 
@@ -24,6 +25,8 @@ public class PublicNotifiedBodyController {
 	private NotifiedBodyService notifiedBodyService;
 	@Autowired
 	private WebpageService webpageService;
+	@Autowired
+	private StandardService standardService;
 	
 	@Value("#{config['ce.europe.aono']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
@@ -74,6 +77,7 @@ public class PublicNotifiedBodyController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
+		model.put("standards", standardService.getStandardsByNotifiedBody(notifiedBody));
 		model.put("tab", webpage.getId());
 		model.put("notifiedBody", notifiedBody);
 		modelmap.put("model", model);

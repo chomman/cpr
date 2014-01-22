@@ -128,6 +128,7 @@ public class PublicCprController extends PublicSupportController{
 		model.put("standards", standards);
 		model.put("paginationLinks", paginationLinks);
 		model.put("params", params);
+		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
 		model.put("orders", StandardOrder.getAll());
 		model.put("standardStatuses", StandardStatus.getAll());
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
@@ -154,6 +155,7 @@ public class PublicCprController extends PublicSupportController{
             }
             Map<String, Object> model = prepareBaseModel(webpage);
             model.put("basicRequirement", basicRequirement);
+            model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
             modelmap.put("model", model);
             return "/public/cpr/basic-requirement-detail";
     }
@@ -176,6 +178,7 @@ public class PublicCprController extends PublicSupportController{
             
             Map<String, Object> model = prepareBaseModel(webpage);
             model.put("subtab", webpage.getId());
+            model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
             model.put("basicRequremets", basicRequirementService.getBasicRequirementsForPublic());
             modelmap.put("model", model);
             return "/public/cpr/cpr-base";
@@ -197,6 +200,7 @@ public class PublicCprController extends PublicSupportController{
             }
             Map<String, Object> model = prepareBaseModel(webpage);
             model.put("subtab", webpage.getId());
+            model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
             model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
             modelmap.put("model", model);
             return "/public/cpr/cpr-base";
@@ -220,6 +224,7 @@ public class PublicCprController extends PublicSupportController{
             }
             Map<String, Object> model = prepareBaseModel(webpage);
             model.put("assessmentSystem", assessmentSystem);
+            model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
             modelmap.put("model", model);
             return "/public/cpr/assessmentSystem-detail";
     }
@@ -247,6 +252,7 @@ public class PublicCprController extends PublicSupportController{
 		List<StandardGroup> groups = standardGroupService.getStandardGroupsForPublic();
 		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("standardGroups", groups);
+		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
 		modelmap.put("model", model);
 		return "/public/cpr/cpr-base";
 	}
@@ -269,6 +275,7 @@ public class PublicCprController extends PublicSupportController{
 		}
 		Map<String, Object> model = prepareBaseModel(webpage);
 		model.put("group", stadnardGroup);
+		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
 		model.put("standards", standardService.getStandardByStandardGroupForPublic(stadnardGroup));
 		modelmap.put("model", model);
 		return "/public/cpr/standard-group-detail";
@@ -309,6 +316,8 @@ public class PublicCprController extends PublicSupportController{
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("standard", standard);
 		model.put("webpage", webpage);
+		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
+		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		modelMap.put("model", model);
 		return "public/ehn";
 	}

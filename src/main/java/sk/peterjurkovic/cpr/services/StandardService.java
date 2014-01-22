@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.services;
 import java.util.List;
 import java.util.Map;
 
+import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
@@ -49,4 +50,5 @@ public interface StandardService {
 	
 	boolean updateReferencedStandard(Standard standard);
 	
+	List<Standard> getStandardsByNotifiedBody(NotifiedBody notifiedBody);
 }

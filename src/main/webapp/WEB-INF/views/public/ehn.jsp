@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.standard.standardId} - ${model.standard.czechName}</title>
+		<title>${model.standard.standardId} - ${fn:substring(model.standard.czechName, 0, 60)}</title>
 		<meta name="description" content="${model.standard.standardId} - ${model.standard.czechName}" />
 	</head>
 	<body>
@@ -12,7 +12,7 @@
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo;
 			<a title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">${model.webpage.name}</a> &raquo; 
-			<span>${model.standard.standardId} - ${model.standard.czechName}</span>
+			<span>${model.standard.standardId}</span>
 	</div> 
 	
 	
@@ -101,7 +101,11 @@
 				</div>
 			</c:if>
 			
-			
+			<c:if test="${not empty model.nb.nandoCode}">		
+				<a target="_blank" href="${model.noaoUrl}${model.nb.nandoCode}" title="NANDO database">
+ 					${nb.noCode} <c:if test="${not empty nb.aoCode}">(${nb.aoCode})</c:if>
+ 				</a>		
+		 	</c:if>
 			<!-- AO/NO  -->
 			<c:if test="${not empty model.standard.notifiedBodies}">
 				<div class="public-box">
@@ -109,7 +113,16 @@
 					<table class="ehn-no">
 						<c:forEach items="${model.standard.notifiedBodies}" var="nb">
 							<tr>
-								<td>${nb.noCode} (${nb.aoCode})</td>
+								<td>
+									<c:if test="${not empty nb.nandoCode}">		
+										<a target="_blank" href="${model.noaoUrl}${nb.nandoCode}" title="NANDO database">
+						 					${nb.noCode} <c:if test="${not empty nb.aoCode}">(${nb.aoCode})</c:if>
+						 				</a>		
+								 	</c:if>
+								 	<c:if test="${empty nb.nandoCode}">		
+										${nb.noCode} <c:if test="${not empty nb.aoCode}">(${nb.aoCode})</c:if>	
+								 	</c:if>
+								</td>
 				 		 		<td>${nb.name}</td>
 				 		 		<td class="c">
 				 		 			<c:if test="${not empty nb.address.city}">

@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -44,6 +43,8 @@ public class NotifiedBodyController extends SupportAdminController {
 	private CountryEditor countryEditor;
 	@Autowired
 	private NotifiedBodyValidator notifiedBodyValidator;
+	
+	
 	
 	
 	

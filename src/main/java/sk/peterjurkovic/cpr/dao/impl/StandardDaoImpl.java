@@ -13,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dao.StandardDao;
+import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
@@ -304,6 +305,19 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		query.setLong("id", csn.getId());
 		query.setMaxResults(1);
 		return (Standard)query.uniqueResult();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> getStandardsByNotifiedBody(final NotifiedBody notifiedBody) {
+		Validate.notNull(notifiedBody);
+		StringBuilder hql = new StringBuilder("select standard from Standard standard ");
+		hql.append(" LEFT JOIN standard.notifiedBodies as nb");
+		hql.append(" where standard.enabled=true and nb.id = :id ");
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setLong("id", notifiedBody.getId());
+		return query.list();
 	}
 	
 }

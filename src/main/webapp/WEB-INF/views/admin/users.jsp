@@ -25,23 +25,23 @@
 						
 			<form class="filter user" action="<c:url value="/admin/users" />" method="get">
 				<div>
-					<span class="long"><spring:message code="form.orderby" />:</span>
-					<select name="orderBy">
+					<span class="long filter-label"><spring:message code="form.orderby" />:</span>
+					<select name="orderBy" class="chosenSmall">
 						<c:forEach items="${model.orders}" var="i">
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span><spring:message code="user.registratedFrom" /></span>
+					<span class="filter-label"><spring:message code="user.registratedFrom" /></span>
 					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
 					<span>do:</span>
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
 				<div>
-					<span class="long"><spring:message code="form.name" /></span>
+					<span class="long filter-label"><spring:message code="form.name" /></span>
 					<input type="text" class="query" name="query"   value="${model.params.query}" />
-					<span><spring:message code="user.activated" /></span>
-					<select name="enabled" class="enabled">
+					<span class="filter-label"><spring:message code="user.activated" /></span>
+					<select name="enabled" class="enabled chosenMini">
 							<option value=""  <c:if test="${empty model.params.enabled}" >selected="selected"</c:if> ><spring:message code="notmatter" /></option>
 							<option value="1" <c:if test="${model.params.enabled}" >selected="selected"</c:if> ><spring:message code="yes"/></option>
 							<option value="0" <c:if test="${not empty model.params.enabled and not model.params.enabled}" >selected="selected"</c:if> ><spring:message code="no"/></option>

@@ -72,6 +72,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 public class StandardController extends SupportAdminController{
 	
 	public static final int CPR_TAB_INDEX = 1;
+	private static final String UPDATED_STANDARD_PARAM = "updatedStandard";
 	
 	// services
 	@Autowired
@@ -209,9 +210,10 @@ public class StandardController extends SupportAdminController{
 	 * @throws ItemNotFoundException, v pripade ak sa v systeme norma s danym ID nenachadza
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.GET)
-	public String showEditForm1(@PathVariable Long standardId, ModelMap model) throws ItemNotFoundException {
+	public String showEditForm1(HttpServletRequest request, @PathVariable Long standardId, ModelMap model) throws ItemNotFoundException {
 		setEditFormView("cpr/standard-edit1");
 		Standard form = getStandard(standardId);
+		appendReferencedStandard(request, model);
 		prepareModelForEditBasicInfo(form, model, standardId);
         return getEditFormView();
 	}
@@ -228,19 +230,21 @@ public class StandardController extends SupportAdminController{
 	 * @throws ItemNotFoundException 
 	 */
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long standardId,  @Valid Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
+	public String processSubmit(HttpServletRequest request, @PathVariable Long standardId,  @Valid Standard form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 		if(standardId == 0){
 			setEditFormView("cpr/standard-add");
 		}else{
 			setEditFormView("cpr/standard-edit1");
 		}
 		standardValidator.validate(result, form);
+		Long referencedStandardId = null;
 		if (! result.hasErrors()) {
         	if(standardService.isStandardIdUnique(form.getStandardId(), form.getId())){
         		try {
         			form = createOrUpdateBasicInfo(form);
         			if(form.getReplaceStandard() != null && standardService.updateReferencedStandard(form)){
-        				model.put("referencedStandard", form.getReplaceStandard());
+        				referencedStandardId = form.getReplaceStandard().getId();
+        				model.put(UPDATED_STANDARD_PARAM, form.getReplaceStandard());
         			}
 					model.put("successCreate", true);
 				} catch (CollisionException e) {
@@ -252,10 +256,22 @@ public class StandardController extends SupportAdminController{
         }
 		
 		if(!result.hasErrors() && standardId == 0){
-			return "redirect:/admin/cpr/standard/edit/" + form.getId();
+			String url = "redirect:/admin/cpr/standard/edit/" + form.getId() ;
+			if(referencedStandardId != null){
+				url += "?" + UPDATED_STANDARD_PARAM + "=1";
+			}
+			return url;
 		}
+		appendReferencedStandard(request, model);
 		prepareModelForEditBasicInfo(form, model, standardId);
         return getEditFormView();
+	}
+	
+	private void appendReferencedStandard(HttpServletRequest request, ModelMap map){
+		String val = request.getParameter(UPDATED_STANDARD_PARAM);
+		if(StringUtils.isNotBlank(val)){
+			map.put(UPDATED_STANDARD_PARAM, standardService.getStandardById(Long.valueOf(val)));
+		}
 	}
 	
 	/**

@@ -7,17 +7,17 @@
 	
 	<p class="form-head"><spring:message code="csn.basic.info" /></p>
 	
-	<c:if test="${not empty model.updatedStandard}">
+	<c:if test="${not empty updatedStandard}">
 		<p class="msg info">
 			<spring:message code="cpr.csn.referencedStandard" />
 			<strong>
-				<a href="<c:url value="/admin/cpr/standard/edit/${model.updatedStandard.id}" />">
-					${model.updatedStandard.standardId}
+				<a href="<c:url value="/admin/cpr/standard/edit/${updatedStandard.id}" />">
+					${updatedStandard.standardId}
 				</a>
 			</strong>
 			
-			<c:if test="${not empty model.updatedStandard.standardStatus }">
-				(<spring:message code="${model.updatedStandard.standardStatus.name}" />)
+			<c:if test="${not empty updatedStandard.standardStatus }">
+				(<spring:message code="${updatedStandard.standardStatus.name}" />)
 			</c:if>
 			
 		</p>

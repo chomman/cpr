@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dao.StandardDao;
+import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
@@ -184,6 +185,12 @@ public class StandardServiceImpl implements StandardService {
 	}
 	
 	
+	@Transactional(readOnly =  true )
+	public List<Standard> getStandardsByNotifiedBody(final NotifiedBody notifiedBody){
+		return standardDao.getStandardsByNotifiedBody(notifiedBody);
+	}
+	
+	
 	@Override
 	public boolean updateReferencedStandard(Standard standard){
 		Standard referencedStandard = standard.getReplaceStandard();
@@ -192,8 +199,10 @@ public class StandardServiceImpl implements StandardService {
 			if(status == null || status.equals(StandardStatus.NORMAL) || status.equals(StandardStatus.NON_HARMONIZED)){
 					// ak sa niejedna o cyklicku zavislost
 				if(!referencedStandard.equals(standard) &&
-					(referencedStandard.getReplaceStandard() == null || !referencedStandard.getReplaceStandard().equals(standard)) &&
-					 referencedStandard.getStandardStatus() != null && !referencedStandard.getStandardStatus().equals(StandardStatus.CANCELED)){
+					referencedStandard.getReplaceStandard() == null || 
+					!referencedStandard.getReplaceStandard().equals(standard) || 
+					!referencedStandard.getStandardStatus().equals(StandardStatus.CANCELED) ||
+					referencedStandard.getStandardStatus() == null){
 						referencedStandard.setStandardStatus(StandardStatus.CANCELED);
 						referencedStandard.setReplaceStandard(standard);
 						saveOrUpdate(referencedStandard);

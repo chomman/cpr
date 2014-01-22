@@ -26,8 +26,8 @@
 			
 			<form class="filter" action="<c:url value="/admin/csn/terminology/log" />" method="get">
 				<div>
-					<span><spring:message code="csn.terminology.log.status" />:</span>
-					<select name="importStatus" class="enabled">
+					<span class="long filter-label"><spring:message code="csn.terminology.log.status" />:</span>
+					<select name="importStatus" class="enabled chosenSmall">
 							<option value=""><spring:message code="notmatter" /></option>
 							<c:forEach items="${model.importStatuses}" var="i">
 								<option value="${i.id}" <c:if test="${model.params.importStatus == i.id}" >selected="selected"</c:if>> 
@@ -37,14 +37,14 @@
 					</select>	
 				</div>
 				<div>
-					<span><spring:message code="cpr.dop.created" /> od: </span>
+					<span class="long  filter-label"><spring:message code="cpr.dop.created" /> od: </span>
 					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
 					<span class="fixed">do:</span>
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
 				</div>
 				<div>
-					<span class="long"><spring:message code="form.name" /></span>
+					<span class="long filter-label"><spring:message code="form.name" /></span>
 					<input type="text" class="query " name="query"   value="${model.params.query}" />
 					
 					<input type="submit" value="Filtrovat" class="btn csn" />
