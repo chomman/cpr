@@ -174,12 +174,14 @@ public class StandardServiceImpl implements StandardService {
 		return standardDao.getStandardByCsn(csn);
 	}
 	
+	@Override
 	@Transactional(readOnly =  true )
 	public List<Standard> getStandardsByStandardGroupCode(final String standardGroupCode){
 		return standardDao.getStandardsByStandardGroupCode(standardGroupCode);
 	}
 
 	@Override
+	@Transactional(readOnly =  true )
 	public List<Standard> getStandardPage(final int pageNumber, Map<String, Object> criteria,final int limit) {
 		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria), limit);
 	}

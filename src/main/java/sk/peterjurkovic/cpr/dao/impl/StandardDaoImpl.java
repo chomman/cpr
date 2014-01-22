@@ -131,20 +131,20 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
-		StringBuilder hql = new StringBuilder(" left join s.standardGroups sg ");
+		StringBuilder hql = new StringBuilder(" left join s.standardGroups as sg ");
 		
 		Long mandateId = (Long)criteria.get(Filter.MANDATE);
 		if(mandateId != null && mandateId != 0){
-			hql.append(" left join sg.mandates m ");
+			hql.append(" left join sg.mandates as m ");
 		}
 		
 		Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
 		if(notifiedBodyId != null && notifiedBodyId != 0){
-			hql.append(" join s.notifiedBodies nb ");
+			hql.append(" join s.notifiedBodies as nb ");
 		}
 		Long assessmentSystemId = (Long)criteria.get(Filter.ASSESMENT_SYSTEM);
 		if(assessmentSystemId != null && assessmentSystemId != 0){
-			hql.append(" left join s.assessmentSystem as ");
+			hql.append(" left join s.assessmentSystems as assessmentSystem ");
 		}
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
@@ -182,7 +182,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 			
 			if(assessmentSystemId != null && assessmentSystemId != 0){
-				hql.append(" as.id=:assessmentSystemId ");
+				where.add(" assessmentSystem.id=:assessmentSystemId ");
 			}
 			
 			Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
