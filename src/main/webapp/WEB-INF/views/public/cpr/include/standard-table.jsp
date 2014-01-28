@@ -23,8 +23,7 @@
 				 		
 				 		<td class="norm">
 				 			<span>
-				 				<a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a>
-				 				<a:url href="/ehn/${i.id}" cssClass="tt" title="<spring:message code="moreinfo" />">${i.standardId}</a:url>
+				 				<a:url href="/ehn/${i.id}">${i.standardId}</a:url>
 				 			</span>
 				 				
 		 					<c:if test="${not empty i.replaceStandard and i.standardStatus.id == 2}">

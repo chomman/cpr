@@ -74,6 +74,27 @@ $(function() {
 			return false;
 		}
 	});
+	var locale = $('#locale').text(),
+		$langSwitcher = $('#lswitcher');
+	$langSwitcher.polyglotLanguageSwitcher({
+			effect: 'fade',
+          testMode: true,
+          onChange: function(e){
+        	  var selectedLocale = e.selectedItem.replace("l", "");
+        	  console.log(locale , selectedLocale);
+        	  if(locale === selectedLocale){
+        		  return false;
+        	  }
+        	  document.location.replace(makeUrl(locale, selectedLocale));
+        	  return false;
+          },
+          afterLoad: function(evt){
+        	  if(locale !== "cs"){
+        		  console.log($langSwitcher.find("#l" + locale));
+        		  $langSwitcher.find("#l" + locale).attr('selected');
+        	  }
+          }
+		});
 	
 	jQuery.fn.center = function () {
 	    this.css("position","absolute");
@@ -103,6 +124,24 @@ $(function() {
 	});
 	resizeBorder();
 });
+
+
+function makeUrl(current, selected){
+	var url = document.location.pathname + document.location.search,
+		basePath = $('#base').text();
+	url = url.substring(basePath.length, url.length);
+	if(selected !== "cs" && current === "cs"){
+		url = basePath + selected + "/" +url;
+	}else{
+		url = basePath + url.substring(3, url.length);
+	}
+	return "http://" + document.location.host + url;
+	
+}
+
+function statsWith(val, str){
+    return val.slice(0, str.length) == str;
+}
 
 
 

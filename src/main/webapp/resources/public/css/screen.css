@@ -608,3 +608,35 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 
 .block-item{display:block;font-size:13px;border-bottom:1px solid #eee;padding:5px;}
 .w100{width: 100px;}
+
+
+
+/* Lang switcher  */
+header{position:relative;}
+#lswitcher-wrapp{position:absolute;right:15px;top:10px}
+#lswitcher, #lswitcher * {margin: 0;padding: 0;outline: none;}
+#lswitcher ul {list-style: none;}
+#lswitcher {font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;font-size: 12px;color: #444;line-height: normal;position: relative; z-index: 100;}
+#lswitcher form {display: none;}
+#lswitcher a {text-decoration: none;display: block;padding: 0.5em 6px 0.5em 28px;color: #444;width: 7em; /* 84px; total width: 120px */
+	background-repeat: no-repeat;background-position: 6px center; 
+}
+#lswitcher a:hover {color: #000;}
+#lswitcher a.current:link, #lswitcher a.current:visited, #lswitcher a.current:active {
+	position: relative;background-color: #FFF;border: 1px solid #E5E5E5;border-radius: 3px;height: 1.25em; /* 15px */}
+#lswitcher a.current:hover, 
+#lswitcher ul.dropdown li:hover {background-color: #F7F7F7;}
+#lswitcher a.active {border-bottom: none !important;	border-radius: 3px 3px 0 0 !important;}
+#lswitcher span.trigger {display: block;position: absolute;width: 9px;height: 5px;text-indent: -10000em;top: 12px;right: 6px;}
+#lswitcher a.current:link span.trigger, #polyglotLanguageSwitcher a.current:visited span.trigger {
+	background: url(../img/arrow-down.gif) no-repeat left top;	
+}
+#lswitcher a.current:hover span.trigger, #lswitcher a.current:active span.trigger, #polyglotLanguageSwitcher a.active span.trigger {
+	background-position: left bottom !important;
+}
+#lswitcher ul.dropdown { display: none;position: absolute;top: 2.333em;left: 0;background-color: #FFF;border: 1px solid #E5E5E5;
+	border-top: none !important;border-radius: 0 0 3px 3px;}
+#lswitcher ul.dropdown li { border-top: 1px dotted #D4D4D4;}
+#lswitcher ul.dropdown li:last-child { border-radius: 0 0 3px 3px;}
+#len { 	background-image: url(../img/flags/gb.png);}
+#lcs { 	background-image: url(../img/flags/cs.png);}

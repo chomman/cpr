@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.services.BasicSettingsService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
@@ -39,6 +40,7 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 			 commonModel.put("settings", basicSettingsService.getBasicSettings());
 			 commonModel.put("mainMenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_MAIN_MENU));
 			 commonModel.put("dateTimeFormat", Constants.DATE_FORMAT);
+			 commonModel.put("locale", ContextHolder.getLang());
 			 if(modelAndView != null){
 				 modelAndView.addObject("commonPublic", commonModel);
 			 }

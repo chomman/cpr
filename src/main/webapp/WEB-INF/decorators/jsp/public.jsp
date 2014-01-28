@@ -16,6 +16,7 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="<c:url value="/resources/public/js/common.js" />"></script>
+		<script src="<c:url value="/resources/public/js/jquery.lang.switcher.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<decorator:head/>
 		<c:if test="${not empty commonPublic.settings.googleAnalyticsTrackingCode}">
@@ -36,6 +37,16 @@
 						<span class="is-name">${commonPublic.settings.headerTitle}</span>
 						<span class="itc-name">${commonPublic.settings.ownerName}</span>
 					</strong>
+						<div id="lswitcher-wrapp">
+							<div id="lswitcher">
+								<form action="#">
+									<select id="polyglot-language-options">
+										<option id="lcs" value="cs"><spring:message code="cs" /></option>
+										<option id="len" value="en"><spring:message code="en" /></option>
+									</select>
+								</form>
+							</div>
+						</div>
 			</header>
 
 
@@ -74,5 +85,6 @@
 			</div>
 		</footer>
 		 <div id="base" class="hidden"><c:url value="/" /></div>
+		 <div id="locale" class="hidden">${commonPublic.locale}</div>
 	</body>
 </html>

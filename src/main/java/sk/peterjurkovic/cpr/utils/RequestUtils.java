@@ -114,13 +114,20 @@ public class RequestUtils {
     }
     
     public static String buildUrl(String url, String withLocale) {
-        if (withLocale != null && !withLocale.equals(LocaleResolver.CODE_CZ)) {
+        if(StringUtils.isBlank(url)){
+        	return "";
+        			
+        }
+    	if (withLocale != null && !withLocale.equals(LocaleResolver.CODE_CZ)) {
             if (!url.startsWith("/")) {
                 return withLocale + "/" + url;
             } else {
                 return withLocale + url;
             }
         }
+    	if(url.startsWith("/")){
+    		return url.substring(1);
+    	}
         return url;
     }
     
