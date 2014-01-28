@@ -22,9 +22,13 @@
 			 			<c:if test="${not empty model.articles}">
 							<c:forEach items="${model.articles}" var="article">
 								<div class="home-news">
-					 				<strong><a href="<c:url value="${model.articleUrl}/${article.code}" />" class="blue-color">${article.title}</a></strong>
+					 				<strong>
+					 					<a:url href="${model.articleUrl}/${article.code}"  cssClass="blue-color">${article.title}</a:url>
+					 				</strong>
 					 				<p>${fn:substring(article.header, 0, 120)} ...</p>
-					 				<a href="<c:url value="${model.articleUrl}/${article.code}" />" title="<spring:message code="view.detail" />"  class="blue-color link"><spring:message code="view.detail" /> &raquo; </a>
+					 				<a:url href="${model.articleUrl}/${article.code}"  cssClass="blue-color">
+					 					<spring:message code="view.detail" /> &raquo; 
+					 				</a:url>
 					 				<div class="clear"></div>
 				 				</div>
 				 			</c:forEach>
@@ -37,7 +41,9 @@
 				 			<c:forEach items="${model.standards}" var="standard">
 								<div class="norm">
 				 				<span class="edit"><joda:format value="${standard.changed}" pattern="dd.MM.yyyy"/></span>
-				 				<a href="<c:url value="/ehn/${standard.id}" />" class="blue-color link">${standard.standardId}</a>
+				 				<a:url href="/ehn/${standard.id}"  cssClass="blue-color link">
+					 				${standard.standardId}
+					 			</a:url>
 				 				</div>	
 				 			</c:forEach>
 			 			</c:if>

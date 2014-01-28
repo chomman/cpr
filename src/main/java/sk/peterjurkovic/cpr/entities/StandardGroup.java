@@ -17,8 +17,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.NotBlank;
+
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 /**
  * Entita reprezentujuca skupinu vyrobku podla EU vesniku 305/2011
@@ -95,7 +99,13 @@ public class StandardGroup extends AbstractEntity {
 		this.mandates = mandates;
 	}
 
-	
+	@Transient
+	public String getName(){
+		if(!RequestUtils.isCzechLocale() && StringUtils.isNotBlank(englishName)){
+			return englishName;
+		}
+		return czechName;
+	}
 	
 	
 	

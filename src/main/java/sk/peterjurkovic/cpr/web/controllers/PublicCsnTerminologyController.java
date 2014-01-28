@@ -35,7 +35,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
  *
  */
 @Controller
-public class PublicCsnTerminologyController {
+public class PublicCsnTerminologyController extends  PublicSupportController{
 
 	public static final String PUBLIC_CSN_TERMINOLOGY_URL = "/terminologicky-slovnik";
 	
@@ -49,7 +49,7 @@ public class PublicCsnTerminologyController {
 	private CsnService csnService;
 	
 	
-	@RequestMapping(PUBLIC_CSN_TERMINOLOGY_URL)
+	@RequestMapping(value = {PUBLIC_CSN_TERMINOLOGY_URL, EN_PREFIX + PUBLIC_CSN_TERMINOLOGY_URL })
 	public String showSearchForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
 		
 		Webpage webpage = webpageService.getWebpageByCode(PUBLIC_CSN_TERMINOLOGY_URL);
@@ -74,7 +74,7 @@ public class PublicCsnTerminologyController {
 	}
 	
 	
-	@RequestMapping(PUBLIC_CSN_TERMINOLOGY_URL+ "/{id}")
+	@RequestMapping(value = { PUBLIC_CSN_TERMINOLOGY_URL+ "/{id}", EN_PREFIX + PUBLIC_CSN_TERMINOLOGY_URL+ "/{id}" })
 	public String showTerminologyDetial(ModelMap modelMap, @PathVariable Long id, HttpServletRequest request) throws PageNotFoundEception{
 		
 		Webpage webpage = webpageService.getWebpageByCode(PUBLIC_CSN_TERMINOLOGY_URL);

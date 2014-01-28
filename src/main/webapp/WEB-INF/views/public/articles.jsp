@@ -9,7 +9,7 @@
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
 			<span>${model.webpage.name}</span>
 	</div> 
 
@@ -32,7 +32,7 @@
 			 			
 		 				</span>
 		 				<p>${article.header}</p>
-		 				<a href="<c:url value="${model.webpage.code}/${article.code}" />"  title="<spring:message code="view.detail" />" class="detail"><spring:message code="view.detail" /> &raquo; </a>
+		 				<a:url cssClass="detail" href="${model.webpage.code}/${article.code}"><spring:message code="view.detail" /> &raquo;</a:url>
 		 				<div class="clear"></div>
 	 				</div>
 	 			</c:forEach>
@@ -43,7 +43,7 @@
 				<div class="pagination">
 				<c:forEach items="${model.paginationLinks}" var="i">
 					<c:if test="${not empty i.url}">
-						<a title="Stánka č. ${i.anchor}"  href="<c:url value="${i.url}"  />">${i.anchor}</a>
+						<a:url href="${i.url}">${i.anchor}</a:url>
 					</c:if>
 					<c:if test="${empty i.url}">
 						<span>${i.anchor}</span>

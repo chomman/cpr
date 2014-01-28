@@ -22,23 +22,26 @@
 				 	>
 				 		
 				 		<td class="norm">
-				 			<span><a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a></span>
+				 			<span>
+				 				<a href="<c:url value="/ehn/${i.id}" />" class="tt" title="<spring:message code="moreinfo" />" >${i.standardId}</a>
+				 				<a:url href="/ehn/${i.id}" cssClass="tt" title="<spring:message code="moreinfo" />">${i.standardId}</a:url>
+				 			</span>
 				 				
 		 					<c:if test="${not empty i.replaceStandard and i.standardStatus.id == 2}">
 			 					<span  class="s-replaced" >
 			 						<spring:message code="replaced" />
-			 						<a href="<c:url value="/ehn/${i.replaceStandard.id}" />">${i.replaceStandard.standardId}</a>
+			 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
 			 					</span>
 		 					</c:if>
 		 					<c:if test="${not empty i.replaceStandard and i.replaceStandard.standardStatus.id == 2}">
 			 					<span class="s-replace" >
 			 						<spring:message code="replace" />
-			 						<a href="<c:url value="/ehn/${i.replaceStandard.id}" />" >${i.replaceStandard.standardId}</a>
+			 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
 			 					</span>
 		 					</c:if>
 				 		</td>
 				 		<td class="s-name">
-				 			<span class="s-czechName tt" title='${i.englishName}'  >${i.czechName}</span>
+				 			<span class="s-czechName" >${i.name}</span>
 				 			
 				 		</td>
 				 		<td class="validity c ">
@@ -71,7 +74,7 @@
 				 		<td class="as c">
 				 			<c:if test="${not empty i.assessmentSystems}">
 				 				<c:forEach items="${i.assessmentSystems}" var="as"  varStatus="status">
-				 					<a class="tt" title="<spring:message code="show.assessmentsystem" />" href="<c:url value="/cpr/as/${as.id}" />">${as.assessmentSystemCode}</a> 
+				 					<a:url cssClass="tt" href="/cpr/as/${as.id}">${as.assessmentSystemCode}</a:url>
 				 					<c:if test="${not status.last}">, </c:if>  
 				 				</c:forEach>
 				 			</c:if>
@@ -82,10 +85,7 @@
 				 		<td class="standardGroups c">
 				 			<c:if test="${not empty i.standardGroups}">
 				 				<c:forEach items="${i.standardGroups}" var="j" varStatus="status">
-				 					<a class="tt" title="${j.czechName}"
-				 					 href="<c:url value="/cpr/skupina/${j.code}" />">
-				 						<strong>${j.code}</strong>
-				 					</a>
+				 					<a:url cssClass="tt" title="${j.name}" href="/cpr/skupina/${j.code}">${j.code}</a:url>
 				 					<c:if test="${not status.last}">, </c:if> 
 				 				</c:forEach>
 				 			</c:if>

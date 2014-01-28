@@ -25,7 +25,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 
 @Controller
-public class PublicArticleController {
+public class PublicArticleController extends PublicSupportController{
 	
 	public static final String ARTICLE_URL = "/aktuality";
 	
@@ -42,7 +42,7 @@ public class PublicArticleController {
 	 * @return
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping(ARTICLE_URL)
+	@RequestMapping(value = {ARTICLE_URL, EN_PREFIX + ARTICLE_URL})
 	public String showPublicArticles(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode(ARTICLE_URL);
@@ -73,12 +73,12 @@ public class PublicArticleController {
 	 * @return String view
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping(ARTICLE_URL + "/{articleCode}")
+	@RequestMapping(value = {ARTICLE_URL + "/{articleCode}", EN_PREFIX + ARTICLE_URL + "/{articleCode}"})
 	public String showArticleDetail(@PathVariable String articleCode, ModelMap modelmap) throws PageNotFoundEception{
 		
 		Webpage webpage = webpageService.getWebpageByCode(ARTICLE_URL);
 		Article article = articleService.getArticleByCode(articleCode);
-		if(webpage == null || article == null || !webpage.getEnabled()){
+		if(webpage == null || article == null || !article.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = new HashMap<String, Object>();

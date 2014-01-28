@@ -19,7 +19,7 @@ import sk.peterjurkovic.cpr.services.WebpageService;
 
 
 @Controller
-public class PublicNotifiedBodyController {
+public class PublicNotifiedBodyController extends PublicSupportController{
 	
 	@Autowired
 	private NotifiedBodyService notifiedBodyService;
@@ -41,7 +41,7 @@ public class PublicNotifiedBodyController {
 	 * @return String view
 	 * @throws PageNotFoundEception, ak webova sekcia deaktivovana, alebo neexistuje
 	 */
-	@RequestMapping(NOTIFIE_BODY_URL)
+	@RequestMapping(value = {NOTIFIE_BODY_URL, EN_PREFIX + NOTIFIE_BODY_URL})
 	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode(NOTIFIE_BODY_URL);
@@ -66,7 +66,7 @@ public class PublicNotifiedBodyController {
 	 * @return view
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping("/subjekt/{id}")
+	@RequestMapping(value = {"/subjekt/{id}", EN_PREFIX + "/subjekt/{id}"})
 	public String showBasicRequirementDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
 		
 		NotifiedBody notifiedBody = notifiedBodyService.getNotifiedBodyById(id);

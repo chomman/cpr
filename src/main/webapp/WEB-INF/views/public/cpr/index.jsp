@@ -10,7 +10,7 @@
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;
 			<span>${model.webpage.name}</span>
 	</div> 
 
@@ -21,10 +21,13 @@
 			</article>	
 				
 				
+				
 				<div class="cpr-items">
 						<c:forEach items="${model.submenu}" var="item">
 							<div>
-								<h2><a class="blue-color"  title="${item.title}"  href="<c:url value="${item.code}" />">${item.name}</a></h2>
+								<h2>
+									<a:url href="${item.code}" cssClass="blue-color" title="${item.title}">${item.name}</a:url>
+								</h2>
 								<p>${item.description}</p>
 							</div>
 						</c:forEach>

@@ -28,33 +28,23 @@ public class BasicSettings extends AbstractEntity {
 
 	private static final long serialVersionUID = 202201311391L;
 	
-	private Long id;
 	
 	private String systemName;
-	
 	private String headerTitle;
-	
 	private String ownerName;
-	
 	private String systemEmail;
-	
 	private String googleAnalyticsTrackingCode;
-	
 	private String csnOnlineUrl;
-	
 	private String version;
 
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "basic_settings_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
-
+	
 	@Column(name ="system_name")
 	@Length(min =1, max = 255, message = "Název systému musí být vyplněn")
 	public String getSystemName() {

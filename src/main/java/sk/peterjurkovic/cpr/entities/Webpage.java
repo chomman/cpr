@@ -17,6 +17,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 
+import sk.peterjurkovic.cpr.utils.RequestUtils;
+
 /**
  * Entita reprezentujuca verejnu sekciu systemu
  * 
@@ -164,6 +166,9 @@ public class Webpage extends AbstractEntity {
 		this.timestamp = timestamp;
 	}
 	
-	
+	@Transient
+	public String getHref(){
+		return RequestUtils.buildUrl( getCode() );
+	}
 	
 }

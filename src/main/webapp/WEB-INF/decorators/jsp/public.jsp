@@ -30,7 +30,7 @@
 			<!-- HEADER -->
 			<div class="border-top"></div>
 			<header class="page-width">
-				<a href="<c:url value="/" />" id="logo"></a>
+					<a:url href="/" id="logo" ></a:url>
 					<strong>
 						<span class="is">${commonPublic.settings.systemName}</span>
 						<span class="is-name">${commonPublic.settings.headerTitle}</span>
@@ -43,7 +43,11 @@
 			<nav>
 				<ul class="page-width">
 					<c:forEach items="${commonPublic.mainMenu}" var="webpage">
-						<li><a title="${webpage.title}" <c:if test="${model.tab == webpage.id or webpage.id == model.webpage.id}" >class="curr"</c:if> href="<c:url value="${webpage.code}" />">${webpage.name}</a></li>
+						<li>
+							<a title="${webpage.title}" <c:if test="${model.tab == webpage.id or webpage.id == model.webpage.id}" >class="curr"</c:if> 
+							href="<a:url href="${webpage.code}" linkOnly="true" />">${webpage.name}
+							</a>
+						</li>
 					</c:forEach>
 				</ul>
 			</nav>

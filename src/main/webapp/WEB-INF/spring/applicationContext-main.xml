@@ -18,12 +18,13 @@
      >
 	<util:properties id="config" location="classpath:config.properties"/>
 	
+	<!-- 
 	<mvc:annotation-driven conversion-service="conversionService" />
 
-	<mvc:annotation-driven validator="validator" />
-	
-	<mvc:annotation-driven ignoreDefaultModelOnRedirect="true" />
+	<mvc:annotation-driven validator="validator"  />
 		
+	<mvc:annotation-driven ignoreDefaultModelOnRedirect="true" /> 
+	 --> 
 	<bean name="validator"   class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 	    <property name="validationMessageSource" ref="messageSource" />
 	</bean>
@@ -57,7 +58,13 @@
     <context:component-scan base-package="sk.peterjurkovic.cpr.csvimport">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
-
+    
+  
+      
+    
+   
+    <bean name="localeFilter" class="sk.peterjurkovic.cpr.filters.LocaleFilter" />
+	<bean name="localeResolver" class="sk.peterjurkovic.cpr.resolvers.LocaleResolver" />
    
    <!-- Konverzia objektov  -->
 	  <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
@@ -78,14 +85,6 @@
     </bean>
     
 	
-	 <bean id="localeResolver" class="org.springframework.web.servlet.i18n.FixedLocaleResolver">
-        <property name="defaultLocale" value="cs"/>
-    </bean>
-    
-    
-    <bean id="localeChangeInterceptor" class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-    	<property name="paramName" value="lang" />
-	</bean>
 	
 	
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
@@ -94,7 +93,8 @@
                 <value>messages</value>
             </list>
         </property>
-    	<property name="defaultEncoding" value="UTF-8" /> 
+    	<property name="defaultEncoding" value="UTF-8" />
+    	<property name="fallbackToSystemLocale" value="true" /> 
 	</bean>
 	
 	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
@@ -106,6 +106,7 @@
 	        </list>
 	    </property>
 	</bean>
+	
 	<bean id="jacksonObjectMapper" class="sk.peterjurkovic.cpr.web.json.DateTimeMapper" />
 	<bean id="jacksonSerializationConfig" class="org.codehaus.jackson.map.SerializationConfig"
 	    factory-bean="jacksonObjectMapper" factory-method="getSerializationConfig" />

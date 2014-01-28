@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
+import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.BasicRequirement;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
@@ -98,10 +99,11 @@ public class PublicCprController extends PublicSupportController{
 	
 	
 	
-	@RequestMapping(CPR_INDEX_URL)
+	@RequestMapping(value = { CPR_INDEX_URL , EN_PREFIX + CPR_INDEX_URL })
 	public String cprIndex(ModelMap modelmap) throws PageNotFoundEception{
 		final Webpage webpage = getWebpage(CPR_INDEX_URL);
 		Map<String, Object> model = prepareBaseModel(webpage);
+		String code = ContextHolder.getLang();
 		modelmap.put("model", model);
 		return "/public/cpr/index";
 	}
@@ -113,7 +115,7 @@ public class PublicCprController extends PublicSupportController{
 	 * @return
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping(STANDARDS_URL)
+	@RequestMapping( value = { STANDARDS_URL ,  EN_PREFIX + STANDARDS_URL } )
 	public String home(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
 		final Webpage webpage = getWebpage(STANDARDS_URL);
 		Map<String, Object> model = prepareBaseModel(webpage);
@@ -145,7 +147,7 @@ public class PublicCprController extends PublicSupportController{
      * @return String view
      * @throws PageNotFoundEception ak webova sekce neexistuje, alebo je deaktivovana.
      */
-    @RequestMapping("/cpr/br/{code}")
+    @RequestMapping(value = {"/cpr/br/{code}" , EN_PREFIX + "/cpr/br/{code}" })
     public String showBasicRequirementDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
             
             BasicRequirement basicRequirement = basicRequirementService.getBasicRequirementByCode(code);
@@ -168,7 +170,7 @@ public class PublicCprController extends PublicSupportController{
      * @return String view
      * @throws PageNotFoundEception, ak je stranka deaktivovana, alebo sa v zaznav v DB nenachadza
      */
-    @RequestMapping(CPR_BASIC_REQUREMENT_URL)
+    @RequestMapping(value = {CPR_BASIC_REQUREMENT_URL, EN_PREFIX + CPR_BASIC_REQUREMENT_URL})
     public String requirements(ModelMap modelmap) throws PageNotFoundEception {
             
             Webpage webpage = webpageService.getWebpageByCode(CPR_BASIC_REQUREMENT_URL);
@@ -191,7 +193,7 @@ public class PublicCprController extends PublicSupportController{
      * @return String view
      * @throws PageNotFoundEception, ak je verejna sekce deaktivovana, alebo neexistuje
      */
-    @RequestMapping(CPR_ASSESSMENT_SYSTEMS_URL)
+    @RequestMapping(value = {CPR_ASSESSMENT_SYSTEMS_URL, EN_PREFIX + CPR_ASSESSMENT_SYSTEMS_URL})
     public String assessmentSystems(ModelMap modelmap) throws PageNotFoundEception {
             
             Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
@@ -215,7 +217,7 @@ public class PublicCprController extends PublicSupportController{
      * @return String view
      * @throws PageNotFoundEception, ak je system deaktivovany, alebo neexistuje
      */
-    @RequestMapping("/cpr/as/{assessmentSystemId}")
+    @RequestMapping(value = {"/cpr/as/{assessmentSystemId}", EN_PREFIX + "/cpr/as/{assessmentSystemId}"})
     public String showAssessmentSystemDetail(@PathVariable Long assessmentSystemId, ModelMap modelmap) throws PageNotFoundEception {
             AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(assessmentSystemId);
             Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
@@ -246,7 +248,7 @@ public class PublicCprController extends PublicSupportController{
 	 * @return String view
 	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
 	 */
-	@RequestMapping(STANDARD_GROUP_URL)
+	@RequestMapping(value =  {STANDARD_GROUP_URL, EN_PREFIX + STANDARD_GROUP_URL})
 	public String showCprGroups(ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = getWebpage(STANDARD_GROUP_URL);
 		List<StandardGroup> groups = standardGroupService.getStandardGroupsForPublic();
@@ -266,7 +268,7 @@ public class PublicCprController extends PublicSupportController{
 	 * @return String view
 	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
 	 */
-	@RequestMapping(STANDARD_GROUP_DETAIL_URL)
+	@RequestMapping(value = {STANDARD_GROUP_DETAIL_URL, EN_PREFIX + STANDARD_GROUP_DETAIL_URL})
 	public String showCprGroupDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(STANDARD_GROUP_URL);
 		StandardGroup stadnardGroup = standardGroupService.getStandardGroupByCode(code);
@@ -306,7 +308,7 @@ public class PublicCprController extends PublicSupportController{
 	*
 	*/
 	
-	@RequestMapping("/ehn/{id}")
+	@RequestMapping(value = {"/ehn/{id}", EN_PREFIX + "/ehn/{id}"})
 	public String showEhn(@PathVariable Long id,  ModelMap modelMap) throws PageNotFoundEception{
 		final Webpage webpage = getWebpage(STANDARDS_URL);
 		final Standard standard = standardService.getStandardById(id);

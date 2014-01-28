@@ -256,13 +256,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#258dc8', end
 /* CONTENT */
 #content{width:959px;margin:auto;padding:10px 20px;min-height: 500px;}
 #bc{font-size:11px;color:#888;padding:5px 10px;border-top:1px solid #ddd;border-bottom:1px solid #ddd;}
-#bc a, span{padding:0 8px;}
+#bc a,#bc span{padding:0 8px;}
 #bc span{color:#555;}
 #bc a{color:#4390d7;text-decoration:underline;}
 #bc a:hover{color:#000;}
 .bc-info{color:#888 !important;margin-right:10px;padding:0;}
 
-#main-content{padding:20px 10px;color:#444;font-size:14px;line-height:20px;}
+
+#main-content{padding:20px 0;color:#444;font-size:14px;line-height:20px;}
 #main-content h1{font-size:20px;display:block;padding:8px 0;margin-bottom:15px;border-bottom:2px solid #ccc;}
 
 

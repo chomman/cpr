@@ -8,6 +8,8 @@ import sk.peterjurkovic.cpr.services.WebpageService;
 
 public class PublicSupportController {
 	
+	public final static String EN_PREFIX = "/en/";
+	
 	@Autowired
 	protected WebpageService webpageService;
 	

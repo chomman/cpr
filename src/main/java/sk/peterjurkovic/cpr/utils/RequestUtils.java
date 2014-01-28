@@ -15,6 +15,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.context.ContextHolder;
+import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
 
 /**
  * Utilita pre pracu s HTTP poziadavkou
@@ -106,5 +108,29 @@ public class RequestUtils {
 	}
     
     
+    public static String buildUrl(String url) {
+        final String lang = ContextHolder.getLang();
+        return RequestUtils.buildUrl(url, lang);
+    }
+    
+    public static String buildUrl(String url, String withLocale) {
+        if (withLocale != null && !withLocale.equals(LocaleResolver.CODE_CZ)) {
+            if (!url.startsWith("/")) {
+                return withLocale + "/" + url;
+            } else {
+                return withLocale + url;
+            }
+        }
+        return url;
+    }
+    
+    
+    public static boolean isCzechLocale(){
+    	final String langCode = ContextHolder.getLang();
+    	if(StringUtils.isBlank(langCode)  || langCode.equals(LocaleResolver.CODE_CZ) ){
+    		return true;
+    	}
+    	return false;
+    }
     
 }

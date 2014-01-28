@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.entities;
 
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,14 +24,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
+import org.springframework.context.i18n.LocaleContextHolder;
 
 import sk.peterjurkovic.cpr.enums.StandardStatus;
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 /**
  * Entita reprezentujuca harmonizovanu normu
@@ -340,6 +344,15 @@ public class  Standard extends AbstractEntity {
 
 	public void setStandardStatus(StandardStatus standardStatus) {
 		this.standardStatus = standardStatus;
+	}
+	
+	
+	@Transient
+	public String getName(){
+		if(!RequestUtils.isCzechLocale() && StringUtils.isNotBlank(englishName)){
+			return englishName;
+		}
+		return czechName;
 	}
 	
 	

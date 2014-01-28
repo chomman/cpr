@@ -10,23 +10,17 @@
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<a title="${model.parentWebpage.title}" href="<c:url value="${model.parentWebpage.code}" />">${model.parentWebpage.name}</a> &raquo;
-			<a title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">${model.webpage.name}</a> &raquo;
-			<span>${model.assessmentSystem.name}</span>
+		<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
+		<a:url title="${model.parentWebpage.title}" href="${model.parentWebpage.code}">${model.parentWebpage.name}</a:url> &raquo;
+		<a:url title="${model.webpage.title}" href="${model.webpage.code}">${model.webpage.name}</a:url> &raquo;
+		<span>${model.assessmentSystem.name}</span>
 	</div> 
 
 		<div id="main-content">
-			 
-			 <%--  <jsp:include page="../include/left-panel.jsp" /> --%>
-			 
-
- 		<article class="full-width">
- 			<h1>${model.assessmentSystem.name}</h1>
- 			${model.assessmentSystem.description}
- 		</article>
-
-			
+	 		<article class="full-width">
+	 			<h1>${model.assessmentSystem.name}</h1>
+	 			${model.assessmentSystem.description}
+	 		</article>
 		</div>
 	</body>
 </html>

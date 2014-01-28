@@ -38,7 +38,7 @@ public class PublicHomeController {
 	 * @return
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping("/")
+	@RequestMapping(value = {"/", "/en/"})
 	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode("/");

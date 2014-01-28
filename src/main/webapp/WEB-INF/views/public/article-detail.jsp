@@ -10,8 +10,8 @@
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<a title="${model.webpage.name}" href="<c:url value="${model.webpage.code}" />">${model.webpage.title}</a> &raquo; 
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;
+			<a:url href="${model.webpage.code}">${model.webpage.title}</a:url> &raquo; 
 			<span>${model.article.title}</span>
 	</div> 
 	<div id="main-content">
