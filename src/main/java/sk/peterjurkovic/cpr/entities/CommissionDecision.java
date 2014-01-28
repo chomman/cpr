@@ -9,9 +9,13 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
+
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 /**
  * Entita reprezentujuca rozhodnutie komisie
@@ -143,5 +147,20 @@ public class CommissionDecision extends AbstractEntity {
 	}
 
 	
+	@Transient
+	public String getLabel(){
+		if(!RequestUtils.isCzechLocale() && StringUtils.isNotBlank(englishLabel)){
+			return englishLabel;
+		}
+		return czechLabel;
+	}
+	
+	@Transient
+	public String getUrl(){
+		if(!RequestUtils.isCzechLocale() && StringUtils.isNotBlank(englishFileUrl)){
+			return englishFileUrl;
+		}
+		return czechFileUrl;
+	}
 	
 }

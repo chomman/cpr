@@ -435,11 +435,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', end
 .groups .mandate span a{}
 .groups .commissionDecision{width:135px;}
 
+.iblock{display:block;padding:2px;}
 table a{text-decoration:underline;}
 table a:hover{color:#000;text-decoration:none;}
 table .file.pdf{background:url(../img/file_pdf_22x22.png) no-repeat center left;display:block;padding:0 0 0 25px;text-align:left;text-transform:uppercase;}
 table .file.pdf.min{background:url(../img/pdf-min.png) no-repeat center left;display:block;padding:0 0 0 18px;text-align:left;text-transform:uppercase;}
-
+.file.inline{display:inline !important;}
 
 article hgroup h1{padding:3px 0 !important;border:0px !important;margin:0 !important;}
 article hgroup h2{padding:3px 0 !important;border:0px !important;margin:0 !important;font-size:15px;color:#777}
@@ -504,7 +505,7 @@ background-color:#5cb811;
 
 .public-box{padding:10px 0;}
 .public-box h3{}
-.key{width:300px;}
+.key{width:260px;}
 
 /* DOP autocomplete */
 .ui-autocomplete .ui-menu-item a{border-bottom:1px solid #ccc;padding:5px 8px;font-size:14px;}
@@ -575,7 +576,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .standard-change-code{}
 .standard-change:hover .standard-change-code span,
 .standard-change-code span{font-size:12px;background: url(../../admin/img/tree.png) no-repeat 0px center !important;padding:0 0 0 18px !important;display:block;}
-
+.mchanges{display:inline-block;padding-left:15px;font-size:12px;}
 
 .status-canceled,
 .status-canceled a,

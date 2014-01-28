@@ -36,13 +36,63 @@
 				
 				<c:if test="${not empty model.standard.standardGroups}">
 					<tr>
-						<td class="key"><strong><spring:message code="standard.group" /></strong>:</td>
+						<td class="key"><strong><spring:message code="ehn.standardGroups" /></strong>:</td>
 						<td>
 							<c:forEach items="${model.standard.standardGroups}" var="i">
 								<a:url cssClass="block-item" href="/cpr/skupina/${i.code}">${i.code} - ${i.name}</a:url> 
 							</c:forEach>
 						</td>
 					</tr>
+						
+					<tr>
+						<td class="key">
+							<strong><spring:message code="commissiondecision" /></strong>
+						</td>
+						<td>
+							<c:forEach items="${model.standard.standardGroups}" var="i">
+								<span class="block-item">
+									<a class="file pdf min inline" target="_blank" href="${i.commissionDecision.url}">
+									${i.commissionDecision.label}
+									</a>
+									<c:if test="${not empty i.commissionDecision.draftAmendmentLabel}">
+										, (<a class="file pdf min inline" target="_blank" href="${i.commissionDecision.draftAmendmentUrl}">
+										${i.commissionDecision.draftAmendmentLabel}
+									</a>)
+									</c:if>
+								</span>
+							</c:forEach>
+						</td>
+					</tr>
+					
+					<tr>
+						<td class="key">
+							<strong><spring:message code="ehn.mandates" /></strong>
+						</td>
+						<td>
+							<c:forEach items="${model.standard.standardGroups}" var="i">
+								<c:forEach items="${i.mandates}" var="m">
+									<span class="block-item">
+										<a class="file pdf min inline" target="_blank" href="${m.mandateFileUrl}">
+										${m.mandateName}
+										</a>
+										<c:if test="${not empty m.changes}">
+											<span class="mchanges">
+												<spring:message code="ehn.mandates.changes" />: 
+												<c:forEach items="${m.changes}" var="j" varStatus="s">
+													<a class="file pdf min inline" target="_blank" href="${j.mandateFileUrl}">
+														${j.mandateName}
+													</a>	
+													<c:if test="${not s.last}">, </c:if>  
+												</c:forEach>
+											</span>
+										</c:if>
+									</span>
+								</c:forEach>
+							</c:forEach>
+						</td>
+					</tr>
+						
+					
 				</c:if>
 				
 				
@@ -154,7 +204,7 @@
 				</div>
 			</c:if>
 			
-			<!-- Mandary  -->
+			<!-- Mandary  
 			<c:if test="${not empty model.standard.standardGroups}">
 				<div class="public-box">
 					<h3><spring:message code="cpr.mandates.title" /> </h3>
@@ -175,7 +225,7 @@
 					</table>
 				</div>
 			</c:if>
-			
+			-->
 			
 			<!-- TEXT   -->
 			<c:if test="${not empty model.standared.text}">
