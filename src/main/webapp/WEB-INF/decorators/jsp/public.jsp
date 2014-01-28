@@ -41,8 +41,8 @@
 							<div id="lswitcher">
 								<form action="#">
 									<select id="polyglot-language-options">
-										<option id="lcs" value="cs"><spring:message code="cs" /></option>
-										<option id="len" value="en"><spring:message code="en" /></option>
+										<option <c:if test="${commonPublic.locale == 'cs'}">selected="selected"</c:if> id="lcs" value="cs"><spring:message code="cs" /></option>
+										<option <c:if test="${commonPublic.locale == 'en'}">selected="selected"</c:if> id="len" value="en"><spring:message code="en" /></option>
 									</select>
 								</form>
 							</div>

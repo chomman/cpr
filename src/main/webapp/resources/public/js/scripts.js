@@ -81,18 +81,11 @@ $(function() {
           testMode: true,
           onChange: function(e){
         	  var selectedLocale = e.selectedItem.replace("l", "");
-        	  console.log(locale , selectedLocale);
         	  if(locale === selectedLocale){
         		  return false;
         	  }
         	  document.location.replace(makeUrl(locale, selectedLocale));
         	  return false;
-          },
-          afterLoad: function(evt){
-        	  if(locale !== "cs"){
-        		  console.log($langSwitcher.find("#l" + locale));
-        		  $langSwitcher.find("#l" + locale).attr('selected');
-        	  }
           }
 		});
 	

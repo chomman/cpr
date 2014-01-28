@@ -3,15 +3,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.standard.standardId} - ${fn:substring(model.standard.czechName, 0, 60)}</title>
-		<meta name="description" content="${model.standard.standardId} - ${model.standard.czechName}" />
+		<title>${model.standard.standardId} - ${fn:substring(model.standard.name, 0, 60)}</title>
+		<meta name="description" content="${model.standard.standardId} - ${model.standard.name}" />
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo;
-			<a title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">${model.webpage.name}</a> &raquo; 
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
+			<a:url title="${model.webpage.title}" href="${model.webpage.code}">${model.webpage.name}</a:url> &raquo;
 			<span>${model.standard.standardId}</span>
 	</div> 
 	
@@ -20,7 +20,7 @@
 		<article>
 			<hgroup>
 				<h1>${model.standard.standardId}</h1>
-				<h2>${model.standard.czechName}</h2>
+				<h2>${model.standard.name}</h2>
 			</hgroup>
 			
 			
@@ -34,14 +34,16 @@
 					</tr>
 				</c:if>
 				
-				<tr>
-					<td class="key"><strong><spring:message code="standard.group" /></strong>:</td>
-					<td>
-						<c:forEach items="${model.standard.standardGroups}" var="i">
-							<a class="block-item" href="<c:url value="/cpr/skupina/${i.code}" />">${i.code} - ${i.czechName}</a> 
-						</c:forEach>
-					</td>
-				</tr>
+				<c:if test="${not empty model.standard.standardGroups}">
+					<tr>
+						<td class="key"><strong><spring:message code="standard.group" /></strong>:</td>
+						<td>
+							<c:forEach items="${model.standard.standardGroups}" var="i">
+								<a:url cssClass="block-item" href="/cpr/skupina/${i.code}">${i.code} - ${i.name}</a:url> 
+							</c:forEach>
+						</td>
+					</tr>
+				</c:if>
 				
 				
 				<c:if test="${not empty model.standard.startValidity}">
