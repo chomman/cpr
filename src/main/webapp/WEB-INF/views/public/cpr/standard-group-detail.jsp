@@ -3,25 +3,25 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${fn:substring(model.group.czechName, 0, 90)}</title>		
+		<title>${fn:substring(model.group.name, 0, 90)}</title>		
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo;
-			<a title="${model.parentWebpage.title}" href="<c:url value="${model.parentWebpage.code}" />">${model.parentWebpage.name}</a> &raquo;
-			<a title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">${model.webpage.name}</a> &raquo;
-			<span>${fn:substring(model.group.czechName, 0, 55)}...</span>
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
+			<a:url title="${model.parentWebpage.title}" href="${model.parentWebpage.code}">${model.parentWebpage.name}</a:url> &raquo;
+			<a:url title="${model.webpage.title}" href="${model.webpage.code}">${model.webpage.name}</a:url> &raquo;
+			<span>${fn:substring(model.group.name, 0, 55)}...</span>
 	</div> 
-		<a class="back" title="${model.webpage.title}" href="<c:url value="${model.webpage.code}" />">&laquo; <spring:message code="backto"/> ${model.webpage.name}</a> 
+		<a:url cssClass="back" title="${model.webpage.title}" href="${model.webpage.code}">&laquo; <spring:message code="backto"/> ${model.webpage.name}</a:url>
 		<div id="main-content">
 			 
 				
 					<article>
 						<hgroup>
 							<h1><spring:message code="group.code" arguments="${model.group.code}" /></h1>
-							<h2>${model.group.czechName}</h2>
+							<h2>${model.group.name}</h2>
 						</hgroup>
 					
 					
