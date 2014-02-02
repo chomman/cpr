@@ -399,6 +399,7 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
 .button-box .button{padding:10px;width:120px;font-size:15px;}
 .csnFileUpload{margin-bottom:20px;}
 
+
 .lang,.disabled,.csn-edit-nav .add{
     -moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
     -webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -408,7 +409,7 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
         -webkit-border-radius:6px;    text-decoration:none;
         border-radius:6px;font-weight:bold;
 }
-.disabled{padding:8px;color:#999;
+.disabled{padding:8px;font-size:12px;color:#999;
         background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
         background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
         background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
@@ -419,6 +420,7 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
         background-color:#ffffff;
         border:1px solid #dcdcdc;
         text-shadow:0px 1px 0px #ffffff; 
+        cursor: default;
 }
    
 .lang {
@@ -608,3 +610,5 @@ table.log td,.log-descr{padding:2px;}
 .pj-wrapp .pj-picker-item{font-weight:bold;font-size:14px;color:blue}
 .pj-wrapp .pj-cancel{color:red;font-weight:normal;margin-left:20px;text-decoration:underline;cursor:pointer;}
 .pj-wrapp .pj-cancel:hover{text-decoration:none;}
+
+.button.default{width:auto;font-size:12px;}

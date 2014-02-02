@@ -14,14 +14,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
-import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.WebpageCategoryService;
 import sk.peterjurkovic.cpr.services.WebpageContentService;
@@ -29,6 +31,8 @@ import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.web.editors.WebpageCategoryEditor;
 import sk.peterjurkovic.cpr.web.editors.WebpageContentEditor;
+import sk.peterjurkovic.cpr.web.json.JsonResponse;
+import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
 
 @Controller
@@ -47,6 +51,7 @@ public class WebpageController extends SupportAdminController {
 	private WebpageCategoryEditor webpageCategoryEditor;
 	
 	public WebpageController(){
+		setViewName("webpages-add");
 		setEditFormView("webpages-edit");
 		setTableItemsView("webpages");
 	}
@@ -110,6 +115,9 @@ public class WebpageController extends SupportAdminController {
 			}
 		}
 		prepareModel(form, model);
+		if(webpageId == 0){
+			return getViewName();
+		}
         return getEditFormView();
 	}
 	
@@ -131,6 +139,15 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
+	@RequestMapping(value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST,  headers = {"content-type=application/json"})
+	public @ResponseBody JsonResponse  processAjaxSubmit(@Valid @RequestBody  Standard form, @PathVariable Long standardId){
+		JsonResponse response = new JsonResponse();
+	
+		response.setStatus(JsonStatus.SUCCESS);
+		return response;
+	}
+	
+	
 	/**
 	 * Spracuje odoslany formualr s odoslanou verejnou sekciu, v pripade ak je ID sekcie nula, 
 	 * jedna sa o pripadnie novej verejnej sekcie, inak o editaciu 
@@ -145,22 +162,18 @@ public class WebpageController extends SupportAdminController {
 	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST)
 	public String pocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) throws ItemNotFoundException {		
 		if(!result.hasErrors()){
-			try{
-				Long newId = createOrUpdate(form);
-				model.put("successCreate", true);
-				if(webpageId == 0){
-					return "redirect:/admin/webpages/edit/"+newId +"?successCreate=1";
-				}
-			}catch(CollisionException e){
-				result.rejectValue("timestamp", "error.collision", e.getMessage());
+			Long generatedId = createOrUpdate(form);
+			model.put("successCreate", true);
+			if(webpageId == 0){
+				return "redirect:/admin/webpages/edit/"+generatedId +"?successCreate=1";
 			}
 		}
 		prepareModel(form, model);
-        return getEditFormView();
+        return getViewName();
 	}
 	
 	
-	private Long createOrUpdate(Webpage form) throws CollisionException, ItemNotFoundException{
+	private Long createOrUpdate(Webpage form) throws ItemNotFoundException{
 		Webpage webpage = null;
 		
 		if(form.getId() == null || form.getId() == 0){
@@ -170,38 +183,28 @@ public class WebpageController extends SupportAdminController {
 			if(webpage == null){
 				createItemNotFoundError("Vežejná sekce s ID: "+ form.getId() + " se v systému nenachází");
 			}
-			validateCollision(webpage, form);
+			
 		}
-		
 		User loggerUser = UserUtils.getLoggedUser();
-		
 		if((!loggerUser.isWebmaster() && (form.getId() == null || form.getId() == 0)) || 
 		 (loggerUser.isWebmaster() && StringUtils.isBlank(form.getCode())) ){
 			webpage.setCode( webpageService.getSeoUniqueUrl(form.getName()));
 		}else if(loggerUser.isWebmaster()){
 			webpage.setCode(form.getCode());
 		}
-		
-		webpage.setTitle(form.getTitle());
-		webpage.setName(form.getName());
-		webpage.setDescription(form.getDescription());
-		webpage.setEnabled(form.getEnabled());
-		webpage.setTopText(form.getTopText());
-		webpage.setBottomText(form.getBottomText());
-		webpage.setWebpageCategory(form.getWebpageCategory());
-		if(form.getWebpageContent() != null){
-			webpage.setWebpageContent(form.getWebpageContent());
-		}
-		
+		webpage.setNameCzech(form.getNameCzech());
 		webpageService.saveOrUpdate(webpage);
 		return webpage.getId();
 	}
 	
 	
-	
 	private void prepareModel(Webpage form, ModelMap map){
 		Map<String, Object> model = new HashMap<String, Object>();
-		map.addAttribute("webpage", form);
+		if(form.getId() == 0){
+			map.addAttribute("webpage", form);
+		}else{
+			map.addAttribute("webpage", form.toDTO());
+		}
 		model.put("webpageId", form.getId());
 		model.put("categories", webpageCategoryService.getAll());
 		model.put("contents", webpageContentService.getAll());
@@ -211,13 +214,8 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	
-	private void validateCollision(Webpage persitedWebpage, Webpage form) throws CollisionException{
-		if(form.getTimestamp() != null && persitedWebpage.getChanged().toDateTime().isAfter(form.getTimestamp())){
-			throw new CollisionException();
-		}
-	}
 	
-	
+		
 	private Webpage createEmptyWebpageForm(){
 		Webpage form = new Webpage();
 		form.setId(0L);

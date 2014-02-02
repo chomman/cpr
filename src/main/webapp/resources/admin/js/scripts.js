@@ -147,12 +147,13 @@ function initWISIWIG(width, height){
 function validate(f){
 	var inputs = f.find('input.required, textarea.required, .email, .more7'),
 	valid = true,
-
+	
+	
 	vldt = {
-		required : function(v,i) {return {r : !!v ,  msg : ''};},
-		email	 : function(v,i) {return {r : v.match( /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/ ), msg : ''};},
-		more7 : function(v,i) {return {r : v.length === 0 || v.length >= 7, msg : ''} ;},
-		numeric  : function(v,i) {return {r : !isNaN(v), msg : ''} ;},
+		required : function(v,i) {return {r : !!v ,  msg :  getMsg(i) };},
+		email	 : function(v,i) {return {r : v.match( /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/ ), msg : getMsg(i)};},
+		more7 : function(v,i) {return {r : v.length === 0 || v.length >= 7, msg : getMsg(i)} ;},
+		numeric  : function(v,i) {return {r : !isNaN(v), msg : getMsg(i)} ;},
 	};
 	inputs.removeClass('formerr');
 	inputs.each(function(){
@@ -183,6 +184,15 @@ function validate(f){
 	}
 	
 	return valid;	
+	
+	function hasMsg(i){
+		return i.attr("data-err-msg") !== 'undefined';
+	}
+	
+	function getMsg(i){
+		return  hasMsg(i) ? i.attr("data-err-msg") : '';
+	}
+	
 }
 
 jQuery.fn.center = function () {

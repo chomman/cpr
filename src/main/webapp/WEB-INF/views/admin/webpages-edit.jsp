@@ -9,7 +9,7 @@
 <html>
 <head>
 	<title><spring:message code="webpages.edit" /></title>
-	<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+	<script src="/cpr/resources/admin/tinymce/tinymce.min.js"></script>
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 </head>
 <body>
@@ -26,23 +26,8 @@
 		<h1><spring:message code="webpages.edit" /></h1>
 
 		<div id="content">
-			<c:if test="${not empty webpage.createdBy}">
-				<table class="info">
-					<tr>
-						<td class="key"><spring:message code="meta.created" /></td>
-						<td class="val">${webpage.createdBy.firstName} ${webpage.createdBy.lastName}</td>
-						<td class="val"><joda:format value="${webpage.created}" pattern="${common.dateTimeFormat}"/></td>
-					</tr>
-					<c:if test="${not empty webpage.changedBy}">
-					<tr>
-						<td class="key"><spring:message code="meta.edited" /></td>
-						<td class="val">${webpage.changedBy.firstName} ${webpage.changedBy.lastName}</td>
-						<td class="val"><joda:format value="${webpage.changed}" pattern="${common.dateTimeFormat}"/></td>
-					</tr>
-					</c:if>
-				</table>
-			</c:if>
-			
+		
+			<div id="fileDir" class="hidden">webpage-${webpageId}</div>
 			<c:url value="/admin/webpages/edit/${webpageId}" var="formUrl"  />					
 			<form:form  commandName="webpage" method="post" action="${formUrl}" cssClass="valid">
 				
@@ -54,17 +39,7 @@
 				
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 				<p class="form-head"><spring:message code="webpage.head.basic" /><p>
-                <p>
-                	<label>
-                		<strong><em class="red">*</em>
-                			<spring:message code="webpage.name" />
-                		</strong>	
-                		<small><spring:message code="webpage.name.info"/></small>
-                	</label>
-                    <span class="field">
-                    	<form:input  htmlEscape="true" path="name" maxlength="60" cssClass="w300 required" />
-                    </span>
-                </p>
+              
                 <c:if test="${isLoggedWebmaster}">
 	                 <p>
 	                	<label class="tt" title="<spring:message code="webpage.code.info"/>">
@@ -82,7 +57,7 @@
                 		</strong>	
                 	</label>
                 <span class="field">  
-				     <form:select path="webpageCategory" cssClass="mw500 smaller required">
+				     <form:select path="webpageCategory" cssClass="mw500 smaller"> 
 						  <option value=""><spring:message code="form.select"/></option>
 						  <form:options items="${model.categories}" itemValue="id" itemLabel="name" />
 					</form:select>
@@ -96,38 +71,6 @@
 				     	<form:checkbox path="enabled" />
 				     </span>
 				 </p>
-				 <p class="form-head"><spring:message  code="webpage.head.seo" /><p>
-				 <p>
-                	<label>
-	                	<strong><em class="red">*</em>
-	                		<spring:message code="webpage.title" />
-	                	</strong>
-                		<small><spring:message code="webpage.title.info" /></small>
-                	</label>
-                    <span class="field">
-                    	<form:input  htmlEscape="true" path="title" maxlength="150" cssClass="required" />
-                    </span>
-                </p>
-				 <p>
-				    <label>
-				 		<spring:message code="webpage.descr" />
-                		<small><spring:message code="webpage.descr.info" /></small>
-				 	</label>
-				     <span class="field counter">  
-				     	<form:textarea path="description" cssClass="dscrbox" />
-				     	<span id="chars"></span>
-				     </span>
-				 </p>
-				 <p class="form-head"><spring:message code="webpage.head.content" /><p>
-				 <p>
-				    <label>
-				 		<spring:message code="webpage.toptext" />
-				 	</label>
-				     <span class="field">  								
-				     	<form:textarea path="topText" cssClass="mceEditor " />
-				     </span>
-				 </p>
-				
 				 	<c:if test="${isLoggedWebmaster}">
 					 	<p>
 					 	<label>
@@ -153,6 +96,66 @@
 						</span>
 						</p>
 					</c:if>		 
+				
+				<!-- CONTENT -->	
+				
+				 <p class="form-head"><spring:message code="webpage.head.content" /><p>
+				 <p>
+                	<label>
+                		<strong>
+                			<spring:message code="webpage.locale" />:
+                		</strong>	
+                		
+                	</label>
+                     <span class="field">
+                    	<a href="#" class="disabled">Česká</a>
+                    	<a href="#" class="lang en processSave">Anglická</a>
+                    </span>
+                </p> 
+                <p>
+                	<label>
+                		<strong><em class="red">*</em>
+                			<spring:message code="webpage.name" />
+                		</strong>	
+                		<small><spring:message code="webpage.name.info" /></small>
+                	</label>
+                    <span class="field">
+                    	<form:input  htmlEscape="true" path="name" maxlength="60" cssClass="w300 required" 
+                    		data-err-msg="Hodnota:  Název sekce, musí být vyplněna" />
+                    </span>
+                </p>
+				 <p>
+                	<label>
+	                	<strong><em class="red">*</em>
+	                		<spring:message code="webpage.title" />
+	                	</strong>
+                		<small><spring:message code="webpage.title.info" /></small>
+                	</label>
+                    <span class="field">
+                    	<form:input  htmlEscape="true" path="title" maxlength="150" cssClass="required"
+                    		data-err-msg="Hodnota: Titulek sekce, musí být vyplněna" />
+                    </span>
+                </p>
+				 <p>
+				    <label>
+				 		<spring:message code="webpage.descr" />
+                		<small><spring:message code="webpage.descr.info" /></small>
+				 	</label>
+				     <span class="field counter">  
+				     	<form:textarea path="description" cssClass="dscrbox" />
+				     	<span id="chars"></span>
+				     </span>
+				 </p>
+				 <p>
+				    <label>
+				 		<spring:message code="webpage.toptext" />
+				 	</label>
+				     <span class="field">  								
+				     	<form:textarea path="topText" cssClass="mceEditor " />
+				     </span>
+				 </p>
+				
+				 
 				 
 				 <p>
 				    <label>
@@ -163,7 +166,6 @@
 				     </span>
 				 </p>
                 <form:hidden path="id"/>
-                <form:hidden path="timestamp"/>
                 <p class="button-box">
                 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
                 </p>

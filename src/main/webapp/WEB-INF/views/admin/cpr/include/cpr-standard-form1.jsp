@@ -116,7 +116,7 @@
 	 <form:hidden path="id"  />
 	 <form:hidden path="timestamp"/>
 	 <p class="button-box">
-	 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+	 	 <input type="submit" class="button default" value="<spring:message code="form.save" />" />
 	 	 <c:if test="${not empty add}">
 	 	 	<span class="mini-info"><spring:message code="form.moreinfo" /></span>
 	 	 </c:if>

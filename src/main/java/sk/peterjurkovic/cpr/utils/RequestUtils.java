@@ -134,10 +134,14 @@ public class RequestUtils {
     
     public static boolean isCzechLocale(){
     	final String langCode = ContextHolder.getLang();
-    	if(StringUtils.isBlank(langCode)  || langCode.equals(LocaleResolver.CODE_CZ) ){
+    	if(StringUtils.isBlank(langCode) || langCode.equals(LocaleResolver.CODE_CZ) ){
     		return true;
     	}
     	return false;
+    }
+    
+    public static boolean isEnglishLocale(){
+    	return isCzechLocale();
     }
     
 }
