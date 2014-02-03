@@ -1,7 +1,14 @@
 package sk.peterjurkovic.cpr.dto;
 
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+import org.codehaus.jackson.map.deser.std.StdDeserializer.BooleanDeserializer;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotBlank;
+
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
+import sk.peterjurkovic.cpr.web.json.deserializers.WebpageCategoryDeserializer;
+import sk.peterjurkovic.cpr.web.json.deserializers.WebpageContentDeserializer;
 
 public class WebpageDto {
 	
@@ -11,11 +18,17 @@ public class WebpageDto {
 	private String description;
 	private String topText;
 	private String bottomText;
+	
+	@JsonDeserialize(using = WebpageCategoryDeserializer.class)
 	private WebpageCategory webpageCategory;
+	@JsonDeserialize(using = WebpageContentDeserializer.class)
 	private WebpageContent webpageContent;
+	
 	private String locale;
 	private String code;
-	private boolean enabled;
+	
+	@JsonDeserialize(using = BooleanDeserializer.class)
+	private Boolean enabled;
 	
 	public Long getId() {
 		return id;
@@ -23,18 +36,23 @@ public class WebpageDto {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	@NotBlank(message = "Název musí být vyplněn")
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
+	@NotBlank(message = "Titulek musí být vyplněn")
+	@Length(max = 150,  message = "Max. délka titulku je 150 znaku")
 	public String getTitle() {
 		return title;
 	}
 	public void setTitle(String title) {
 		this.title = title;
 	}
+	
+	@Length(max = 150,  message = "Max. délka popisku je 250 znaku")
 	public String getDescription() {
 		return description;
 	}

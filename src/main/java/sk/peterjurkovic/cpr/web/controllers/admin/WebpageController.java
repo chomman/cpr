@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import sk.peterjurkovic.cpr.dto.WebpageDto;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
@@ -139,10 +140,10 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	@RequestMapping(value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST,  headers = {"content-type=application/json"})
-	public @ResponseBody JsonResponse  processAjaxSubmit(@Valid @RequestBody  Standard form, @PathVariable Long standardId){
+	@RequestMapping(value = "/admin/webpages/async-edit", method = RequestMethod.POST,  headers = {"content-type=application/json"})
+	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody  WebpageDto form){
 		JsonResponse response = new JsonResponse();
-	
+		
 		response.setStatus(JsonStatus.SUCCESS);
 		return response;
 	}

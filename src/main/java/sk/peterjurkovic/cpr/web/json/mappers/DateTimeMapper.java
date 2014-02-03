@@ -1,9 +1,11 @@
-package sk.peterjurkovic.cpr.web.json;
+package sk.peterjurkovic.cpr.web.json.mappers;
 
 import org.codehaus.jackson.Version;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.codehaus.jackson.map.module.SimpleModule;
 import org.joda.time.DateTime;
+
+import sk.peterjurkovic.cpr.web.json.deserializers.DateTimeDeserializer;
 
 public class DateTimeMapper extends ObjectMapper {
 	

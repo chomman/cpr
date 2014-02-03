@@ -16,7 +16,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDateTime;
 
-import sk.peterjurkovic.cpr.web.json.DateTimeDeserializer;
+import sk.peterjurkovic.cpr.web.json.deserializers.DateTimeDeserializer;
 
 /**
  * Entita reprezentujuca aktualitu 

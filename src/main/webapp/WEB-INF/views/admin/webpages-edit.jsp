@@ -100,6 +100,7 @@
 				<!-- CONTENT -->	
 				
 				 <p class="form-head"><spring:message code="webpage.head.content" /><p>
+				 <div id="ajax-result"></div>
 				 <p>
                 	<label>
                 		<strong>

@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.json;
+package sk.peterjurkovic.cpr.web.json.deserializers;
 
 import java.io.IOException;
 
