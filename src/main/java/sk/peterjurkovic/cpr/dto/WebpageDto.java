@@ -1,14 +1,15 @@
 package sk.peterjurkovic.cpr.dto;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
-import org.codehaus.jackson.map.deser.std.StdDeserializer.BooleanDeserializer;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotBlank;
 
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
+import sk.peterjurkovic.cpr.web.json.deserializers.BooleanDeserializer;
 import sk.peterjurkovic.cpr.web.json.deserializers.WebpageCategoryDeserializer;
 import sk.peterjurkovic.cpr.web.json.deserializers.WebpageContentDeserializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class WebpageDto {
 	
@@ -26,8 +27,6 @@ public class WebpageDto {
 	
 	private String locale;
 	private String code;
-	
-	@JsonDeserialize(using = BooleanDeserializer.class)
 	private Boolean enabled;
 	
 	public Long getId() {

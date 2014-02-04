@@ -58,23 +58,13 @@
     <context:component-scan base-package="sk.peterjurkovic.cpr.csvimport">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
-    
-  
-      
-    
+     
    
     <bean name="localeFilter" class="sk.peterjurkovic.cpr.filters.LocaleFilter" />
+	
 	<bean name="localeResolver" class="sk.peterjurkovic.cpr.resolvers.LocaleResolver" />
    
-   <!-- Konverzia objektov  -->
-	  <bean id="conversionService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
-	    <property name="converters">
-	      <set>
-	        <ref bean="countryConverter" />
-	      </set>
-	    </property>
-	  </bean>
-
+  
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">
             <list>
@@ -83,9 +73,7 @@
         </property>
         <property name="ignoreUnresolvablePlaceholders" value="true" />
     </bean>
-    
-	
-	
+    	
 	
 	<bean name="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
     	<property name="basenames">
@@ -97,32 +85,7 @@
     	<property name="fallbackToSystemLocale" value="false" /> 
 	</bean>
 	
-	 <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
-	    <property name="messageConverters">
-	        <list>
-	            <bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
-	                <property name="objectMapper" ref="jacksonObjectMapper" />
-	            </bean>
-	        </list>
-	    </property>
-	</bean>
-	
-	<bean id="jacksonObjectMapper" class="sk.peterjurkovic.cpr.web.json.mappers.DateTimeMapper" />
-	<bean id="jacksonSerializationConfig" class="org.codehaus.jackson.map.SerializationConfig"
-	    factory-bean="jacksonObjectMapper" factory-method="getSerializationConfig" />
-	<bean
-	    class="org.springframework.beans.factory.config.MethodInvokingFactoryBean">
-	    <property name="targetObject" ref="jacksonSerializationConfig" />
-	    <property name="targetMethod" value="setSerializationInclusion" />
-	    <property name="arguments">
-	        <list>
-	            <value type="org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion">NON_DEFAULT</value>
-	        </list>
-	    </property>
-	</bean>
-	 
-	
-	 
+
 	<!-- freemarker -->
     <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
 	  <property name="templateLoaderPath" value="/WEB-INF/templates/"/>

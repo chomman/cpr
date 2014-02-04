@@ -13,7 +13,7 @@
 
 			
 	<!-- Enables the Spring MVC @Controller programming model -->
-	<annotation-driven conversion-service="conversionService" validator="validator" >
+	<mvc:annotation-driven validator="validator" >
 		<mvc:message-converters>
 	        <beans:bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
 	            <beans:property name="supportedMediaTypes">
@@ -25,9 +25,9 @@
 	            </beans:property>
 	        </beans:bean>
     	</mvc:message-converters>
-	</annotation-driven>
-	
-	 <context:component-scan base-package="sk.peterjurkovic.cpr.web.controllers" />
+	</mvc:annotation-driven>
+
+	<context:component-scan base-package="sk.peterjurkovic.cpr.web.controllers" />
 	
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />

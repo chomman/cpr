@@ -549,7 +549,11 @@ display:none;
 	border:3px solid #555;
 	display: none;
 }
-
+#loader.webpage{
+	background:#fff url(../img/ajax-loader.gif) 13px center no-repeat;
+	padding: 30px !important;
+	border: 10px solid #ddd;
+}
 .logResult{padding:10px 10px 10px 50px;margin-bottom:20px;font-size:12px;}
 .logResult p{font-size:14px;font-weight:bold;}
 .logResult table{margin:10px 0;border-collapse:collapse;}

@@ -11,12 +11,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.web.json.deserializers.DateTimeDeserializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 /**
  * Entita reprezentujuca aktualitu 

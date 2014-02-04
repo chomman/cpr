@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -92,6 +93,19 @@ public class WebpageServiceImpl implements WebpageService{
 	@Transactional(readOnly = true)
 	public List<Webpage> getPublicSection(Long sectionId) {
 		return webpageDao.getPublicSection(sectionId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isWebpageUrlUniqe(final String code, final Long id) {
+		if(StringUtils.isBlank(code)){
+			return true;
+		}
+		Webpage persitedWebpage = getWebpageByCode(code);
+		if(persitedWebpage == null || persitedWebpage.getId() == id){
+			return true;
+		}	
+		return false;
 	}
 	
 }

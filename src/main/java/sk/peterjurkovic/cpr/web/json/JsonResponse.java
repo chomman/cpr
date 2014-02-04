@@ -8,6 +8,7 @@ public class JsonResponse {
 	
 	 	private String status = JsonStatus.ERROR;
 	    private Object result = null;
+	    private Object data = null;
 
 	    public String getStatus() {
 	        return status;
@@ -21,5 +22,12 @@ public class JsonResponse {
 	    public void setResult(Object result) {
 	        this.result = result;
 	    }
+		public Object getData() {
+			return data;
+		}
+		public void setData(Object data) {
+			this.data = data;
+		}
+	    
 	    
 }

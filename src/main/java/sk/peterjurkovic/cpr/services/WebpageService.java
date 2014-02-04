@@ -23,4 +23,6 @@ public interface WebpageService {
 	List<Webpage> getPublicSection(Long sectionId);
 	
 	String getSeoUniqueUrl(String name);
+	
+	boolean isWebpageUrlUniqe(String code, Long id);
 }

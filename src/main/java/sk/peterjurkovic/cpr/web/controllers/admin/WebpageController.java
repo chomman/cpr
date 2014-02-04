@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,6 +9,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -20,16 +22,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.dto.WebpageDto;
-import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
 import sk.peterjurkovic.cpr.services.WebpageCategoryService;
 import sk.peterjurkovic.cpr.services.WebpageContentService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
+import sk.peterjurkovic.cpr.validators.admin.WebpageValidator;
 import sk.peterjurkovic.cpr.web.editors.WebpageCategoryEditor;
 import sk.peterjurkovic.cpr.web.editors.WebpageContentEditor;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
@@ -50,6 +53,9 @@ public class WebpageController extends SupportAdminController {
 	private WebpageContentEditor webpageContentEditor;
 	@Autowired
 	private WebpageCategoryEditor webpageCategoryEditor;
+	
+	@Autowired
+	private WebpageValidator webpageValidator;
 	
 	public WebpageController(){
 		setViewName("webpages-add");
@@ -140,9 +146,17 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	@RequestMapping(value = "/admin/webpages/async-edit", method = RequestMethod.POST,  headers = {"content-type=application/json"})
-	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody  WebpageDto form){
+	@RequestMapping(value = "/admin/webpages/async-edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody  WebpageDto form) throws ItemNotFoundException{
 		JsonResponse response = new JsonResponse();
+		final List<String> errors = webpageValidator.validate(form);
+		
+		if(errors.size() > 0){
+			response.setResult(errors);
+		}else{
+			update(form);
+			response.setStatus(JsonStatus.SUCCESS);
+		}
 		
 		response.setStatus(JsonStatus.SUCCESS);
 		return response;
@@ -214,7 +228,37 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	
+	private void update(WebpageDto webpageDto) throws ItemNotFoundException{
+		Webpage webpage = webpageService.getWebpageById(webpageDto.getId());
+		if(webpage == null){
+			throw new ItemNotFoundException("Webpage with id [" + webpageDto.getId() + "] was not found");
+		}
+		if(StringUtils.isNotBlank(webpageDto.getCode())){
+			webpage.setCode(webpage.getCode());
+		}
+		webpage.setWebpageCategory(webpageDto.getWebpageCategory());
+		webpage.setWebpageContent(webpageDto.getWebpageContent());
+		
+		if(StringUtils.isBlank(webpageDto.getLocale()) || !LocaleResolver.isAvailable(webpageDto.getLocale())){
+			throw new IllegalArgumentException("Unsupported locale: " + 
+						webpageDto.getLocale() + " for webpage id: " + webpage.getId());
+		}
+		
+		if(webpageDto.getLocale().equals(LocaleResolver.CODE_CZ)){
+			webpage.setTitleCzech(webpageDto.getTitle());
+			webpage.setNameCzech(webpageDto.getName());
+			webpage.setDescriptionCzech(webpageDto.getDescription());
+			webpage.setTopTextCzech(webpageDto.getTopText());
+			webpage.setBottomTextCzech(webpageDto.getBottomText());
+		}else if(webpageDto.getLocale().equals(LocaleResolver.CODE_EN)){
+			webpage.setTitleEnglish(webpageDto.getTitle());
+			webpage.setNameEnglish(webpageDto.getName());
+			webpage.setDescriptionEnglish(webpageDto.getDescription());
+			webpage.setTopTextEnglish(webpageDto.getTopText());
+			webpage.setBottomTextEnglish(webpageDto.getBottomText());
+		}
+		webpageService.saveOrUpdate(webpage);
+	}
 	
 		
 	private Webpage createEmptyWebpageForm(){

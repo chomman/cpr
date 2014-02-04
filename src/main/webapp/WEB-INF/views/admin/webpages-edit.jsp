@@ -109,8 +109,8 @@
                 		
                 	</label>
                      <span class="field">
-                    	<a href="#" class="disabled">Česká</a>
-                    	<a href="#" class="lang en processSave">Anglická</a>
+                    	<a href="#" data-lang="cs" class="disabled">Česká</a>
+                    	<a href="#" data-lang="en" class="lang en processSave">Anglická</a>
                     </span>
                 </p> 
                 <p>
@@ -167,8 +167,9 @@
 				     </span>
 				 </p>
                 <form:hidden path="id"/>
+                <input type="hidden" name="locale" value="cs" />
                 <p class="button-box">
-                	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+                	 <input type="submit" class="button ajax" value="<spring:message code="form.save" />" />
                 </p>
 			</form:form>
 			<span class="note"><spring:message code="form.required" /></span>
@@ -176,6 +177,6 @@
 	</div>
 	<div class="clear"></div>	
 </div>
-
+<div id="loader" class="webpage"></div>
 </body>
 </html>
