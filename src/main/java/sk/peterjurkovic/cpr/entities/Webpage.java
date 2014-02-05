@@ -238,23 +238,6 @@ public class Webpage extends AbstractEntity {
 		return bottomTextCzech;
 	}
 	
-	
-	@Transient
-	public WebpageDto toDTO(){
-		WebpageDto dto = new WebpageDto();
-		dto.setTitle(titleCzech);
-		dto.setName(nameCzech);
-		dto.setDescription(descriptionCzech);
-		dto.setTopText(topTextCzech);
-		dto.setBottomText(bottomTextCzech);
-		dto.setWebpageCategory(webpageCategory);
-		dto.setWebpageContent(webpageContent);
-		dto.setCode(getCode());
-		dto.setEnabled(getEnabled());
-		dto.setLocale(LocaleResolver.CODE_CZ);
-		dto.setId(getId());
-		return dto;
-	}
-	
+
 	
 }

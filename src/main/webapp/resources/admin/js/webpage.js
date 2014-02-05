@@ -5,8 +5,8 @@ $(function() {
  	 $form = $('form.valid');
 
 
-	tinymce.init({
-		selector:'.mceEditor', 
+	tinyMCE.init({
+		selector:'.wmceEditor', 
 		language : "cs",
 		height : 270,
 		width : 630,
@@ -17,6 +17,7 @@ $(function() {
 		plugins: "image,link,table",
 		convert_urls: false
 	});
+	
 	$(document).on('switchlang', function(){
 		var $focusedEl = $('.disabled'),
 		$clickedEl = $('.lang.processSave'),
@@ -24,16 +25,17 @@ $(function() {
 		$focusedEl.removeClass("disabled").addClass("lang processSave " + $focusedEl.attr('data-lang'));
 		$clickedEl.removeClass().addClass("disabled");
 		$('input[name=locale]').val(locale);
+		console.log('clicked on: ' + locale);
 		
 	});
 	$(document).on("click", ".processSave", function(e){
 		e.preventDefault();
-		processSave(true);
+		processSave({changeLang : true, target : $(this).attr('data-lang')});
 		return false;
 	});
 	$(document).on("click", ".button", function(e){
 		e.preventDefault();
-		processSave(false);
+		processSave({changeLang : false});
 		return false;
 	});
 	
@@ -47,30 +49,41 @@ $(function() {
 		$loader.hide();
 	}
 	
-	function processSave(changeLang){		
+	function processSave(context){		
 		if(validate($form)){
 			var data = toArray($form.serializeArray());
-			send(data, changeLang);
+			data.topText = tinyMCE.get('topText').getContent();
+			data.bottomText = tinyMCE.get('bottomText').getContent();
+			send(data, context);
 		}else{
 			console.log('err..');
 		}
 		return false;
 	}
+	
+	function updateForm(data){
+		$form.find('#name').val(data.name);
+		$form.find('#title').val(data.title);
+		$form.find('#description').val(data.description);
+		//tinyMCE.get('topText').setContent(data.topText);
+		// tinyMCE.get('bottomText').setContent(data.bottomText);
+	}
 
-	function send(data, changeLang){
+	function send(data, context){
 		console.log(data);
 		showWebpageLoader();
 		 $.ajax({
-	         url : getBasePath() + 'admin/webpages/async-edit' + (changeLang ? '?changeLang=true' : ''),
+	         url : getBasePath() + 'admin/webpages/async-edit' + (context.changeLang ? '?changeLang=' + context.target : ''),
 	         type : "POST",
 	         contentType: "application/json",
 	         dataType : "json",
 	         data : JSON.stringify(data),
 	         success : function (response) {
 	         	if(response.status == "SUCCESS"){
-	                if(!changeLang){ 
+	                if(!context.changeLang){ 
 	                	showStatus({err: 0, msg: "Úspěšně aktualizováno"});
 	                }else{
+	                	updateForm(response.data);
 	                	$(document).trigger("switchlang");
 	                }
 	         	}else{

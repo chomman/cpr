@@ -152,7 +152,7 @@
 				 		<spring:message code="webpage.toptext" />
 				 	</label>
 				     <span class="field">  								
-				     	<form:textarea path="topText" cssClass="mceEditor " />
+				     	<form:textarea path="topText" cssClass="wmceEditor " />
 				     </span>
 				 </p>
 				
@@ -163,7 +163,7 @@
 				 		<spring:message code="webpage.bottomText" />
 				 	</label>
 				     <span class="field">  								
-				     	<form:textarea path="bottomText" cssClass="mceEditor " />
+				     	<form:textarea path="bottomText" cssClass="wmceEditor " />
 				     </span>
 				 </p>
                 <form:hidden path="id"/>

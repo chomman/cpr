@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.dto.WebpageDto;
@@ -32,6 +33,7 @@ import sk.peterjurkovic.cpr.services.WebpageCategoryService;
 import sk.peterjurkovic.cpr.services.WebpageContentService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
+import sk.peterjurkovic.cpr.utils.WebpageUtils;
 import sk.peterjurkovic.cpr.validators.admin.WebpageValidator;
 import sk.peterjurkovic.cpr.web.editors.WebpageCategoryEditor;
 import sk.peterjurkovic.cpr.web.editors.WebpageContentEditor;
@@ -147,14 +149,20 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = "/admin/webpages/async-edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody  WebpageDto form) throws ItemNotFoundException{
+	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody  WebpageDto form, @RequestParam(required = false) String changeLang) throws ItemNotFoundException{
 		JsonResponse response = new JsonResponse();
 		final List<String> errors = webpageValidator.validate(form);
 		
 		if(errors.size() > 0){
 			response.setResult(errors);
 		}else{
-			update(form);
+			Webpage webpage = update(form);
+			if(StringUtils.isNotBlank(changeLang)){
+				WebpageDto webpageDtoInLang = WebpageUtils.toDTO(webpage, changeLang);
+				webpageDtoInLang.setWebpageCategory(null);
+				webpageDtoInLang.setWebpageContent(null);
+				response.setData(webpageDtoInLang);
+			}
 			response.setStatus(JsonStatus.SUCCESS);
 		}
 		
@@ -218,7 +226,7 @@ public class WebpageController extends SupportAdminController {
 		if(form.getId() == 0){
 			map.addAttribute("webpage", form);
 		}else{
-			map.addAttribute("webpage", form.toDTO());
+			map.addAttribute("webpage", WebpageUtils.toCzechDto(form));
 		}
 		model.put("webpageId", form.getId());
 		model.put("categories", webpageCategoryService.getAll());
@@ -228,7 +236,7 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	private void update(WebpageDto webpageDto) throws ItemNotFoundException{
+	private Webpage update(WebpageDto webpageDto) throws ItemNotFoundException{
 		Webpage webpage = webpageService.getWebpageById(webpageDto.getId());
 		if(webpage == null){
 			throw new ItemNotFoundException("Webpage with id [" + webpageDto.getId() + "] was not found");
@@ -258,6 +266,7 @@ public class WebpageController extends SupportAdminController {
 			webpage.setBottomTextEnglish(webpageDto.getBottomText());
 		}
 		webpageService.saveOrUpdate(webpage);
+		return webpage;
 	}
 	
 		
