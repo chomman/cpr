@@ -64,8 +64,10 @@
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<a href="<c:url value="${model.webpage.code}" />">${model.webpage.name}</a> &raquo;
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
+			<a:url href="${model.webpage.code}">
+				<a:localizedValue object="${model.webpage}" fieldName="name" />
+			</a:url> &raquo;
 			<span>${model.terminology.csn.csnId} - ${model.terminology.title}</span>
 	</div> 
 

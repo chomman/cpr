@@ -3,20 +3,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
+		<title>
+			<a:localizedValue object="${model.webpage}" fieldName="title" />
+		</title>
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<span>${model.webpage.name}</span>
+			<span><a:localizedValue object="${model.webpage}" fieldName="name" /></span>
 	</div> 
 
 		<div id="main-content">
 			<article>
-			${model.webpage.topText}
-			${model.webpage.bottomText}
+			<a:localizedValue object="${model.webpage}" fieldName="topText" />
+			<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 			</article>
 		</div>
 	</body>

@@ -3,6 +3,8 @@
 
 <ul class="br">
 <c:forEach items="${model.basicRequremets}" var="item">
-	<li><a title="${item.name}"  href="<c:url value="/cpr/br/${item.code}" />">${item.name}</a></li>
+	<li>
+		<a:url title="${item.name}" href="/cpr/br/${item.code}">${item.name}</a:url>
+	</li>
 </c:forEach>
 </ul>

@@ -2,22 +2,22 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
 
-<c:if test="${not empty model.webpage.topText}">
-	<article class="full-width">
-		${model.webpage.topText}
-	</article>
-</c:if>
+<article class="full-width">
+	<a:localizedValue object="${model.webpage}" fieldName="topText" />
+</article>
 
 <div class="item-list">
 	<ul class="br">
 		<c:forEach items="${model.assessmentSystems}" var="item">
-			<li><a title="${item.name}"  href="<c:url value="/cpr/as/${item.id}" />">${item.name}</a></li>
+			<li>
+				<a:url title="${item.name}" href="/cpr/as/${item.id}">${item.name}</a:url>
+			</li>
 		</c:forEach>
 	</ul>
 </div>
 
-<c:if test="${not empty model.webpage.bottomText}">
-	<article>
-		${model.webpage.bottomText}
-	</article>
-</c:if>
+
+<article class="full-width">
+	<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
+</article>
+

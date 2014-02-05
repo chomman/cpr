@@ -1,11 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
-<h1>${model.webpage.title}</h1>
+<h1><a:localizedValue object="${model.webpage}" fieldName="title" /></h1>
 
-<c:if test="${not empty model.webpage.topText}">
-	<article>${model.webpage.topText}</article>
-</c:if>
 <c:if test="${not empty model.standardGroups}">
 				
 	<table class="groups ">
@@ -78,8 +75,4 @@
 	<p class="msg alert">
 		<spring:message code="alert.empty" />
 	</p>
-</c:if>
-
-<c:if test="${not empty model.webpage.bottomText}">
-	<article>${model.webpage.bottomText}</article>
 </c:if>

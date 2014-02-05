@@ -3,20 +3,22 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
+		<title>
+			<a:localizedValue object="${model.webpage}" fieldName="title" />
+		</title>
 		<script src="<c:url value="/resources/public/js/terminology.autocomplete.js" />"></script>
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<span>${model.webpage.name}</span>
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
+			<span><a:localizedValue object="${model.webpage}" fieldName="name" /></span>
 	</div> 
 
 		<div id="main-content">
 			<article>
-				${model.webpage.topText}
+				<a:localizedValue object="${model.webpage}" fieldName="topText" />
 			</article>
 			
 			
@@ -103,7 +105,7 @@
 				
 				
 			 <article>
-					${model.webpage.bottomText}
+					<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 			 </article>
 				
 			 

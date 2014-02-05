@@ -3,25 +3,27 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
+		<title><a:localizedValue object="${model.webpage}" fieldName="title" /></title>
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
-			<span>${model.webpage.name}</span>
+			<span><a:localizedValue object="${model.webpage}" fieldName="name" /></span>
 	</div> 
 
 		<div id="main-content">
 				<article>
-					${model.webpage.topText}
+					<a:localizedValue object="${model.webpage}" fieldName="topText" />
 				</article>
 			
 			 <div id="aktuality">
 			 	<c:forEach items="${model.articles}" var="article">
 					<div class="news">
-		 				<h2><a href="<c:url value="${model.webpage.code}/${article.code}" />" class="blue-color">${article.title}</a></h2>
+		 				<h2>
+		 					<a:url cssClass="blue-color" href="${model.webpage.code}/${article.code}">${article.title}</a:url>
+		 				</h2>
 		 				<span><spring:message code="published" />: 
 			 				<c:if test="${not empty article.publishedSince}">
 			 					<joda:format value="${article.publishedSince}" pattern="dd.MM.yyyy"/>
@@ -54,7 +56,7 @@
 				
 				
 			 <article>
-					${model.webpage.bottomText}
+					<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 			 </article>
 				
 			 

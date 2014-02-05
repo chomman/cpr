@@ -1,12 +1,15 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
-<c:if test="${not empty model.webpage.title}" >
-	<h1>${model.webpage.title}</h1>
-</c:if>
 
-<c:if test="${not empty model.webpage.topText}" >
-	<h1>${model.webpage.topText}</h1>
+<h1>
+	<a:localizedValue object="${model.webpage}" fieldName="title" />
+</h1>
+
+<c:if test="<a:localizedValue object="${model.webpage}" fieldName="topText" />">
+	<article class="full-width">
+		<a:localizedValue object="${model.webpage}" fieldName="topText" />
+	</article>
 </c:if>
 
 <form id="search-form" method="get">
@@ -24,7 +27,8 @@
 	</p>
 </c:if>
 
-<c:if test="${not empty model.webpage.bottomText}" >
-	<h1>${model.webpage.bottomText}</h1>
-</c:if>
+
+<article class="full-width">
+	<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
+</article>
 

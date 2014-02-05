@@ -3,8 +3,8 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
-		<meta name="description" content="${model.webpage.description}" />
+		<title><a:localizedValue object="${model.webpage}" fieldName="title" /></title>
+		<meta name="description" content="<a:localizedValue object="${model.webpage}" fieldName="description" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/common.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
 		<script src="<c:url value="/resources/public/js/ehn.autocomplete.js" />"></script>
@@ -44,18 +44,18 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url title="${model.parentWebpage.title}" href="${model.parentWebpage.code}">${model.parentWebpage.name}</a:url> &raquo;
-			<span>${model.webpage.name}</span>
+			<a:url title="${model.parentWebpage.title}" href="${model.parentWebpage.code}">
+				<a:localizedValue object="${model.parentWebpage}" fieldName="name" />
+			</a:url> &raquo;
+			<span><a:localizedValue object="${model.webpage}" fieldName="name" /></span>
 	</div> 
 
 			<div id="main-content">
-				<c:if test="${not empty model.webpage.title}" >
-				<h1>${model.webpage.title}</h1>
-			</c:if>
+
+			<h1><a:localizedValue object="${model.webpage}" fieldName="title" /></h1>
 			
-			<c:if test="${not empty model.webpage.topText}" >
-				<h1>${model.webpage.topText}</h1>
-			</c:if>
+			
+			<a:localizedValue object="${model.webpage}" fieldName="topText" />
 			
 			<form class="filter"  method="get">
 				<div class="filter-advanced">
@@ -121,12 +121,7 @@
 			
 			
 			<jsp:include page="include/standard-table.jsp" />
-			
-			<c:if test="${not empty model.webpage.bottomText}" >
-				<h1>${model.webpage.bottomText}</h1>
-			</c:if>
-
-			
+			<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 		</div>
 	</body>
 </html>

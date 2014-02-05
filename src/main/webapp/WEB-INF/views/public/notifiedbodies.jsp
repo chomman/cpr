@@ -3,19 +3,21 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
+		<title>
+			<a:localizedValue object="${model.webpage}" fieldName="title" />
+		</title>
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a title="<spring:message code="homepage" />" href="<c:url value="/" />"><spring:message code="homepage" /></a> &raquo; 
-			<span>${model.webpage.name}</span>
+			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
+			<span><a:localizedValue object="${model.webpage}" fieldName="name" /></span>
 	</div> 
 
 		<div id="main-content">
 			<article>
-				${model.webpage.topText}
+				<a:localizedValue object="${model.webpage}" fieldName="topText" />
 			</article>
 			
 			
@@ -43,12 +45,12 @@
 		 		 
 		 		 	<tr class="hove">
 		 		 		<td class="c">
-		 		 			<a href="<c:url value="/subjekt/${nb.id}" />">
+		 		 			<a:url href="/subjekt/${nb.id}">
 		 		 				${nb.noCode}
 		 		 				<c:if test="${not empty nb.aoCode}">
 		 		 					(${nb.aoCode})
 		 		 				</c:if>
-		 		 			</a>
+		 		 			</a:url>	
 		 		 		</td>
 		 		 		<td>${nb.name}</td>
 		 		 		<!-- 
@@ -81,7 +83,7 @@
 				</div>	
 			</c:if>
 			 <article>
-					${model.webpage.bottomText}
+					<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 			 </article>
 				
 			 

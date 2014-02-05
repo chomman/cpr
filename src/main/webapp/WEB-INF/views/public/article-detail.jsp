@@ -11,8 +11,8 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;
-			<a:url href="${model.webpage.code}">${model.webpage.title}</a:url> &raquo; 
-			<span>${model.article.title}</span>
+			<a:url href="${model.webpage.code}"><a:localizedValue object="${model.webpage}" fieldName="title" /></a:url> &raquo; 
+			<span><a:localizedValue object="${model.webpage}" fieldName="title" /></span>
 	</div> 
 	<div id="main-content">
 		<article class="article-detail">

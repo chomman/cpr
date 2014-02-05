@@ -3,21 +3,23 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
-		<meta name="description" content="${model.webpage.description}" />
+		<title>
+			<a:localizedValue object="${model.webpage}" fieldName="title" />
+		</title>
+		<meta name="description" content="<a:localizedValue object="${model.webpage}" fieldName="description" />" />
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;
-			<span>${model.webpage.name}</span>
+			<span><a:localizedValue object="${model.webpage}" fieldName="name" /></span>
 	</div> 
 
 		<div id="main-content">
 			 
 			<article>
-			${model.webpage.topText}
+			<a:localizedValue object="${model.webpage}" fieldName="topText" />
 			</article>	
 				
 				
@@ -35,7 +37,7 @@
 				
 				
 			 <article>
-				${model.webpage.bottomText}
+				<a:localizedValue object="${model.webpage}" fieldName="topText" />
 			 </article>
 		</div>
 	</body>

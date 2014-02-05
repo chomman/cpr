@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
+		<title>
+			<a:localizedValue object="${model.webpage}" fieldName="title" />
+		</title>
 	</head>
 	<body>
 		
@@ -13,7 +15,7 @@
 
 		<div id="main-content">
 				<article>
-					${model.webpage.topText}
+					<a:localizedValue object="${model.webpage}" fieldName="topText" />
 				</article>
 			
 			 <div id="homepage">
@@ -53,7 +55,7 @@
 			 </div>
 			 
 			 <article>
-					${model.webpage.bottomText}
+					<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 			 </article>
 				
 			 

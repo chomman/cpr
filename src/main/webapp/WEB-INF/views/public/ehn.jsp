@@ -11,7 +11,7 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url title="${model.webpage.title}" href="${model.webpage.code}">${model.webpage.name}</a:url> &raquo;
+			<a:url href="${model.webpage.code}"><a:localizedValue object="${model.webpage}" fieldName="name" /></a:url> &raquo;
 			<span>${model.standard.standardId}</span>
 	</div> 
 	
@@ -22,8 +22,11 @@
 				<h1>${model.standard.standardId}</h1>
 				<h2>${model.standard.name}</h2>
 			</hgroup>
-			
-			
+
+
+			<div class="descr">
+				<a:localizedValue object="${model.webpage}" fieldName="topText" />
+			</div>
 			
 			<table>
 				
@@ -235,6 +238,11 @@
 			</c:if>
 			
 		</article>	
+		
+		<div class="descr">
+			<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
+		</div>
+
 	</div>
 	</body>
 </html>

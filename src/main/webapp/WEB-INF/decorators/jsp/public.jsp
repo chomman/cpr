@@ -5,9 +5,6 @@
 	<head>
 		<title><decorator:title/></title>
 		<meta charset="utf-8" />
-		<c:if test="${not empty model.webpage.description}">
-		<meta name="description" content="${model.webpage.description}">		
-		</c:if>
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
 		<!--[if lt IE 9]>
@@ -55,8 +52,9 @@
 				<ul class="page-width">
 					<c:forEach items="${commonPublic.mainMenu}" var="webpage">
 						<li>
-							<a title="${webpage.title}" <c:if test="${model.tab == webpage.id or webpage.id == model.webpage.id}" >class="curr"</c:if> 
-							href="<a:url href="${webpage.code}" linkOnly="true" />">${webpage.name}
+							<a title="<a:localizedValue object="${webpage}" fieldName="title" />" <c:if test="${model.tab == webpage.id or webpage.id == model.webpage.id}" >class="curr"</c:if> 
+							href="<a:url href="${webpage.code}" linkOnly="true" />">
+							<a:localizedValue object="${webpage}" fieldName="name" />
 							</a>
 						</li>
 					</c:forEach>

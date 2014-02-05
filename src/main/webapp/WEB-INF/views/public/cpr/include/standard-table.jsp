@@ -6,9 +6,10 @@
 		<table class="standards">
 			<thead>
 				<tr>
-					<th><spring:message code="cpr.standard.id" /></th>
-					<tH><spring:message code="cpr.standard.name" /></th>
+					<th><spring:message code="standard.id" /></th>
+					<tH><spring:message code="standard.name" /></th>
 					<th><spring:message code="standard.validity" /></th>
+					<th><spring:message code="standard.endofvalidity" /></th>
 					<th><spring:message code="standard.noao" /></th>
 					<th><spring:message code="assessment" /></th>
 					<th><spring:message code="standard.standardGroups" /></th>
@@ -45,12 +46,15 @@
 				 		</td>
 				 		<td class="validity c ">
 				 			<c:if test="${not empty i.startValidity}">
-				 				<joda:format value="${i.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
-				 			</c:if>
-				 			<c:if test="${not empty i.stopValidity}">
-				 			 -	<joda:format value="${i.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+								<joda:format value="${i.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
 				 			</c:if>
 				 		</td>
+				 		<td class="validity c ">
+				 			<c:if test="${not empty i.stopValidity}">
+								<joda:format value="${i.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+				 			</c:if>
+				 		</td>
+				 		
 				 		<td class="aono c">
 				 			<c:if test="${not empty i.notifiedBodies}">
 				 				<c:forEach items="${i.notifiedBodies}" var="j" >
@@ -103,10 +107,12 @@
 					 			<td>&nbsp;</td>
 					 			<td class="validity c ">
 							 		<c:if test="${not empty j.startValidity}">
-							 				<joda:format value="${j.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+										<joda:format value="${j.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
 							 		</c:if>
+							 	</td>
+							 	<td class="validity c ">
 							 		<c:if test="${not empty j.stopValidity}">
-							 			 -	<joda:format value="${j.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+										<joda:format value="${j.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
 							 		</c:if>
 					 			</td>
 					 			<td>&nbsp;</td>

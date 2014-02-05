@@ -10,11 +10,19 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url title="${model.parentWebpage.title}" href="${model.parentWebpage.code}">${model.parentWebpage.name}</a:url> &raquo;
-			<a:url title="${model.webpage.title}" href="${model.webpage.code}">${model.webpage.name}</a:url> &raquo;
+			<a:url href="${model.parentWebpage.code}">
+				<a:localizedValue object="${model.parentWebpage}" fieldName="name" />
+			</a:url> &raquo;
+			<a:url href="${model.webpage.code}">
+				<a:localizedValue object="${model.webpage}" fieldName="name" />
+			</a:url> &raquo;
 			<span>${fn:substring(model.group.name, 0, 55)}...</span>
 	</div> 
-		<a:url cssClass="back" title="${model.webpage.title}" href="${model.webpage.code}">&laquo; <spring:message code="backto"/> ${model.webpage.name}</a:url>
+		
+		<a:url cssClass="back" title="${model.webpage.title}" href="${model.webpage.code}">
+			&laquo; <spring:message code="backto"/> <a:localizedValue object="${model.webpage}" fieldName="name" />
+		</a:url>
+		
 		<div id="main-content">
 			 
 				

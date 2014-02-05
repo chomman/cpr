@@ -1,15 +1,18 @@
 package sk.peterjurkovic.cpr.web.taglib;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 
 import sk.peterjurkovic.cpr.context.ContextHolder;
+import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 
 public class LocalizedValueTag extends TagSupport{
@@ -24,11 +27,13 @@ public class LocalizedValueTag extends TagSupport{
 
 	@Override
 	public int doStartTag() throws JspException {
+		
 		if(fieldName.equalsIgnoreCase("")) {
 			throw new JspException("fieldName may not be Empty");
 		}
+		
 		if(object instanceof String) {
-			throw new JspException("really, asking me for a value and dont give me an Object? Kidding?");
+			throw new JspException("Given object can not be instance of String");
 		}
 
 		if(object == null ) {
@@ -37,8 +42,10 @@ public class LocalizedValueTag extends TagSupport{
 
 		String retvalue = "";               
 			try {
-				Method method = object.getClass().getMethod( buildMethodName() );   
-				retvalue = (String) method.invoke(object);       
+				retvalue = getMethodValue( buildMethodName() );
+				if(StringUtils.isBlank(retvalue) && ContextHolder.getLang().equals(SystemLocale.EN.getCode())){
+					retvalue = getMethodValue( buildCzechMethodName() );
+				}
 			} catch (NoSuchMethodException e1) {
 				e1.printStackTrace();
 				throw new RuntimeException(e1);
@@ -55,10 +62,27 @@ public class LocalizedValueTag extends TagSupport{
 			return SKIP_BODY;
 	}
 	
+	private String getMethodValue(final String methodName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
+		Method method = object.getClass().getMethod( methodName );
+		Object value =  method.invoke(object);
+		if(!(value instanceof String)){
+			logger.error("JSP error. Objects " + object.getClass().getName() + " methods: " + methodName + " returns invalid value.");
+			return "";
+		}
+		return (String)value;
+	}
+	
 	private String buildMethodName(){
 		StringBuilder sb = new StringBuilder("get");
 		sb.append(CodeUtils.firstCharacterUp(fieldName));
 		sb.append(ContextHolder.getLangName());
+		return sb.toString();
+	}
+	
+	private String buildCzechMethodName(){
+		StringBuilder sb = new StringBuilder("get");
+		sb.append(CodeUtils.firstCharacterUp(fieldName));
+		sb.append(SystemLocale.CZ.getLangName());
 		return sb.toString();
 	}
 	

@@ -48,6 +48,8 @@
 							<p class="msg ok"><spring:message code="success.create" /></p>
 						</c:if>
 						
+						<!-- CESTINA -------------------------- -->
+						<p class="form-head"><spring:message code="lang.czech" /><p>						
 						<p>
                         	<label class="tt" title="<spring:message code="settings.basic.systemname.info" />">
                         		<strong><em class="red">*</em>
@@ -55,7 +57,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input  htmlEscape="true" path="systemName" maxlength="255" cssClass="mw500 required" />
+                            	<form:input  htmlEscape="true" path="systemNameCzech" maxlength="255" cssClass="mw500 required" />
                             </span>
                         </p>
                         
@@ -66,7 +68,7 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input  htmlEscape="true" path="headerTitle" maxlength="150" cssClass="mw500 required" />
+                            	<form:input  htmlEscape="true" path="headerTitleCzech" maxlength="150" cssClass="mw500 required" />
                             </span>
                         </p>
                         
@@ -77,10 +79,47 @@
                         		</strong>
                         	</label>
                             <span class="field">
-                            	<form:input  htmlEscape="true" path="ownerName" maxlength="255" cssClass="mw500  required" />
+                            	<form:input  htmlEscape="true" path="ownerNameCzech" maxlength="255" cssClass="mw500  required" />
                             </span>
                         </p>
                         
+                        <!-- ANGLICTINA -------------------------- -->
+                        
+                        <p class="form-head"><spring:message code="lang.english" /><p>
+                        <p>
+                        	<label class="tt" title="<spring:message code="settings.basic.systemname.info" />">
+                        		<strong><em class="red">*</em>
+                        			<spring:message code="settings.basic.systemname" /> (<spring:message code="lang.english" />):
+                        		</strong>
+                        	</label>
+                            <span class="field">
+                            	<form:input  htmlEscape="true" path="systemNameEnglish" maxlength="255" cssClass="mw500 required" />
+                            </span>
+                        </p>
+                        
+                        <p>
+                        	<label class="tt" title="<spring:message code="settings.basic.systemname.info" />">
+                        		<strong><em class="red">*</em>
+                        			<spring:message code="settings.basic.headertitle" /> (<spring:message code="lang.english" />):
+                        		</strong>
+                        	</label>
+                            <span class="field">
+                            	<form:input  htmlEscape="true" path="headerTitleEnglish" maxlength="150" cssClass="mw500 required" />
+                            </span>
+                        </p>
+                        
+                        <p>
+                        	<label>
+                        		<strong><em class="red">*</em>
+                        			<spring:message code="settings.basic.ownername" /> (<spring:message code="lang.english" />):
+                        		</strong>
+                        	</label>
+                            <span class="field">
+                            	<form:input  htmlEscape="true" path="ownerNameEnglish" maxlength="255" cssClass="mw500  required" />
+                            </span>
+                        </p>
+                        
+                        <p class="form-head">Další nastavení<p>
                         <p>
                         	<label class="tt" title="<spring:message code="settings.basic.systememail.info" />">
                         		<strong><em class="red">*</em>

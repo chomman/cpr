@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.webpage.title}</title>
-		<meta name="description" content="${model.webpage.description}" />
+		<title>
+			<a:localizedValue object="${model.webpage}" fieldName="title" />
+		</title>
 		<script src="<c:url value="/resources/public/js/ehn.autocomplete.js" />"></script>
 	</head>
 	<body>
@@ -12,8 +13,12 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url title="${model.parentWebpage.title}" href="${model.parentWebpage.code}">${model.parentWebpage.name}</a:url> &raquo;
-			<span>${model.webpage.name}</span>
+			<a:url href="${model.parentWebpage.code}">
+					<a:localizedValue object="${model.parentWebpage}" fieldName="name" />
+			</a:url> &raquo;
+			<span>
+				<a:localizedValue object="${model.webpage}" fieldName="name" />
+			</span>
 	</div> 
 
 		<div id="main-content">

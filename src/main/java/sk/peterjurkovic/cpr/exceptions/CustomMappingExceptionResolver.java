@@ -23,6 +23,8 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 		if(!(ex instanceof PageNotFoundEception)){
 			logger.error(ex);
 			exceptionLogService.logException(request, ex);
+		}else{
+			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 		}
 		return super.doResolveException(request, response, handler, ex);
 	}
