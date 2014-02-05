@@ -17,12 +17,12 @@ import sk.peterjurkovic.cpr.entities.BasicSettings;
 import sk.peterjurkovic.cpr.services.BasicSettingsService;
 
 @Controller
-public class SettingsController extends SupportAdminController {
+public class BasicSettingsController extends SupportAdminController {
 		
 	@Autowired
 	private BasicSettingsService basicSettingsService;
 	
-	public SettingsController(){
+	public BasicSettingsController(){
 		setViewName("settings");
 	}
 	
@@ -71,11 +71,11 @@ public class SettingsController extends SupportAdminController {
 	public void updateSettings(BasicSettings form){
 		BasicSettings settings = basicSettingsService.getBasicSettings();
 		settings.setCsnOnlineUrl(form.getCsnOnlineUrl());
-		settings.setSystemName(form.getSystemName());
-		settings.setHeaderTitle(form.getHeaderTitle());
+		settings.setSystemNameCzech(form.getSystemNameCzech());
+		settings.setHeaderTitleCzech(form.getHeaderTitleCzech());
 		settings.setSystemEmail(form.getSystemEmail());
 		settings.setGoogleAnalyticsTrackingCode(form.getGoogleAnalyticsTrackingCode());
-		settings.setOwnerName(form.getOwnerName());
+		settings.setOwnerNameCzech(form.getOwnerNameCzech());
 		if(StringUtils.isNotBlank(form.getVersion())){
 			settings.setVersion(form.getVersion());
 		}

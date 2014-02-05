@@ -3,20 +3,20 @@ $(function() {
 	$("#description").limiter(255, $("#chars"));
 	 var $loader = $('#loader'),
  	 $form = $('form.valid');
-
-
-	tinyMCE.init({
-		selector:'.wmceEditor', 
-		language : "cs",
-		height : 270,
-		width : 630,
-		forced_root_block : "",
-		force_br_newlines : true,
-		force_p_newlines : false,
-		 //content_css : $("#base").text() + 'resources/admin/css/tinymce.css',
-		plugins: "image,link,table",
-		convert_urls: false
+	 
+	 tinyMCE.init({
+		 	selector: "textarea.wisiwig",
+			language : "cs",
+			height : 270,
+			width : 630,
+			forced_root_block : "",
+			force_br_newlines : true,
+			force_p_newlines : false,
+			 //content_css : $("#base").text() + 'resources/admin/css/tinymce.css',
+			plugins: "image,link,table",
+			convert_urls: false
 	});
+	
 	
 	$(document).on('switchlang', function(){
 		var $focusedEl = $('.disabled'),
@@ -25,8 +25,7 @@ $(function() {
 		$focusedEl.removeClass("disabled").addClass("lang processSave " + $focusedEl.attr('data-lang'));
 		$clickedEl.removeClass().addClass("disabled");
 		$('input[name=locale]').val(locale);
-		console.log('clicked on: ' + locale);
-		
+		console.log('locale: ' + locale);
 	});
 	$(document).on("click", ".processSave", function(e){
 		e.preventDefault();
@@ -50,27 +49,32 @@ $(function() {
 	}
 	
 	function processSave(context){		
-		if(validate($form)){
-			var data = toArray($form.serializeArray());
-			data.topText = tinyMCE.get('topText').getContent();
-			data.bottomText = tinyMCE.get('bottomText').getContent();
-			send(data, context);
-		}else{
-			console.log('err..');
+		if( $('input[name=locale]').val() == 'cs' && !validate($form) ){
+			return false;
 		}
+		var data = toArray($form.serializeArray());
+		data.topText = tinyMCE.editors[0].getContent();
+		data.bottomText = tinyMCE.editors[1].getContent();
+		send(data, context);
 		return false;
 	}
 	
+	function getText(v){
+		if(v == null || typeof v === 'undefined'){
+			return "";
+		}
+		return v;
+	}
+	
 	function updateForm(data){
-		$form.find('#name').val(data.name);
-		$form.find('#title').val(data.title);
-		$form.find('#description').val(data.description);
-		//tinyMCE.get('topText').setContent(data.topText);
-		// tinyMCE.get('bottomText').setContent(data.bottomText);
+		$form.find('#name').val(getText(data.name));
+		$form.find('#title').val(getText(data.title));
+		$form.find('#description').val(getText(data.description));
+		tinyMCE.editors[0].setContent(getText(data.topText));
+		tinyMCE.editors[1].setContent(getText(data.bottomText));
 	}
 
 	function send(data, context){
-		console.log(data);
 		showWebpageLoader();
 		 $.ajax({
 	         url : getBasePath() + 'admin/webpages/async-edit' + (context.changeLang ? '?changeLang=' + context.target : ''),
@@ -92,7 +96,7 @@ $(function() {
 			                  errorInfo += response.result[i] +(i != 0 ? "<br />" : '');  
 			             }
 	         		$("#ajax-result").html('<p class="msg error">' + errorInfo + '</p>');		             
-	         		 showStatus({err: 1, msg: errMsg});
+	         		 showStatus({err: 1, msg: errorInfo});
 	         	}
 	         },
 	         error : function(xhr, status, err) {

@@ -141,7 +141,7 @@ public class RequestUtils {
     }
     
     public static boolean isEnglishLocale(){
-    	return isCzechLocale();
+    	return !isCzechLocale();
     }
     
 }

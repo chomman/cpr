@@ -57,7 +57,7 @@
 					<tbody>
 						 <c:forEach items="${model.webpages}" var="i">
 						 	<tr>
-						 		<td>${i.name}</td>
+						 		<td>${i.nameCzech}</td>
 						 		<td>${i.webpageCategory.name}</td>
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">

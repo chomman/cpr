@@ -151,23 +151,34 @@ public class WebpageController extends SupportAdminController {
 	@RequestMapping(value = "/admin/webpages/async-edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody  WebpageDto form, @RequestParam(required = false) String changeLang) throws ItemNotFoundException{
 		JsonResponse response = new JsonResponse();
-		final List<String> errors = webpageValidator.validate(form);
 		
+		if(StringUtils.isNotBlank(changeLang)){
+			response.setData( getLanguage(form, changeLang) );
+			response.setStatus(JsonStatus.SUCCESS);
+			return response;
+		}
+		
+		final List<String> errors = webpageValidator.validate(form);
+				
 		if(errors.size() > 0){
 			response.setResult(errors);
 		}else{
-			Webpage webpage = update(form);
-			if(StringUtils.isNotBlank(changeLang)){
-				WebpageDto webpageDtoInLang = WebpageUtils.toDTO(webpage, changeLang);
-				webpageDtoInLang.setWebpageCategory(null);
-				webpageDtoInLang.setWebpageContent(null);
-				response.setData(webpageDtoInLang);
-			}
+			update(form);
 			response.setStatus(JsonStatus.SUCCESS);
 		}
-		
-		response.setStatus(JsonStatus.SUCCESS);
 		return response;
+	}
+	
+	
+	private WebpageDto getLanguage(WebpageDto webpageDto, String changeLang) throws ItemNotFoundException{
+		Webpage webpage = webpageService.getWebpageById(webpageDto.getId());
+		if(webpage == null){
+			createItemNotFoundError("Vežejná sekce s ID: "+ webpageDto.getId() + " se v systému nenachází");
+		}
+		WebpageDto webpageDtoInLang = WebpageUtils.toDTO(webpage, changeLang);
+		webpageDtoInLang.setWebpageCategory(null);
+		webpageDtoInLang.setWebpageContent(null);
+		return webpageDtoInLang;
 	}
 	
 	

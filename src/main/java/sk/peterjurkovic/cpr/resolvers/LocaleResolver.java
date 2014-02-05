@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.resolvers;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -10,9 +9,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang.StringUtils;
 
 import sk.peterjurkovic.cpr.context.ContextHolder;
+import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 public class LocaleResolver implements org.springframework.web.servlet.LocaleResolver {
+	
 	
 	public static final String CODE_EN = "en";
 	public static final String CODE_CZ = "cs";
@@ -20,42 +21,33 @@ public class LocaleResolver implements org.springframework.web.servlet.LocaleRes
 
 	public Locale resolve(HttpServletRequest request) {
 	    String lang = RequestUtils.getPartOfURLOnPosition(request, 1);
-	    if (StringUtils.isNotBlank(lang) && lang.equals(CODE_EN)) {
-	        return new Locale(CODE_EN);
+	    if (StringUtils.isNotBlank(lang) && lang.equals(SystemLocale.EN.getCode())) {
+	        return SystemLocale.getEnglishLocale();
 	    }
-	    return new Locale(CODE_CZ);
+	    return SystemLocale.getCzechLocale();
 	}
 	
 	public static String getDefaultLang() {
-	    return CODE_CZ;
+	    return SystemLocale.getDefaultLanguage();
 	}
 	
 	public static Locale getDefaultLocale() {
-	    return new Locale(CODE_CZ);
+	    return SystemLocale.getCzechLocale();
 	}
 	
 	
 	public static List<String> getLanguageCodes() {
-	    List<String> codes = new ArrayList<String>();
-	    codes.add(CODE_CZ);
-	    codes.add(CODE_EN);
-	    return codes;
+	   return SystemLocale.getAllCodes();
 	}
 	
 	
 	public static List<Locale> getAvailableLocales() {
-	    List<Locale> locales = new ArrayList<Locale>();
-	    locales.add(new Locale(CODE_CZ));
-	    locales.add(new Locale(CODE_EN));
-	    return locales;
+	    return SystemLocale.getAllLocales();
 	}
 	
 	
 	public static boolean isAvailable(String localeCode) {
-	    if (CODE_CZ.equals(localeCode) || CODE_EN.equals(localeCode)) {
-	        return true;
-	    }
-	    return false;
+	    return SystemLocale.isAvaiable(localeCode);
 	}
 
   

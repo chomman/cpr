@@ -29,9 +29,14 @@ public class BasicSettings extends AbstractEntity {
 	private static final long serialVersionUID = 202201311391L;
 	
 	
-	private String systemName;
-	private String headerTitle;
-	private String ownerName;
+	private String systemNameCzech;
+	private String headerTitleCzech;
+	private String ownerNameCzech;
+	
+	private String systemNameEnglish;
+	private String headerTitleEnglish;
+	private String ownerNameEnglish;
+	
 	private String systemEmail;
 	private String googleAnalyticsTrackingCode;
 	private String csnOnlineUrl;
@@ -43,37 +48,7 @@ public class BasicSettings extends AbstractEntity {
 	public Long getId() {
 		return super.getId();
 	}
-
 	
-	@Column(name ="system_name")
-	@Length(min =1, max = 255, message = "Název systému musí být vyplněn")
-	public String getSystemName() {
-		return systemName;
-	}
-
-	public void setSystemName(String systemName) {
-		this.systemName = systemName;
-	}
-	
-	@Column(name ="header_title")
-	@Length(min =1, max = 150, message = "Titulek hlavičky veřejné sekce musí být vyplněn")
-	public String getHeaderTitle() {
-		return headerTitle;
-	}
-
-	public void setHeaderTitle(String headerTitle) {
-		this.headerTitle = headerTitle;
-	}
-
-	@Column(name ="owner_name")
-	@Length(min =1, max = 255, message = "Název ITC musí být vyplněn")
-	public String getOwnerName() {
-		return ownerName;
-	}
-
-	public void setOwnerName(String ownerName) {
-		this.ownerName = ownerName;
-	}
 	
 	@Email
 	@Column(name ="main_system_email", length = 50)
@@ -114,7 +89,65 @@ public class BasicSettings extends AbstractEntity {
 	public void setVersion(String version) {
 		this.version = version;
 	}
+
+
+	@Column(name ="system_name")
+	@Length(min =1, max = 255, message = "Název systému musí být vyplněn")
+	public String getSystemNameCzech() {
+		return systemNameCzech;
+	}
+	public void setSystemNameCzech(String systemNameCzech) {
+		this.systemNameCzech = systemNameCzech;
+	}
 	
+	@Column(name ="header_title")
+	@Length(min =1, max = 150, message = "Titulek hlavičky veřejné sekce musí být vyplněn")
+	public String getHeaderTitleCzech() {
+		return headerTitleCzech;
+	}
+
+	public void setHeaderTitleCzech(String headerTitleCzech) {
+		this.headerTitleCzech = headerTitleCzech;
+	}
+
+	@Column(name ="owner_name")
+	@Length(min =1, max = 255, message = "Název ITC musí být vyplněn")
+	public String getOwnerNameCzech() {
+		return ownerNameCzech;
+	}
+
+	public void setOwnerNameCzech(String ownerNameCzech) {
+		this.ownerNameCzech = ownerNameCzech;
+	}
+
+	
+	@Column(name ="system_name_english")
+	@Length(max = 255)
+	public String getSystemNameEnglish() {
+		return systemNameEnglish;
+	}
+
+	public void setSystemNameEnglish(String systemNameEnglish) {
+		this.systemNameEnglish = systemNameEnglish;
+	}
+	
+	@Column(name ="header_title_english")
+	public String getHeaderTitleEnglish() {
+		return headerTitleEnglish;
+	}
+
+	public void setHeaderTitleEnglish(String headerTitleEnglish) {
+		this.headerTitleEnglish = headerTitleEnglish;
+	}
+	
+	@Column(name ="owner_name_english")
+	public String getOwnerNameEnglish() {
+		return ownerNameEnglish;
+	}
+
+	public void setOwnerNameEnglish(String ownerNameEnglish) {
+		this.ownerNameEnglish = ownerNameEnglish;
+	}
 	
 	
 }

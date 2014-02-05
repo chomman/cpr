@@ -117,5 +117,13 @@ public class CodeUtils {
 
 	        return charMap;
 	    }
+	    
+	    
+	    public static String firstCharacterUp(String value){
+	    	if(StringUtils.isBlank(value)){
+	    		return "";
+	    	}
+	    	return Character.toUpperCase(value.charAt(0)) + value.substring(1); 
+	    }
 	
 }

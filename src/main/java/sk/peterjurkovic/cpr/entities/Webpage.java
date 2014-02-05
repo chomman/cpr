@@ -238,6 +238,8 @@ public class Webpage extends AbstractEntity {
 		return bottomTextCzech;
 	}
 	
+	
+	
 
 	
 }

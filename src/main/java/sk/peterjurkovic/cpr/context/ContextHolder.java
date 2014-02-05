@@ -1,10 +1,12 @@
 package sk.peterjurkovic.cpr.context;
 
 import java.util.Locale;
+
 import org.springframework.context.i18n.LocaleContext;
 import org.springframework.context.i18n.SimpleLocaleContext;
 import org.springframework.core.NamedThreadLocal;
-import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
+
+import sk.peterjurkovic.cpr.enums.SystemLocale;
 
 
 
@@ -16,24 +18,24 @@ public class ContextHolder {
     public static String getLang() {
         LocaleContext localeContext = localeContextHolder.get();
         if (localeContext == null) {
-            return LocaleResolver.CODE_CZ;
+            return SystemLocale.getDefaultLanguage();
         }
         return localeContext.getLocale().getLanguage();
     }
     
+    public static String getLangName(){
+    	return SystemLocale.getNameByLang(getLang());
+    }
    
     public static boolean isDefaultLang() {
-        if (getLang().equals(LocaleResolver.CODE_CZ)) {
-            return true;
-        }
-        return false;
+       return SystemLocale.isDefault(getLang());
     }
     
     
     public static Locale getLocale() {
         LocaleContext localeContext = localeContextHolder.get();
         if (localeContext == null) {
-            return new Locale(LocaleResolver.CODE_CZ);
+            return SystemLocale.getCzechLocale();
         }
         return localeContext.getLocale();
     }

@@ -33,9 +33,9 @@
 			<header class="page-width">
 					<a:url href="/" id="logo" ></a:url>
 					<strong>
-						<span class="is">${commonPublic.settings.systemName}</span>
-						<span class="is-name">${commonPublic.settings.headerTitle}</span>
-						<span class="itc-name">${commonPublic.settings.ownerName}</span>
+						<span class="is"><a:localizedValue object="${commonPublic.settings}" fieldName="systemName" /></span>
+						<span class="is-name"><a:localizedValue object="${commonPublic.settings}" fieldName="headerTitle" /></span>
+						<span class="itc-name"><a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" /></span>
 					</strong>
 						<div id="lswitcher-wrapp">
 							<div id="lswitcher">
@@ -76,10 +76,12 @@
 		<!-- FOOTER -->
 		<footer>
 			<div id="footer" class="page-width">
-				<a href="http://www.itczlin.cz/cz/" title="${commonPublic.settings.ownerName}" class="itc-logo"></a>
+				<a href="http://www.itczlin.cz/cz/" title="<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />" class="itc-logo"></a>
 				<p class="itc-name">
-					${commonPublic.settings.systemName}<br />
-					<a href="http://www.itczlin.cz/cz/" title="${commonPublic.settings.ownerName}">${commonPublic.settings.ownerName}</a>
+					<a:localizedValue object="${commonPublic.settings}" fieldName="systemName" /><br />
+					<a href="http://www.itczlin.cz/cz/" >
+						<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />
+					</a>
 				</p>
 				<a class="admin" href="<c:url value="/admin/login" />" title="Přihlášení do administrace systému" ><spring:message code="admin" /></a>
 			</div>
