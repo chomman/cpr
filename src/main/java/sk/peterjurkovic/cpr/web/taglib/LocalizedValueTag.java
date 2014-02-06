@@ -29,15 +29,18 @@ public class LocalizedValueTag extends TagSupport{
 	public int doStartTag() throws JspException {
 		
 		if(fieldName.equalsIgnoreCase("")) {
-			throw new JspException("fieldName may not be Empty");
+			logger.error("fieldName may not be Empty");
+			return SKIP_BODY;
 		}
 		
 		if(object instanceof String) {
-			throw new JspException("Given object can not be instance of String");
+			logger.error("Given object can not be instance of String");
+			return SKIP_BODY;
 		}
 
 		if(object == null ) {
-			throw new JspException("really, asking me for a value and dont give me an Object? Kidding?");
+			logger.error("really, asking me for a value and dont give me an Object? Kidding?");
+			return SKIP_BODY;
 		}
 
 		String retvalue = "";               

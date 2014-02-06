@@ -28,9 +28,11 @@
 						<c:forEach items="${model.submenu}" var="item">
 							<div>
 								<h2>
-									<a:url href="${item.code}" cssClass="blue-color" title="${item.title}">${item.name}</a:url>
+									<a:url href="${item.code}" cssClass="blue-color" >
+										<a:localizedValue object="${item}" fieldName="name" />
+									</a:url>
 								</h2>
-								<p>${item.description}</p>
+								<p><a:localizedValue object="${item}" fieldName="description" /></p>
 							</div>
 						</c:forEach>
 				</div> 

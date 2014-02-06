@@ -16,25 +16,68 @@
 			<a:url href="${model.webpage.code}">
 				<a:localizedValue object="${model.webpage}" fieldName="name" />
 			</a:url> &raquo;
-			<span>${fn:substring(model.group.name, 0, 55)}...</span>
+			<span>${fn:substring(model.group.name, 0, 45)}...</span>
 	</div> 
 		
-		<a:url cssClass="back" title="${model.webpage.title}" href="${model.webpage.code}">
+		<a:url cssClass="back"  href="${model.webpage.code}">
 			&laquo; <spring:message code="backto"/> <a:localizedValue object="${model.webpage}" fieldName="name" />
 		</a:url>
+		
 		
 		<div id="main-content">
 			 
 				
-					<article>
-						<hgroup>
-							<h1><spring:message code="group.code" arguments="${model.group.code}" /></h1>
-							<h2>${model.group.name}</h2>
-						</hgroup>
-					
-					
-					</article>	
-					
+			<article>
+				<hgroup>
+					<h1><spring:message code="group.code" arguments="${model.group.code}" /></h1>
+					<h2>${model.group.name}</h2>
+				</hgroup>
+			</article>	
+			<table class="group-info">
+			<tr>
+				<td class="key">
+					<strong><spring:message code="commissiondecision" /></strong>
+				</td>
+				<td>
+					<span class="block-item">
+						<a class="file pdf min inline" target="_blank" href="${model.group.commissionDecision.url}">
+						${model.group.commissionDecision.label}
+						</a>
+						<c:if test="${not empty model.group.commissionDecision.draftAmendmentLabel}">
+							, (<a class="file pdf min inline" target="_blank" href="${model.group.commissionDecision.draftAmendmentUrl}">
+							${model.group.commissionDecision.draftAmendmentLabel}
+						</a>)
+						</c:if>
+					</span>
+				</td>
+			</tr>
+			<tr>
+				<td class="key">
+					<strong><spring:message code="ehn.mandates" /></strong>
+				</td>
+				<td>
+					<c:forEach items="${model.group.mandates}" var="m">
+						<span class="block-item">
+							<a class="file pdf min inline" target="_blank" href="${m.mandateFileUrl}">
+							${m.mandateName}
+							</a>
+							<c:if test="${not empty m.changes}">
+								<span class="mchanges">
+									<spring:message code="ehn.mandates.changes" />: 
+									<c:forEach items="${m.changes}" var="j" varStatus="s">
+										<a class="file pdf min inline" target="_blank" href="${j.mandateFileUrl}">
+											${j.mandateName}
+										</a>	
+										<c:if test="${not s.last}">, </c:if>  
+									</c:forEach>
+								</span>
+							</c:if>
+						</span>
+					</c:forEach>
+				</td>
+			</tr>
+		</table>
+		
 					<jsp:include page="include/standard-table.jsp" />
 			</div>
 			 

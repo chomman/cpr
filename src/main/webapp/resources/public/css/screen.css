@@ -562,7 +562,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 
 .standards td{border-right:1px solid #eee;}
 .standards{font-size:12px;}
-.standards .norm{min-width: 250px;}
+.standards .norm{min-width: 120px;}
 .standards .norm span{display:block;}
 .standards .norm .s-replace a{color:red;}
 .standards .norm .s-replaced a{color:#3e4e69}
@@ -641,3 +641,8 @@ header{position:relative;}
 #lswitcher ul.dropdown li:last-child { border-radius: 0 0 3px 3px;}
 #len { 	background-image: url(../img/flags/gb.png);}
 #lcs { 	background-image: url(../img/flags/cs.png);}
+
+.key{padding:5px 0 5px 15px;background:#fcfcfc;border-right:1px solid #ddd;width:220px;}
+.group-info .key{width:180px;}
+.group-info .block-item{border:0;font-size:14px}
+.group-info .mchanges a{margin:0 3px 0 8px;font-size:14px}

@@ -222,7 +222,7 @@ public class WebpageController extends SupportAdminController {
 		User loggerUser = UserUtils.getLoggedUser();
 		if((!loggerUser.isWebmaster() && (form.getId() == null || form.getId() == 0)) || 
 		 (loggerUser.isWebmaster() && StringUtils.isBlank(form.getCode())) ){
-			webpage.setCode( webpageService.getSeoUniqueUrl(form.getName()));
+			webpage.setCode( webpageService.getSeoUniqueUrl(form.getNameCzech()));
 		}else if(loggerUser.isWebmaster()){
 			webpage.setCode(form.getCode());
 		}

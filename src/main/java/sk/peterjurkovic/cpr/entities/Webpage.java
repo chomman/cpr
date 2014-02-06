@@ -12,15 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
-import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
-
-import sk.peterjurkovic.cpr.dto.WebpageDto;
-import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
-import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 /**
  * Entita reprezentujuca verejnu sekciu systemu
@@ -193,53 +187,5 @@ public class Webpage extends AbstractEntity {
 	public void setBottomTextEnglish(String bottomTextEnglish) {
 		this.bottomTextEnglish = bottomTextEnglish;
 	}
-	
-	
-	/* =============================================================== 
-	 * SELECTED LANG CONTENT 
-	 */
-	@Transient
-	public String getName() {
-		if(RequestUtils.isEnglishLocale() && StringUtils.isNotBlank(nameEnglish)){
-			return nameEnglish;
-		}
-		return nameCzech;
-	}
-	
-	@Transient
-	public String getTitle() {
-		if(RequestUtils.isEnglishLocale() && StringUtils.isNotBlank(titleEnglish)){
-			return titleEnglish;
-		}
-		return titleCzech;
-	}
-
-	@Transient
-	public String getDescription() {
-		if(RequestUtils.isEnglishLocale() && StringUtils.isNotBlank(descriptionEnglish)){
-			return descriptionEnglish;
-		}
-		return descriptionCzech;
-	}
-
-	@Transient
-	public String getTopText() {
-		if(RequestUtils.isEnglishLocale() && StringUtils.isNotBlank(topTextEnglish)){
-			return topTextEnglish;
-		}
-		return topTextCzech;
-	}
-	
-	@Transient
-	public String getBottomText() {
-		if(RequestUtils.isEnglishLocale() && StringUtils.isNotBlank(bottomTextEnglish)){
-			return bottomTextEnglish;
-		}
-		return bottomTextCzech;
-	}
-	
-	
-	
-
 	
 }

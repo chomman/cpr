@@ -7,6 +7,7 @@
 			<thead>
 				<tr>
 					<th><spring:message code="standard.id" /></th>
+					<th><spring:message code="csn" /></th>
 					<tH><spring:message code="standard.name" /></th>
 					<th><spring:message code="standard.validity" /></th>
 					<th><spring:message code="standard.endofvalidity" /></th>
@@ -21,6 +22,9 @@
 				 	class="<c:if test="${not empty i.standardChanges}">has-change</c:if> <c:if test="${not empty i.standardStatus }">${i.standardStatus.cssClass}</c:if>" 
 				 	<c:if test="${not empty i.standardStatus and i.standardStatus.id != 1}"> title="<spring:message code='${i.standardStatus.name}' />" </c:if>
 				 	>
+				 	
+				 	
+				 		<!-- EHn --> 
 				 		
 				 		<td class="norm">
 				 			<span>
@@ -40,10 +44,48 @@
 			 					</span>
 		 					</c:if>
 				 		</td>
+				 		
+				 		
+				 		
+				 		<!-- CSN --> 
+				 		<td>
+					 		<c:forEach items="${i.standardCsns}" var="csn">
+								<span
+									class="<c:if test="${not empty csn.standardStatus }">${csn.standardStatus.cssClass}</c:if>" 
+				 					<c:if test="${not empty csn.standardStatus and csn.standardStatus.id != 1}"> title="<spring:message code='${csn.standardStatus.name}' />" </c:if>
+								>
+										<c:if test="${not empty csn.csnOnlineId }">
+											<a class="file pdf min" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.csnOnlineId)}">
+												${csn.csnName}
+											</a>
+										</c:if>
+										<c:if test="${empty csn.csnOnlineId }">
+											${csn.csnName}
+										</c:if>
+								</span>
+						 		<c:forEach items="${csn.standardCsnChanges}" var="j">
+						 				<span>
+							 				<c:if test="${not empty j.csnOnlineId }">
+												<a class="file pdf min" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', j.csnOnlineId)}">
+													${j.changeCode}
+												</a>
+											</c:if>
+											<c:if test="${empty j.csnOnlineId }">
+												${j.changeCode}>
+											</c:if>
+										</span>
+						 		</c:forEach>
+							</c:forEach>
+				 		</td>
+				 		
+				 		<!-- Name --> 
 				 		<td class="s-name">
 				 			<span class="s-czechName" >${i.name}</span>
 				 			
 				 		</td>
+				 		
+				 		
+				 		<!-- VALIDITY -->
 				 		<td class="validity c ">
 				 			<c:if test="${not empty i.startValidity}">
 								<joda:format value="${i.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
@@ -55,6 +97,8 @@
 				 			</c:if>
 				 		</td>
 				 		
+				 		
+				 		<!-- NOAO -->
 				 		<td class="aono c">
 				 			<c:if test="${not empty i.notifiedBodies}">
 				 				<c:forEach items="${i.notifiedBodies}" var="j" >
@@ -74,6 +118,8 @@
 				 				-
 				 			</c:if>
 				 		</td>
+				 		
+				 		<!-- assesment systems -->
 				 		<td class="as c">
 				 			<c:if test="${not empty i.assessmentSystems}">
 				 				<c:forEach items="${i.assessmentSystems}" var="as"  varStatus="status">
@@ -85,6 +131,9 @@
 				 				-
 				 			</c:if>
 				 		</td>
+				 		
+				 		
+				 		<!-- STANDARD GROUPS -->
 				 		<td class="standardGroups c">
 				 			<c:if test="${not empty i.standardGroups}">
 				 				<c:forEach items="${i.standardGroups}" var="j" varStatus="status">

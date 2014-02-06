@@ -96,7 +96,7 @@
 	     	<form:hidden path="replaceStandard" id="pickerVal" />
 	     </span>
 	 </p> 
-	 <p id="statusDateWrapp" <c:if test="${empty standard.statusDate}">class="hidden"</c:if> >
+	 <p>
 	 	<label>
 	 		<spring:message code="standardStatus.date" />:
 	 	</label>
