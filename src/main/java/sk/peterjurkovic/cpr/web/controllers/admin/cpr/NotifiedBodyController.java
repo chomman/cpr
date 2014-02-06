@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import sk.peterjurkovic.cpr.entities.Address;
 import sk.peterjurkovic.cpr.entities.Country;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
@@ -164,16 +163,13 @@ public class NotifiedBodyController extends SupportAdminController {
 	
 	
 	private NotifiedBody createOrUpdate(NotifiedBody form) throws ItemNotFoundException{
-		NotifiedBody notifiedBody = null;
-		Address address = new Address();	
+		NotifiedBody notifiedBody = null;	
 		if(form.getId() == 0){
 			notifiedBody = new NotifiedBody();
 		}else{
 			notifiedBody = notifiedBodyService.getNotifiedBodyById(form.getId());
 			if(notifiedBody == null){
 				createItemNotFoundError("NO/AO s ID: " + form.getId() + " se v systému nenachází");
-			}else{
-				address = notifiedBody.getAddress();
 			}
 		}
 		
@@ -187,10 +183,9 @@ public class NotifiedBodyController extends SupportAdminController {
 		notifiedBody.setEmail(form.getEmail());
 		notifiedBody.setDescription( form.getDescription());
 		notifiedBody.setCountry(form.getCountry());
-		address.setCity(form.getAddress().getCity());
-		address.setZip(form.getAddress().getZip());
-		address.setStreet(form.getAddress().getStreet());
-		notifiedBody.setAddress(address);
+		notifiedBody.setCity(form.getCity());
+		notifiedBody.setZip(form.getZip());
+		notifiedBody.setStreet(form.getStreet());
 		notifiedBodyService.saveOrUpdateNotifiedBody(notifiedBody);
 		return notifiedBody;
 	}

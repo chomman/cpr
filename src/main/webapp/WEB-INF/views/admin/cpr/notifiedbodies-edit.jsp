@@ -159,7 +159,7 @@
                       		<spring:message code="address.city" />:
                       	</label>
                           <span class="field">  
-                          	<form:input htmlEscape="true"  path="address.city"  maxlength="50"  cssClass="w200" />
+                          	<form:input htmlEscape="true"  path="city"  maxlength="50"  cssClass="w200" />
                           </span>
                       </p>
                        <p>
@@ -167,8 +167,8 @@
                       		<spring:message code="address.street" /> a <spring:message code="address.zip" />
                       	</label>
                           <span class="field">  
-                          	<form:input htmlEscape="true" path="address.street"  maxlength="100" cssClass="w300" /> 
-                          	<form:input htmlEscape="true" path="address.zip"  maxlength="6" cssClass="w100" />
+                          	<form:input htmlEscape="true" path="street"  maxlength="100" cssClass="w300" /> 
+                          	<form:input htmlEscape="true" path="zip"  maxlength="6" cssClass="w100" />
                           </span>
                       </p>
                        

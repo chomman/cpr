@@ -55,8 +55,8 @@
 		 		 		<td>${nb.name}</td>
 		 		 		<!-- 
 		 		 		<td class="c">
-		 		 			<c:if test="${not empty nb.address.city}">
-		 		 			${nb.address.city}
+		 		 			<c:if test="${not empty nb.city}">
+		 		 			${nb.city}
 		 		 			</c:if>
 		 		 		</td>
 		 		 		-->

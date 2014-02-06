@@ -40,11 +40,15 @@
 					<strong class="head"><spring:message code="address" /></strong>
 					<ul itemprop="address" itemscope  itemtype="http://data-vocabulary.org/Address">
 						<li class="bigger">${model.notifiedBody.name}</li>
-						<c:if test="${not empty model.notifiedBody.address.street}">
-							<li><strong><spring:message code="address.street" />: </strong><span id="street" itemprop="street-address">${model.notifiedBody.address.street}</span></li>
+						<c:if test="${not empty model.notifiedBody.street}">
+							<li><strong><spring:message code="address.street" />: </strong><span id="street" itemprop="street-address">${model.notifiedBody.street}</span></li>
 						</c:if>
-						<c:if test="${not empty model.notifiedBody.address.city}">
-							<li><strong><spring:message code="address.city" />: </strong><span id="city" itemprop="locality">${model.notifiedBody.address.city}</span>,<span id="zip" itemprop="postal-code">${model.notifiedBody.address.zip}</span></li>
+						<c:if test="${not empty model.notifiedBody.city}">
+							<li>
+								<strong><spring:message code="address.city" />: </strong>
+								<span id="city" itemprop="locality">${model.notifiedBody.city}</span>,
+								<span id="zip" itemprop="postal-code">${model.notifiedBody.zip}</span>
+							</li>
 						</c:if>
 						<li><strong><spring:message code="address.country" />: </strong><span id="country" itemprop="country-name">${model.notifiedBody.country.countryName}</span></li>
 						<c:if test="${not empty model.notifiedBody.nandoCode}">
@@ -95,7 +99,7 @@
 					
 				
 				</div>
-				<c:if test="${not empty model.notifiedBody.address.street and not empty model.notifiedBody.address.city}">
+				<c:if test="${not empty model.notifiedBody.street and not empty model.notifiedBody.city}">
 					<div class="nb-right">
 						<div id="map" style="width: 500px; height: 430px;"></div>
 					</div>	

@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,10 +10,8 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.validation.Valid;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Type;
@@ -38,7 +35,6 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private static final long serialVersionUID = 313L;
 	
-	private Long id;
 	
 	private String name;
 	
@@ -46,9 +42,13 @@ public class NotifiedBody extends AbstractEntity {
 	
 	private String aoCode;
 	
-	private Address address;
-	
 	private Country country;
+	
+	private String city;
+	
+	private String street;
+	
+	private String zip;
 	
 	private String webpage;
 	
@@ -71,12 +71,10 @@ public class NotifiedBody extends AbstractEntity {
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "notified_body_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 	
-	public void setId(Long id) {
-		this.id = id;
-	}
+	
 	
 	@Column(name = "name", length = 200)
 	@Length(min =1, max = 200, message = "Název musí být vyplněn.")
@@ -108,18 +106,6 @@ public class NotifiedBody extends AbstractEntity {
 
 	public void setAoCode(String aoCode) {
 		this.aoCode = aoCode;
-	}
-
-	@Valid
-	@OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-	@JoinColumn(name = "address_id")
-	public Address getAddress() {
-		return address;
-	}
-	
-	
-	public void setAddress(Address address) {
-		this.address = address;
 	}
 	
 	@Pattern(regexp = "(^(https?://)?[a-z_0-9\\-\\.]+\\.[a-z]{2,4}.*$|)*", message = "Webová stránka je v chybném tvaru.")
@@ -193,13 +179,34 @@ public class NotifiedBody extends AbstractEntity {
 		this.nandoCode = nandoCode;
 	}
 
-	@Override
-	public String toString() {
-		return "NotifiedBody [id=" + id + ", name=" + name
-				+ ", notifiedBodyCode=" + noCode + ", address="
-				+ address + ", webpage=" + webpage + ", phone=" + phone
-				+ ", fax=" + fax + ", email=" + email
-				+ ", etaCertificationAllowed=" + etaCertificationAllowed + "]";
+	@Length(max = 50, message = "Město může mít max. 50 znaků")
+	@Column( name = "city", length= 50)
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+	
+	@Length(max = 100, message = "Ulice může mít max. 100 znaků")
+	@Column( name = "street", length= 100)
+	public String getStreet() {
+		return street;
+	}
+
+	public void setStreet(String street) {
+		this.street = street;
+	}
+	
+	@Pattern(regexp = "(^\\d{3}\\s?\\d{2}$|)*", message = "PSČ je v chybném tvaru")
+	@Column(name = "zip", length = 6)
+	public String getZip() {
+		return zip;
+	}
+
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
 	
