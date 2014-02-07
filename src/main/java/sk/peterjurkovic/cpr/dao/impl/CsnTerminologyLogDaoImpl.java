@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Repository;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.CsnTerminologyLogDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
+import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 
 
@@ -25,7 +27,7 @@ public class CsnTerminologyLogDaoImpl extends BaseDaoImpl<CsnTerminologyLog, Lon
 	@SuppressWarnings("unchecked")
 	@Override
 	public PageDto getLogPage(int currentPage, Map<String, Object> criteria) {
-		StringBuilder hql = new StringBuilder("from CsnTerminologyLog l ");
+		StringBuilder hql = new StringBuilder("from " + CsnTerminologyLog.class.getName() + " l ");
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
@@ -107,6 +109,15 @@ public class CsnTerminologyLogDaoImpl extends BaseDaoImpl<CsnTerminologyLog, Lon
 			
 			
 		}
+	}
+
+	@Override
+	public void removeCsnLogs(Csn csn) {
+		Validate.notNull(csn);
+		Query hqlQuery = sessionFactory.getCurrentSession()
+					.createQuery("delete from " + CsnTerminologyLog.class.getName() + " l where l.csn.id=:id");
+		hqlQuery.setLong("id", csn.getId());
+		hqlQuery.executeUpdate();
 	}
 	
 	

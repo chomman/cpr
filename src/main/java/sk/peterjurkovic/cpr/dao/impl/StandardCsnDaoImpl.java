@@ -74,7 +74,7 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 		return items;
 	}
 	
-	private void prepareHqlQueryParams(final Query hqlQuery,final Map<String, Object> criteria){
+	private void prepareHqlQueryParams(Query hqlQuery,final Map<String, Object> criteria){
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));

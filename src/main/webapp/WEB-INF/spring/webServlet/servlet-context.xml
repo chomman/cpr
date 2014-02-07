@@ -71,7 +71,7 @@
 			  <beans:map>
 			    <beans:entry key="sk.peterjurkovic.cpr.exceptions.ItemNotFoundException" value="exceptions/item-not-found" />
 			    <beans:entry key="sk.peterjurkovic.cpr.exceptions.PageNotFoundEception" value="exceptions/page-not-found" />
-			    <beans:entry key="java.lang.Exception" value="exceptions/page-not-found" />
+			    <beans:entry key="java.lang.Exception" value="exceptions/unexpected-error" />
 	   		</beans:map>
 	  </beans:property>
  	</beans:bean> 

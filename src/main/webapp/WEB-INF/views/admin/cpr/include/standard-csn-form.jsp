@@ -107,34 +107,36 @@
 <c:if test="${not empty csn.id and csn.id > 0}">
 	<!--  CSN CHANGES WRAPPER  -->
 	<div class="tab-wrapp">
-			<p class="form-head"><spring:message code="cpr.csn.changes" /></p>
-			<c:if test="${empty csn.standardCsnChanges}">
-				<p class="msg alert">
-					<spring:message code="cpr.standard.changes.empty" />
-				</p>
-			</c:if>
-			<c:if test="${not empty csn.standardCsnChanges}">
-				<table class="data">
-					<c:forEach items="${csn.standardCsnChanges}" var="i">
-						<tr>
-							<td class="b">
-								<a title="Editovat" class="tt b" href="${formUrl}/standard-csn-change/${i.id}">${i.changeCode}</a>
-							</td>
-							<td class="last-edit"><joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/></td>
-							<td class="delete big">
-								<a class="confirm"  href="${formUrl}/standard-change/delete/${i.id}">
-					 				<spring:message code="form.delete" />
-					 			</a>
-							</td>
-						</tr>
-					</c:forEach>
-				</table>
-			</c:if>
-			
-			<div class="inline-form r">
-				<a class="lang mandate-add-btn" href="<c:url value="/admin/cpr/standard-csn/${csn.id}/change/0"  />">
-					<spring:message code="cpr.standard.changes.add" />
-				</a>
-			</div>
+		<p class="form-head"><spring:message code="cpr.csn.changes" /></p>
+		<c:if test="${empty csn.standardCsnChanges}">
+			<p class="msg alert">
+				<spring:message code="cpr.standard.changes.empty" />
+			</p>
+		</c:if>
+		<c:if test="${not empty csn.standardCsnChanges}">
+			<table class="data">
+				<c:forEach items="${csn.standardCsnChanges}" var="i">
+					<tr>
+						<td class="b">
+							<a:adminurl cssClass="b" href="/cpr/standard-csn/${csn.id}/change/${i.id}">
+								${i.changeCode}
+							</a:adminurl>
+						</td>
+						<td class="last-edit"><joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/></td>
+						<td class="delete big">
+							<a:adminurl cssClass="confirm" href="/cpr/standard-csn/${csn.id}/change/delete/${i.id}">
+								<spring:message code="form.delete" />
+							</a:adminurl>
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+		</c:if>
+		
+		<div class="inline-form r">
+			<a:adminurl cssClass="lang mandate-add-btn" href="/cpr/standard-csn/${csn.id}/change/0">
+				<spring:message code="cpr.standard.changes.add" />
+			</a:adminurl>
+		</div>
 	</div>
 </c:if>

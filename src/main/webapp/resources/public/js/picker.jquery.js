@@ -6,7 +6,7 @@
         selectedClass : 'pj-picker-item',
         cancelBtnClass : 'pj-cancel',
         autocompleteCallBack : null,
-        debug: true
+        debug: false
     };
     
     $.fn.remotePicker = function(newOpts) {
@@ -18,12 +18,6 @@
         	console.log(options);
         }        
         
-       /*
-        *  if(typeof options.autocompleteCallBack !== 'function'){
-        	console.warn('autocompleteCallBack funcion is not defined');
-        	return;
-        }
-        */
         if(options.debug){
         	console.info(options.autocompleteCallBack);
         }

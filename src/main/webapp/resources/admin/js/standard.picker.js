@@ -1,5 +1,5 @@
 $(document).ready(function() {    
-  
+	var $standardStatus = $('#standardStatus');
     refreshInputLabel();
     
     $("#standardPicker").autocomplete({
@@ -20,10 +20,13 @@ $(document).ready(function() {
     $(document).on("click", ".standard-link-cancel", cancelSelection);
     
     // aktualizuje popisok inputu pre vyhladavanie normy
-    $('#standardStatus').change( refreshInputLabel );
+    $standardStatus.change( refreshInputLabel );
     
     function refreshInputLabel(){
-    	var selectedVal = $('#standardStatus').find("option:selected").val().toLowerCase(),
+    	if($standardStatus.length === 0){
+    		return false;
+    	}
+    	var selectedVal = $standardStatus.find("option:selected").val().toLowerCase(),
     		$inputLabel = $('#standard-replaced-label');
     	if(selectedVal === "canceled"){
     		$inputLabel.text('norma je nahrazena: ');

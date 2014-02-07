@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.services;
 import java.util.Map;
 
 import sk.peterjurkovic.cpr.dto.PageDto;
+import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 
 public interface CsnTerminologyLogService {
@@ -19,4 +20,6 @@ public interface CsnTerminologyLogService {
 	void createWithUser(CsnTerminologyLog log);
 	
 	PageDto getLogPage(int currentPage, Map<String, Object> criteria);
+	
+	void removeCsnLogs(Csn csn);
 }

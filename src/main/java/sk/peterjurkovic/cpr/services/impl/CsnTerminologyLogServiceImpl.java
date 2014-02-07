@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.CsnTerminologyLogDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
+import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnTerminologyLog;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.CsnTerminologyLogService;
@@ -43,7 +44,7 @@ public class CsnTerminologyLogServiceImpl implements CsnTerminologyLogService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public CsnTerminologyLog getById(Long id) {
+	public CsnTerminologyLog getById(final Long id) {
 		return csnTerminologyLogDao.getByID(id);
 	}
 	
@@ -72,6 +73,10 @@ public class CsnTerminologyLogServiceImpl implements CsnTerminologyLogService {
 			criteria.put("success", ParseUtils.parseStringToBoolean(criteria.get("success")));
 		}
 		return criteria;
+	}
+	@Override
+	public void removeCsnLogs(final Csn csn) {
+		csnTerminologyLogDao.removeCsnLogs(csn);
 	}
 }
 

@@ -320,7 +320,7 @@ public class StandardController extends SupportAdminController{
 	
 	
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/standard-change/delete/{id}", method = RequestMethod.GET)
-	public String removeStandardChange(@PathVariable Long standardId, @PathVariable Long id, ModelMap map) throws ItemNotFoundException {
+	public String removeStandardChange(@PathVariable Long standardId, @PathVariable Long id, ModelMap map, HttpServletRequest request) throws ItemNotFoundException {
 		setEditFormView("cpr/standard-edit1");
 		Standard standard = getStandard(standardId);
 		if(standard.removeStandardChange(id)){

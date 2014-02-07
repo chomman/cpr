@@ -223,6 +223,12 @@ public class StandardServiceImpl implements StandardService {
 		}
 		return false;
 	}
+
+	@Override
+	public List<Standard> getStandardsByCsn(StandardCsn csn) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 		
 	
 }

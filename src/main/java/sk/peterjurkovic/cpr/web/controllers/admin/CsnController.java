@@ -210,7 +210,7 @@ public class CsnController extends SupportAdminController {
 		if(csn == null){
 			createItemNotFoundError("ČSN with ID: " + id + " was not found.");
 		}
-		
+		csnTerminologyLogService.removeCsnLogs(csn);
 		csnService.deleteCsn(csn);
 		modelMap.put("successDelete", true);
 		return showCsn(modelMap, request);

@@ -51,7 +51,7 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 
 	@Override
 	protected int doStartTagInternal() throws Exception {
-		StringBuffer url = new StringBuffer();
+		StringBuilder url = new StringBuilder();
 		if(linkOnly){
 			appendUrl(url);
 			pageContext.getOut().print(url.toString());
@@ -68,21 +68,21 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
         return EVAL_BODY_INCLUDE;
 	}
 
-	public void appendTitle(StringBuffer url){
+	public void appendTitle(StringBuilder url){
 		if(StringUtils.isNotBlank(title)){
 			url.append(" title=\"").append(title).append("\"");
 			
 		}
 	}
 	
-	public void appendCssStyles(StringBuffer url){
+	public void appendCssStyles(StringBuilder url){
 		if(StringUtils.isNotBlank(cssClass)){
 			url.append(" class=\"").append(cssClass).append("\"");
 			
 		}
 	}
 	
-	public void appendId(StringBuffer url){
+	public void appendId(StringBuilder url){
 		if(StringUtils.isNotBlank(id)){
 			url.append(" id=\"").append(id	).append("\"");
 			
@@ -91,7 +91,7 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 	
 	
 	
-	public void appendUrl(StringBuffer url){
+	public void appendUrl(StringBuilder url){
 		url.append(getRequestContext().getContextPath()).append("/");
 		if(StringUtils.isNotBlank(fixedLocale) && LocaleResolver.isAvailable(fixedLocale)){
 			url.append(RequestUtils.buildUrl(getHref(), fixedLocale));

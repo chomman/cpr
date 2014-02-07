@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.StringTokenizer;
 
@@ -59,18 +60,68 @@ public class RequestUtils {
         return result;
     }
     
-   
+   /**
+    * Vrati mapu parametrov daneho requestu
+    * 
+    * @param request
+    * @return mapa parametrov requestu, ak request neobsahuje ziadny paremeter, je vratena prazdna mapa, nikdy NULL
+    */
 	public static Map<String, Object> getRequestParameterMap(HttpServletRequest request) {
-        Map<String, Object> params = new HashMap<String, Object>(request.getParameterMap().size());
+        return getRequestParameterMap(request, null);
+    }
+	
+	
+	
+	/**
+	 * Vrati mapu parametrov requestu okrem daneho parametra.
+	 * 
+	 * @param request
+	 * @param excludeParameter - nazov parametra, ktory sa ma vylucit
+	 * @return mapa parametrov requestu, ak request neobsahuje ziadny paremeter, je vratena prazdna mapa, nikdy NULL
+	 */
+	public static Map<String, Object> getRequestParameterMap(HttpServletRequest request, String excludeParameter){
+		Map<String, Object> params = new HashMap<String, Object>(request.getParameterMap().size());
         for (Enumeration<String> keys = request.getParameterNames(); keys.hasMoreElements();) {
             String key = (String)keys.nextElement();
             String[] values = request.getParameterValues(key);
             Object value = ((values == null) ? null :  (Object)values[0]);
+            if(StringUtils.isNotBlank(excludeParameter) && excludeParameter.equalsIgnoreCase(key)){
+    			continue;
+    		}
             params.put(key, value);
         }
         return params;
-    }
+		
+	}
     
+	
+	
+	/**
+	 * Vrati parametre url, okrem daneho parametra.
+	 * 
+	 * @param request
+	 * @param excludeParameter - nazov parametra, ktory sa ma vylucit
+	 * @return parametre url, v pripade ak poziadavka nepobsahuje ziadny parameter, je vrateny prazdny retazec
+	 */
+	public static String getRequestParams(HttpServletRequest request, String excludeParameter){
+		Map<String, Object> params = getRequestParameterMap(request, null);
+		if(params.size() == 0){
+			return "";
+		}
+		StringBuilder strParams = new StringBuilder("?");
+		for(Entry<String, Object> entry : params.entrySet()) {
+		    String key = entry.getKey();
+		    String value = (String)entry.getValue();
+		    if(!strParams.equals("?")){
+		    	strParams.append("&");
+		    }
+		    strParams.append(key);
+		    strParams.append("=");
+		    strParams.append(value);
+		}
+		return strParams.toString();
+	}
+	
     
     /**
      * Ziska cislo stranky z HTTP poziadavky

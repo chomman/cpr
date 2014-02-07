@@ -51,4 +51,6 @@ public interface StandardService {
 	boolean updateReferencedStandard(Standard standard);
 	
 	List<Standard> getStandardsByNotifiedBody(NotifiedBody notifiedBody);
+	
+	List<Standard> getStandardsByCsn(StandardCsn csn);
 }

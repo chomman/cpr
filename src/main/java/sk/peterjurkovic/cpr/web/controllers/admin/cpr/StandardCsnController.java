@@ -28,6 +28,7 @@ import sk.peterjurkovic.cpr.enums.CsnOrderBy;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.BasicSettingsService;
+import sk.peterjurkovic.cpr.services.StandardCsnChangeService;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
@@ -66,6 +67,8 @@ public class StandardCsnController extends SupportAdminController {
 	private StandardCsnValidator standardCsnValidator;
 	@Autowired
 	private StandardCsnPropertyEditor standardCsnPropertyEditor;
+	@Autowired
+	private StandardCsnChangeService standardCsnChangeService;
 	
 	public StandardCsnController(){
 		setEditFormView("cpr/standard-csn-edit");
@@ -195,7 +198,7 @@ public class StandardCsnController extends SupportAdminController {
 			form = new StandardCsnChange();
 			form.setId(0l);
 		}else{
-			form = csn.getStandardCsnChangeById(id);
+			form = standardCsnChangeService.getById(id);
 			if(form == null){
 				createItemNotFoundError("Změna "+ csn.getCsnName() + " s ID: " +id+" se v systému nenachází");
 			}
@@ -226,6 +229,26 @@ public class StandardCsnController extends SupportAdminController {
 			return getViewName();
 		}
 		return "redirect:/admin/cpr/standard-csn/"+csnId+"/change/" + createOrUpdate(form, csn) + "?"+SUCCESS_PARAM+"=1";
+	}
+	
+	
+	
+	
+	@RequestMapping(MAPPING_URL + "/{csnId}/change/delete/{id}")
+	public String deleteStandardChange(
+			@PathVariable Long csnId, 
+			@PathVariable Long id
+			) throws ItemNotFoundException {
+		
+		StandardCsn csn = getCsn(csnId);
+		StandardCsnChange change = standardCsnChangeService.getById(id);
+		if(change != null){
+			if(csn.getStandardCsnChanges().remove(change)){
+				standardCsnService.updateCsn(csn);
+				return "redirect:/admin/cpr/standard-csn/"+csnId + "?"+SUCCESS_PARAM+"=1";
+			}
+		}
+		return "redirect:/admin/cpr/standard-csn/"+csnId;
 	}
 	
 	
@@ -279,7 +302,7 @@ public class StandardCsnController extends SupportAdminController {
 			csnChange.setCreatedBy(UserUtils.getLoggedUser());
 			csn.getStandardCsnChanges().add(csnChange);
 		}else{
-			csnChange = csn.getStandardCsnChangeById(form.getId());
+			csnChange = standardCsnChangeService.getById(form.getId());
 			if(csnChange == null){
 				createItemNotFoundError("CSN change was not found [id="+form.getId()+"]");
 			}
@@ -313,7 +336,6 @@ public class StandardCsnController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("csn", csn);
 		map.addAttribute("standardCsnChange", form);
-		model.put("standard", standardService.getStandardByCsn(csn));
 		model.put("tab", CPR_TAB_INDEX);
 		map.put("model", model); 
 	}

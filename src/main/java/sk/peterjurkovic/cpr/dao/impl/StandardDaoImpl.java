@@ -10,7 +10,6 @@ import org.hibernate.Query;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
-import sk.peterjurkovic.cpr.constants.CacheRegion;
 import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dao.StandardDao;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
@@ -71,8 +70,6 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
 	    return (Long) hqlQuery.uniqueResult();
 
 	}
@@ -251,8 +248,6 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			hqlQuery.setBoolean("enabled", enabled);
 		}
 		hqlQuery.setMaxResults(count);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.CPR_CACHE);
 		return hqlQuery.list();
 	}
 	
@@ -276,8 +271,6 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		return sessionFactory.getCurrentSession()
 				.createQuery(hql.toString())
 				.setString("code", standardGroupCode)
-				.setCacheable(true)
-				.setCacheRegion(CacheRegion.CPR_CACHE)
 				.list();
 	}
 

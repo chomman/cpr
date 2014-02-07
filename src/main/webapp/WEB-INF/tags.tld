@@ -42,8 +42,8 @@
 		<required>false</required>
 		<rtexprvalue>true</rtexprvalue>
 	</attribute>
-  </tag>
-   <tag>
+ </tag>
+ <tag>
 	<name>localizedValue</name>
  	<tag-class>sk.peterjurkovic.cpr.web.taglib.LocalizedValueTag</tag-class>
  	<body-content>JSP</body-content>
@@ -57,5 +57,35 @@
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
 		</attribute>       
-</tag>    
+</tag>   
+<tag>
+    <name>adminurl</name>
+    <tag-class>sk.peterjurkovic.cpr.web.taglib.AdminUrlTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>cssClass</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>linkOnly</name>
+		<required>false</required>
+		<type>java.util.Boolean</type>
+	</attribute>
+	<attribute>
+		<name>id</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>href</name>
+		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+  </tag> 
 </taglib>

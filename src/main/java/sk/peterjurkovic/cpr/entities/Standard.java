@@ -1,7 +1,6 @@
 package sk.peterjurkovic.cpr.entities;
 
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -31,7 +30,6 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.springframework.context.i18n.LocaleContextHolder;
 
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.utils.RequestUtils;

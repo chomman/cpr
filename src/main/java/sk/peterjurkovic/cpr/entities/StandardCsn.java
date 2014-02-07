@@ -150,18 +150,7 @@ public class StandardCsn extends AbstractEntity {
 		this.statusDate = statusDate;
 	}
 	
-	public StandardCsnChange getStandardCsnChangeById(long id){
-		if(CollectionUtils.isEmpty(standardCsnChanges)){
-			return null;
-		}
-		for(final StandardCsnChange change : standardCsnChanges){
-			if(change.getId() == id){
-				return change;
-			}
-		}
-		return null;
-	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
