@@ -596,14 +596,17 @@ table.log td,.log-descr{padding:2px;}
 .standard-link-cancel:hover{text-decoration:none;}
 .resetmargin{margin: 0 0 0 5px !important;}
 
+
 .status-canceled{background-color:#FFE8E8;}
 .status-canceled.odd{background-color:#FFF0F0 !important;}
 .status-non-harmonized{background-color:#FFFCE8;}
 .status-non-harmonized.odd{background-color:#FFF9D4 !important;}
 
 .status-canceled .standarardId,
+.assigned-standards .status-canceled a,
 .status-canceled .standarardId a{color:#CC0000;}
 .standard-csn-change .standardId{background:red;}
+
 
 .standard-csn-change td{padding:4px;;}
 .standard-csn-change .standarardId{font-size:12px;color:#555;background:url(../img/tree.png) no-repeat 10px center;padding-left:30px;}
@@ -616,3 +619,7 @@ table.log td,.log-descr{padding:2px;}
 .pj-wrapp .pj-cancel:hover{text-decoration:none;}
 
 .button.default{width:auto;font-size:12px;}
+.assigned-standards{border-left:1px solid #eee;border-right:1px solid #eee;padding:15px;list-style-position:inside;}
+.assigned-standards a{display:inline-block;padding:10px 0;text-decoration:underline;}
+
+.transparent{background:transparent;}

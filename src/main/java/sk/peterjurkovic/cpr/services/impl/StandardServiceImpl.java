@@ -170,8 +170,8 @@ public class StandardServiceImpl implements StandardService {
 	
 	@Override
 	@Transactional(readOnly =  true )
-	public Standard getStandardByCsn(final StandardCsn csn) {
-		return standardDao.getStandardByCsn(csn);
+	public List<Standard> getStandardsByCsn(final StandardCsn csn) {
+		return standardDao.getStandardsByCsn(csn);
 	}
 	
 	@Override
@@ -224,11 +224,7 @@ public class StandardServiceImpl implements StandardService {
 		return false;
 	}
 
-	@Override
-	public List<Standard> getStandardsByCsn(StandardCsn csn) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 		
 	
 }

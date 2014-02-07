@@ -19,7 +19,7 @@
 			<tbody>
 				 <c:forEach items="${model.standards}" var="i">
 				 	<tr 
-				 	class="<c:if test="${not empty i.standardChanges}">has-change</c:if> <c:if test="${not empty i.standardStatus }">${i.standardStatus.cssClass}</c:if>" 
+				 	class="<c:if test="${i.hasChanges}">has-change</c:if> ${i.statusClass}" 
 				 	<c:if test="${not empty i.standardStatus and i.standardStatus.id != 1}"> title="<spring:message code='${i.standardStatus.name}' />" </c:if>
 				 	>
 				 	
@@ -51,7 +51,7 @@
 				 		<td>
 					 		<c:forEach items="${i.standardCsns}" var="csn">
 								<span
-									class="<c:if test="${not empty csn.standardStatus }">${csn.standardStatus.cssClass}</c:if>" 
+									class="${csn.statusClass}" 
 				 					<c:if test="${not empty csn.standardStatus and csn.standardStatus.id != 1}"> title="<spring:message code='${csn.standardStatus.name}' />" </c:if>
 								>
 										<c:if test="${not empty csn.csnOnlineId }">

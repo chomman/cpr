@@ -14,14 +14,7 @@
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
-			<c:if test="${not empty model.standard}">
-				<a href="<c:url value="/admin/cpr/standard/edit/${model.standard.id}/csn-edit/${csn.id}"  />">
-					${csn.csnName}
-				</a> &raquo;
-			</c:if>
-			<c:if test="${empty model.standard}">
-				<span>${csn.csnName}</span> &raquo;
-			</c:if>
+			
 			
 			<c:if test="${standardCsnChange.id == 0}">
 			 	<span><spring:message code="cpr.csn.change.add" arguments="${csn.csnName}" /></span>
@@ -45,14 +38,8 @@
 			
 			<div id="req-nav">							
 				
-				<c:if test="${not empty model.standard}">
-					<a href="<c:url value="/admin/cpr/standard/edit/${model.standard.id}" />">
-						<spring:message code="form.view" />: <strong>${model.standard.standardId}</strong>
-					</a>
-				</c:if>
-				
 				<a href="<c:url value="/admin/cpr/standard-csn/${csn.id}/change/0"  />">
-					 <spring:message code="cpr.csn.change.add"  arguments="${csn.csnName}"  /> +
+					 <spring:message code="cpr.csn.change.add"  arguments="${csn.csnName}"  />
 				</a>
 				
 			</div>			

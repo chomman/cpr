@@ -33,7 +33,8 @@
 		    }
 		    $('input[name=notifiedBody]').remotePicker({
 		    	<c:if test="${not empty model.params.notifiedBody}">item: {id: ${model.params.notifiedBody.id}, value: '${model.params.notifiedBody.noCode} - ${model.params.notifiedBody.name}'},</c:if>    	
-		    	sourceUrl : $("#base").text() +"ajax/autocomplete/aono"			    	
+		    	sourceUrl : $("#base").text() +"ajax/autocomplete/aono"	,
+		    	enabledOnly : true
 		    });
 		    
 		});

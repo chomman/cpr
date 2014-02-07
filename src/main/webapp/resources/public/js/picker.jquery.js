@@ -5,8 +5,22 @@
         cancelText : "zrušit výběr",
         selectedClass : 'pj-picker-item',
         cancelBtnClass : 'pj-cancel',
-        autocompleteCallBack : null,
-        debug: false
+        autocompleteCallBack : function( item) {	         		 	
+    		if(item[1].length > 60){
+    		 		var shortText = item[1].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
+    		 	}else{
+    		 		shortText = item[1];
+    		 	}
+    		 	
+    		 	if(typeof item[1] == "string" && startsWith(item[2], request.term)){
+    		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
+    		 	}else{
+    		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
+        		} 
+        		 
+		},
+        enabledOnly : null,
+        debug: true
     };
     
     $.fn.remotePicker = function(newOpts) {
@@ -24,25 +38,11 @@
         
         $this.autocomplete({
         	source: function(request, response){  
-   			 if(typeof $(".filter").eq(0).attr("data-enabled") !== "undefined"){
-   				 request.enabled = true;
+   			 if(options.enabledOnly !== null){
+   				 request.enabled = options.enabledOnly;
    			 }
    		 	 $.getJSON( options.sourceUrl , request, function(data) {  
-   	         	 response( $.map( data,  function( item) {	         		 	
-   	         		 	console.log(request);
-			    		if(item[1].length > 60){
-   	         		 		var shortText = item[1].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
-   	         		 	}else{
-   	         		 		shortText = item[1];
-   	         		 	}
-   	         		 	
-   	         		 	if(typeof item[1] == "string" && startsWith(item[2], request.term)){
-   	         		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
-   	         		 	}else{
-   	         		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
-   	             		} 
-   	             		 
-   					} ));
+   	         	 response( $.map( data, options.autocompleteCallBack  ));
    	        	});  
    			 },
    			minLength: 1,

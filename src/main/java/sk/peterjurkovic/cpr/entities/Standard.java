@@ -23,6 +23,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
@@ -351,6 +352,20 @@ public class  Standard extends AbstractEntity {
 			return englishName;
 		}
 		return czechName;
+	}
+	
+	@Transient
+	public String getStatusClass(){
+		if(standardStatus != null){
+			return standardStatus.getCssClass();
+		}
+		return "";
+	}
+	
+	
+	@Transient
+	public boolean getHasChanges(){
+		return CollectionUtils.isNotEmpty(standardChanges);
 	}
 	
 	

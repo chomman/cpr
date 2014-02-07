@@ -22,9 +22,9 @@
 	</div>	
 	<div id="right">
 		<div id="breadcrumb">
-			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
-			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
-			 <a href="<c:url value="/admin/cpr/standard-change" />"><spring:message code="menu.cpr.csn" /></a> &raquo;
+				<a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl> &raquo;
+				<a:adminurl href="/cpr"><spring:message code="menu.cpr" /></a:adminurl> &raquo;
+				<a:adminurl href="/cpr/standard-change"><spring:message code="menu.cpr.csn" /></a:adminurl> &raquo;
 			 <span>
 			 	<c:if test="${empty csn.id or csn.id == 0}">
 					<spring:message code="csn.add" />
@@ -45,9 +45,27 @@
 		<div id="content">
 							
 				<ul class="sub-nav">
-					<li><a href="<c:url value="/admin/cpr/standard-csn"  />"><spring:message code="csn.list" /></a></li>
-					<li><a <c:if test="${empty csn.id or csn.id == 0}">class="active"</c:if> href="<c:url value="/admin/cpr/standard-csn/edit/0"  />"><spring:message code="csn.add" /></a></li>
+					<li>
+						<a:adminurl href="/cpr/standard-csn"><spring:message code="csn.list" /></a:adminurl>
+					</li>
+					<li><a <c:if test="${empty csn.id or csn.id == 0}">class="active"</c:if> href="<a:adminurl href="/cpr/standard-csn/edit/0" linkOnly="true" />"><spring:message code="csn.add" /></a></li>
 				</ul>
+								
+				<c:if test="${not empty model.standards}">
+					<p class="form-head"><spring:message code="cpr.csn.assignedStandards" arguments="${csn.csnName}" />:</p>
+					<p>
+						<ul class="assigned-standards">
+							<c:forEach items="${model.standards}" var="i">
+								<li class="transparent ${i.statusClass}">
+									<a:adminurl href="/cpr/standard/edit/${i.id}">
+										${i.standardId}
+									</a:adminurl>
+									<span>- ${i.czechName}</span>
+								</li>
+							</c:forEach>
+						</ul>
+					</p>
+				</c:if>								
 								
 				<!--  FORM  -->
 				<p class="form-head"><spring:message code="basic.info" /></p>

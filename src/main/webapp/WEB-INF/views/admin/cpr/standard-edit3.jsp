@@ -3,7 +3,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+	<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
+	<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -44,6 +45,8 @@
 						<a href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/0"  />">
 							 <spring:message code="cpr.csn.add" /> +
 						</a>
+						
+						
 						
 					</div>
 					
@@ -120,6 +123,21 @@
 							<spring:message code="alert.empty" />
 						</p>
 					</c:if>
+					
+					<script type="text/javascript">
+						$(function() {
+							 $('input[name=replaceStandardCsn]').remotePicker({
+				    			sourceUrl : $("#base").text() + "/ajax/standard-csn/autocomplete",
+				    			enabledOnly : true
+							 });
+						});
+					 </script>
+					 
+					<div class="inline-form ">
+						<form action="">
+							<input name="replaceStandardCsn" type="text"  />
+						</form>
+					</div>
 						
 					</div> <!-- END ACTIVE TAB -->
 

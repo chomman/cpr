@@ -32,7 +32,7 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	
 	List<Standard> getStandardsByTagName(String tagName);
 	
-	Standard getStandardByCsn(StandardCsn csn);
+	List<Standard> getStandardsByCsn(StandardCsn csn);
 	
 	List<Standard> getStandardsByStandardGroupCode(String standardGroupCode);
 	

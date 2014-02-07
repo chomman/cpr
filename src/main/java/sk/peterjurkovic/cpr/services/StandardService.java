@@ -44,7 +44,7 @@ public interface StandardService {
 	
 	List<Standard> getStandardsByTagName(String tagName);
 	
-	Standard getStandardByCsn(StandardCsn csn);
+	List<Standard> getStandardsByCsn(StandardCsn csn);
 	
 	List<Standard> getStandardsByStandardGroupCode(String standardGroupCode);
 	
@@ -52,5 +52,4 @@ public interface StandardService {
 	
 	List<Standard> getStandardsByNotifiedBody(NotifiedBody notifiedBody);
 	
-	List<Standard> getStandardsByCsn(StandardCsn csn);
 }

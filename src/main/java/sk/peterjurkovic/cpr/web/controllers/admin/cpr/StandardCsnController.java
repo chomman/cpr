@@ -270,6 +270,9 @@ public class StandardCsnController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("standardStatuses", StandardStatus.getAll());
+		if(form.getId() != null && form.getId() != 0){
+			model.put("standards", standardService.getStandardsByCsn(form));
+		}
 		map.addAttribute("csn", form);
 		map.put("model", model);
 	}

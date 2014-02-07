@@ -189,6 +189,19 @@ public class StandardCsn extends AbstractEntity {
 		statusDate = csn.getStatusDate();
 	}
 	
+	@Transient
+	public String getStatusClass(){
+		if(standardStatus != null){
+			return standardStatus.getCssClass();
+		}
+		return "";
+	}
+	
+	
+	@Transient
+	public boolean getHasChanges(){
+		return CollectionUtils.isNotEmpty(standardCsnChanges);
+	}
 	
 	
 }

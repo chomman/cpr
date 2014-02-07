@@ -289,15 +289,15 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	}
 
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public Standard getStandardByCsn(final StandardCsn csn) {
+	public List<Standard> getStandardsByCsn(final StandardCsn csn) {
 		Validate.notNull(csn);
 		StringBuilder hql = new StringBuilder("from Standard s ");
 		hql.append(" WHERE :id in elements(s.standardCsns)");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setLong("id", csn.getId());
-		query.setMaxResults(1);
-		return (Standard)query.uniqueResult();
+		return query.list();
 	}
 
 
