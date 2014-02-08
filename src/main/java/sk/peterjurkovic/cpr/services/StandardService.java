@@ -52,4 +52,7 @@ public interface StandardService {
 	
 	List<Standard> getStandardsByNotifiedBody(NotifiedBody notifiedBody);
 	
+	void addStandardCsn(Standard standard, StandardCsn standardCsn);
+	
+	void removeStandardCsn(Standard standard, StandardCsn standardCsn);
 }

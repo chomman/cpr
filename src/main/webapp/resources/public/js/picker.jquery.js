@@ -5,21 +5,9 @@
         cancelText : "zrušit výběr",
         selectedClass : 'pj-picker-item',
         cancelBtnClass : 'pj-cancel',
-        autocompleteCallBack : function( item) {	         		 	
-    		if(item[1].length > 60){
-    		 		var shortText = item[1].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
-    		 	}else{
-    		 		shortText = item[1];
-    		 	}
-    		 	
-    		 	if(typeof item[1] == "string" && startsWith(item[2], request.term)){
-    		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
-    		 	}else{
-    		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
-        		} 
-        		 
-		},
-        enabledOnly : null,
+        autocompleteCallBack : null,
+        enabledOnly : false,
+        useDefaultCallBack : false,
         debug: true
     };
     
@@ -36,13 +24,31 @@
         	console.info(options.autocompleteCallBack);
         }
         
-        $this.autocomplete({
-        	source: function(request, response){  
-   			 if(options.enabledOnly !== null){
-   				 request.enabled = options.enabledOnly;
+        $this.autocomplete(  {
+        	source: options.autocompleteCallBack !== null ? options.autocompleteCallBack : function(request, response){  
+   			 if(options.enabledOnly){
+   				 request.enabled = true;
    			 }
    		 	 $.getJSON( options.sourceUrl , request, function(data) {  
-   	         	 response( $.map( data, options.autocompleteCallBack  ));
+   	         	 response( $.map( data,  function( item) {	         		 	
+   	         		 	
+   	         		 	if(options.useDefaultCallBack){
+   	         		 	return {label: item[1], value: item[0]};
+   	         		 	}
+   	         		 	
+			    		if(item[1].length > 60){
+   	         		 		var shortText = item[1].substring(0, 65).split(" ").slice(0, -1).join(" ") + " ...";
+   	         		 	}else{
+   	         		 		shortText = item[1];
+   	         		 	}
+   	         		 	
+   	         		 	if(typeof item[1] == "string" && startsWith(item[2], request.term)){
+   	         		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
+   	         		 	}else{
+   	         		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
+   	             		} 
+   	             		 
+   					} ));
    	        	});  
    			 },
    			minLength: 1,

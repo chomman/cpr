@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,10 +14,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.StandardCsnDao;
 import sk.peterjurkovic.cpr.dto.PageDto;
+import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
+import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
@@ -28,6 +31,8 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	private StandardCsnDao standardCsnDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private StandardService standardService;
 	
 	
 	@Override
@@ -42,7 +47,13 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 
 	@Override
 	public void deleteCsn(StandardCsn standardCsn) {
-		standardCsnDao.remove(standardCsn);
+		Validate.notNull(standardCsn);
+		List<Standard> standardList = standardService.getStandardsByCsn(standardCsn);
+		for(Standard standard : standardList){
+			standard.getStandardCsns().remove(standardCsn);
+			standardService.updateStandard(standard);
+		}
+		standardCsnDao.deleteStandardCsn(standardCsn);
 	}
 
 	@Override
@@ -52,16 +63,7 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	}
 	
 	
-	/**
-	 * Odstrani danu CSN a pripadne referencie aktualizuje na NULL
-	 * 
-	 * @param csn
-	 */
-	@Override
-	public void deleteStandardCsn(StandardCsn csn){
-		standardCsnDao.deleteStandardCsn(csn);
-	}
-
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<StandardCsn> getAllCsns() {

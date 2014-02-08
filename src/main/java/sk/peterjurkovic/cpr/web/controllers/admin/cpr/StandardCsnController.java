@@ -140,7 +140,7 @@ public class StandardCsnController extends SupportAdminController {
 		if(csn == null){
 			throwNotFound(id);
 		}
-		standardCsnService.deleteStandardCsn(csn);
+		standardCsnService.deleteCsn(csn);
 		return "redirect:" + MAPPING_URL + "?" + SUCCESS_PARAM + "=1";
 	}
 	

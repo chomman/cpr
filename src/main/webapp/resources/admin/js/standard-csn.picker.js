@@ -4,7 +4,7 @@ $(document).ready(function() {
     
     $("#standardPicker").autocomplete({
 			 source: function(request, response){  
-			 	 $.getJSON( $("#base").text() +"/ajax/standard-csn/autocomplete", request, function(data) {  
+			 	 $.getJSON( $("#base").text() +"ajax/standard-csn/autocomplete", request, function(data) {  
                  	 response( $.map( data, function( item ) {
                  		return {label: item[1], value: item[0]};
 					}));

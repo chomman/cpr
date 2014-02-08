@@ -209,8 +209,7 @@ public class  Standard extends AbstractEntity {
 	}
 	
 	@ManyToMany(fetch = FetchType.LAZY)
-	@Cascade(value = { org.hibernate.annotations.CascadeType.DETACH })
-    @JoinTable(name = "standard_has_csn", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "standard_csn_id"))
+    @JoinTable(name = "standard_has_csn", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "standard_csn_id") )
 	public Set<StandardCsn> getStandardCsns() {
 		return standardCsns;
 	}

@@ -79,7 +79,6 @@ public interface StandardCsnService {
 	boolean isStandardCsnUnique(StandardCsn csn);
 	
 	
-	void deleteStandardCsn(StandardCsn csn);
 	
 	
 

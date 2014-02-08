@@ -58,6 +58,7 @@
 									<tH><spring:message code="cpr.csn.name" /></th>
 									<th><spring:message code="form.lastEdit" /></th>
 									<th><spring:message code="form.edit" /></th>
+									<th><spring:message code="cpr.group.unassigment" /></th>
 									<th><spring:message code="form.delete" /></th>
 								</tr>
 							</thead>
@@ -78,15 +79,20 @@
 									 				<joda:format value="${i.changed}" pattern="dd.MM.yyyy / HH:mm"/>
 									 			</c:if>
 									 		</td>
-									 		<td class="edit">												
-									 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard/edit/${standardId}/csn-edit/${i.id}"  />">
+									 		<td class="edit">
+									 			<a:adminurl href="/cpr/standard/edit/${standardId}/csn-edit/${i.id}">
 									 				<spring:message code="form.edit" />
-									 			</a>
+									 			</a:adminurl>												
+									 		</td>
+									 		<td class="delete w100 c">
+									 			<a:adminurl cssClass="confirmUnassignment" href="/cpr/standard/${standardId}/csn/unassign/${i.id}">
+									 				<spring:message code="cpr.group.unassigment" />
+									 			</a:adminurl>		
 									 		</td>
 									 		<td class="delete">
-									 			<a class="confirm"  href="<c:url value="/admin/cpr/standard/csn/delete/${i.id}"  />">
+									 			<a:adminurl cssClass="confirm" href="/cpr/standard/${standardId}/csn/delete/${i.id}">
 									 				<spring:message code="form.delete" />
-									 			</a>
+									 			</a:adminurl>		
 									 		</td>
 									 	</tr>
 									 		 
@@ -102,7 +108,7 @@
 											 				</span>
 											 			</c:if>
 											 		</td>
-											 		<td class="edit">												
+											 		<td class="edit ">												
 											 			<a class="tt" title="Upraviť položku?" href="<c:url value="/admin/cpr/standard-csn/${i.id}/change/${j.id}"  />">
 											 				<spring:message code="form.edit" />
 											 			</a>
@@ -126,17 +132,19 @@
 					
 					<script type="text/javascript">
 						$(function() {
-							 $('input[name=replaceStandardCsn]').remotePicker({
-				    			sourceUrl : $("#base").text() + "/ajax/standard-csn/autocomplete",
-				    			enabledOnly : true
+							 $('input[name=standardCsn]').remotePicker({
+								 useDefaultCallBack : true,
+								 sourceUrl : $("#base").text() +"ajax/standard-csn/autocomplete"
 							 });
 						});
 					 </script>
 					 
 					<div class="inline-form ">
-						<form action="">
-							<input name="replaceStandardCsn" type="text"  />
-						</form>
+						<form:form commandName="csn">
+							<input name="standardCsn" type="text" class="inline-block w300 assigned" />
+							<input type="submit" class="lang mandate-add-btn" value='<spring:message code="cpr.standard.group" />' />
+							<div class="clear"></div>
+						</form:form>
 					</div>
 						
 					</div> <!-- END ACTIVE TAB -->

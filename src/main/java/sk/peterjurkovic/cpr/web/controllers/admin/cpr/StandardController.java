@@ -61,6 +61,7 @@ import sk.peterjurkovic.cpr.web.editors.StandardCsnPropertyEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
 import sk.peterjurkovic.cpr.web.editors.TagEditor;
+import sk.peterjurkovic.cpr.web.forms.admin.StandardCsnForm;
 import sk.peterjurkovic.cpr.web.forms.admin.StandardForm;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
@@ -549,16 +550,30 @@ public class StandardController extends SupportAdminController{
      * @return String JSP stranak
      * @throws ItemNotFoundException, v pripade ak sa norma s danym ID v systeme nenachadza
      */
-    @RequestMapping("/admin/cpr/standard/edit/{standardId}/csn")
-    public String showCsns(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
- 		Map<String, Object> model = new HashMap<String, Object>();
+    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn", method = RequestMethod.GET)
+    public String showCsns(@PathVariable Long standardId, ModelMap modelMap) throws ItemNotFoundException {
+ 		setEditFormView("cpr/standard-edit3");
+ 		prepareStandardCsnModel(modelMap, getStandard(standardId));
+        return getEditFormView();
+    }
+    
+    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/csn", method = RequestMethod.POST)
+    public String assignStandardCsn(@PathVariable Long standardId, ModelMap modelMap, @Valid StandardCsnForm form, BindingResult result) throws ItemNotFoundException {
  		setEditFormView("cpr/standard-edit3");
  		Standard standard = getStandard(standardId);
+ 		standardService.addStandardCsn(standard, form.getStandardCsn());
+ 		prepareStandardCsnModel(modelMap, standard);
+        return getEditFormView();
+    }
+    
+    private void prepareStandardCsnModel( ModelMap modelMap, Standard standard) throws ItemNotFoundException{
+    	Map<String, Object> model = new HashMap<String, Object>();
+ 		setEditFormView("cpr/standard-edit3");
  		modelMap.addAttribute("standard", standard);
- 		model.put("standardId", standardId);
+ 		modelMap.addAttribute("standardCsn", new StandardCsnForm());
+ 		model.put("standardId", standard.getId());
  		model.put("tab", CPR_TAB_INDEX);
  		modelMap.put("model", model);
-         return getEditFormView();
     }
     
     /**
@@ -622,14 +637,26 @@ public class StandardController extends SupportAdminController{
      * @return String view
      * @throws ItemNotFoundException, v pripade ak sa CSN s danym ID v systeme nenachadza
      */
-    @RequestMapping(value = "/admin/cpr/standard/csn/delete/{csnId}", method = RequestMethod.GET)
-    public String deleteCsn(@PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
+    @RequestMapping(value = "/admin/cpr/standard/{standardId}/csn/delete/{csnId}", method = RequestMethod.GET)
+    public String deleteCsn(@PathVariable Long standardId, @PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
  		StandardCsn standardCsn = standardCsnService.getCsnById(csnId);
  		if(standardCsn == null){
  			createItemNotFoundError("ČSN s ID: " + csnId + " se v systému nenachází");
  		}
  		standardCsnService.deleteCsn(standardCsn);
-        return "forward:/admin/cpr/standards";
+        return String.format("redirect:/admin/cpr/standard/edit/%s/csn", standardId);
+    }
+    
+    
+    
+    @RequestMapping(value = "/admin/cpr/standard/{standardId}/csn/unassign/{csnId}", method = RequestMethod.GET)
+    public String unassignStandardCsn(@PathVariable Long standardId, @PathVariable Long csnId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
+ 		StandardCsn standardCsn = standardCsnService.getCsnById(csnId);
+ 		if(standardCsn == null){
+ 			createItemNotFoundError("ČSN s ID: " + csnId + " se v systému nenachází");
+ 		}
+ 		standardService.removeStandardCsn(getStandard(standardId),standardCsn );
+        return String.format("redirect:/admin/cpr/standard/edit/%s/csn", standardId);
     }
     
      //##################################################

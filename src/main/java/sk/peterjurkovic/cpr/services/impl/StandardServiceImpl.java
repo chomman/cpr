@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -222,6 +223,25 @@ public class StandardServiceImpl implements StandardService {
 			}
 		}
 		return false;
+	}
+
+	
+	@Override
+	public void addStandardCsn(Standard standard, StandardCsn standardCsn) {
+		Validate.notNull(standard);
+		if(standardCsn != null && !standard.getStandardCsns().contains(standardCsn)){
+			standard.getStandardCsns().add(standardCsn);
+			saveOrUpdate(standard);
+		}
+	}
+
+	@Override
+	public void removeStandardCsn(Standard standard, StandardCsn standardCsn) {
+		Validate.notNull(standard);
+		Validate.notNull(standardCsn);
+		if(standard.getStandardCsns().remove(standardCsn)){
+			updateStandard(standard);
+		}
 	}
 
 	
