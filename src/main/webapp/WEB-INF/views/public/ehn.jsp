@@ -11,7 +11,7 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url href="${model.webpage.code}"><a:localizedValue object="${model.webpage}" fieldName="name" /></a:url> &raquo;
+			<a:url href="${model.parentWebpage.code}"><a:localizedValue object="${model.parentWebpage}" fieldName="name" /></a:url> &raquo;
 			<span>${model.standard.standardId}</span>
 	</div> 
 	
@@ -180,8 +180,8 @@
 								</td>
 				 		 		<td>${nb.name}</td>
 				 		 		<td class="c">
-				 		 			<c:if test="${not empty nb.address.city}">
-				 		 			${nb.address.city}
+				 		 			<c:if test="${not empty nb.city}">
+				 		 			${nb.city}
 				 		 			</c:if>
 				 		 		</td>
 							</tr>

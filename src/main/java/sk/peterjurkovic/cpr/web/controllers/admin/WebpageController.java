@@ -257,7 +257,8 @@ public class WebpageController extends SupportAdminController {
 		}
 		webpage.setWebpageCategory(webpageDto.getWebpageCategory());
 		webpage.setWebpageContent(webpageDto.getWebpageContent());
-		
+		webpage.setCode(webpageDto.getCode());
+		webpage.setEnabled(webpageDto.isEnabled());
 		if(StringUtils.isBlank(webpageDto.getLocale()) || !LocaleResolver.isAvailable(webpageDto.getLocale())){
 			throw new IllegalArgumentException("Unsupported locale: " + 
 						webpageDto.getLocale() + " for webpage id: " + webpage.getId());

@@ -60,19 +60,19 @@
 			
 			<form class="filter"  method="get">
 				<div class="filter-advanced">
-					<span class="filter-label long"><spring:message code="form.groups" />:</span>
+					<span class="filter-label long"><spring:message code="filter.standard.standardGroup" />:</span>
 					<select name="standardGroup" style="width:600px;" class="groups async" data-items="standardGroups">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
 					<div class="clear"></div>
 				</div>
 				<div class="filter-advanced">
-					<span class="filter-label long"><spring:message code="cpr.commisiondecision.name" />:</span>
+					<span class="filter-label long"><spring:message code="filter.standard.commisionDecision" />:</span>
 					<select name="commissionDecisionId" class="async chosenSmall" data-items="commissionDecisions">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
 				
-					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="cpr.standard.filter.mandate" />:</span>
+					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="filter.standard.mandate" />:</span>
 					<select name="mandateId" class="async chosenSmall" data-items="mandates">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
@@ -80,12 +80,12 @@
 				</div>
 				
 				<div class="filter-advanced">
-					<span class="filter-label long"><spring:message code="cpr.standard.filter.as" />:</span>
+					<span class="filter-label long"><spring:message code="filter.standard.assessmentSystem" />:</span>
 					<select name="assessmentSystemId" class="async chosenSmall" data-items="assessmentSystems">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
 				
-					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="cpr.standard.filter.status" />: &nbsp;</span>
+					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="filter.standard.standardStatus" />: &nbsp;</span>
 					<select name="standardStatus" class="chosenSmall">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 						<c:forEach items="${model.standardStatuses}" var="i">
@@ -98,15 +98,15 @@
 				</div>
 				
 				<div class="filter-advanced">
-					<span class="filter-label long"><spring:message code="cpr.nb.filter" />:</span>
+					<span class="filter-label long"><spring:message code="filter.standard.notifiedBody" />:</span>
 					<input type="text" class="query-aono mw500" name="notifiedBody" />
 					<div class="clear"></div>
 				</div>
 				<div>
-					<span class="filter-label long"><spring:message code="form.name" />/Označení</span>
-					<input type="text" class="query " name="query"   value="${model.params.query}" />
+					<span class="filter-label long"><spring:message code="filter.standard.query" /></span>
+					<input type="text" class="query" name="query"   value="${model.params.query}" />
 					
-					<input type="submit" value="Filtrovat" class="btn filter-btn-standard radius" />
+					<input type="submit" value="<spring:message code="filter.standard.filter" />" class="btn filter-btn-standard radius" />
 					<a href="#" class="filter-advanced-btn">
 						<spring:message code="cpr.standard.filter.advanced" />
 					</a>

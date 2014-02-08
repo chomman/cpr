@@ -6,8 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -25,14 +23,12 @@ import javax.persistence.Transient;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
-import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 /**
@@ -44,7 +40,7 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 @Table(name = "standard")
 @SequenceGenerator(name = "standard_id_seq", sequenceName = "standard_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
-public class  Standard extends AbstractEntity {
+public class Standard extends AbstractStandard {
 
 	
 	private static final long serialVersionUID = 9891333241L;
@@ -79,13 +75,9 @@ public class  Standard extends AbstractEntity {
 	
 	private Long timestamp;
 	
-	private StandardStatus standardStatus;
-	
-	private LocalDate statusDate;
-	
-	private Set<StandardChange> standardChanges;
-	
 	private Standard replaceStandard;
+		
+	private Set<StandardChange> standardChanges;
 	
 	public Standard(){
 		this.notifiedBodies = new HashSet<NotifiedBody>();
@@ -97,7 +89,6 @@ public class  Standard extends AbstractEntity {
 		this.standardChanges = new HashSet<StandardChange>();
 		setEnabled(Boolean.TRUE);
 		setCumulative(Boolean.FALSE);
-		this.standardStatus = StandardStatus.NORMAL;
 	}
 	
 	@Id
@@ -167,15 +158,6 @@ public class  Standard extends AbstractEntity {
 		this.stopValidity = stopValidity;
 	}
 	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-	@Column(name = "status_date")
-	public LocalDate getStatusDate() {
-		return statusDate;
-	}
-
-	public void setStatusDate(LocalDate statusDate) {
-		this.statusDate = statusDate;
-	}
 
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "standard_is_in_standard_group", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "standard_group_id"))
@@ -283,6 +265,7 @@ public class  Standard extends AbstractEntity {
 	public void setReplaceStandard(Standard replaceStandard) {
 		this.replaceStandard = replaceStandard;
 	}
+	
 
 	@Transient
 	public StandardChange getStandardChangeById(final long id){
@@ -334,16 +317,11 @@ public class  Standard extends AbstractEntity {
 		return false;
 	}
 
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "standard_status", length = 15)
-	public StandardStatus getStandardStatus() {
-		return standardStatus;
-	}
-
-	public void setStandardStatus(StandardStatus standardStatus) {
-		this.standardStatus = standardStatus;
-	}
 	
+	@Transient
+	public boolean getIsCanceled(){
+		return false;
+	}
 	
 	@Transient
 	public String getName(){
@@ -351,14 +329,6 @@ public class  Standard extends AbstractEntity {
 			return englishName;
 		}
 		return czechName;
-	}
-	
-	@Transient
-	public String getStatusClass(){
-		if(standardStatus != null){
-			return standardStatus.getCssClass();
-		}
-		return "";
 	}
 	
 	

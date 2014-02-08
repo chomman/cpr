@@ -40,7 +40,7 @@ import sk.peterjurkovic.cpr.enums.StandardStatus;
 @SequenceGenerator(name = "standard_has_csn_id_seq", sequenceName = "standard_has_csn_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "standard_csn")
-public class StandardCsn extends AbstractEntity {
+public class StandardCsn extends AbstractStandard {
 
 	
 	private static final long serialVersionUID = 7791L;
@@ -48,10 +48,6 @@ public class StandardCsn extends AbstractEntity {
 	private String csnName;
 
 	private String csnOnlineId;
-	
-	private StandardStatus standardStatus;
-	
-	private LocalDate statusDate;
 	
 	private String classificationSymbol;
 	
@@ -62,7 +58,6 @@ public class StandardCsn extends AbstractEntity {
 	private Set<StandardCsnChange> standardCsnChanges;
 	
 	public StandardCsn(){
-		this.standardStatus = StandardStatus.NORMAL;
 		this.standardCsnChanges = new HashSet<StandardCsnChange>();
 	}
 	
@@ -102,15 +97,6 @@ public class StandardCsn extends AbstractEntity {
 		this.csnOnlineId = csnOnlineId;
 	}
 	
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "standard_csn_status", length = 15)
-	public StandardStatus getStandardStatus() {
-		return standardStatus;
-	}
-
-	public void setStandardStatus(StandardStatus standardStatus) {
-		this.standardStatus = standardStatus;
-	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "replaced_standard_csn_id")
@@ -140,17 +126,7 @@ public class StandardCsn extends AbstractEntity {
 		this.standardCsnChanges = standardCsnChanges;
 	}
 	
-	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
-	@Column(name = "status_date")
-	public LocalDate getStatusDate() {
-		return statusDate;
-	}
-
-	public void setStatusDate(LocalDate statusDate) {
-		this.statusDate = statusDate;
-	}
-	
-	
+		
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -184,20 +160,12 @@ public class StandardCsn extends AbstractEntity {
 		note = csn.getNote();
 		classificationSymbol = csn.getClassificationSymbol();
 		csnOnlineId = csn.getCsnOnlineId();
-		standardStatus = csn.getStandardStatus();
+		setStandardStatus(csn.getStandardStatus());
 		replaceStandardCsn = csn.getReplaceStandardCsn();
-		statusDate = csn.getStatusDate();
+		setStatusDate( csn.getStatusDate());
 	}
 	
-	@Transient
-	public String getStatusClass(){
-		if(standardStatus != null){
-			return standardStatus.getCssClass();
-		}
-		return "";
-	}
-	
-	
+		
 	@Transient
 	public boolean getHasChanges(){
 		return CollectionUtils.isNotEmpty(standardCsnChanges);

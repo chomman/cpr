@@ -39,7 +39,7 @@ public class LocalizedValueTag extends TagSupport{
 		}
 
 		if(object == null ) {
-			logger.error("really, asking me for a value and dont give me an Object? Kidding?");
+			logger.error(String.format("OBject is NULL fieldName %s", fieldName));
 			return SKIP_BODY;
 		}
 
@@ -68,7 +68,7 @@ public class LocalizedValueTag extends TagSupport{
 	private String getMethodValue(final String methodName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		Method method = object.getClass().getMethod( methodName );
 		Object value =  method.invoke(object);
-		if(!(value instanceof String)){
+		if(value != null && !(value instanceof String)){
 			logger.error("JSP error. Objects " + object.getClass().getName() + " methods: " + methodName + " returns invalid value.");
 			return "";
 		}

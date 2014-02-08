@@ -15,13 +15,13 @@ import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.WebpageService;
 
 @Controller
-public class PublicBaseController {
+public class PublicBaseController extends PublicSupportController{
 	
 	@Autowired
 	private WebpageService webpageService;
 
 	
-	@RequestMapping(Constants.DEFAULT_WEBPAGE_URL_PREFIX + "{sectionCode}")
+	@RequestMapping(value = { Constants.DEFAULT_WEBPAGE_URL_PREFIX + "{sectionCode}", EN_PREFIX + Constants.DEFAULT_WEBPAGE_URL_PREFIX + "{sectionCode}" })
 	public String baseSection(@PathVariable String sectionCode, ModelMap map) throws PageNotFoundEception{
 		
 		Webpage webpage = webpageService.getWebpageByCode(Constants.DEFAULT_WEBPAGE_URL_PREFIX +sectionCode);

@@ -213,7 +213,7 @@ public class StandardServiceImpl implements StandardService {
 					}
 					
 			}else{
-				if(status.equals(StandardStatus.CANCELED) && 
+				if((status.equals(StandardStatus.CANCELED) || status.equals(StandardStatus.CANCELED_HARMONIZED)) && 
 				   !referencedStandard.equals(standard) && 
 				   (referencedStandard.getReplaceStandard() == null || !referencedStandard.getReplaceStandard().equals(standard))){
 					referencedStandard.setReplaceStandard(standard);

@@ -6,7 +6,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
-import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
 import sk.peterjurkovic.cpr.entities.BasicRequirement;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
@@ -50,8 +48,14 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
 public class PublicCprController extends PublicSupportController{
-
-	private Logger logger = Logger.getLogger(getClass());
+	
+	public static final String CPR_INDEX_URL = "/cpr";
+	public static final String STANDARDS_URL = "/harmonizovane-normy";
+	public static final String EHN_DETAIL = "/detail-normy";
+	public static final String STANDARD_GROUP_URL = "/cpr/skupiny-vyrobku";
+	public static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
+	public static final String CPR_BASIC_REQUREMENT_URL = "/cpr/zakladni-pozadavky-podle-cpr";
+    public static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
 	
 	@Autowired
 	private WebpageService webpageService;
@@ -74,17 +78,7 @@ public class PublicCprController extends PublicSupportController{
 	@Autowired
 	private StandardPropertyEditor standardPropertyEditor;
 	
-	public static final String CPR_INDEX_URL = "/cpr";
-	
-	public static final String STANDARDS_URL = "/harmonizovane-normy";
-	
-	public static final String STANDARD_GROUP_URL = "/cpr/skupiny-vyrobku";
-	
-	public static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
-	
-	public static final String CPR_BASIC_REQUREMENT_URL = "/cpr/zakladni-pozadavky-podle-cpr";
-    
-    public static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
+
 	
 	@Value("#{config['ce.europe.aono']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
@@ -103,7 +97,6 @@ public class PublicCprController extends PublicSupportController{
 	public String cprIndex(ModelMap modelmap) throws PageNotFoundEception{
 		final Webpage webpage = getWebpage(CPR_INDEX_URL);
 		Map<String, Object> model = prepareBaseModel(webpage);
-		String code = ContextHolder.getLang();
 		modelmap.put("model", model);
 		return "/public/cpr/index";
 	}
@@ -147,7 +140,7 @@ public class PublicCprController extends PublicSupportController{
      * @return String view
      * @throws PageNotFoundEception ak webova sekce neexistuje, alebo je deaktivovana.
      */
-    @RequestMapping(value = {"/cpr/br/{code}" , EN_PREFIX + "/cpr/br/{code}" })
+    @RequestMapping(value = {"/cpr/br/{code}" , EN_PREFIX + "cpr/br/{code}" })
     public String showBasicRequirementDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
             
             BasicRequirement basicRequirement = basicRequirementService.getBasicRequirementByCode(code);
@@ -217,7 +210,7 @@ public class PublicCprController extends PublicSupportController{
      * @return String view
      * @throws PageNotFoundEception, ak je system deaktivovany, alebo neexistuje
      */
-    @RequestMapping(value = {"/cpr/as/{assessmentSystemId}", EN_PREFIX + "/cpr/as/{assessmentSystemId}"})
+    @RequestMapping(value = {"/cpr/as/{assessmentSystemId}", EN_PREFIX + "cpr/as/{assessmentSystemId}"})
     public String showAssessmentSystemDetail(@PathVariable Long assessmentSystemId, ModelMap modelmap) throws PageNotFoundEception {
             AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(assessmentSystemId);
             Webpage webpage = webpageService.getWebpageByCode(CPR_ASSESSMENT_SYSTEMS_URL);
@@ -308,7 +301,7 @@ public class PublicCprController extends PublicSupportController{
 	*
 	*/
 	
-	@RequestMapping(value = {"/ehn/{id}", EN_PREFIX + "/ehn/{id}"})
+	@RequestMapping(value = {"/ehn/{id}", EN_PREFIX + "ehn/{id}"})
 	public String showEhn(@PathVariable Long id,  ModelMap modelMap) throws PageNotFoundEception{
 		final Webpage webpage = getWebpage(STANDARDS_URL);
 		final Standard standard = standardService.getStandardById(id);
@@ -317,8 +310,8 @@ public class PublicCprController extends PublicSupportController{
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("standard", standard);
-		model.put("webpage", webpage);
-		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
+		model.put("parentWebpage", webpage);
+		model.put("webpage", webpageService.getWebpageByCode(EHN_DETAIL));
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		modelMap.put("model", model);
 		return "public/ehn";

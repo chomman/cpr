@@ -101,7 +101,7 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 					return true;
 				}
 			}else{
-				if(status.equals(StandardStatus.CANCELED) && 
+				if((status.equals(StandardStatus.CANCELED) || status.equals(StandardStatus.CANCELED_HARMONIZED)) && 
 				   !referencedCsn.equals(csn) && 
 				   (referencedCsn.getReplaceStandardCsn() == null || !referencedCsn.getReplaceStandardCsn().equals(csn))){
 					referencedCsn.setReplaceStandardCsn(csn);

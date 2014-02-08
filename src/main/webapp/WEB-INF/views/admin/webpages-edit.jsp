@@ -9,7 +9,7 @@
 <html>
 <head>
 	<title><spring:message code="webpages.edit" /></title>
-	<script src="/cpr/resources/admin/tinymce/tinymce.min.js"></script>
+	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 </head>
 <body>

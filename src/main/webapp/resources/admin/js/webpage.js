@@ -25,7 +25,6 @@ $(function() {
 		$focusedEl.removeClass("disabled").addClass("lang processSave " + $focusedEl.attr('data-lang'));
 		$clickedEl.removeClass().addClass("disabled");
 		$('input[name=locale]').val(locale);
-		console.log('locale: ' + locale);
 	});
 	$(document).on("click", ".processSave", function(e){
 		e.preventDefault();
@@ -119,6 +118,8 @@ function toArray(a){
 	for (i in a) {
 		if(a[i].name != "_enabled"){
 			d[a[i].name] = a[i].value;
+		}else{
+			d.enabled = a[i].value === 'on';
 		}
 	}
 	return d;

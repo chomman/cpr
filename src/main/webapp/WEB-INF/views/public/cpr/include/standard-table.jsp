@@ -30,25 +30,29 @@
 				 			<span>
 				 				<a:url href="/ehn/${i.id}">${i.standardId}</a:url>
 				 			</span>
-				 				
-		 					<c:if test="${not empty i.replaceStandard and i.standardStatus.id == 2}">
-			 					<span  class="s-replaced" >
-			 						<spring:message code="replaced" />
-			 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
-			 					</span>
+				 			<c:if test="${not empty i.replaceStandard}">	
+			 					<c:if test="${i.standardStatus.id == 2}">
+				 					<span  class="s-replaced" >
+				 						<spring:message code="replaced" />
+				 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
+				 					</span>
+			 					</c:if>
+			 					<c:if test="${i.replaceStandard.standardStatus.id == 2}">
+				 					<span class="s-replace" >
+				 						<spring:message code="replace" />
+				 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
+				 					</span>
+			 					</c:if>
 		 					</c:if>
-		 					<c:if test="${not empty i.replaceStandard and i.replaceStandard.standardStatus.id == 2}">
-			 					<span class="s-replace" >
-			 						<spring:message code="replace" />
-			 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
-			 					</span>
+		 					<c:if test="${not empty i.standardStatus and i.standardStatus.id == 3}">
+		 						(<spring:message code="${i.standardStatus.name}" />)
 		 					</c:if>
 				 		</td>
 				 		
 				 		
 				 		
 				 		<!-- CSN --> 
-				 		<td>
+				 		<td class="csns">
 					 		<c:forEach items="${i.standardCsns}" var="csn">
 								<span
 									class="${csn.statusClass}" 
@@ -64,7 +68,7 @@
 										</c:if>
 								</span>
 						 		<c:forEach items="${csn.standardCsnChanges}" var="j">
-						 				<span>
+						 				<span class="standard-change-code">
 							 				<c:if test="${not empty j.csnOnlineId }">
 												<a class="file pdf min" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', j.csnOnlineId)}">
 													${j.changeCode}
@@ -153,6 +157,7 @@
 					 			<td class="standard-change-code">
 					 				<span>${j.changeCode}</span>
 					 			</td>
+					 			<td>&nbsp;</td>
 					 			<td>&nbsp;</td>
 					 			<td class="validity c ">
 							 		<c:if test="${not empty j.startValidity}">
