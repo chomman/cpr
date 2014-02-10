@@ -129,6 +129,7 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 	}
 
 	
+	
 	@Override
 	public void deleteStandardCsn(StandardCsn csn) {
 		Query query = sessionFactory.getCurrentSession().createQuery("update StandardCsn csn set csn.replaceStandardCsn=NULL WHERE csn.replaceStandardCsn.id=:id " );
