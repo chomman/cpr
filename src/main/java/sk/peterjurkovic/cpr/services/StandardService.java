@@ -55,4 +55,6 @@ public interface StandardService {
 	void addStandardCsn(Standard standard, StandardCsn standardCsn);
 	
 	void removeStandardCsn(Standard standard, StandardCsn standardCsn);
+	
+	void removeReferences(Standard standard);
 }

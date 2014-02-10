@@ -17,6 +17,7 @@ import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 
 /**
  * Implementacia rozhrania {@link sk.peterjurkovic.cpr.dao.StandardDao}
@@ -40,12 +41,15 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> getStandardPage(final int pageNumber,final Map<String, Object> criteria, final int limit ){
-		StringBuffer hql = new StringBuffer("select s from Standard s");
+		StringBuilder hql = new StringBuilder("select s from ");
+		hql.append(Standard.class.getName());
+		hql.append(" s ");
 		hql.append(prepareHqlForQuery(criteria));
-		if((Integer)criteria.get("orderBy") != null){
-			hql.append(StandardOrder.getSqlById((Integer)criteria.get("orderBy") ));
+		final Integer oid = (Integer)criteria.get(Filter.ORDER);
+		if(oid != null && oid > 0){
+			hql.append(StandardOrder.getSqlById((Integer)criteria.get(Filter.ORDER) ));
 		}else{
-			hql.append(StandardOrder.getSqlById(6));
+			hql.append(StandardOrder.CREATE_DESC.getSql());
 		}
 		
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
@@ -82,13 +86,13 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	 */
 	@Override
 	public boolean isStandardIdUnique(final String standardId,final Long id) {
-		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s WHERE s.standardId=:standardId");
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s WHERE s.code=:code");
 		if(id != null && id != 0){
 			hql.append(" AND s.id<>:id");
 		}
 		Long result = null;
 		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
-		query.setString("standardId", standardId);
+		query.setString("code", CodeUtils.toSeoUrl(StringUtils.trim(standardId)));
 		if(id != null && id != 0){
 			query.setLong("id", id);
 		}
@@ -105,6 +109,8 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		.setEntity("standard", standard)
 		.executeUpdate();
 	}
+
+	
 
 
 	@SuppressWarnings("unchecked")
@@ -310,6 +316,19 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		hql.append(" where standard.enabled=true and nb.id = :id ");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setLong("id", notifiedBody.getId());
+		return query.list();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> getStandardsByReplaceStandard(Standard standard) {
+		Validate.notNull(standard);
+		StringBuilder hql = new StringBuilder("select s from Standard s ");
+		hql.append(" LEFT JOIN s.replaceStandard as rs");
+		hql.append(" where rs.id=:id ");
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setLong("id", standard.getId());
 		return query.list();
 	}
 	

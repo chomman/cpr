@@ -48,6 +48,16 @@ public class StandardServiceImpl implements StandardService {
 	public void deleteStandard(Standard standard) {
 		standardDao.remove(standard);
 	}
+	
+	@Override
+	public void removeReferences(Standard standard){
+		Validate.notNull(standard);
+		List<Standard> replacedStandards = standardDao.getStandardsByReplaceStandard(standard);
+		for(Standard s : replacedStandards){
+			s.setReplaceStandard(null);
+			standardDao.update(s);
+		}
+	}
 
 	@Override
 	@Transactional(readOnly =  true )
@@ -126,7 +136,6 @@ public class StandardServiceImpl implements StandardService {
 	
 	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
 		if(criteria.size() != 0){
-			//criteria.put("standardGroup", ParseUtils.parseLongFromStringObject("standardGroup"));
 			criteria.put(Filter.STANDARD_GROUP, ParseUtils.parseLongFromStringObject(criteria.get(Filter.STANDARD_GROUP)));
 			criteria.put(Filter.COMMISION_DECISION, ParseUtils.parseLongFromStringObject(criteria.get(Filter.COMMISION_DECISION)));
 			criteria.put(Filter.MANDATE, ParseUtils.parseLongFromStringObject(criteria.get(Filter.MANDATE)));

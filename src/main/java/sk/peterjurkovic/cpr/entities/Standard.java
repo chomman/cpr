@@ -256,7 +256,7 @@ public class Standard extends AbstractStandard {
 		this.standardChanges = standardChanges;
 	}
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name = "replaced_standard_id")
 	public Standard getReplaceStandard() {
 		return replaceStandard;

@@ -114,7 +114,8 @@ public class PublicCprController extends PublicSupportController{
 		Map<String, Object> model = prepareBaseModel(webpage);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
-		params.put("enabled", Boolean.TRUE);
+		params.put(Filter.ORDER, "3");
+		params.put(Filter.ENABLED, Boolean.TRUE);
 		final int count = standardService.getCountOfStandards(params).intValue();
 		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage, count);
 		List<Standard> standards = standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);

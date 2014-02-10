@@ -345,6 +345,7 @@ public class StandardController extends SupportAdminController{
 	public String deleteStandard(@PathVariable Long standardId, ModelMap model, HttpServletRequest request) throws ItemNotFoundException {
 		Standard standard = getStandard(standardId);
 		model.put("successDelete", true);
+		standardService.removeReferences(standard);
 		standardService.deleteStandard(standard);
         return showStandards(model, request);
 	}
