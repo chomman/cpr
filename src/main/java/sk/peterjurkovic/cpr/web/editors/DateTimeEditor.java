@@ -12,7 +12,7 @@ import sk.peterjurkovic.cpr.constants.Constants;
 
 @Component
 public class DateTimeEditor extends PropertyEditorSupport {
-	private DateTimeFormatter formatter = DateTimeFormat.forPattern(Constants.DATE_TIME_FORMAT);
+	public DateTimeFormatter formatter = DateTimeFormat.forPattern(Constants.DATE_TIME_FORMAT);
 		
 	@Override
 	public String getAsText() {

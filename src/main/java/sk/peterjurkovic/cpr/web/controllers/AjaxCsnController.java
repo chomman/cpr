@@ -6,6 +6,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -132,6 +133,6 @@ public class AjaxCsnController {
 	
 	@RequestMapping(value = { "/ajax/standards" },consumes =  MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody List<Standard>  standards(HttpServletRequest request, HttpServletResponse response){
-		return standardService.getAllStandards();
+		return standardService.getStandardPage(1, new HashedMap());
 	}
 }

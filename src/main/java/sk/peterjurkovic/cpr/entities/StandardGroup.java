@@ -24,6 +24,8 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entita reprezentujuca skupinu vyrobku podla EU vesniku 305/2011
  * @author Peter Jurkovič (email@peterjurkovic.sk)
@@ -34,6 +36,7 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 @Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "standard_group_id_seq", sequenceName = "standard_group_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "standard_group")
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class StandardGroup extends AbstractEntity {
 
 	
