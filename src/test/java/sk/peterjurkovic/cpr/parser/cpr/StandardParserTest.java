@@ -8,14 +8,13 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 
-import sk.peterjurkovic.cpr.dao.AbstractTest;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 
 @Resource
-public class StandardParserTest extends AbstractTest{
+public class StandardParserTest {
 	
 	@Test
 	public void test(){

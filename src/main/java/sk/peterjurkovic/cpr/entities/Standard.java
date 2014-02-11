@@ -31,6 +31,11 @@ import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+
 /**
  * Entita reprezentujuca harmonizovanu normu
  * @author Peter Jurkovič (email@peterjurkovic.sk)
@@ -40,6 +45,7 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 @Table(name = "standard")
 @SequenceGenerator(name = "standard_id_seq", sequenceName = "standard_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
+@JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class,property = "@id")
 public class Standard extends AbstractStandard {
 
 	
@@ -66,13 +72,13 @@ public class Standard extends AbstractStandard {
 	private Set<AssessmentSystem> assessmentSystems;
 	
 	private Set<StandardCsn> standardCsns;
-	
+	@JsonIgnore
 	private Set<Requirement> requirements;
-	
+	@JsonIgnore
 	private Set<Tag> tags;
-	
+	@JsonIgnore
 	private Boolean cumulative;
-	
+	@JsonIgnore
 	private Long timestamp;
 	
 	private Standard replaceStandard;
@@ -317,11 +323,6 @@ public class Standard extends AbstractStandard {
 		return false;
 	}
 
-	
-	@Transient
-	public boolean getIsCanceled(){
-		return false;
-	}
 	
 	@Transient
 	public String getName(){

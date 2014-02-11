@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
@@ -114,10 +116,10 @@ public class PublicCprController extends PublicSupportController{
 		Map<String, Object> model = prepareBaseModel(webpage);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
-		params.put(Filter.ORDER, "3");
 		params.put(Filter.ENABLED, Boolean.TRUE);
 		final int count = standardService.getCountOfStandards(params).intValue();
 		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage, count);
+		params.put(Filter.ORDER, StandardOrder.STANDARD_ID_INT.getId());
 		List<Standard> standards = standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);
 		params.put(Filter.NOTIFIED_BODY, getNotifiedBody(params.get(Filter.NOTIFIED_BODY)));
 		model.put("count", count);
@@ -132,6 +134,8 @@ public class PublicCprController extends PublicSupportController{
 		modelmap.put("model", model);
 		return "/public/cpr/harmonized-standards";
 	}
+	
+	
 	
 	/**
      * Zobrazi detail zakladneho pozadavku

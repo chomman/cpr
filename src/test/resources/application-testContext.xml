@@ -34,45 +34,15 @@
   </bean>
   
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
-       <property name="annotatedClasses">       	
-       	<list>
-       		<value>sk.peterjurkovic.cpr.entities.User</value>
-		  	<value>sk.peterjurkovic.cpr.entities.Authority</value>
-		  	<value>sk.peterjurkovic.cpr.entities.UserLog</value>
-		  	<value>sk.peterjurkovic.cpr.entities.Address</value>
-		  	<value>sk.peterjurkovic.cpr.entities.AssessmentSystem</value>
-		  	<value>sk.peterjurkovic.cpr.entities.Country</value>
-		  	<value>sk.peterjurkovic.cpr.entities.Mandate</value>
-		  	<value>sk.peterjurkovic.cpr.entities.NotifiedBody</value>
-		  	<value>sk.peterjurkovic.cpr.entities.Standard</value>
-		  	<value>sk.peterjurkovic.cpr.entities.StandardCsn</value>
-		  	<value>sk.peterjurkovic.cpr.entities.StandardCsnChange</value>
-		  	<value>sk.peterjurkovic.cpr.entities.StandardGroup</value>
-		  	<value>sk.peterjurkovic.cpr.entities.StandardChange</value>
-  			<value>sk.peterjurkovic.cpr.entities.CommissionDecision</value>
-		  	<value>sk.peterjurkovic.cpr.entities.BasicRequirement</value>
-			<value>sk.peterjurkovic.cpr.entities.Requirement</value>
-			<value>sk.peterjurkovic.cpr.entities.Tag</value>
-			<value>sk.peterjurkovic.cpr.entities.Article</value>
-			<value>sk.peterjurkovic.cpr.entities.WebpageCategory</value>
-			<value>sk.peterjurkovic.cpr.entities.WebpageContent</value>
-			<value>sk.peterjurkovic.cpr.entities.Webpage</value>
-			<value>sk.peterjurkovic.cpr.entities.BasicSettings</value>
-			<value>sk.peterjurkovic.cpr.entities.DeclarationOfPerformance</value>
-			<value>sk.peterjurkovic.cpr.entities.EssentialCharacteristic</value>
-			<value>sk.peterjurkovic.cpr.entities.ExceptionLog</value>
-			<value>sk.peterjurkovic.cpr.entities.Csn</value>
-			<value>sk.peterjurkovic.cpr.entities.CsnCategory</value>
-			<value>sk.peterjurkovic.cpr.entities.CsnTerminology</value>
-       </list>
-       </property>
+       <property name="configLocation" value="hibernate.cfg.xml" />
        <property name="hibernateProperties">
            <props>
-                <prop key="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</prop>
+                <prop key="hibernate.dialect">${hibernate.dialect}</prop>
                 <prop key="hibernate.bytecode.use_reflection_optimizer">false</prop>
+                <prop key="hibernate.show_sql">${hibernate.show.sql}</prop>
                 <prop key="hibernate.bytecode.provider">cglib</prop>
                 <prop key="hibernate.jdbc.use_scrollable_resultset">true</prop>
-                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.format_sql">false</prop>
 				<prop key="hibernate.connection.CharSet">UTF-8</prop>
 		        <prop key="hibernate.connection.characterEncoding">UTF-8</prop>
 		        <prop key="hibernate.connection.useUnicode">true</prop>
@@ -91,17 +61,17 @@
     	<property name="sessionFactory" ref="sessionFactory"/>
   	</bean>	
 
-
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-	    <property name="driverClassName" value="org.postgresql.Driver" />
-	    <property name="url" value="jdbc:postgresql://localhost:5432/cpr2?useEncoding=true&amp;characterEncoding=UTF-8" />
-	    <property name="username" value="postgres" />
-	    <property name="password" value="postgres" />
+	
+     <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+	    <property name="driverClassName" value="${hibernate.connection.driver_class}" />
+	    <property name="url" value="${hibernate.connection.url}" />
+	    <property name="username" value="${hibernate.connection.username}" />
+	    <property name="password" value="${hibernate.connection.password}" />
 	</bean>
 	
 	
-	<!--  Vylepsena varianta DataSource  "enterprise-ready" -->
-	<bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+	 <!-- Vylepsena varianta DataSource  "enterprise-ready" -->
+	<!-- <bean id="c3p0DataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="${hibernate.connection.driver_class}" />
         <property name="jdbcUrl" value="${hibernate.connection.url}" />
         <property name="properties">
@@ -117,32 +87,14 @@
         <property name="maxStatements" value="50" /> 
         <property name="idleConnectionTestPeriod" value="150" /> 
     </bean>
-<!-- 
+ 
    <tx:annotation-driven transaction-manager="transactionManagerBean"/>
  -->
 
-   <context:component-scan base-package="sk.peterjurkovic.cpr.dao">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
-    </context:component-scan>
+   	<context:component-scan base-package="sk.peterjurkovic.cpr" />
+  
     
-    <context:component-scan base-package="sk.peterjurkovic.cpr.services">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
-    </context:component-scan>  
-    
-    <context:component-scan base-package="sk.peterjurkovic.cpr.validators">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-    </context:component-scan>
-    
-    <context:component-scan base-package="sk.peterjurkovic.cpr.mail">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-    </context:component-scan>      
 
-    
-      <context:component-scan base-package="sk.peterjurkovic.cpr.parser">
-        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
-    </context:component-scan> 
-    
-      
       <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
 		
 		<bean id="passwordSaltSource"	class="org.springframework.security.authentication.dao.SystemWideSaltSource">
@@ -156,8 +108,8 @@
 		<bean id="authenticationFailureHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationFailureHandler" />
 	
 		<bean id="authenticationSuccessHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationSuccessHandler" />
-    
-    <!--  <bean id="fileService" class="sk.peterjurkovic.cpr.services.impl.FileServiceImpl" /> -->
+          <!-- 
+     <bean id="fileService" class="sk.peterjurkovic.cpr.services.impl.FileServiceImpl" /> -->
     
 </beans>
 

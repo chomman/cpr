@@ -39,7 +39,6 @@ public class LocalizedValueTag extends TagSupport{
 		}
 
 		if(object == null ) {
-			logger.error(String.format("OBject is NULL fieldName %s", fieldName));
 			return SKIP_BODY;
 		}
 

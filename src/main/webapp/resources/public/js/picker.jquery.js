@@ -8,7 +8,7 @@
         autocompleteCallBack : null,
         enabledOnly : false,
         useDefaultCallBack : false,
-        debug: true
+        debug: false
     };
     
     $.fn.remotePicker = function(newOpts) {

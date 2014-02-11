@@ -15,6 +15,8 @@ import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.dao.impl.IdentifiableByLong;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 /**
  * Abstraktna entita, obsahujuca vseky spolocne atributy.
@@ -41,30 +43,35 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
    /**
     * Datum vytvorenia
     */
+   @JsonIgnore
    private LocalDateTime created = new LocalDateTime();
    
    
    /**
     * Datum poslednej zmeny
     */
+   @JsonIgnore
    private LocalDateTime changed;
    
    
    /**
     * Vytvoril
     */
+   @JsonIgnore
    private User createdBy;
    
    
    /**
     * Zmenil
     */
+   @JsonIgnore
    private User changedBy;
    
    
    /**
     * Aktivny zaznam
     */
+   @JsonIgnore
    private Boolean enabled = Boolean.TRUE;
    
    

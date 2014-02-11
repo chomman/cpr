@@ -49,7 +49,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		if(oid != null && oid > 0){
 			hql.append(StandardOrder.getSqlById((Integer)criteria.get(Filter.ORDER) ));
 		}else{
-			hql.append(StandardOrder.CREATE_DESC.getSql());
+			hql.append(StandardOrder.STANDARD_ID_INT.getSql());
 		}
 		
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
@@ -287,7 +287,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		StringBuilder hql = new StringBuilder("select standard from Standard standard ");
 		hql.append(" LEFT JOIN standard.tags as tag");
 		hql.append(" where standard.enabled=true and  tag.name like CONCAT('%', :tagName , '%')");
-		 hql.append(" and size(standard.requirements) > 0");
+		hql.append(" and size(standard.requirements) > 0");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setParameter("tagName", tagName);
 		query.setMaxResults(50);

@@ -28,25 +28,26 @@
 				 		
 				 		<td class="norm">
 				 			<span>
-				 				<a:url href="/ehn/${i.id}">${i.standardId}</a:url>
+				 				<a:url cssClass="${i.statusClass}" href="/ehn/${i.id}">${i.standardId}</a:url>
 				 			</span>
+				 			<c:if test="${not empty i.standardStatus and i.standardStatus.id == 3}">
+		 						<spring:message code="${i.standardStatus.name}" />
+		 					</c:if>
 				 			<c:if test="${not empty i.replaceStandard}">	
-			 					<c:if test="${i.standardStatus.id == 2}">
-				 					<span  class="s-replaced" >
+			 					<c:if test="${i.isCanceled}">
+				 					<span class="s-replaced" >
 				 						<spring:message code="replaced" />
 				 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
 				 					</span>
 			 					</c:if>
-			 					<c:if test="${i.replaceStandard.standardStatus.id == 2}">
+			 					<c:if test="${not i.isCanceled and i.replaceStandard.isCanceled}">
 				 					<span class="s-replace" >
 				 						<spring:message code="replace" />
 				 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
 				 					</span>
 			 					</c:if>
 		 					</c:if>
-		 					<c:if test="${not empty i.standardStatus and i.standardStatus.id == 3}">
-		 						(<spring:message code="${i.standardStatus.name}" />)
-		 					</c:if>
+		 					
 				 		</td>
 				 		
 				 		
@@ -79,6 +80,28 @@
 											</c:if>
 										</span>
 						 		</c:forEach>
+						 			<c:if test="${not empty csn.standardStatus and csn.standardStatus.id == 3}">
+				 						(<spring:message code="${csn.standardStatus.name}" />)
+				 					</c:if>
+								 	<c:if test="${not empty csn.replaceStandardCsn}">	
+					 					<c:if test="${csn.isCanceled}">
+						 					<span class="s-replaced" >
+						 						<spring:message code="replaced" />
+						 						<a class="file pdf min" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.replaceStandardCsn.csnOnlineId)}">
+													${csn.replaceStandardCsn.csnName}
+												</a>
+						 					</span>
+					 					</c:if>
+					 					<c:if test="${csn.replaceStandardCsn.isCanceled}">
+						 					<span class="s-replace" >
+						 						<spring:message code="replace" />
+						 						<a class="file pdf min" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.replaceStandardCsn.csnOnlineId)}">
+													${csn.replaceStandardCsn.csnName}
+												</a>
+						 					</span>
+					 					</c:if>
+				 					</c:if>
+				 					
 							</c:forEach>
 				 		</td>
 				 		

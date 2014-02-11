@@ -123,7 +123,7 @@
 							<tr>
 								<td class="name key">
 									<c:if test="${not empty csn.csnOnlineId }">
-										<a class="file pdf" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.csnOnlineId)}">
+										<a class="file pdf ${csn.statusClass}" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.csnOnlineId)}">
 											${csn.csnName}
 										</a>
 									</c:if>
@@ -131,7 +131,12 @@
 										<span class="file pdf">${csn.csnName}</span>
 									</c:if>
 								</td>
-								<td>${csn.note}</td>
+								<td>
+								<c:if test="${not empty csn.standardStatus and csn.standardStatus.id != 1}">
+									(<spring:message code="${csn.standardStatus.name}" />)
+								</c:if>
+								${csn.note}
+								</td>
 							</tr>
 					 		<c:forEach items="${csn.standardCsnChanges}" var="j">
 						 		<tr class="standard-change csn-change">

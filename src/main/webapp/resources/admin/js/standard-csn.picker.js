@@ -25,7 +25,7 @@ $(document).ready(function() {
     function refreshInputLabel(){
     	var selectedVal = $('#standardStatus').find("option:selected").val().toLowerCase(),
     		$inputLabel = $('#standard-replaced-label');
-    	if(selectedVal === "canceled"){
+    	if(selectedVal.indexOf("canceled") > -1){
     		$inputLabel.text('norma je nahrazena: ');
     	}else{
     		$inputLabel.text('norma nahrazuje: ');

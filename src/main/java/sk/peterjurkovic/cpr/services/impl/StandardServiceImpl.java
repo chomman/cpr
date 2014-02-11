@@ -101,8 +101,10 @@ public class StandardServiceImpl implements StandardService {
 
 	@Override
 	public void saveOrUpdate(Standard standard) {
-		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
-		
+		User user = null;
+		if(UserUtils.getLoggedUser() != null){
+			user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		}
 		if(standard.getId() == null){
 			standard.setCreatedBy(user);
 			standard.setChangedBy(user);

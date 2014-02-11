@@ -564,9 +564,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .standards{font-size:12px;}
 .standards .norm{min-width: 155px;}
 .standards .norm span{display:block;}
-.standards .norm .s-replace a{color:red;}
-.standards .norm .s-replaced a{color:#3e4e69}
-.standards .norm .s-replaced{color:#333}
+.standards .s-replaced a{color:#3e4e69}
+.standards .s-replaced{color:#333}
 .standards .csns{min-width:155px}
 .standards .csns .standard-change-code{font-size:11px;}
 .standards .aono{width:120px;}
@@ -582,9 +581,10 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .mchanges{display:inline-block;padding-left:15px;font-size:12px;}
 
 
-.status-canceled,
 .status-canceled a,
-.standards .norm .s-replace a{color:#B52D00;}
+a.status-canceled,
+a.status-canceled-harmonized,
+.standards .s-replace a{color:#B52D00;}
 .status-canceled,
 .status-canceled-harmonized{
     background: #fff0ef;
