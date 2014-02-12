@@ -40,7 +40,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Standard> getStandardPage(final int pageNumber,final Map<String, Object> criteria, final int limit ){
+	public List<Standard> getStandardPage(final Map<String, Object> criteria, final int pageNumber, final int limit ){
 		StringBuilder hql = new StringBuilder("select s from ");
 		hql.append(Standard.class.getName());
 		hql.append(" s ");
@@ -54,9 +54,8 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setFirstResult(limit * ( pageNumber -1));
+		hqlQuery.setFirstResult( limit * ( pageNumber -1));
 		hqlQuery.setMaxResults(limit);
-		hqlQuery.setCacheable(false);
 		return (List<Standard>)hqlQuery.list();
 	}
 	
@@ -331,5 +330,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		query.setLong("id", standard.getId());
 		return query.list();
 	}
+
+
 	
 }

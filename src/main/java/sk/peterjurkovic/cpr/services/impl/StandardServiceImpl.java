@@ -83,10 +83,17 @@ public class StandardServiceImpl implements StandardService {
 
 	@Override
 	@Transactional(readOnly =  true )
-	public List<Standard> getStandardPage(int pageNumber,Map<String, Object> criteria) {
-		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria), Constants.ADMIN_PAGINATION_PAGE_SIZE);
+	public List<Standard> getStandardPage(int pageNumber, Map<String, Object> criteria) {
+		return standardDao.getStandardPage(validateCriteria(criteria), pageNumber, Constants.ADMIN_PAGINATION_PAGE_SIZE);
+	}
+	
+	@Override
+	@Transactional(readOnly =  true )
+	public List<Standard> getStandardPage(final int pageNumber, Map<String, Object> criteria, final int limit) {
+		return standardDao.getStandardPage(validateCriteria(criteria), pageNumber, limit);
 	}
 
+		
 	@Override
 	@Transactional(readOnly =  true )
 	public Long getCountOfStandards(Map<String, Object> criteria) {
@@ -192,11 +199,6 @@ public class StandardServiceImpl implements StandardService {
 		return standardDao.getStandardsByStandardGroupCode(standardGroupCode);
 	}
 
-	@Override
-	@Transactional(readOnly =  true )
-	public List<Standard> getStandardPage(final int pageNumber, Map<String, Object> criteria,final int limit) {
-		return standardDao.getStandardPage(pageNumber, validateCriteria(criteria), limit);
-	}
 	
 	
 	@Transactional(readOnly =  true )

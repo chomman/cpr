@@ -10,6 +10,7 @@
 		<script src="<c:url value="/resources/public/js/ehn.autocomplete.js" />"></script>
 		<script src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
+		<script src="<c:url value="/resources/public/js/jquery.pagination.js" />"></script>
 		<script type="text/javascript">  
 		$(document).ready(function() {    
 			$(".chosenSmall").chosen({
@@ -36,7 +37,9 @@
 		    	sourceUrl : $("#base").text() +"ajax/autocomplete/aono"	,
 		    	enabledOnly : true
 		    });
-		    
+		    $('table.standards').scrollPagination({
+		    	url : getBasePath() +  (getLocale() == 'cs' ? '' : getLocale() + '/') + 'async/standards'
+		    });
 		});
 		</script>
 	</head>
@@ -124,6 +127,7 @@
 			<jsp:include page="include/standard-table.jsp" />
 			<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 		</div>
+		<div id="strParams">${model.strParams}</div>
 	</body>
 </html>
 

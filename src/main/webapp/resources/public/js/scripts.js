@@ -74,7 +74,7 @@ $(function() {
 			return false;
 		}
 	});
-	var locale = $('#locale').text(),
+	var locale =  getLocale(),
 		$langSwitcher = $('#lswitcher');
 	$langSwitcher.polyglotLanguageSwitcher({
 			effect: 'fade',

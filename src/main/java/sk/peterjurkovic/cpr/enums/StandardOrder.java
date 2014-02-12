@@ -11,7 +11,7 @@ public enum StandardOrder {
 	VALIDITY_ASC(1, "Platnosti nejstarší", " order by s.stopValidity asc"),
 	STANDARD_ID_ASC(3, "Označení eHN A-Z", " order by s.standardId asc"),
 	STANDARD_ID_DESC(4, "Označení eHN Z-A", " order by s.standardId desc"),
-	STANDARD_ID_INT(7, "Označení (čísel)", " order by cast(substring(s.standardId, '^[0-9]+'), int), substring(s.standardId, '[^0-9]*$') ");
+	STANDARD_ID_INT(7, "Označení (čísel)", " order by CAST(substring(s.standardId,'\\d+') as int), CAST(substring(s.standardId,'\\d+[^\\d]+(\\d+)') as int) ");
 		
 	private int id;
 	private String name;

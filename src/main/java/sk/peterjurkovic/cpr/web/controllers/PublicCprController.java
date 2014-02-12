@@ -5,12 +5,10 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
@@ -120,13 +118,13 @@ public class PublicCprController extends PublicSupportController{
 		params.put(Filter.ENABLED, Boolean.TRUE);
 		final int count = standardService.getCountOfStandards(params).intValue();
 		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage, count);
-		params.put(Filter.ORDER, StandardOrder.STANDARD_ID_INT.getId());
 		List<Standard> standards = standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);
 		params.put(Filter.NOTIFIED_BODY, getNotifiedBody(params.get(Filter.NOTIFIED_BODY)));
 		model.put("count", count);
 		model.put("standards", standards);
 		model.put("paginationLinks", paginationLinks);
 		model.put("params", params);
+		model.put("strParams", RequestUtils.getRequestParams(request, Constants.PAGE_PARAM_NAME));
 		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
 		model.put("orders", StandardOrder.getAll());
 		model.put("standardStatuses", StandardStatus.getAll());
@@ -136,10 +134,14 @@ public class PublicCprController extends PublicSupportController{
 		return "/public/cpr/harmonized-standards";
 	}
 	
-	@RequestMapping(value = { "/standards" })
+	@RequestMapping(value = { "/async/standards" , EN_PREFIX + "/async/standards" })
 	public ModelAndView   standards(HttpServletRequest request, ModelMap map){
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("standards", standardService.getStandardPage(1, new HashMap<String, Object>()));
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		final int currentPage = RequestUtils.getPageNumber(request);
+		params.put(Filter.ENABLED, Boolean.TRUE);
+		model.put("standards", standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE));
+		model.put("async", true);
 		map.put("model", model);
 		return new ModelAndView("/public/cpr/include/standard-table",map);
 	}

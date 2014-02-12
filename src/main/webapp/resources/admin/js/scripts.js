@@ -212,10 +212,6 @@ function removeLoader(){
 	$('#loader').remove();
 }
 
-function getBasePath(){
-	return $('#base').text();
-}
-
 (function($) {
     $.fn.extend( {
         limiter: function(limit, elem) {

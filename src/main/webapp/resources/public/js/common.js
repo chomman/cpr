@@ -18,7 +18,7 @@ function generateOption(selectedId, items){
 }
 
 function loadFilterData(){
-	 $.getJSON( $("#base").text() +"ajax/standard-filter", function(data) {  
+	 $.getJSON( getBasePath() +"ajax/standard-filter", function(data) {  
 			$('.async').each(function(){
 					var $this = $(this),
 						paramName = $this.attr('name'),
@@ -73,6 +73,13 @@ function createCookie(name, value, days) {
     }
     else var expires = "";
     document.cookie = name + "=" + value + expires + "; path=/";
+}
+
+function getBasePath(){
+	return $('#base').text();
+}
+function getLocale(){
+	return $('#locale').text();
 }
 
 function getCookie(c_name) {

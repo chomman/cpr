@@ -5,6 +5,8 @@
 		<pattern>*.htm</pattern>
 		<pattern>*.ftl</pattern>
 		<pattern>/admin/file-manager*</pattern>
+		<pattern>/async/*</pattern>
+		<pattern>/en/async/*</pattern>
 	</excludes>
     
   <decorator name="blank" page="blank.jsp">

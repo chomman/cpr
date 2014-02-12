@@ -2,7 +2,8 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
 <c:if test="${not empty model.standards}">
-											
+	
+	<c:if test="${empty model.async}">
 		<table class="standards">
 			<thead>
 				<tr>
@@ -16,7 +17,8 @@
 					<th><spring:message code="standard.standardGroups" /></th>
 				</tr>
 			</thead>
-			<tbody>
+			<tbody class="pagi-content">
+	</c:if>
 				 <c:forEach items="${model.standards}" var="i">
 				 	<tr 
 				 	class="<c:if test="${i.hasChanges}">has-change</c:if> ${i.statusClass}" 
@@ -199,7 +201,8 @@
 				 		</c:forEach>
 				 	</c:if>
 				 </c:forEach>
+	<c:if test="${empty model.async}">
 			</tbody>
 		</table>
-		
+	</c:if>
 </c:if>
