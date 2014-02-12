@@ -3,12 +3,7 @@ package sk.peterjurkovic.cpr.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,7 +18,6 @@ import sk.peterjurkovic.cpr.entities.Csn;
 import sk.peterjurkovic.cpr.entities.CsnCategory;
 import sk.peterjurkovic.cpr.entities.CsnTerminology;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
-import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CommissionDecisionService;
@@ -129,10 +123,5 @@ public class AjaxCsnController {
 		data.setMandates(mandateService.getAllMandates());
 		data.setCommissionDecisions(commissionDecisionService.getAll());
 		return data;
-	}
-	
-	@RequestMapping(value = { "/ajax/standards" },consumes =  MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody List<Standard>  standards(HttpServletRequest request, HttpServletResponse response){
-		return standardService.getStandardPage(1, new HashedMap());
 	}
 }

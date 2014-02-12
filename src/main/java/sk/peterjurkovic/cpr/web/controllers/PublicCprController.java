@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
@@ -135,7 +136,13 @@ public class PublicCprController extends PublicSupportController{
 		return "/public/cpr/harmonized-standards";
 	}
 	
-	
+	@RequestMapping(value = { "/standards" })
+	public ModelAndView   standards(HttpServletRequest request, ModelMap map){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("standards", standardService.getStandardPage(1, new HashMap<String, Object>()));
+		map.put("model", model);
+		return new ModelAndView("/public/cpr/include/standard-table",map);
+	}
 	
 	/**
      * Zobrazi detail zakladneho pozadavku
