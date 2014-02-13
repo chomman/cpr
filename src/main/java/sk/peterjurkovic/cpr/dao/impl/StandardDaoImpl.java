@@ -133,11 +133,11 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
-		StringBuilder hql = new StringBuilder(" join s.standardGroups as standardGroup ");
+		StringBuilder hql = new StringBuilder(" left join s.standardGroups as standardGroup ");
 		
 		Long mandateId = (Long)criteria.get(Filter.MANDATE);
 		if(mandateId != null && mandateId != 0){
-			hql.append(" inner join standardGroup.mandates as mandate ");
+			hql.append(" join standardGroup.mandates as mandate ");
 		}
 		
 		Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
@@ -176,7 +176,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 
 			if(mandateId != null && mandateId != 0){
-				where.add(" :mandateId in elements( standardGroup.mandates ) ");
+				where.add(" mandate.id = :mandateId ");
 			}
 			Long commissionDecisionId = (Long)criteria.get(Filter.COMMISION_DECISION);
 			if(commissionDecisionId != null && commissionDecisionId != 0){

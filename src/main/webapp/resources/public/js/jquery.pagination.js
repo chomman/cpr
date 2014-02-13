@@ -36,7 +36,7 @@ $.fn.scrollPagination = function(options) {
 	function getRequestParams(){
 		var params  = $.trim($('#strParams').text());
 		if(params.length === 0){
-			return '?page=" + (page + 1)' ;
+			return "?page=" + (page + 1) ;
 		}
 		return params + "&page=" + (page + 1);
 	}

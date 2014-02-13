@@ -654,3 +654,6 @@ header{position:relative;}
 
 #pagi-loader{border-bottom:4px solid #ddd;text-align:center; }
 #pagi-loader p{background:red;background:url(../img/ajax-loader.gif) no-repeat left center;display:inline-block;padding:20px 0 20px 60px;font-weight:bold;}
+
+.a-link{position:relative;}
+.a-standard{background: url(../img/edit.png) no-repeat left center;display:inline-block;width:16px;height:16px;position:absolute;margin-left:4px;top:2px}

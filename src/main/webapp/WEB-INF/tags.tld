@@ -87,5 +87,42 @@
 		<required>true</required>
 		<rtexprvalue>true</rtexprvalue>
 	</attribute>
-  </tag> 
+  </tag>
+  <tag>
+    <name>standardUrl</name>
+    <tag-class>sk.peterjurkovic.cpr.web.taglib.StandardUrlTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+			<name>title</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>cssClass</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>linkOnly</name>
+		<required>false</required>
+		<type>java.util.Boolean</type>
+	</attribute>
+	<attribute>
+		<name>id</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>standard</name>
+		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>sk.peterjurkovic.cpr.entities.Standard</type>
+	</attribute>
+	<attribute>
+		<name>editable</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.Boolean</type>
+	</attribute>
+ </tag> 
 </taglib>

@@ -7,6 +7,7 @@ import javax.servlet.jsp.tagext.BodyContent;
 import javax.servlet.jsp.tagext.BodyTag;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
@@ -23,7 +24,7 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 	private String fixedLocale;
 	private BodyContent bodyContent;	
 	private static final long serialVersionUID = -4580484795594351701L;
-
+	protected Logger logger = Logger.getLogger(getClass());
 	
 	@Override
 	public void doInitBody() throws JspException {
@@ -51,12 +52,18 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 
 	@Override
 	protected int doStartTagInternal() throws Exception {
-		StringBuilder url = new StringBuilder();
 		if(linkOnly){
+			StringBuilder url = new StringBuilder();
 			appendUrl(url);
 			pageContext.getOut().print(url.toString());
 	        return SKIP_PAGE;
 		}
+		pageContext.getOut().print(buildTag().toString());
+        return EVAL_BODY_INCLUDE;
+	}
+	
+	protected StringBuilder buildTag(){
+		StringBuilder url = new StringBuilder();
 		url.append("<a href=\"");
 		appendUrl(url);
 		url.append("\" ");
@@ -64,9 +71,9 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 		appendCssStyles(url);
 		appendId(url);
 		url.append(">");
-		pageContext.getOut().print(url.toString());
-        return EVAL_BODY_INCLUDE;
+		return url;
 	}
+	
 
 	public void appendTitle(StringBuilder url){
 		if(StringUtils.isNotBlank(title)){

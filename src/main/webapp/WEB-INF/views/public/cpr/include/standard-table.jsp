@@ -1,6 +1,11 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
+<c:set var="editable" value="false"/>
+<sec:authorize access="isAuthenticated()"> 
+	<c:set var="editable" value="true"/>
+</sec:authorize>
+
 <c:if test="${not empty model.standards}">
 	
 	<c:if test="${empty model.async}">
@@ -30,7 +35,7 @@
 				 		
 				 		<td class="norm">
 				 			<span>
-				 				<a:url cssClass="${i.statusClass}" href="/ehn/${i.id}">${i.standardId}</a:url>
+				 				<a:standardUrl standard="${i}" cssClass="${i.statusClass}" editable="${editable}"  />
 				 			</span>
 				 			<c:if test="${not empty i.standardStatus and i.standardStatus.id == 3}">
 		 						<spring:message code="${i.standardStatus.name}" />
@@ -39,13 +44,13 @@
 			 					<c:if test="${i.isCanceled}">
 				 					<span class="s-replaced" >
 				 						<spring:message code="replaced" />
-				 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
+				 						<a:standardUrl standard="${i.replaceStandard}" editable="${editable}" />
 				 					</span>
 			 					</c:if>
 			 					<c:if test="${not i.isCanceled and i.replaceStandard.isCanceled}">
 				 					<span class="s-replace" >
 				 						<spring:message code="replace" />
-				 						<a:url href="/ehn/${i.replaceStandard.id}">${i.replaceStandard.standardId}</a:url>
+				 						<a:standardUrl standard="${i.replaceStandard}" editable="${editable}"/>
 				 					</span>
 			 					</c:if>
 		 					</c:if>
