@@ -51,8 +51,7 @@ function validate(f){
 }
 $(function() {
 	// createClasses();
-	$(document).on("click",'#isCumulative', function(){checkCumulative();});
-	checkCumulative();
+	
 	$('.tt').tooltip({ show: {duration: "fast" }});
 	
 	$('.tt-form').tooltip({

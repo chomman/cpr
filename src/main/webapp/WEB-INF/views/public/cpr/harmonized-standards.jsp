@@ -37,8 +37,10 @@
 		    	sourceUrl : $("#base").text() +"ajax/autocomplete/aono"	,
 		    	enabledOnly : true
 		    });
+		    
 		    $('table.standards').scrollPagination({
-		    	url : getBasePath() +  (getLocale() == 'cs' ? '' : getLocale() + '/') + 'async/standards'
+		    	url : getBasePath() +  (getLocale() == 'cs' ? '' : getLocale() + '/') + 'async/standards',
+		    	loadingMessage : '<spring:message code="loadingItems" />'
 		    });
 		});
 		</script>
@@ -127,7 +129,7 @@
 			<jsp:include page="include/standard-table.jsp" />
 			<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
 		</div>
-		<div id="strParams">${model.strParams}</div>
+		<div id="strParams" class="hidden">${model.strParams}</div>
 	</body>
 </html>
 

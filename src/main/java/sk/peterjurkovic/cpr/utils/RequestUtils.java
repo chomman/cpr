@@ -112,7 +112,10 @@ public class RequestUtils {
 		for(Entry<String, Object> entry : params.entrySet()) {
 		    String key = entry.getKey();
 		    String value = (String)entry.getValue();
-		    if(!strParams.equals("?")){
+		    if(StringUtils.isBlank(value)){
+		    	continue;
+		    }
+		    if(!strParams.toString().equals("?")){
 		    	strParams.append("&");
 		    }
 		    strParams.append(key);

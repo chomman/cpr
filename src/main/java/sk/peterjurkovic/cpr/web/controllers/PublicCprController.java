@@ -116,13 +116,9 @@ public class PublicCprController extends PublicSupportController{
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
 		params.put(Filter.ENABLED, Boolean.TRUE);
-		final int count = standardService.getCountOfStandards(params).intValue();
-		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage, count);
 		List<Standard> standards = standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);
 		params.put(Filter.NOTIFIED_BODY, getNotifiedBody(params.get(Filter.NOTIFIED_BODY)));
-		model.put("count", count);
 		model.put("standards", standards);
-		model.put("paginationLinks", paginationLinks);
 		model.put("params", params);
 		model.put("strParams", RequestUtils.getRequestParams(request, Constants.PAGE_PARAM_NAME));
 		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));

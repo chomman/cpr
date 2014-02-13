@@ -133,20 +133,20 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
-		StringBuilder hql = new StringBuilder(" left join s.standardGroups as sg ");
+		StringBuilder hql = new StringBuilder(" join s.standardGroups as standardGroup ");
 		
 		Long mandateId = (Long)criteria.get(Filter.MANDATE);
 		if(mandateId != null && mandateId != 0){
-			hql.append(" left join sg.mandates as m ");
+			hql.append(" inner join standardGroup.mandates as mandate ");
 		}
 		
 		Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
 		if(notifiedBodyId != null && notifiedBodyId != 0){
-			hql.append(" join s.notifiedBodies as nb ");
+			hql.append(" s.notifiedBodies as nb ");
 		}
 		Long assessmentSystemId = (Long)criteria.get(Filter.ASSESMENT_SYSTEM);
 		if(assessmentSystemId != null && assessmentSystemId != 0){
-			hql.append(" left join s.assessmentSystems as assessmentSystem ");
+			hql.append(" join s.assessmentSystems as assessmentSystem ");
 		}
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
@@ -172,15 +172,15 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 			}
 			Long groupId = (Long)criteria.get(Filter.STANDARD_GROUP);
 			if(groupId != null && groupId != 0){
-				where.add(" sg.id=:groupId ");
+				where.add(" standardGroup.id=:groupId ");
 			}
-	
+
 			if(mandateId != null && mandateId != 0){
-				where.add(" m.id=:mandateId ");
+				where.add(" :mandateId in elements( standardGroup.mandates ) ");
 			}
 			Long commissionDecisionId = (Long)criteria.get(Filter.COMMISION_DECISION);
 			if(commissionDecisionId != null && commissionDecisionId != 0){
-				where.add(" sg.commissionDecision.id=:commissionDecisionId ");
+				where.add(" standardGroup.commissionDecision.id=:commissionDecisionId ");
 			}
 			
 			if(assessmentSystemId != null && assessmentSystemId != 0){
