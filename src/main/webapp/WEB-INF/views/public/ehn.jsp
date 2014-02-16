@@ -110,7 +110,15 @@
 						</td>
 					</tr>
 				</c:if>
-
+				
+				<c:if test="${not empty model.standard.released}">
+					<tr>
+						<td class="key"><strong><spring:message code="standard.releaseDate"/>:</strong></td>
+						<td>
+							<joda:format value="${model.standard.released}" pattern="MMMM, yyyy"/>	
+						</td>
+					</tr>
+				</c:if>
 
 			</table>
 			<div class="clear"></div>
