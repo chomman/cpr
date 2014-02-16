@@ -252,12 +252,12 @@ public class WebpageController extends SupportAdminController {
 		if(webpage == null){
 			throw new ItemNotFoundException("Webpage with id [" + webpageDto.getId() + "] was not found");
 		}
-		if(StringUtils.isNotBlank(webpageDto.getCode())){
+		User user = UserUtils.getLoggedUser();
+		if(user != null && user.isWebmaster()){
 			webpage.setCode(webpage.getCode());
 		}
 		webpage.setWebpageCategory(webpageDto.getWebpageCategory());
 		webpage.setWebpageContent(webpageDto.getWebpageContent());
-		webpage.setCode(webpageDto.getCode());
 		webpage.setEnabled(webpageDto.isEnabled());
 		if(StringUtils.isBlank(webpageDto.getLocale()) || !LocaleResolver.isAvailable(webpageDto.getLocale())){
 			throw new IllegalArgumentException("Unsupported locale: " + 

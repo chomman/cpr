@@ -9,11 +9,7 @@ import sk.peterjurkovic.cpr.entities.User;
 
 public class UserUtils {
 	
-	/**
-	 * Vrati prihlaseneho uzivatela
-	 * 
-	 * @return User Prave prihlaseny uzivatel
-	 */
+	
 	public static User getLoggedUser() {
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication auth = context.getAuthentication();
