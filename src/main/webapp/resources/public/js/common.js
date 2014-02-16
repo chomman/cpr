@@ -8,6 +8,9 @@ $.urlParam = function(name){
     }
 };
 
+function isBlank(v){
+	return typeof v === 'undefined' || $.trim(v) === '';
+}
 
 function generateOption(selectedId, items){
 	var html = getOption('', 'Nezáleží', false);
@@ -95,4 +98,65 @@ function getCookie(c_name) {
         }
     }
     return "";
+}
+
+function getDatepickerOptions(type){
+	var locale = getLocale(),
+		names = {
+		closeText : 'Vybrat',
+		currentText : "Dnes",
+		dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
+		monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'],
+		monthNamesShort : ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec']
+	},datepickerOpts = {
+			autoSize: false,
+			dateFormat: 'dd.mm.yy',
+			firstDay: 1
+	};
+	if(isBlank(locale) || locale === 'cs'){
+		datepickerOpts = $.extend({}, datepickerOpts, names );
+	}
+	
+	if(typeof type === 'undefined' || type === 'default'){
+		return datepickerOpts;
+	}
+	var selectOnlyMonth = $.extend({}, datepickerOpts, {
+		changeMonth: true,
+        changeYear: true,
+        yearRange : "c-20:c+1",
+        showButtonPanel: true,
+        dateFormat: 'mm.yy',
+        onClose: function(dateText, inst) { 
+            var $this = $(this),
+        		month = $("#ui-datepicker-div .ui-datepicker-month :selected").val(),
+            	year = $("#ui-datepicker-div .ui-datepicker-year :selected").val();
+            	$this.datepicker('setDate', new Date(year, month, 1));
+        },
+        beforeShow: function(input, inst) {
+            $('#ui-datepicker-div').addClass("ui-month-only");
+            var $this = $(this);
+            if ((datestr = $this.val()).length > 0) {
+                actDate = datestr.split('.');
+                month = actDate[0] -1 ;
+                year = actDate[1];
+                $this.datepicker('option', 'defaultDate', new Date(year, month, 1));
+                $this.datepicker('setDate', new Date(year, month, 1));
+            }
+        }
+	});
+	console.log(selectOnlyMonth);
+	return selectOnlyMonth;
+}
+
+
+function initManthPicker(){
+	var $manthSelector = $('.date-month');
+	$manthSelector.each(function(){
+		var $this = $(this),
+			val = $this.val();
+		if(!isBlank(val) && val.length === 10){
+			$this.val(val.substring(3,12));
+		}
+	});
+    $manthSelector.datepicker(getDatepickerOptions("month"));
 }

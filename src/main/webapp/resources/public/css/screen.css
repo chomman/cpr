@@ -580,6 +580,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f2f5f6', end
 .standard-change-code span{font-size:12px;background: url(../../admin/img/tree.png) no-repeat 0px center !important;padding:0 0 0 18px !important;display:block;}
 .mchanges{display:inline-block;padding-left:15px;font-size:12px;}
 
+.s-new{background-image:url(../img/new.png);background-repeat:no-repeat;padding:2px 4px 2px 17px;background-color:#f9ffeb;background-position:center left;}
 
 .status-canceled a,
 a.status-canceled,

@@ -22,6 +22,8 @@ public abstract class AbstractStandard extends AbstractEntity{
 	private StandardStatus standardStatus;
 	
 	private LocalDate statusDate;
+	
+	private LocalDate released;
 		
 	public AbstractStandard(){
 		this.standardStatus = StandardStatus.NORMAL;
@@ -68,4 +70,18 @@ public abstract class AbstractStandard extends AbstractEntity{
 		}
 		return false;
 	}
+
+	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	@Column(name = "released_date")
+	public LocalDate getReleased() {
+		return released;
+	}
+
+
+	public void setReleased(LocalDate released) {
+		this.released = released;
+	}
+	
+	
 }

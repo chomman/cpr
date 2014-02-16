@@ -5,6 +5,7 @@
 	<head>
 		<title>${model.standard.standardId} - ${fn:substring(model.standard.name, 0, 60)}</title>
 		<meta name="description" content="${model.standard.standardId} - ${model.standard.name}" />
+		<meta name="keywords" content="${model.standard.standardId}" />
 	</head>
 	<body>
 		

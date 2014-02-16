@@ -103,6 +103,14 @@
 	     <span class="field">  
 	     	<form:input path="statusDate" maxlength="25" cssClass="date"  />
 	     </span>
+	 </p>  
+	  <p>
+	 	<label>
+	 		<spring:message code="cpr.standard.releaseDate" />:
+	 	</label>
+	     <span class="field">  
+	     	<form:input path="released" maxlength="25" cssClass="date-month"  /><span>formát: <strong>MM.RRRR</strong></span>
+	     </span>
 	 </p>        
 	<p <c:if test="${not empty add}">class="hidden"</c:if> >
 	    <label title="<spring:message code="publish.descr" />" class="tt">

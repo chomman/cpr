@@ -845,6 +845,7 @@ public class StandardController extends SupportAdminController{
 			}
 			standard.setTags(tags);
 		}
+		standard.setReleased(form.getReleased());
 		standard.setCode(CodeUtils.toSeoUrl(form.getStandardId()));
 		standard.setStandardId(form.getStandardId());
 		standard.setReplacedStandardId(form.getReplacedStandardId());

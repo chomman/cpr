@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.web.editors;
 
 import java.beans.PropertyEditorSupport;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -26,6 +27,9 @@ public class LocalDateEditor extends PropertyEditorSupport {
 	
 	@Override
 	public void setAsText(String text) throws IllegalArgumentException {
+		if(StringUtils.isNotBlank(text) && text.matches("\\d{2}\\.\\d{4}")){
+			text = "01." + text;
+		}
 		setValue(ParseUtils.parseLocalDateFromStringObject(text));
 	}
 }

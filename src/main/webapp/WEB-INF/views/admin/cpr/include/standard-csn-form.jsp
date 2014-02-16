@@ -88,7 +88,15 @@
 		     <span class="field">  
 		     	<form:input path="statusDate" maxlength="25" cssClass="date"  />
 		     </span>
-		</p>      
+		</p>
+		<p>
+		 	<label>
+		 		<spring:message code="cpr.standard.releaseDate" />:
+		 	</label>
+		     <span class="field">  
+		     	<form:input path="released" maxlength="25" cssClass="date-month"  /><span>formát: <strong>MM.RRRR</strong></span>
+		     </span>
+		 </p>         
 		<p>
          	<label>
          		<spring:message code="cpr.csn.note" />

@@ -1,3 +1,4 @@
+/*
 var datepickerOpts = {
 		dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
 		monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
@@ -5,6 +6,7 @@ var datepickerOpts = {
 		dateFormat: 'dd.mm.yy',
 		firstDay: 1
 };
+*/
 $(function() {
 	var urlPrefix = $('#base').text();
 	createClasses();
@@ -64,7 +66,9 @@ $(function() {
      
      
      
-     $('.date').datepicker(datepickerOpts);
+     $('.date').datepicker(getDatepickerOptions());
+     initManthPicker();
+     
      updateNav();
      $(".chosen").chosen({
     	 width : "510px"
@@ -147,8 +151,6 @@ function initWISIWIG(width, height){
 function validate(f){
 	var inputs = f.find('input.required, textarea.required, .email, .more7'),
 	valid = true,
-	
-	
 	vldt = {
 		required : function(v,i) {return {r : !!v ,  msg :  getMsg(i) };},
 		email	 : function(v,i) {return {r : v.match( /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/ ), msg : getMsg(i)};},
