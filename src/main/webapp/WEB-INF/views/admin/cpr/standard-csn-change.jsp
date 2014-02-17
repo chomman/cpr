@@ -60,7 +60,7 @@
 				 		</strong>
 				 	</label>
 				     <span class="field">
-				     	<form:input path="changeCode"  cssClass="w200 required" />
+				     	<form:input path="csnName"  cssClass="w200 required" />
 				     </span>
 				 </p>
 				
@@ -73,14 +73,22 @@
                     	<span class="norminfo" >http://www.sgpstandard.cz/editor/files/on_line/csn-redirect.php?k=<strong class="red">90588</strong></span>
                     </span>
                  </p>
-				 <p>
+				  <p>
 				 	<label>
-				 		<spring:message code="cpr.csn.change.date" />
-				 	</label>
-				     <span class="field">  
-				     	<form:input path="date" maxlength="25" cssClass="date"  />
-				     </span>
-				 </p>				       
+					 		<spring:message code="standardStatus.date" />:
+					 	</label>
+					     <span class="field">  
+					     	<form:input path="statusDate" maxlength="25" cssClass="date"  />
+					     </span>
+					 </p>  
+					  <p>
+					 	<label>
+					 		<spring:message code="cpr.standard.releaseDate" />:
+					 	</label>
+					     <span class="field">  
+					     	<form:input path="released" maxlength="25" cssClass="date-month"  /><span>formát: <strong>MM.RRRR</strong></span>
+					     </span>
+					</p>        			       
 				 <p>
                 	<label>
                 		<spring:message code="cpr.csn.note" />
@@ -103,13 +111,13 @@
 					 <c:forEach items="${csn.standardCsnChanges}" var="j">
 			 		 	<c:if test="${j.id != standardCsnChange.id}">
 				 		 	<tr class="standard-csn-change">
-				 		 		<td class="standarardId">${j.changeCode}</td>
+				 		 		<td class="standarardId">${j.csnName}</td>
 				 		 		<td class="last-edit">
-						 			<c:if test="${empty j.date}">-</c:if>
-						 			<c:if test="${not empty j.date}">
+						 			<c:if test="${empty j.statusDate}">-</c:if>
+						 			<c:if test="${not empty j.statusDate}">
 						 				<span class="tt" 
 						 					  title="<spring:message code="cpr.csn.change.date" />">
-						 				<joda:format value="${j.date}" pattern="dd.MM.yyyy"/>
+						 				<joda:format value="${j.statusDate}" pattern="dd.MM.yyyy"/>
 						 				</span>
 						 			</c:if>
 						 		</td>

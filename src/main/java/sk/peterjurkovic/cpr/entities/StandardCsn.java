@@ -6,8 +6,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,14 +18,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.Pattern;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.NotEmpty;
-import org.joda.time.LocalDate;
-
-import sk.peterjurkovic.cpr.enums.StandardStatus;
 
 /**
  * Asociacna entita, ktora prepaja normu a CSN.
@@ -40,19 +32,12 @@ import sk.peterjurkovic.cpr.enums.StandardStatus;
 @SequenceGenerator(name = "standard_has_csn_id_seq", sequenceName = "standard_has_csn_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "standard_csn")
-public class StandardCsn extends AbstractStandard {
+public class StandardCsn extends AbstractStandardCsn {
 
-	
 	private static final long serialVersionUID = 7791L;
-			
-	private String csnName;
-
-	private String csnOnlineId;
-	
+				
 	private String classificationSymbol;
-	
-	private String note;
-	
+		
 	private StandardCsn replaceStandardCsn;
 	
 	private Set<StandardCsnChange> standardCsnChanges;
@@ -65,36 +50,6 @@ public class StandardCsn extends AbstractStandard {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "standard_has_csn_id_seq")
 	public Long getId() {
 		return super.getId();
-	}
-	
-	
-	@Column
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
-	
-	@Column(name ="csn_name", length = 45)
-	@NotEmpty(message = "Název ČSN musí být vyplněn.")
-	public String getCsnName() {
-		return csnName;
-	}
-	
-	public void setCsnName(String csnName) {
-		this.csnName = csnName;
-	}
-
-	@Column(name = "csn_online_id", length = 10)
-	@Pattern(regexp = "(^[0-9]{1,10}$|)*", message = "ČSN online ID obsahuje neplatnou hodnotu")
-	public String getCsnOnlineId() {
-		return csnOnlineId;
-	}
-
-	public void setCsnOnlineId(String csnOnlineId) {
-		this.csnOnlineId = csnOnlineId;
 	}
 	
 	
@@ -126,43 +81,16 @@ public class StandardCsn extends AbstractStandard {
 		this.standardCsnChanges = standardCsnChanges;
 	}
 	
-		
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = super.hashCode();
-		result = prime * result
-				+ ((csnOnlineId == null) ? 0 : csnOnlineId.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (!super.equals(obj))
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		StandardCsn other = (StandardCsn) obj;
-		if (csnOnlineId == null) {
-			if (other.csnOnlineId != null)
-				return false;
-		} else if (!csnOnlineId.equals(other.csnOnlineId))
-			return false;
-		return true;
-	}
-	
 	
 	@Transient
 	public void merge(StandardCsn csn){
-		csnName = csn.getCsnName();
-		note = csn.getNote();
-		classificationSymbol = csn.getClassificationSymbol();
-		csnOnlineId = csn.getCsnOnlineId();
+		setCsnName(csn.getCsnName());;
+		setNote(csn.getNote());
+		setCsnOnlineId( csn.getCsnOnlineId());
 		setStandardStatus(csn.getStandardStatus());
-		replaceStandardCsn = csn.getReplaceStandardCsn();
 		setStatusDate( csn.getStatusDate());
+		classificationSymbol = csn.getClassificationSymbol();
+		replaceStandardCsn = csn.getReplaceStandardCsn();
 	}
 	
 		

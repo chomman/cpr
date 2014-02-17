@@ -70,7 +70,19 @@ public abstract class AbstractStandard extends AbstractEntity{
 		}
 		return false;
 	}
-
+	
+	
+	@Transient
+	public boolean isNew(){
+		if(getReleased() == null){
+			return false;
+		}
+		LocalDate date = new LocalDate().withDayOfMonth(1);
+		if(date.isAfter(getReleased())){
+			return false;
+		}
+		return true;
+	}
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@Column(name = "released_date")
@@ -82,6 +94,8 @@ public abstract class AbstractStandard extends AbstractEntity{
 	public void setReleased(LocalDate released) {
 		this.released = released;
 	}
+	
+	
 	
 	
 }

@@ -1,7 +1,5 @@
 package sk.peterjurkovic.cpr.web.taglib;
 
-import org.joda.time.LocalDate;
-
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Standard;
 
@@ -33,18 +31,7 @@ public class StandardUrlTag extends UrlTag {
 		pageContext.getOut().print(url.toString());
 		return SKIP_PAGE;
 	}
-	
-	private boolean isNew(){
-		if(standard.getReleased() == null){
-			return false;
-		}
-		LocalDate date = new LocalDate().withDayOfMonth(1);
-		if(date.isAfter(standard.getReleased())){
-			return false;
-		}
-		return true;
-	}
-	
+		
 	private void appendBaseUrl(StringBuilder url){
 		url.append(buildTag());
 		url.append(standard.getStandardId());
@@ -52,7 +39,7 @@ public class StandardUrlTag extends UrlTag {
 	}
 	
 	private void setupValues(Standard standard){
-		if(isNew()){
+		if(standard.isNew()){
 			setCssClass(getCssClass() + " s-new");
 		}
 		setHref(String.format("/ehn/%s", standard.getId()));

@@ -337,7 +337,7 @@ public class StandardParser extends CprParser {
 	
 	private void createCsnChange(String name, String href, List<StandardCsn> csnList){
 		StandardCsnChange csnChange = new StandardCsnChange();
-		csnChange.setChangeCode(cleanCsnName(name));
+		csnChange.setCsnName(cleanCsnName(name));
 		csnChange.setCsnOnlineId(parseCatalogNo(href));
 		csnChange.setCreated(new LocalDateTime());
 		if(StringUtils.isBlank(csnChange.getCsnOnlineId())){

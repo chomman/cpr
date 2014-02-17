@@ -127,7 +127,7 @@
 					<tr>
 						<td class="b">
 							<a:adminurl cssClass="b" href="/cpr/standard-csn/${csn.id}/change/${i.id}">
-								${i.changeCode}
+								${i.csnName}
 							</a:adminurl>
 						</td>
 						<td class="last-edit"><joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/></td>
