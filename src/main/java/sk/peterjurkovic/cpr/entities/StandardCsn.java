@@ -89,6 +89,7 @@ public class StandardCsn extends AbstractStandardCsn {
 		setCsnOnlineId( csn.getCsnOnlineId());
 		setStandardStatus(csn.getStandardStatus());
 		setStatusDate( csn.getStatusDate());
+		setReleased(csn.getReleased());
 		classificationSymbol = csn.getClassificationSymbol();
 		replaceStandardCsn = csn.getReplaceStandardCsn();
 	}

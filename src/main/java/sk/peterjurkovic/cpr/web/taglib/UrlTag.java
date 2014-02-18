@@ -18,7 +18,7 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 	
 	private String href;
 	private String title;
-	private String cssClass;
+	private String cssClass = "";
 	private String id;
 	private boolean linkOnly = false;
 	private String fixedLocale;
