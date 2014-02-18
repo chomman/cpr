@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.web.taglib;
 
+import org.apache.commons.lang.StringUtils;
+
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Standard;
 
@@ -39,9 +41,6 @@ public class StandardUrlTag extends UrlTag {
 	}
 	
 	private void setupValues(Standard standard){
-		if(standard.isNew()){
-			setCssClass(getCssClass() + " s-new");
-		}
 		setHref(String.format("/ehn/%s", standard.getId()));
 	}
 
@@ -61,5 +60,14 @@ public class StandardUrlTag extends UrlTag {
 		this.standard = standard;
 	}
 	
-	
+	@Override
+	public void appendCssStyles(StringBuilder url){
+		url.append(" class=\"")
+		.append(getCssClass())
+		.append(standard.isNew() ? " s-new " : " ")
+		.append(standard.getStatusClass())
+		.append("\"");
+			
+		
+	}
 }

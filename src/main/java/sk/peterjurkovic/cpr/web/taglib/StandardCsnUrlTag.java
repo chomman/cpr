@@ -85,7 +85,7 @@ public class StandardCsnUrlTag extends RequestContextAwareTag {
 			url.append(" class=\"")
 			   .append(cssClass)
 			   .append( isChange ? " csn-pdf-change " :  " csn-pdf ")
-			   .append(object.isNew() ? " csn-new " : "")
+			   .append(object.isNew() ? " csn-new " : " ")
 			   .append(object.getStatusClass())
 			   .append("\"");
 	}

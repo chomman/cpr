@@ -35,24 +35,21 @@
 				 		
 				 		<td class="norm">
 				 			<span>
-				 				<a:standardUrl standard="${i}" cssClass="${i.statusClass}" editable="${editable}"  />
+				 				<a:standardUrl standard="${i}" editable="${editable}"  />
 				 			</span>
 				 			<c:if test="${not empty i.standardStatus and i.standardStatus.id == 3}">
 		 						<spring:message code="${i.standardStatus.name}" />
 		 					</c:if>
 				 			<c:if test="${not empty i.replaceStandard}">	
-			 					<c:if test="${i.isCanceled}">
-				 					<span class="s-replaced" >
-				 						<spring:message code="replaced" />
-				 						<a:standardUrl standard="${i.replaceStandard}" editable="${editable}" />
-				 					</span>
-			 					</c:if>
-			 					<c:if test="${not i.isCanceled and i.replaceStandard.isCanceled}">
-				 					<span class="s-replace" >
-				 						<spring:message code="replace" />
-				 						<a:standardUrl standard="${i.replaceStandard}" editable="${editable}"/>
-				 					</span>
-			 					</c:if>
+			 					<span class="block">
+				 					<c:if test="${i.isCanceled}">
+					 					<spring:message code="replaced" />
+				 					</c:if>
+				 					<c:if test="${not i.isCanceled and i.replaceStandard.isCanceled}">
+					 					<spring:message code="replace" />
+				 					</c:if>
+			 					</span>
+			 					<a:standardUrl standard="${i.replaceStandard}" editable="${editable}" />
 		 					</c:if>
 		 					
 				 		</td>
