@@ -43,8 +43,6 @@ import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
-import sk.peterjurkovic.cpr.web.pagination.PageLink;
-import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 
 @Controller
@@ -130,7 +128,7 @@ public class PublicCprController extends PublicSupportController{
 		return "/public/cpr/harmonized-standards";
 	}
 	
-	@RequestMapping(value = { "/async/standards" , EN_PREFIX + "/async/standards" })
+	@RequestMapping(value = { "/async/standards" , EN_PREFIX + "async/standards" })
 	public ModelAndView   standards(HttpServletRequest request, ModelMap map){
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
@@ -287,29 +285,6 @@ public class PublicCprController extends PublicSupportController{
 	}
 	
 	
-
-	/**
-	 * Zobrazi detail normy
-	 * 
-	 * @param modelmap
-	 * @return String view
-	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
-	 */
-	/*
-	@RequestMapping("/cpr/ehn/{id}")
-	public String showStandardDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
-		Webpage webpage = webpageService.getWebpageByCode(STANDARD_GROUP_URL);
-		Standard standard = standardService.getStandardById(id);
-		if(webpage == null || standard == null || !webpage.getEnabled()){
-			throw new PageNotFoundEception();
-		}
-		Map<String, Object> model = prepareBaseModel(webpage);
-		model.put("standard", standard);
-		modelmap.put("model", model);
-		return "/public/cpr/group-detail";
-	}
-	*
-	*/
 	
 	@RequestMapping(value = {"/ehn/{id}", EN_PREFIX + "ehn/{id}"})
 	public String showEhn(@PathVariable Long id,  ModelMap modelMap) throws PageNotFoundEception{
@@ -331,18 +306,7 @@ public class PublicCprController extends PublicSupportController{
 	public @ResponseBody List<Standard>  searchInTags(@RequestBody @RequestParam("term") String query){
 		return standardService.autocomplateSearch(query, Boolean.TRUE);
 	}
-	
-	
-	
-	
-	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,final int currentPage, final int count){
-		PaginationLinker paginger = new PaginationLinker(request, params);
-		paginger.setUrl(CPR_INDEX_URL);
-		paginger.setCurrentPage(currentPage);
-		paginger.setRowCount( count );
-		return paginger.getPageLinks(); 
-	}
-	
+		
 	
 	/**
 	 * Pripravi zakladny model pre view
