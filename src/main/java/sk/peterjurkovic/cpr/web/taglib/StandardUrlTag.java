@@ -1,12 +1,11 @@
 package sk.peterjurkovic.cpr.web.taglib;
 
-import org.apache.commons.lang.StringUtils;
-
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Standard;
 
 public class StandardUrlTag extends UrlTag {
 	
+	private static final long serialVersionUID = -1890295392747629115L;
 	private boolean editable = false;
 	private Standard standard;
 	

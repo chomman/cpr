@@ -1,5 +1,10 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<c:set var="editable" value="false"/>
+<sec:authorize access="isAuthenticated()"> 
+	<c:set var="editable" value="true"/>
+</sec:authorize>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -131,14 +136,7 @@
 						<c:forEach items="${model.standard.standardCsns}" var="csn">
 							<tr>
 								<td class="name key">
-									<c:if test="${not empty csn.csnOnlineId }">
-										<a class="file pdf ${csn.statusClass}" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', csn.csnOnlineId)}">
-											${csn.csnName}
-										</a>
-									</c:if>
-									<c:if test="${empty csn.csnOnlineId }">
-										<span class="file pdf">${csn.csnName}</span>
-									</c:if>
+									<a:standardCsnUrl object="${csn}" editable="${editable}" />
 								</td>
 								<td>
 								<c:if test="${not empty csn.standardStatus and csn.standardStatus.id != 1}">
@@ -149,19 +147,10 @@
 							</tr>
 					 		<c:forEach items="${csn.standardCsnChanges}" var="j">
 						 		<tr class="standard-change csn-change">
-						 			<td class="standard-change-code">
-						 				<span>
-							 				<c:if test="${not empty j.csnOnlineId }">
-												<a class="file pdf min" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', j.csnOnlineId)}">
-													${j.changeCode}
-												</a>
-											</c:if>
-											<c:if test="${empty j.csnOnlineId }">
-												${j.changeCode}>
-											</c:if>
-										</span>
+						 			<td class="name key">
+						 				<a:standardCsnUrl object="${j}" editable="${editable}" />
 						 			</td>					
-						 			<td>${csn.note}</td>
+						 			<td >${csn.note}</td>
 						 		</tr>
 					 		</c:forEach>
 						</c:forEach>

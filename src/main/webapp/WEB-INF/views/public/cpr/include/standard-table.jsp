@@ -26,7 +26,7 @@
 	</c:if>
 				 <c:forEach items="${model.standards}" var="i">
 				 	<tr 
-				 	class="<c:if test="${i.hasChanges}">has-change</c:if> ${i.statusClass}" 
+				 	class="<c:if test="${i.hasChanges}">has-change</c:if> s-row-${i.statusClass}" 
 				 	<c:if test="${not empty i.standardStatus and i.standardStatus.id != 1}"> title="<spring:message code='${i.standardStatus.name}' />" </c:if>
 				 	>
 				 	
@@ -59,7 +59,6 @@
 				 		<!-- CSN --> 
 				 		<td class="csns">
 					 		<c:forEach items="${i.standardCsns}" var="csn">
-					 		
 								<a:standardCsnUrl object="${csn}" editable="${editable}" />
 						 		<c:forEach items="${csn.standardCsnChanges}" var="j">
 						 			<a:standardCsnUrl object="${j}" editable="${editable}" />
@@ -78,7 +77,6 @@
 					 					</span>
 					 					<a:standardCsnUrl object="${csn.replaceStandardCsn}" editable="${editable}" />
 				 					</c:if>
-				 					
 							</c:forEach>
 				 		</td>
 				 		
