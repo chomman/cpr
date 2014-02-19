@@ -8,4 +8,3 @@
 <%@ taglib prefix="joda" uri="http://www.joda.org/joda/time/tags" %>
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jstl/fmt"%>
 <%@ taglib prefix="a"  uri="http://peterjukovic.sk/tags"%>
-

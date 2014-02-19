@@ -57,4 +57,8 @@ public interface StandardService {
 	void removeStandardCsn(Standard standard, StandardCsn standardCsn);
 	
 	void removeReferences(Standard standard);
+	
+	boolean hasAssociatedNotifiedBody(NotifiedBody notifiedBody, Standard standard);
+	
+	void unassigenNotifiedBody(Standard standard, Long standardNotifiedBodyId);
 }

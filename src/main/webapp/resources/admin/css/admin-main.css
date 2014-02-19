@@ -1266,3 +1266,7 @@ table.log td,.log-descr{padding:2px;}
 .ui-month-only .ui-datepicker-calendar { display: none; }
 .ui-month-only select{width:auto !important;min-width:80px;margin:0 2px !important;}
 
+.rel.wrapp{position:relative;}
+.rel.wrapp label{position:absolute;top:-26px;font-size:12px;left:30%;color:#555;}
+.nb-form #notifiedBody,
+.nb-form input{margin:25px 8px 8px 8px !important;}

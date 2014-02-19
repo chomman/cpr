@@ -44,61 +44,83 @@
 					<script>
 					$(document).ready(function(){
 						
-						   $("#notifiedBodies").multiSelect({
-							   selectableHeader: "<div class='custom-header'>Vyberte z NO/AO</div><input type='text' id='search' autocomplete='off' placeholder='Vyhledat ...'>",
-							   selectionHeader: "<div class='custom-header'>Vybrané NO/AO</div>"
-						   });
 						   
-						   $('#search').quicksearch($('.ms-elem-selectable', '#ms-notifiedBodies' )).on('keydown', function(e){
-						   		console.log('searching ' + e);   
-							    if (e.keyCode == 40){
-								   $(this).trigger('focusout');
-								   $('#notifiedBodies').focus();
-								   return false;
-								}
-							}); 
-						   
-						});
+					});
 					</script>
 					<c:url value="/admin/cpr/standard/edit/${standardId}/notifiedbodies" var="formUrl"/>
-					<c:set value="0" var="prev" />
-					<form:form commandName="standard" method="post" action="${formUrl}" cssClass="form-multiple"  >
-						<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
-						<p class="msg info">
-							<spring:message code="form.multiselect.info" />
-						</p>
-						
-						<c:if test="${not empty successCreate}">
-							<p class="msg ok"><spring:message code="success.create" /></p>
+					
+					<!--  STANDARD CHANGES WRAPPER  -->
+					<div class="tab-wrapp">
+						<p class="form-head"><spring:message code="standard.noao" /></p>
+						<c:if test="${empty model.standard.notifiedBodies}">
+							<p class="msg alert">
+								<spring:message code="cpr.standard.changes.empty" />
+							</p>
+						</c:if>
+						<c:if test="${not empty model.standard.notifiedBodies}">
+							<table class="data">
+									<tr>
+										<th>Kód</th>
+										<th>Název</th>
+										<th>Od data</th>
+										<th>Zrušit</th>
+									</tr>
+								<c:forEach items="${model.standard.notifiedBodies}" var="i">
+									<tr>
+										<td>
+											<a:adminurl href="/cpr/notifiedbodies/edit/${i.notifiedBody.id}" >
+											${i.notifiedBody.noCode} 
+												<c:if test="${not empty i.notifiedBody.aoCode }">
+											(${i.notifiedBody.aoCode})
+											</c:if>
+											</a:adminurl>
+										</td>
+										<td class="b">
+											<a:adminurl href="/cpr/notifiedbodies/edit/${i.notifiedBody.id}" >
+												${i.notifiedBody.name}
+											</a:adminurl>
+										</td>
+										<td class="last-edit">
+											<c:if test="${not empty i.assignmentDate}">
+												<joda:format value="${i.assignmentDate}" pattern="dd.MM.yyyy"/>
+											</c:if>
+											<c:if test="${empty i.assignmentDate}">
+												-
+											</c:if>
+										</td>
+										<td class="delete big">
+											<a class="confirmUnassignment"  href="?id=${i.id}">
+								 				<spring:message code="cpr.group.unassigment" />
+								 			</a>
+										</td>
+									</tr>
+								</c:forEach>
+							</table>
 						</c:if>
 						
-						 <form:select path="notifiedBodies" cssClass="mw500 multiple" multiple="true">
-						
-							 <c:forEach items="${model.notifiedBodies}" var="nb" >
-					 			<c:if test="${prev != nb.country.id }">
-					 				<optgroup label="${nb.country.countryName}">
-					 			</c:if>
-					 				<option value="${nb.id}" 
-						 				<c:forEach items="${model.standardnotifiedBodies}" var="i">
-						 					<c:if test="${i.id ==  nb.id}"> selected="selected" </c:if>
-						 				</c:forEach> 
-					 				>
-					 				${nb.noCode} - ${nb.name}
-					 				</option>			 			
-					 			<c:if test="${prev != nb.country.id }">
-					 				</optgroup>
-					 				<c:set value="${nb.country.id}" var="prev" />
-					 			</c:if>
-							</c:forEach>
-						 </form:select>
-						 
-						 
-						 <form:hidden path="id"  />
-						 <form:hidden path="timestamp"  />
-						 <p class="margin-top-30">
-						 <input type="submit" class="button" value="<spring:message code="form.save" />" />
-						 </p>
-					</form:form>
+						<div class="inline-form ">
+							<form:form commandName="standardNotifiedBody" cssClass="nb-form">
+								<span class="rel wrapp">
+								<label for="notifiedBody">Zvolte z možností:</label>
+								<form:select path="notifiedBody" cssClass="chosen">
+									<option value="" ><spring:message code="form.select" /></option>
+									<c:forEach items="${model.notifiedBodies}" var="i">
+				                              <option value="${i.id}">  
+				                              <c:if test="${empty i.aoCode}">${i.noCode}</c:if>
+				                              <c:if test="${not empty i.aoCode}">${i.aoCode}</c:if>
+				                              - ${fn:substring(i.name, 0, 90)}...</option>
+				                      </c:forEach>
+								</form:select>
+								</span>
+								<span class="rel wrapp">
+									<label for="notifiedBody">Od data:</label>
+									<form:input path="assignmentDate" maxlength="25" cssClass="date-month"  />
+								</span>
+								<input type="submit" class="lang mandate-add-btn" value='<spring:message code="cpr.standard.group" />' />
+								<div class="clear"></div>
+							</form:form>
+						</div>
+					</div>
 					
 					
 						

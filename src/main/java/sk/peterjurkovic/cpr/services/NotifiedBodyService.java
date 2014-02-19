@@ -100,4 +100,5 @@ public interface NotifiedBodyService {
 	
 	
 	List<NotifiedBody> autocomplete(String term, Boolean enabled);
+	
 }

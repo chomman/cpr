@@ -17,6 +17,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -66,7 +67,7 @@ public class Standard extends AbstractStandard {
 	
 	private String text;
 		
-	private Set<NotifiedBody> notifiedBodies;
+	private Set<StandardNotifiedBody> notifiedBodies;
 	
 	private Set<AssessmentSystem> assessmentSystems;
 	
@@ -85,7 +86,7 @@ public class Standard extends AbstractStandard {
 	private Set<StandardChange> standardChanges;
 	
 	public Standard(){
-		this.notifiedBodies = new HashSet<NotifiedBody>();
+		this.notifiedBodies = new HashSet<StandardNotifiedBody>();
 		this.assessmentSystems = new HashSet<AssessmentSystem>();
 		this.standardCsns = new HashSet<StandardCsn>();
 		this.requirements = new HashSet<Requirement>();
@@ -173,15 +174,15 @@ public class Standard extends AbstractStandard {
 	public void setStandardGroups(Set<StandardGroup> standardGroups) {
 		this.standardGroups = standardGroups;
 	}
-		
-	@ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "standard_has_notified_body", joinColumns = @JoinColumn(name = "standard_id"), inverseJoinColumns = @JoinColumn(name = "notified_body_id"))
-	public Set<NotifiedBody> getNotifiedBodies() {
+
+	@OrderBy("id")
+	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<StandardNotifiedBody> getNotifiedBodies() {
 		return notifiedBodies;
 	}
 
 
-	public void setNotifiedBodies(Set<NotifiedBody> notifiedBodies) {
+	public void setNotifiedBodies(Set<StandardNotifiedBody> notifiedBodies) {
 		this.notifiedBodies = notifiedBodies;
 	}
 	

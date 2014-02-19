@@ -21,6 +21,7 @@
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsnChange"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardChange"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.StandardNotifiedBody"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.CommissionDecision"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Requirement" />
@@ -34,6 +35,7 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
 	
+	<!-- Terminology -->
 	<mapping class="sk.peterjurkovic.cpr.entities.Csn"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnCategory"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminology"/>

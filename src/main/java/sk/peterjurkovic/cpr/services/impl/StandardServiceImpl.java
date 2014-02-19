@@ -18,6 +18,7 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.entities.StandardNotifiedBody;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.services.StandardService;
@@ -257,7 +258,29 @@ public class StandardServiceImpl implements StandardService {
 		}
 	}
 
-	
+	@Override
+	public boolean hasAssociatedNotifiedBody(final NotifiedBody notifiedBody,final Standard standard) {
+		if(notifiedBody == null){
+			return false;
+		}
+		Validate.notNull(standard);
+		for(StandardNotifiedBody snb : standard.getNotifiedBodies()){
+			if(snb.getNotifiedBody().equals(notifiedBody)){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public void unassigenNotifiedBody(Standard standard, Long standardNotifiedBodyId){
+		Validate.notNull(standard);
+		for(StandardNotifiedBody snb : standard.getNotifiedBodies()){
+			if(snb.getId().equals(standardNotifiedBodyId) && 
+			   standard.getNotifiedBodies().remove(snb)){
+				updateStandard(standard);
+			}
+		}
+	}
 		
 	
 }

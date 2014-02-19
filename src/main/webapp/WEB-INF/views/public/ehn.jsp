@@ -1,8 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<c:set var="editable" value="false"/>
+<c:set var="editable" value="false" scope="application"/>
 <sec:authorize access="isAuthenticated()"> 
-	<c:set var="editable" value="true"/>
+	<c:set var="editable" value="true" scope="application" />
 </sec:authorize>
 
 <!DOCTYPE html>

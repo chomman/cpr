@@ -98,10 +98,10 @@
 									 		 
 									 		 <c:forEach items="${i.standardCsnChanges}" var="j">
 									 		 	<tr class="standard-csn-change">
-									 		 		<td class="standarardId">${j.changeCode}</td>
+									 		 		<td class="standarardId">${j.csnName}</td>
 									 		 		<td class="last-edit">
-											 			<c:if test="${empty j.date}">-</c:if>
-											 			<c:if test="${not empty j.date}">
+											 			<c:if test="${empty j.statusDate}">-</c:if>
+											 			<c:if test="${not empty j.statusDate}">
 											 				<span class="tt" 
 											 					  title="<spring:message code="cpr.csn.change.date" />">
 											 				<joda:format value="${j.date}" pattern="dd.MM.yyyy"/>
@@ -113,6 +113,7 @@
 											 				<spring:message code="form.edit" />
 											 			</a>
 											 		</td>
+											 		<td>&nbsp;</td>
 											 		<td class="delete">
 											 			<a class="confirm" href="<c:url value="/admin/cpr/standard-csn/${i.id}/change/${j.id}/delete"  />">
 											 				<spring:message code="form.delete" />

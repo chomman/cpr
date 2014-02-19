@@ -1,11 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-
-<c:set var="editable" value="false"/>
+<c:set var="editable" value="false" scope="application"/>
 <sec:authorize access="isAuthenticated()"> 
-	<c:set var="editable" value="true"/>
+	<c:set var="editable" value="true" scope="application" />
 </sec:authorize>
-
 <c:if test="${not empty model.standards}">
 	
 	<c:if test="${empty model.async}">
@@ -105,13 +103,13 @@
 				 			<c:if test="${not empty i.notifiedBodies}">
 				 				<c:forEach items="${i.notifiedBodies}" var="j" >
 				 					<span>
-				 					<c:if test="${not empty j.nandoCode}">
-					 					<a target="_blank" class="tt" title="${j.name}" href="${model.noaoUrl}${j.nandoCode}">
-					 						${j.noCode} <c:if test="${not empty j.aoCode }">(${j.aoCode})</c:if>
+				 					<c:if test="${not empty j.notifiedBody.nandoCode}">
+					 					<a target="_blank" class="tt" title="${j.notifiedBody.name}" href="${model.noaoUrl}${j.notifiedBody.nandoCode}">
+					 						${j.notifiedBody.noCode} <c:if test="${not empty j.notifiedBody.aoCode }">(${j.notifiedBody.aoCode})</c:if>
 					 					</a> 
 				 					</c:if>
-				 					<c:if test="${empty j.nandoCode}">
-					 					${j.noCode} <c:if test="${not empty j.aoCode }">(${j.aoCode})</c:if>
+				 					<c:if test="${empty j.notifiedBody.nandoCode}">
+					 					${j.notifiedBody.noCode} <c:if test="${not empty j.notifiedBody.aoCode }">(${j.notifiedBody.aoCode})</c:if>
 				 					</c:if>
 				 					</span>
 				 				</c:forEach>

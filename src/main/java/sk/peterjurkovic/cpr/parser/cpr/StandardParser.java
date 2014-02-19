@@ -198,7 +198,7 @@ public class StandardParser extends CprParser {
 						notifiedBodyService.updateNotifiedBody(nb);
 					}
 				
-					standard.getNotifiedBodies().add(nb);
+					//standard.getNotifiedBodies().add(nb);
 				}
 			}
 			

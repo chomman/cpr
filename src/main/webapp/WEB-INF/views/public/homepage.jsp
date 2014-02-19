@@ -1,5 +1,10 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<c:set var="editable" value="false" scope="application"/>
+<sec:authorize access="isAuthenticated()"> 
+	<c:set var="editable" value="true" scope="application" />
+</sec:authorize>
+
 <!DOCTYPE html>
 <html>
 	<head>
@@ -43,9 +48,7 @@
 				 			<c:forEach items="${model.standards}" var="standard">
 								<div class="norm">
 				 				<span class="edit"><joda:format value="${standard.changed}" pattern="dd.MM.yyyy"/></span>
-				 				<a:url href="/ehn/${standard.id}"  cssClass="blue-color link">
-					 				${standard.standardId}
-					 			</a:url>
+				 					<a:standardUrl standard="${standard}" cssClass="blue-color link" editable="${editable}"/>
 				 				</div>	
 				 			</c:forEach>
 			 			</c:if>

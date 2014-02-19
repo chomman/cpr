@@ -34,6 +34,7 @@ import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.entities.StandardNotifiedBody;
 import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
@@ -56,7 +57,7 @@ import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
-import sk.peterjurkovic.cpr.web.editors.NotifiedBodyCollectionEditor;
+import sk.peterjurkovic.cpr.web.editors.NotifiedBodyEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardCsnPropertyEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
@@ -103,7 +104,7 @@ public class StandardController extends SupportAdminController{
 	@Autowired
 	private CountryEditor countryEditor;
 	@Autowired
-	private NotifiedBodyCollectionEditor notifiedBodiesEditor;
+	private NotifiedBodyEditor notifiedBodyEditor;
 	@Autowired
 	private AssessmentSystemCollectionEditor assessmentSystemCollectionEditor;
 	@Autowired
@@ -127,7 +128,7 @@ public class StandardController extends SupportAdminController{
 		binder.registerCustomEditor(Standard.class, this.standardPropertyEditor);
 		binder.registerCustomEditor(StandardCsn.class, this.standardCsnPropertyEditor);
 		binder.registerCustomEditor(Tag.class, this.tagEditor);
-		binder.registerCustomEditor(Set.class, "notifiedBodies", this.notifiedBodiesEditor);
+		binder.registerCustomEditor(NotifiedBody.class, this.notifiedBodyEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
     }
 	
@@ -677,12 +678,15 @@ public class StandardController extends SupportAdminController{
     public String showNotifiedBodies(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
 		setEditFormView("cpr/standard-edit4");
 		Standard standard = getStandard(standardId);
+		if(StringUtils.isNotBlank(request.getParameter("id"))){
+			standardService.unassigenNotifiedBody(standard, Long.valueOf(request.getParameter("id")));
+		}
 		prepeareModelForNotifiedBodies(standard, modelMap);
         return getEditFormView();
    }
+    
+
    
-    
-    
     /**
      * Spracuje odoslany formular, s vybranymi NOAO a priradi ich k danej norme.
      * 
@@ -694,18 +698,16 @@ public class StandardController extends SupportAdminController{
      * @throws ItemNotFoundException, ak sa norma s danym ID v systeme nenachadza
      */
    @RequestMapping(value = "/admin/cpr/standard/edit/{standardId}/notifiedbodies", method = RequestMethod.POST)
-   public String  processNotifiedBodiesSubmit(@PathVariable Long standardId,@Valid  Standard form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
+   public String  processNotifiedBodiesSubmit(@PathVariable Long standardId,@Valid  StandardNotifiedBody form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException{
 	   setEditFormView("cpr/standard-edit4");
 	   Standard standard = getStandard(standardId);
-		if(form.getNotifiedBodies() != null){
-			standard.setNotifiedBodies(form.getNotifiedBodies());
-		}else{
-			standard.setNotifiedBodies(new HashSet<NotifiedBody>());
-		}
-		standardService.saveOrUpdate(standard);
-		standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
-		modelMap.put("successCreate", true);
-		
+	   if(form.getNotifiedBody() != null && 
+		!standardService.hasAssociatedNotifiedBody(form.getNotifiedBody(), standard)){
+		   form.setStandard(standard);
+		   standard.getNotifiedBodies().add(form);   	
+		   standardService.saveOrUpdate(standard);
+		   modelMap.put("successCreate", true);
+	   }	
 	   prepeareModelForNotifiedBodies(standard, modelMap);
 	   return getEditFormView();
    }
@@ -857,6 +859,9 @@ public class StandardController extends SupportAdminController{
 		standard.setEnabled(form.getEnabled());
 		standard.setReplaceStandard(form.getReplaceStandard());
 		standard.setStatusDate(form.getStatusDate());
+		if(standard.getReleased() != null && standard.getStatusDate() == null){
+			standard.setStatusDate(form.getReleased());
+		}
 		standardService.saveOrUpdate(standard);
 		if(standard.getChanged() != null){
 			form.setTimestamp(standard.getChanged().toDateTime().getMillis());
@@ -926,11 +931,21 @@ public class StandardController extends SupportAdminController{
 	private void prepeareModelForNotifiedBodies(Standard standard, ModelMap modelMap){
 		Map<String, Object> map = new HashMap<String, Object>();
 		modelMap.addAttribute("standard", standard);
+		modelMap.addAttribute("standardNotifiedBody", new StandardNotifiedBody());
 		map.put("standardId", standard.getId());
-		map.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(null));
-		map.put("standardnotifiedBodies", standard.getNotifiedBodies());
+		map.put("notifiedBodies", getNotifiedBodies(standard.getNotifiedBodies()) );
+		map.put("standard", standard);
 		map.put("tab", CPR_TAB_INDEX);
 		modelMap.put("model", map);
+	}
+	
+	
+	private List<NotifiedBody> getNotifiedBodies(Set<StandardNotifiedBody> excludeList) {
+		List<NotifiedBody> notifiedBodies = notifiedBodyService.getNotifiedBodiesGroupedByCountry(null);
+		for(StandardNotifiedBody snb : excludeList){
+			notifiedBodies.remove(snb.getNotifiedBody());
+		}
+		return notifiedBodies;
 	}
 	
 	private void prepeareModelForAssessmentSystems(Standard standard, ModelMap modelMap){

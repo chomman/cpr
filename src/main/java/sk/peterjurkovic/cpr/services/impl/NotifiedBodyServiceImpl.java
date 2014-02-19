@@ -98,7 +98,9 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	public List<NotifiedBody> getNotifiedBodiesGroupedByCountry(Boolean enabled) {
 		return notifiedBodyDao.getNotifiedBodiesGroupedByCountry(enabled);
 	}
+	
 
+	
 	@Override
 	@Transactional(readOnly = true)
 	public List<NotifiedBody> autocomplete(final String term, final Boolean enabled) {

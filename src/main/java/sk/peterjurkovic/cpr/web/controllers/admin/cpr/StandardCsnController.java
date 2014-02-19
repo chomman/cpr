@@ -318,6 +318,9 @@ public class StandardCsnController extends SupportAdminController {
 		csnChange.setNote(form.getNote());
 		csnChange.setChanged(new LocalDateTime());
 		csnChange.setChangedBy(UserUtils.getLoggedUser());
+		if(csnChange.getReleased() != null && csnChange.getStatusDate() == null){
+			csnChange.setStatusDate(form.getReleased());
+		}
 		standardCsnService.saveOrUpdate(csn);
 		return form.getId();
 	}
