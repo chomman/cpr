@@ -79,7 +79,7 @@ public class PublicCprController extends PublicSupportController{
 	
 
 	
-	@Value("#{config['ce.europe.aono']}")
+	@Value("#{config['nandourl']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
 	
 	

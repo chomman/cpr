@@ -162,4 +162,41 @@
 		<type>java.util.Boolean</type>
 	</attribute>
  </tag> 
+  <tag>
+    <name>noaoUrl</name>
+    <tag-class>sk.peterjurkovic.cpr.web.taglib.NotifiedBodyUrlTag</tag-class>
+    <body-content>JSP</body-content>
+	<attribute>
+		<name>cssClass</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>id</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>object</name>
+		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>sk.peterjurkovic.cpr.entities.StandardNotifiedBody</type>
+	</attribute>
+	<attribute>
+		<name>editable</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.Boolean</type>
+	</attribute>
+	<attribute>
+		<name>codesOnly</name>
+		<required>false</required>
+		<type>java.util.Boolean</type>
+	</attribute>
+	<attribute>
+		<name>buildNandoUrl</name>
+		<required>false</required>
+		<type>java.util.Boolean</type>
+	</attribute>
+ </tag> 
 </taglib>

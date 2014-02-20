@@ -1,6 +1,8 @@
 package sk.peterjurkovic.cpr.web.taglib;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import sk.peterjurkovic.cpr.constants.Constants;
@@ -18,7 +20,13 @@ public class StandardCsnUrlTag extends RequestContextAwareTag {
 	private String cssClass = "";
 	private String id;
 	private boolean isChange = false;
-
+	@Value("#{config.csnonlineurl}")
+	private String csnOnlineUrl; 
+	
+	public StandardCsnUrlTag(){
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
+	
 	@Override
 	protected int doStartTagInternal() throws Exception {
 		if(isLinkOnly()){
@@ -98,7 +106,7 @@ public class StandardCsnUrlTag extends RequestContextAwareTag {
 	}
 	
 	private String getCsnOnlineLink(){
-		return Constants.CSN_ONLINE_URL.replace("{0}", object.getCsnOnlineId());
+		return csnOnlineUrl.replace("{0}", object.getCsnOnlineId());
 	}
 	
 	

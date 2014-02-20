@@ -28,8 +28,8 @@ public class PublicNotifiedBodyController extends PublicSupportController{
 	@Autowired
 	private StandardService standardService;
 	
-	@Value("#{config['ce.europe.aono']}")
-	private String ceEuropeNotifiedBodyDetailUrl;
+	@Value("#{config['nandourl']}")
+	private String nandourl;
 	
 	public static final String NOTIFIE_BODY_URL = "/prehled-subjektu";
 	
@@ -50,7 +50,7 @@ public class PublicNotifiedBodyController extends PublicSupportController{
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
-		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
+		model.put("noaoUrl", nandourl);
 		model.put("tab", webpage.getId());
 		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
 		modelmap.put("model", model);
@@ -76,7 +76,7 @@ public class PublicNotifiedBodyController extends PublicSupportController{
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
-		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
+		model.put("noaoUrl", nandourl);
 		model.put("standards", standardService.getStandardsByNotifiedBody(notifiedBody));
 		model.put("tab", webpage.getId());
 		model.put("notifiedBody", notifiedBody);

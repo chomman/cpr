@@ -11,7 +11,6 @@ public class Constants {
 	public static final String ADMIN_PREFIX = "admin";
 	
 	
-	public static final String CSN_ONLINE_URL = "http://seznamcsn.unmz.cz/login.aspx?k={0}&cid=3";
 	
 	
 	/** SUCCESS_ROLE_ADMIN_URL

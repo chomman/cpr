@@ -102,15 +102,8 @@
 				 		<td class="aono c">
 				 			<c:if test="${not empty i.notifiedBodies}">
 				 				<c:forEach items="${i.notifiedBodies}" var="j" >
-				 					<span>
-				 					<c:if test="${not empty j.notifiedBody.nandoCode}">
-					 					<a target="_blank" class="tt" title="${j.notifiedBody.name}" href="${model.noaoUrl}${j.notifiedBody.nandoCode}">
-					 						${j.notifiedBody.noCode} <c:if test="${not empty j.notifiedBody.aoCode }">(${j.notifiedBody.aoCode})</c:if>
-					 					</a> 
-				 					</c:if>
-				 					<c:if test="${empty j.notifiedBody.nandoCode}">
-					 					${j.notifiedBody.noCode} <c:if test="${not empty j.notifiedBody.aoCode }">(${j.notifiedBody.aoCode})</c:if>
-				 					</c:if>
+				 					<span class="block">
+				 					<a:noaoUrl object="${j}" editable="${editable}" buildNandoUrl="true" />
 				 					</span>
 				 				</c:forEach>
 				 			</c:if>

@@ -12,6 +12,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
 import sk.peterjurkovic.cpr.enums.StandardStatus;
+import sk.peterjurkovic.cpr.utils.CommonUtils;
 
 @MappedSuperclass
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -74,14 +75,7 @@ public abstract class AbstractStandard extends AbstractEntity{
 	
 	@Transient
 	public boolean isNew(){
-		if(getReleased() == null){
-			return false;
-		}
-		LocalDate date = new LocalDate().withDayOfMonth(1);
-		if(date.isAfter(getReleased())){
-			return false;
-		}
-		return true;
+		return CommonUtils.isObjectNew(getReleased());
 	}
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")

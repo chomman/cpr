@@ -22,21 +22,21 @@ public class StandardUrlTag extends UrlTag {
 		}
 		url.append("<span class=\"a-link\">");
 		appendBaseUrl(url);
-		url.append("<a href=");
-		url.append(getRequestContext().getContextPath());
-		url.append("/");
-		url.append(Constants.ADMIN_PREFIX);
-		url.append("/cpr/standard/edit/");
-		url.append(standard.getId());
-		url.append(" class=\"a-standard\" target=\"_blank\" title=\"Editovat\" ></a></span>");
+		url.append("<a href=")
+			.append(getRequestContext().getContextPath())
+			.append("/")
+			.append(Constants.ADMIN_PREFIX)
+			.append("/cpr/standard/edit/")
+			.append(standard.getId())
+			.append(" class=\"a-standard\" target=\"_blank\" title=\"Editovat\" ></a></span>");
 		pageContext.getOut().print(url.toString());
 		return SKIP_PAGE;
 	}
 		
 	private void appendBaseUrl(StringBuilder url){
-		url.append(buildTag());
-		url.append(standard.getStandardId());
-		url.append("</a>");
+		url.append(buildTag())
+			.append(standard.getStandardId())
+			.append("</a>");
 	}
 	
 	private void setupValues(Standard standard){
