@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.web.taglib;
 
+import javax.servlet.jsp.JspException;
+
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.context.support.SpringBeanAutowiringSupport;
@@ -30,6 +32,9 @@ public class NotifiedBodyUrlTag extends RequestContextAwareTag {
 	
 	@Override
 	protected int doStartTagInternal() throws Exception {
+		if(!(object instanceof StandardNotifiedBody)){
+			throw new JspException("Object is NULL or is not instance of StandardNotifiedBody");
+		}
 		pageContext.getOut().print(buildUrl().toString());
 		return SKIP_PAGE;
 	}
@@ -89,7 +94,7 @@ public class NotifiedBodyUrlTag extends RequestContextAwareTag {
 			url.append(" ").append(object.getNotifiedBody().getAoCode());
 		}
 		if(!codesOnly){
-			url.append(" ").append(object.getNotifiedBody().getName());
+			url.append(" - ").append(object.getNotifiedBody().getName());
 		}
 	}
 	

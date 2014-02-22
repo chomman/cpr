@@ -169,22 +169,14 @@
 				<div class="public-box">
 					<h3><spring:message code="standard.noao" /> </h3>
 					<table class="ehn-no">
-						<c:forEach items="${model.standard.notifiedBodies}" var="nb">
+						<c:forEach items="${model.standard.notifiedBodies}" var="snb">
 							<tr>
 								<td>
-									<c:if test="${not empty nb.nandoCode}">		
-										<a target="_blank" href="${model.noaoUrl}${nb.nandoCode}" title="NANDO database">
-						 					${nb.noCode} <c:if test="${not empty nb.aoCode}">(${nb.aoCode})</c:if>
-						 				</a>		
-								 	</c:if>
-								 	<c:if test="${empty nb.nandoCode}">		
-										${nb.noCode} <c:if test="${not empty nb.aoCode}">(${nb.aoCode})</c:if>	
-								 	</c:if>
-								</td>
-				 		 		<td>${nb.name}</td>
+									<a:noaoUrl object="${snb}" editable="${editable}" codesOnly="false" />
+				 		 		</td>
 				 		 		<td class="c">
-				 		 			<c:if test="${not empty nb.city}">
-				 		 			${nb.city}
+				 		 			<c:if test="${not empty snb.notifiedBody.city}">
+				 		 			${snb.notifiedBody.city}
 				 		 			</c:if>
 				 		 		</td>
 							</tr>
