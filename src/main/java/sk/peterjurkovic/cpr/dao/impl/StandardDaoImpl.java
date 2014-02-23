@@ -142,7 +142,8 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		
 		Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
 		if(notifiedBodyId != null && notifiedBodyId != 0){
-			hql.append(" s.notifiedBodies as nb ");
+			hql.append(" join s.notifiedBodies as snb ");
+			hql.append(" join snb.notifiedBody as nb ");
 		}
 		Long assessmentSystemId = (Long)criteria.get(Filter.ASSESMENT_SYSTEM);
 		if(assessmentSystemId != null && assessmentSystemId != 0){
@@ -311,8 +312,8 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	public List<Standard> getStandardsByNotifiedBody(final NotifiedBody notifiedBody) {
 		Validate.notNull(notifiedBody);
 		StringBuilder hql = new StringBuilder("select standard from Standard standard ");
-		hql.append(" LEFT JOIN standard.notifiedBodies as nb");
-		hql.append(" where standard.enabled=true and nb.id = :id ");
+		hql.append(" LEFT JOIN standard.notifiedBodies as snb");
+		hql.append(" where standard.enabled=true and snb.notifiedBody.id = :id ");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setLong("id", notifiedBody.getId());
 		return query.list();

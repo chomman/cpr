@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -107,6 +108,18 @@ public class StandardServiceImpl implements StandardService {
 		return standardDao.isStandardIdUnique(standardId, id);
 	}
 
+
+	@Override
+	public void mergeAndSetChanged(Standard standard) {
+		User user = null;
+		if(UserUtils.getLoggedUser() != null){
+			user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		}
+		standard.setChangedBy(user);
+		standard.setChanged(new LocalDateTime());
+		mergeStandard(standard);
+	}
+	
 	@Override
 	public void saveOrUpdate(Standard standard) {
 		User user = null;
@@ -274,13 +287,16 @@ public class StandardServiceImpl implements StandardService {
 
 	public void unassigenNotifiedBody(Standard standard, Long standardNotifiedBodyId){
 		Validate.notNull(standard);
-		for(StandardNotifiedBody snb : standard.getNotifiedBodies()){
-			if(snb.getId().equals(standardNotifiedBodyId) && 
-			   standard.getNotifiedBodies().remove(snb)){
-				updateStandard(standard);
+		Iterator<StandardNotifiedBody> setIterator = standard.getNotifiedBodies().iterator();
+		while (setIterator.hasNext()) {
+			StandardNotifiedBody snb = setIterator.next();
+			if(snb.getId().equals(standardNotifiedBodyId)){
+				setIterator.remove();
+				saveOrUpdate(standard);
 			}
 		}
 	}
+
 		
 	
 }

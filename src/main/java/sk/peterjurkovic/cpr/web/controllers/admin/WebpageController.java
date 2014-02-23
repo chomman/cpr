@@ -254,7 +254,7 @@ public class WebpageController extends SupportAdminController {
 		}
 		User user = UserUtils.getLoggedUser();
 		if(user != null && user.isWebmaster()){
-			webpage.setCode(webpage.getCode());
+			webpage.setCode(webpageDto.getCode());
 		}
 		webpage.setWebpageCategory(webpageDto.getWebpageCategory());
 		webpage.setWebpageContent(webpageDto.getWebpageContent());

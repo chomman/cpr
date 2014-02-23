@@ -680,6 +680,7 @@ public class StandardController extends SupportAdminController{
 		Standard standard = getStandard(standardId);
 		if(StringUtils.isNotBlank(request.getParameter("id"))){
 			standardService.unassigenNotifiedBody(standard, Long.valueOf(request.getParameter("id")));
+			return String.format("redirect:/admin/cpr/standard/edit/%s/notifiedbodies", standardId);
 		}
 		prepeareModelForNotifiedBodies(standard, modelMap);
         return getEditFormView();
@@ -705,7 +706,7 @@ public class StandardController extends SupportAdminController{
 		!standardService.hasAssociatedNotifiedBody(form.getNotifiedBody(), standard)){
 		   form.setStandard(standard);
 		   standard.getNotifiedBodies().add(form);   	
-		   standardService.saveOrUpdate(standard);
+		   standardService.mergeAndSetChanged(standard);
 		   modelMap.put("successCreate", true);
 	   }	
 	   prepeareModelForNotifiedBodies(standard, modelMap);

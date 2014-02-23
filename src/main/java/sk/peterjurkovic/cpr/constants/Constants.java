@@ -129,6 +129,10 @@ public class Constants {
 	 * Identifikator kategorie - podmenu CPR
 	 */
 	public static final Long WEBPAGE_CATEGORY_CPR_SUBMENU = Long.valueOf(3);
+	/**
+	 * Identifikator kategorie - podmenu CPR
+	 */
+	public static final Long WEBPAGE_CATEGORY_EHN_SUBMENU = Long.valueOf(4);
 	
 	
 	/**

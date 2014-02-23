@@ -48,14 +48,15 @@ import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
 @Controller
 public class PublicCprController extends PublicSupportController{
 	
-	public static final String CPR_INDEX_URL = "/cpr";
-	public static final String STANDARDS_URL = "/harmonizovane-normy";
-	public static final String EHN_DETAIL = "/detail-normy";
-	public static final String STANDARD_GROUP_URL = "/cpr/skupiny-vyrobku";
-	public static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
-	public static final String CPR_BASIC_REQUREMENT_URL = "/cpr/zakladni-pozadavky-podle-cpr";
-    public static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
-	
+	private static final String CPR_INDEX_URL = "/cpr";
+	private static final String STANDARDS_URL = "/harmonizovane-normy";
+	private static final String EHN_DETAIL = "/detail-normy";
+	private static final String STANDARD_GROUP_URL = "/cpr/skupiny-vyrobku";
+	private static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
+	private static final String CPR_BASIC_REQUREMENT_URL = "/cpr/zakladni-pozadavky-podle-cpr";
+	private static final String CPR_ASSESSMENT_SYSTEMS_URL = "/cpr/systemy-posudzovani-vlastnosti";
+    private static final String INDEX_URL = "/normy";
+    
 	@Autowired
 	private WebpageService webpageService;
 	@Autowired
@@ -232,6 +233,20 @@ public class PublicCprController extends PublicSupportController{
             return "/public/cpr/assessmentSystem-detail";
     }
     
+    
+
+	
+	@RequestMapping(value = { INDEX_URL , EN_PREFIX + INDEX_URL })
+	public String index(ModelMap modelmap) throws PageNotFoundEception{
+		final Webpage webpage = getWebpage(INDEX_URL);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpage", webpage);
+		model.put("tab", 3);
+		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_EHN_SUBMENU));
+		modelmap.put("model", model);
+		return "/public/cpr/index";
+	}
+	
     
 	private NotifiedBody getNotifiedBody(final Object id){
 		Long nbid = ParseUtils.parseLongFromStringObject(id);

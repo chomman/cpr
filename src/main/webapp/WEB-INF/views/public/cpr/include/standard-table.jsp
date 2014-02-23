@@ -1,8 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<c:set var="editable" value="false" scope="application"/>
+<c:set var="editable" value="false" />
 <sec:authorize access="isAuthenticated()"> 
-	<c:set var="editable" value="true" scope="application" />
+	<c:set var="editable" value="true"  />
 </sec:authorize>
 <c:if test="${not empty model.standards}">
 	
@@ -56,25 +56,31 @@
 				 		
 				 		<!-- CSN --> 
 				 		<td class="csns">
-					 		<c:forEach items="${i.standardCsns}" var="csn">
-								<a:standardCsnUrl object="${csn}" editable="${editable}" />
-						 		<c:forEach items="${csn.standardCsnChanges}" var="j">
-						 			<a:standardCsnUrl object="${j}" editable="${editable}" />
-						 		</c:forEach>
-						 			<c:if test="${not empty csn.standardStatus and csn.standardStatus.id == 3}">
-				 						(<spring:message code="${csn.standardStatus.name}" />)
-				 					</c:if>
-								 	<c:if test="${not empty csn.replaceStandardCsn}">	
-					 					<span class="block">
-					 					<c:if test="${csn.isCanceled}">
-						 					<spring:message code="replaced" />
+					 		<c:forEach items="${i.standardCsns}" var="csn" >
+								<c:if test="${empty prevCsn or prevCsn.id != csn.id }" >
+									<a:standardCsnUrl object="${csn}" editable="${editable}" />
+							 		<c:forEach items="${csn.standardCsnChanges}" var="j">
+							 			<a:standardCsnUrl object="${j}" editable="${editable}" />
+							 		</c:forEach>
+							 			<c:if test="${not empty csn.standardStatus and csn.standardStatus.id == 3}">
+					 						(<spring:message code="${csn.standardStatus.name}" />)
 					 					</c:if>
-					 					<c:if test="${csn.replaceStandardCsn.isCanceled}">
-						 					<spring:message code="replace" />
+									 	<c:if test="${not empty csn.replaceStandardCsn }">	
+						 					<span class="block">
+						 					<c:if test="${csn.isCanceled}">
+							 					<spring:message code="replaced" />
+						 					</c:if>
+						 					<c:if test="${csn.replaceStandardCsn.isCanceled}">
+							 					<spring:message code="replace" />
+						 					</c:if>
+						 					</span>
+						 					<a:standardCsnUrl object="${csn.replaceStandardCsn}" editable="${editable}" />
+						 					<c:set var="prevCsn" value="${csn.replaceStandardCsn}" />
 					 					</c:if>
-					 					</span>
-					 					<a:standardCsnUrl object="${csn.replaceStandardCsn}" editable="${editable}" />
-				 					</c:if>
+					 					<c:if test="${empty csn.replaceStandardCsn }">
+					 						<c:set var="prevCsn" value="${null}" />
+					 					</c:if>						 					
+				 				</c:if>
 							</c:forEach>
 				 		</td>
 				 		

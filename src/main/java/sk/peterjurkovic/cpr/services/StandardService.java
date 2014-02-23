@@ -18,6 +18,8 @@ public interface StandardService {
 	
 	void mergeStandard(Standard standard);
 	
+	void mergeAndSetChanged(Standard standard);
+	
 	Standard getStandardById(Long id);
 	
 	Standard getStandardByCode(String code);
