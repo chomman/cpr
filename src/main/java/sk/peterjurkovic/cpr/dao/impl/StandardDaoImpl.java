@@ -16,6 +16,7 @@ import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.entities.StandardNotifiedBody;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 
@@ -69,7 +70,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	 * @return TRUE, ak je jedinecna, inak FALSE
 	 */
 	public Long getCountOfSdandards(final Map<String, Object> criteria) {
-		StringBuffer hql = new StringBuffer("SELECT count(*) FROM Standard s");
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM Standard s");
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
@@ -330,6 +331,19 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setLong("id", standard.getId());
 		return query.list();
+	}
+
+
+	@Override
+	public void unassignNotifiedBody(Long standardNotifiedBodyId) {
+		Validate.notNull(standardNotifiedBodyId);
+		StringBuilder hql = new StringBuilder("delete from ");
+		hql.append(StandardNotifiedBody.class.getName() );
+		hql.append(" as snb where snb.id = :id ");
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setLong("id", standardNotifiedBodyId);
+		query.setMaxResults(1);
+		query.executeUpdate();
 	}
 
 

@@ -679,7 +679,7 @@ public class StandardController extends SupportAdminController{
 		setEditFormView("cpr/standard-edit4");
 		Standard standard = getStandard(standardId);
 		if(StringUtils.isNotBlank(request.getParameter("id"))){
-			standardService.unassigenNotifiedBody(standard, Long.valueOf(request.getParameter("id")));
+			standardService.unassigenNotifiedBody(Long.valueOf(request.getParameter("id")));
 			return String.format("redirect:/admin/cpr/standard/edit/%s/notifiedbodies", standardId);
 		}
 		prepeareModelForNotifiedBodies(standard, modelMap);

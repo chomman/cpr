@@ -39,4 +39,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	List<Standard> getStandardsByNotifiedBody(NotifiedBody notifiedBody);
 	
 	List<Standard> getStandardsByReplaceStandard(Standard standard);
+	
+	void unassignNotifiedBody(Long standardNotifiedBodyId);
 }

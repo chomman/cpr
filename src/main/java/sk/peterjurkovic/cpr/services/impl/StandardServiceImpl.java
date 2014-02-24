@@ -1,7 +1,6 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -285,16 +284,9 @@ public class StandardServiceImpl implements StandardService {
 		return false;
 	}
 
-	public void unassigenNotifiedBody(Standard standard, Long standardNotifiedBodyId){
-		Validate.notNull(standard);
-		Iterator<StandardNotifiedBody> setIterator = standard.getNotifiedBodies().iterator();
-		while (setIterator.hasNext()) {
-			StandardNotifiedBody snb = setIterator.next();
-			if(snb.getId().equals(standardNotifiedBodyId)){
-				setIterator.remove();
-				saveOrUpdate(standard);
-			}
-		}
+	@Override
+	public void unassigenNotifiedBody(final Long standardNotifiedBodyId){
+		standardDao.unassignNotifiedBody(standardNotifiedBodyId);
 	}
 
 		

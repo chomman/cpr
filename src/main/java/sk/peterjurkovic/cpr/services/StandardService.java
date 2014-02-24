@@ -62,5 +62,5 @@ public interface StandardService {
 	
 	boolean hasAssociatedNotifiedBody(NotifiedBody notifiedBody, Standard standard);
 	
-	void unassigenNotifiedBody(Standard standard, Long standardNotifiedBodyId);
+	void unassigenNotifiedBody(Long standardNotifiedBodyId);
 }
