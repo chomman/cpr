@@ -12,10 +12,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Report;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.ReportService;
 import sk.peterjurkovic.cpr.validators.admin.ReportValidator;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
@@ -76,6 +78,17 @@ public class ReportController extends SupportAdminController {
 		return "redirect:/admin/cpr/report/edit" + report.getId();
 	}
 	
+	
+	@RequestMapping(value = "/admin/cpr/report/edit/{id}", method = RequestMethod.GET)
+	public String showEditForm(@PathVariable Long id, ModelMap map) throws ItemNotFoundException{
+		final Report report = reportService.getById(id);
+		if(report == null){
+			throw new ItemNotFoundException(String.format("Report with [id=%s] was not found", id));
+		}
+		map.put("model", prepareBaseModel());
+		map.addAttribute("report", report);
+		return getEditFormView();
+	}
 	
 	
 	private Map<String, Object> prepareBaseModel(){
