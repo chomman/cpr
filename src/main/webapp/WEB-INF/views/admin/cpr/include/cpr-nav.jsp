@@ -61,9 +61,18 @@
 	</li>
 	<li>
 		<a
+		<c:if test="${model.tab == 10}">class="active"</c:if>
+		 href="<c:url value="/admin/cpr/reports" />" >
+			<spring:message code="menu.cpr.report" />
+		</a>
+	</li>
+	<!-- 
+	<li>
+		<a
 		<c:if test="${model.tab == 7}">class="active"</c:if>
 		 href="<c:url value="/admin/cpr/dop" />" >
 			<spring:message code="menu.cpr.dop" />
 		</a>
 	</li>
+	 -->
 </ul>

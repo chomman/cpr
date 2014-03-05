@@ -34,6 +34,7 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.DeclarationOfPerformance"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.Report"/>
 	
 	<!-- Terminology -->
 	<mapping class="sk.peterjurkovic.cpr.entities.Csn"/>
