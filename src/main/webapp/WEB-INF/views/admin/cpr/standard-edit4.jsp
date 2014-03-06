@@ -99,10 +99,10 @@
 						</c:if>
 						
 						<div class="inline-form ">
-							<form:form commandName="standardNotifiedBody" cssClass="nb-form">
+							<form:form commandName="standardNotifiedBody" cssClass="nb-form valid">
 								<span class="rel wrapp">
 								<label for="notifiedBody">Zvolte z možností:</label>
-								<form:select path="notifiedBody" cssClass="chosen">
+								<form:select path="notifiedBody" cssClass="chosen required">
 									<option value="" ><spring:message code="form.select" /></option>
 									<c:forEach items="${model.notifiedBodies}" var="i">
 				                              <option value="${i.id}">  

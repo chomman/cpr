@@ -369,7 +369,7 @@ public class StandardController extends SupportAdminController{
 	@RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/standard-group/add", method = RequestMethod.POST)
 	public String processStandardGroupAdding(@PathVariable Long standardId,  @Valid  StandardForm form, BindingResult result, ModelMap model) throws ItemNotFoundException {
 		Standard standard = getStandard(standardId);
-		if(!standard.getStandardGroups().contains(form.getStandardGroup())){
+		if(form.getStandardGroup() != null && !standard.getStandardGroups().contains(form.getStandardGroup())){
 			standard.getStandardGroups().add(form.getStandardGroup());
 			standardService.saveOrUpdate(standard);
 		}
