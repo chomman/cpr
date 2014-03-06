@@ -42,7 +42,7 @@
 	 		<spring:message code="cpr.standard.name" />:
 	 	</label>
 	     <span class="field">
-	     	<form:input path="czechName" cssClass="mw500 required" maxlength="255" />
+	     	<form:textarea path="czechName" cssClass="mw500 required" />
 	     </span>
 	 </p>
 	 <p>
@@ -50,7 +50,7 @@
 	 		<spring:message code="cpr.standard.englishName" />:
 	 	</label>
 	     <span class="field">
-	     	<form:input path="englishName" cssClass="mw500" maxlength="255" />
+	     	<form:textarea path="englishName" cssClass="mw500" />
 	     </span>
 	 </p>
 	 
