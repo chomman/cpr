@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -60,8 +61,7 @@ public class ReportController extends SupportAdminController {
 	
 	@RequestMapping(value = "/admin/cpr/report/add", method = RequestMethod.GET)
 	public String showAddForm(ModelMap map){
-		map.put("model", prepareBaseModel());
-		map.addAttribute("report", new Report());
+		appendModel(map, new Report());
 		return getViewName();
 	}
 	
@@ -70,12 +70,11 @@ public class ReportController extends SupportAdminController {
 	public String processCreateReport(Report report, BindingResult result, ModelMap map){
 		reportValidator.validate(result, report);
 		if(result.hasErrors()){
-			map.put("model", prepareBaseModel());
-			map.addAttribute("report", report);
+			appendModel(map, report);
 			return getViewName();
 		}
 		reportService.create(report);
-		return "redirect:/admin/cpr/report/edit" + report.getId();
+		return "redirect:/admin/cpr/report/edit/" + report.getId();
 	}
 	
 	
@@ -85,9 +84,41 @@ public class ReportController extends SupportAdminController {
 		if(report == null){
 			throw new ItemNotFoundException(String.format("Report with [id=%s] was not found", id));
 		}
+		appendModel(map, report);
+		return getEditFormView();
+	}
+	
+	
+	@RequestMapping(value = "/admin/cpr/report/edit/{id}", method = RequestMethod.POST)
+	public String processEditReport(Report report, BindingResult result, ModelMap map) throws ItemNotFoundException{
+		reportValidator.validate(result, report);
+		if(result.hasErrors()){
+			appendModel(map, report);
+			return getEditFormView();
+		}
+		executeUpdate(report);
+		map.put("successCreate", true);
+		return getEditFormView();
+	}
+	
+	
+	private void executeUpdate(Report form) throws ItemNotFoundException{
+		Validate.notNull(form);
+		Report persistedReport = reportService.getById(form.getId());
+		if(persistedReport == null){
+			throw new ItemNotFoundException(String.format("Report with [id=%s] was not found", form.getId()));
+		}
+		persistedReport.setEnabled(form.getEnabled());
+		persistedReport.setContentCzech(form.getContentCzech());
+		persistedReport.setContentEnglish(form.getContentEnglish());
+		persistedReport.setDateFrom(form.getDateFrom());
+		persistedReport.setDateTo(form.getDateTo());
+		reportService.createOrUpdate(persistedReport);
+	}
+	
+	private void appendModel(ModelMap map, Report report){
 		map.put("model", prepareBaseModel());
 		map.addAttribute("report", report);
-		return getEditFormView();
 	}
 	
 	

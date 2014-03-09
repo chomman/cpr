@@ -33,7 +33,7 @@ public class Report extends AbstractEntity {
 		LocalDate date = new LocalDate();
 		setDateFrom(date.withDayOfMonth(1));
 		setDateTo(date.dayOfMonth().withMaximumValue());
-		
+		setEnabled(Boolean.FALSE);
 	}
 	
 	@Id

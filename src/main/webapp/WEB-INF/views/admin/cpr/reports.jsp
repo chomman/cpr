@@ -56,6 +56,7 @@
 							<tr>
 								<td>
 							 		<a:adminurl href="/cpr/report/edit/${i.id}">
+							 			<joda:format value="${i.dateFrom}" pattern="MMMM, yyyy"/>
 							 		</a:adminurl>
 						 		</td>
 						 		<td class="w100">

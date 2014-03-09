@@ -44,11 +44,11 @@
 					 		<spring:message code="cpr.report.dateFrom" />:
 					 	</label>
 					     <span class="field">  
-					     	<form:input path="dateFrom" maxlength="25" cssClass="date"  />
+					     	<form:input path="dateFrom" maxlength="25" cssClass="date required" />
 					     	<span>
 					     		<spring:message code="cpr.report.dateTo" />:
 					     	</span>
-					     	<form:input path="dateTo" maxlength="25" cssClass="date"  />
+					     	<form:input path="dateTo" maxlength="25" cssClass="date required" />
 					     </span>
 					</p>
 					 <p class="button-box">

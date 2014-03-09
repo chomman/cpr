@@ -160,3 +160,5 @@ function initManthPicker(){
 	});
     $manthSelector.datepicker(getDatepickerOptions("month"));
 }
+
+$(document).on('click', '.disabled', function(){return false;});
