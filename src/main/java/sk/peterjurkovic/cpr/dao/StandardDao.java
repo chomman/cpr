@@ -3,6 +3,8 @@ package sk.peterjurkovic.cpr.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
@@ -41,4 +43,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	List<Standard> getStandardsByReplaceStandard(Standard standard);
 	
 	void unassignNotifiedBody(Long standardNotifiedBodyId);
+	
+	List<Standard> getChangedStanards(LocalDate dateFrom, LocalDate dateTo, Boolean enabledOnly);
 }

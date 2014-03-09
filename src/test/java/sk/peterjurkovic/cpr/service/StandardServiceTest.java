@@ -1,11 +1,15 @@
 package sk.peterjurkovic.cpr.service;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
+import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
@@ -102,6 +106,30 @@ public class StandardServiceTest{
 		Assert.assertFalse(s1.getIsCanceled());
 		
 	}
+	
+	@Test
+	@Rollback(value = true)
+	public void testChangedStandards(){
+		Standard standard = standardService.getStandardById(433l);
+		LocalDate date = new LocalDate(2014, new LocalDate().getMonthOfYear(), 1);
+		final int lastDayOfMonth = date.dayOfMonth().getMaximumValue();
+		standard.setStatusDate(null);
+		standardService.updateStandard(standard);
+		List<Standard> standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), null);
+		final int size = standards.size();
+		// first day
+		standard.setStatusDate(date);
+		standardService.updateStandard(standard);
+		standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), null);
+		Assert.assertEquals((size + 1), standards.size());
+		
+		standard.setStatusDate(date.plusDays(-1));
+		standardService.updateStandard(standard);
+		standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), null);
+		Assert.assertEquals(size , standards.size());
+	}
+	
+	
 
 
 }

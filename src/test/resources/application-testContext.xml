@@ -95,21 +95,21 @@
   
     
 
-      <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+     <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
 		
-		<bean id="passwordSaltSource"	class="org.springframework.security.authentication.dao.SystemWideSaltSource">
-			<property name="systemWideSalt" value="gohaxopu" />
-		</bean>
+	<bean id="passwordSaltSource"	class="org.springframework.security.authentication.dao.SystemWideSaltSource">
+		<property name="systemWideSalt" value="gohaxopu" />
+	</bean>
 
-		<bean id="customUserDetailsService" class="sk.peterjurkovic.cpr.spring.security.HibernateAuthenticationImpl"/>
-		
-		<bean id="customAuthenticationManager" class="sk.peterjurkovic.cpr.spring.security.AuthenticationManagerImpl" />
-		  
-		<bean id="authenticationFailureHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationFailureHandler" />
+	<bean id="customUserDetailsService" class="sk.peterjurkovic.cpr.spring.security.HibernateAuthenticationImpl"/>
 	
-		<bean id="authenticationSuccessHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationSuccessHandler" />
-          <!-- 
-     <bean id="fileService" class="sk.peterjurkovic.cpr.services.impl.FileServiceImpl" /> -->
+	<bean id="customAuthenticationManager" class="sk.peterjurkovic.cpr.spring.security.AuthenticationManagerImpl" />
+	  
+	<bean id="authenticationFailureHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationFailureHandler" />
+
+	<bean id="authenticationSuccessHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationSuccessHandler" />
+         <!-- 
+    <bean id="fileService" class="sk.peterjurkovic.cpr.services.impl.FileServiceImpl" /> -->
     
 </beans>
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -289,6 +290,12 @@ public class StandardServiceImpl implements StandardService {
 		standardDao.unassignNotifiedBody(standardNotifiedBodyId);
 	}
 
+	@Override
+	public List<Standard> getChangedStanards(final LocalDate dateFrom, final LocalDate dateTo, Boolean enabledOnly) {
+		return standardDao.getChangedStanards(dateFrom, dateTo, enabledOnly);
+	}
+	
+	
 		
 	
 }

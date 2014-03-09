@@ -3,6 +3,8 @@ package sk.peterjurkovic.cpr.services;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
@@ -63,4 +65,6 @@ public interface StandardService {
 	boolean hasAssociatedNotifiedBody(NotifiedBody notifiedBody, Standard standard);
 	
 	void unassigenNotifiedBody(Long standardNotifiedBodyId);
+	
+	List<Standard> getChangedStanards(LocalDate dateFrom, LocalDate dateTo, Boolean enabledOnly);
 }

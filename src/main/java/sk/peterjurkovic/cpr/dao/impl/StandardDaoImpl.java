@@ -8,6 +8,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.constants.Filter;
@@ -344,6 +345,32 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		query.setLong("id", standardNotifiedBodyId);
 		query.setMaxResults(1);
 		query.executeUpdate();
+	}
+
+
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> getChangedStanards(final LocalDate dateFrom,final LocalDate dateTo,final Boolean enabledOnly) {
+		StringBuilder hql = new StringBuilder("select s from Standard s ");
+		hql.append(" left join s.notifiedBodies as snb ");
+		hql.append(" left join s.standardCsns as csn ");
+		hql.append(" where (s.statusDate >= :dateFrom and s.statusDate <= :dateTo) ");
+		hql.append(" or (s.released >= :dateFrom and s.released <= :dateTo) ");
+		hql.append(" or (snb.assignmentDate >= :dateFrom and snb.assignmentDate <= :dateTo) ");
+		hql.append(" or (csn.statusDate >= :dateFrom and csn.statusDate <= :dateTo) ");
+		hql.append(" or (csn.released >= :dateFrom and csn.released <= :dateTo) ");
+		if(enabledOnly != null){
+			hql.append(" and s.enabled =:enabled");
+		}
+		hql.append(" group by s.id ");
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setTimestamp("dateFrom", dateFrom.toDate());
+		query.setTimestamp("dateTo", dateTo.toDate());
+		if(enabledOnly != null){
+			query.setBoolean("enabled", enabledOnly);
+		}
+		return query.list();
 	}
 
 

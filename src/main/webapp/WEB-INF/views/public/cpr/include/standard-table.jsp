@@ -94,12 +94,12 @@
 				 		<!-- VALIDITY -->
 				 		<td class="validity c ">
 				 			<c:if test="${not empty i.startValidity}">
-								<joda:format value="${i.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+								<joda:format value="${i.startValidity}" pattern="dd.MM.yyyy"/>
 				 			</c:if>
 				 		</td>
 				 		<td class="validity c ">
 				 			<c:if test="${not empty i.stopValidity}">
-								<joda:format value="${i.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+								<joda:format value="${i.stopValidity}" pattern="dd.MM.yyyy"/>
 				 			</c:if>
 				 		</td>
 				 		
@@ -156,12 +156,12 @@
 					 			<td>&nbsp;</td>
 					 			<td class="validity c ">
 							 		<c:if test="${not empty j.startValidity}">
-										<joda:format value="${j.startValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+										<joda:format value="${j.startValidity}" pattern="dd.MM.yyyy"/>
 							 		</c:if>
 							 	</td>
 							 	<td class="validity c ">
 							 		<c:if test="${not empty j.stopValidity}">
-										<joda:format value="${j.stopValidity}" pattern="${commonPublic.dateTimeFormat}"/>
+										<joda:format value="${j.stopValidity}" pattern="dd.MM.yyyy"/>
 							 		</c:if>
 					 			</td>
 					 			<td>&nbsp;</td>

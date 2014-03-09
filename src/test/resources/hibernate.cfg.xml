@@ -6,6 +6,8 @@
                                 
 <hibernate-configuration>
  <session-factory >
+ 
+ 
 	<mapping class="sk.peterjurkovic.cpr.entities.User" />
   	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
@@ -19,6 +21,7 @@
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsnChange"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.StandardChange"/>
+  	<mapping class="sk.peterjurkovic.cpr.entities.StandardNotifiedBody"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.CommissionDecision"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Requirement" />
@@ -32,6 +35,8 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Report"/>
+	
+	<!-- Terminology -->
 	<mapping class="sk.peterjurkovic.cpr.entities.Csn"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnCategory"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminology"/>

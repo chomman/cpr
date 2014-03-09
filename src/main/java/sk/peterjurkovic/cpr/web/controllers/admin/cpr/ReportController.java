@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +19,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.Report;
+import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.ReportService;
+import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.validators.admin.ReportValidator;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
@@ -35,6 +38,8 @@ public class ReportController extends SupportAdminController {
 	private LocalDateEditor localDateEditor;
 	@Autowired
 	private ReportValidator reportValidator;
+	@Autowired
+	private StandardService standardService;
 	
 	public ReportController() {
 		setTableItemsView("cpr/reports");
@@ -84,7 +89,7 @@ public class ReportController extends SupportAdminController {
 		if(report == null){
 			throw new ItemNotFoundException(String.format("Report with [id=%s] was not found", id));
 		}
-		appendModel(map, report);
+		appendChangedStandards(map, report);
 		return getEditFormView();
 	}
 	
@@ -93,11 +98,12 @@ public class ReportController extends SupportAdminController {
 	public String processEditReport(Report report, BindingResult result, ModelMap map) throws ItemNotFoundException{
 		reportValidator.validate(result, report);
 		if(result.hasErrors()){
-			appendModel(map, report);
+			appendChangedStandards(map, report);
 			return getEditFormView();
 		}
 		executeUpdate(report);
 		map.put("successCreate", true);
+		appendChangedStandards(map, report);
 		return getEditFormView();
 	}
 	
@@ -114,6 +120,13 @@ public class ReportController extends SupportAdminController {
 		persistedReport.setDateFrom(form.getDateFrom());
 		persistedReport.setDateTo(form.getDateTo());
 		reportService.createOrUpdate(persistedReport);
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void appendChangedStandards(ModelMap map, Report report){
+		appendModel( map, report);
+		List<Standard> changedStandards = standardService.getChangedStanards(report.getDateFrom(), report.getDateTo(), null);
+		((Map<String, Object>)map.get("model")).put("standards", changedStandards );
 	}
 	
 	private void appendModel(ModelMap map, Report report){
