@@ -43,7 +43,7 @@ public class StandardServiceTest{
 		standard.setReplaceStandard(cancelatedStandard);
 		standardService.updateReferencedStandard(standard);
 		Assert.assertEquals(cancelatedStandard, standard.getReplaceStandard());
-		Assert.assertEquals(StandardStatus.CANCELED, standard.getReplaceStandard().getStandardStatus());
+		Assert.assertEquals(StandardStatus.CANCELED_HARMONIZED, standard.getReplaceStandard().getStandardStatus());
 	}
 	
 	
@@ -57,20 +57,20 @@ public class StandardServiceTest{
 		standard.setReplaceStandard(cancelatedStandard);
 		standardService.updateReferencedStandard(standard);
 		Assert.assertEquals(cancelatedStandard, standard.getReplaceStandard());
-		Assert.assertEquals(StandardStatus.CANCELED, standard.getReplaceStandard().getStandardStatus());
+		Assert.assertEquals(StandardStatus.CANCELED_HARMONIZED, standard.getReplaceStandard().getStandardStatus());
 	}
 	
 	@Test
 	public void standardStatusCanceledtoNormalTest(){
 		Standard standard = standardService.getStandardById(435l);
-		standard.setStandardStatus(StandardStatus.CANCELED);
+		standard.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 		Standard cancelatedStandard = standardService.getStandardById(434l);
 		Assert.assertNotNull(standard);
 		Assert.assertNotNull(cancelatedStandard);
 		standard.setReplaceStandard(cancelatedStandard);
 		standardService.updateReferencedStandard(standard);
 		Assert.assertEquals(cancelatedStandard, standard.getReplaceStandard());
-		Assert.assertEquals(StandardStatus.NORMAL, standard.getReplaceStandard().getStandardStatus());
+		Assert.assertEquals(StandardStatus.HARMONIZED, standard.getReplaceStandard().getStandardStatus());
 	}
 	
 	@Test
@@ -83,15 +83,13 @@ public class StandardServiceTest{
 		standard.setReplaceStandard(cancelatedStandard);
 		standardService.updateReferencedStandard(standard);
 		Assert.assertEquals(cancelatedStandard, standard.getReplaceStandard());
-		Assert.assertEquals(StandardStatus.NORMAL, standard.getReplaceStandard().getStandardStatus());
+		Assert.assertEquals(StandardStatus.HARMONIZED, standard.getReplaceStandard().getStandardStatus());
 	}
 	
 	@Test
 	public void testIsCanceled(){
 		Standard s1 = standardService.getStandardById(331l);
-		s1.setStandardStatus(StandardStatus.CANCELED);
-		Assert.assertTrue(s1.getIsCanceled());
-		
+				
 		s1.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 		Assert.assertTrue(s1.getIsCanceled());
 
@@ -102,7 +100,7 @@ public class StandardServiceTest{
 		s1.setStandardStatus(StandardStatus.NON_HARMONIZED);
 		Assert.assertFalse(s1.getIsCanceled());
 		
-		s1.setStandardStatus(StandardStatus.NORMAL);
+		s1.setStandardStatus(StandardStatus.HARMONIZED);
 		Assert.assertFalse(s1.getIsCanceled());
 		
 	}

@@ -367,7 +367,7 @@ public class StandardParser extends CprParser {
 			
 			if(pText.startsWith("nahrazena") && csnList.size() > 0){
 				StandardCsn csn = csnList.get(csnList.size() - 1);
-				csn.setStandardStatus(StandardStatus.CANCELED);
+				csn.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 			}
 			Elements aList = pElement.select("a");
 			if(aList.size() > 0){
@@ -380,7 +380,7 @@ public class StandardParser extends CprParser {
 					}
 				}
 				if(replaceIndex != null && csnList.size() - 1 == replaceIndex){
-					csnList.get(replaceIndex).setStandardStatus(StandardStatus.CANCELED);
+					csnList.get(replaceIndex).setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 					StandardCsn prevCsn = csnList.get(replaceIndex - 1);
 					csnList.get(replaceIndex).setReplaceStandardCsn(prevCsn);
 					prevCsn.setNote(prevCsn.getNote()+ " "+ pText);
@@ -407,7 +407,7 @@ public class StandardParser extends CprParser {
 			}
 			
 			if(csnList.size() > 1 && 
-					csnList.get(csnList.size() - 2).getStandardStatus().equals(StandardStatus.CANCELED) && 
+					csnList.get(csnList.size() - 2).getStandardStatus().equals(StandardStatus.CANCELED_HARMONIZED) && 
 					csnList.get(csnList.size() - 2).getReplaceStandardCsn() == null){
 				// predchadzajuca CSN je zrusena, ale nema nastavenu CSN, ktora ju nahradzuje
 				// preto ju je nutne nastavit

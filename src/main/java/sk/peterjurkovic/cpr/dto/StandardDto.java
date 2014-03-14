@@ -40,7 +40,7 @@ public class StandardDto {
 		if(replacedStandard == null){
 			replacedStandard = new Standard();
 			replacedStandard.setCode(current.getCode());
-			replacedStandard.setStandardStatus(StandardStatus.CANCELED);
+			replacedStandard.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 		}
 		replacedStandard.setCzechName(current.getCzechName());
 		replacedStandard.setEnglishName(current.getEnglishName());

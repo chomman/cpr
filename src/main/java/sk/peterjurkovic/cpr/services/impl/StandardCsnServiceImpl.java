@@ -91,17 +91,17 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 		StandardCsn referencedCsn = csn.getReplaceStandardCsn();
 		StandardStatus status = csn.getStandardStatus();
 		if(referencedCsn != null){
-			if(status == null || status.equals(StandardStatus.NORMAL) || status.equals(StandardStatus.NON_HARMONIZED)){
+			if(status == null || status.equals(StandardStatus.HARMONIZED) || status.equals(StandardStatus.NON_HARMONIZED)){
 				if( !referencedCsn.equals(csn) && 
 					(referencedCsn.getReplaceStandardCsn() == null || !referencedCsn.getReplaceStandardCsn().equals(csn)) &&
-					referencedCsn.getStandardStatus() != null && !referencedCsn.getStandardStatus().equals(StandardStatus.CANCELED)){
-						referencedCsn.setStandardStatus(StandardStatus.CANCELED);
+					referencedCsn.getStandardStatus() != null && !referencedCsn.getStandardStatus().equals(StandardStatus.CANCELED_HARMONIZED)){
+						referencedCsn.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 						referencedCsn.setReplaceStandardCsn(csn);
 						saveOrUpdate(referencedCsn);
 					return true;
 				}
 			}else{
-				if((status.equals(StandardStatus.CANCELED) || status.equals(StandardStatus.CANCELED_HARMONIZED)) && 
+				if(status.equals(StandardStatus.CANCELED_HARMONIZED) && 
 				   !referencedCsn.equals(csn) && 
 				   (referencedCsn.getReplaceStandardCsn() == null || !referencedCsn.getReplaceStandardCsn().equals(csn))){
 					referencedCsn.setReplaceStandardCsn(csn);

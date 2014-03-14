@@ -5,8 +5,7 @@ import java.util.List;
 
 public enum StandardStatus {
 	
-	NORMAL(1,  "standardStatus.normal", "NORMAL", ""),
-	CANCELED(2,"standardStatus.canceled" , "CANCELED", "status-canceled"),
+	HARMONIZED(1,  "standardStatus.normal", "HARMONIZED", ""),
 	NON_HARMONIZED(3,"standardStatus.nonHarmonized", "NON_HARMONIZED", "status-non-harmonized"),
 	CANCELED_HARMONIZED(3,"standardStatus.canceledHarmonized", "CANCELED_HARMONIZED", "status-canceled-harmonized");
 	

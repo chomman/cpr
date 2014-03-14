@@ -27,7 +27,7 @@ public abstract class AbstractStandard extends AbstractEntity{
 	private LocalDate released;
 		
 	public AbstractStandard(){
-		this.standardStatus = StandardStatus.NORMAL;
+		this.standardStatus = StandardStatus.HARMONIZED;
 	}
 	
 	
@@ -65,8 +65,7 @@ public abstract class AbstractStandard extends AbstractEntity{
 		if(standardStatus == null){
 			return false;
 		}
-		if(standardStatus.equals(StandardStatus.CANCELED) || 
-		   standardStatus.equals(StandardStatus.CANCELED_HARMONIZED)){
+		if(standardStatus.equals(StandardStatus.CANCELED_HARMONIZED)){
 			return true;
 		}
 		return false;

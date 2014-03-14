@@ -226,22 +226,21 @@ public class StandardServiceImpl implements StandardService {
 		Standard referencedStandard = standard.getReplaceStandard();
 		StandardStatus status = standard.getStandardStatus();
 		if(referencedStandard != null){
-			if(status == null || status.equals(StandardStatus.NORMAL) || status.equals(StandardStatus.NON_HARMONIZED)){
+			if(status == null || status.equals(StandardStatus.HARMONIZED) || status.equals(StandardStatus.NON_HARMONIZED)){
 					// ak sa niejedna o cyklicku zavislost
 				if(!referencedStandard.equals(standard) &&
 					referencedStandard.getReplaceStandard() == null || 
 					!referencedStandard.getReplaceStandard().equals(standard) || 
-					!referencedStandard.getStandardStatus().equals(StandardStatus.CANCELED) ||
+					!referencedStandard.getStandardStatus().equals(StandardStatus.CANCELED_HARMONIZED) ||
 					referencedStandard.getStandardStatus() == null){
-						referencedStandard.setStandardStatus(StandardStatus.CANCELED);
+						referencedStandard.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 						referencedStandard.setReplaceStandard(standard);
 						saveOrUpdate(referencedStandard);
 						return true;
 					}
 					
 			}else{
-				if((status.equals(StandardStatus.CANCELED) || status.equals(StandardStatus.CANCELED_HARMONIZED)) && 
-				   !referencedStandard.equals(standard) && 
+				if( status.equals(StandardStatus.CANCELED_HARMONIZED) && !referencedStandard.equals(standard) && 
 				   (referencedStandard.getReplaceStandard() == null || !referencedStandard.getReplaceStandard().equals(standard))){
 					referencedStandard.setReplaceStandard(standard);
 					saveOrUpdate(referencedStandard);
