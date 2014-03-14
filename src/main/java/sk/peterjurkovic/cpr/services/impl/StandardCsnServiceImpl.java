@@ -6,6 +6,7 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -146,5 +147,12 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 			return true;
 		}
 		return standardCsnDao.isStandardCsnUnique(csn);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<StandardCsn> getChangedStandardCsn(final LocalDate dateFrom,final LocalDate dateTo,final boolean enabledOnly){
+		
+		return null;
 	}
 }

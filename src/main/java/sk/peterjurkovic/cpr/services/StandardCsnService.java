@@ -3,6 +3,8 @@ package sk.peterjurkovic.cpr.services;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 
@@ -78,8 +80,7 @@ public interface StandardCsnService {
 	
 	boolean isStandardCsnUnique(StandardCsn csn);
 	
-	
-	
+	List<StandardCsn> getChangedStandardCsn(LocalDate dateFrom, LocalDate dateTo, boolean enabledOnly);
 	
 
 }

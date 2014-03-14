@@ -3,6 +3,8 @@ package sk.peterjurkovic.cpr.dao;
 import java.util.List;
 import java.util.Map;
 
+import org.joda.time.LocalDate;
+
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 
@@ -24,4 +26,5 @@ public interface StandardCsnDao extends BaseDao<StandardCsn, Long>{
 	
 	void deleteStandardCsn(StandardCsn csn);
 	
+	List<StandardCsn> getChangedStandardCsn(LocalDate dateFrom, LocalDate dateTo, boolean enabledOnly);
 }
