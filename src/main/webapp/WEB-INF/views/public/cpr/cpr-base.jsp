@@ -31,6 +31,10 @@
 				<c:if test="${model.webpage.webpageContent.id == 3}">
 					<jsp:include page="../contents/assessmentsystems.jsp" />
 				</c:if>
+				
+				<c:if test="${model.webpage.webpageContent.id == 10}">
+					<jsp:include page="../contents/reports.jsp" />
+				</c:if>
 			 </c:if>
 			 
 		</div>

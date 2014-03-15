@@ -19,7 +19,7 @@ public class PublicBaseController extends PublicSupportController{
 	
 	@Autowired
 	private WebpageService webpageService;
-
+	
 	
 	@RequestMapping(value = { Constants.DEFAULT_WEBPAGE_URL_PREFIX + "{sectionCode}", EN_PREFIX + Constants.DEFAULT_WEBPAGE_URL_PREFIX + "{sectionCode}" })
 	public String baseSection(@PathVariable String sectionCode, ModelMap map) throws PageNotFoundEception{

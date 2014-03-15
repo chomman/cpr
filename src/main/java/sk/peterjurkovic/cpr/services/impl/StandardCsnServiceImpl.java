@@ -152,7 +152,6 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<StandardCsn> getChangedStandardCsn(final LocalDate dateFrom,final LocalDate dateTo,final boolean enabledOnly){
-		
-		return null;
+		return standardCsnDao.getChangedStandardCsn(dateFrom, dateTo, enabledOnly);
 	}
 }

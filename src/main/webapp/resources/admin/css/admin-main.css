@@ -1270,3 +1270,13 @@ table.log td,.log-descr{padding:2px;}
 .rel.wrapp label{position:absolute;top:-26px;font-size:12px;left:30%;color:#555;}
 .nb-form #notifiedBody,
 .nb-form input{margin:25px 8px 8px 8px !important;}
+.report-wrapp{margin-top:15px;}
+.report-wrapp table{font-size:12px}
+.report-wrapp .key{width:250px;}
+.report-wrapp .csn-change td{padding:5px;}
+.report-wrapp .csn tr{background:#fff;border-top:2px solid #aaa;}
+.report-wrapp .csn .csn-change{background:#fafafa;}
+.report-wrapp .a-link,
+.report-wrapp .block{display:block !important;}
+.report-wrapp .standards .a-link,
+.report-wrapp .standards .block{padding:2px 0;}

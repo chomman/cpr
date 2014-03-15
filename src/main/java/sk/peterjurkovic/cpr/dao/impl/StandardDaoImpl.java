@@ -355,21 +355,21 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		StringBuilder hql = new StringBuilder("select s from Standard s ");
 		hql.append(" left join s.notifiedBodies as snb ");
 		hql.append(" left join s.standardCsns as csn ");
+		hql.append(" left join csn.standardCsnChanges as csnChanges ");
 		hql.append(" where (s.statusDate >= :dateFrom and s.statusDate <= :dateTo) ");
-		hql.append(" or (s.released >= :dateFrom and s.released <= :dateTo) ");
-		hql.append(" or (snb.assignmentDate >= :dateFrom and snb.assignmentDate <= :dateTo) ");
-		hql.append(" or (csn.statusDate >= :dateFrom and csn.statusDate <= :dateTo) ");
-		hql.append(" or (csn.released >= :dateFrom and csn.released <= :dateTo) ");
-		if(enabledOnly != null){
-			hql.append(" and s.enabled =:enabled");
+		hql.append(" 	or (s.released >= :dateFrom and s.released <= :dateTo) ");
+		hql.append(" 	or (snb.assignmentDate >= :dateFrom and snb.assignmentDate <= :dateTo) ");
+		hql.append(" 	or (csn.statusDate >= :dateFrom and csn.statusDate <= :dateTo) ");
+		hql.append(" 	or (csn.released >= :dateFrom and csn.released <= :dateTo) ");
+		hql.append(" 	or (csnChanges.statusDate >= :dateFrom and csnChanges.statusDate <= :dateTo) ");
+		hql.append(" 	or (csnChanges.released >= :dateFrom and csnChanges.released <= :dateTo) ");
+		if(enabledOnly){
+			hql.append(" and s.enabled = true ");
 		}
 		hql.append(" group by s.id ");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setTimestamp("dateFrom", dateFrom.toDate());
 		query.setTimestamp("dateTo", dateTo.toDate());
-		if(enabledOnly != null){
-			query.setBoolean("enabled", enabledOnly);
-		}
 		return query.list();
 	}
 

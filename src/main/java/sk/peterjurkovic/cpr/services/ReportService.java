@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
 
+import sk.peterjurkovic.cpr.dto.ReportDto;
 import sk.peterjurkovic.cpr.entities.Report;
 
 public interface ReportService {
@@ -18,5 +19,8 @@ public interface ReportService {
 	
 	void createOrUpdate(Report report);
 	
+	ReportDto getItemsFor(Report report);
+	
+	List<Report> getReportsForPublic();
 	
 }

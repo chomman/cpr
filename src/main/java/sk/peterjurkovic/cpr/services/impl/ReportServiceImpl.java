@@ -10,9 +10,12 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.ReportDao;
+import sk.peterjurkovic.cpr.dto.ReportDto;
 import sk.peterjurkovic.cpr.entities.Report;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.services.ReportService;
+import sk.peterjurkovic.cpr.services.StandardCsnService;
+import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 
@@ -24,6 +27,10 @@ public class ReportServiceImpl implements ReportService{
 	private ReportDao reportDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private StandardService standardService;
+	@Autowired
+	private StandardCsnService standardCsnService;
 	
 	
 	@Override
@@ -69,6 +76,24 @@ public class ReportServiceImpl implements ReportService{
 		}else{
 			update(report);
 		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public ReportDto getItemsFor(Report report) {
+		Validate.notNull(report);
+		Validate.notNull(report.getDateFrom());
+		Validate.notNull(report.getDateTo());
+		ReportDto reportDto = new ReportDto();
+		reportDto.setStandards( standardService.getChangedStanards(report.getDateFrom(), report.getDateTo(), false) );
+		reportDto.setStandardCsns(standardCsnService.getChangedStandardCsn(report.getDateFrom(), report.getDateTo(), false));
+		return reportDto;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Report> getReportsForPublic() {
+		return reportDao.getReports(Boolean.TRUE);
 	}
 	
 	

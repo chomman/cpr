@@ -99,8 +99,41 @@
 	                	 <input type="submit" class="button default" value="<spring:message code="form.save" />" />
 	                </p>
 				</form:form>
-		
-				<jsp:include page="../../public/cpr/include/standard-table.jsp" />
+				
+				<div class="report-wrapp">
+					<h3><spring:message code="cpr.report.standards" /> </h3>
+					<jsp:include page="../../public/cpr/include/standard-table.jsp" />
+				</div>
+				
+				<div class="report-wrapp">
+					<h3><spring:message code="csn" /> </h3>
+					<c:if test="${not empty model.standardCsns}">
+						<table class="csn">
+							<c:forEach items="${model.standardCsns}" var="csn">
+								<tr>
+									<td class="name key">
+										<a:standardCsnUrl object="${csn}" editable="${editable}" />
+									</td>
+									<td>
+									<c:if test="${not empty csn.standardStatus and csn.standardStatus.id != 1}">
+										(<spring:message code="${csn.standardStatus.name}" />)
+									</c:if>
+									${csn.note}
+									</td>
+								</tr>
+						 		<c:forEach items="${csn.standardCsnChanges}" var="j">
+							 		<tr class="standard-change csn-change">
+							 			<td class="name key">
+							 				<a:standardCsnUrl object="${j}" editable="${editable}" />
+							 			</td>					
+							 			<td >${csn.note}</td>
+							 		</tr>
+						 		</c:forEach>
+							</c:forEach>
+						</table>
+					</c:if>
+				</div>
+			
 			</div>	
 		</div>
 		<div class="clear"></div>	

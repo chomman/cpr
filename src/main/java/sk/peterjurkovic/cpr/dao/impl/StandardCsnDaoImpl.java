@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.constants.Constants;
@@ -124,6 +125,7 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 		if(csn.getId() != null && csn.getId() != 0){
 			query.setLong("id", csn.getId());
 		}
+		
 		result = (Long)query.uniqueResult();
 		return (result == 0);
 	}
@@ -136,6 +138,24 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 		query.setLong("id", csn.getId());
 		query.executeUpdate();
 		remove(csn);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StandardCsn> getChangedStandardCsn(final LocalDate dateFrom,final LocalDate dateTo,final boolean enabledOnly) {
+		StringBuilder hql = new StringBuilder("select csn from StandardCsn csn ");
+		hql.append(" left join csn.standardCsnChanges as csnChange ");
+		hql.append(" where (csn.statusDate >= :dateFrom and csn.statusDate <= :dateTo) ");
+		hql.append(" 	or (csn.released >= :dateFrom and csn.released <= :dateTo) ");
+		hql.append(" 	or (csnChange.statusDate >= :dateFrom and csnChange.statusDate <= :dateTo) ");
+		hql.append(" 	or (csnChange.released >= :dateFrom and csnChange.released <= :dateTo) ");
+		if(enabledOnly){
+			hql.append(" and csn.enabled = true");
+		}
+		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setTimestamp("dateFrom", dateFrom.toDate());
+		query.setTimestamp("dateTo", dateTo.toDate());
+		return query.list();
 	}
 	
 }
