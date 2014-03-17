@@ -67,7 +67,7 @@ public class LocalizedValueTag extends TagSupport{
 	private String getMethodValue(final String methodName) throws NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		Method method = object.getClass().getMethod( methodName );
 		Object value =  method.invoke(object);
-		if(value != null && !(value instanceof String)){
+		if(value == null || !(value instanceof String)){
 			logger.error("JSP error. Objects " + object.getClass().getName() + " methods: " + methodName + " returns invalid value.");
 			return "";
 		}

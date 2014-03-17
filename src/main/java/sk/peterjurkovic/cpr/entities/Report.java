@@ -26,8 +26,8 @@ public class Report extends AbstractEntity {
 	
 	private LocalDate dateFrom;
 	private LocalDate dateTo;
-	private String contentCzech;
-	private String contentEnglish;
+	private String contentCzech = "";
+	private String contentEnglish = "";
 	
 	public Report() {
 		LocalDate date = new LocalDate();
