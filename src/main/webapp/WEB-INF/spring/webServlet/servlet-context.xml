@@ -24,11 +24,11 @@
 	                </beans:list>
 	            </beans:property>
 	        </beans:bean>
-	        <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
-                <beans:property name="objectMapper">
+	        <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
+	        	<beans:property name="objectMapper">
                     <beans:bean class="sk.peterjurkovic.cpr.web.json.mappers.HibernateAwareObjectMapper" />
                 </beans:property>
-            </beans:bean>
+            </beans:bean>  
     	</mvc:message-converters>
 	</mvc:annotation-driven>
 

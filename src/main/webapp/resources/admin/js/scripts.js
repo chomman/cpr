@@ -17,6 +17,12 @@ $(function() {
 			return false;
 		}
 	});
+	$('#standardForm').submit(function(){
+		if(! validate($(this))){
+			showStatus({err : 1, msg : "Prosím, vyberte skupinu"});
+			return false;
+		}
+	});
 	
 	$('#quick-search').quicksearch('.data tbody tr');	
 	$('#req-nav select').change(function () {
@@ -63,7 +69,18 @@ $(function() {
          return confirm($(this).attr("data-message"));
      });
      
-     
+     $(".standard-preview").fancybox({
+ 		maxWidth	: 980,
+ 		maxHeight	: 450,
+ 		fitToView	: false,
+ 		width		: '90%',
+ 		height		: '90%',
+ 		autoSize	: false,
+ 		closeClick	: false,
+ 		openEffect	: 'none',
+ 		closeEffect	: 'none',
+ 		type: 'ajax'
+ 	});
      
      
      $('.date').datepicker(getDatepickerOptions());
@@ -175,13 +192,13 @@ function validate(f){
 		}
 	});
 	
-	var s = $('select.required :selected');
-	if($('select.required').length  != 0){ 
+	var s = f.find('select.required :selected');
+	if(f.find('select.required').length  != 0){ 
 		if(s.val() === ''){
 			valid = false;
 			s.parent().addClass('formerr');
 		}else{
-			$(this).removeClass('formerr');
+			s.parent().removeClass('formerr');
 		}
 	}
 	

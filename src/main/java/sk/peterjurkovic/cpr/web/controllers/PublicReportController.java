@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sk.peterjurkovic.cpr.dto.ReportDto;
 import sk.peterjurkovic.cpr.entities.Report;
@@ -33,9 +34,9 @@ public class PublicReportController extends PublicSupportController{
 	
 	
 	@RequestMapping( { "/report/{id}" ,  EN_PREFIX + "/report/{id}" } )
-	public String showReport(ModelMap map, @PathVariable Long id) throws PageNotFoundEception{
+	public String showReport(ModelMap map, @PathVariable Long id, @RequestParam(required = false, defaultValue = "false") boolean isPreview ) throws PageNotFoundEception{
 		 Report report = reportService.getById(id);
-		 if(report == null || !report.isEnabled()){
+		 if(report == null || (!report.isEnabled() && !isPreview)){
 			 throw new PageNotFoundEception();
 		 }
 		 ReportDto dto = reportService.getItemsFor(report);
@@ -45,6 +46,7 @@ public class PublicReportController extends PublicSupportController{
 		 model.put("standards", dto.getStandards() );
 		 model.put("standardCsns", dto.getStandardCsns() );
 		 map.put("model", model);
+		 map.put("isPreview", isPreview);
 		return "public/report-detail";
 	}
 }

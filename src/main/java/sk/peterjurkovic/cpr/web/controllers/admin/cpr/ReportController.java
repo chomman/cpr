@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,14 +9,17 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.dto.ReportDto;
 import sk.peterjurkovic.cpr.entities.Report;
@@ -24,6 +28,8 @@ import sk.peterjurkovic.cpr.services.ReportService;
 import sk.peterjurkovic.cpr.validators.admin.ReportValidator;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
+import sk.peterjurkovic.cpr.web.json.JsonResponse;
+import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
 @Controller
 public class ReportController extends SupportAdminController {
@@ -102,6 +108,24 @@ public class ReportController extends SupportAdminController {
 		map.put("successCreate", true);
 		appendChangedStandards(map, report);
 		return getEditFormView();
+	}
+	
+	
+	@RequestMapping(value = "/admin/cpr/report/edit/{id}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody Report form){
+		JsonResponse response = new JsonResponse();
+		List<String> errors = reportValidator.validate( form );	
+		if(errors.size() > 0){
+			response.setResult(errors);
+		}else{
+			try {
+				executeUpdate(form);
+				response.setStatus(JsonStatus.SUCCESS);
+			} catch (ItemNotFoundException e) {
+				logger.warn( e.getMessage() );
+			}
+		}
+		return response;
 	}
 	
 	

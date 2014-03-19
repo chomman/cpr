@@ -26,10 +26,7 @@
 		<div id="content">
 							
 					
-				<ul class="sub-nav">
-					<li><a href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li>
-					<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
-				</ul>
+				<jsp:include page="include/standard-subnav.jsp" />
 
 				<div id="tabs">
 					

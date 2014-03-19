@@ -559,3 +559,6 @@ header{position:relative;}
 .reports{margin:0 auto;list-style:none;}
 .reports a{display:block;text-align:center;font-size:16px;background:#f5f5f5;padding:15px;border:1px solid #ccc;font-weight:bold;}
 .reports a:hover{background:#ccc;border:1px solid #aaa;}
+.changed-csns .csns{width:270px;text-align:left;}
+.changed-csns td{text-align:center;border-left:1px solid #ddd;}
+.changed-csns .standard-change{font-size:12px;}

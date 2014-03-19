@@ -6,7 +6,13 @@
 </sec:authorize>
 <c:if test="${not empty model.standards}">
 	
-	<c:if test="${empty model.async}">
+	<c:if test="${not empty isPreview and not model.standard.enabled}">
+		<p class="msg alert">
+			<spring:message code="standard.alert.published" arguments="${model.standard.standardId}" />
+		</p>
+	</c:if>
+	
+	<c:if test="${empty model.async or not empty isPreview}">
 		<table class="standards">
 			<thead>
 				<tr>
@@ -171,7 +177,7 @@
 				 		</c:forEach>
 				 	</c:if>
 				 </c:forEach>
-	<c:if test="${empty model.async}">
+	 <c:if test="${empty model.async or not empty isPreview}">
 			</tbody>
 		</table>
 	</c:if>

@@ -5,7 +5,6 @@ import org.hibernate.validator.constraints.NotBlank;
 
 import sk.peterjurkovic.cpr.entities.WebpageCategory;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
-import sk.peterjurkovic.cpr.web.json.deserializers.BooleanDeserializer;
 import sk.peterjurkovic.cpr.web.json.deserializers.WebpageCategoryDeserializer;
 import sk.peterjurkovic.cpr.web.json.deserializers.WebpageContentDeserializer;
 

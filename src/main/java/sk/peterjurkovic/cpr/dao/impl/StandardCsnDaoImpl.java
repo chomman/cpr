@@ -152,6 +152,7 @@ public class StandardCsnDaoImpl extends BaseDaoImpl<StandardCsn, Long> implement
 		if(enabledOnly){
 			hql.append(" and csn.enabled = true");
 		}
+		hql.append(" group by csn.id ");
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setTimestamp("dateFrom", dateFrom.toDate());
 		query.setTimestamp("dateTo", dateTo.toDate());

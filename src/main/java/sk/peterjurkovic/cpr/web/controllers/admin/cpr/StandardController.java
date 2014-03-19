@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.web.controllers.admin.cpr;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.entities.AssessmentSystem;
@@ -36,10 +38,12 @@ import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.StandardNotifiedBody;
 import sk.peterjurkovic.cpr.entities.Tag;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.parser.cpr.StandardParser;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CountryService;
@@ -52,6 +56,7 @@ import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.validators.admin.StandardValidator;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
@@ -202,6 +207,24 @@ public class StandardController extends SupportAdminController{
 		return standard;
 	}
 	
+	@SuppressWarnings("serial")
+	@RequestMapping(value = "/preview/standard/{id}")
+	public ModelAndView   standards(@PathVariable Long id, ModelMap map) throws ItemNotFoundException, PageNotFoundEception{
+		User user = UserUtils.getLoggedUser();
+		if(user == null || !user.isEditorUser()){
+			throw new PageNotFoundEception();
+		}
+		final Standard standard  = getStandard(id);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("standards", new ArrayList<Standard>(){{
+			add(standard);
+		}});
+		model.put("standard", standard);
+		model.put("async", true);
+		map.put("isPreview", true);
+		map.put("model", model);
+		return new ModelAndView("/public/cpr/standard-preview",map);
+	}
 	
 	/**
 	 * Zobrazi JSP stranku s formularom, v ktorom je mozne editovat zakladne informacie o norme.

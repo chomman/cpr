@@ -9,11 +9,15 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 
-import com.drew.lang.annotations.NotNull;
+import sk.peterjurkovic.cpr.web.json.deserializers.LocalDateDeserializer;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 
 @Entity
@@ -42,9 +46,10 @@ public class Report extends AbstractEntity {
 		return super.getId();
 	}
 	
-	@NotNull
+
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@Column(name = "date_from")
+	@JsonDeserialize(using=LocalDateDeserializer.class)
 	public LocalDate getDateFrom() {
 		return dateFrom;
 	}
@@ -53,9 +58,10 @@ public class Report extends AbstractEntity {
 		this.dateFrom = dateFrom;
 	}
 	
-	@NotNull
+
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@Column(name = "date_to")
+	@JsonDeserialize(using=LocalDateDeserializer.class)
 	public LocalDate getDateTo() {
 		return dateTo;
 	}
@@ -82,6 +88,13 @@ public class Report extends AbstractEntity {
 
 	public void setContentEnglish(String contentEnglish) {
 		this.contentEnglish = contentEnglish;
+	}
+	
+	
+	@JsonIgnore
+	@Transient
+	public String getCode(){
+		return super.getCode();
 	}
 	
 	

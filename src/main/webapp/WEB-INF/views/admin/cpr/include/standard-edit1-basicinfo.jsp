@@ -32,7 +32,7 @@
 		</c:if>
 		
 		<!--  STANDARD GROUP ADDING FORM  -->	
-		<form:form cssClass="inline-form valid" action="${formUrl}/standard-group/add" commandName="standardForm"  method="post"  >
+		<form:form cssClass="inline-form" action="${formUrl}/standard-group/add" commandName="standardForm"  method="post"  >
 		 	<div class="inline-field">
 		 		<form:select path="standardGroup" cssClass="chosen required">
 					<option value="" ><spring:message code="form.select" /></option>
