@@ -5,8 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import freemarker.log.Logger;
 
 public class PublicSupportController {
+	
+	protected Logger logger = Logger.getLogger(getClass().getName());
 	
 	public final static String EN_PREFIX = "/en/";
 	

@@ -18,4 +18,13 @@ public class UserUtils {
         }
         return null;
     }
+	
+	
+	public static boolean hasLoggedUserRightToEdit(){
+		User user = UserUtils.getLoggedUser();
+		if(user == null || !user.isEditorUser()){
+			return false;
+		}
+		return true;
+	}
 }

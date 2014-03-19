@@ -14,6 +14,7 @@ import sk.peterjurkovic.cpr.dto.ReportDto;
 import sk.peterjurkovic.cpr.entities.Report;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.ReportService;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Controller
 public class PublicReportController extends PublicSupportController{
@@ -36,7 +37,11 @@ public class PublicReportController extends PublicSupportController{
 	@RequestMapping( { "/report/{id}" ,  EN_PREFIX + "/report/{id}" } )
 	public String showReport(ModelMap map, @PathVariable Long id, @RequestParam(required = false, defaultValue = "false") boolean isPreview ) throws PageNotFoundEception{
 		 Report report = reportService.getById(id);
-		 if(report == null || (!report.isEnabled() && !isPreview)){
+		 if(report == null || 
+		   (!report.isEnabled() && !isPreview)){
+			 throw new PageNotFoundEception();
+		 }else if(isPreview && !UserUtils.hasLoggedUserRightToEdit()){
+			 logger.warn(String.format("Unauthorized access to report preview.[reportID=%s]", id));
 			 throw new PageNotFoundEception();
 		 }
 		 ReportDto dto = reportService.getItemsFor(report);
