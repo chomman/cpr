@@ -38,10 +38,9 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 		if(StringUtils.isBlank(prefix) || !prefix.equals(Constants.ADMIN_PREFIX)){
 			 Map<String, Object> commonModel = new HashMap<String, Object>();
 			 
+
 			 if(StringUtils.isNotBlank(request.getParameter("isPreview"))){
 				 modelAndView.addObject("isPreview", true); 
-			 }else{
-				 modelAndView.addObject("isPreview", false);
 			 }
 			 
 			 commonModel.put("settings", basicSettingsService.getBasicSettings());

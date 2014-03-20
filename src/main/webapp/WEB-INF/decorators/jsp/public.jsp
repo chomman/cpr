@@ -8,7 +8,7 @@
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/common.css" />" />
-		<c:if test="${isPreview}">
+		<c:if test="${not empty isPreview and isPreview}">
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/preview.css" />" />
 		</c:if>
 		<!--[if lt IE 9]>
