@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,7 @@ import sk.peterjurkovic.cpr.web.json.JsonStatus;
 public class ReportController extends SupportAdminController {
 	
 	private final static int CPR_TAB_INDEX = 10;
+	private final static String SUCCESS_DELETE_PARAM = "successDelete";
 	
 	@Autowired
 	private ReportService reportService;
@@ -63,6 +65,9 @@ public class ReportController extends SupportAdminController {
 		Map<String, Object> model = prepareBaseModel();
 		model.put("reports", reportService.getAll());
 		map.put("model", model);
+		if(StringUtils.isNotBlank(request.getParameter(SUCCESS_DELETE_PARAM))){
+			map.put(SUCCESS_DELETE_PARAM, true);
+		}
 		return getTableItemsView();
 	}
 	
@@ -94,6 +99,16 @@ public class ReportController extends SupportAdminController {
 		}
 		appendChangedStandards(map, report);
 		return getEditFormView();
+	}
+	
+	@RequestMapping(value = "/admin/cpr/report/delete/{id}", method = RequestMethod.GET)
+	public String removeReport(@PathVariable Long id, ModelMap map) throws ItemNotFoundException{
+		final Report report = reportService.getById(id);
+		if(report == null){
+			throw new ItemNotFoundException(String.format("Report with [id=%s] was not found", id));
+		}
+		reportService.delete(report);
+		return "redirect:/admin/cpr/reports?"+SUCCESS_DELETE_PARAM+"=1";
 	}
 	
 	

@@ -144,7 +144,6 @@ function getDatepickerOptions(type){
             }
         }
 	});
-	console.log(selectOnlyMonth);
 	return selectOnlyMonth;
 }
 

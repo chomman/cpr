@@ -6,13 +6,13 @@
 </sec:authorize>
 <c:if test="${not empty model.standards}">
 	
-	<c:if test="${not empty isPreview and not model.standard.enabled}">
+	<c:if test="${not empty isPreview and isPreview and not empty model.standard and not model.standard.enabled}">
 		<p class="msg alert">
 			<spring:message code="standard.alert.published" arguments="${model.standard.standardId}" />
 		</p>
 	</c:if>
 	
-	<c:if test="${empty model.async or not empty isPreview}">
+	<c:if test="${empty model.async or (not empty isPreview and isPreview)}">
 		<table class="standards">
 			<thead>
 				<tr>
@@ -62,6 +62,7 @@
 				 		
 				 		<!-- CSN --> 
 				 		<td class="csns">
+				 			<c:set var="prevCsn" value="${null}" />
 					 		<c:forEach items="${i.standardCsns}" var="csn" >
 								<c:if test="${empty prevCsn or prevCsn.id != csn.id }" >
 									<a:standardCsnUrl object="${csn}" editable="${editable}" />
@@ -177,7 +178,7 @@
 				 		</c:forEach>
 				 	</c:if>
 				 </c:forEach>
-	 <c:if test="${empty model.async or not empty isPreview}">
+	 <c:if test="${empty model.async or (not empty isPreview and isPreview)}">
 			</tbody>
 		</table>
 	</c:if>

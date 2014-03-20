@@ -37,6 +37,13 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
 		if(StringUtils.isBlank(prefix) || !prefix.equals(Constants.ADMIN_PREFIX)){
 			 Map<String, Object> commonModel = new HashMap<String, Object>();
+			 
+			 if(StringUtils.isNotBlank(request.getParameter("isPreview"))){
+				 modelAndView.addObject("isPreview", true); 
+			 }else{
+				 modelAndView.addObject("isPreview", false);
+			 }
+			 
 			 commonModel.put("settings", basicSettingsService.getBasicSettings());
 			 commonModel.put("mainMenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_MAIN_MENU));
 			 commonModel.put("dateTimeFormat", Constants.DATE_FORMAT);

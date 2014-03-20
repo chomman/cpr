@@ -116,11 +116,9 @@ $(function() {
 function toArray(a){
 	var d = {};	
 	for (i in a) {
-		if(a[i].name != "_enabled"){
-			d[a[i].name] = a[i].value;
-		}else{
-			d.enabled = a[i].value === 'on';
-		}
+		if(a[i].name[0] === '_') continue;
+		d[a[i].name] = a[i].value;
 	}
+	d.enabled = !(typeof d.enabled === 'undefined');
 	return d;
 }

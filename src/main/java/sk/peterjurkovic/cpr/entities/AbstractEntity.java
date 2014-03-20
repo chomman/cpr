@@ -71,7 +71,6 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
    /**
     * Aktivny zaznam
     */
-   @JsonIgnore
    private Boolean enabled = Boolean.TRUE;
    
    

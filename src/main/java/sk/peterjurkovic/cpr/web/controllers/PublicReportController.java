@@ -18,9 +18,7 @@ import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Controller
 public class PublicReportController extends PublicSupportController{
-	
-	
-	
+		
 	@Autowired
 	private ReportService reportService;
 	
@@ -35,8 +33,11 @@ public class PublicReportController extends PublicSupportController{
 	
 	
 	@RequestMapping( { "/report/{id}" ,  EN_PREFIX + "/report/{id}" } )
-	public String showReport(ModelMap map, @PathVariable Long id, @RequestParam(required = false, defaultValue = "false") boolean isPreview ) throws PageNotFoundEception{
-		 Report report = reportService.getById(id);
+	public String showReport(ModelMap map, @PathVariable Long id, @RequestParam(required = false, defaultValue = "false") Boolean isPreview ) throws PageNotFoundEception{
+		 final Report report = reportService.getById(id);
+		 if(isPreview == null){
+			 isPreview = false;
+		 }
 		 if(report == null || 
 		   (!report.isEnabled() && !isPreview)){
 			 throw new PageNotFoundEception();
@@ -51,7 +52,6 @@ public class PublicReportController extends PublicSupportController{
 		 model.put("standards", dto.getStandards() );
 		 model.put("standardCsns", dto.getStandardCsns() );
 		 map.put("model", model);
-		 map.put("isPreview", isPreview);
 		return "public/report-detail";
 	}
 }
