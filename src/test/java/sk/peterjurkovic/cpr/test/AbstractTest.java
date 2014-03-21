@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.dao;
+package sk.peterjurkovic.cpr.test;
 
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;

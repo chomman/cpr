@@ -53,11 +53,13 @@ import sk.peterjurkovic.cpr.services.RequirementService;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
+import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.validators.admin.StandardValidator;
+import sk.peterjurkovic.cpr.web.controllers.PublicCprController;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
@@ -98,6 +100,8 @@ public class StandardController extends SupportAdminController{
 	private AssessmentSystemService assessmentSystemService;
 	@Autowired
 	private StandardCsnService standardCsnService;
+	@Autowired
+	private WebpageService webpageService;
 	
 	// editors
 	@Autowired
@@ -160,6 +164,7 @@ public class StandardController extends SupportAdminController{
 		model.put("standardStatuses", StandardStatus.getAll());
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("params", params);
+		model.put("webpage", webpageService.getWebpageByCode(PublicCprController.STANDARDS_URL));
 		modelMap.put("model", model);
 		if(params.get("import") != null){
 			processImport();
@@ -918,49 +923,37 @@ public class StandardController extends SupportAdminController{
 	
 	
 	
-	private void prepareModelForEditBasicInfo(Standard form, ModelMap map, Long standardId){
-		Map<String, Object> model = new HashMap<String, Object>();
-		map.addAttribute("standard", form);
-		map.addAttribute("standardForm", new StandardForm());
-		model.put("standardId", standardId);
+	private void prepareModelForEditBasicInfo(Standard form, ModelMap modelMap, Long standardId){
+		Map<String, Object> model = appendBaseModel(form, modelMap);
+		modelMap.addAttribute("standardForm", new StandardForm());
 		model.put("standardStatuses", StandardStatus.getAll() );
 		model.put("standardGroups", standardGroupService.getFiltredStandardGroups(form));
-		model.put("tab", CPR_TAB_INDEX);
-		map.put("model", model); 
+		modelMap.put("model", model); 
 	}
 	
-	private void prepareModelForStandardChange(Standard standard, StandardChange form, ModelMap map){
-		Map<String, Object> model = new HashMap<String, Object>();
-		map.addAttribute("standard", standard);
-		map.addAttribute("standardChange", form);
-		model.put("standardId", standard.getId());
+	private void prepareModelForStandardChange(Standard standard, StandardChange form, ModelMap modelMap){
+		Map<String, Object> model = appendBaseModel(standard, modelMap);
+		modelMap.addAttribute("standardChange", form);
 		model.put("showStandardChangeForm", true);
-		model.put("tab", CPR_TAB_INDEX);
-		map.put("model", model); 
+		modelMap.put("model", model); 
 	}
 	
 	
 	private void prepareModelForRequirement(ModelMap modelMap, Standard standard,  Requirement form, Long requirementId){
-		Map<String, Object> map = new HashMap<String, Object>();
-		modelMap.addAttribute("standard", standard);
+		Map<String, Object> model = appendBaseModel(standard, modelMap);
 		modelMap.addAttribute("requirement", form);
-		map.put("standardId", standard.getId());
-		map.put("requirementId", requirementId);
-		map.put("countries", countryService.getAllCountries());
-		map.put("tab", CPR_TAB_INDEX);
-		modelMap.put("model", map);
+		model.put("requirementId", requirementId);
+		model.put("countries", countryService.getAllCountries());
+		modelMap.put("model", model);
 	}
 	
 	
 	private void prepeareModelForNotifiedBodies(Standard standard, ModelMap modelMap){
-		Map<String, Object> map = new HashMap<String, Object>();
-		modelMap.addAttribute("standard", standard);
+		Map<String, Object> model = appendBaseModel(standard, modelMap);
 		modelMap.addAttribute("standardNotifiedBody", new StandardNotifiedBody());
-		map.put("standardId", standard.getId());
-		map.put("notifiedBodies", getNotifiedBodies(standard.getNotifiedBodies()) );
-		map.put("standard", standard);
-		map.put("tab", CPR_TAB_INDEX);
-		modelMap.put("model", map);
+		model.put("notifiedBodies", getNotifiedBodies(standard.getNotifiedBodies()) );
+		model.put("standard", standard);
+		modelMap.put("model", model);
 	}
 	
 	
@@ -973,24 +966,29 @@ public class StandardController extends SupportAdminController{
 	}
 	
 	private void prepeareModelForAssessmentSystems(Standard standard, ModelMap modelMap){
-		Map<String, Object> map = new HashMap<String, Object>();
-		modelMap.addAttribute("standard", standard);
-		map.put("standardId", standard.getId());
-		map.put("assessmentSystem", assessmentSystemService.getAllAssessmentSystems());
-		modelMap.put("model", map);
+		Map<String, Object> model = appendBaseModel(standard, modelMap);
+		model.put("assessmentSystem", assessmentSystemService.getAllAssessmentSystems());
+		modelMap.put("model", model);
 	}
 	
 	private void prepareModelForCsn(Standard standard, StandardCsn form,  ModelMap modelMap){
-		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> model = appendBaseModel(standard, modelMap);
  		modelMap.addAttribute("csn", form);
- 		map.put("standardId", standard.getId());
- 		map.put("standardName", standard.getStandardId());
- 		map.put("standardStatuses", StandardStatus.getAll());
- 		map.put("csnId", form.getId());
- 		map.put("tab", CPR_TAB_INDEX);
- 		modelMap.put("model", map);
+ 		model.put("standardName", standard.getStandardId());
+ 		model.put("standardStatuses", StandardStatus.getAll());
+ 		model.put("csnId", form.getId());
+ 		modelMap.put("model", model);
 	}
 
+	private Map<String, Object> appendBaseModel(Standard standard, ModelMap modelMap){
+		Map<String, Object> model = new HashMap<String, Object>();
+		modelMap.addAttribute("standard", standard);
+		model.put("standardId", standard.getId());
+		model.put("webpage", webpageService.getWebpageByCode(PublicCprController.STANDARDS_URL));
+		modelMap.put("tab", CPR_TAB_INDEX);
+		return model;
+	}
+	
 	
 	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
 		PaginationLinker paginger = new PaginationLinker(request, params);

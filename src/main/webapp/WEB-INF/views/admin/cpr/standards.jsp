@@ -66,6 +66,7 @@
 			<ul class="sub-nav">
 				<li><a class="active" href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li>
 				<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li>
+				<li><a:url extraAttr="data-fancybox-type;iframe" cssClass="fancyboxiframe"  href="${model.webpage.code}"><a:localizedValue object="${model.webpage}" fieldName="name" /></a:url></li>
 			</ul>
 			
 			<form class="filter"  action="<c:url value="/admin/cpr/standards" />" method="get">

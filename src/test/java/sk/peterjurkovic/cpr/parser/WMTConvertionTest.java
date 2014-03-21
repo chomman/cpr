@@ -2,8 +2,8 @@ package sk.peterjurkovic.cpr.parser;
 
 import org.junit.Test;
 
-import sk.peterjurkovic.cpr.dao.AbstractTest;
 import sk.peterjurkovic.cpr.image.WMTtoJPGConvertor;
+import sk.peterjurkovic.cpr.test.AbstractTest;
 
 public class WMTConvertionTest  extends AbstractTest {
 	

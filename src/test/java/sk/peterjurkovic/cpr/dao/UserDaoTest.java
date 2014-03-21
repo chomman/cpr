@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.test.AbstractTest;
 
 public class UserDaoTest extends AbstractTest {
 	

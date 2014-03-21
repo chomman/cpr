@@ -70,17 +70,27 @@ $(function() {
      });
      
      $(".standard-preview").fancybox({
- 		maxWidth	: 980,
- 		maxHeight	: 450,
- 		fitToView	: false,
- 		width		: '90%',
- 		height		: '90%',
- 		autoSize	: false,
- 		closeClick	: false,
- 		openEffect	: 'none',
- 		closeEffect	: 'none',
- 		type: 'ajax'
- 	});
+  		maxWidth	: 980,
+  		maxHeight	: 450,
+  		fitToView	: false,
+  		width		: '90%',
+  		height		: '90%',
+  		autoSize	: false,
+  		closeClick	: false,
+  		openEffect	: 'none',
+  		closeEffect	: 'none'
+  	});
+     $(".fancyboxiframe").fancybox({
+  		maxWidth	: 1100,
+  		maxHeight	: 1000,
+  		fitToView	: false,
+  		width		: '95%',
+  		height		: '95%',
+  		autoSize	: false,
+  		closeClick	: false,
+  		openEffect	: 'none',
+  		closeEffect	: 'none'
+  	});
      
      
      $('.date').datepicker(getDatepickerOptions());

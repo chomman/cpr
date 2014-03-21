@@ -49,7 +49,7 @@ import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
 public class PublicCprController extends PublicSupportController{
 	
 	private static final String CPR_INDEX_URL = "/cpr";
-	private static final String STANDARDS_URL = "/harmonizovane-normy";
+	public static final String STANDARDS_URL = "/harmonizovane-normy";
 	private static final String EHN_DETAIL = "/detail-normy";
 	private static final String STANDARD_GROUP_URL = "/cpr/skupiny-vyrobku";
 	private static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";

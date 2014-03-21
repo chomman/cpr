@@ -7,9 +7,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import sk.peterjurkovic.cpr.dao.AbstractTest;
 import sk.peterjurkovic.cpr.entities.Mandate;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
+import sk.peterjurkovic.cpr.test.AbstractTest;
 
 public class StandardGroupParserTest extends AbstractTest {
 

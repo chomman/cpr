@@ -20,6 +20,7 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 	private String title;
 	private String cssClass = "";
 	private String id;
+	private String extraAttr;
 	private boolean linkOnly = false;
 	private String fixedLocale;
 	private BodyContent bodyContent;	
@@ -70,6 +71,7 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 		appendTitle(url);
 		appendCssStyles(url);
 		appendId(url);
+		appendExtraAttr(url);
 		url.append(">");
 		return url;
 	}
@@ -77,21 +79,34 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 
 	public void appendTitle(StringBuilder url){
 		if(StringUtils.isNotBlank(title)){
-			url.append(" title=\"").append(title).append("\"");
+			url.append(" title=\"").append(title).append("\" ");
 			
 		}
 	}
 	
 	public void appendCssStyles(StringBuilder url){
 		if(StringUtils.isNotBlank(cssClass)){
-			url.append(" class=\"").append(cssClass).append("\"");
+			url.append(" class=\"").append(cssClass).append("\" ");
 			
 		}
 	}
 	
 	public void appendId(StringBuilder url){
 		if(StringUtils.isNotBlank(id)){
-			url.append(" id=\"").append(id	).append("\"");
+			url.append(" id=\"").append(id	).append("\" ");
+			
+		}
+	}
+	
+	public void appendExtraAttr(StringBuilder url){
+		if(StringUtils.isNotBlank(extraAttr)){
+			String[] data = extraAttr.split(";");
+			if(data.length == 2){
+				url.append(data[0])
+				   .append("=\"")
+				   .append(data[1])
+				   .append("\" ");
+			}
 			
 		}
 	}
@@ -123,8 +138,14 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 	public String getId() {
 		return id;
 	}
-	
-	
+
+	public String getExtraAttr() {
+		return extraAttr;
+	}
+
+	public void setExtraAttr(String extraAttr) {
+		this.extraAttr = extraAttr;
+	}
 
 	public boolean isLinkOnly() {
 		return linkOnly;

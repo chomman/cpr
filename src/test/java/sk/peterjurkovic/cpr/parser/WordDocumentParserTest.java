@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import sk.peterjurkovic.cpr.dao.AbstractTest;
+import sk.peterjurkovic.cpr.test.AbstractTest;
 
 
 public class WordDocumentParserTest extends AbstractTest {
