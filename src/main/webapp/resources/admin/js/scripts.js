@@ -80,17 +80,7 @@ $(function() {
   		openEffect	: 'none',
   		closeEffect	: 'none'
   	});
-     $(".fancyboxiframe").fancybox({
-  		maxWidth	: 1100,
-  		maxHeight	: 1000,
-  		fitToView	: false,
-  		width		: '95%',
-  		height		: '95%',
-  		autoSize	: false,
-  		closeClick	: false,
-  		openEffect	: 'none',
-  		closeEffect	: 'none'
-  	});
+    
      
      
      $('.date').datepicker(getDatepickerOptions());
