@@ -145,7 +145,7 @@ public class MandateController extends SupportAdminController {
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping( value = MANDATE_URL +" /delete/{mandateId}", method = RequestMethod.GET)
+	@RequestMapping( value = MANDATE_URL + "/delete/{mandateId}", method = RequestMethod.GET)
 	public String deleteGroup(@PathVariable Long mandateId,  ModelMap modelMap, HttpServletRequest request) {
 						
 		Mandate mandate = mandateService.getMandateById(mandateId);

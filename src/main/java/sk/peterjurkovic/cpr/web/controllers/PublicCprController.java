@@ -242,7 +242,7 @@ public class PublicCprController extends PublicSupportController{
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
 		model.put("tab", 3);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_EHN_SUBMENU));
+//		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_EHN_SUBMENU));
 		modelmap.put("model", model);
 		return "/public/cpr/index";
 	}
@@ -335,7 +335,7 @@ public class PublicCprController extends PublicSupportController{
 		model.put("parentWebpage", webpageService.getWebpageByCode(CPR_INDEX_URL));
 		model.put("tab", 3);
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
-		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
+//		model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 		return model;
 	}
 	

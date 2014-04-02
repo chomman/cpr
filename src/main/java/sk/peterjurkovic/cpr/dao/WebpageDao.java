@@ -28,4 +28,7 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	 * @return Long 
 	 */
 	Long getNextIdValue();
+	
+	
+	List<Webpage> getAllOrderedWebpages();
 }

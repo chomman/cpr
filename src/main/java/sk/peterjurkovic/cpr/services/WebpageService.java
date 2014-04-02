@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
+import java.util.Locale;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 
@@ -25,4 +26,6 @@ public interface WebpageService {
 	String getSeoUniqueUrl(String name);
 	
 	boolean isWebpageUrlUniqe(String code, Long id);
+	
+	List<Webpage> getAllOrderedWebpages();
 }

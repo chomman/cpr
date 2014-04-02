@@ -1284,3 +1284,12 @@ table.log td,.log-descr{padding:2px;}
 .standard-preview{background: url(../img/ico_preview.png) no-repeat 5px center !important;padding-left: 35px !important;}
 .preview{background: #254694 url(../img/ico_preview.png) no-repeat 5px center; padding:10px 15px 10px 35px !important;border:2px solid #ddd;margin-left:10px}
 .preview:hover{background: #153173 url(../img/ico_preview.png) no-repeat 5px center;border:2px solid #fff;}
+
+
+/* ---------------------------------------
+	WEBPAGES
+*/
+
+h1.pj-smaller{font-size:18px;padding:10px 35px;}
+.pj-webpages{background:#fff;}
+

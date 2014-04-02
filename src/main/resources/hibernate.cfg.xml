@@ -26,7 +26,6 @@
   	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Requirement" />
 	<mapping class="sk.peterjurkovic.cpr.entities.Article" />
-	<mapping class="sk.peterjurkovic.cpr.entities.WebpageContent" />
 	<mapping class="sk.peterjurkovic.cpr.entities.Webpage" />
 	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.DeclarationOfPerformance"/>
@@ -38,8 +37,7 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.Csn"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnCategory"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminology"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminologyLog"/>
-	
+	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminologyLog"/>	
 	 
  </session-factory>
 </hibernate-configuration>

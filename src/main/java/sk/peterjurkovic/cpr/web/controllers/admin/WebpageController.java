@@ -10,8 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
 import sk.peterjurkovic.cpr.services.WebpageService;
 
 
@@ -41,10 +44,22 @@ public class WebpageController extends SupportAdminController {
 			modelMap.put("successDelete", true);
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpages", webpageService.getAll());
+		model.put("webpages", webpageService.getAllOrderedWebpages());
 		model.put("tab", 1);
 		modelMap.put("model", model);
 		return getTableItemsView();
+	}
+	
+	
+	@RequestMapping("/admin/webpage/add/{nodeId}")
+	public String addWebpage(@PathVariable Long nodeId, ModelMap map){
+		
+		final Webpage parentWebpage = webpageService.getWebpageById(nodeId);
+		
+		Map<String, Object> model = new HashMap<String, Object>();
+//		model.put("webpage", webpage);
+		
+		return getViewName();
 	}
 	
 	

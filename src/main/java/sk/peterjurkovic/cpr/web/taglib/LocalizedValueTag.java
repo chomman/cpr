@@ -19,8 +19,6 @@ public class LocalizedValueTag extends TagSupport{
 
 	private Logger logger = Logger.getLogger(getClass());
 	
-	private static final long serialVersionUID = 1L;
-
 	private Object object;
 	
 	private String fieldName;

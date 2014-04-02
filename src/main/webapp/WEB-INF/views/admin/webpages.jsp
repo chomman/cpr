@@ -11,17 +11,8 @@
 </head>
 <body>
 	<div id="wrapper">
-	<div id="left">
-	
-		<jsp:include page="include/webpages-nav.jsp" />
-		
-	</div>	
-	<div id="right">
-		<div id="breadcrumb">
-			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
-			 <span><spring:message code="webpages" /></span>
-		</div>
-		<h1><spring:message code="webpages" /></h1>
+	<div class="pj-webpages">
+		<h1 class="pj-smaller"><spring:message code="webpages" /></h1>
 
 		<div id="content">
 			

@@ -107,5 +107,11 @@ public class WebpageServiceImpl implements WebpageService{
 		}	
 		return false;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getAllOrderedWebpages() {
+		return webpageDao.getAllOrderedWebpages();
+	}
 	
 }

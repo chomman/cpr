@@ -49,4 +49,16 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
         }
         return nextId + 1;
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getAllOrderedWebpages() {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(Webpage.class.getName());
+		hql.append(" w");
+		hql.append(" order by w.order ");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		return hqlQuery.list();
+	}
 }
