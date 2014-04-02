@@ -75,8 +75,6 @@ public class Standard extends AbstractStandard {
 	@JsonIgnore
 	private Set<Requirement> requirements;
 	@JsonIgnore
-	private Set<Tag> tags;
-	@JsonIgnore
 	private Boolean cumulative;
 	@JsonIgnore
 	private Long timestamp;
@@ -91,7 +89,6 @@ public class Standard extends AbstractStandard {
 		this.standardCsns = new HashSet<StandardCsn>();
 		this.requirements = new HashSet<Requirement>();
 		this.standardGroups = new HashSet<StandardGroup>();
-		this.tags = new HashSet<Tag>();
 		this.standardChanges = new HashSet<StandardChange>();
 		setEnabled(Boolean.TRUE);
 		setCumulative(Boolean.FALSE);
@@ -223,16 +220,6 @@ public class Standard extends AbstractStandard {
 
 	public void setRequirements(Set<Requirement> requirements) {
 		this.requirements = requirements;
-	}
-
-	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	public Set<Tag> getTags() {
-		return tags;
-	}
-	
-	
-	public void setTags(Set<Tag> tags) {
-		this.tags = tags;
 	}
 	
 	@Transient

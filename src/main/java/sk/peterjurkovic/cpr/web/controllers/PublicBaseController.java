@@ -32,16 +32,16 @@ public class PublicBaseController extends PublicSupportController{
 		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
-		if(webpage.getWebpageCategory().getId() == Constants.WEBPAGE_CATEGORY_CPR_SUBMENU){
+//		if(webpage.getWebpageCategory().getId() == Constants.WEBPAGE_CATEGORY_CPR_SUBMENU){
 			model.put("tab", 3);
 			model.put("submenu", webpageService.getPublicSection(Constants.WEBPAGE_CATEGORY_CPR_SUBMENU));
 			map.put("model", model);
-			return "/public/cpr/cpr-base";
-		}else{
+//			return "/public/cpr/cpr-base";
+//		}else{
 			model.put("tab", webpage.getId());
 			map.put("model", model);
 			return "/public/base-view";
-		}
+//		}
 	}
 	
 }

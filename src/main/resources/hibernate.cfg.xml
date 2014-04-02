@@ -25,9 +25,7 @@
   	<mapping class="sk.peterjurkovic.cpr.entities.CommissionDecision"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Requirement" />
-	<mapping class="sk.peterjurkovic.cpr.entities.Tag" />
 	<mapping class="sk.peterjurkovic.cpr.entities.Article" />
-	<mapping class="sk.peterjurkovic.cpr.entities.WebpageCategory" />
 	<mapping class="sk.peterjurkovic.cpr.entities.WebpageContent" />
 	<mapping class="sk.peterjurkovic.cpr.entities.Webpage" />
 	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>

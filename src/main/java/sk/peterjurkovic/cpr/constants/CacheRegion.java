@@ -29,13 +29,6 @@ public class CacheRegion {
 	 */
 	public static final String NEWS_CACHE = "newsCache";
 	
-	
-	/** WEBPAGE CACHE
-	 * Cache uchovavajuce data tykajuce sa webovych sekci
-	 */
-	public static final String WEBPAGE_CACHE = "webpageCache";
-	
-	
-	
+		
 	public static final String CSN_CACHE = "csnCache";
 }

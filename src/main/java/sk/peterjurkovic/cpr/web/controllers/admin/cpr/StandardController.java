@@ -10,7 +10,6 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +36,6 @@ import sk.peterjurkovic.cpr.entities.StandardChange;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardGroup;
 import sk.peterjurkovic.cpr.entities.StandardNotifiedBody;
-import sk.peterjurkovic.cpr.entities.Tag;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
@@ -68,7 +66,6 @@ import sk.peterjurkovic.cpr.web.editors.NotifiedBodyEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardCsnPropertyEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardGroupEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardPropertyEditor;
-import sk.peterjurkovic.cpr.web.editors.TagEditor;
 import sk.peterjurkovic.cpr.web.forms.admin.StandardCsnForm;
 import sk.peterjurkovic.cpr.web.forms.admin.StandardForm;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
@@ -107,8 +104,6 @@ public class StandardController extends SupportAdminController{
 	@Autowired
 	private StandardGroupEditor standardGroupEditor;
 	@Autowired
-	private TagEditor tagEditor;
-	@Autowired
 	private LocalDateEditor localDateEditor;
 	@Autowired
 	private CountryEditor countryEditor;
@@ -136,7 +131,7 @@ public class StandardController extends SupportAdminController{
 		binder.registerCustomEditor(Country.class, this.countryEditor);
 		binder.registerCustomEditor(Standard.class, this.standardPropertyEditor);
 		binder.registerCustomEditor(StandardCsn.class, this.standardCsnPropertyEditor);
-		binder.registerCustomEditor(Tag.class, this.tagEditor);
+		//binder.registerCustomEditor(Tag.class, this.tagEditor);
 		binder.registerCustomEditor(NotifiedBody.class, this.notifiedBodyEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
     }
@@ -868,13 +863,6 @@ public class StandardController extends SupportAdminController{
 		}else{
 			standard = getStandard(form.getId());
 			standardService.clearStandardTags(standard);
-		}
-		Set<Tag> tags = form.getTags();
-		if(CollectionUtils.isNotEmpty(tags)){
-			for(Tag tag : tags){
-				tag.setStandard(standard);
-			}
-			standard.setTags(tags);
 		}
 		standard.setReleased(form.getReleased());
 		standard.setCode(CodeUtils.toSeoUrl(form.getStandardId()));
