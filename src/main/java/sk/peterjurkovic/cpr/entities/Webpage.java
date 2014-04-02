@@ -32,7 +32,6 @@ import org.hibernate.annotations.OrderBy;
 
 import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.enums.WebpageType;
-import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
 
 @Entity
 @SequenceGenerator(name = "webpage_id_seq", sequenceName = "webpage_id_seq", initialValue = 1, allocationSize =1)

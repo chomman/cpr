@@ -204,4 +204,24 @@
 		<type>java.util.Boolean</type>
 	</attribute>
  </tag> 
+ <tag>
+	<name>webpageValue</name>
+ 	<tag-class>sk.peterjurkovic.cpr.web.taglib.LocalizedWebpageTag</tag-class>
+ 	<body-content>JSP</body-content>
+ 		<attribute>
+ 			<name>object</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>fieldName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>useDefaultLocale</name>
+			<required>false</required>
+			<type>java.util.Boolean</type>
+		</attribute>       
+ </tag>
 </taglib>

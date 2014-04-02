@@ -40,16 +40,15 @@
 							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
 							<th><spring:message code="form.edit" /></th>
-							<c:if test="${isLoggedWebmaster}">
-							<th><spring:message code="form.delete" /></th>
-							</c:if>
+						
 						</tr>
 					</thead>
 					<tbody>
 						 <c:forEach items="${model.webpages}" var="i">
 						 	<tr>
-						 		<td>${i.nameCzech}</td>
-						 		<td>${i.webpageCategory.name}</td>
+						 		<td>
+						 			<a:webpageValue object="${i}" fieldName="name" />
+						 		</td>
 						 		<td class="w100">
 						 			<c:if test="${i.enabled}">
 						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
@@ -75,13 +74,6 @@
 						 				<spring:message code="form.edit" />
 						 			</a>
 						 		</td>
-						 		<c:if test="${isLoggedWebmaster}">
-						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/webpages/delete/${i.id}"  />">
-						 				<spring:message code="form.delete" />
-						 			</a>
-						 		</td>
-						 		</c:if>
 						 	</tr>
 						 </c:forEach>
 					</tbody>

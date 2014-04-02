@@ -22,14 +22,14 @@ public class LocalizedWebpageTag extends TagSupport {
 
 	private static final long serialVersionUID = 6133102816924962677L;
 	private Logger logger = Logger.getLogger(getClass());
-	private Webpage webpage;
+	private Webpage object;
 	private String fieldName;
 	private boolean useDefaultLocale = false;
 	
 	@Override
 	public int doStartTag() throws JspException {
 				
-		if(webpage == null){
+		if(object == null){
 			return SKIP_BODY;
 		}
 		
@@ -48,9 +48,9 @@ public class LocalizedWebpageTag extends TagSupport {
 	
 	protected String getLocalizedvalue() {
 		if(useDefaultLocale){
-			return WebpageUtils.getValueInLocale(getFieldName(), webpage, SystemLocale.getDefault());
+			return WebpageUtils.getValueInLocale(getFieldName(), object, SystemLocale.getDefault());
 		}else{
-			return WebpageUtils.getLocalizedValue(fieldName, webpage);
+			return WebpageUtils.getLocalizedValue(fieldName, object);
 		}
 	}
 	
@@ -68,11 +68,11 @@ public class LocalizedWebpageTag extends TagSupport {
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
-	public Webpage getWebpage() {
-		return webpage;
+	public Webpage getObject() {
+		return object;
 	}
-	public void setWebpage(Webpage webpage) {
-		this.webpage = webpage;
+	public void setObject(Webpage object) {
+		this.object = object;
 	}
 	public boolean isUseDefaultLocale() {
 		return useDefaultLocale;
