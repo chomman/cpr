@@ -8,7 +8,7 @@ import sk.peterjurkovic.cpr.entities.Article;
 /**
  * Dao rozhranie pre aktuality
  * 
- * @author Peter Jurkovic
+ * @author Peter Jurkovic (email@peterjurkovic.com)
  *
  */
 public interface ArticleDao extends BaseDao<Article, Long>{
