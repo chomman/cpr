@@ -1,7 +1,6 @@
 package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
-import java.util.Locale;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 
@@ -28,4 +27,15 @@ public interface WebpageService {
 	boolean isWebpageUrlUniqe(String code, Long id);
 	
 	List<Webpage> getAllOrderedWebpages();
+	
+	List<Webpage> getTopLevelWepages();
+	
+	/**
+	 * Vrati nasledujuce poradie verejnej sekcie, v danom uzle. V pripade, ak je daný uzol NULL, 
+	 * jedná za o najvyssieho rodica. 
+	 * 
+	 * @param nodeId
+	 * @return nasledujuce poradie
+	 */
+	int getNextOrderValue(Long nodeId);
 }

@@ -113,5 +113,17 @@ public class WebpageServiceImpl implements WebpageService{
 	public List<Webpage> getAllOrderedWebpages() {
 		return webpageDao.getAllOrderedWebpages();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public int getNextOrderValue(Long nodeId) {
+		return webpageDao.getMaxOrderInNode(nodeId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getTopLevelWepages() {
+		return webpageDao.getTopLevelWepages();
+	}
 	
 }

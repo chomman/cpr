@@ -7,18 +7,26 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="webpages" /></title>
+	<title><spring:message code="webpages" /></title>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.css" />" />
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.theme.custom.css" />" />
+	<script src="<c:url value="/resources/admin/js/jquery.treetable.js" />"></script>
+	<script>
+	$(function () {
+		 $("table.webpages").treetable();
+	});
+	</script>
 </head>
 <body>
 	<div id="wrapper">
 	<div class="pj-webpages">
-		<h1 class="pj-smaller"><spring:message code="webpages" /></h1>
-
+		
 		<div id="content">
 			
-			<ul class="sub-nav">
+			
+			<ul class="sub-nav webpages">
 				<li><a class="active" href="<c:url value="/admin/webpages"  />"><spring:message code="webpages.view" /></a></li>
-				<li><a href="<c:url value="/admin/webpages/edit/0"  />"><spring:message code="webpages.add" /></a></li>
+				<li><a href="<c:url value="/admin/webpage/add/0"  />"><spring:message code="webpages.add" /></a></li>
 			</ul>
 			
 			<c:if test="${not empty successDelete}">
@@ -31,55 +39,30 @@
 			
 			
 				
+			
+		
+				
 			<c:if test="${not empty model.webpages}">
-				<table class="data">
+				<table class="webpages radius">
 					<thead>
 						<tr>
-							<tH><spring:message code="webpage.name" /></th>
-							<th class="c"><spring:message code="webpage.category.table" /></th>
+							<th>Nazev</th>
+							<th>kategorie</th>
 							<th><spring:message code="published" /></th>
 							<th><spring:message code="form.lastEdit" /></th>
-							<th><spring:message code="form.edit" /></th>
-						
 						</tr>
 					</thead>
 					<tbody>
-						 <c:forEach items="${model.webpages}" var="i">
-						 	<tr>
-						 		<td>
-						 			<a:webpageValue object="${i}" fieldName="name" />
-						 		</td>
-						 		<td class="w100">
-						 			<c:if test="${i.enabled}">
-						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
-						 					<spring:message code="yes" />
-						 				</span>
-						 			</c:if>
-						 			<c:if test="${not i.enabled}">
-						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
-						 					<spring:message code="no" />
-						 				</span>
-						 			</c:if>
-						 		</td>
-						 		<td class="last-edit">
-						 			<c:if test="${empty i.changedBy}">
-						 				<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
-						 			</c:if>
-						 			<c:if test="${not empty i.changedBy}">
-						 				<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
-						 			</c:if>
-						 		</td>
-						 		<td class="edit">
-						 			<a href="<c:url value="/admin/webpages/edit/${i.id}"  />">
-						 				<spring:message code="form.edit" />
-						 			</a>
-						 		</td>
-						 	</tr>
+						 <c:forEach items="${model.webpages}" var="node"  >
+						 	<c:set var="node" value="${node}" scope="request"/>
+						 	<jsp:include page="webpage.node.jsp" />
+						 	<jsp:include page="webpage.node.template.jsp" />
 						 </c:forEach>
 					</tbody>
 				</table>
 			</c:if>
 			
+			 
 			<c:if test="${empty model.webpages}">
 				<p class="msg alert">
 					<spring:message code="alert.empty" />

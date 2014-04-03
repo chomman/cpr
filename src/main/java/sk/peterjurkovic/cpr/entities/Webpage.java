@@ -3,7 +3,6 @@ package sk.peterjurkovic.cpr.entities;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,6 +28,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.OrderBy;
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.enums.WebpageType;
@@ -40,8 +41,7 @@ import sk.peterjurkovic.cpr.enums.WebpageType;
 public class Webpage extends AbstractEntity {
 	
 	private static final long serialVersionUID = 2815648808531067866L;
-	
-	
+
 	private Webpage parent;
     private Set<Webpage> childrens;
 	private int order;
@@ -49,14 +49,26 @@ public class Webpage extends AbstractEntity {
 	private String avatar;
 	private String redirectUrl;
 	private Webpage redirectWebpage;
-	private Map<Locale, WebpageContent> localized = new HashMap<Locale, WebpageContent>();
+	private Map<String, WebpageContent> localized;
+	private Boolean locked;
+	private LocalDateTime publishedSince;
 	
 	public Webpage(){
-		this.childrens = new HashSet<Webpage>();
-		this.webpageType = WebpageType.ARTICLE;
-		this.localized = new HashMap<Locale, WebpageContent>();
-		this.localized.put(SystemLocale.getDefault(), new WebpageContent());
+		this( null );
 	}
+	
+	public Webpage(final Webpage parent) {
+        this.parent = parent;
+        this.childrens = new HashSet<Webpage>();
+		this.webpageType = WebpageType.ARTICLE;
+		this.localized = new HashMap<String, WebpageContent>();
+		this.localized.put(SystemLocale.getDefaultLanguage(), new WebpageContent());
+		this.locked = Boolean.FALSE;
+		setEnabled(Boolean.FALSE);
+		if(parent != null){
+			registerInParentsChilds();
+		}
+    }
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "webpage_id_seq")
@@ -73,7 +85,7 @@ public class Webpage extends AbstractEntity {
 	@ElementCollection
 	@CollectionTable(name = "webpage_content")
 	@MapKeyJoinColumn(name = "locale")
-	public Map<Locale, WebpageContent> getLocalized() {
+	public Map<String, WebpageContent> getLocalized() {
 		return localized;
 	}
 
@@ -110,19 +122,58 @@ public class Webpage extends AbstractEntity {
 	public Webpage getRedirectWebpage() {
 		return redirectWebpage;
 	}
+	
+	@Column(name = "is_locked")
+	public Boolean getLocked() {
+		return locked;
+	}
+	
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	@Column(name = "published_since")
+	public LocalDateTime getPublishedSince() {
+		return publishedSince;
+	}
+
 	@Transient
 	public String getCode() {
 		return null;
 	}
+	
+	@Transient
+	public String getDefaultName(){
+		WebpageContent content = getDefaultWebpageContent();
+		if( content != null){
+			return content.getName();
+		}
+		return null;
+	}
+	
+	@Transient
+	public WebpageContent getDefaultWebpageContent(){
+		return localized.get(SystemLocale.getDefaultLanguage());
+	}
 
+	@Transient
+	public boolean getHasChildrens(){
+		return this.childrens.size() > 0; 
+	}
+	
+	
+	
 
+    /** 
+     * Register this domain in the child list of its parent. 
+     */
+    private void registerInParentsChilds() {
+        this.parent.childrens.add(this);
+    }
 	
 
 	public void setOrder(int order) {
 		this.order = order;
 	}
 
-	public void setLocalized(Map<Locale, WebpageContent> localizedWebpage) {
+	public void setLocalized(Map<String, WebpageContent> localizedWebpage) {
 		this.localized = localizedWebpage;
 	}
 	
@@ -148,5 +199,14 @@ public class Webpage extends AbstractEntity {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-    
+	
+	public void setLocked(Boolean locked) {
+		this.locked = locked;
+	}
+	
+	public void setPublishedSince(LocalDateTime publishedSince) {
+		this.publishedSince = publishedSince;
+	}
+
+
 }

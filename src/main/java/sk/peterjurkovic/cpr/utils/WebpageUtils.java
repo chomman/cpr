@@ -9,7 +9,6 @@ import org.apache.commons.lang.Validate;
 import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
-import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
 
 public class WebpageUtils {
 	
@@ -56,7 +55,7 @@ public class WebpageUtils {
 	private static WebpageContent getWebpageContent(Webpage webpage, Locale locale){
 		WebpageContent webpageContent = webpage.getLocalized().get(locale);
 		if(webpageContent == null){
-			webpageContent = webpage.getLocalized().get(LocaleResolver.getDefaultLang());
+			webpageContent = webpage.getDefaultWebpageContent();
 		}
 		
 		if(webpageContent == null){

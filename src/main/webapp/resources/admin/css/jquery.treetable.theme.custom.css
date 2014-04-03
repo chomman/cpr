@@ -1,0 +1,9 @@
+
+
+
+table.webpages{min-width: 100%;background:#fff;border-collapse:collapse;margin:14px 0;color:#555;border:1px solid #ddd;}
+table.webpages th{padding:15px 10px;border-bottom:2px solid #ddd;font-size:14px;color:#555;margin-bottom:5px;font-weight:normal;background:#eee;}
+table.webpages tr{background:#F9F9F9;}
+table.webpages tr.odd{background:#fff}
+table.webpages td{ font-size:12px;height:55px;padding:5px 10px; }
+table.webpages td.w-name{vertical-align:top;}

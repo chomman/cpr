@@ -31,4 +31,8 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	
 	
 	List<Webpage> getAllOrderedWebpages();
+	
+	List<Webpage> getTopLevelWepages();
+	
+	int getMaxOrderInNode(Long nodeId);
 }

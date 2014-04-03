@@ -25,7 +25,7 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Webpage> getPublicSection(final Long categoryId) {
-		StringBuffer hql = new StringBuffer("from Webpage webpage ");
+		StringBuilder hql = new StringBuilder("from Webpage webpage ");
 		hql.append("where webpage.webpageCategory.id = :categoryId AND webpage.enabled=true");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setLong("categoryId", categoryId);
@@ -57,6 +57,44 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		StringBuilder hql = new StringBuilder("from ");
 		hql.append(Webpage.class.getName());
 		hql.append(" w");
+		hql.append(" order by w.order ");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		return hqlQuery.list();
+	}
+
+
+	@Override
+	public int getMaxOrderInNode(Long nodeId) {
+		StringBuilder hql = new StringBuilder("select max(w.order) from ");
+		hql.append(Webpage.class.getName());
+		hql.append(" w ");
+		if(nodeId == null){
+			hql.append(" where w.parent.id = null ");
+		}else{
+			hql.append(" where w.parent.id = :id");
+		}
+		
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		if(nodeId != null){
+			hqlQuery.setLong("id", nodeId );
+		}
+		
+		Integer maxOrder = (Integer) hqlQuery.setMaxResults(1).uniqueResult();
+		
+		if(maxOrder != null){
+			return maxOrder + 1;
+		}
+		return 0;
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getTopLevelWepages() {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(Webpage.class.getName());
+		hql.append(" w");
+		hql.append(" where w.parent = null ");
 		hql.append(" order by w.order ");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		return hqlQuery.list();
