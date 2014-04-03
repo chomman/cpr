@@ -46,9 +46,9 @@
 				<table class="webpages radius">
 					<thead>
 						<tr>
-							<th>Nazev</th>
-							<th>kategorie</th>
+							<th>Název</th>
 							<th><spring:message code="published" /></th>
+							<th>Autor</th>
 							<th><spring:message code="form.lastEdit" /></th>
 						</tr>
 					</thead>

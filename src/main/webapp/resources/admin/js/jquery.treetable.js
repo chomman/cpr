@@ -114,6 +114,7 @@
       this.row.removeClass('branch');
       this.row.removeClass('leaf');
       this.row.addClass(this.isBranchNode() ? 'branch' : 'leaf');
+      this.row.addClass(this.level() > 0 ? 'pj-children' : 'pj-parent');
     };
     
     Node.prototype.isLast = function() {

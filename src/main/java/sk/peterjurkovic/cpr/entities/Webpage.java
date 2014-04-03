@@ -158,7 +158,40 @@ public class Webpage extends AbstractEntity {
 		return this.childrens.size() > 0; 
 	}
 	
+	@Transient
+	public LocalDateTime getPublished(){
+		if(isPublishedSet()){
+			return publishedSince;
+		}else if(getChanged() != null){
+			return getChanged();
+		}
+		return getCreated();
+	}
 	
+	@Transient
+	public User getPublishedBy(){
+		if(getChangedBy() != null){
+			return getChangedBy();
+		}
+		return getCreatedBy();
+	}
+	
+	@Transient
+	public boolean getIsPublished(){
+		if(getEnabled() && isPublishedSet()){
+			LocalDateTime now  = new LocalDateTime();
+			return now.isAfter(publishedSince);
+		}
+		return getEnabled();
+	}
+	
+	@Transient
+	private boolean isPublishedSet(){
+		if(webpageType != null && webpageType.equals(WebpageType.ARTICLE) && publishedSince != null){
+			return true;
+		}
+		return false;
+	}
 	
 
     /** 

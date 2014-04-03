@@ -94,7 +94,7 @@ public class WebpageController extends SupportAdminController {
 		webpageContent.setName(formContent.getName());
 		webpageContent.setTitle(formContent.getName());
 		webpageContent.setUrl( CodeUtils.toSeoUrl( formContent.getName() ));
-		webpageService.createWebpage(webpage);
+		webpageService.saveOrUpdate(webpage);
 	}
 	
 	
