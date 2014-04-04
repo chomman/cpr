@@ -2,13 +2,19 @@ package sk.peterjurkovic.cpr.utils;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.Validate;
 
 import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
+import sk.peterjurkovic.cpr.enums.SystemLocale;
 
 public class WebpageUtils {
 	
@@ -65,6 +71,30 @@ public class WebpageUtils {
 		}
 		
 		return webpageContent;
+	}
+	
+	public static List<String> getNotUsedLocales(final Webpage webpage) {
+		Validate.notNull(webpage);
+		Validate.notNull(webpage.getLocalized());
+		List<String> notUsedLocales = new ArrayList<String>();
+		Set<String> usedLocales = getUsedLocaleCodes(webpage);
+		List<String> avaiableLocales = SystemLocale.getAllCodes();
+		for (String locale : avaiableLocales) {
+		  if(!usedLocales.contains(locale)){
+			  notUsedLocales.add(locale);
+		  }
+		}
+		return notUsedLocales;
+	}
+	
+	public static Set<String> getUsedLocaleCodes(final Webpage webpage) {
+		Validate.notNull(webpage);
+		Validate.notNull(webpage.getLocalized());
+		Set<String> locales = new HashSet<String>();
+		for (Map.Entry<String,WebpageContent> entry : webpage.getLocalized().entrySet()) {
+			locales.add(entry.getKey());
+		}
+		return locales;
 	}
 	
 }

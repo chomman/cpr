@@ -1076,7 +1076,7 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
         filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#3d94f6', endColorstr='#1e62d0',GradientType=0);
         background-color:#3d94f6;
         border:1px solid #337fed;
-        color:#ffffff;
+        color:#fff !important;
         text-shadow:0px 1px 0px #1570cd;
 }
 .lang:hover {

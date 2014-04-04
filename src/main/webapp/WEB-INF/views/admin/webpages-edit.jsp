@@ -49,11 +49,24 @@
 				</ul>
 			<div id="content">
 					<form:form commandName="webpageContent" method="post" cssClass="valid">
+							<p <c:if test="${fn:length(model.usedLocales) eq 1}">class="pj-locale-box hidden"</c:if>>
+			                 <label>
+			                 	<strong>
+			                 		<spring:message code="webpage.locale" />:
+			                 	</strong>	
+			                 </label>
+			                     <span class="field">
+			                     	<a href="#" data-lang="cs" class="disabled">Česká</a>
+			                    	<a href="#" data-lang="en" class="lang en processSave">Anglická</a>
+			                    </span>
+			                </p> 
+		                
 						<p>
 			                 <label>
 				                 <strong>
 				                 	<em class="red">*</em><spring:message code="webpage.webpageContent.name" />
 				                 </strong>	
+				                 <small><spring:message code="webpage.webpageContent.name.descr" /></small>
 					         </label>
 		                    <span class="field">
 		                     <form:input htmlEscape="true" path="webpageContent.name" maxlength="200" cssClass="mw500 required"
@@ -85,12 +98,43 @@
 						</p>
 
 						
-										
+						<form:hidden path="locale" />
+						<form:hidden path="id" />				
 					</form:form>
 
 			</div>
 			<div id="settings">
-			
+				<table>
+					<tr>
+						<td class="t-label">
+							Vebová sekce je v jazykových mutacích:	
+						</td>
+						<td class="t-val">
+							<c:forEach items="${model.usedLocales}" var="lang" varStatus="loop">
+								<spring:message code="l${lang}" />
+								<c:if test="${!loop.last}">, </c:if>
+							</c:forEach>
+						</td>
+						<td class="t-label">Přidat jazykovou mutaci:</td>
+						<td class="t-val">
+							<c:if test="${not empty model.notUsedLocales}">
+							<c:url value="/admin/webpages/add-lang/${webpageContent.id}" var="formUrl"  />
+							<form method="get" action="${formurl}">
+							<select>
+								<c:forEach items="${model.notUsedLocales}" var="i" >
+										<option value="${i}" >
+											<spring:message code="l${i}" />
+										</option>
+								</c:forEach>
+							</select>
+							</form>
+							</c:if>
+							<c:if test="${empty model.notUsedLocales}">
+								<em>Další jazykové mutace nejsou dostupné</em>
+							</c:if>
+						</td>
+					</tr>
+				</table>
 			</div>
 			<div id="images">
 			<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>

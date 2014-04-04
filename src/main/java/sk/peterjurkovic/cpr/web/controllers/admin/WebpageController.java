@@ -23,6 +23,7 @@ import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.WebpageUtils;
 
 
 @Controller
@@ -82,14 +83,15 @@ public class WebpageController extends SupportAdminController {
 	public String showEditPage(@PathVariable Long id, ModelMap map) throws ItemNotFoundException{
 		Webpage webpage = getWebpage(id);
 		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("usedLocales", WebpageUtils.getUsedLocaleCodes(webpage));
+		model.put("notUsedLocales", WebpageUtils.getNotUsedLocales(webpage));
 		map.put("model", model);
 		map.addAttribute("webpageContent", new WebpageContentDto( webpage, SystemLocale.getDefaultLanguage() ) );
 		map.addAttribute("webpageSettings", new WebpageSettingsDto( webpage ) );
 		return getEditFormView();
 	}
 	
-	
-	
+
 	private void prepareModelForCreate(ModelMap map, Webpage form, Long nodeId) throws ItemNotFoundException{
 		Webpage parentWebpage = null;
 		if(nodeId != 0){

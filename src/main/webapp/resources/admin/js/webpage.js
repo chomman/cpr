@@ -28,6 +28,7 @@ $(function() {
 		$clickedEl.removeClass().addClass("disabled");
 		$('input[name=locale]').val(locale);
 	});
+	
 	$(document).on("click", ".processSave", function(e){
 		e.preventDefault();
 		processSave({changeLang : true, target : $(this).attr('data-lang')});
