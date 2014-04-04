@@ -285,7 +285,7 @@ h2{font-size: 16px;text-transform: uppercase;color:#555}
 .data .last-edit{text-align:center;width:120px;}
 /* WRAPPER */
 #wrapper{background:#fafafa;}
-
+nav, #wrapper,header{min-width: 929px;}
 
 .cumulative{padding:15px;background:#FFFAF2;margin-top:15px;border:3px solid #FFE8BF;}
 .cumulative .checkbox{padding-right:15px;}
@@ -821,6 +821,7 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 .mw60{min-width: 60px;}
 .mw500{min-width: 500px;}
 .mw600{min-width: 600px;}
+.mh100{min-height: 100px;}
 .w40{width:40px;}
 .w50{width:50px;}
 .w100{width:100px !important;}

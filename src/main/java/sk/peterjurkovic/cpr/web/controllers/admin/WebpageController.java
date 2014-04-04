@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import sk.peterjurkovic.cpr.dto.WebpageContentDto;
+import sk.peterjurkovic.cpr.dto.WebpageSettingsDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
-import sk.peterjurkovic.cpr.entities.WebpageContent;
+import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.enums.WebpageType;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.WebpageService;
-import sk.peterjurkovic.cpr.utils.CodeUtils;
 
 
 @Controller
@@ -57,14 +59,15 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = "/admin/webpage/add/{nodeId}", method = RequestMethod.GET)
-	public String addWebpage(@PathVariable Long nodeId, ModelMap map){
+	public String addWebpage(@PathVariable Long nodeId, ModelMap map) throws ItemNotFoundException{
 		prepareModelForCreate(map, new Webpage() , nodeId);
 		return getViewName();
 	}
 	
 	
+	
 	@RequestMapping(value = "/admin/webpage/add/{nodeId}", method = RequestMethod.POST)
-	public String processCreate(@PathVariable Long nodeId, Webpage webpage, BindingResult result, ModelMap map){
+	public String processCreate(@PathVariable Long nodeId, Webpage webpage, BindingResult result, ModelMap map) throws ItemNotFoundException{
 		if(StringUtils.isBlank(webpage.getDefaultName())){
 			result.rejectValue("localized['cs'].name", "webpage.error.name");
 			prepareModelForCreate(map, webpage , nodeId);
@@ -75,10 +78,22 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	private void prepareModelForCreate(ModelMap map, Webpage form, Long nodeId){
+	@RequestMapping(value = "/admin/webpage/edit/{id}", method = RequestMethod.GET)
+	public String showEditPage(@PathVariable Long id, ModelMap map) throws ItemNotFoundException{
+		Webpage webpage = getWebpage(id);
+		Map<String, Object> model = new HashMap<String, Object>();
+		map.put("model", model);
+		map.addAttribute("webpageContent", new WebpageContentDto( webpage, SystemLocale.getDefaultLanguage() ) );
+		map.addAttribute("webpageSettings", new WebpageSettingsDto( webpage ) );
+		return getEditFormView();
+	}
+	
+	
+	
+	private void prepareModelForCreate(ModelMap map, Webpage form, Long nodeId) throws ItemNotFoundException{
 		Webpage parentWebpage = null;
 		if(nodeId != 0){
-			parentWebpage = webpageService.getWebpageById(nodeId);
+			parentWebpage = getWebpage(nodeId);
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("parentWebpage", parentWebpage);
@@ -87,7 +102,13 @@ public class WebpageController extends SupportAdminController {
 		map.put("model", model);
 	}
 	
-	
+	private Webpage getWebpage(Long id) throws ItemNotFoundException{
+		final Webpage webpage = webpageService.getWebpageById(id);
+		if(webpage == null){
+			throw new ItemNotFoundException(String.format("Webpage ID: %s was not found.", id));
+		}
+		return webpage;
+	}
 	
 	
 	

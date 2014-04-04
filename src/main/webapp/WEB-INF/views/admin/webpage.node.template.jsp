@@ -8,7 +8,7 @@
 				</span>
 				<span class="pj-webpage-nav">
 					<a:adminurl href="/webpage/add/${node.id}">Pridat podstranku</a:adminurl>
-					<a href="">Upraviť</a>
+					<a:adminurl href="/webpage/edit/${node.id}">Upravit</a:adminurl>
 					<a href="">Zobraziť</a>
 					<a href="">Odstraniť</a>
 				</span>

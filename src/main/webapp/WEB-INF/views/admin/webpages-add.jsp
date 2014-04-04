@@ -16,13 +16,31 @@
 		return false;
 	}
 	</script>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
 </head>
 <body>
 	<div id="wrapper">
 	<div class="pj-webpages">
-		<h1><spring:message code="webpages.add" /></h1>
-
 		<div id="content">
+			
+			<div id="breadcrumb">
+				<a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
+				<a:adminurl href="/webpages"><spring:message code="webpages" /></a:adminurl>  &raquo;
+				 <span>
+				 <spring:message code="webpages.add" />
+				 </span>
+			</div>
+			<div class="pj-nav margin-bottom">
+				<span class="pj-nav-label"><spring:message code="webpages" /></span>
+				<span class="pj-nav-label2"><spring:message code="options" />:</span>
+				<a:adminurl href="/webpages" cssClass="btn-webpage radius link-ico" >
+				<spring:message code="webpages.view" /> <span class="ico set"></span>
+			</a:adminurl>
+				<a:adminurl href="/webpage/add/0" cssClass="btn-webpage tt radius link-ico" title="Do hlavního menu">
+					<spring:message code="webpages.add" /> <span class="ico plus"></span>
+				</a:adminurl>
+			</div>
+			
 			<form:form modelAttribute="webpage" cssClass="valid add-webpage">
 				
 				

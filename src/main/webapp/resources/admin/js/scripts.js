@@ -110,7 +110,7 @@ function createSelects(){
 
 function updateNav(){
 	var o = $('nav');
-	if($(document).width() < 1070){
+	if($(document).width() < 1170){
 		o.addClass("smallNav");
 	}else{
 		o.removeClass("smallNav");
@@ -225,6 +225,9 @@ function removeLoader(){
 (function($) {
     $.fn.extend( {
         limiter: function(limit, elem) {
+        	if(!elem.length){
+        		return;
+        	}
             $(this).on("keyup focus", function() {
                 setCount(this, elem);
             });

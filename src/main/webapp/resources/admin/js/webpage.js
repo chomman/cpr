@@ -7,14 +7,16 @@ $(function() {
 	 tinyMCE.init({
 		 	selector: "textarea.wisiwig",
 			language : "cs",
-			height : 270,
-			width : 630,
+			height : 400,
+			width : '100%',
 			forced_root_block : "",
 			force_br_newlines : true,
 			force_p_newlines : false,
 			 //content_css : $("#base").text() + 'resources/admin/css/tinymce.css',
-			plugins: "image,link,table",
-			convert_urls: false
+			plugins: "image,link,table,autoresize,fullscreen",
+			convert_urls: false,
+			autoresize_min_height: 400,
+			autoresize_max_height: 700
 	});
 	
 	

@@ -8,6 +8,7 @@
 <html>
 <head>
 	<title><spring:message code="webpages" /></title>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.theme.custom.css" />" />
 	<script src="<c:url value="/resources/admin/js/jquery.treetable.js" />"></script>
@@ -22,11 +23,21 @@
 	<div class="pj-webpages">
 		
 		<div id="content">
-			<h1><spring:message code="webpages.edit" /></h1>
+			<div id="breadcrumb">
+				<a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>
+				 &raquo;
+				 <span><spring:message code="webpages" /></span>
+			</div>
+			<div class="pj-nav">
+				<span class="pj-nav-label"><spring:message code="webpages" /></span>
+				<span class="pj-nav-label2"><spring:message code="options" />:</span>
+				<a:adminurl href="/webpage/add/0" cssClass="btn-webpage tt st1 radius link-ico" title="Do hlavního menu">
+					<spring:message code="webpages.add" /> <span class="ico plus"></span>
+				</a:adminurl>
+			</div>
+			 
 			
-			<a:adminurl href="/webpage/add/0" cssClass="btn-webpage tt st2 radius link-ico" title="Do hlavního menu">
-				<spring:message code="webpages.add" /> <span class="ico plus"></span>
-			</a:adminurl>
+			
 			
 			
 			<c:if test="${not empty successDelete}">
@@ -46,9 +57,9 @@
 				<table class="webpages radius">
 					<thead>
 						<tr>
-							<th>Název</th>
-							<th><spring:message code="published" /></th>
-							<th>Autor/<spring:message code="form.lastEdit" /></th>
+							<th class="gradient-gray">Název</th>
+							<th class="gradient-gray"><spring:message code="published" /></th>
+							<th  class="gradient-gray">Autor/<spring:message code="form.lastEdit" /></th>
 						</tr>
 					</thead>
 					<tbody>
