@@ -22,12 +22,12 @@
 	<div class="pj-webpages">
 		
 		<div id="content">
+			<h1><spring:message code="webpages.edit" /></h1>
 			
+			<a:adminurl href="/webpage/add/0" cssClass="btn-webpage tt st2 radius link-ico" title="Do hlavního menu">
+				<spring:message code="webpages.add" /> <span class="ico plus"></span>
+			</a:adminurl>
 			
-			<ul class="sub-nav webpages">
-				<li><a class="active" href="<c:url value="/admin/webpages"  />"><spring:message code="webpages.view" /></a></li>
-				<li><a href="<c:url value="/admin/webpage/add/0"  />"><spring:message code="webpages.add" /></a></li>
-			</ul>
 			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>
@@ -48,8 +48,7 @@
 						<tr>
 							<th>Název</th>
 							<th><spring:message code="published" /></th>
-							<th>Autor</th>
-							<th><spring:message code="form.lastEdit" /></th>
+							<th>Autor/<spring:message code="form.lastEdit" /></th>
 						</tr>
 					</thead>
 					<tbody>

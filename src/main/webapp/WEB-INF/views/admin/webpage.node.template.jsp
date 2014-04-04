@@ -37,7 +37,4 @@
 				<joda:format value="${node.published}" pattern="${common.dateTimeFormat}"/>
 			</span>
 		</td>
-		<td class="edit">
-			
-		</td>
  </tr>

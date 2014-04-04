@@ -21,7 +21,7 @@ public class WebpageContent {
 		return name;
 	}
 	
-	@Column(length = 200)
+	@Column(length = 250)
 	public String getTitle() {
 		return title;
 	}
@@ -36,7 +36,7 @@ public class WebpageContent {
 		return content;
 	}
 	
-	@Column(name = "")
+	@Column(name = "url")
 	public String getUrl() {
 		return url;
 	}

@@ -6,7 +6,7 @@ import sk.peterjurkovic.cpr.entities.Webpage;
 
 public interface WebpageService {
 
-	void createWebpage(Webpage webpage);
+	void saveWebpage(Webpage webpage);
 	
 	void updateWebpage(Webpage webpage);
 	
@@ -30,12 +30,7 @@ public interface WebpageService {
 	
 	List<Webpage> getTopLevelWepages();
 	
-	/**
-	 * Vrati nasledujuce poradie verejnej sekcie, v danom uzle. V pripade, ak je daný uzol NULL, 
-	 * jedná za o najvyssieho rodica. 
-	 * 
-	 * @param nodeId
-	 * @return nasledujuce poradie
-	 */
 	int getNextOrderValue(Long nodeId);
+	
+	Long createNewWebpage(Webpage form, Long webpageNodeId);
 }

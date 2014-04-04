@@ -1,5 +1,13 @@
+h1{margin:-25px -25px 25px; -25px ;padding:10px 30px;font-size:17px;}
 
+.btn-webpage{background: #356aa0;color:#eee;font-size:12px;padding:8px;font-weight:bold;display:inline-block;position:absolute;top:146px;}
+.btn-webpage:hover{background: #293D7A;}
+.st1{left:330px;}
+.link-ico.btn-webpage{padding:8px 30px 8px 8px;}
+.link-ico.btn-webpage span{font-size: 15px;position:absolute;right:4px;top:5px;}
 
+.link-ico .ico{background-image:url(../img/iconset.gif); background-color:#5188c0;border-radius:50%;display:inline-block;width:18px;height:18px;}
+.plus{background-position:26px -153px; }
 
 table.webpages{min-width: 100%;background:#fff;border-collapse:collapse;margin:14px 0;color:#555;border:1px solid #ddd;}
 table.webpages th{padding:15px 10px;border-bottom:2px solid #ddd;font-size:14px;color:#555;margin-bottom:5px;font-weight:normal;background:#eee;}

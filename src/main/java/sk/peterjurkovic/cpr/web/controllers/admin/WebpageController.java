@@ -70,31 +70,8 @@ public class WebpageController extends SupportAdminController {
 			prepareModelForCreate(map, webpage , nodeId);
 			return getViewName();
 		}
-		createWebpage(webpage, nodeId);
+		webpageService.createNewWebpage(webpage, nodeId);
 		return "redirect:/admin/webpages";
-	}
-	
-	
-	private void createWebpage(Webpage form, Long nodeId){
-		Webpage parentWebpage = null;
-		Webpage webpage = null;
-		if(nodeId != 0){
-			parentWebpage = webpageService.getWebpageById(nodeId);
-		}		
-		if(parentWebpage != null){
-			webpage = new Webpage(parentWebpage);
-			webpage.setOrder(webpageService.getNextOrderValue(parentWebpage.getId()));
-		}else{
-			webpage = new Webpage();
-			webpage.setOrder(webpageService.getNextOrderValue( null ));
-		}
-		webpage.setWebpageType(form.getWebpageType());
-		WebpageContent formContent = form.getDefaultWebpageContent();
-		WebpageContent webpageContent = webpage.getDefaultWebpageContent();
-		webpageContent.setName(formContent.getName());
-		webpageContent.setTitle(formContent.getName());
-		webpageContent.setUrl( CodeUtils.toSeoUrl( formContent.getName() ));
-		webpageService.saveOrUpdate(webpage);
 	}
 	
 	

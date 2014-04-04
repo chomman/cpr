@@ -314,7 +314,6 @@
 
       for(var n in this.tree){
     	  if(this.tree[n].children.length > 0){
-    		  console.log(this.tree[n].children[this.tree[n].children.length - 1]);
     		  this.tree[n].children[this.tree[n].children.length - 1].row.addClass('last-node');
     	  }
       }

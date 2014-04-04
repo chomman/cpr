@@ -13,6 +13,7 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.WebpageDao;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.entities.WebpageContent;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -31,7 +32,7 @@ public class WebpageServiceImpl implements WebpageService{
 	
 	
 	@Override
-	public void createWebpage(Webpage webpage) {
+	public void saveWebpage(Webpage webpage) {
 		webpageDao.save(webpage);
 	}
 	
@@ -124,6 +125,31 @@ public class WebpageServiceImpl implements WebpageService{
 	@Transactional(readOnly = true)
 	public List<Webpage> getTopLevelWepages() {
 		return webpageDao.getTopLevelWepages();
+	}
+
+	
+	@Override
+	public Long createNewWebpage(Webpage form, Long webpageNodeId) {
+		Webpage parentWebpage = null;
+		Webpage webpage = null;
+		if(webpageNodeId != 0){
+			parentWebpage = getWebpageById(webpageNodeId);
+		}		
+		if(parentWebpage != null){
+			webpage = new Webpage(parentWebpage);
+			webpage.setOrder(getNextOrderValue(parentWebpage.getId()));
+		}else{
+			webpage = new Webpage();
+			webpage.setOrder(getNextOrderValue( null ));
+		}
+		webpage.setWebpageType(form.getWebpageType());
+		WebpageContent formContent = form.getDefaultWebpageContent();
+		WebpageContent webpageContent = webpage.getDefaultWebpageContent();
+		webpageContent.setName(formContent.getName());
+		webpageContent.setTitle(formContent.getName());
+		webpageContent.setUrl( CodeUtils.toSeoUrl( formContent.getName() ));
+		saveOrUpdate(webpage);
+		return webpage.getId();
 	}
 	
 }
