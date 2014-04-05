@@ -12,7 +12,7 @@ import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
  */
 public class SupportAdminController {
     
-	
+	protected static final String SUCCESS_CREATE_PARAM = "successCreate";
     protected Logger logger = Logger.getLogger(getClass());
     
     private String viewName;

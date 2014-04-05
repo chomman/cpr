@@ -39,3 +39,10 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 .ui-tabs-panel{padding:30px 10px!important;font-size:14px;}                
 .ui-tabs li.ui-state-hover{background:#eee;border-color:#999}
 
+#settings table{border-collapse:collapse;width:100%;max-width:1000px;}
+#settings table tr{background:#fafafa;border-bottom:1px dashed #ccc;}
+#settings table td{padding:5px 10px;}
+#settings form{border:none;}
+#settings .btn-webpage{color:#eee;padding:7px 30px 7px 7px;cursor:pointer;}
+.t-val{color:#333;min-width:200px;}
+.t-label{width:190px;color:#777;font-size:12px;background:#f3f3f3}

@@ -34,4 +34,5 @@ public interface WebpageService {
 	
 	Long createNewWebpage(Webpage form, Long webpageNodeId);
 	
+	void createWebpageContent(Long webpageId, String langCode);
 }

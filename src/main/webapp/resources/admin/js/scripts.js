@@ -93,6 +93,10 @@ $(function() {
     	 width : "110px"
      });
      createSelects();
+     $(document).on("click", ".btn-submit", function(){
+    	 $(this).parent('form').submit();
+    	 return false;
+     });
 });
 function createSelects(){
 	$(".chosen").chosen({

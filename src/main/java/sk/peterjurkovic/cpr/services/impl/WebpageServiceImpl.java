@@ -1,8 +1,10 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import sk.peterjurkovic.cpr.dao.WebpageDao;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
+import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -150,6 +153,25 @@ public class WebpageServiceImpl implements WebpageService{
 		webpageContent.setUrl( CodeUtils.toSeoUrl( formContent.getName() ));
 		saveOrUpdate(webpage);
 		return webpage.getId();
+	}
+
+	@Override
+	public void createWebpageContent(final Long webpageId, final String langCode) {
+		if(!SystemLocale.isAvaiable(langCode)){
+			throw new IllegalArgumentException(String.format("Locale [%s] is not avaiable.", langCode));
+		}
+		Webpage webpage = getWebpageById(webpageId);
+		Validate.notNull(webpage, String.format("Webpage [id=%s] was not found.", webpageId));
+		Map<String, WebpageContent> localized = webpage.getLocalized();
+		if(localized != null && !webpage.getLocalized().containsKey(langCode)){
+			final String defaultLang = SystemLocale.getDefaultLanguage();
+			WebpageContent newContent = new WebpageContent();
+			newContent.setName(localized.get(defaultLang).getName());
+			newContent.setTitle(localized.get(defaultLang).getTitle());
+			newContent.setUrl(CodeUtils.toSeoUrl(localized.get(defaultLang).getUrl()));
+			localized.put(langCode, new WebpageContent());
+			saveOrUpdate(webpage);
+		}
 	}
 
 	

@@ -15,7 +15,11 @@
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 	 <script>
 	$(function() {
-	$( "#tabs" ).tabs();
+		$( "#tabs" ).tabs({
+	        select: function(event, ui) {                   
+	            window.location.hash = ui.tab.hash;
+	        }
+	    });
 	});
 	</script>
 </head>
@@ -107,7 +111,7 @@
 				<table>
 					<tr>
 						<td class="t-label">
-							Vebová sekce je v jazykových mutacích:	
+							Sekce je v jazykových mutacích:	
 						</td>
 						<td class="t-val">
 							<c:forEach items="${model.usedLocales}" var="lang" varStatus="loop">
@@ -118,15 +122,16 @@
 						<td class="t-label">Přidat jazykovou mutaci:</td>
 						<td class="t-val">
 							<c:if test="${not empty model.notUsedLocales}">
-							<c:url value="/admin/webpages/add-lang/${webpageContent.id}" var="formUrl"  />
-							<form method="get" action="${formurl}">
-							<select>
+							<c:url value="/admin/webpage/add-lang/${webpageContent.id}" var="actionUrl"  />
+							<form method="get" action="${actionUrl}">
+							<select name="locale" class="chosenMini">
 								<c:forEach items="${model.notUsedLocales}" var="i" >
 										<option value="${i}" >
 											<spring:message code="l${i}" />
 										</option>
 								</c:forEach>
 							</select>
+								<a class="btn-webpage btn-submit radius link-ico">Pridať<span class="ico plus"></span></a>
 							</form>
 							</c:if>
 							<c:if test="${empty model.notUsedLocales}">

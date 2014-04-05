@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import sk.peterjurkovic.cpr.dto.WebpageContentDto;
 import sk.peterjurkovic.cpr.dto.WebpageSettingsDto;
@@ -29,8 +30,12 @@ import sk.peterjurkovic.cpr.utils.WebpageUtils;
 @Controller
 public class WebpageController extends SupportAdminController {
 
+	private final static String EDIT_WEBPAGE_MAPPING = "/admin/webpage/edit/{id}";
+	
 	@Autowired
 	private WebpageService webpageService;
+	
+	
 	
 	public WebpageController(){
 		setViewName("webpages-add");
@@ -79,7 +84,7 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	@RequestMapping(value = "/admin/webpage/edit/{id}", method = RequestMethod.GET)
+	@RequestMapping(value = EDIT_WEBPAGE_MAPPING , method = RequestMethod.GET)
 	public String showEditPage(@PathVariable Long id, ModelMap map) throws ItemNotFoundException{
 		Webpage webpage = getWebpage(id);
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -91,6 +96,11 @@ public class WebpageController extends SupportAdminController {
 		return getEditFormView();
 	}
 	
+	@RequestMapping("/admin/webpage/add-lang/{id}")
+	public String showEditPage(@PathVariable Long id, @RequestParam(value = "locale") String locale) throws ItemNotFoundException{
+		webpageService.createWebpageContent(id, locale);
+		return "return:" + EDIT_WEBPAGE_MAPPING.replace("{id}", id.toString());
+	}
 
 	private void prepareModelForCreate(ModelMap map, Webpage form, Long nodeId) throws ItemNotFoundException{
 		Webpage parentWebpage = null;
