@@ -169,7 +169,7 @@ public class WebpageServiceImpl implements WebpageService{
 			newContent.setName(localized.get(defaultLang).getName());
 			newContent.setTitle(localized.get(defaultLang).getTitle());
 			newContent.setUrl(CodeUtils.toSeoUrl(localized.get(defaultLang).getUrl()));
-			localized.put(langCode, new WebpageContent());
+			localized.put(langCode, newContent);
 			saveOrUpdate(webpage);
 		}
 	}

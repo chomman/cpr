@@ -1,6 +1,7 @@
 $(function() { 					
 	//initWISIWIG("610", "270"); 
 	$("#description").limiter(255, $("#chars"));
+	initDate('#publishedSince');
 	 var $loader = $('#loader'),
  	 $form = $('form.valid');
 	 
@@ -125,3 +126,29 @@ function toArray(a){
 	d.enabled = !(typeof d.enabled === 'undefined');
 	return d;
 }
+
+function initDate(selector){
+	var datetime =  $(selector).val().trim();
+	if(datetime.length > 0){
+		datetime = datetime.split(" ");
+		$(selector + '-date').val(datetime[0]);
+		$(selector + '-time').val(datetime[1]);
+	}
+} 
+function checkdateformat(v){;
+	return /^(\d{2}).(\d{2}).(\d{4})(\s{1})(\d{2}):(\d{2})$/.test(v);
+}
+
+function getDateTIme(element){
+	var datetime, 
+		date = $(element + "-date").val().trim(),
+		time = $(element + "-time").val().trim();
+	if(date.length == 0) return "";
+	datetime = (time.length == 0 ? date + " 00:00" : date + " " + time);
+	if(checkdateformat(datetime)){
+		return datetime;
+	}
+	return "";
+}
+
+

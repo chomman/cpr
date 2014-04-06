@@ -31,6 +31,7 @@ import sk.peterjurkovic.cpr.utils.WebpageUtils;
 public class WebpageController extends SupportAdminController {
 
 	private final static String EDIT_WEBPAGE_MAPPING = "/admin/webpage/edit/{id}";
+	private final static String LOCALE_CODE_PARAM = "localeCode";
 	
 	@Autowired
 	private WebpageService webpageService;
@@ -85,21 +86,42 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = EDIT_WEBPAGE_MAPPING , method = RequestMethod.GET)
-	public String showEditPage(@PathVariable Long id, ModelMap map) throws ItemNotFoundException{
+	public String showEditPage(@PathVariable Long id, ModelMap map, @RequestParam(value = LOCALE_CODE_PARAM, required = false) String langCode) 
+			throws ItemNotFoundException{
 		Webpage webpage = getWebpage(id);
+		
+		if(StringUtils.isBlank(langCode) || SystemLocale.isNotAvaiable(langCode)){
+			langCode = SystemLocale.getDefaultLanguage();
+		}
+		
 		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpageTypes", WebpageType.getAll());
+		model.put("locales", SystemLocale.getAllCodes());
 		model.put("usedLocales", WebpageUtils.getUsedLocaleCodes(webpage));
 		model.put("notUsedLocales", WebpageUtils.getNotUsedLocales(webpage));
+		model.put("langCodeParam", LOCALE_CODE_PARAM);
 		map.put("model", model);
-		map.addAttribute("webpageContent", new WebpageContentDto( webpage, SystemLocale.getDefaultLanguage() ) );
+		map.addAttribute("webpageContent", new WebpageContentDto( webpage, langCode ) );
 		map.addAttribute("webpageSettings", new WebpageSettingsDto( webpage ) );
 		return getEditFormView();
 	}
 	
+	
 	@RequestMapping("/admin/webpage/add-lang/{id}")
-	public String showEditPage(@PathVariable Long id, @RequestParam(value = "locale") String locale) throws ItemNotFoundException{
-		webpageService.createWebpageContent(id, locale);
-		return "return:" + EDIT_WEBPAGE_MAPPING.replace("{id}", id.toString());
+	public String showEditPage(@PathVariable Long id, @RequestParam(value = LOCALE_CODE_PARAM) String localeCode) throws ItemNotFoundException{
+		webpageService.createWebpageContent(id, localeCode);
+		return buildRedirectUrl(id, localeCode);
+	}
+	
+	
+	private String buildRedirectUrl(Long id, String localeCode){
+		return new StringBuilder("redirect:")
+		 	.append(EDIT_WEBPAGE_MAPPING.replace("{id}", id.toString()) )
+			.append("?")
+			.append(LOCALE_CODE_PARAM)
+			.append("=")
+			.append(localeCode)
+			.toString();
 	}
 
 	private void prepareModelForCreate(ModelMap map, Webpage form, Long nodeId) throws ItemNotFoundException{

@@ -75,6 +75,10 @@ public enum SystemLocale {
 		return false;
 	}
 	
+	public static boolean isNotAvaiable(String localeCode){
+		return !isAvaiable(localeCode);
+	}
+	
 	public static List<Locale> getAllLocales() {
 		 List<Locale> locales = new ArrayList<Locale>();
 		    locales.add(new Locale(CZ.getCode()));

@@ -308,7 +308,7 @@ form p label{display: inline-block;font-weight: bold;padding:20px;text-align: le
 .field span{font-size:12px;color:#555;margin:0 5px 0 20px;}
 .field em{color:#555;font-size:11px;}
 .field .variable{width:600px;min-height:150px;}
-form small{color:#555; display:block;padding-top:3px;font-size:11px;font-weight:normal;font-style:italic;}
+form small{color:#555; display:block;padding-top:3px;font-size:11px;font-weight:normal;font-style:italic;line-height: 11px;}
 input, textarea,select{background: none repeat scroll 0 0 #FCFCFC;border: 1px solid #CCCCCC; border-radius: 2px 2px 2px 2px;box-shadow: 0 1px 3px #DDDDDD inset;color: #666666;padding: 6px 5px;}
 select{min-width:300px;}
 select option{padding:2px 0px 1px 5px;}
@@ -939,9 +939,11 @@ h2{font-size: 16px;text-transform: uppercase;color:#555}
 
 #content{padding:25px;}
 
-form{border:1px solid #ddd;}
-form p{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
-form p label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
+form, .pj-form{border:1px solid #ddd;}
+form p, 
+.pj-form p{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
+form p label,
+.pj-form p label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
 .field{padding:15px 20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
 .field span{font-size:12px;color:#555;margin:0 5px 0 20px;}
 .field em{color:#555;font-size:11px;}
@@ -1047,19 +1049,7 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
         -webkit-border-radius:6px;    text-decoration:none;
         border-radius:6px;font-weight:bold;
 }
-.disabled{padding:8px;font-size:12px;color:#999;
-        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
-        background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-        background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-        background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-        background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
-        background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
-        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
-        background-color:#ffffff;
-        border:1px solid #dcdcdc;
-        text-shadow:0px 1px 0px #ffffff; 
-        cursor: default;
-}
+
    
 .lang {
         font-size:12px;padding:8px;
@@ -1080,7 +1070,6 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
         text-shadow:0px 1px 0px #1570cd;
 }
 .lang:hover {
-        
         background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #1e62d0), color-stop(1, #3d94f6));
         background:-moz-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
         background:-webkit-linear-gradient(top, #1e62d0 5%, #3d94f6 100%);
@@ -1090,10 +1079,25 @@ a.csn-back{background:#ABFFC4 !important;font-weight:bold;}
         filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1e62d0', endColorstr='#3d94f6',GradientType=0);
         background-color:#1e62d0;
 }
-    .myButton:active {
+.myButton:active {
         position:relative;
         top:1px;
-    }
+}
+.disabled, .disabled:hover{padding:8px;font-size:12px;color:#999;
+        background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #ffffff), color-stop(1, #f6f6f6));
+        background:-moz-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-webkit-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-o-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:-ms-linear-gradient(top, #ffffff 5%, #f6f6f6 100%);
+        background:linear-gradient(to bottom, #ffffff 5%, #f6f6f6 100%);
+        filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0);
+        background-color:#ffffff;
+        border:1px solid #dcdcdc;
+        text-shadow:0px 1px 0px #ffffff; 
+        cursor: default;
+        color:#aaa !important;
+        box-shadow:inset 0px 0px 0px 0px;
+}
 
 .csn-edit-nav{background:#fff9f0;padding:5px;font-size:14px;}
 

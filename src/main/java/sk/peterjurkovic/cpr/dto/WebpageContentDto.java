@@ -22,7 +22,11 @@ public class WebpageContentDto extends AbstractWebpageDto{
 		}
 		setWebpage(webpage);
 		this.locale = locale;
-		this.webpageContent = webpage.getLocalized().get(locale);
+		if(webpage.getLocalized().containsKey(locale)){
+			this.webpageContent = webpage.getLocalized().get(locale);
+		}else{
+			this.webpageContent = new WebpageContent();
+		}
 	}
 	
 	public String getLocale() {

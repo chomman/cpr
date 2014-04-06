@@ -70,10 +70,10 @@
                 	</label>
                     <span class="field">
                     	<span><spring:message code="date" />:</span>
-                    	<input type="text" class="date" id="publishedUntil-date" maxlength="10" />
+                    	<input type="text" class="date" id="publishedSince-date" maxlength="10" />
                     	<span><spring:message code="time" />:</span>
-                    	<input type="text" class="time" id="publishedUntil-time" maxlength="5"/>
-                    	<form:hidden  htmlEscape="true" path="publishedUntil"/><em>hh:mm</em>
+                    	<input type="text" class="time" id="publishedSince-time" maxlength="5"/>
+                    	<form:hidden  htmlEscape="true" path="publishedSince"/><em>hh:mm</em>
                     </span>
                 </p>
                 <p>

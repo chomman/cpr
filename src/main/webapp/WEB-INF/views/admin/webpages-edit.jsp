@@ -15,11 +15,7 @@
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 	 <script>
 	$(function() {
-		$( "#tabs" ).tabs({
-	        select: function(event, ui) {                   
-	            window.location.hash = ui.tab.hash;
-	        }
-	    });
+		$( "#tabs" ).tabs();
 	});
 	</script>
 </head>
@@ -60,8 +56,11 @@
 			                 	</strong>	
 			                 </label>
 			                     <span class="field">
-			                     	<a href="#" data-lang="cs" class="disabled">Česká</a>
-			                    	<a href="#" data-lang="en" class="lang en processSave">Anglická</a>
+			                     	<c:forEach items="${model.locales}" var="l">
+			                     		<a href="#" data-lang="${l}" class="lang <c:if test="${l eq  webpageContent.locale}">disabled</c:if>">
+			                     			<spring:message code="l${l}" />
+			                     		</a>
+			                     	</c:forEach>
 			                    </span>
 			                </p> 
 		                
@@ -86,6 +85,17 @@
 		                     data-err-msg="Hodnota: Titulek sekce, musí být vyplněna" />
 		                    </span>
                 		</p>
+                		<c:if test="${isLoggedWebmaster}">
+	                		<p>
+		                 		<label>
+		                 			<spring:message code="webpage.url" />
+								</label>
+			                    <span class="field">
+			                     <form:input htmlEscape="true" path="webpageContent.url" maxlength="250" cssClass="mw500" />
+			                    </span>
+	                		</p>
+                		</c:if>
+                		
 						<p>
 							<label>
 								<spring:message code="webpage.webpageContent.description" />
@@ -109,6 +119,8 @@
 			</div>
 			<div id="settings">
 				<table>
+					
+					<!--  JAZYKY  -->
 					<tr>
 						<td class="t-label">
 							Sekce je v jazykových mutacích:	
@@ -124,7 +136,7 @@
 							<c:if test="${not empty model.notUsedLocales}">
 							<c:url value="/admin/webpage/add-lang/${webpageContent.id}" var="actionUrl"  />
 							<form method="get" action="${actionUrl}">
-							<select name="locale" class="chosenMini">
+							<select name="${model.langCodeParam}" class="chosenMini">
 								<c:forEach items="${model.notUsedLocales}" var="i" >
 										<option value="${i}" >
 											<spring:message code="l${i}" />
@@ -139,7 +151,63 @@
 							</c:if>
 						</td>
 					</tr>
+					
+					<!--  JAZYKY  -->
 				</table>
+				<form:form modelAttribute="webpageSettings">
+							<p>
+								<label>
+									Typ webové sekce:
+								</label>
+								<span class="field">
+									 <form:select path="webpageType" cssClass="chosenSmall  required">
+					                	<c:forEach items="${model.webpageTypes}" var="i">
+					                		<option <c:if test="${i eq  webpageSettings.webpageType}">selected="selected"</c:if>
+					                				value="${i}" data-id="${i.id}" 
+					                				title="<spring:message code="${i.description}" />">
+					                			<spring:message code="${i.code}" />
+					                		</option>
+					                	</c:forEach>
+					                </form:select>
+								</span>
+							</p>
+							
+							<p>
+								<label>
+									<spring:message code="publish" />:
+								</label>
+								<span class="field">
+									 <form:checkbox path="enabled" />
+								</span>
+							</p>
+							
+							<p>
+								<label>
+									<spring:message code="webpage.publishedSince" />:
+                					<small><spring:message code="webpage.publishedSince.alert" /></small>
+								</label>
+								<span class="field">
+			                    	<span><spring:message code="date" />:</span>
+			                    	<input type="text" class="date" id="publishedSince-date" maxlength="10" />
+			                    	<span><spring:message code="time" />:</span>
+			                    	<input type="text" class="time" id="publishedSince-time" maxlength="5" />
+			                    	<form:hidden  htmlEscape="true" path="publishedSince" /><em>hh:mm</em>
+			                    </span>
+							</p>
+							
+							<c:if test="${isLoggedWebmaster}">
+								<p>
+									<label>
+										Zamknutá:
+									</label>
+									<span class="field">
+										 <form:checkbox path="locked" />
+									</span>
+								</p>
+								
+							</c:if>
+
+				</form:form>
 			</div>
 			<div id="images">
 			<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
