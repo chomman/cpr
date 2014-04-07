@@ -1,22 +1,29 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.dto.WebpageContentDto;
 import sk.peterjurkovic.cpr.dto.WebpageSettingsDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
@@ -24,7 +31,10 @@ import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
+import sk.peterjurkovic.cpr.web.json.JsonResponse;
+import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
 
 @Controller
@@ -89,11 +99,9 @@ public class WebpageController extends SupportAdminController {
 	public String showEditPage(@PathVariable Long id, ModelMap map, @RequestParam(value = LOCALE_CODE_PARAM, required = false) String langCode) 
 			throws ItemNotFoundException{
 		Webpage webpage = getWebpage(id);
-		
 		if(StringUtils.isBlank(langCode) || SystemLocale.isNotAvaiable(langCode)){
 			langCode = SystemLocale.getDefaultLanguage();
 		}
-		
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpageTypes", WebpageType.getAll());
 		model.put("locales", SystemLocale.getAllCodes());
@@ -107,12 +115,58 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	@RequestMapping("/admin/webpage/add-lang/{id}")
-	public String showEditPage(@PathVariable Long id, @RequestParam(value = LOCALE_CODE_PARAM) String localeCode) throws ItemNotFoundException{
+	@RequestMapping(value = "/admin/webpage/lang/{id}", method = RequestMethod.POST)
+	public String createLanguage(@PathVariable Long id, @RequestParam(value = LOCALE_CODE_PARAM) String localeCode) throws ItemNotFoundException{
 		webpageService.createWebpageContent(id, localeCode);
 		return buildRedirectUrl(id, localeCode);
 	}
 	
+	@RequestMapping(value = "/admin/webpage/lang/{id}", method = RequestMethod.GET)
+	public @ResponseBody JsonResponse getLanguage(@PathVariable Long id, @RequestParam(value = LOCALE_CODE_PARAM) String localeCode) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		final Webpage webpage = getWebpage(id);
+		if(webpage.getLocalized().containsKey(localeCode)){
+			response.setResult(webpage.getLocalized().get(localeCode));
+			response.setStatus(JsonStatus.SUCCESS);
+		}
+		return response;
+	}
+	
+	
+	@RequestMapping(value = "/admin/webpage/async-update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  processAjaxSubmit(@Valid @RequestBody  WebpageContentDto form) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		try{
+			update(form);
+			response.setStatus(JsonStatus.SUCCESS);
+		}catch(Exception e){
+			logger.warn(e.getMessage());
+		}
+		return response;
+	}
+	
+
+	@RequestMapping(value = "/ajax/autocomplete/webpages", method = RequestMethod.GET)
+	public @ResponseBody List<AutocompleteDto> search(@RequestBody @RequestParam("term") String term){
+		return webpageService.autocomplete(term);
+	}
+	
+	private void update(WebpageContentDto form) throws ItemNotFoundException{
+		Validate.notNull(form);
+		Validate.notEmpty(form.getLocale());
+		Webpage webpage = getWebpage(form.getId());
+		if(!webpage.getLocalized().containsKey(form.getLocale())){
+			throw new IllegalArgumentException(String.format("Content of webpage [id=%1$d][lang=%2$s] was not found", form.getId(), form.getLocale()));
+		}
+		//final User user = UserUtils.getLoggedUser();
+		if(!webpage.getLocked()){
+			form.getWebpageContent().setUrl(CodeUtils.toSeoUrl(form.getWebpageContent().getUrl()));
+		}
+		webpage.setRedirectWebpage(form.getRedirectWebpage());
+		webpage.setRedirectUrl(form.getRedirectUrl());
+		webpage.getLocalized().put(form.getLocale(), form.getWebpageContent());
+		webpageService.saveOrUpdate(webpage);
+	}
 	
 	private String buildRedirectUrl(Long id, String localeCode){
 		return new StringBuilder("redirect:")

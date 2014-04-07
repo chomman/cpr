@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
 
+import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
 
 public interface WebpageService {
@@ -35,4 +36,6 @@ public interface WebpageService {
 	Long createNewWebpage(Webpage form, Long webpageNodeId);
 	
 	void createWebpageContent(Long webpageId, String langCode);
+	
+	List<AutocompleteDto> autocomplete(String term);
 }

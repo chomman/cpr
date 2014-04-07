@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.WebpageDao;
+import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
@@ -172,6 +174,16 @@ public class WebpageServiceImpl implements WebpageService{
 			localized.put(langCode, newContent);
 			saveOrUpdate(webpage);
 		}
+	}
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<AutocompleteDto> autocomplete(final String term) {
+		if(StringUtils.isNotBlank(term)){
+			return webpageDao.autocomplete(term);
+		}
+		return new ArrayList<AutocompleteDto>();
 	}
 
 	

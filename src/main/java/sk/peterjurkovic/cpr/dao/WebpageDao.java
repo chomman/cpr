@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.dao;
 
 import java.util.List;
 
+import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
 
 /**
@@ -35,4 +36,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	List<Webpage> getTopLevelWepages();
 	
 	int getMaxOrderInNode(Long nodeId);
+	
+	List<AutocompleteDto> autocomplete(String term);
 }

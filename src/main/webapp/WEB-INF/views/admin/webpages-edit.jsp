@@ -13,10 +13,22 @@
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.theme.custom.css" />" />
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
+	<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
 	 <script>
 	$(function() {
 		$( "#tabs" ).tabs();
+		
+		$('.picker').remotePicker({
+			<c:if test="${not empty webpageContent.redirectWebpage}">
+			item : { value : '${webpageContent.redirectWebpage.defaultName}', id: ${webpageContent.redirectWebpage.id} },
+			</c:if>
+	    	sourceUrl : getBasePath()  +"ajax/autocomplete/webpages",
+	    	inputNames : { hidden : "redirectWebpage", text : "redirectUrl" },
+	    	useDefaultCallBack : true
+		});
 	});
+	
+	
 	</script>
 </head>
 <body>
@@ -48,8 +60,19 @@
 					<li><a href="#images">Obrázky</a></li>
 				</ul>
 			<div id="content">
-					<form:form commandName="webpageContent" method="post" cssClass="valid">
-							<p <c:if test="${fn:length(model.usedLocales) eq 1}">class="pj-locale-box hidden"</c:if>>
+					<form:form commandName="webpageContent" method="post" cssClass="valid" name="webpageContent">
+						<p class="pj-redirect">
+							 <label>
+			                 	<strong>
+			                 		<spring:message code="webpage.redirect" />:
+			                 	</strong>	
+			                 </label>
+			                     <span class="field">
+			                     	<form:input path="redirectUrl" cssClass="picker mw500"/>
+			                     </span>
+						</p>
+						
+						<p <c:if test="${fn:length(model.usedLocales) eq 1}">class="pj-locale-box hidden"</c:if>>
 			                 <label>
 			                 	<strong>
 			                 		<spring:message code="webpage.locale" />:
@@ -72,7 +95,7 @@
 				                 <small><spring:message code="webpage.webpageContent.name.descr" /></small>
 					         </label>
 		                    <span class="field">
-		                     <form:input htmlEscape="true" path="webpageContent.name" maxlength="200" cssClass="mw500 required"
+		                     <form:input htmlEscape="true" path="webpageContent.name" id="pj-name" maxlength="200" cssClass="mw500 required"
 		                     data-err-msg="Hodnota: Název sekce, musí být vyplněna" />
 		                    </span>
 			            </p>
@@ -81,7 +104,7 @@
 	                 			<spring:message code="webpage.webpageContent.title" />
 							</label>
 		                    <span class="field">
-		                     <form:input htmlEscape="true" path="webpageContent.title" maxlength="250" cssClass="mw500"
+		                     <form:input htmlEscape="true" path="webpageContent.title" id="pj-title" maxlength="250" cssClass="mw500"
 		                     data-err-msg="Hodnota: Titulek sekce, musí být vyplněna" />
 		                    </span>
                 		</p>
@@ -91,7 +114,7 @@
 		                 			<spring:message code="webpage.url" />
 								</label>
 			                    <span class="field">
-			                     <form:input htmlEscape="true" path="webpageContent.url" maxlength="250" cssClass="mw500" />
+			                     <form:input htmlEscape="true" path="webpageContent.url" id="pj-url" maxlength="250" cssClass="mw500" />
 			                    </span>
 	                		</p>
                 		</c:if>
@@ -101,16 +124,20 @@
 								<spring:message code="webpage.webpageContent.description" />
 						   </label>
 							<span class="field">
-								<form:textarea path="webpageContent.description" cssClass="mw500 mh100" />
+								<form:textarea path="webpageContent.description" id="pj-description" cssClass="mw500 mh100" />
 							</span>
 						</p>
-						<p>
+						<p class="pj-content">
 							
 							<span class="field full-width">
 								<form:textarea path="webpageContent.content" cssClass="wisiwig" />
 							</span>
 						</p>
-
+						<p>
+							<span class="field full-width">
+								<input type="submit" class="button default saveContent" value="<spring:message code="form.save" />" />
+							</span> 
+						</p>
 						
 						<form:hidden path="locale" />
 						<form:hidden path="id" />				
@@ -134,8 +161,8 @@
 						<td class="t-label">Přidat jazykovou mutaci:</td>
 						<td class="t-val">
 							<c:if test="${not empty model.notUsedLocales}">
-							<c:url value="/admin/webpage/add-lang/${webpageContent.id}" var="actionUrl"  />
-							<form method="get" action="${actionUrl}">
+							<c:url value="/admin/webpage/lang/${webpageContent.id}" var="actionUrl"  />
+							<form method="post" action="${actionUrl}">
 							<select name="${model.langCodeParam}" class="chosenMini">
 								<c:forEach items="${model.notUsedLocales}" var="i" >
 										<option value="${i}" >
@@ -206,7 +233,9 @@
 								</p>
 								
 							</c:if>
-
+							<p class="button-box">
+								<input type="submit" class="button default" value="<spring:message code="form.save" />" /> 
+							</p>
 				</form:form>
 			</div>
 			<div id="images">

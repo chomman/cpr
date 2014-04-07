@@ -6,12 +6,18 @@ import org.hibernate.validator.constraints.Length;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
 import sk.peterjurkovic.cpr.enums.SystemLocale;
+import sk.peterjurkovic.cpr.web.json.deserializers.WebpageDeserializer;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class WebpageContentDto extends AbstractWebpageDto{
 	
 	@Length(min = 2, max = 2)
 	private String locale;
 	private WebpageContent webpageContent;
+	private String redirectUrl;
+	@JsonDeserialize(using = WebpageDeserializer.class)
+	private Webpage redirectWebpage;
 	
 	public WebpageContentDto(){}
 	
@@ -42,9 +48,27 @@ public class WebpageContentDto extends AbstractWebpageDto{
 		this.webpageContent = webpageContent;
 	}
 	
+	public String getRedirectUrl() {
+		return redirectUrl;
+	}
+
+	public void setRedirectUrl(String redirectUrl) {
+		this.redirectUrl = redirectUrl;
+	}
+
+	public Webpage getRedirectWebpage() {
+		return redirectWebpage;
+	}
+
+	public void setRedirectWebpage(Webpage redirectWebpage) {
+		this.redirectWebpage = redirectWebpage;
+	}
+
 	@Override
 	public void setWebpage(Webpage webpage) {
 		setId( webpage.getId() );
+		setRedirectUrl(webpage.getRedirectUrl());
+		setRedirectWebpage(webpage.getRedirectWebpage());
 	}
 	
 	
