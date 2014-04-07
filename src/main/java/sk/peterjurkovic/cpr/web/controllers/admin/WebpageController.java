@@ -1,15 +1,19 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,16 +26,22 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.dto.WebpageContentDto;
 import sk.peterjurkovic.cpr.dto.WebpageSettingsDto;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
+import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
@@ -45,8 +55,10 @@ public class WebpageController extends SupportAdminController {
 	
 	@Autowired
 	private WebpageService webpageService;
-	
-	
+	@Autowired
+	private FileService fileService;
+	@Autowired
+	private MessageSource messageSource;
 	
 	public WebpageController(){
 		setViewName("webpages-add");
@@ -108,6 +120,7 @@ public class WebpageController extends SupportAdminController {
 		model.put("usedLocales", WebpageUtils.getUsedLocaleCodes(webpage));
 		model.put("notUsedLocales", WebpageUtils.getNotUsedLocales(webpage));
 		model.put("langCodeParam", LOCALE_CODE_PARAM);
+		model.put("webpage", webpage);
 		map.put("model", model);
 		map.addAttribute("webpageContent", new WebpageContentDto( webpage, langCode ) );
 		map.addAttribute("webpageSettings", new WebpageSettingsDto( webpage ) );
@@ -136,19 +149,57 @@ public class WebpageController extends SupportAdminController {
 	@RequestMapping(value = "/admin/webpage/async-update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public @ResponseBody JsonResponse  processAjaxSubmit(@Valid @RequestBody  WebpageContentDto form) throws ItemNotFoundException{
 		JsonResponse response = new JsonResponse();
-		try{
-			update(form);
-			response.setStatus(JsonStatus.SUCCESS);
-		}catch(Exception e){
-			logger.warn(e.getMessage());
-		}
+		update(form);
+		response.setStatus(JsonStatus.SUCCESS);
 		return response;
+	}
+	
+	@RequestMapping(value = "/admin/webpage/async-update-settings", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  updateWebpageSettings(@Valid @RequestBody  WebpageSettingsDto form) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		updateSettings(form);
+		response.setStatus(JsonStatus.SUCCESS);
+		return response;
+	}
+	
+	@RequestMapping(value = "/admin/webpage/{id}/avatar", method = RequestMethod.POST)
+	public @ResponseBody JsonResponse  saveAvatar(@PathVariable Long id, MultipartHttpServletRequest request, HttpServletResponse response) throws ItemNotFoundException{
+		JsonResponse res = new JsonResponse();
+		 Webpage webpage = getWebpage(id);
+		 Iterator<String> itr =  request.getFileNames();
+		 if(!itr.hasNext()){
+			 res.setResult(messageSource.getMessage("error.file.blank", null, ContextHolder.getLocale()));
+			 return res; 
+		 }
+	     MultipartFile multipartFile = request.getFile(itr.next());
+	     try {
+			final String fileName = fileService.saveAvatar( multipartFile.getOriginalFilename(), multipartFile.getBytes());
+			webpage.setAvatar(fileName);
+			webpageService.saveOrUpdate(webpage);
+			res.setResult(fileName);
+			res.setStatus(JsonStatus.SUCCESS);
+	     } catch (IOException e) {
+			logger.error(e);
+		}
+		return res;
 	}
 	
 
 	@RequestMapping(value = "/ajax/autocomplete/webpages", method = RequestMethod.GET)
 	public @ResponseBody List<AutocompleteDto> search(@RequestBody @RequestParam("term") String term){
 		return webpageService.autocomplete(term);
+	}
+	
+	private void updateSettings(WebpageSettingsDto form) throws ItemNotFoundException{
+		Webpage webpage = getWebpage(form.getId());
+		final User user = UserUtils.getLoggedUser();
+		webpage.setEnabled(form.getEnabled());
+		webpage.setWebpageType(form.getWebpageType());
+		webpage.setPublishedSince(form.getPublishedSince());
+		if(user.isWebmaster()){
+			webpage.setLocked(form.getLocked());
+		}
+		webpageService.saveOrUpdate(webpage);
 	}
 	
 	private void update(WebpageContentDto form) throws ItemNotFoundException{

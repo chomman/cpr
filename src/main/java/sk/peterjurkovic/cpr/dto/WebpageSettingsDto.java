@@ -4,15 +4,18 @@ import org.joda.time.LocalDateTime;
 import org.jsoup.helper.Validate;
 
 import com.drew.lang.annotations.NotNull;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
+import sk.peterjurkovic.cpr.web.json.deserializers.DateTimeDeserializer;
 
 public class WebpageSettingsDto extends AbstractWebpageDto{
 	
 	@NotNull
 	private WebpageType webpageType;
 	private Boolean locked;
+	@JsonDeserialize(using=DateTimeDeserializer.class)
 	private LocalDateTime publishedSince;
 	@NotNull
 	private Boolean enabled;

@@ -52,6 +52,8 @@
 				</a:adminurl>
 			</div>
 			
+			<div id="ajax-result"></div>
+			
 			
 			<div id="tabs">
 				<ul>
@@ -61,7 +63,7 @@
 				</ul>
 			<div id="content">
 					<form:form commandName="webpageContent" method="post" cssClass="valid" name="webpageContent">
-						<p class="pj-redirect">
+						<p class="pj-redirect-type  pj-type">
 							 <label>
 			                 	<strong>
 			                 		<spring:message code="webpage.redirect" />:
@@ -127,7 +129,7 @@
 								<form:textarea path="webpageContent.description" id="pj-description" cssClass="mw500 mh100" />
 							</span>
 						</p>
-						<p class="pj-content">
+						<p class="pj-content-type  pj-type">
 							
 							<span class="field full-width">
 								<form:textarea path="webpageContent.content" cssClass="wisiwig" />
@@ -181,7 +183,7 @@
 					
 					<!--  JAZYKY  -->
 				</table>
-				<form:form modelAttribute="webpageSettings">
+				<form:form modelAttribute="webpageSettings" name="webpageSettings">
 							<p>
 								<label>
 									Typ webové sekce:
@@ -204,11 +206,11 @@
 									<spring:message code="publish" />:
 								</label>
 								<span class="field">
-									 <form:checkbox path="enabled" />
+									 <form:checkbox path="enabled" id="enabled" />
 								</span>
 							</p>
 							
-							<p>
+							<p  class="pj-article-type pj-type">
 								<label>
 									<spring:message code="webpage.publishedSince" />:
                 					<small><spring:message code="webpage.publishedSince.alert" /></small>
@@ -228,7 +230,7 @@
 										Zamknutá:
 									</label>
 									<span class="field">
-										 <form:checkbox path="locked" />
+										 <form:checkbox path="locked" id="locked" />
 									</span>
 								</p>
 								
@@ -239,8 +241,12 @@
 				</form:form>
 			</div>
 			<div id="images">
-			<p>Mauris eleifend est et turpis. Duis id erat. Suspendisse potenti. Aliquam vulputate, pede vel vehicula accumsan, mi neque rutrum erat, eu congue orci lorem eget lorem. Vestibulum non ante. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos. Fusce sodales. Quisque eu urna vel enim commodo pellentesque. Praesent eu risus hendrerit ligula tempus pretium. Curabitur lorem enim, pretium nec, feugiat nec, luctus a, lacus.</p>
-			<p>Duis cursus. Maecenas ligula eros, blandit nec, pharetra at, semper at, magna. Nullam ac lacus. Nulla facilisi. Praesent viverra justo vitae neque. Praesent blandit adipiscing velit. Suspendisse potenti. Donec mattis, pede vel pharetra blandit, magna ligula faucibus eros, id euismod lacus dolor eget odio. Nam scelerisque. Donec non libero sed nulla mattis commodo. Ut sagittis. Donec nisi lectus, feugiat porttitor, tempor ac, tempor vitae, pede. Aenean vehicula velit eu tellus interdum rutrum. Maecenas commodo. Pellentesque nec elit. Fusce in lacus. Vivamus a libero vitae lectus hendrerit hendrerit.</p>
+				<c:url value="/admin/webpage/${webpageContent.id}/avatar" var="actionUrl" />
+				<form method="post" action="${actionUrl}" enctype="multipart/form-data" name="avatar"> 
+				  <input name="file" id="file" type="file" /><br/>
+				  <input type="submit" value="Upload" />
+				</form>
+				<img src="<c:url value="/image/s/100/avatars/${model.webpage.avatar}" />" alt="avatar" />
 			</div>
 		</div>
 			

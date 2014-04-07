@@ -17,9 +17,12 @@ $(function() {
 	});
 	
 	$(document).on('submit', 'form[name=webpageContent]', saveContent);
+	$(document).on('submit', 'form[name=webpageSettings]', saveSettings);
+	$(document).on('submit', 'form[name=avatar]', uploadAvatar);
 	$(document).on('click', 'a.lang:not(".disabled")', switchLangs);
+	$(document).on('webpagetypechanged', refreshFieldsVisibility);
 	
-
+	refreshFieldsVisibility();
 });
 
 function switchLangs(){
@@ -44,6 +47,23 @@ function setContent(obj){
 		$('#pj-' + v).val(getText(obj[v]));
 	});
 }
+
+function saveSettings(){
+	try{
+		return sendRequest("POST", getWebpageSettings() , "async-update-settings", function(json){
+			if(json.status == "SUCCESS"){
+				showStatus({err: 0, msg: "Úspěšně aktualizováno"});
+				$(document).trigger('webpagetypechanged');
+			}else{
+				showErrors(json);
+			}
+		});
+	}catch(e){
+		console.log(e);
+	}
+	return false;
+}
+
 
 function saveContent(){
 	try{
@@ -76,6 +96,51 @@ function sendRequest(type, data, action, callBack){
 }
 
 
+function refreshFieldsVisibility(){
+	console.log('refreshFieldsVisibility, type: ' + getWebpageType() );
+	$('.pj-type').removeClass('hidden');
+	switch( getWebpageType() ){
+	case 'ARTICLE':
+	case 'CATEGORY':
+		renderContentType();
+		break;
+	case 'REDIRECT':
+		renderRedirectType();
+		break;
+	case 'NEWS':
+		renderNewsType();
+		break;
+	}
+	return false;
+	
+	
+	function renderContentType(){
+		$('.pj-redirect-type, .pj-article-type').addClass('hidden');
+	}
+	function renderRedirectType(){
+		$('.pj-content-type, .pj-article-type').addClass('hidden');
+	}
+	function renderNewsType(){
+		$('.pj-redirect-type').addClass('hidden');
+	}
+}
+
+function getWebpageType(){
+	return $('[name=webpageType]').val();
+}
+
+function getWebpageSettings(){
+	var data = {
+		id : $('#id').val(),
+		publishedSince : getDateTime('#publishedSince'),
+		enabled : getCheckVal('#enabled'),
+		webpageType : getWebpageType()
+	};
+	if($('#locked').length){
+		data.locked = getCheckVal('#locked'); 
+	}
+	return data;
+}
 
 
 function showErrors(json){
@@ -84,7 +149,7 @@ function showErrors(json){
 		for(i; i < json.result.length ; i++){
 			errorInfo += json.result[i] +(i != 0 ? "<br />" : '');  
 		}
-		$("#ajax-result").html('<p class="msg error">' + errorInfo + '</p>');
+		$(".ajax-result").html('<p class="msg error">' + errorInfo + '</p>');
 	}
 	showStatus({err: 1, msg: errorInfo});
 	console.warn(arguments);
@@ -97,6 +162,9 @@ function getContent(){
 	return data;
 } 
 
+function getCheckVal(s){
+	return $(s).is(':checked');
+}
 
 function toArray(a){
 	var d = {};	
@@ -126,7 +194,7 @@ function checkdateformat(v){;
 	return /^(\d{2}).(\d{2}).(\d{4})(\s{1})(\d{2}):(\d{2})$/.test(v);
 }
 
-function getDateTIme(element){
+function getDateTime(element){
 	var datetime, 
 		date = $(element + "-date").val().trim(),
 		time = $(element + "-time").val().trim();
@@ -152,4 +220,25 @@ function getText(v){
 		return "";
 	}
 	return v;
+}
+
+
+function uploadAvatar(){
+	showWebpageLoader();   
+	var formData = new FormData();
+	  formData.append("file", $("#file").get(0).files[0]);
+	  $.ajax({
+	    url: $(this).attr('action'),
+		data: formData,
+		dataType: 'text',
+		processData: false,
+		contentType: false,
+		type: 'POST'
+	})
+	 .done( function(json ){
+		console.log(json);
+	 })
+	 .fail( showErrors )
+	 .always( hideWebpageLoader );
+	  return false;
 }

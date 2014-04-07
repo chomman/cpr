@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.services;
 
-import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -23,6 +22,10 @@ public interface FileService {
 	
 	void convertImage(String i, String o);
 	
+	String saveAvatar(String fileName, byte[] content);
 	
+	boolean removeFile(String fileName, String directory);
+	
+	boolean removeAvatar(String avatarName);
 	
 }

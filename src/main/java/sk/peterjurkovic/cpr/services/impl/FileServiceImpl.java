@@ -12,6 +12,7 @@ import org.apache.commons.io.FileDeleteStrategy;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,8 @@ import sk.peterjurkovic.cpr.validators.admin.ImageValidator;
 
 @Service("fileService")
 public class FileServiceImpl implements FileService {
+	
+	private static final String AVATARS_DIR_NAME = "avatars";
 	
 	@Value("#{config.file_save_dir}")
 	private String fileSaveDir;
@@ -37,12 +40,16 @@ public class FileServiceImpl implements FileService {
 	@PostConstruct
 	public void initFileSaveDir(){
 		try{
-		File dir = new File(fileSaveDir);
-		if(!dir.exists()){
-			FileUtils.forceMkdir(dir);
-		}
+			File baseFileDir = new File(fileSaveDir);
+			if(!baseFileDir.exists()){
+				FileUtils.forceMkdir(baseFileDir);
+			}
+			File avatarsDir = new File(getAvatarsDir());
+			if(!avatarsDir.exists()){
+				FileUtils.forceMkdir(avatarsDir);
+			}
 		}catch(IOException e){
-			logger.info("Adresar nebol vytvoreny: " + e.getMessage());
+			logger.error(e);
 		}
 	}
 
@@ -60,7 +67,7 @@ public class FileServiceImpl implements FileService {
 				try {
 					FileUtils.forceMkdir(dir);
 				} catch (IOException e) {
-					logger.info("Adresar '"+dirName +"' nebol vytvoreny: " + e.getMessage());
+					logger.error("Adresar '"+dirName +"' nebol vytvoreny: " + e.getMessage());
 				}
 			}
 		}
@@ -157,6 +164,49 @@ public class FileServiceImpl implements FileService {
 		logger.info(inputSrc + " => " + outpuSrc);
 		
 	}
-	
 
+
+	@Override
+	public String saveAvatar(String fileName, byte[] content) {
+		Validate.notEmpty(fileName);
+		if(!isAvatarsNameUniqe(fileName)){
+			fileName = System.currentTimeMillis() + fileName; 
+		}
+		return saveFile(fileName, content, AVATARS_DIR_NAME + File.separatorChar );
+	}
+	
+	
+	private boolean isAvatarsNameUniqe(String fileName){
+		File file = new File(getAvatarsDir() + CodeUtils.generateProperFilename(fileName) ) ;
+		return !file.exists();
+	}
+	
+	
+	private String getAvatarsDir(){
+		return fileSaveDir +  File.separatorChar + AVATARS_DIR_NAME + File.separatorChar;
+	}
+
+
+	@Override
+	public boolean removeFile(String fileName, String directory) {
+		Validate.notEmpty(fileName);
+		Validate.notEmpty(directory);
+		File file = new File(fileSaveDir +  File.separatorChar + directory + File.separatorChar + fileName);
+		if(file.exists()){
+			return file.delete();
+		}
+		return false;
+	}
+
+
+	@Override
+	public boolean removeAvatar(String avatarName) {
+		if(StringUtils.isNotBlank(avatarName)){
+			File avatar = new File(getAvatarsDir() + avatarName);
+			if(avatar.exists()){
+				return avatar.delete();
+			}
+		}
+		return false;
+	}
 }
