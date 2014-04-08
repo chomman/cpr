@@ -38,4 +38,6 @@ public interface WebpageService {
 	void createWebpageContent(Long webpageId, String langCode);
 	
 	List<AutocompleteDto> autocomplete(String term);
+	
+	void deleteWebpageAvatar(Long id);
 }

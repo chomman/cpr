@@ -20,6 +20,7 @@ $(function() {
 	$(document).on('submit', 'form[name=webpageSettings]', saveSettings);
 	$(document).on('submit', 'form[name=avatar]', uploadAvatar);
 	$(document).on('click', 'a.lang:not(".disabled")', switchLangs);
+	$(document).on('click', 'a.delete', deleteAvatar);
 	$(document).on('webpagetypechanged', refreshFieldsVisibility);
 	
 	refreshFieldsVisibility();
@@ -49,7 +50,6 @@ function setContent(obj){
 }
 
 function saveSettings(){
-	try{
 		return sendRequest("POST", getWebpageSettings() , "async-update-settings", function(json){
 			if(json.status == "SUCCESS"){
 				showStatus({err: 0, msg: "Úspěšně aktualizováno"});
@@ -58,46 +58,41 @@ function saveSettings(){
 				showErrors(json);
 			}
 		});
-	}catch(e){
-		console.log(e);
-	}
-	return false;
 }
+
 
 
 function saveContent(){
-	try{
-		return sendRequest("POST", getContent() , "async-update", function(json){
-			if(json.status == "SUCCESS"){
-				showStatus({err: 0, msg: "Úspěšně aktualizováno"});
-			}else{
-				showErrors(json);
-			}
-		});
-	}catch(e){
-		console.log(e);
-	}
-	return false;
+	return sendRequest("POST", getContent() , "async-update", function(json){
+		if(json.status == "SUCCESS"){
+			showStatus({err: 0, msg: "Úspěšně aktualizováno"});
+		}else{
+			showErrors(json);
+		}
+	});
 }
 
 function sendRequest(type, data, action, callBack){
-	showWebpageLoader(); 
-	$.ajax({
-		url :  getBasePath() + 'admin/webpage/' + action,
-		contentType: "application/json",
-		type : type,
-		dataType : "json",
-		data : JSON.stringify(data)
-	 })
-	 .done( callBack )
-	 .fail( showErrors )
-	 .always( hideWebpageLoader );
+	try{
+		showWebpageLoader(); 
+		$.ajax({
+			url :  getBasePath() + 'admin/webpage/' + action,
+			contentType: "application/json",
+			type : type,
+			dataType : "json",
+			data : JSON.stringify(data)
+		 })
+		 .done( callBack )
+		 .fail( showErrors )
+		 .always( hideWebpageLoader );
+	}catch(e){
+		console.warn(e);
+	}
 	 return false;
 }
 
 
 function refreshFieldsVisibility(){
-	console.log('refreshFieldsVisibility, type: ' + getWebpageType() );
 	$('.pj-type').removeClass('hidden');
 	switch( getWebpageType() ){
 	case 'ARTICLE':
@@ -222,6 +217,16 @@ function getText(v){
 	return v;
 }
 
+function deleteAvatar(){
+	return sendRequest("DELETE", false , $('#id').val() + '/avatar', function(json){
+		if(json.status == "SUCCESS"){
+			$('.pj-fotobox').addClass('hidden');
+			$('form[name=avatar]').removeClass('hidden');
+		}else{
+			showErrors(json);
+		}
+	});
+}
 
 function uploadAvatar(){
 	showWebpageLoader();   
@@ -235,10 +240,27 @@ function uploadAvatar(){
 		contentType: false,
 		type: 'POST'
 	})
-	 .done( function(json ){
-		console.log(json);
+	 .done( function( json ){
+		 console.log('done');
+		 json = $.parseJSON(json);
+		 if(json.status == "SUCCESS"){
+			 var $wrapp = $('.pj-fotobox span');
+			 $wrapp.html(
+					 '<a href="'+getImgSrc("n", json.result) +'" class="lightbox" >'+
+					 	'<img src="' + getImgSrc("s/150", json.result) + '" alt="Avatar" />' +
+					 '</a>'
+			 );
+			 $('.pj-fotobox').removeClass('hidden');
+			 $('form[name=avatar]').addClass('hidden');
+		 }else{
+			 showStatus({err: 1, msg: json.result });
+		 }
 	 })
 	 .fail( showErrors )
 	 .always( hideWebpageLoader );
 	  return false;
+	  
+	  function getImgSrc(type, name){
+		  return getBasePath() + 'image/'+type+'/avatars/' + name;
+	  }
 }

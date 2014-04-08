@@ -43,6 +43,7 @@ import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
+import sk.peterjurkovic.cpr.validators.admin.ImageValidator;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
@@ -59,6 +60,8 @@ public class WebpageController extends SupportAdminController {
 	private FileService fileService;
 	@Autowired
 	private MessageSource messageSource;
+	@Autowired
+	private ImageValidator imageValidator;
 	
 	public WebpageController(){
 		setViewName("webpages-add");
@@ -102,8 +105,8 @@ public class WebpageController extends SupportAdminController {
 			prepareModelForCreate(map, webpage , nodeId);
 			return getViewName();
 		}
-		webpageService.createNewWebpage(webpage, nodeId);
-		return "redirect:/admin/webpages";
+		Long id = webpageService.createNewWebpage(webpage, nodeId);
+		return "redirect:/admin/webpage" + id;
 	}
 	
 	
@@ -172,6 +175,10 @@ public class WebpageController extends SupportAdminController {
 			 return res; 
 		 }
 	     MultipartFile multipartFile = request.getFile(itr.next());
+	     if(!imageValidator.validate(multipartFile.getOriginalFilename())){
+	    	 res.setResult(messageSource.getMessage("error.image.extetion", null, ContextHolder.getLocale()));
+			 return res; 
+	     }
 	     try {
 			final String fileName = fileService.saveAvatar( multipartFile.getOriginalFilename(), multipartFile.getBytes());
 			webpage.setAvatar(fileName);
@@ -182,6 +189,14 @@ public class WebpageController extends SupportAdminController {
 			logger.error(e);
 		}
 		return res;
+	}
+	
+	@RequestMapping(value = "/admin/webpage/{id}/avatar", method = RequestMethod.DELETE)
+	public @ResponseBody JsonResponse  deleteAvatar(@PathVariable Long id) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		webpageService.deleteWebpageAvatar(id);
+		response.setStatus(JsonStatus.SUCCESS);
+		return response;
 	}
 	
 

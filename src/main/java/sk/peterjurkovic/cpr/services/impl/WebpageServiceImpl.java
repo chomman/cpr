@@ -19,6 +19,7 @@ import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
 import sk.peterjurkovic.cpr.enums.SystemLocale;
+import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.CodeUtils;
@@ -28,11 +29,13 @@ import sk.peterjurkovic.cpr.utils.UserUtils;
 @Service("webpageService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class WebpageServiceImpl implements WebpageService{
-
+	
 	@Autowired
 	private WebpageDao webpageDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private FileService fileService;
 	
 	
 	
@@ -142,17 +145,18 @@ public class WebpageServiceImpl implements WebpageService{
 		}		
 		if(parentWebpage != null){
 			webpage = new Webpage(parentWebpage);
-			webpage.setOrder(getNextOrderValue(parentWebpage.getId()));
+			final int order = getNextOrderValue(parentWebpage.getId());
+			webpage.setOrder(order);
 		}else{
 			webpage = new Webpage();
 			webpage.setOrder(getNextOrderValue( null ));
 		}
 		webpage.setWebpageType(form.getWebpageType());
 		WebpageContent formContent = form.getDefaultWebpageContent();
-		WebpageContent webpageContent = webpage.getDefaultWebpageContent();
-		webpageContent.setName(formContent.getName());
-		webpageContent.setTitle(formContent.getName());
-		webpageContent.setUrl( CodeUtils.toSeoUrl( formContent.getName() ));
+		WebpageContent content = webpage.getDefaultWebpageContent();
+		content.setName(formContent.getName());
+		content.setTitle(formContent.getName());
+		content.setUrl( CodeUtils.toSeoUrl( formContent.getName() ));
 		saveOrUpdate(webpage);
 		return webpage.getId();
 	}
@@ -184,6 +188,17 @@ public class WebpageServiceImpl implements WebpageService{
 			return webpageDao.autocomplete(term);
 		}
 		return new ArrayList<AutocompleteDto>();
+	}
+
+	@Override
+	public void deleteWebpageAvatar(Long webpageId) {
+		Webpage webpage = getWebpageById(webpageId);
+		if(webpage != null && StringUtils.isNotBlank(webpage.getAvatar())){
+			if(fileService.removeAvatar(webpage.getAvatar())){
+				webpage.setAvatar(null);
+				saveOrUpdate(webpage);
+			}
+		}
 	}
 
 	

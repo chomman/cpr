@@ -46,3 +46,10 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 #settings .btn-webpage{color:#eee;padding:7px 30px 7px 7px;cursor:pointer;}
 .t-val{color:#333;min-width:250px;}
 .t-label{width:190px;color:#777;font-size:12px;background:#f3f3f3}
+
+.pj-fotobox{padding:15px;border:2px solid #ddd;background:#fafafa}
+.pj-fotobox h4{padding:0 10px 10px 0; }
+.pj-fotobox .lightbox{display:block;width:150px;height:150px;border:2px solid #ddd;}
+.pj-fotobox .lightbox:hover{border:2px solid #bbb;}
+.pj-fotobox .delete{color:red;padding:5px 0;display:inline-block;margin-top:0px;font-size:12px;text-decoration:underline;}
+.pj-fotobox .delete:hover{text-decoration:none;color:#000}

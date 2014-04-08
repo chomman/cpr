@@ -3,7 +3,7 @@
 header, footer, nav, aside, article, section{display:block }
 body{font-family: Arial,Tahoma, sans-serif;position: relative;}
 .clear{ clear:both;}
-.hidden{ display:none;}
+.hidden{ display:none !important;}
 .c{ text-align:center;}
 .l{ text-align:left;}
 .r{ text-align:right;}

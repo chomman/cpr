@@ -17,7 +17,7 @@
 	 <script>
 	$(function() {
 		$( "#tabs" ).tabs();
-		
+		$('.lightbox').fancybox();
 		$('.picker').remotePicker({
 			<c:if test="${not empty webpageContent.redirectWebpage}">
 			item : { value : '${webpageContent.redirectWebpage.defaultName}', id: ${webpageContent.redirectWebpage.id} },
@@ -242,11 +242,37 @@
 			</div>
 			<div id="images">
 				<c:url value="/admin/webpage/${webpageContent.id}/avatar" var="actionUrl" />
-				<form method="post" action="${actionUrl}" enctype="multipart/form-data" name="avatar"> 
-				  <input name="file" id="file" type="file" /><br/>
-				  <input type="submit" value="Upload" />
+				<form method="post" action="${actionUrl}" enctype="multipart/form-data" name="avatar" class="valid <c:if test="${not empty model.webpage.avatar}">hidden</c:if>"> 
+				  	<p>
+						<label>
+							<strong>
+								<em class="red">*</em>
+								<spring:message code="form.file.image.upload" />
+							</strong>
+						</label>
+						<span class="field">
+							<input name="file" id="file" type="file" class="required" />
+						</span>
+					</p>
+				  	<p class="button-box">
+				  		<input type="submit" class="button default" value="<spring:message code="form.file.upload" />" />		
+				  	</p>
+				  
 				</form>
-				<img src="<c:url value="/image/s/100/avatars/${model.webpage.avatar}" />" alt="avatar" />
+				
+				<div class="pj-fotobox <c:if test="${empty model.webpage.avatar}">hidden</c:if>">
+					<h4><spring:message code="webpage.avatar" /></h4>
+					<span>
+						<c:if test="${not empty model.webpage.avatar}">
+							<a href="<c:url value="/image/n/avatars/${model.webpage.avatar}" />" class="lightbox">
+								<img src="<c:url value="/image/s/150/avatars/${model.webpage.avatar}" />" alt="avatar" />
+							</a>
+						</c:if>
+					</span>
+					<a href="#" class="confirm delete">
+						<spring:message code="form.delete" />
+					</a>
+				</div>
 			</div>
 		</div>
 			
