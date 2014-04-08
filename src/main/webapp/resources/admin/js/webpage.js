@@ -44,7 +44,7 @@ function switchLangs(){
 
 function setContent(obj){
 	tinyMCE.editors[0].setContent(getText(obj.content));
-	$.each( ["title", "url", "description", "name"] , function( i, v ){
+	$.each( ["title", "description", "name"] , function( i, v ){
 		$('#pj-' + v).val(getText(obj[v]));
 	});
 }
@@ -131,8 +131,11 @@ function getWebpageSettings(){
 		enabled : getCheckVal('#enabled'),
 		webpageType : getWebpageType()
 	};
-	if($('#locked').length){
-		data.locked = getCheckVal('#locked'); 
+	if($('#lockedRemove').length){
+		data.lockedRemove = getCheckVal('#lockedRemove'); 
+	}
+	if($('#lockedCode').length){
+		data.lockedCode = getCheckVal('#lockedCode'); 
 	}
 	return data;
 }

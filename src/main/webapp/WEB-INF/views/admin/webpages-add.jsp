@@ -64,7 +64,7 @@
                 		</strong>	
                 	</label>
 	                <span class="field">  
-					     <form:input path="localized['cs'].name" cssClass="mw300 required" maxlength="200" />
+					     <form:input path="localized['cs'].name" cssClass="mw500 required" maxlength="200" />
 					 </span>
 				 </p>
 				 

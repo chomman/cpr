@@ -1,8 +1,10 @@
 package sk.peterjurkovic.cpr.services.impl;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
@@ -12,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.dao.WebpageDao;
 import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.User;
@@ -74,18 +75,26 @@ public class WebpageServiceImpl implements WebpageService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public String getSeoUniqueUrl(String name){
-		name = Constants.DEFAULT_WEBPAGE_URL_PREFIX + CodeUtils.toSeoUrl(name);
-		Webpage webpage = webpageDao.getByCode(name);
-		if(webpage != null){
-			return name + "-" + webpageDao.getNextIdValue();
+	public String getUniqeCode(String name, Long id){
+		final String code =  StringUtils.trim( CodeUtils.toSeoUrl(name) );
+		if(!isWebpageUrlUniqe(code, id)){
+			return code + "-" + webpageDao.getNextIdValue();
 		}
-		return name;
+		return code;
+	}
+		
+	@Override
+	@Transactional(readOnly = true)
+	public String getUniqeCode(String name){
+		return getUniqeCode(name, Long.valueOf(-1));
 	}
 	
 	@Override
 	public void saveOrUpdate(Webpage webpage) {
-		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		User user = null;
+		if(UserUtils.getLoggedUser() != null){
+			userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		}
 		if(webpage.getId() == null){
 			webpage.setCreatedBy(user);
 			webpage.setCreated(new LocalDateTime());
@@ -108,7 +117,7 @@ public class WebpageServiceImpl implements WebpageService{
 	@Transactional(readOnly = true)
 	public boolean isWebpageUrlUniqe(final String code, final Long id) {
 		if(StringUtils.isBlank(code)){
-			return true;
+			return false;
 		}
 		Webpage persitedWebpage = getWebpageByCode(code);
 		if(persitedWebpage == null || persitedWebpage.getId() == id){
@@ -132,9 +141,19 @@ public class WebpageServiceImpl implements WebpageService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<Webpage> getTopLevelWepages() {
-		return webpageDao.getTopLevelWepages();
+		return webpageDao.getTopLevelWepages(false);
 	}
-
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getTopLevelWepages(boolean enabledOnly) {
+		return webpageDao.getTopLevelWepages(enabledOnly);
+	}
+	
+	@Override
+	public Long createNewWebpage(final Webpage form) {
+		return createNewWebpage(form, 0l);
+	}
 	
 	@Override
 	public Long createNewWebpage(final Webpage form, final Long webpageNodeId) {
@@ -144,8 +163,8 @@ public class WebpageServiceImpl implements WebpageService{
 			parentWebpage = getWebpageById(webpageNodeId);
 		}		
 		if(parentWebpage != null){
-			webpage = new Webpage(parentWebpage);
 			final int order = getNextOrderValue(parentWebpage.getId());
+			webpage = new Webpage(parentWebpage);
 			webpage.setOrder(order);
 		}else{
 			webpage = new Webpage();
@@ -156,11 +175,12 @@ public class WebpageServiceImpl implements WebpageService{
 		WebpageContent content = webpage.getDefaultWebpageContent();
 		content.setName(formContent.getName());
 		content.setTitle(formContent.getName());
-		content.setUrl( CodeUtils.toSeoUrl( formContent.getName() ));
+		webpage.setCode( getUniqeCode( formContent.getName() ) );
 		saveOrUpdate(webpage);
 		return webpage.getId();
 	}
 
+	
 	@Override
 	public void createWebpageContent(final Long webpageId, final String langCode) {
 		if(!SystemLocale.isAvaiable(langCode)){
@@ -174,8 +194,7 @@ public class WebpageServiceImpl implements WebpageService{
 			WebpageContent newContent = new WebpageContent();
 			newContent.setName(localized.get(defaultLang).getName());
 			newContent.setTitle(localized.get(defaultLang).getTitle());
-			newContent.setUrl(CodeUtils.toSeoUrl(localized.get(defaultLang).getUrl()));
-			localized.put(langCode, newContent);
+			webpage.getLocalized().put(langCode, newContent);
 			saveOrUpdate(webpage);
 		}
 	}
@@ -201,7 +220,40 @@ public class WebpageServiceImpl implements WebpageService{
 		}
 	}
 
+	@Override
+	public void deleteWebpageWithAttachments(Long id) {
+		final Webpage webpage = getWebpageById(id);
+		if(webpage != null){
+			Set<String> avatars = new HashSet<String>();
+			if(webpage.getHasChildrens()){
+				appendAllChildAvatars(webpage.getChildrens(), avatars) ;
+			}
+			
+			deleteWebpage(webpage);
+			for(String avatar : avatars){
+				fileService.removeAvatar(avatar);
+			}
+		}
+	}
+
 	
+	private void appendAllChildAvatars(Set<Webpage> childrens, Set<String> avatars){
+		Validate.notNull(avatars);
+		for(Webpage child : childrens){
+			if(StringUtils.isNotBlank(child.getAvatar())){
+				avatars.add(child.getAvatar());
+			}
+			if(child.getHasChildrens()){
+				appendAllChildAvatars(child.getChildrens(), avatars);
+			}
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Webpage getHomePage() {
+		return webpageDao.getHomePage();
+	}
 	
 	
 	

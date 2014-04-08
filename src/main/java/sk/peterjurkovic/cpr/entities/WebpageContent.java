@@ -10,7 +10,6 @@ import org.hibernate.annotations.Type;
 public class WebpageContent {
 	
     private String name;
-    private String url;
     private String title;
     private String description;
     private String content;
@@ -36,11 +35,6 @@ public class WebpageContent {
 		return content;
 	}
 	
-	@Column(name = "url")
-	public String getUrl() {
-		return url;
-	}
-
 	
 	public void setName(String name) {
 		this.name = name;
@@ -58,7 +52,4 @@ public class WebpageContent {
 		this.description = description;
 	}
 	
-	public void setUrl(String url) {
-		this.url = url;
-	}
 }

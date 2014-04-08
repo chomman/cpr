@@ -53,16 +53,7 @@
 
 			<!-- NAVIGATION -->
 			<nav>
-				<ul class="page-width">
-					<c:forEach items="${commonPublic.mainMenu}" var="webpage">
-						<li>
-							<a title="<a:localizedValue object="${webpage}" fieldName="title" />" <c:if test="${model.tab == webpage.id or webpage.id == model.webpage.id}" >class="curr"</c:if> 
-							href="<a:url href="${webpage.code}" linkOnly="true" />">
-							<a:localizedValue object="${webpage}" fieldName="name" />
-							</a>
-						</li>
-					</c:forEach>
-				</ul>
+					<webpage:nav webpages="${commonPublic.mainMenu}" ulCssClass="page-width" />
 			</nav>
 			
 			<!-- CONTENT -->

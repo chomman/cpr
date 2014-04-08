@@ -92,6 +92,11 @@
 		<required>true</required>
 		<rtexprvalue>true</rtexprvalue>
 	</attribute>
+	<attribute>
+		<name>extraAttr</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
   </tag>
   <tag>
     <name>standardUrl</name>

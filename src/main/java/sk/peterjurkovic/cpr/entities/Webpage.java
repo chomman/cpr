@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.entities;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -50,7 +49,8 @@ public class Webpage extends AbstractEntity {
 	private String redirectUrl;
 	private Webpage redirectWebpage;
 	private Map<String, WebpageContent> localized;
-	private Boolean locked;
+	private Boolean lockedCode;
+	private Boolean lockedRemove;
 	private LocalDateTime publishedSince;
 	
 	public Webpage(){
@@ -63,7 +63,8 @@ public class Webpage extends AbstractEntity {
 		this.webpageType = WebpageType.ARTICLE;
 		this.localized = new HashMap<String, WebpageContent>();
 		this.localized.put(SystemLocale.getDefaultLanguage(), new WebpageContent());
-		this.locked = Boolean.FALSE;
+		this.lockedCode = Boolean.FALSE;
+		this.lockedRemove = Boolean.FALSE;
 		setEnabled(Boolean.FALSE);
 		if(parent != null){
 			registerInParentsChilds();
@@ -98,7 +99,7 @@ public class Webpage extends AbstractEntity {
 	@OrderBy(clause = "order" )
 	@OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	public Set<Webpage> getChildrens() {
-		return  Collections.unmodifiableSet(childrens);
+		return  childrens;
 	}
 	
 	@Enumerated(value = EnumType.STRING)
@@ -123,9 +124,15 @@ public class Webpage extends AbstractEntity {
 		return redirectWebpage;
 	}
 	
-	@Column(name = "is_locked")
-	public Boolean getLocked() {
-		return locked;
+	
+	@Column(name = "is_locked_code")
+	public Boolean getLockedCode() {
+		return lockedCode;
+	}
+
+	@Column(name = "is_locked_remove")
+	public Boolean getLockedRemove() {
+		return lockedRemove;
 	}
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
@@ -134,10 +141,7 @@ public class Webpage extends AbstractEntity {
 		return publishedSince;
 	}
 
-	@Transient
-	public String getCode() {
-		return null;
-	}
+	
 	
 	@Transient
 	public String getDefaultName(){
@@ -151,6 +155,14 @@ public class Webpage extends AbstractEntity {
 	@Transient
 	public WebpageContent getDefaultWebpageContent(){
 		return localized.get(SystemLocale.getDefaultLanguage());
+	}
+	
+	@Transient
+	public WebpageContent getWebpageContentInLang(String lang){
+		if(localized.containsKey(lang)){
+			return localized.get(lang);
+		}
+		return getDefaultWebpageContent();
 	}
 
 	@Transient
@@ -193,7 +205,14 @@ public class Webpage extends AbstractEntity {
 		return false;
 	}
 	
-
+	@Transient
+	public boolean isHomepage(){
+		if(order == 0 && parent == null){
+			return true;
+		}
+		return false;
+	}
+	
     /** 
      * Register this domain in the child list of its parent. 
      */
@@ -233,8 +252,11 @@ public class Webpage extends AbstractEntity {
 		this.avatar = avatar;
 	}
 	
-	public void setLocked(Boolean locked) {
-		this.locked = locked;
+	public void setLockedCode(Boolean lockedCode) {
+		this.lockedCode = lockedCode;
+	}
+	public void setLockedRemove(Boolean lockedRemove) {
+		this.lockedRemove = lockedRemove;
 	}
 	
 	public void setPublishedSince(LocalDateTime publishedSince) {

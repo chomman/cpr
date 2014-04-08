@@ -40,7 +40,6 @@ import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.services.WebpageService;
-import sk.peterjurkovic.cpr.utils.CodeUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
 import sk.peterjurkovic.cpr.validators.admin.ImageValidator;
@@ -50,9 +49,12 @@ import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
 @Controller
 public class WebpageController extends SupportAdminController {
-
+	
+	private final static String WEBPAGE_LIST_MAPPING = "/admin/webpages";
 	private final static String EDIT_WEBPAGE_MAPPING = "/admin/webpage/edit/{id}";
 	private final static String LOCALE_CODE_PARAM = "localeCode";
+	
+	
 	
 	@Autowired
 	private WebpageService webpageService;
@@ -77,10 +79,10 @@ public class WebpageController extends SupportAdminController {
     }
 	
 
-	@RequestMapping("/admin/webpages")
+	@RequestMapping(WEBPAGE_LIST_MAPPING)
 	public String showWebpages(ModelMap modelMap, HttpServletRequest request){
-		if(request.getParameter("successDelete") != null){
-			modelMap.put("successDelete", true);
+		if(request.getParameter(SUCCESS_DELETE_PARAM) != null){
+			modelMap.put(SUCCESS_DELETE_PARAM, true);
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpages", webpageService.getTopLevelWepages());
@@ -97,6 +99,13 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
+	@RequestMapping(value = "/admin/webpage/delete/{id}", method = RequestMethod.GET)
+	public String deleteWebpage(@PathVariable Long id) throws ItemNotFoundException{
+		webpageService.deleteWebpageWithAttachments(id);
+		return "redirect:" + WEBPAGE_LIST_MAPPING + "?" + SUCCESS_DELETE_PARAM + "=1";
+	}
+	
+	
 	
 	@RequestMapping(value = "/admin/webpage/add/{nodeId}", method = RequestMethod.POST)
 	public String processCreate(@PathVariable Long nodeId, Webpage webpage, BindingResult result, ModelMap map) throws ItemNotFoundException{
@@ -106,7 +115,7 @@ public class WebpageController extends SupportAdminController {
 			return getViewName();
 		}
 		Long id = webpageService.createNewWebpage(webpage, nodeId);
-		return "redirect:/admin/webpage" + id;
+		return buildRedirectUrl(id, SystemLocale.getDefaultLanguage());
 	}
 	
 	
@@ -212,7 +221,8 @@ public class WebpageController extends SupportAdminController {
 		webpage.setWebpageType(form.getWebpageType());
 		webpage.setPublishedSince(form.getPublishedSince());
 		if(user.isWebmaster()){
-			webpage.setLocked(form.getLocked());
+			webpage.setLockedCode(form.getLockedCode());
+			webpage.setLockedRemove(form.getLockedRemove());
 		}
 		webpageService.saveOrUpdate(webpage);
 	}
@@ -224,9 +234,8 @@ public class WebpageController extends SupportAdminController {
 		if(!webpage.getLocalized().containsKey(form.getLocale())){
 			throw new IllegalArgumentException(String.format("Content of webpage [id=%1$d][lang=%2$s] was not found", form.getId(), form.getLocale()));
 		}
-		//final User user = UserUtils.getLoggedUser();
-		if(!webpage.getLocked()){
-			form.getWebpageContent().setUrl(CodeUtils.toSeoUrl(form.getWebpageContent().getUrl()));
+		if(!webpage.getLockedCode() && form.getLocale().equals(SystemLocale.getDefaultLanguage())){
+			webpage.setCode(webpageService.getUniqeCode(form.getWebpageContent().getName(), webpage.getId()));
 		}
 		webpage.setRedirectWebpage(form.getRedirectWebpage());
 		webpage.setRedirectUrl(form.getRedirectUrl());

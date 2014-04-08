@@ -16,6 +16,7 @@ public class WebpageContentDto extends AbstractWebpageDto{
 	private String locale;
 	private WebpageContent webpageContent;
 	private String redirectUrl;
+	private String code;
 	@JsonDeserialize(using = WebpageDeserializer.class)
 	private Webpage redirectWebpage;
 	
@@ -63,12 +64,21 @@ public class WebpageContentDto extends AbstractWebpageDto{
 	public void setRedirectWebpage(Webpage redirectWebpage) {
 		this.redirectWebpage = redirectWebpage;
 	}
+	
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
 
 	@Override
 	public void setWebpage(Webpage webpage) {
 		setId( webpage.getId() );
 		setRedirectUrl(webpage.getRedirectUrl());
 		setRedirectWebpage(webpage.getRedirectWebpage());
+		setCode(webpage.getCode());
 	}
 	
 	

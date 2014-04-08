@@ -1,27 +1,27 @@
 
 table.webpages{min-width: 100%;background:#fff;border-collapse:collapse;margin:14px 0;color:#555;border:1px solid #ddd;}
-table.webpages th{padding:7px 10px;border-bottom:3px solid #ddd;border-top:2px solid #eee;font-size:12px;color:#333;margin-bottom:5px;font-weight:normal;background:}
+table.webpages th{padding:7px 10px;border-bottom:3px solid #ddd;border-top:2px solid #eee;font-size:12px;color:#333;margin-bottom:5px;font-weight:normal;}
 table.webpages tr{background:#F9F9F9;}
-table.webpages tr.odd{background:#fff}
-table.webpages td{ font-size:12px;height:60px;padding:0px 10px; }
+table.webpages tr.odd{background:#fff;height:60px;max-height:60px;}
+table.webpages td{ font-size:12px;height:60px;max-height:60px;padding:0px 10px; }
 table.webpages td.w-name{vertical-align:top;}
 
 /* name */
-.w-td-name{width:50%;min-width:450px;}
-.indenter{background-repeat:no-repeat; background-position: right -12px;}
-.pj-ico{display:inline-block;}
-.pj-ico span{display:block;width:100%;}
+.w-td-name{width:50%;min-width:450px;position:relative; }
+.indenter{background-repeat:no-repeat; background-position: right -12px;display:table-cell !important}
+.pj-ico{height:100%;min-height:100%;padding:2px;display:table-cell;width:100%;min-width:100%;}
+.pj-ico span{width:100%;}
 .pj-ico span a{display:inline-block;}
 
 .indenter{height:100%;float:left;}
 .pj-children .indenter{background-image:url(../img/nodes.png);}
-.branch.last-node .indenter{ background-position: right -128px;}
 .leaf.last-node .indenter{ background-position: right -63px;}
+.branch.last-node .indenter{ background-position: right -128px;}
 
-.w-name{background-repeat:no-repeat;background-image:url(../img/webpages-icons.png);padding-left:18px;}
-.w-name a{font-weight:bold;font-size:13px;padding:10px 5px 5px 5px;}
-.pj-webpage-nav{display:none !important;}
-.pj-webpage-nav a{padding:7px 4px;background:ol ive;}
+.w-name{background-repeat:no-repeat;background-image:url(../img/webpages-icons.png);padding-left:18px;display:inline-block;}
+.w-name a{font-weight:bold;font-size:13px;padding:10px 0px 5px 5px;width:100%}
+.pj-webpage-nav{display:none !important;} /* display:none !important; */
+.pj-webpage-nav a{padding:7px 4px;}
 
 table.webpages tr:hover{background:#eef1ff}
 table.webpages tr:hover .pj-webpage-nav{display:block !important;}

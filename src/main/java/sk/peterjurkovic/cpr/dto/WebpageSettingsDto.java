@@ -14,7 +14,8 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	
 	@NotNull
 	private WebpageType webpageType;
-	private Boolean locked;
+	private Boolean lockedCode;
+	private Boolean lockedRemove;
 	@JsonDeserialize(using=DateTimeDeserializer.class)
 	private LocalDateTime publishedSince;
 	@NotNull
@@ -33,12 +34,6 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	public void setWebpageType(WebpageType webpageType) {
 		this.webpageType = webpageType;
 	}
-	public Boolean getLocked() {
-		return locked;
-	}
-	public void setLocked(Boolean locked) {
-		this.locked = locked;
-	}
 	public LocalDateTime getPublishedSince() {
 		return publishedSince;
 	}
@@ -52,11 +47,28 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 		this.enabled = enabled;
 	}
 	
+	public Boolean getLockedCode() {
+		return lockedCode;
+	}
+
+	public void setLockedCode(Boolean lockedCode) {
+		this.lockedCode = lockedCode;
+	}
+
+	public Boolean getLockedRemove() {
+		return lockedRemove;
+	}
+
+	public void setLockedRemove(Boolean lockedRemove) {
+		this.lockedRemove = lockedRemove;
+	}
+
 	@Override
 	public void setWebpage(Webpage webpage){
 		setId( webpage.getId() );
 		this.webpageType = webpage.getWebpageType();
-		this.locked = webpage.getLocked();
+		this.lockedCode = webpage.getLockedCode();
+		this.lockedRemove = webpage.getLockedRemove();
 		this.publishedSince = webpage.getPublishedSince();
 		this.enabled = webpage.getEnabled();
 	}

@@ -33,9 +33,12 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	
 	List<Webpage> getAllOrderedWebpages();
 	
-	List<Webpage> getTopLevelWepages();
+	
+	List<Webpage> getTopLevelWepages(boolean enabledOnly);
 	
 	int getMaxOrderInNode(Long nodeId);
 	
 	List<AutocompleteDto> autocomplete(String term);
+	
+	Webpage getHomePage();
 }

@@ -9,12 +9,14 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 
 import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
 import sk.peterjurkovic.cpr.enums.SystemLocale;
+import sk.peterjurkovic.cpr.enums.WebpageType;
 
 public class WebpageUtils {
 	
@@ -29,7 +31,7 @@ public class WebpageUtils {
 		Validate.notNull(webpage.getLocalized());
 		Validate.notEmpty(fieldName);
 		
-		WebpageContent webpageContent = getWebpageContent(webpage, locale);
+		WebpageContent webpageContent = webpage.getWebpageContentInLang(locale.getLanguage());
 		
 		Method method;
 		Object value = null;
@@ -56,23 +58,7 @@ public class WebpageUtils {
 		return (String) value;
 	}
 	
-	
-	
-	private static WebpageContent getWebpageContent(Webpage webpage, Locale locale){
-		WebpageContent webpageContent = webpage.getLocalized().get(locale);
-		if(webpageContent == null){
-			webpageContent = webpage.getDefaultWebpageContent();
-		}
 		
-		if(webpageContent == null){
-			throw new IllegalArgumentException(
-						String.format("Webpage [id=%s] has not defined webpageContent", webpage.getId())
-					);
-		}
-		
-		return webpageContent;
-	}
-	
 	public static List<String> getNotUsedLocales(final Webpage webpage) {
 		Validate.notNull(webpage);
 		Validate.notNull(webpage.getLocalized());
@@ -95,6 +81,48 @@ public class WebpageUtils {
 			locales.add(entry.getKey());
 		}
 		return locales;
+	}
+	
+	
+	public static String getUrlFor(final Webpage webpage, final String contextPath){
+		Validate.notNull(webpage);
+		Validate.notNull(webpage.getWebpageType());
+		WebpageType type = webpage.getWebpageType();
+		
+		if(!type.equals(WebpageType.REDIRECT)){
+			StringBuilder url = new StringBuilder();
+			if(webpage.isHomepage()){
+				url.append("/");
+			}else if(webpage.getParent() == null){
+				// {webpageCode}
+				url.append(webpage.getCode());
+			}else{
+				// {topLevelParentCode}/{wepageId}/{webpageCode}
+				url.append(getParentWebpageCode(webpage) )
+				   .append("/")
+				   .append(webpage.getId())
+				   .append("/")
+				   .append(webpage.getCode());
+			}
+			return contextPath + "/" + RequestUtils.buildUrl(url.toString());
+		}
+		
+		if(webpage.getRedirectWebpage() != null){
+			return getUrlFor(webpage.getRedirectWebpage(), contextPath);
+		}else if(StringUtils.isNotBlank(webpage.getRedirectUrl())){
+			return webpage.getRedirectUrl();
+		}
+		
+		return "";
+		
+	}
+	
+		
+	private static String getParentWebpageCode(Webpage webpage){
+		if(webpage.getParent() != null){
+			return getParentWebpageCode(webpage.getParent());
+		}
+		return webpage.getCode();
 	}
 	
 }

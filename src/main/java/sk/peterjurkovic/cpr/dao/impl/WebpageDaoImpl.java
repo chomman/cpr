@@ -91,11 +91,14 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Webpage> getTopLevelWepages() {
+	public List<Webpage> getTopLevelWepages(final boolean enabledOnly) {
 		StringBuilder hql = new StringBuilder("from ");
 		hql.append(Webpage.class.getName());
 		hql.append(" w");
 		hql.append(" where w.parent = null ");
+		if(enabledOnly){
+			hql.append(" and w.enabled = true ");
+		}
 		hql.append(" order by w.order ");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		return hqlQuery.list();
@@ -116,5 +119,17 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setMaxResults(8);
 		hqlQuery.setCacheable(false);
 		return hqlQuery.list();
+	}
+
+
+	@Override
+	public Webpage getHomePage() {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(Webpage.class.getName());
+		hql.append(" w where w.parent.id = null and w.enabled = true order by w.order ");		
+		Query q = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		q.setMaxResults(1);
+		q.setCacheable(true);
+		return (Webpage)q.uniqueResult();
 	}
 }

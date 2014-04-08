@@ -17,7 +17,7 @@ import sk.peterjurkovic.cpr.services.WebpageService;
 /**
  * Handles requests for the application home page.
  */
-@Controller
+//@Controller
 public class PublicHomeController {
 	
 	private final int COUNT_OF_NEWEST_ARTICES_FOR_HOMEPAGE = 3;
@@ -38,7 +38,7 @@ public class PublicHomeController {
 	 * @return
 	 * @throws PageNotFoundEception
 	 */
-	@RequestMapping(value = {"/", "/en/"})
+	//@RequestMapping(value = {"/", "/en/"})
 	public String home(ModelMap modelmap) throws PageNotFoundEception {
 		
 		Webpage webpage = webpageService.getWebpageByCode("/");

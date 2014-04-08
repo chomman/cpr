@@ -23,7 +23,9 @@ public interface WebpageService {
 	
 	List<Webpage> getPublicSection(Long sectionId);
 	
-	String getSeoUniqueUrl(String name);
+	String getUniqeCode(String name);
+	
+	String getUniqeCode(String name, Long excludeId);
 	
 	boolean isWebpageUrlUniqe(String code, Long id);
 	
@@ -31,13 +33,21 @@ public interface WebpageService {
 	
 	List<Webpage> getTopLevelWepages();
 	
+	List<Webpage> getTopLevelWepages(boolean enabledOnly);
+	
 	int getNextOrderValue(Long nodeId);
 	
 	Long createNewWebpage(Webpage form, Long webpageNodeId);
+	
+	Long createNewWebpage(Webpage form);
 	
 	void createWebpageContent(Long webpageId, String langCode);
 	
 	List<AutocompleteDto> autocomplete(String term);
 	
 	void deleteWebpageAvatar(Long id);
+	
+	void deleteWebpageWithAttachments(Long id);
+	
+	Webpage getHomePage();
 }

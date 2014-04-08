@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.web.taglib;
+package sk.peterjurkovic.cpr.web.taglib.webpage;
 
 import java.io.IOException;
 
@@ -18,18 +18,18 @@ import sk.peterjurkovic.cpr.utils.WebpageUtils;
  * @author peter.jurkovic
  * @date 02.04.2014
  */
-public class LocalizedWebpageTag extends TagSupport {
+public class WebpageLocalizedFiledTag extends TagSupport {
 
 	private static final long serialVersionUID = 6133102816924962677L;
 	private Logger logger = Logger.getLogger(getClass());
-	private Webpage object;
+	private Webpage webpage;
 	private String fieldName;
 	private boolean useDefaultLocale = false;
 	
 	@Override
 	public int doStartTag() throws JspException {
 				
-		if(object == null){
+		if(webpage == null){
 			return SKIP_BODY;
 		}
 		
@@ -48,9 +48,9 @@ public class LocalizedWebpageTag extends TagSupport {
 	
 	protected String getLocalizedvalue() {
 		if(useDefaultLocale){
-			return WebpageUtils.getValueInLocale(getFieldName(), object, SystemLocale.getDefault());
+			return WebpageUtils.getValueInLocale(getFieldName(), webpage, SystemLocale.getDefault());
 		}else{
-			return WebpageUtils.getLocalizedValue(fieldName, object);
+			return WebpageUtils.getLocalizedValue(fieldName, webpage);
 		}
 	}
 	
@@ -68,12 +68,15 @@ public class LocalizedWebpageTag extends TagSupport {
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
-	public Webpage getObject() {
-		return object;
+	
+	public Webpage getWebpage() {
+		return webpage;
 	}
-	public void setObject(Webpage object) {
-		this.object = object;
+
+	public void setWebpage(Webpage webpage) {
+		this.webpage = webpage;
 	}
+
 	public boolean isUseDefaultLocale() {
 		return useDefaultLocale;
 	}

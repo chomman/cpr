@@ -7,10 +7,20 @@
 					<a href="">${node.defaultName}</a>
 				</span>
 				<span class="pj-webpage-nav">
-					<a:adminurl href="/webpage/add/${node.id}">Pridat podstranku</a:adminurl>
-					<a:adminurl href="/webpage/edit/${node.id}">Upravit</a:adminurl>
-					<a href="">Zobraziť</a>
-					<a href="">Odstraniť</a>
+					<a:adminurl href="/webpage/add/${node.id}">
+						<spring:message code="webpage.addSubpage" />
+					</a:adminurl>
+					<a:adminurl href="/webpage/edit/${node.id}">
+						<spring:message code="form.edit" />
+					</a:adminurl>
+					<a href="#">
+						<spring:message code="form.view" />
+					</a>
+					<a:adminurl href="/webpage/delete/${node.id}" 
+								cssClass="confirmMessage"
+								extraAttr="data-message;Skutečně si přejete odstranit stránku a všechny její podstránky?"> 
+						<spring:message code="form.delete" />
+					</a:adminurl>				
 				</span>
 			</span>
 			

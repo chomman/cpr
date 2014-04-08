@@ -63,15 +63,6 @@
         timeToLiveSeconds="604800"
         diskPersistent="true"
         />        
-        
-     
-     <!-- Cache uchovavajuca data tykajuce sa webovych sekcii -->   
-     <cache name="webpageCache"
-        maxElementsInMemory="1000"
-        eternal="false"
-        overflowToDisk="false"
-        timeToLiveSeconds="604800"
-        diskPersistent="true"
-        />        
+             
 			
 </ehcache>

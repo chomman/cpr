@@ -116,7 +116,7 @@
 		                 			<spring:message code="webpage.url" />
 								</label>
 			                    <span class="field">
-			                     <form:input htmlEscape="true" path="webpageContent.url" id="pj-url" maxlength="250" cssClass="mw500" />
+			                     <form:input htmlEscape="true" path="code" id="pj-code" maxlength="250" cssClass="mw500" />
 			                    </span>
 	                		</p>
                 		</c:if>
@@ -227,13 +227,20 @@
 							<c:if test="${isLoggedWebmaster}">
 								<p>
 									<label>
-										Zamknutá:
+										Zamknutá URL adresa:
 									</label>
 									<span class="field">
-										 <form:checkbox path="locked" id="locked" />
+										 <form:checkbox path="lockedCode" id="lockedCode" />
 									</span>
 								</p>
-								
+								<p>
+									<label>
+										Zamčené odstraňování:
+									</label>
+									<span class="field">
+										 <form:checkbox path="lockedRemove" id="lockedRemove" />
+									</span>
+								</p>
 							</c:if>
 							<p class="button-box">
 								<input type="submit" class="button default" value="<spring:message code="form.save" />" /> 
