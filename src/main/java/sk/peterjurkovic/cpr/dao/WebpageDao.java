@@ -4,6 +4,7 @@ import java.util.List;
 
 import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 
 /**
  * DAO rozhranie k manipulacii s verejnymi sekciami systemu
@@ -41,4 +42,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	List<AutocompleteDto> autocomplete(String term);
 	
 	Webpage getHomePage();
+	
+	Webpage getWebpageByModule(WebpageModule webpageModule);
 }

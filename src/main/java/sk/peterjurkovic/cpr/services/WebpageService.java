@@ -5,6 +5,7 @@ import java.util.List;
 
 import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 
 public interface WebpageService {
 
@@ -51,4 +52,8 @@ public interface WebpageService {
 	void deleteWebpageWithAttachments(Long id) throws AccessDeniedException ;
 	
 	Webpage getHomePage();
+	
+	Webpage getWebpageByModule(WebpageModule webpageModule);
+	
+	
 }

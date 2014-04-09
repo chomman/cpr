@@ -3,8 +3,6 @@ package sk.peterjurkovic.cpr.web.controllers.fontend;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -35,10 +33,10 @@ public class PublicWebpageController extends WebpageControllerSupport {
 		map.put( WEBPAGE_MODEL_KEY , model);
 		return "/public/homepage";
 	}
-	
+		
 	
 	@RequestMapping( value = { "/{code}" , EN_PREFIX + "{code}"} )
-	public String handleFirstLevel(HttpServletResponse response, @PathVariable String code, ModelMap modelMap) throws PageNotFoundEception{
+	public String handleFirstLevel(@PathVariable String code, ModelMap modelMap) throws PageNotFoundEception{
 		Webpage webpage = getWebpage(code);
 		modelMap.put(WEBPAGE_MODEL_KEY, prepareModel(webpage));
 		return resolveViewFor(webpage);
@@ -47,7 +45,7 @@ public class PublicWebpageController extends WebpageControllerSupport {
 	
 	
 	@RequestMapping( value = { "/{parentCode}/{id}/*" , EN_PREFIX + "{parentCode}/{id}/*"} )
-	public String handleChildPages(HttpServletResponse response, @PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception{
+	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception{
 		Webpage webpage = getWebpage(id);
 		modelMap.put(WEBPAGE_MODEL_KEY, prepareModel(webpage));
 		return resolveViewFor(webpage);

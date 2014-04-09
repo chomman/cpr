@@ -15,6 +15,12 @@
 				<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
 				<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
 			</article> 
+			
+			
+			<c:if test="${not empty webpageModel.webpage.webpageModule }">
+				<jsp:include page="../module/${webpageModel.webpage.webpageModule.jspPage}" />
+			</c:if>
+			
 		</div>
 	</body>
 </html>

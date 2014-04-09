@@ -10,23 +10,16 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url href="${model.parentWebpage.code}">
-				<a:localizedValue object="${model.parentWebpage}" fieldName="name" />
-			</a:url> &raquo;
-			<a:url href="${model.webpage.code}">
-				<a:localizedValue object="${model.webpage}" fieldName="name" />
-			</a:url> &raquo;
+			<webpage:a webpage="${model.webpage}" /> &raquo;
 			<span>${fn:substring(model.group.name, 0, 45)}...</span>
 	</div> 
 		
-		<a:url cssClass="back"  href="${model.webpage.code}">
-			&laquo; <spring:message code="backto"/> <a:localizedValue object="${model.webpage}" fieldName="name" />
-		</a:url>
+		<a class="back"  href="<webpage:link webpage="${model.webpage}" />">
+			&laquo; <spring:message code="backto"/>
+		</a>
 		
 		
 		<div id="main-content">
-			 
-				
 			<article>
 				<hgroup>
 					<h1><spring:message code="group.code" arguments="${model.group.code}" /></h1>
@@ -77,10 +70,8 @@
 				</td>
 			</tr>
 		</table>
-		
-					<jsp:include page="include/standard-table.jsp" />
-			</div>
-			 
+				<jsp:include page="../../include/standard-table.jsp" />
+		</div> 
 	</body>
 </html>
 

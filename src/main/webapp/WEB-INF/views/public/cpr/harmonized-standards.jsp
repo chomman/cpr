@@ -5,8 +5,6 @@
 	<head>
 		<title><a:localizedValue object="${model.webpage}" fieldName="title" /></title>
 		<meta name="description" content="<a:localizedValue object="${model.webpage}" fieldName="description" />" />
-		<link rel="stylesheet" href="<c:url value="/resources/public/css/common.css" />" />
-		<link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
 		<script src="<c:url value="/resources/public/js/ehn.autocomplete.js" />"></script>
 		<script src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>

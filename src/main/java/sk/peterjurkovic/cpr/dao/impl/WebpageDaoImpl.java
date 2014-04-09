@@ -2,12 +2,14 @@ package sk.peterjurkovic.cpr.dao.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.dao.WebpageDao;
 import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 
 @Repository("webpageDao")
 public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements WebpageDao{
@@ -129,6 +131,20 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hql.append(" w where w.parent.id = null and w.enabled = true order by w.order ");		
 		Query q = sessionFactory.getCurrentSession().createQuery(hql.toString());
 		q.setMaxResults(1);
+		q.setCacheable(true);
+		return (Webpage)q.uniqueResult();
+	}
+
+
+	@Override
+	public Webpage getWebpageByModule(final WebpageModule webpageModule) {
+		Validate.notNull(webpageModule);
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(Webpage.class.getName());
+		hql.append(" w where w.webpageModule = :module");		
+		Query q = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		q.setMaxResults(1);
+		q.setParameter("module", webpageModule);
 		q.setCacheable(true);
 		return (Webpage)q.uniqueResult();
 	}

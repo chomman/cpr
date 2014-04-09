@@ -18,9 +18,7 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;
-			<a:url href="${model.webpage.code}">
-				<a:localizedValue object="${model.webpage}" fieldName="name" />
-			</a:url> &raquo;
+			<webpage:a webpage="${model.webpage}" /> &raquo;
 			<span>${model.notifiedBody.name}</span>
 	</div> 
 
@@ -109,7 +107,7 @@
 				${model.notifiedBody.description}
 			</article>
 			
-			<jsp:include page="cpr/include/standard-table.jsp" />
+			<jsp:include page="../../include/standard-table.jsp" />
 			 
 		</div>
 	</body>

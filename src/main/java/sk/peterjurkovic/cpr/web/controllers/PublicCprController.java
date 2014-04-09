@@ -107,7 +107,7 @@ public class PublicCprController extends PublicSupportController{
 	 * @param modelmap
 	 * @return
 	 * @throws PageNotFoundEception
-	 */
+	
 	//@RequestMapping( value = { STANDARDS_URL ,  EN_PREFIX + STANDARDS_URL } )
 	public String home(ModelMap modelmap, HttpServletRequest request) throws PageNotFoundEception {
 		final Webpage webpage = getWebpage(STANDARDS_URL);
@@ -128,18 +128,8 @@ public class PublicCprController extends PublicSupportController{
 		modelmap.put("model", model);
 		return "/public/cpr/harmonized-standards";
 	}
+	 */
 	
-	//@RequestMapping(value = { "/async/standards" , EN_PREFIX + "async/standards" })
-	public ModelAndView   standards(HttpServletRequest request, ModelMap map){
-		Map<String, Object> model = new HashMap<String, Object>();
-		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		final int currentPage = RequestUtils.getPageNumber(request);
-		params.put(Filter.ENABLED, Boolean.TRUE);
-		model.put("standards", standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE));
-		model.put("async", true);
-		map.put("model", model);
-		return new ModelAndView("/public/cpr/include/standard-table",map);
-	}
 	
 	/**
      * Zobrazi detail zakladneho pozadavku
@@ -284,6 +274,7 @@ public class PublicCprController extends PublicSupportController{
 	 * @return String view
 	 * @throws PageNotFoundEception, ak je webova sekcia deaktivovana, alebo neexistuje
 	 */
+	/*
 	//@RequestMapping(value = {STANDARD_GROUP_DETAIL_URL, EN_PREFIX + STANDARD_GROUP_DETAIL_URL})
 	public String showCprGroupDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
 		Webpage webpage = webpageService.getWebpageByCode(STANDARD_GROUP_URL);
@@ -298,9 +289,9 @@ public class PublicCprController extends PublicSupportController{
 		modelmap.put("model", model);
 		return "/public/cpr/standard-group-detail";
 	}
+	*/
 	
-	
-	
+	/*
 	@RequestMapping(value = {"/ehn/{id}", EN_PREFIX + "ehn/{id}"})
 	public String showEhn(@PathVariable Long id,  ModelMap modelMap) throws PageNotFoundEception{
 		final Webpage webpage = getWebpage(STANDARDS_URL);
@@ -316,11 +307,9 @@ public class PublicCprController extends PublicSupportController{
 		modelMap.put("model", model);
 		return "public/ehn";
 	}
+	*/
 	
-	@RequestMapping(value = "/ehn/autocomplete", method = RequestMethod.GET)
-	public @ResponseBody List<Standard>  searchInTags(@RequestBody @RequestParam("term") String query){
-		return standardService.autocomplateSearch(query, Boolean.TRUE);
-	}
+	
 		
 	
 	/**

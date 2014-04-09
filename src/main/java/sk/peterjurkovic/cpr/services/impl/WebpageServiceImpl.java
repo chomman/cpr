@@ -22,6 +22,7 @@ import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.entities.WebpageContent;
 import sk.peterjurkovic.cpr.enums.SystemLocale;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.services.UserService;
 import sk.peterjurkovic.cpr.services.WebpageService;
@@ -265,6 +266,12 @@ public class WebpageServiceImpl implements WebpageService{
 	@Transactional(readOnly = true)
 	public Webpage getHomePage() {
 		return webpageDao.getHomePage();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Webpage getWebpageByModule(WebpageModule webpageModule) {
+		return webpageDao.getWebpageByModule(webpageModule);
 	}
 	
 	
