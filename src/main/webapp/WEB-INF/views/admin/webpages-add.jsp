@@ -53,7 +53,7 @@
 					 		<spring:message code="webpage.mainmenu" />
 					 	</c:if>
 					 	<c:if test="${not empty model.parentWebpage}">
-					 		<a:webpageValue object="${model.parentWebpage}" fieldName="name" />
+					 		${model.parentWebpage.defaultName}
 					 	</c:if>
 				 	</b>
 				 </p>

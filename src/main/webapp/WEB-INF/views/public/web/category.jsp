@@ -14,6 +14,11 @@
 			<article>
 				<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
 				<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
+				
+				
+				<div class="pj-category-items">
+					<jsp:include page="category-items.jsp" />
+				</div>
 			</article> 
 		</div>
 	</body>

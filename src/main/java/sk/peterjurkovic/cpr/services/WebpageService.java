@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.services;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 import sk.peterjurkovic.cpr.dto.AutocompleteDto;
@@ -47,7 +48,7 @@ public interface WebpageService {
 	
 	void deleteWebpageAvatar(Long id);
 	
-	void deleteWebpageWithAttachments(Long id);
+	void deleteWebpageWithAttachments(Long id) throws AccessDeniedException ;
 	
 	Webpage getHomePage();
 }

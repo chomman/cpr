@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -100,7 +101,7 @@ public class WebpageController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = "/admin/webpage/delete/{id}", method = RequestMethod.GET)
-	public String deleteWebpage(@PathVariable Long id) throws ItemNotFoundException{
+	public String deleteWebpage(@PathVariable Long id) throws ItemNotFoundException, AccessDeniedException{
 		webpageService.deleteWebpageWithAttachments(id);
 		return "redirect:" + WEBPAGE_LIST_MAPPING + "?" + SUCCESS_DELETE_PARAM + "=1";
 	}
@@ -220,6 +221,7 @@ public class WebpageController extends SupportAdminController {
 		webpage.setEnabled(form.getEnabled());
 		webpage.setWebpageType(form.getWebpageType());
 		webpage.setPublishedSince(form.getPublishedSince());
+		webpage.setShowThumbnail(form.getShowThumbnail());
 		if(user.isWebmaster()){
 			webpage.setLockedCode(form.getLockedCode());
 			webpage.setLockedRemove(form.getLockedRemove());

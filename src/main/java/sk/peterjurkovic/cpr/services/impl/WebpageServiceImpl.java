@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.services.impl;
 
+import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -8,6 +9,7 @@ import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,8 @@ public class WebpageServiceImpl implements WebpageService{
 	private UserService userService;
 	@Autowired
 	private FileService fileService;
+	
+	private Logger logger = Logger.getLogger(getClass());
 	
 	
 	
@@ -173,7 +177,7 @@ public class WebpageServiceImpl implements WebpageService{
 		webpage.setWebpageType(form.getWebpageType());
 		WebpageContent formContent = form.getDefaultWebpageContent();
 		WebpageContent content = webpage.getDefaultWebpageContent();
-		content.setName(formContent.getName());
+		content.setName(StringUtils.trim(formContent.getName()));
 		content.setTitle(formContent.getName());
 		webpage.setCode( getUniqeCode( formContent.getName() ) );
 		saveOrUpdate(webpage);
@@ -220,10 +224,18 @@ public class WebpageServiceImpl implements WebpageService{
 		}
 	}
 
+	
 	@Override
-	public void deleteWebpageWithAttachments(Long id) {
+	public void deleteWebpageWithAttachments(Long id) throws AccessDeniedException {
 		final Webpage webpage = getWebpageById(id);
 		if(webpage != null){
+			
+			if(webpage.getLockedRemove()){
+				logger.warn(String.format("User [uid=%1$d][wid=%2$d] tried to remove locked webpage. ", 
+							UserUtils.getLoggedUser().getId(), webpage.getId()));
+				throw new AccessDeniedException("You have not right to remove webpage ID" + webpage.getId() );
+			}
+			
 			Set<String> avatars = new HashSet<String>();
 			if(webpage.getHasChildrens()){
 				appendAllChildAvatars(webpage.getChildrens(), avatars) ;

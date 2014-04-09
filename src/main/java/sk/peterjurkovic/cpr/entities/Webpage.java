@@ -1,7 +1,9 @@
 package sk.peterjurkovic.cpr.entities;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -26,6 +28,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
@@ -284,6 +287,19 @@ public class Webpage extends AbstractEntity {
 			return true;
 		}
 		return false;
+	}
+	
+	@Transient
+	public List<Webpage> getPublishedChildrens(){
+		List<Webpage> webpageList = new ArrayList<Webpage>();
+		if(CollectionUtils.isNotEmpty(childrens)){
+			for(Webpage child : childrens){
+				if(child.getIsPublished()){
+					webpageList.add(child);
+				}
+			}
+		}
+		return webpageList;
 	}
 	
 	@Transient
