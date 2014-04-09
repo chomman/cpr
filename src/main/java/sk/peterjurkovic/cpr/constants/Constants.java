@@ -144,4 +144,7 @@ public class Constants {
 	public static final String DEFAULT_IMAGE_SAVE_DIR = "images/";
 	
 	
+	public static final String PREVIEW_PARAM = "isPreview";
+	
+	
 }

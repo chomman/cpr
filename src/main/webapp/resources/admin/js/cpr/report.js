@@ -34,7 +34,9 @@ $(function() {
 	 }
 	 processSave(true);
  });
- $(".preview").fancybox({
+ 
+/*
+ *  $(".preview").fancybox({
 		maxWidth	: 1100,
 		maxHeight	: 1000,
 		fitToView	: false,
@@ -44,7 +46,8 @@ $(function() {
 		closeClick	: false,
 		openEffect	: 'none',
 		closeEffect	: 'none'
-	});
+});
+ */
  
  $(document).on("submit", "form", function(e){
 		e.preventDefault();

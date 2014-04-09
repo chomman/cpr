@@ -14,11 +14,12 @@
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="<c:url value="/resources/public/js/common.js" />"></script>
 		<script src="<c:url value="/resources/public/js/jquery.lang.switcher.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
+		<meta name="description" content="<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="description" />" />
 		<decorator:head/>
 		<c:if test="${not empty commonPublic.settings.googleAnalyticsTrackingCode}">
 			<script>
@@ -53,23 +54,21 @@
 
 			<!-- NAVIGATION -->
 			<nav>
-					<webpage:nav webpages="${commonPublic.mainMenu}" ulCssClass="page-width" />
+				<webpage:nav webpages="${commonPublic.mainMenu}" ulCssClass="page-width" />
 			</nav>
 			
 			<!-- CONTENT -->
 			<div id="content">
-				
 				<decorator:body />
-				
 			</div>
-			 <div class="push"></div>	
+			<div class="push"></div>	
 		</div>
 
 		
 		<!-- FOOTER -->
 		<footer>
 			<div id="footer" class="page-width">
-				<a href="http://www.itczlin.cz/cz/" title="<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />" class="itc-logo"></a>
+				<a target="_blank" href="http://www.itczlin.cz/cz/" title="<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />" class="itc-logo"></a>
 				<p class="itc-name">
 					<a:localizedValue object="${commonPublic.settings}" fieldName="systemName" /><br />
 					<a href="http://www.itczlin.cz/cz/" >

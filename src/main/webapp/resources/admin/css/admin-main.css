@@ -1288,8 +1288,8 @@ table.log td,.log-descr{padding:2px;}
 .report-wrapp .standards .block{padding:2px 0;}
 
 .standard-preview{background: url(../img/ico_preview.png) no-repeat 5px center !important;padding-left: 35px !important;}
-.preview{background: #254694 url(../img/ico_preview.png) no-repeat 5px center; padding:10px 15px 10px 35px !important;border:2px solid #ddd;margin-left:10px}
-.preview:hover{background: #153173 url(../img/ico_preview.png) no-repeat 5px center;border:2px solid #fff;}
+.button.preview{background: #254694 url(../img/ico_preview.png) no-repeat 5px center; padding:10px 15px 10px 35px !important;border:2px solid #ddd;margin-left:10px}
+.button.preview:hover{background: #153173 url(../img/ico_preview.png) no-repeat 5px center;border:2px solid #fff;}
 
 
 /* ---------------------------------------

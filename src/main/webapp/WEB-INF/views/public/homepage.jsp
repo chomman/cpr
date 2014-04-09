@@ -13,12 +13,10 @@
 		</title>
 	</head>
 	<body>
-		
-	
 
 		<div id="main-content">
 				<article>
-					<webpage:a webpage="${webpageModel.webpage}" />
+					<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
 					<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
 				</article>
 				

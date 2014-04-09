@@ -129,7 +129,8 @@ function getWebpageSettings(){
 		id : $('#id').val(),
 		publishedSince : getDateTime('#publishedSince'),
 		enabled : getCheckVal('#enabled'),
-		webpageType : getWebpageType()
+		webpageType : getWebpageType(),
+		showThumbnail : getCheckVal('#showThumbnail') 
 	};
 	if($('#lockedRemove').length){
 		data.lockedRemove = getCheckVal('#lockedRemove'); 

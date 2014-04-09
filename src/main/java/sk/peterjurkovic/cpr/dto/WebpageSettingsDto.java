@@ -20,6 +20,8 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	private LocalDateTime publishedSince;
 	@NotNull
 	private Boolean enabled;
+	@NotNull
+	private Boolean shotTbumbnail;
 	
 	public WebpageSettingsDto(){}
 	
@@ -62,6 +64,14 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	public void setLockedRemove(Boolean lockedRemove) {
 		this.lockedRemove = lockedRemove;
 	}
+	
+	public Boolean getShotTbumbnail() {
+		return shotTbumbnail;
+	}
+
+	public void setShotTbumbnail(Boolean shotTbumbnail) {
+		this.shotTbumbnail = shotTbumbnail;
+	}
 
 	@Override
 	public void setWebpage(Webpage webpage){
@@ -71,6 +81,7 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 		this.lockedRemove = webpage.getLockedRemove();
 		this.publishedSince = webpage.getPublishedSince();
 		this.enabled = webpage.getEnabled();
+		this.shotTbumbnail = webpage.getShowThumbnail();
 	}
 	
 }

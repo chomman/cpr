@@ -210,6 +210,15 @@
 								</span>
 							</p>
 							
+							<p>
+								<label>
+									<spring:message code="webpage.showThumnail" />:
+								</label>
+								<span class="field">
+									 <form:checkbox path="showThumbnail" id="showThumbnail" />
+								</span>
+							</p>
+							
 							<p  class="pj-article-type pj-type">
 								<label>
 									<spring:message code="webpage.publishedSince" />:

@@ -10,10 +10,8 @@
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.fancybox.css" />" />
 	<link rel="shortcut icon" href="<c:url value="/resources/admin/img/favico.png" />">
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-	<!-- <script src="<c:url value="/resources/admin/js/jquery-1.8.3.min.js" />"></script> -->
-	<!-- <script src="<c:url value="/resources/admin/js/jquery-ui-1.9.2.custom.min.js" />"></script> -->
 	<decorator:head/>
 	<script src="<c:url value="/resources/admin/js/jquery.quicksearch.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>

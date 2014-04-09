@@ -8,20 +8,25 @@ import javax.servlet.jsp.tagext.BodyTag;
 
 import org.apache.commons.lang.StringUtils;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.context.ContextHolder;
+import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
 
 
 @SuppressWarnings("serial")
 public class WebpageUrlTag  extends WebpageLinkTag implements BodyTag{
 	
-	private final static String CURRENT_WEBPAGE_CALSS = "pj-active";
+	private final String CURRENT_WEBPAGE_CALSS = "pj-active";
+	private final String TARGET_BLANK = "_blank";
 	
 	private String id;
 	private String cssClass;
 	private String title;
 	private String target;
 	private String extraAttr;
+	private String params;
+	private boolean isPreview = false;
 	private Long activePageId;
 	private boolean withName = true;
 	private BodyContent bodyContent;
@@ -63,17 +68,32 @@ public class WebpageUrlTag  extends WebpageLinkTag implements BodyTag{
 		StringBuilder url = new StringBuilder();
 		url.append("<a href=\"");
 		appendUrl(url);
+		appendParams(url);
 		url.append("\" ");
 		appendTitle(url);
 		appendCssStyles(url);
 		appendId(url);
 		appendExtraAttr(url);
+		appendTarget(url);
 		url.append(">");
 		if(withName){
 			url.append(WebpageUtils.getLocalizedValue("name", getWebpage()))
 				.append("</a>");
 		}
 		return url;
+	}
+	
+	private void appendParams(StringBuilder url){
+		String params = "";
+		if(isPreview){
+			params += "&amp;" + Constants.PREVIEW_PARAM + "=1";
+		}
+		if(this.params != null){
+			params += this.params;
+		}
+		if(StringUtils.isNotBlank(params)){
+			url.append("?").append(params);
+		}
 	}
 	
 	public void appendUrl(StringBuilder url){
@@ -116,6 +136,13 @@ public class WebpageUrlTag  extends WebpageLinkTag implements BodyTag{
 		}
 	}
 	
+	private void appendTarget(StringBuilder url){
+		final String target = getValueForTarget();
+		if(target != null){
+			url.append(" target=\"").append(target).append("\" ");
+		}
+	}
+	
 	private String getValueForTitle(){
 		if(StringUtils.isNotBlank(title)){
 			return title;
@@ -123,6 +150,17 @@ public class WebpageUrlTag  extends WebpageLinkTag implements BodyTag{
 		String webpageTitle = WebpageUtils.getValueInLocale("title", getWebpage(), ContextHolder.getLocale());
 		if(StringUtils.isNotBlank(webpageTitle)){
 			return webpageTitle;
+		}
+		return null;
+	}
+	
+	private String getValueForTarget(){
+		if(StringUtils.isNotBlank(target)){
+			return target;
+		}
+		if(getWebpage().getWebpageType().equals(WebpageType.REDIRECT) && 
+		 StringUtils.isNotBlank(getWebpage().getRedirectUrl())){
+			return TARGET_BLANK;
 		}
 		return null;
 	}
@@ -174,6 +212,27 @@ public class WebpageUrlTag  extends WebpageLinkTag implements BodyTag{
 	public void setWithName(boolean withName) {
 		this.withName = withName;
 	}
+
+	public String getParams() {
+		return params;
+	}
+
+	public void setParams(String params) {
+		this.params = params;
+	}
+
+	public boolean getIsPreview() {
+		return isPreview;
+	}
+	
+	public boolean isPreview() {
+		return isPreview;
+	}
+
+	public void setIsPreview(boolean isPreview) {
+		this.isPreview = isPreview;
+	}
+	
 	
 	
 }

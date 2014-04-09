@@ -7,7 +7,7 @@
     
   <tlib-version>1.2</tlib-version>
   <short-name>a</short-name>
-  <uri>http://peterjukovic.sk/tags</uri>
+  <uri>http://peterjukovic.com/tags</uri>
   <tag>
     <name>url</name>
     <tag-class>sk.peterjurkovic.cpr.web.taglib.UrlTag</tag-class>

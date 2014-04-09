@@ -71,7 +71,18 @@ $(function() {
   		openEffect	: 'none',
   		closeEffect	: 'none'
   	});
-    
+     $(".preview").fancybox({
+ 		maxWidth	: 1100,
+ 		maxHeight	: 1000,
+ 		fitToView	: false,
+ 		width		: '80%',
+ 		height		: '80%',
+ 		autoSize	: false,
+ 		closeClick	: false,
+ 		openEffect	: 'none',
+ 		closeEffect	: 'none',
+ 		type: "iframe"
+ 	});
      
      
      $('.date').datepicker(getDatepickerOptions());

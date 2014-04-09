@@ -14,9 +14,12 @@ table.webpages td.w-name{vertical-align:top;}
 .pj-ico span a{display:inline-block;}
 
 .indenter{height:100%;float:left;}
-.pj-children .indenter{background-image:url(../img/nodes.png);}
+
+.indenter{background-image:url(../img/nodes.png);background-position: right -13px;}
 .leaf.last-node .indenter{ background-position: right -63px;}
+.branch .indenter{ background-position: right -128px;}
 .branch.last-node .indenter{ background-position: right -128px;}
+
 
 .w-name{background-repeat:no-repeat;background-image:url(../img/webpages-icons.png);padding-left:18px;display:inline-block;}
 .w-name a{font-weight:bold;font-size:13px;padding:10px 0px 5px 5px;width:100%}
@@ -26,10 +29,16 @@ table.webpages td.w-name{vertical-align:top;}
 table.webpages tr:hover{background:#eef1ff}
 table.webpages tr:hover .pj-webpage-nav{display:block !important;}
 
+
 .pj-webpage-type-1 .w-name{background-position:-1px -28px;}
 .pj-webpage-type-2 .w-name{background-position:0 2px;}
 .pj-webpage-type-3 .w-name{background-position:0 -57px;}
 .pj-webpage-type-4 .w-name{background-position:0 -87px;}
+
+.is-homepage .w-name{background-position:-1px -118px;}
+.is-homepage .w-name a{font-size:14px;}
+.is-homepage .indenter{width:0 !important;}
+
 
 table.webpages .published{border-radius:640px;width:30px;font-size:10px;padding:4px 0;}
 

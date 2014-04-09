@@ -31,6 +31,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
 import sk.peterjurkovic.cpr.enums.SystemLocale;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 
 @Entity
@@ -52,6 +53,9 @@ public class Webpage extends AbstractEntity {
 	private Boolean lockedCode;
 	private Boolean lockedRemove;
 	private LocalDateTime publishedSince;
+	private WebpageModule webpageModule;
+	private Boolean showThumbnail;
+	
 	
 	public Webpage(){
 		this( null );
@@ -65,11 +69,16 @@ public class Webpage extends AbstractEntity {
 		this.localized.put(SystemLocale.getDefaultLanguage(), new WebpageContent());
 		this.lockedCode = Boolean.FALSE;
 		this.lockedRemove = Boolean.FALSE;
+		this.showThumbnail = Boolean.TRUE;
 		setEnabled(Boolean.FALSE);
 		if(parent != null){
 			registerInParentsChilds();
 		}
     }
+	
+	/* GETTERS ---------------------
+	 * 
+	 */
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "webpage_id_seq")
@@ -81,7 +90,6 @@ public class Webpage extends AbstractEntity {
 	public int getOrder() {
 		return order;
 	}
-
 
 	@ElementCollection
 	@CollectionTable(name = "webpage_content")
@@ -140,8 +148,73 @@ public class Webpage extends AbstractEntity {
 	public LocalDateTime getPublishedSince() {
 		return publishedSince;
 	}
+	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "webpage_modlue", length = 30)
+	public WebpageModule getWebpageModule() {
+		return webpageModule;
+	}
+	
+	@Column(name = "show_thumb")
+	public Boolean getShowThumbnail() {
+		return showThumbnail;
+	}
 
 	
+    /* SETTER ---------------------
+	 * 
+	 */
+
+	public void setShowThumbnail(Boolean showThumbnail) {
+		this.showThumbnail = showThumbnail;
+	}
+
+	public void setOrder(int order) {
+		this.order = order;
+	}
+
+	public void setLocalized(Map<String, WebpageContent> localizedWebpage) {
+		this.localized = localizedWebpage;
+	}
+	
+	public void setParent(Webpage parent) {
+		this.parent = parent;
+	}
+	
+	public void setChildrens(Set<Webpage> childrens) {
+		this.childrens = childrens;
+	}
+	public void setRedirectUrl(String redirectUrl) {
+		this.redirectUrl = redirectUrl;
+	}
+
+	public void setRedirectWebpage(Webpage redirectWebpage) {
+		this.redirectWebpage = redirectWebpage;
+	}
+	
+	public void setWebpageType(WebpageType webpageType) {
+		this.webpageType = webpageType;
+	}
+	
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+	
+	public void setLockedCode(Boolean lockedCode) {
+		this.lockedCode = lockedCode;
+	}
+	public void setLockedRemove(Boolean lockedRemove) {
+		this.lockedRemove = lockedRemove;
+	}
+	
+	public void setPublishedSince(LocalDateTime publishedSince) {
+		this.publishedSince = publishedSince;
+	}
+	public void setWebpageModule(WebpageModule webpageModule) {
+		this.webpageModule = webpageModule;
+	}
+
+
 	
 	@Transient
 	public String getDefaultName(){
@@ -213,55 +286,13 @@ public class Webpage extends AbstractEntity {
 		return false;
 	}
 	
-    /** 
-     * Register this domain in the child list of its parent. 
-     */
+	@Transient
+	public boolean getIsHomepage(){
+		return isHomepage();
+	}
+	
+  
     private void registerInParentsChilds() {
         this.parent.childrens.add(this);
     }
-	
-
-	public void setOrder(int order) {
-		this.order = order;
-	}
-
-	public void setLocalized(Map<String, WebpageContent> localizedWebpage) {
-		this.localized = localizedWebpage;
-	}
-	
-	public void setParent(Webpage parent) {
-		this.parent = parent;
-	}
-	
-	public void setChildrens(Set<Webpage> childrens) {
-		this.childrens = childrens;
-	}
-	public void setRedirectUrl(String redirectUrl) {
-		this.redirectUrl = redirectUrl;
-	}
-
-	public void setRedirectWebpage(Webpage redirectWebpage) {
-		this.redirectWebpage = redirectWebpage;
-	}
-	
-	public void setWebpageType(WebpageType webpageType) {
-		this.webpageType = webpageType;
-	}
-	
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-	
-	public void setLockedCode(Boolean lockedCode) {
-		this.lockedCode = lockedCode;
-	}
-	public void setLockedRemove(Boolean lockedRemove) {
-		this.lockedRemove = lockedRemove;
-	}
-	
-	public void setPublishedSince(LocalDateTime publishedSince) {
-		this.publishedSince = publishedSince;
-	}
-
-
 }
