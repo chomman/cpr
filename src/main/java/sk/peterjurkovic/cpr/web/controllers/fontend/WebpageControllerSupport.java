@@ -46,7 +46,8 @@ public class WebpageControllerSupport {
 		}
 		final WebpageType webpageType = webpage.getWebpageType();
 		Validate.notNull(webpageType);
-		return "/public/web/" + webpageType.getViewName();
+		return "/portal/index";
+		//return "/public/web/" + webpageType.getViewName();
 	}
 	
 }

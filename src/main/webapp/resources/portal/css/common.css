@@ -1,0 +1,57 @@
+
+html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p,  abbr, address, em, img, small, strong, b, i, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, tbody, thead, tr, th, td, article, aside, footer, header, hgroup, menu, nav, section, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+body {
+	line-height: 1;
+	font-family: Tahoma, Arial, Helvetica, sans-serif; /* 'Source Sans Pro' */
+}
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+ul {
+	list-style: none outside none;
+}
+
+a {
+	margin: 0;
+	padding: 0;
+	outline: none;
+	font-size: 100%;
+	vertical-align: baseline;
+	background: transparent;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+hr {
+	display: block;
+	height: 1px;
+	border: 0;
+	border-top: 1px solid #cccccc;
+	margin: 1em 0;
+	padding: 0;
+}
+input, select {
+	vertical-align: middle;
+	outline:none;
+}
+button {
+	padding:0;
+	border:0 none;
+	cursor:pointer;
+	background:none;
+}
+textarea {
+	outline:none;
+}
+
+.blind { left: -5000px;position: absolute; top: -5000px;}
+
