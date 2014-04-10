@@ -7,6 +7,7 @@ import com.drew.lang.annotations.NotNull;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.web.json.deserializers.DateTimeDeserializer;
 
@@ -22,6 +23,7 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	private Boolean enabled;
 	@NotNull
 	private Boolean showThumbnail;
+	private WebpageModule webpageModule;
 	
 	public WebpageSettingsDto(){}
 	
@@ -72,7 +74,13 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	public void setShowThumbnail(Boolean showThumbnail) {
 		this.showThumbnail = showThumbnail;
 	}
-
+	public WebpageModule getWebpageModule() {
+		return webpageModule;
+	}
+	public void setWebpageModule(WebpageModule webpageModule) {
+		this.webpageModule = webpageModule;
+	}
+	
 	@Override
 	public void setWebpage(Webpage webpage){
 		setId( webpage.getId() );
@@ -82,6 +90,7 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 		this.publishedSince = webpage.getPublishedSince();
 		this.enabled = webpage.getEnabled();
 		this.showThumbnail = webpage.getShowThumbnail();
+		this.webpageModule = webpage.getWebpageModule();
 	}
 	
 }

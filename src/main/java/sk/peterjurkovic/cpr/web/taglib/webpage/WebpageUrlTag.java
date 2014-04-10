@@ -66,6 +66,10 @@ public class WebpageUrlTag  extends WebpageLinkTag implements BodyTag{
 	
 	protected StringBuilder buildTag(){
 		StringBuilder url = new StringBuilder();
+		if(getWebpage() == null){
+			logger.warn("Webpage can not be null");
+			return url;
+		}
 		url.append("<a href=\"");
 		appendUrl(url);
 		appendParams(url);

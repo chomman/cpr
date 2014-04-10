@@ -7,16 +7,11 @@
 	
 	<script>
 	$(function() {
-		$('select').on("change", updateInfo);
-		updateInfo();
+		$('select').selectTip();
 	});
-	function updateInfo(){
-		var $this = $('form select option:selected');
-		$('.mini-info').html($this.attr('title'));
-		return false;
-	}
 	</script>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
+	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">

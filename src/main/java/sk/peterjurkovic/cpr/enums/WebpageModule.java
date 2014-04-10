@@ -5,9 +5,12 @@ import java.util.List;
 
 public enum WebpageModule {
 	
-	CPR_EHN_LIST(1 , "CPR list", "/m/harmonized-standards", "harmonized-standards.jsp"),
-	CPR_GROUP_LIST(2 , "CPR group list", "/m/cpr-groups", "cpr-groups.jsp"),
-	NOAO_LIST(2 , "NOAO list", "/m/notifiedbodies", "notifiedbodies.jsp");
+	CPR_EHN_LIST(1 , "webpageModule.cprStandardList", "/m/harmonized-standards", "harmonized-standards.jsp"),
+	CPR_GROUP_LIST(2 , "webpageModule.cprStandardGroupList", "/m/cpr-groups", "cpr-groups.jsp"),
+	NOAO_LIST(3 , "webpageModule.notifiedBodyList", "/m/notifiedbodies", "notifiedbodies.jsp"),
+	REPORT_LIST(4 , "webpageModule.reportList", "/m/reports", "reports.jsp"),
+	TERMINOLOGY(5 , "webpageModule.terminologySearch", "/m/terminology", "terminology-search.jsp"),
+	CPR_AS_LIST(6 , "webpageModule.assessmetsSystemList", "/m/asessments-systems", "assessmentsystems.jsp");
 	
 	private int id;
 	private String name;

@@ -1,11 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
-
-<article class="full-width">
-	<a:localizedValue object="${model.webpage}" fieldName="topText" />
-</article>
-
 <div class="item-list">
 	<ul class="br">
 		<c:forEach items="${model.assessmentSystems}" var="item">
@@ -15,9 +10,4 @@
 		</c:forEach>
 	</ul>
 </div>
-
-
-<article class="full-width">
-	<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
-</article>
 

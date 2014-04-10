@@ -13,7 +13,7 @@
 				</p>
 			</c:if>
 			
-			<jsp:include page="include/standard-table.jsp" />
+			<jsp:include page="../include/standard-table.jsp" />
 		</div>	
 	</body>
 </html>

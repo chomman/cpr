@@ -18,10 +18,11 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url href="${model.parentWebpage.code}"><a:localizedValue object="${model.parentWebpage}" fieldName="name" /></a:url> &raquo;
+			<c:if test="${not empty model.webpage}">
+				<webpage:a webpage="${model.webpage}" /> &raquo;
+			</c:if>
 			<span><joda:format value="${model.report.dateFrom}" pattern="MMMM, yyyy"/></span>
 	</div> 
-	
 	
 	<div id="main-content">
 		<article>
@@ -33,12 +34,8 @@
 			</hgroup>
 			
 			<a:localizedValue object="${model.report}" fieldName="content" />
-			
-
-	
 			<h3><spring:message code="reports.appendix" arguments="1" /></h3>
-			<jsp:include page="cpr/include/standard-table.jsp" />
-			
+			<jsp:include page="../../include/standard-table.jsp" />
 			<h3><spring:message code="reports.appendix" arguments="2" /></h3>
 			<c:if test="${not empty model.standardCsns}">
 				<table class="changed-csns">
@@ -93,7 +90,6 @@
 					</c:forEach>
 				</table>
 			</c:if>
-			
 		</article>
 	</div>
 	</body>

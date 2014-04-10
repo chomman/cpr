@@ -4,18 +4,16 @@
 <html>
 	<head>
 		<title>${model.assessmentSystem.name}</title>
+		<meta name="keywords" content="${model.assessmentSystem.name}, CPR" />
 	</head>
 	<body>
 		
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 		<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
-		<a:url href="${model.parentWebpage.code}">
-				<a:localizedValue object="${model.parentWebpage}" fieldName="name" />
-		</a:url> &raquo;
-		<a:url href="${model.webpage.code}">
-			<a:localizedValue object="${model.webpage}" fieldName="name" />
-		</a:url> &raquo;
+		<c:if test="${not empty model.webpage}">
+			<webpage:a webpage="${model.webpage}" /> &raquo;
+		</c:if>
 		<span>${model.assessmentSystem.name}</span>
 	</div> 
 

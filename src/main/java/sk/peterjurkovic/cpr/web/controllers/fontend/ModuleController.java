@@ -6,6 +6,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -14,24 +15,33 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
+import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.services.AssessmentSystemService;
+import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
+import sk.peterjurkovic.cpr.services.ReportService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
+import sk.peterjurkovic.cpr.web.pagination.PageLink;
+import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
 public class ModuleController extends WebpageControllerSupport {
 
-	
-	private static final String STANDARDS_URL = 	"/m/harmonized-standards";
-	private static final String STANDARD_GROUP_URL ="/m/cpr-groups";
-	private static final String NOTIFIE_BODY_URL = 	"/m/notifiedbodies";
+	private static final String STANDARDS_URL = 			"/m/harmonized-standards";
+	private static final String STANDARD_GROUPS_URL =		"/m/cpr-groups";
+	private static final String NOTIFIE_BODIES_URL = 		"/m/notifiedbodies";
+	private static final String REPORS_URL = 				"/m/reports";
+	private static final String CSN_TERMINOLOGY_URL =		"/m/terminology";
+	private static final String ASSESMENTS_SYSTEMS_URL =	"/m/asessments-systems";
 	
 	
 	@Autowired
@@ -40,15 +50,19 @@ public class ModuleController extends WebpageControllerSupport {
 	private NotifiedBodyService notifiedBodyService;
 	@Autowired
 	private StandardGroupService standardGroupService;
+	@Autowired
+	private ReportService reportService;
+	@Autowired
+	private CsnTerminologyService csnTerminologyService;
+	@Autowired
+	private AssessmentSystemService assessmentSystemService;
 	
 	@Value("#{config['nandourl']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
 	
-	private String viewName = "/public/web/article";
-	
-	
 	@RequestMapping( STANDARDS_URL  )
-	public String handleStandardList(ModelMap modelmap, HttpServletRequest request){
+	public String handleStandardList(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
+		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
@@ -61,8 +75,7 @@ public class ModuleController extends WebpageControllerSupport {
 		model.put("orders", StandardOrder.getAll());
 		model.put("standardStatuses", StandardStatus.getAll());
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
-		modelmap.put("model", model);
-		return viewName;
+		return appendModelAndGetView(model, modelMap);
 	}
 	
 	
@@ -75,21 +88,80 @@ public class ModuleController extends WebpageControllerSupport {
 	}
 	
 	
-	@RequestMapping( STANDARD_GROUP_URL )
-	public String handleStandardGroups(ModelMap modelMap) throws PageNotFoundEception {
+	@RequestMapping( STANDARD_GROUPS_URL )
+	public String handleStandardGroups(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
-		modelMap.put("model", model);
-		return viewName;
+		return appendModelAndGetView(model, modelMap);
 	}
 	
 	
-	@RequestMapping( NOTIFIE_BODY_URL )
-	public String handleNotifiedBodies(ModelMap modelmap) throws PageNotFoundEception {
+	@RequestMapping( NOTIFIE_BODIES_URL )
+	public String handleNotifiedBodies(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
-		modelmap.put("model", model);
-		return viewName;
+		return appendModelAndGetView(model, modelMap);
 	}
+	
+	
+	@RequestMapping( REPORS_URL  )
+	public String handleReports(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
+		validateRequest(request);
+		 Map<String, Object> model = new HashMap<String, Object>();
+		 model.put("reports", reportService.getReportsForPublic());
+		 return appendModelAndGetView(model, modelMap);
+	}
+	
+	
+
+	@RequestMapping( CSN_TERMINOLOGY_URL )
+	public String showSearchForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
+		validateRequest(request);
+		int currentPage = RequestUtils.getPageNumber(request);
+		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		PageDto page = null;
+		if(StringUtils.isNotBlank((String)params.get("query"))){
+			page = csnTerminologyService.getCsnTerminologyPage(currentPage, params);
+			if(page.getCount() > 0){
+				model.put("paginationLinks", getPaginationItems(request, params, currentPage, page.getCount()));
+				model.put("page", page.getItems() );
+			}
+			model.put("detailUrl", "/"+ModuleDetailController.TERMINOLOGY_URL_MAPPING);
+			model.put("params", params );
+		}
+		return appendModelAndGetView(model, modelMap);
+	}
+	
+	
+	@RequestMapping( ASSESMENTS_SYSTEMS_URL )
+    public String assessmentSystems(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
+		Map<String, Object> model = new HashMap<String, Object>();
+        model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
+        return appendModelAndGetView(model, modelMap);
+    }
+    
+	private String appendModelAndGetView(Map<String, Object> model, ModelMap map){
+		map.put("model", model);
+		return "/public/web/" + WebpageType.ARTICLE.getViewName();
+	}
+	
+	private void validateRequest(HttpServletRequest request) throws PageNotFoundEception{
+		if(request.getAttribute(WEBPAGE_MODEL_KEY) == null){;
+			throw new PageNotFoundEception();
+		}
+	}
+	
+	private List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setCurrentPage(currentPage);
+		paginger.setRowCount(count);
+		return paginger.getPageLinks(); 
+	}
+
+	
 }

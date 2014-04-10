@@ -23,11 +23,9 @@
 		$(document).on("click", ".tbtn", function(){
 			var o = $(this);
 			if(o.hasClass(collClass)){
-				console.log('showing nav..');
 				showNav(o);
 			}else{
 				hideNav(o);
-				console.log('hidinging nav..');
 			}
 			return false;
 		});
@@ -49,7 +47,6 @@
 			btn.html('&lsaquo;').removeClass(collClass);
 		}
 		
-		
 		function sessionStorageSupported(){
 			return !(typeof(sessionStorage) == 'undefined');
 		}
@@ -65,9 +62,9 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
-			<a:url href="${model.webpage.code}">
-				<a:localizedValue object="${model.webpage}" fieldName="name" />
-			</a:url> &raquo;
+			<c:if test="${not empty model.webpage}">
+				<webpage:a webpage="${model.webpage}" /> &raquo;
+			</c:if>
 			<span>${model.terminology.csn.csnId} - ${model.terminology.title}</span>
 	</div> 
 
@@ -126,7 +123,7 @@
 				<ul>
 				<c:forEach items="${model.terminologies}" var="i">
 					<li <c:if test="${model.terminology.id == i.id}"> class="active"</c:if>  >
-						<a href="<c:url value="${model.webpage.code}/${i.id}" />">${i.section} ${i.title}</a>
+						<a href="<c:url value="${model.detailUrl}/${i.id}" />">${i.section} ${i.title}</a>
 					</li>
 				</c:forEach>
 				</ul>

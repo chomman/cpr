@@ -10,7 +10,9 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<webpage:a webpage="${model.webpage}" /> &raquo;
+			<c:if test="${not empty model.webpage}">
+				<webpage:a webpage="${model.webpage}" /> &raquo;
+			</c:if>
 			<span>${fn:substring(model.group.name, 0, 45)}...</span>
 	</div> 
 		

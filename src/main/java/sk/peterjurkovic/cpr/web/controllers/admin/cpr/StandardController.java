@@ -39,6 +39,7 @@ import sk.peterjurkovic.cpr.entities.StandardNotifiedBody;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 import sk.peterjurkovic.cpr.exceptions.CollisionException;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
@@ -57,7 +58,6 @@ import sk.peterjurkovic.cpr.utils.ParseUtils;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.validators.admin.StandardValidator;
-import sk.peterjurkovic.cpr.web.controllers.PublicCprController;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.AssessmentSystemCollectionEditor;
 import sk.peterjurkovic.cpr.web.editors.CountryEditor;
@@ -159,7 +159,7 @@ public class StandardController extends SupportAdminController{
 		model.put("standardStatuses", StandardStatus.getAll());
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("params", params);
-		model.put("webpage", webpageService.getWebpageByCode(PublicCprController.STANDARDS_URL));
+		model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_EHN_LIST));
 		modelMap.put("model", model);
 		if(params.get("import") != null){
 			processImport();
@@ -223,7 +223,7 @@ public class StandardController extends SupportAdminController{
 		model.put("async", true);
 		map.put("isPreview", true);
 		map.put("model", model);
-		return new ModelAndView("/public/cpr/standard-preview",map);
+		return new ModelAndView("/public/standard-preview", map);
 	}
 	
 	/**
@@ -972,7 +972,7 @@ public class StandardController extends SupportAdminController{
 		Map<String, Object> model = new HashMap<String, Object>();
 		modelMap.addAttribute("standard", standard);
 		model.put("standardId", standard.getId());
-		model.put("webpage", webpageService.getWebpageByCode(PublicCprController.STANDARDS_URL));
+		model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_EHN_LIST));
 		modelMap.put("tab", CPR_TAB_INDEX);
 		return model;
 	}

@@ -14,10 +14,14 @@
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 	<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
+	
 	 <script>
 	$(function() {
 		$( "#tabs" ).tabs();
+		$( ".helpTip" ).selectTip();
 		$('.lightbox').fancybox();
+		$('#webpageModule').chosen({ width : "330px" });
 		$('.picker').remotePicker({
 			<c:if test="${not empty webpageContent.redirectWebpage}">
 			item : { value : '${webpageContent.redirectWebpage.defaultName}', id: ${webpageContent.redirectWebpage.id} },
@@ -189,12 +193,29 @@
 									Typ webové sekce:
 								</label>
 								<span class="field">
-									 <form:select path="webpageType" cssClass="chosenSmall  required">
+									 <form:select path="webpageType" cssClass="chosenSmall required helpTip">
 					                	<c:forEach items="${model.webpageTypes}" var="i">
 					                		<option <c:if test="${i eq  webpageSettings.webpageType}">selected="selected"</c:if>
 					                				value="${i}" data-id="${i.id}" 
 					                				title="<spring:message code="${i.description}" />">
 					                			<spring:message code="${i.code}" />
+					                		</option>
+					                	</c:forEach>
+					                </form:select>
+								</span>
+							</p>
+							<p>
+								<label>
+									K sekci připojit modul:
+								</label>
+								<span class="field">
+									 <form:select path="webpageModule" cssClass="helpTip" >
+					                	<option value=""><spring:message code="form.select" /></option>
+					                	<c:forEach items="${model.webpageModules}" var="i">
+					                		<option <c:if test="${i eq  webpageSettings.webpageModule}">selected="selected"</c:if>
+					                				value="${i}" data-id="${i.id}" 
+					                				title="<spring:message code="${i.name}.descr" />">
+					                			<spring:message code="${i.name}" />
 					                		</option>
 					                	</c:forEach>
 					                </form:select>

@@ -37,6 +37,7 @@ import sk.peterjurkovic.cpr.dto.WebpageSettingsDto;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.SystemLocale;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.FileService;
@@ -134,6 +135,7 @@ public class WebpageController extends SupportAdminController {
 		model.put("notUsedLocales", WebpageUtils.getNotUsedLocales(webpage));
 		model.put("langCodeParam", LOCALE_CODE_PARAM);
 		model.put("webpage", webpage);
+		model.put("webpageModules", WebpageModule.getAll());
 		map.put("model", model);
 		map.addAttribute("webpageContent", new WebpageContentDto( webpage, langCode ) );
 		map.addAttribute("webpageSettings", new WebpageSettingsDto( webpage ) );
@@ -238,6 +240,8 @@ public class WebpageController extends SupportAdminController {
 		}
 		if(!webpage.getLockedCode() && form.getLocale().equals(SystemLocale.getDefaultLanguage())){
 			webpage.setCode(webpageService.getUniqeCode(form.getWebpageContent().getName(), webpage.getId()));
+		}else if(webpage.getLockedCode()){
+			webpage.setCode( form.getCode() );
 		}
 		webpage.setRedirectWebpage(form.getRedirectWebpage());
 		webpage.setRedirectUrl(form.getRedirectUrl());
