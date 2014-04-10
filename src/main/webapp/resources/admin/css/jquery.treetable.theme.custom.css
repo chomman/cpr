@@ -44,3 +44,5 @@ table.webpages .published{border-radius:640px;width:30px;font-size:10px;padding:
 
 table.webpages a:hover{text-decoration:underline;}
 table.webpages .last-edit span{display:block;padding:2px 0;}
+
+.pj-module{background:url(../img/ico_module.png); width:20px;height:20px;display:inline-block; }

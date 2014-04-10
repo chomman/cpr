@@ -228,6 +228,7 @@ public class WebpageController extends SupportAdminController {
 			webpage.setLockedCode(form.getLockedCode());
 			webpage.setLockedRemove(form.getLockedRemove());
 		}
+		webpage.setWebpageModule(form.getWebpageModule());
 		webpageService.saveOrUpdate(webpage);
 	}
 	

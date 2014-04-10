@@ -46,6 +46,15 @@
 				</span>
 			</c:if>
 		</td>
+		<td class="w50 c">
+			<c:if test="${not empty node.webpageModule }">
+				<a href="<c:url value="/admin/webpage/edit/${node.id}#settings" />" 
+					class="pj-module tt" title="MODUL: <spring:message code="${node.webpageModule.name}" />" ></a>
+			</c:if>
+			<c:if test="${not empty node.webpageModule }">
+			&nbsp;
+			</c:if>
+		</td>
 		<td class="last-edit c">
 			<span class="pj-published-by">
 				<a:adminurl href="/user/edit/${node.publishedBy.id}">

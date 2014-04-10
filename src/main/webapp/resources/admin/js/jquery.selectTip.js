@@ -33,7 +33,7 @@ $.fn.selectTip = function(opts) {
 		var text = $select.find(' option:selected').attr('title'),
 			$infoBox = $select.parent().find(options.selector);	
 		if($infoBox.length > 0){
-			$infoBox.text( text );
+			$infoBox.html( text );
 		}else{
 			$select.parent().append('<' + options.rootElement + ' class="' + options.cssClass + '" >' + text + '</' + options.rootElement + ">");
 		}

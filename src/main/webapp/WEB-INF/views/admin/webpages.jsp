@@ -59,6 +59,7 @@
 						<tr>
 							<th class="gradient-gray">Název</th>
 							<th class="gradient-gray"><spring:message code="published" /></th>
+							<th class="gradient-gray">Modul</th>
 							<th  class="gradient-gray">Autor/<spring:message code="form.lastEdit" /></th>
 						</tr>
 					</thead>
