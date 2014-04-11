@@ -130,8 +130,12 @@ function getWebpageSettings(){
 		publishedSince : getDateTime('#publishedSince'),
 		enabled : getCheckVal('#enabled'),
 		webpageType : getWebpageType(),
-		showThumbnail : getCheckVal('#showThumbnail') 
-	};
+		showThumbnail : getCheckVal('#showThumbnail')
+	},
+	$moduleInput = $('#webpageModule');
+	if($moduleInput.val() != ""){
+		data.webpageModule = $moduleInput.val();
+	}
 	if($('#lockedRemove').length){
 		data.lockedRemove = getCheckVal('#lockedRemove'); 
 	}
