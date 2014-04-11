@@ -20,10 +20,7 @@ function init(){
 
 
 	$(document).on("mouseenter", "ul.first-child > li", function(){
-		var $this = $(this),
-			$nav = $("ul.first-child");
-		$nav.find('ul').hide();
-		showSubnav($this);
+		showSubnav($(this));
 	});
 	$(document).on("mouseleave", "ul.first-child", function(){
 		var $curr = $("ul.first-child a.pj-current").parent();
@@ -36,7 +33,9 @@ function init(){
 }
 
 function showSubnav($li){
-	$li.parent().find('.curr').removeClass('curr');
+	var $ul = $li.parent();
+	$ul.find('.curr').removeClass('curr');
+	$ul.find('ul').hide();
 	$li.addClass('curr').find('ul').show();
 	return false;
 }

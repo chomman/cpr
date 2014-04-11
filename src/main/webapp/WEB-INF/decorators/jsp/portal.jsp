@@ -19,7 +19,7 @@
 		<script src="<c:url value="/resources/portal/js/scripts.js" />"></script>
 	</head>
 	<body>
-		<div class="pj-wrapp">
+				<div class="pj-wrapp">
 			<header>
 				<div class="pj-above-header">
 					<div class="pj-inner">
@@ -112,7 +112,7 @@
 			</nav>
 
 			<div id="content">
-				<div class="pj-inner">	
+				<div class="pj-inner ">	
 						<div class="pj-bc">
 							<a href="">Home</a> &raquo;
 							<span>Novinky</span>
@@ -136,12 +136,39 @@
 							</ul>
 						
 								<strong class="pj-head pj -bg-light-gray">Poslední novinky</strong>
+
+								<div class="pj-lastnews">
+									<div class="pj-item">
+										<span class="pj-radius">20.04.2014</span>
+										<strong><a class="pj-link" href="">Směrnice, které respkektují principy nového legislativního rámce</a></strong>
+										<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
+									</div>
+
+									<div class="pj-item">
+										<span class="pj-radius">19.04.2014</span>
+										<strong><a class="pj-link" href="">Respkektují principy nového legislativního rámce</a></strong>
+										<p>Loremasdfasdfasdf Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
+									</div>
+
+									<div class="pj-item">
+										<span class="pj-radius">20.04.2014</span>
+										<strong><a class="pj-link" href="">Směrnice, které respkektují principy nového legislativního rámce</a></strong>
+										<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
+									</div>
+
+									<div class="pj-item">
+										<span class="pj-radius">19.04.2014</span>
+										<strong><a class="pj-link" href="">Respkektují principy nového legislativního rámce</a></strong>
+										<p>Loremasdfasdfasdf Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
+									</div>
+
+								</div>
 						</aside>
 
 
 
 						<section>
-							<div class="pj-scopes">
+							<div class="pj-scopes ">
 									<strong class="pj-head pj -bg-light-gray">Oblasti</strong>
 
 									<div class="pj-item">
@@ -149,7 +176,7 @@
 											<img src="img/p/toys.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Hračky</a></h3>
+											<h3><a class="pj-link" href="">Hračky</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným výplňovým textom už od 16.</p>
 										</div>
 									</div>
@@ -159,7 +186,7 @@
 											<img src="img/p/elec.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Elektrotechnický prumysl</a></h3>
+											<h3><a class="pj-link" href="">Elektrotechnický prumysl</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným v.</p>
 										</div>
 									</div>
@@ -169,7 +196,7 @@
 											<img src="img/p/obal.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Obaly prumysl</a></h3>
+											<h3><a class="pj-link"href="">Obaly prumysl</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným v.</p>
 										</div>
 									</div>
@@ -178,7 +205,7 @@
 											<img src="img/p/toys.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Hračky</a></h3>
+											<h3><a class="pj-link" href="">Hračky</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným výplňovým textom už od 16.</p>
 										</div>
 									</div>
@@ -188,7 +215,7 @@
 											<img src="img/p/elec.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Elektrotechnický prumysl</a></h3>
+											<h3><a class="pj-link" href="">Elektrotechnický prumysl</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným v.</p>
 										</div>
 									</div>
@@ -198,7 +225,7 @@
 											<img src="img/p/obal.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Obaly prumysl</a></h3>
+											<h3><a class="pj-link" href="">Obaly prumysl</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným v.</p>
 										</div>
 									</div>
@@ -207,7 +234,7 @@
 											<img src="img/p/toys.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Hračky</a></h3>
+											<h3><a class="pj-link" href="">Hračky</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným výplňovým textom už od 16.</p>
 										</div>
 									</div>
@@ -217,7 +244,7 @@
 											<img src="img/p/elec.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Elektrotechnický prumysl</a></h3>
+											<h3><a class="pj-link" href="">Elektrotechnický prumysl</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným v.</p>
 										</div>
 									</div>
@@ -227,7 +254,7 @@
 											<img src="img/p/obal.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Obaly prumysl</a></h3>
+											<h3><a class="pj-link" href="">Obaly prumysl</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným v.</p>
 										</div>
 									</div>
@@ -236,7 +263,7 @@
 											<img src="img/p/toys.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Hračky</a></h3>
+											<h3><a class="pj-link" href="">Hračky</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným výplňovým textom už od 16.</p>
 										</div>
 									</div>
@@ -246,7 +273,7 @@
 											<img src="img/p/elec.jpg" />
 										</a>
 										<div>
-											<h3><a href="">Elektrotechnický prumysl</a></h3>
+											<h3><a class="pj-link" href="">Elektrotechnický prumysl</a></h3>
 											<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným v.</p>
 										</div>
 									</div>
@@ -261,14 +288,61 @@
 										</div>
 									</div>
 
+									<div class="clear"></div>
+							</div>
+							<div class="pj-publications">
+								<strong class="pj-head">Prodej on-line publikací</strong>
 
+								<p>
+									Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným výplňovým textom už od 16. storočia, keď neznámy tlačiar zobral sadzobnicu plnú tlačových znakov a pomiešal ich, aby tak vytvoril vzorkovú knihu. Prežil nielen päť storočí, ale aj skok do elektronickej sadzby, a pritom zostal v podstate nezmenený.
+								</p>
+
+								<ul>
+									<li class="pj-publication pj-radius">
+
+										<a href="">
+											<span class="pj-name">
+												Normy pro systemy managmentu a posuzdování shody
+											</span>
+											<span class="pj-price">Cena: 3500 Kč</span>
+											<span class="pj-ico"></span>
+										</a>
+										
+									</li>
+
+									<li class="pj-publication pj-radius">
+
+										<a href="">
+											<span class="pj-name">
+												Technické normy a plasty
+											</span>
+											<span class="pj-price">Cena: 3490 Kč</span>
+											<span class="pj-ico"></span>
+										</a>
+										
+									</li>
+								</ul>
 							</div>
 						</section>
+						<div class="clear"></div>
 				</div>
 			</div>
 
 			<footer>
+				<div class="pj-inner ">	
+					<p class="pj-contact">
+						<strong> INSTITUT PRO TESTOVÁNÍ A CERTIFIKACI, a. s.</strong>
+						<span>
+							třída Tomáše Bati 299, Louky <br />
+							763 02 Zlín, Česká republika
+						</span>
+					</p>
 
+					<ul>
+						<li><a href="">Kontakty</a></li>
+						<li><a href="">Obchodní podmínky</a></li>
+					</ul>
+				</div>
 			</footer>
 		</div>
 	</body>
