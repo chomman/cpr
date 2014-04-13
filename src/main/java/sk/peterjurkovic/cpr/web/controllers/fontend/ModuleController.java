@@ -147,7 +147,7 @@ public class ModuleController extends WebpageControllerSupport {
     
 	private String appendModelAndGetView(Map<String, Object> model, ModelMap map){
 		map.put("model", model);
-		return "/public/web/" + WebpageType.ARTICLE.getViewName();
+		return "/module/web/" + WebpageType.ARTICLE.getViewName();
 	}
 	
 	private void validateRequest(HttpServletRequest request) throws PageNotFoundEception{

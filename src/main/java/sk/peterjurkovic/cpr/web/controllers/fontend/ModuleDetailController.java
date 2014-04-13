@@ -94,7 +94,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_EHN_LIST));
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		modelMap.put("model", model);
-		return "public/detail/ehn-detail";
+		return getView("ehn-detail");
 	}
 	
 	
@@ -113,7 +113,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_GROUP_LIST));
 		model.put("standards", standardService.getStandardByStandardGroupForPublic(stadnardGroup));
 		modelmap.put("model", model);
-		return "/public/detail/standard-group-detail";
+		return getView("standard-group-detail");
 	}
 		
 	
@@ -132,7 +132,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		model.put("standards", standardService.getStandardsByNotifiedBody(notifiedBody));
 		model.put("notifiedBody", notifiedBody);
 		modelmap.put("model", model);
-		return "/public/detail/notifiedbody-detail";
+		return getView("notifiedbody-detail");
 	}
 	
 	@RequestMapping(value = "/ehn/autocomplete", method = RequestMethod.GET)
@@ -165,7 +165,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		 model.put("standards", dto.getStandards() );
 		 model.put("standardCsns", dto.getStandardCsns() );
 		 map.put("model", model);
-		return "public/detail/report-detail";
+		return getView("report-detail");
 	}
 	
 	
@@ -201,7 +201,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		model.put("webpage", webpage );
 		model.put("detailUrl", "/"  + TERMINOLOGY_URL_MAPPING );
 		modelMap.put("model", model);
-		return "/public/detail/terminology-detail";
+		return getView("terminology-detail");
 	}
 	
 	
@@ -218,6 +218,10 @@ public class ModuleDetailController extends WebpageControllerSupport{
             model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_AS_LIST));
             model.put("assessmentSystem", assessmentSystem);
             modelmap.put("model", model);
-            return "/public/detail/assessmentsystem-detail";
+            return getView("assessmentsystem-detail");
     }
+	
+	private String getView(String name){
+		return "/module/detail/" + name;
+	}
 }

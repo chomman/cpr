@@ -55,5 +55,7 @@ public interface WebpageService {
 	
 	Webpage getWebpageByModule(WebpageModule webpageModule);
 	
+	Webpage getTopParentWebpage(final Webpage childrenNode);
 	
+	List<Webpage> getChildrensOfNode(final Long id, final boolean publishedOnly);
 }

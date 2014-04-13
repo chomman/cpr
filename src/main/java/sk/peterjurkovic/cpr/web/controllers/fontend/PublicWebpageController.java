@@ -22,6 +22,9 @@ public class PublicWebpageController extends WebpageControllerSupport {
 	@Autowired
 	private StandardService standardService;
 	
+	public PublicWebpageController(){
+		setViewDirectory("/public/");
+	}
 	
 	@RequestMapping(value = {"/", EN_PREFIX })
 	public String handleHomepage(ModelMap map){
@@ -37,24 +40,22 @@ public class PublicWebpageController extends WebpageControllerSupport {
 	
 	@RequestMapping( value = { "/{code}" , EN_PREFIX + "{code}"} )
 	public String handleFirstLevel(@PathVariable String code, ModelMap modelMap) throws PageNotFoundEception{
-		Webpage webpage = getWebpage(code);
-		modelMap.put(WEBPAGE_MODEL_KEY, prepareModel(webpage));
-		return resolveViewFor(webpage);
+		return appendModelAndGetView(modelMap,  getWebpage(code));
 	}
 	
 	
 	
 	@RequestMapping( value = { "/{parentCode}/{id}/*" , EN_PREFIX + "{parentCode}/{id}/*"} )
 	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception{
-		Webpage webpage = getWebpage(id);
-		modelMap.put(WEBPAGE_MODEL_KEY, prepareModel(webpage));
-		return resolveViewFor(webpage);
+		return appendModelAndGetView(modelMap,  getWebpage(id));
 	}
 	
-	
-	private Map<String, Object> prepareModel(Webpage webpage){
+	protected Map<String, Object> prepareModel(Webpage webpage){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
+		model.put("mainnav", webpageService.getTopLevelWepages(true));
 		return model;
 	}
+	
+	 
 }

@@ -146,5 +146,6 @@ public class Constants {
 	
 	public static final String PREVIEW_PARAM = "isPreview";
 	
+	public static final String PORTAL_URL = "informacni-portal";
 	
 }

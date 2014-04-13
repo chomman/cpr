@@ -273,7 +273,22 @@ public class WebpageServiceImpl implements WebpageService{
 	public Webpage getWebpageByModule(WebpageModule webpageModule) {
 		return webpageDao.getWebpageByModule(webpageModule);
 	}
+
+	@Override
+	public Webpage getTopParentWebpage(final Webpage childrenNode) {
+		Validate.notNull(childrenNode);
+		if(childrenNode.getParent() == null){
+			return childrenNode;
+		}
+		return webpageDao.getTopParentWebpage(childrenNode);
+	}
 	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getChildrensOfNode(final Long id, final boolean publishedOnly){
+		return webpageDao.getChildrensOfNode(id, publishedOnly);
+	}
 	
 	
 }

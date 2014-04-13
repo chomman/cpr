@@ -44,7 +44,6 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 			 }
 			 
 			 commonModel.put("settings", basicSettingsService.getBasicSettings());
-			 commonModel.put("mainMenu", webpageService.getTopLevelWepages(true));
 			 commonModel.put("dateTimeFormat", Constants.DATE_FORMAT);
 			 commonModel.put("locale", ContextHolder.getLang());
 			 if(modelAndView != null){

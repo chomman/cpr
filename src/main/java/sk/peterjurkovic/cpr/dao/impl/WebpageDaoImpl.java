@@ -148,4 +148,44 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		q.setCacheable(true);
 		return (Webpage)q.uniqueResult();
 	}
+
+
+	@Override
+	public Webpage getTopParentWebpage(final Webpage childrenNode) {
+		Validate.notNull(childrenNode);
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("with recursive tmp_webpage(id, parent) as ( ")
+		   .append("	values(-1::BIGINT, :childrenNodeId::BIGINT) ")
+		   .append(" union all ")
+		   .append(" 	select w.id, w.parent_id ")
+		   .append("    from tmp_webpage as tw, webpage as w ")
+		   .append("    where w.id = parent ")
+		   .append(" ) ")
+		   .append(" select * from webpage w where id = ( select t.id from tmp_webpage as t where t.parent is NULL ) "); 	
+			
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(sql.toString())
+				.addEntity(Webpage.class)
+				.setMaxResults(1)
+				.setLong("childrenNodeId", childrenNode.getId());
+				
+		return (Webpage)query.uniqueResult();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getChildrensOfNode(final Long id, final boolean publishedOnly) {
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(Webpage.class.getName());
+		hql.append(" w");
+		hql.append(" where w.parent.id = :id ");
+		if(publishedOnly){
+			hql.append(" and w.enabled = true ");
+		}
+		hql.append(" order by w.order ");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setLong("id", id);
+		return hqlQuery.list();
+	}
 }

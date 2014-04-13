@@ -55,7 +55,7 @@
 
 			<!-- NAVIGATION -->
 			<nav>
-				<webpage:nav webpages="${commonPublic.mainMenu}" ulCssClass="page-width" />
+				<webpage:nav webpages="${webpageModel.mainnav}" ulCssClass="page-width" />
 			</nav>
 			
 			<!-- CONTENT -->

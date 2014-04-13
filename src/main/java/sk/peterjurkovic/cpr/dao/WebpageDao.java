@@ -44,4 +44,9 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	Webpage getHomePage();
 	
 	Webpage getWebpageByModule(WebpageModule webpageModule);
+	
+	
+	Webpage getTopParentWebpage(Webpage childrenNode);
+	
+	List<Webpage> getChildrensOfNode(Long id, boolean publishedOnly);
 }

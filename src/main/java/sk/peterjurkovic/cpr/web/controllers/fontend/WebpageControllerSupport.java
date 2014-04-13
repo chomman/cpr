@@ -1,7 +1,11 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
@@ -17,6 +21,8 @@ public class WebpageControllerSupport {
 	
 	protected Logger logger = Logger.getLogger(getClass().getName());
 
+	private String viewDirectory;
+	
 	@Autowired
 	protected WebpageService webpageService;
 	
@@ -46,8 +52,32 @@ public class WebpageControllerSupport {
 		}
 		final WebpageType webpageType = webpage.getWebpageType();
 		Validate.notNull(webpageType);
-		return "/portal/index";
-		//return "/public/web/" + webpageType.getViewName();
+		return getViewDirectory() + "web/"+ webpageType.getViewName();
+	}
+
+
+	public String getViewDirectory() {
+		return viewDirectory;
+	}
+
+
+	public void setViewDirectory(String viewDirectory) {
+		this.viewDirectory = viewDirectory;
 	}
 	
+	protected Map<String, Object> prepareModel(Webpage webpage){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpage", webpage);
+		return model;
+	}
+	
+	
+	protected String appendModelAndGetView(ModelMap modelMap, Webpage webpage){	
+		appendModel(modelMap, webpage);
+		return resolveViewFor(webpage);
+	}
+	
+	protected void appendModel(ModelMap modelMap, Webpage webpage) {
+		modelMap.put(WEBPAGE_MODEL_KEY, prepareModel(webpage));
+	}
 }

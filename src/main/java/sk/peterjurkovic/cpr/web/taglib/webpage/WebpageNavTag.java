@@ -1,6 +1,7 @@
 package sk.peterjurkovic.cpr.web.taglib.webpage;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
@@ -12,6 +13,7 @@ public class WebpageNavTag extends WebpageUrlTag {
 	
 	private Collection<Webpage> webpages;
 	private String ulCssClass;
+	private boolean withSubnav = false;
 	
 	@Override
 	protected int doStartTagInternal() throws Exception {
@@ -35,13 +37,31 @@ public class WebpageNavTag extends WebpageUrlTag {
 			}
 			setWebpage(webpage);
 			html.append("<li>")
-				.append(buildTag())
-				.append("</li>");
+				.append(buildTag());
+			if(withSubnav){
+				appendSubnavFor(html, webpage);
+			}
+			html.append("</li>");
 		}
 		
 		return html.append("</ul>");
 	}
 	
+	
+	protected void appendSubnavFor(StringBuilder html, Webpage webpage) {
+		List<Webpage> childrenList = webpage.getPublishedChildrens();
+		if(childrenList.size() > 0){
+			html.append("<ul>");
+			for(Webpage child : childrenList){
+				setWebpage(child);
+				html.append("<li>")
+					.append(buildTag())
+					.append("</li>");
+					
+			}
+			html.append("</ul>");
+		}
+	}
 	
 	public Collection<Webpage> getWebpages() {
 		return webpages;
@@ -65,6 +85,14 @@ public class WebpageNavTag extends WebpageUrlTag {
 
 	public void setUlCssClass(String ulCssClass) {
 		this.ulCssClass = ulCssClass;
+	}
+
+	public boolean isWithSubnav() {
+		return withSubnav;
+	}
+
+	public void setWithSubnav(boolean withSubnav) {
+		this.withSubnav = withSubnav;
 	}
 	
 	

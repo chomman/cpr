@@ -46,6 +46,30 @@ public class WebpageServiceTest {
 		Assert.assertEquals(thirdChild.getParent(),  child );
 	}
 	
+	public void getTopLevelWebpageTest(){
+		Webpage w0 = createWebpage(0);
+		Webpage w1 = createWebpage(1);
+		Webpage w2 = createWebpage(2);
+		Webpage w3 = createWebpage(3);
+		Webpage w01 = createWebpage(0);
+		
+		Assert.assertEquals(w0, w1);
+		Assert.assertEquals(w0, w2);
+		Assert.assertEquals(w0, w3);
+		Assert.assertEquals(w0, w01);
+	}
 	
+	private Webpage createWebpage(int deep){
+		Webpage w = new Webpage();
+		Long id = null;
+		w.getDefaultWebpageContent().setName("web " + deep);
+		if(deep == 0){
+			id = webpageService.createNewWebpage(w);
+		}else{
+			Webpage parent = webpageService.getWebpageByCode("web-" + (deep -1));
+			id = webpageService.createNewWebpage(w, parent.getId());
+		}
+		return webpageService.getWebpageById(id);
+	}
 	
 }
