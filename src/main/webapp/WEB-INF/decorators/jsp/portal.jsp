@@ -44,7 +44,7 @@
 				</div>
 				<div class="pj-header">	
 					<div class="pj-inner">
-						<a href="/" id="logo" >
+						<a href="<webpage:link webpage="${webpageModel.rootwebpage}" />" id="logo" >
 							<span class="blind">Zákony a normy pro plastikářský a gumárenský průmysl</span>
 						</a>
 

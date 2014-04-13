@@ -43,6 +43,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 		model.put("webpage", webpage);
 		model.put("mainnav", webpageService.getChildrensOfNode(MAIN_NAV_ID, true));
 		model.put("subnav", webpageService.getChildrensOfNode(SUB_NAV_ID, true));
+		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));
 		return model;
 	}
 	

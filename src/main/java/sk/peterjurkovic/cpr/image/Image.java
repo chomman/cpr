@@ -84,9 +84,12 @@ public class Image {
      * @return Image scaled to new width
      */
     public Image getResizedToWidth(int width) {
-        if (width > getWidth())
-            throw new IllegalArgumentException("Width "+ width +" exceeds width of image, which is "+ getWidth());
-        int nHeight = width * img.getHeight() / img.getWidth();
+    	int nHeight = width;
+    	if (width > getWidth()){
+          //  throw new IllegalArgumentException("Width "+ width +" exceeds width of image, which is "+ getWidth());
+        }else{
+        	nHeight = width * img.getHeight() / img.getWidth();
+        }
         MultiStepRescaleOp rescale = new MultiStepRescaleOp(width, nHeight);
         rescale.setUnsharpenMask(AdvancedResizeOp.UnsharpenMask.Soft);
         BufferedImage resizedImage = rescale.filter(img, null);

@@ -75,6 +75,13 @@
 .pj-subnav{height: 30px;border-top:1px solid #c6c6c6;}
 
 /* CONTENT ------ */
+#article {font-size:14px;line-height:18px;color:#222}
+#article ul{list-style:disc;padding:15px;}
+#article h1,
+#article h2,
+#article h3{padding:5px 0;margin-top:8px;}
+#article h2{font-size:16px;border-bottom:1px solid #eee;margin-bottom:10px;}
+
 #content{
    position:relative;       
 }
@@ -93,14 +100,16 @@ aside .pj-item p{font-size:12px;line-height:16px;color:#555}
 
 section{float:left;max-width:700px;margin-left:20px !important;width:100%;}
 section p{font-size:13px;color:#333;line-height:17px;}
-.pj-head{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#888;margin-bottom:10px;border-bottom:2px dotted #ddd;}
+.pj-head,
+article h1{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#888;margin-bottom:10px;border-bottom:2px dotted #ddd;}
 .pj-scopes{margin-bottom: 25px;}
-.pj-scopes .pj-item{background:#f2f2f2;max-width:320px;padding:10px;float:left;display:inline-block;margin:5px 5px 10px 5px;}
+.pj-scopes .pj-item{background:#f2f2f2;width:320px;min-height:100px;padding:10px;float:left;display:inline-block;margin:5px 5px 10px 5px;}
 .pj-scopes .pj-item:hover{background: #ececec;}
 .pj-scopes .pj-item img{width:100%;}
 .pj-scopes .pj-item .pj-img{display:block;width:150px;height:100px;float:left;padding-right:8px;}
 .pj-scopes .pj-item h3{font-size:15px;margin-bottom:10px;font-weight:normal;}
 .pj-scopes .pj-item p{font-size:12px;color:#333;line-height:15px}
+.pj-scopes .pj-img{width:180px;height:120px;display:block;background-repeat:no-repeat;background-position: center;}
 
 .pj-link{color:#0088c8;}
 .pj-link:hover{color:#111;}
@@ -122,6 +131,17 @@ border-bottom:4px solid #4BA86C;border-top:1px solid #4BA86C;margin:10px 0;
 .pj-publication .pj-ico{display:none;}
 .pj-publication:hover .pj-ico{position:absolute;display:block;width:15px;height:30px;background:url(../img/ico_arrow.png) no-repeat;right:15px;top:15px;}
 .pj-publication:hover{background:#4BA86C;}
+
+
+/* new category */
+.pj-category-items{margin: 35px 10px 0 10px;}
+.pj-category-item{margin:20px 0;overflow: hidden;display: inline-block;display:block;}
+.pj-category-item .pj-foto{width:120px;text-align:center;display:block;float:left;margin-right:10px;}
+.pj-category-item .pj-foto img{border:2px solid #eee;}
+.pj-category-item .pj-content{display:;width:100%;}
+.pj-category-item .pj-content h3 {font-size:20px;padding:0 0 10px 0;}
+.pj-category-item .pj-content h3 a{color:#0088c8;}
+.pj-category-item .pj-content h3 a:hover{color:#333 !important;}
 
 /* FOOTER ------ */
 footer{ 

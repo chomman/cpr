@@ -33,6 +33,7 @@ import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
+import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.enums.SystemLocale;
 import sk.peterjurkovic.cpr.enums.WebpageModule;
 import sk.peterjurkovic.cpr.enums.WebpageType;
@@ -217,7 +218,22 @@ public class Webpage extends AbstractEntity {
 		this.webpageModule = webpageModule;
 	}
 
-
+	
+	@Transient
+	public String getTitleInLang(){
+		if(localized.containsKey(ContextHolder.getLang())){
+			return localized.get(ContextHolder.getLang()).getTitle();
+		}
+		return null;
+	}
+	
+	@Transient
+	public String getDescriptionInLang(){
+		if(localized.containsKey(ContextHolder.getLang())){
+			return localized.get(ContextHolder.getLang()).getDescription();
+		}
+		return null;
+	}
 	
 	@Transient
 	public String getDefaultName(){
