@@ -75,7 +75,7 @@ public class ModuleController extends WebpageControllerSupport {
 		model.put("orders", StandardOrder.getAll());
 		model.put("standardStatuses", StandardStatus.getAll());
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
-		return appendModelAndGetView(model, modelMap);
+		return appendModelAndGetView(model, modelMap, request);
 	}
 	
 	
@@ -93,7 +93,7 @@ public class ModuleController extends WebpageControllerSupport {
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
-		return appendModelAndGetView(model, modelMap);
+		return appendModelAndGetView(model, modelMap, request);
 	}
 	
 	
@@ -103,7 +103,7 @@ public class ModuleController extends WebpageControllerSupport {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		model.put("notifiedBodies", notifiedBodyService.getNotifiedBodiesGroupedByCountry(Boolean.TRUE));
-		return appendModelAndGetView(model, modelMap);
+		return appendModelAndGetView(model, modelMap, request);
 	}
 	
 	
@@ -112,7 +112,7 @@ public class ModuleController extends WebpageControllerSupport {
 		validateRequest(request);
 		 Map<String, Object> model = new HashMap<String, Object>();
 		 model.put("reports", reportService.getReportsForPublic());
-		 return appendModelAndGetView(model, modelMap);
+		 return appendModelAndGetView(model, modelMap, request);
 	}
 	
 	
@@ -133,7 +133,7 @@ public class ModuleController extends WebpageControllerSupport {
 			model.put("detailUrl", "/"+ModuleDetailController.TERMINOLOGY_URL_MAPPING);
 			model.put("params", params );
 		}
-		return appendModelAndGetView(model, modelMap);
+		return appendModelAndGetView(model, modelMap, request);
 	}
 	
 	
@@ -142,12 +142,15 @@ public class ModuleController extends WebpageControllerSupport {
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
         model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
-        return appendModelAndGetView(model, modelMap);
+        return appendModelAndGetView(model, modelMap, request);
     }
     
-	private String appendModelAndGetView(Map<String, Object> model, ModelMap map){
+	private String appendModelAndGetView(Map<String, Object> model, ModelMap map, HttpServletRequest request){
 		map.put("model", model);
-		return "/module/web/" + WebpageType.ARTICLE.getViewName();
+		if(request.getAttribute(PORTAL_MODEL_KEY) != null){
+			return "/portal/web/" + WebpageType.ARTICLE.getViewName();
+		}
+		return "/public/web/" + WebpageType.ARTICLE.getViewName();
 	}
 	
 	private void validateRequest(HttpServletRequest request) throws PageNotFoundEception{

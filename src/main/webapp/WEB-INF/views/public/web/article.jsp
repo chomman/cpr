@@ -18,7 +18,7 @@
 			
 			
 			<c:if test="${not empty webpageModel.webpage.webpageModule }">
-				<jsp:include page="../module/${webpageModel.webpage.webpageModule.jspPage}" />
+				<jsp:include page="../../module/${webpageModel.webpage.webpageModule.jspPage}" />
 			</c:if>
 			
 		</div>

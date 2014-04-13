@@ -41,6 +41,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	protected Map<String, Object> prepareModel(Webpage webpage){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
+		model.put(PORTAL_MODEL_KEY, true);
 		model.put("mainnav", webpageService.getChildrensOfNode(MAIN_NAV_ID, true));
 		model.put("subnav", webpageService.getChildrensOfNode(SUB_NAV_ID, true));
 		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));

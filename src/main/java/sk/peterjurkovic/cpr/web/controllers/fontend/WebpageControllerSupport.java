@@ -15,7 +15,7 @@ import freemarker.log.Logger;
 
 public class WebpageControllerSupport {
 	
-	
+	public final static String PORTAL_MODEL_KEY = "isPortal";
 	public final static String EN_PREFIX = "/en/";
 	public final static String WEBPAGE_MODEL_KEY = "webpageModel";
 	
