@@ -28,8 +28,7 @@ public class PublicWebpageController extends WebpageControllerSupport {
 	
 	@RequestMapping(value = {"/", EN_PREFIX })
 	public String handleHomepage(ModelMap map){
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpageService.getHomePage());
+		Map<String, Object> model = prepareModel(webpageService.getHomePage());
 		model.put("articleUrl", "/article/");
 		model.put("articles", articleService.getNewestArticles(3));
 		model.put("standards", standardService.getLastEditedOrNewestStandards(6, Boolean.TRUE));
