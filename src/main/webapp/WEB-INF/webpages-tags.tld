@@ -122,4 +122,29 @@
 		<type>java.util.Boolean</type>
 	</attribute>
 </tag>
+<tag>
+    <name>breadcrumb</name>
+    <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpageBreadcrumbTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+    	<name>webpages</name>
+		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>		
+	<attribute>
+		<name>bcCssClass</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>bcId</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+		<attribute>
+		<name>separator</name>
+		<required>false</required>
+		<rtexprvalue>false</rtexprvalue>
+	</attribute>
+</tag>
 </taglib>

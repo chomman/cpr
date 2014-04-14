@@ -305,6 +305,7 @@ public class Webpage extends AbstractEntity {
 		return false;
 	}
 	
+	
 	@Transient
 	public List<Webpage> getPublishedChildrens(){
 		List<Webpage> webpageList = new ArrayList<Webpage>();

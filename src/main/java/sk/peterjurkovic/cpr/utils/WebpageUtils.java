@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -123,6 +124,23 @@ public class WebpageUtils {
 			return getParentWebpageCode(webpage.getParent());
 		}
 		return webpage.getCode();
+	}
+	
+	public static List<Webpage> getBreadcrumbFor(final Webpage webpage){
+		Validate.notNull(webpage);
+		List<Webpage> items = new LinkedList<Webpage>();
+		buildBredcrumb( items , webpage);
+		return items;
+	}
+	
+	private static void buildBredcrumb(List<Webpage> breadcrumb, Webpage webpage) {
+		if(webpage.getParent() != null){
+			buildBredcrumb(breadcrumb, webpage.getParent());
+		}else{
+			if(webpage.getIsPublished()){
+				breadcrumb.add(0, webpage);
+			}
+		}
 	}
 	
 }

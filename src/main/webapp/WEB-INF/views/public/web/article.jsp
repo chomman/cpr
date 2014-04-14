@@ -5,11 +5,12 @@
 	<head>
 	</head>
 	<body>
-		
+	<!-- 	
 	<div id="bc">
-		<span class="bc-info"><spring:message code="location" />:</span>  
+		  <span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-	</div> 
+	</div>
+	 --> 
 		<div id="main-content">
 			<article>
 				<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>

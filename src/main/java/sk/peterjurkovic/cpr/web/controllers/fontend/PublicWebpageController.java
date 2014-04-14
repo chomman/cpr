@@ -13,6 +13,7 @@ import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.ArticleService;
 import sk.peterjurkovic.cpr.services.StandardService;
+import sk.peterjurkovic.cpr.utils.WebpageUtils;
 
 @Controller
 public class PublicWebpageController extends WebpageControllerSupport {
@@ -52,6 +53,7 @@ public class PublicWebpageController extends WebpageControllerSupport {
 	protected Map<String, Object> prepareModel(Webpage webpage){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
+		model.put("breadcrumb", WebpageUtils.getBreadcrumbFor(webpage));
 		model.put("mainnav", webpageService.getTopLevelWepages(true));
 		return model;
 	}
