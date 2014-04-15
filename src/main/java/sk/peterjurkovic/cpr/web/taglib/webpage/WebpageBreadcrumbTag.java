@@ -1,25 +1,34 @@
 package sk.peterjurkovic.cpr.web.taglib.webpage;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
+import sk.peterjurkovic.cpr.context.ContextHolder;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
 
 public class WebpageBreadcrumbTag extends WebpageUrlTag {
 	
-	private Collection<Webpage>  webpages;
+	private Webpage webpage;
 	private String bcId;
 	private String bcCssClass;
 	private String separator = "&raquo;";
 	
+	@Autowired
+	private MessageSource messageSource;
+	
+	public WebpageBreadcrumbTag(){
+		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
+	}
 	
 	@Override
 	protected int doStartTagInternal() throws Exception {
-		if(CollectionUtils.isNotEmpty(webpages)){
+		if(webpage != null || !webpage.isHomepage()){
 			pageContext.getOut().print(buildBreadcrumb());
 		}
 		return SKIP_PAGE;
@@ -29,12 +38,21 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 	private StringBuilder buildBreadcrumb(){
 		StringBuilder html = new StringBuilder();
 		html.append("<div");
-		appendCssStyles(html);
-		appendId(html);
+		appendBcCssStyles(html);
+		appendBcId(html);
 		html.append(">");
-		Iterator<Webpage> iterator = webpages.iterator();
+		boolean isFirst = true;
+		List<Webpage> webpageList = WebpageUtils.getBreadcrumbFor(webpage);
+		Iterator<Webpage> iterator = webpageList.iterator();
 		while (iterator.hasNext()) {
-			 Webpage webpage = iterator.next();
+			if(isFirst){
+				String locationLabel = messageSource.getMessage("location", null, ContextHolder.getLocale());
+				html.append("<span class=\"bc-info\">")
+					.append(locationLabel)
+					.append(": </span>");
+				isFirst = false;
+			}
+			Webpage webpage = iterator.next();
 			if(iterator.hasNext()){
 				setWebpage(webpage);
 				html.append( buildTag() )
@@ -45,31 +63,23 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 				    .append("</span>");
 			}
 		}
-		return html;
+		return html.append("</div>");
 	}
 	
 	
-	public void appendCssStyles(StringBuilder url){
+	public void appendBcCssStyles(StringBuilder url){
 		if(StringUtils.isNotBlank(bcCssClass)){
 			url.append(" class=\"").append(bcCssClass).append("\" ");
 		}
 	}
 	
-	public void appendId(StringBuilder url){
+	public void appendBcId(StringBuilder url){
 		if(StringUtils.isNotBlank(bcId)){
 			url.append(" id=\"").append(bcId).append("\" ");
 		}
 	}
 	
 	
-	
-	public Collection<Webpage> getWebpages() {
-		return webpages;
-	}
-	public void setWebpages(Collection<Webpage> webpages) {
-		this.webpages = webpages;
-	}
-
 
 	public String getBcId() {
 		return bcId;
@@ -98,6 +108,14 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 
 	public void setSeparator(String separator) {
 		this.separator = separator;
+	}
+
+	public Webpage getWebpage() {
+		return webpage;
+	}
+
+	public void setWebpage(Webpage webpage) {
+		this.webpage = webpage;
 	}
 	
 	

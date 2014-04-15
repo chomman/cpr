@@ -127,7 +127,7 @@
     <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpageBreadcrumbTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
-    	<name>webpages</name>
+    	<name>webpage</name>
 		<required>true</required>
 		<rtexprvalue>true</rtexprvalue>
 	</attribute>		

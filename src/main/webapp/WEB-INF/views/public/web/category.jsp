@@ -5,8 +5,6 @@
 	<head>
 	</head>
 	<body>
-		
-
 		<div id="main-content">
 			<article>
 				<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>

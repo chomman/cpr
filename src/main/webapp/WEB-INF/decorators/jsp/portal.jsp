@@ -69,10 +69,7 @@
 
 			<div id="content">
 				<div class="pj-inner ">	
-						<div class="pj-bc">
-							<a href="">Home</a> &raquo;
-							<span>Novinky</span>
-						</div>
+						<webpage:breadcrumb webpage="${webpageModel.webpage}" bcCssClass="pj-bc"/>
 						
 						<aside>
 							<webpage:nav webpages="${webpageModel.subnav}" ulCssClass="pj-aside-nav" />

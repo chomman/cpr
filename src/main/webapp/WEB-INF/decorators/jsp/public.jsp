@@ -60,12 +60,7 @@
 			
 			<!-- CONTENT -->
 			<div id="content">
-				<c:if test="${not webpageModel.webpage.isHomepage}">
-					<div id="bc">
-						<span class="bc-info"><spring:message code="location" />:</span>   &raquo;  
-						<webpage:breadcrumb webpages="${webpageModel.breadcrumb}" />
-					</div>
-				</c:if>
+				<webpage:breadcrumb webpage="${webpageModel.webpage}" bcId="bc" />
 				<decorator:body />
 			</div>
 			<div class="push"></div>	

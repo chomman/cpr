@@ -134,12 +134,11 @@ public class WebpageUtils {
 	}
 	
 	private static void buildBredcrumb(List<Webpage> breadcrumb, Webpage webpage) {
+		if(webpage.getIsPublished()){
+			breadcrumb.add(0, webpage);
+		}
 		if(webpage.getParent() != null){
 			buildBredcrumb(breadcrumb, webpage.getParent());
-		}else{
-			if(webpage.getIsPublished()){
-				breadcrumb.add(0, webpage);
-			}
 		}
 	}
 	
