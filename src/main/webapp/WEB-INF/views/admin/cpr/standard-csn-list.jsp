@@ -26,6 +26,7 @@
 			<ul class="sub-nav">
 				<li><a class="active" href="<c:url value="/admin/cpr/standard-csn"  />"><spring:message code="cpr.standard.view" /></a></li>
 				<li><a href="<c:url value="/admin/cpr/standard-csn/edit/0"  />"><spring:message code="cpr.standard.add" /></a></li>
+				<li><a:url extraAttr="target;_blank" href="${model.webpage.code}"><a:localizedValue object="${model.webpage}" fieldName="name" /></a:url></li>
 			</ul>
 			
 			<form class="filter" method="get">

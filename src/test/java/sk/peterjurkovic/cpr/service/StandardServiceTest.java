@@ -74,6 +74,19 @@ public class StandardServiceTest{
 	}
 	
 	@Test
+	public void standardStatusConcurentTest(){
+		Standard standard = standardService.getStandardById(435l);
+		standard.setStandardStatus(StandardStatus.CONCURRENT);
+		Standard cancelatedStandard = standardService.getStandardById(434l);
+		Assert.assertNotNull(standard);
+		Assert.assertNotNull(cancelatedStandard);
+		standard.setReplaceStandard(cancelatedStandard);
+		standardService.updateReferencedStandard(standard);
+		Assert.assertEquals(cancelatedStandard, standard.getReplaceStandard());
+		Assert.assertEquals(StandardStatus.CONCURRENT, standard.getReplaceStandard().getStandardStatus());
+	}
+	
+	@Test
 	public void standardStatusCanceledHarmonizedTest(){
 		Standard standard = standardService.getStandardById(433l);
 		standard.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
@@ -113,17 +126,17 @@ public class StandardServiceTest{
 		final int lastDayOfMonth = date.dayOfMonth().getMaximumValue();
 		standard.setStatusDate(null);
 		standardService.updateStandard(standard);
-		List<Standard> standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), null);
+		List<Standard> standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), false);
 		final int size = standards.size();
 		// first day
 		standard.setStatusDate(date);
 		standardService.updateStandard(standard);
-		standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), null);
+		standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), false);
 		Assert.assertEquals((size + 1), standards.size());
 		
 		standard.setStatusDate(date.plusDays(-1));
 		standardService.updateStandard(standard);
-		standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), null);
+		standards = standardService.getChangedStanards(date, date.withDayOfMonth(lastDayOfMonth), false);
 		Assert.assertEquals(size , standards.size());
 	}
 	

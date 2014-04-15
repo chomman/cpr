@@ -49,6 +49,9 @@
 						<a:adminurl href="/cpr/standard-csn"><spring:message code="csn.list" /></a:adminurl>
 					</li>
 					<li><a <c:if test="${empty csn.id or csn.id == 0}">class="active"</c:if> href="<a:adminurl href="/cpr/standard-csn/edit/0" linkOnly="true" />"><spring:message code="csn.add" /></a></li>
+					<c:if test="${not empty model.standard}">
+						<li><a data-fancybox-type="ajax" class="standard-preview" href="<c:url value="/preview/standard/${model.standard.id}"  />"><spring:message code="form.preview" /></a></li>
+					</c:if>
 				</ul>
 								
 				<c:if test="${not empty model.standards}">

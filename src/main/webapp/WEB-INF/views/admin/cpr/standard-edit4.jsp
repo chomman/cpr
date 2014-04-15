@@ -103,9 +103,9 @@
 									<option value="" ><spring:message code="form.select" /></option>
 									<c:forEach items="${model.notifiedBodies}" var="i">
 				                              <option value="${i.id}">  
-				                              <c:if test="${empty i.aoCode}">${i.noCode}</c:if>
-				                              <c:if test="${not empty i.aoCode}">${i.aoCode}</c:if>
-				                              - ${fn:substring(i.name, 0, 90)}...</option>
+				                              <c:if test="${not empty i.noCode}">${i.noCode} - </c:if> 
+				                              <c:if test="${not empty i.aoCode}">${i.aoCode} - </c:if>
+				                              ${fn:substring(i.name, 0, 90)}...</option>
 				                      </c:forEach>
 								</form:select>
 								</span>

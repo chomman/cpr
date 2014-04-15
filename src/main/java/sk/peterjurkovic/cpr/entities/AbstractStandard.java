@@ -71,6 +71,17 @@ public abstract class AbstractStandard extends AbstractEntity{
 		return false;
 	}
 	
+	@Transient
+	public boolean getIsConcurrentValid(){
+		if(standardStatus == null){
+			return false;
+		}
+		if(standardStatus.equals(StandardStatus.CONCURRENT)){
+			return true;
+		}
+		return false;
+	}
+	
 	
 	@Transient
 	public boolean isNew(){

@@ -239,6 +239,11 @@ public class StandardServiceImpl implements StandardService {
 						return true;
 					}
 					
+			}else if(status.equals(StandardStatus.CONCURRENT) && !referencedStandard.getStandardStatus().equals(StandardStatus.CONCURRENT)){
+				referencedStandard.setStandardStatus(StandardStatus.CONCURRENT);
+				referencedStandard.setReplaceStandard(standard);
+				saveOrUpdate(referencedStandard);
+				return true;
 			}else{
 				if( status.equals(StandardStatus.CANCELED_HARMONIZED) && !referencedStandard.equals(standard) && 
 				   (referencedStandard.getReplaceStandard() == null || !referencedStandard.getReplaceStandard().equals(standard))){

@@ -26,9 +26,11 @@ $(document).ready(function() {
     	if($standardStatus.length === 0){
     		return false;
     	}
-    	var selectedVal = $standardStatus.find("option:selected").val().toLowerCase(),
+    	var selectedVal = $standardStatus.find("option:selected").val(),
     		$inputLabel = $('#standard-replaced-label');
-    	if(selectedVal.indexOf("canceled") > -1){
+    	if(selectedVal === "CONCURRENT"){
+    		$inputLabel.text('platí souběžně s: ');
+    	}else if(selectedVal.indexOf("CANCELED") > -1){
     		$inputLabel.text('norma je nahrazena: ');
     	}else{
     		$inputLabel.text('norma nahrazuje: ');
@@ -50,7 +52,6 @@ function linkUrl(id){
 }
 
 function selectStandard(code, id){
-	console.log(code,id);
 	var html = '<a class="resetmargin picker-item standard-link" target="_blank" href="'+linkUrl(id)+'">'+code+'</a>';
 	html += '<span class="resetmargin picker-item standard-link-cancel">zrušit provázání</span>';
 	$("#standardPicker").after(html).hide();

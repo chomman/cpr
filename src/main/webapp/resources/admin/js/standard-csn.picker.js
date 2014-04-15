@@ -1,5 +1,5 @@
 $(document).ready(function() {    
-  
+	var $standardStatus = $('#standardStatus');
     refreshInputLabel();
     
     $("#standardPicker").autocomplete({
@@ -20,18 +20,23 @@ $(document).ready(function() {
     $(document).on("click", ".standard-link-cancel", cancelSelection);
     
     // aktualizuje popisok inputu pre vyhladavanie normy
-    $('#standardStatus').change( refreshInputLabel );
+    $standardStatus.change( refreshInputLabel );
     
     function refreshInputLabel(){
-    	var selectedVal = $('#standardStatus').find("option:selected").val().toLowerCase(),
+    	if($standardStatus.length === 0){
+    		return false;
+    	}
+    	var selectedVal = $standardStatus.find("option:selected").val(),
     		$inputLabel = $('#standard-replaced-label');
-    	if(selectedVal.indexOf("canceled") > -1){
+    	if(selectedVal === "CONCURRENT"){
+    		$inputLabel.text('platí souběžně s: ');
+    	}else if(selectedVal.indexOf("CANCELED") > -1){
     		$inputLabel.text('norma je nahrazena: ');
     	}else{
     		$inputLabel.text('norma nahrazuje: ');
     	}
     	return false;
-    }    	
+    }     	
 });
 
 function cancelSelection(){
@@ -44,13 +49,9 @@ function cancelSelection(){
 
 
 function selectStandard(code, id){
-	console.log(code,id);
 	var html = '<a class="resetmargin picker-item standard-link" target="_blank" href="#">'+code+'</a>';
 	html += '<span class="resetmargin picker-item standard-link-cancel">zrušit provázání</span>';
 	$("#standardPicker").after(html).hide();
 	$('#pickerVal').val(id);
-	var o = $('#statusDateWrapp');
-	o.removeClass('hidden');
-	o.find('input').datepicker(datepickerOpts);
 }
 

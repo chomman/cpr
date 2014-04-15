@@ -6,8 +6,9 @@ import java.util.List;
 public enum StandardStatus {
 	
 	HARMONIZED(1,  "standardStatus.normal", "HARMONIZED", ""),
-	NON_HARMONIZED(3,"standardStatus.nonHarmonized", "NON_HARMONIZED", "status-non-harmonized"),
-	CANCELED_HARMONIZED(3,"standardStatus.canceledHarmonized", "CANCELED_HARMONIZED", "status-canceled-harmonized");
+	NON_HARMONIZED(2,"standardStatus.nonHarmonized", "NON_HARMONIZED", "status-non-harmonized"),
+	CANCELED_HARMONIZED(3,"standardStatus.canceledHarmonized", "CANCELED_HARMONIZED", "status-canceled-harmonized"),
+	CONCURRENT(4, "standardStatus.concurrent", "CONCURRENT_VALIDITY", "status-concurrent");
 	
 	private int id;
 	private String name;

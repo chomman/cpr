@@ -52,6 +52,9 @@
 				 					<c:if test="${not i.isCanceled and i.replaceStandard.isCanceled}">
 					 					<spring:message code="replace" />
 				 					</c:if>
+				 					<c:if test="${csn.replaceStandardCsn.isConcurrentValid}">
+					 					<spring:message code="validConcurrent" />
+				 					</c:if>
 			 					</span>
 			 					<a:standardUrl standard="${i.replaceStandard}" editable="${editable}" />
 		 					</c:if>
@@ -79,6 +82,9 @@
 						 					</c:if>
 						 					<c:if test="${csn.replaceStandardCsn.isCanceled}">
 							 					<spring:message code="replace" />
+						 					</c:if>
+						 					<c:if test="${csn.replaceStandardCsn.isConcurrentValid}">
+							 					<spring:message code="validConcurrent" />
 						 					</c:if>
 						 					</span>
 						 					<a:standardCsnUrl object="${csn.replaceStandardCsn}" editable="${editable}" />

@@ -4,7 +4,6 @@
 <html>
 <head>
 <title><spring:message code="menu.cpr.norm" /></title>
-<script src="<c:url value="/resources/public/js/standard.autoc omplate.js" />"></script>
 <script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
 </head>
 <body>

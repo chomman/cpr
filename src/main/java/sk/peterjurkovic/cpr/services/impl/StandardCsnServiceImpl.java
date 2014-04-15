@@ -89,26 +89,32 @@ public class StandardCsnServiceImpl implements StandardCsnService {
 	
 	@Override
 	public boolean updateReferencedStandard(StandardCsn csn){
-		StandardCsn referencedCsn = csn.getReplaceStandardCsn();
+		StandardCsn replacedCsn = csn.getReplaceStandardCsn();
 		StandardStatus status = csn.getStandardStatus();
-		if(referencedCsn != null){
-			if(status == null || status.equals(StandardStatus.HARMONIZED) || status.equals(StandardStatus.NON_HARMONIZED)){
-				if( !referencedCsn.equals(csn) && 
-					(referencedCsn.getReplaceStandardCsn() == null || !referencedCsn.getReplaceStandardCsn().equals(csn)) &&
-					referencedCsn.getStandardStatus() != null && !referencedCsn.getStandardStatus().equals(StandardStatus.CANCELED_HARMONIZED)){
-						referencedCsn.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
-						referencedCsn.setReplaceStandardCsn(csn);
-						saveOrUpdate(referencedCsn);
-					return true;
-				}
-			}else{
-				if(status.equals(StandardStatus.CANCELED_HARMONIZED) && 
-				   !referencedCsn.equals(csn) && 
-				   (referencedCsn.getReplaceStandardCsn() == null || !referencedCsn.getReplaceStandardCsn().equals(csn))){
-					referencedCsn.setReplaceStandardCsn(csn);
-					saveOrUpdate(referencedCsn);
-					return true;
-				}
+		
+		if(replacedCsn != null && !replacedCsn.equals(csn)){
+			StandardStatus replacedStatus = replacedCsn.getStandardStatus();
+			replacedCsn.setReplaceStandardCsn(csn);
+			
+			if( ( 
+				status.equals(StandardStatus.HARMONIZED) || 
+			    status.equals(StandardStatus.NON_HARMONIZED)
+			    ) && (
+			      !replacedStatus.equals(StandardStatus.CANCELED_HARMONIZED)
+			    )
+			 ){
+				replacedCsn.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
+				saveOrUpdate(replacedCsn);
+				return true;
+			}else if(status.equals(StandardStatus.CONCURRENT) && !replacedCsn.getStandardStatus().equals(StandardStatus.CONCURRENT)){
+				replacedCsn.setStandardStatus(StandardStatus.CONCURRENT);
+				replacedCsn.setReplaceStandardCsn(csn);
+				saveOrUpdate(replacedCsn);
+				return true;
+			}else if(status.equals(StandardStatus.CONCURRENT) && !replacedStatus.equals(StandardStatus.CONCURRENT)){
+				replacedCsn.setStandardStatus(StandardStatus.CONCURRENT);
+				saveOrUpdate(replacedCsn);
+				return true;
 			}
 		}
 		return false;
