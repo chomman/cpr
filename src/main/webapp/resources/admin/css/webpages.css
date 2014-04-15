@@ -13,7 +13,9 @@
 .link-ico.btn-webpage{padding:8px 30px 8px 8px;}
 .link-ico.btn-webpage span{font-size: 15px;position:absolute;right:4px;top:5px;}
 
-.link-ico .ico{background-image:url(../img/iconset.gif); background-color:#5188c0;border-radius:50%;display:inline-block;width:18px;height:18px;}
+.link-ico .ico{ background-color:#5188c0;border-radius:50%;display:inline-block;width:18px;height:18px;}
+.pj-ico span,
+.link-ico .ico{background-image:url(../img/iconset.gif);}
 .plus{background-position:26px -153px; }
 .set{background-position:-21px 4px; }
 .full-width{margin:0}
@@ -53,3 +55,4 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 .pj-fotobox .lightbox:hover{border:2px solid #bbb;}
 .pj-fotobox .delete{color:red;padding:5px 0;display:inline-block;margin-top:0px;font-size:12px;text-decoration:underline;}
 .pj-fotobox .delete:hover{text-decoration:none;color:#000}
+.root-node{background:url(../img/webpages-icons.png) no-repeat 28px -115px;font-weight:bold;color:#0d1532;margin: 10px -25px;padding:10px 25px 10px 65px;border-bottom:1px solid #ddd;}

@@ -9,12 +9,29 @@
 <head>
 	<title><spring:message code="webpages" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
-	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.css" />" />
-	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.theme.custom.css" />" />
-	<script src="<c:url value="/resources/admin/js/jquery.treetable.js" />"></script>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/js/jstree/themes/default/style.css" />" />
+	<script src="<c:url value="/resources/admin/js/jstree/jstree.min.js" />"></script>
 	<script>
 	$(function () {
-		 $("table.webpages").treetable();
+	  $("#jstree").jstree({
+		    "core" : {
+		      "check_callback" : true
+		    },
+		    "plugins" : [ "dnd" ]
+		  });
+	  
+	  $(document).on('click', 'ul .pj-webpage-nav a:not(.preview)', function(e){
+		 console.log('test');
+		 e.stopImmediatePropagation();
+		 document.location.href = $(this).attr('href');
+	  });
+	  $(document).on('dnd_stop.vakata', function(e , dnd  ){
+		  console.log(dnd.data);
+		  console.log('parent: ' +  dnd.data.obj.parent().attr('id'));
+		  dnd.data.obj.parent().children('li').each(function(i){
+			 	console.log($(this).attr("id"), i); 
+		  });
+	  });
 	});
 	</script>
 </head>
@@ -28,16 +45,6 @@
 				 &raquo;
 				 <span><spring:message code="webpages" /></span>
 			</div>
-			<div class="pj-nav">
-				<span class="pj-nav-label"><spring:message code="webpages" /></span>
-				<span class="pj-nav-label2"><spring:message code="options" />:</span>
-				<a:adminurl href="/webpage/add/0" cssClass="btn-webpage tt st1 radius link-ico" title="Do hlavního menu">
-					<spring:message code="webpages.add" /> <span class="ico plus"></span>
-				</a:adminurl>
-			</div>
-			 
-			
-			
 			
 			
 			<c:if test="${not empty successDelete}">
@@ -51,26 +58,32 @@
 			
 				
 			
-		
+			<div class="root-node">
+				www.nlfnorm.cz
+				<div class="pj-webpage-nav">
+					<a:adminurl href="/webpage/add/0"  cssClass="pj-ico pj-add tt" title="Přidat podstránku">
+							<span></span>
+					</a:adminurl>
+					
+					<a:adminurl href="/webpage/edit/${node.id}"  cssClass="pj-ico pj-edit tt" title="Upravit">
+						<span></span>
+					</a:adminurl>
+					<webpage:a webpage="${model.homepage}" isPreview="true" withName="false" cssClass="pj-ico  preview tt" title="Zobrazit">
+						<span></span>
+					</webpage:a>
+				</div>
+			</div>
 				
 			<c:if test="${not empty model.webpages}">
-				<table class="webpages radius">
-					<thead>
-						<tr>
-							<th class="gradient-gray">Název</th>
-							<th class="gradient-gray"><spring:message code="published" /></th>
-							<th class="gradient-gray">Modul</th>
-							<th  class="gradient-gray">Autor/<spring:message code="form.lastEdit" /></th>
-						</tr>
-					</thead>
-					<tbody>
-						 <c:forEach items="${model.webpages}" var="node"  >
+				<div id="jstree">
+					<ul id="0">
+						  <c:forEach items="${model.webpages}" var="node" varStatus="s"  >
 						 	<c:set var="node" value="${node}" scope="request"/>
-						 	<jsp:include page="webpage.node.jsp" />
-						 	<jsp:include page="webpage.node.template.jsp" />
+						 	<c:set var="s" value="${s}" scope="request"/>
+						 	<jsp:include page="webpage.li.node.jsp" />
 						 </c:forEach>
-					</tbody>
-				</table>
+					</ul>	 
+				</div>
 			</c:if>
 			
 			 

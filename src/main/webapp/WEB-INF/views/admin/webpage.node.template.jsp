@@ -6,7 +6,7 @@
 				<span class="w-name">
 					<a:adminurl href="/webpage/edit/${node.id}">${node.defaultName}</a:adminurl>
 				</span>
-				<span class="pj-webpage-nav">
+				<span class="pj-webpage-nav radius">
 					<c:if test="${node.isHomepage}">
 						<a:adminurl href="/webpage/add/0">
 								<spring:message code="webpage.addSubpage" />

@@ -89,6 +89,7 @@ public class WebpageController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpages", webpageService.getTopLevelWepages());
 		model.put("tab", 1);
+		model.put("homepage", webpageService.getHomePage());
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}
