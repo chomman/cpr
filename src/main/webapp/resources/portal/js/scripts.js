@@ -1,6 +1,5 @@
 $(init);
 
-
 function init(){
 	$('[placeholder]').focus(function() {
 	  var input = $(this);
@@ -15,27 +14,18 @@ function init(){
 	    input.val(input.attr('placeholder'));
 	  }
 	}).blur();
-
-
-
-
-	$(document).on("mouseenter", "ul.first-child > li", function(){
-		showSubnav($(this));
-	});
-	$(document).on("mouseleave", "ul.first-child", function(){
-		var $curr = $("ul.first-child a.pj-current").parent();
-		if($curr.length > 0){
-			showSubnav($curr);
-		}
-	});
-	
-	showSubnav($("ul.first-child li:first-child"));
+	$(document).on("mouseenter", "li.pj-parent", showSubnav );
+	$(document).on("mouseleave", "li.pj-parent", hideSubNav );
 }
 
-function showSubnav($li){
-	var $ul = $li.parent();
-	$ul.find('.curr').removeClass('curr');
-	$ul.find('ul').hide();
-	$li.addClass('curr').find('ul').show();
+function hideSubNav(e){
+	e.preventDefault();
+	$(this).find('ul').hide(100);
+	return false;
+}
+
+function showSubnav(e){
+	e.preventDefault();
+	$(this).find('ul').stop(true).show(300);
 	return false;
 }

@@ -13,6 +13,7 @@ public class WebpageNavTag extends WebpageUrlTag {
 	
 	private Collection<Webpage> webpages;
 	private String ulCssClass;
+	private String parentLiCssClass;
 	private boolean withSubnav = false;
 	
 	@Override
@@ -36,8 +37,9 @@ public class WebpageNavTag extends WebpageUrlTag {
 				continue;
 			}
 			setWebpage(webpage);
-			html.append("<li>")
-				.append(buildTag());
+			html.append("<li");
+			appendLiCssClass(html);
+			html.append(">").append(buildTag());
 			if(withSubnav){
 				appendSubnavFor(html, webpage);
 			}
@@ -47,6 +49,19 @@ public class WebpageNavTag extends WebpageUrlTag {
 		return html.append("</ul>");
 	}
 	
+	private void appendLiCssClass(StringBuilder html){
+		String cssClass = "";
+		if(parentLiCssClass != null){
+			cssClass += parentLiCssClass;		
+		}
+		if(withSubnav && getWebpage().getHasChildrens()){
+			cssClass += " has-children";
+		}
+		if(StringUtils.isNotBlank(cssClass)){
+			html.append(" class=\"")
+				.append(cssClass).append("\" ");
+		}
+	}
 	
 	protected void appendSubnavFor(StringBuilder html, Webpage webpage) {
 		List<Webpage> childrenList = webpage.getPublishedChildrens();
@@ -93,6 +108,14 @@ public class WebpageNavTag extends WebpageUrlTag {
 
 	public void setWithSubnav(boolean withSubnav) {
 		this.withSubnav = withSubnav;
+	}
+
+	public String getParentLiCssClass() {
+		return parentLiCssClass;
+	}
+
+	public void setParentLiCssClass(String parentLiCssClass) {
+		this.parentLiCssClass = parentLiCssClass;
 	}
 	
 	

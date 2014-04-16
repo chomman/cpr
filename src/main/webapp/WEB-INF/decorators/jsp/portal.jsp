@@ -59,7 +59,7 @@
 			<nav>
 				<div class="pj-mainnav pj-bg-light-gray">
 						<div class="pj-inner">
-							<webpage:nav webpages="${webpageModel.mainnav}" ulCssClass="first-child" withSubnav="true" />
+							<webpage:nav webpages="${webpageModel.mainnav}" ulCssClass="first-child" withSubnav="true" parentLiCssClass="pj-parent" />
 						</div>
 				</div>
 				<div class="pj-subnav pj-bg-light-gray">
@@ -72,7 +72,7 @@
 						<webpage:breadcrumb webpage="${webpageModel.webpage}" bcCssClass="pj-bc"/>
 						
 						<aside>
-							<webpage:nav webpages="${webpageModel.subnav}" ulCssClass="pj-aside-nav" />
+							<webpage:nav webpages="${webpageModel.subnav}" ulCssClass="pj-aside-nav" withSubnav="true" parentLiCssClass="pj-parent" />
 													
 							<strong class="pj-head pj -bg-light-gray">Poslední novinky</strong>
 

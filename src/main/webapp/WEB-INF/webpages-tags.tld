@@ -112,6 +112,11 @@
 		<rtexprvalue>true</rtexprvalue>
 	</attribute>
 	<attribute>
+		<name>parentLiCssClass</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
 		<name>activePageId</name>
 		<required>false</required>
 		<type>java.util.Long</type>
