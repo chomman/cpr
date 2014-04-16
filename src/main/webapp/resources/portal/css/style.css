@@ -131,7 +131,7 @@ article h1{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#8
 .pj-scopes .pj-item:hover .pj-wrapp,
 .pj-scopes .pj-item:hover .pj-wrapp ul a{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius:5px;}
 
-.pj-scopes .pj-item .pj-head{font-size:14px;padding-bottom:4px}
+.pj-scopes .pj-item .pj-head{font-size:14px;padding:14px 4px 4px 4px;display:block;}
 
 
 

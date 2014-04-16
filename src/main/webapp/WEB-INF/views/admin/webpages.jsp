@@ -25,13 +25,65 @@
 		 e.stopImmediatePropagation();
 		 document.location.href = $(this).attr('href');
 	  });
+	  
 	  $(document).on('dnd_stop.vakata', function(e , dnd  ){
-		  console.log(dnd.data);
-		  console.log('parent: ' +  dnd.data.obj.parent().attr('id'));
-		  dnd.data.obj.parent().children('li').each(function(i){
-			 	console.log($(this).attr("id"), i); 
-		  });
+		  var oldPos = dnd.data.pos,
+		  	  newPos = getPosition(dnd.data.pos.id);
+		  console.log(oldPos);
+		  console.log(newPos);
+		  
+		  if(newPos.order != oldPos.order || newPos.parent != oldPos.parent){
+			  console.log('position changed');
+		  } 
 	  });
+	  
+	  $(document).on('dnd_start.vakata', function(e , dnd  ){
+		  dnd.data.pos = getPosition(dnd.data.nodes);
+		  console.log(dnd.data.pos);
+	  });
+	  
+	  $(document).on('treechanged', function(e , oldPos  ){
+		  var newPos = getPosition(oldPos.id);
+		  console.log('new pos: ',newPos);
+		  if(newPos.order != oldPos.order || newPos.parent != oldPos.parent){
+			  console.log('position changed');
+		  } 
+	  });
+	  
+	  
+	  function getPosition(id){
+		    var $li = $("#" + id);
+		    if($li.length == 1){
+		        console.log('returning');
+		        return {
+		           id : id,
+		           order : getOredFor($li),
+		           parent : getParentFor($li)
+		        };
+		    }
+
+		    return null;
+		}
+
+		function getOredFor($li){
+		    return $li.index();
+		}
+
+		function getParentFor($li){
+		    var parent = getInstance().get_parent($li);
+		    console.log("parent: " + parent);
+		    if(parent !== "#"){
+		        return parent;
+		    }
+		    return null;
+		}
+
+
+		function getInstance(){
+		    return $.jstree.reference('#jstree');
+		}
+
+	  
 	});
 	</script>
 </head>
