@@ -289,6 +289,61 @@ public class WebpageServiceImpl implements WebpageService{
 	public List<Webpage> getChildrensOfNode(final Long id, final boolean publishedOnly){
 		return webpageDao.getChildrensOfNode(id, publishedOnly);
 	}
+
 	
+	public void moveWebpage(Webpage webpage, int newOrder){
+		Validate.notNull(webpage);
+		int oldOrder = webpage.getOrder();
+		if(newOrder < 0){
+			throw new IllegalArgumentException("New order of webpage ["+webpage.getId()+"] can not be less than zero.");
+		}
+		if(newOrder != oldOrder){
+			List<Webpage> webpageList  = null;
+			if(webpage.getParent() == null){
+				webpageList = getTopLevelWepages();
+			}else{
+				webpageList = getChildrensOfNode(webpage.getParent().getId(), false );
+			}
+			if(webpageList.size() < 1){
+				throw new IllegalArgumentException("Children of webpage[id="+webpage.getId()+"] was not found.");
+			}
+			webpageList.remove(webpage);
+			webpageList.add(newOrder, webpage);
+			updateWebpageListOrder(webpageList);
+		}
+	}
+	
+	@Override
+	public void moveWebpage(Webpage webpage, Long parentId, int newOrder) {
+		Validate.notNull(webpage);
+		Webpage oldParentWebpage = webpage.getParent();
+		Webpage newParentWebpage = null;
+		if(parentId != null){
+			newParentWebpage = getWebpageById(parentId);
+		}
+		if((oldParentWebpage == null && newParentWebpage == null) ||
+			(oldParentWebpage != null && newParentWebpage != null && newParentWebpage.equals(oldParentWebpage))
+		){
+			moveWebpage(webpage, newOrder);
+		}else{
+			webpage.changeParentWebpage(newParentWebpage);
+			moveWebpage(webpage, newOrder);
+			if(oldParentWebpage == null){
+				updateWebpageListOrder( getTopLevelWepages()  );
+			}else{
+				updateWebpageListOrder( getChildrensOfNode(oldParentWebpage.getId(), false ));
+			}
+		}
+	
+	}
+	
+	private void updateWebpageListOrder(List<Webpage> webpageList){
+		int i = 0;
+		for(Webpage webpage : webpageList){
+			webpage.setOrder( i );
+			updateWebpage(webpage);
+			i++;
+		}
+	}
 	
 }

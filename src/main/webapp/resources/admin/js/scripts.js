@@ -56,7 +56,7 @@ $(function() {
          return confirm('Opravdu chcete zrušit přiřazení?');
      });
      
-     $('.confirmMessage').on('click', function () {
+     $('.confirmMessage').on('click', function (e) {
          return confirm($(this).attr("data-message"));
      });
      

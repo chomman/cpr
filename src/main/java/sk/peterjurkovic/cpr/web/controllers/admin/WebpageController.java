@@ -212,6 +212,22 @@ public class WebpageController extends SupportAdminController {
 		return response;
 	}
 	
+	
+	
+	@RequestMapping(value = "/admin/webpage/{id}/order", method = RequestMethod.POST)
+	public @ResponseBody JsonResponse  handleMoveWebpage(@PathVariable Long id, 
+					@RequestParam(value = "order") int order, 
+					@RequestParam(value = "parentId") Long parentId ) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		try{
+			webpageService.moveWebpage( getWebpage(id) , parentId, order);
+			response.setStatus(JsonStatus.SUCCESS);
+		}catch(Exception e){
+			logger.warn(e);
+		}
+		return response;
+	}
+	
 
 	@RequestMapping(value = "/ajax/autocomplete/webpages", method = RequestMethod.GET)
 	public @ResponseBody List<AutocompleteDto> search(@RequestBody @RequestParam("term") String term){

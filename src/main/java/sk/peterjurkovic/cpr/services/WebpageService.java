@@ -58,4 +58,6 @@ public interface WebpageService {
 	Webpage getTopParentWebpage(final Webpage childrenNode);
 	
 	List<Webpage> getChildrensOfNode(final Long id, final boolean publishedOnly);
+	
+	void moveWebpage(Webpage webpage, Long parentId, int order);
 }

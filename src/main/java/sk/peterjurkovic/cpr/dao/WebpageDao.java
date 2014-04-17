@@ -49,4 +49,8 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	Webpage getTopParentWebpage(Webpage childrenNode);
 	
 	List<Webpage> getChildrensOfNode(Long id, boolean publishedOnly);
+	
+	void incrementOrder(Webpage parentWebpage, int threshold);
+
+	void decrementOrder(Webpage parentWebpage, int threshold);
 }

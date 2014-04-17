@@ -11,81 +11,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/js/jstree/themes/default/style.css" />" />
 	<script src="<c:url value="/resources/admin/js/jstree/jstree.min.js" />"></script>
-	<script>
-	$(function () {
-	  $("#jstree").jstree({
-		    "core" : {
-		      "check_callback" : true
-		    },
-		    "plugins" : [ "dnd" ]
-		  });
-	  
-	  $(document).on('click', 'ul .pj-webpage-nav a:not(.preview)', function(e){
-		 console.log('test');
-		 e.stopImmediatePropagation();
-		 document.location.href = $(this).attr('href');
-	  });
-	  
-	  $(document).on('dnd_stop.vakata', function(e , dnd  ){
-		  var oldPos = dnd.data.pos,
-		  	  newPos = getPosition(dnd.data.pos.id);
-		  console.log(oldPos);
-		  console.log(newPos);
-		  
-		  if(newPos.order != oldPos.order || newPos.parent != oldPos.parent){
-			  console.log('position changed');
-		  } 
-	  });
-	  
-	  $(document).on('dnd_start.vakata', function(e , dnd  ){
-		  dnd.data.pos = getPosition(dnd.data.nodes);
-		  console.log(dnd.data.pos);
-	  });
-	  
-	  $(document).on('treechanged', function(e , oldPos  ){
-		  var newPos = getPosition(oldPos.id);
-		  console.log('new pos: ',newPos);
-		  if(newPos.order != oldPos.order || newPos.parent != oldPos.parent){
-			  console.log('position changed');
-		  } 
-	  });
-	  
-	  
-	  function getPosition(id){
-		    var $li = $("#" + id);
-		    if($li.length == 1){
-		        console.log('returning');
-		        return {
-		           id : id,
-		           order : getOredFor($li),
-		           parent : getParentFor($li)
-		        };
-		    }
-
-		    return null;
-		}
-
-		function getOredFor($li){
-		    return $li.index();
-		}
-
-		function getParentFor($li){
-		    var parent = getInstance().get_parent($li);
-		    console.log("parent: " + parent);
-		    if(parent !== "#"){
-		        return parent;
-		    }
-		    return null;
-		}
-
-
-		function getInstance(){
-		    return $.jstree.reference('#jstree');
-		}
-
-	  
-	});
-	</script>
+	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -149,6 +75,6 @@
 	</div>
 	<div class="clear"></div>	
 </div>
-
+<div id="loader" class="webpage"></div>
 </body>
 </html>

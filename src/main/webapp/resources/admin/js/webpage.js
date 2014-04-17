@@ -1,21 +1,23 @@
+var jsTree = null;
 $(function() { 					
 	 
-	initDate('#publishedSince');
-	tinyMCE.init({
-		selector: "textarea.wisiwig",
-		language : "cs",
-		height : 400,
-		width : '100%',
-		forced_root_block : "",
-		force_br_newlines : true,
-		force_p_newlines : false,
-		content_css : getBasePath() + 'resources/admin/css/tinymce.css',
-		plugins: "image,link,table,autoresize,fullscreen",
-		convert_urls: false,
-		autoresize_min_height: 400,
-		autoresize_max_height: 700
-	});
-	
+	('#publishedSince');
+	if(typeof tinyMCE !== 'undefined'){
+		tinyMCE.init({
+			selector: "textarea.wisiwig",
+			language : "cs",
+			height : 400,
+			width : '100%',
+			forced_root_block : "",
+			force_br_newlines : true,
+			force_p_newlines : false,
+			content_css : getBasePath() + 'resources/admin/css/tinymce.css',
+			plugins: "image,link,table,autoresize,fullscreen",
+			convert_urls: false,
+			autoresize_min_height: 400,
+			autoresize_max_height: 700
+		});
+	}
 	$(document).on('submit', 'form[name=webpageContent]', saveContent);
 	$(document).on('submit', 'form[name=webpageSettings]', saveSettings);
 	$(document).on('submit', 'form[name=avatar]', uploadAvatar);
@@ -24,6 +26,21 @@ $(function() {
 	$(document).on('webpagetypechanged', refreshFieldsVisibility);
 	
 	refreshFieldsVisibility();
+	
+	// Webpage list
+	$(document).on('click', '.pj-webpage-nav a:not(.preview)', onWebpageMenuClick);
+	$(document).on('dnd_stop.vakata', onDragAndDropStop);
+	$(document).on('dnd_start.vakata', onDragAndDropStart);
+	
+	$jsTree = $("#jstree");
+	if($jsTree.length !== 0){
+		$jsTree.jstree({
+	    "core" : {
+	      "check_callback" : true
+	    },
+	    "plugins" : [ "dnd" ]
+	  });
+	}
 });
 
 function switchLangs(){
@@ -94,6 +111,9 @@ function sendRequest(type, data, action, callBack){
 
 function refreshFieldsVisibility(){
 	$('.pj-type').removeClass('hidden');
+	if($('.pj-type').length === 0){
+		return false;
+	}
 	switch( getWebpageType() ){
 	case 'ARTICLE':
 	case 'CATEGORY':
@@ -186,7 +206,11 @@ function toArray(a){
 }
 
 function initDate(selector){
-	var datetime =  $(selector).val().trim();
+	var $input = $(selector);
+	if($input.length === 0){
+		return false;
+	}
+	var datetime =  $input.val().trim();
 	if(datetime.length > 0){
 		datetime = datetime.split(" ");
 		$(selector + '-date').val(datetime[0]);
@@ -272,3 +296,96 @@ function uploadAvatar(){
 		  return getBasePath() + 'image/'+type+'/avatars/' + name;
 	  }
 }
+
+// WEBPAGE LIST ---------------------------
+
+
+
+function onDragAndDropStop(e, dnd){
+	 var oldPos = dnd.data.pos;
+	 
+	 if($("#"+ oldPos.id).length === 0){
+		 getInstance().open_node(getInstance().get_parent(oldPos.id));
+	 }
+	 
+	 var newPos = getPosition(oldPos.id);
+	 console.log(oldPos);
+	 console.log(newPos);
+	 if(newPos === null){
+		 console.warn('new position is NULL');
+		 return;
+	 }
+	 if(newPos.order != oldPos.order || newPos.parent != oldPos.parent){
+		  console.log('position changed');
+		  changeOrder(newPos);
+	 } 
+
+}
+
+
+function onDragAndDropStart(e, dnd){
+	 dnd.data.pos = getPosition(dnd.data.nodes[0]);
+}
+
+
+function onWebpageMenuClick(e){
+	 var $this = $(this);
+	 e.stopImmediatePropagation();
+	 if($this.hasClass('confirmMessage') && !confirm($this.attr("data-message"))){
+		 return false;
+	 }
+	document.location.href = $this.attr('href');
+	 return false;
+}
+
+
+function changeOrder(data){
+	var url = data.id +"/order?order=" + data.order + "&parentId=" + data.parent;
+	return sendRequest("POST", false , url, function(json){
+		if(!json.status == "SUCCESS"){
+			showErrors(json);
+		}else{
+			console.log('SUCCESS!');
+		}
+	});
+}
+
+function getPosition(id){
+	console.log('searching for: ' + "#" + id);
+	var $li = $('#' + id);
+	console.log('found items: '+ $li.length );
+	console.log($li);
+    if($li.length == 1){
+        console.log('returning');
+        return {
+           id : id,
+           order : getOredFor($li),
+           parent : getParentFor($li)
+        };
+    }
+
+    return null;
+}
+
+
+function getOredFor($li){
+    return $li.index();
+}
+
+
+function getParentFor($li){
+    var parent = getInstance().get_parent($li);
+    console.log("parent: " + parent);
+    if(parent !== "#"){
+        return parent;
+    }
+    return null;
+}
+
+function getInstance(){
+    if(jsTree == null){
+    	jsTree = $.jstree.reference('#jstree');
+    }
+	return jsTree;
+}
+

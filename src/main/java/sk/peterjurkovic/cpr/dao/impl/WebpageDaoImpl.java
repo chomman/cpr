@@ -188,4 +188,26 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setLong("id", id);
 		return hqlQuery.list();
 	}
+
+
+	public void incrementOrder(final Webpage parentWebpage, final int threshold){
+		updateOrder(parentWebpage, threshold, Boolean.TRUE);
+	}
+	public void decrementOrder(final Webpage parentWebpage, final int threshold){
+		updateOrder(parentWebpage, threshold, Boolean.FALSE);
+	}
+	
+	private void updateOrder(Webpage parentWebpage, int threshold, boolean isIncremetation) {
+		StringBuilder hql = new StringBuilder("update Webpage w");
+		if(isIncremetation){	
+			hql.append(" set w.order = w.order + 1 ");
+		}else{
+			hql.append(" set w.order = w.order - 1 ");
+		}
+		hql.append(" where w.parent.id=:id and w.order > :threshold ");
+		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setLong("id", parentWebpage.getId());
+		query.setInteger("threshold", threshold);
+		query.executeUpdate();
+	}
 }

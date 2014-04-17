@@ -324,7 +324,14 @@ public class Webpage extends AbstractEntity {
 		return isHomepage();
 	}
 	
-  
+	@Transient
+	public void changeParentWebpage(Webpage webpage){
+		this.parent = webpage;
+		if(parent != null){
+			registerInParentsChilds();
+		}
+	}
+	
     private void registerInParentsChilds() {
         this.parent.childrens.add(this);
     }
