@@ -29,8 +29,8 @@
 											<li class="pj-subcat pj-head">
 												<spring:message code="subcategories" />
 											</li>
-											<c:forEach items="${i.publishedChildrens}">
-												<li><webpage:a webpage="${i}" /></li>
+											<c:forEach items="${i.publishedChildrens}" var="j">
+												<li><webpage:a webpage="${j}" /></li>
 											</c:forEach>
 										</ul>
 									</c:if>
@@ -39,57 +39,30 @@
 						</c:forEach>
 						<div class="clear"></div>
 				</div>
-				<div class="pj-publications">
-					<strong class="pj-head">Prodej on-line publikací</strong>
-
-					<p>
-						Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. Lorem Ipsum je štandardným výplňovým textom už od 16. storočia, keď neznámy tlačiar zobral sadzobnicu plnú tlačových znakov a pomiešal ich, aby tak vytvoril vzorkovú knihu. Prežil nielen päť storočí, ale aj skok do elektronickej sadzby, a pritom zostal v podstate nezmenený.
-					</p>
-
-					<ul>
-						<li class="pj-publication pj-radius">
-
-							<a href="">
-								<span class="pj-name">
-									Normy pro systemy managmentu a posuzdování shody
-								</span>
-								<span class="pj-price">Cena: 3500 Kč</span>
-								<span class="pj-ico"></span>
-							</a>
-							
-						</li>
-
-						<li class="pj-publication pj-radius">
-							<a href="">
-								<span class="pj-name">
-									Technické normy a plasty
-								</span>
-								<span class="pj-price">Cena: 3490 Kč</span>
-								<span class="pj-ico"></span>
-							</a>
-						</li>
-						
-						<li class="pj-publication pj-radius">
-							<a href="">
-								<span class="pj-name">
-									Normy pro systemy managmentu a posuzdování shody
-								</span>
-								<span class="pj-price">Cena: 3490 Kč</span>
-								<span class="pj-ico"></span>
-							</a>
-						</li>
-						
-						<li class="pj-publication pj-radius">
-							<a href="">
-								<span class="pj-name">
-									Technické normy a plasty
-								</span>
-								<span class="pj-price">Cena: 3490 Kč</span>
-								<span class="pj-ico"></span>
-							</a>
-						</li>
-					</ul>
-				</div>
+				
+				<c:if test="${not empty publications}">
+					<div class="pj-publications">
+						<strong class="pj-head"><webpage:filedVal webpage="${publications}" fieldName="name" /></strong>
+	
+						<p>
+							<webpage:filedVal webpage="${publications}" fieldName="content" />
+						</p>
+				
+						<ul>
+							<c:forEach items="${publications.publishedChildrens}" var="i">
+								<li class="pj-publication pj-radius">
+								<a href="<webpage:link webpage="${i}" />">
+									<span class="pj-name">
+										<webpage:filedVal webpage="${i}" fieldName="name" />
+									</span>
+									<span class="pj-price"><webpage:filedVal webpage="${i}" fieldName="description" /></span>
+									<span class="pj-ico"></span>
+								</a>
+							</li>
+							</c:forEach>
+						</ul>
+					</div>
+				</c:if>
 			</section>
 						
 	</body>

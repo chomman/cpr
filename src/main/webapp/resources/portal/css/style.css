@@ -62,7 +62,7 @@
 
 .pj-mainnav .curr{}
 .pj-mainnav .pj-inner>ul>li{display:block;float:left;}
-.pj-mainnav ul>li>a{display:inline-block;padding:15px 8px 13px 8px;margin:0;height:15px;}
+.pj-mainnav ul>li>a{display:inline-block;padding:15px 15px 13px 15px;margin:0;height:15px;}
 .pj-mainnav ul>li>a:hover{color:#074e63}
 .pj-mainnav ul>li:hover {background: #fff url(../img/min_triangle.png) no-repeat bottom center}
 

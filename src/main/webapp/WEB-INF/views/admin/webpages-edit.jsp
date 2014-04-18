@@ -50,6 +50,11 @@
 				<a:adminurl href="/webpages" cssClass="btn-webpage radius link-ico" >
 				<spring:message code="webpages.view" /> <span class="ico set"></span>
 			</a:adminurl>
+			<c:if test="${not empty model.webpage.parent}">
+				<a:adminurl href="/webpage/add/${model.webpage.parent.id}" cssClass="btn-webpage radius link-ico" >
+					Přidat sesterskou sekci <span class="ico plus"></span>
+				</a:adminurl>
+			</c:if>
 			</div>
 			
 			<div id="ajax-result"></div>

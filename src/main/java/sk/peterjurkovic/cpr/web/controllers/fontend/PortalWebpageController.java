@@ -30,7 +30,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	public String handlePortalHmepage(ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
 		appendModel(modelMap, getWebpage( Constants.PORTAL_URL ) );
 		modelMap.put("scopes", webpageService.getWebpageById(SCOPE_ID));
-		
+		modelMap.put("publications", webpageService.getWebpageById(279l));
 		return getViewDirectory() + "index";
 	}
 	
