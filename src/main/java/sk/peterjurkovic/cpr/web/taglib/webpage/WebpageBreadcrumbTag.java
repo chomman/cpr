@@ -14,7 +14,6 @@ import sk.peterjurkovic.cpr.utils.WebpageUtils;
 
 public class WebpageBreadcrumbTag extends WebpageUrlTag {
 	
-	private Webpage webpage;
 	private String bcId;
 	private String bcCssClass;
 	private String separator = "&raquo;";
@@ -28,7 +27,7 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 	
 	@Override
 	protected int doStartTagInternal() throws Exception {
-		if(webpage != null || !webpage.isHomepage()){
+		if(getWebpage() != null || !getWebpage().isHomepage()){
 			pageContext.getOut().print(buildBreadcrumb());
 		}
 		return SKIP_PAGE;
@@ -42,7 +41,7 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 		appendBcId(html);
 		html.append(">");
 		boolean isFirst = true;
-		List<Webpage> webpageList = WebpageUtils.getBreadcrumbFor(webpage);
+		List<Webpage> webpageList = WebpageUtils.getBreadcrumbFor(getWebpage());
 		Iterator<Webpage> iterator = webpageList.iterator();
 		while (iterator.hasNext()) {
 			if(isFirst){
@@ -52,14 +51,14 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 					.append(": </span>");
 				isFirst = false;
 			}
-			Webpage webpage = iterator.next();
+			final Webpage webpage = iterator.next();
+			setWebpage(webpage);
 			if(iterator.hasNext()){
-				setWebpage(webpage);
 				html.append( buildTag() )
 					.append(separator);;
 			}else{
 				html.append("<span>")
-				    .append(WebpageUtils.getLocalizedValue("name",webpage) )
+				    .append(WebpageUtils.getLocalizedValue("name", webpage) )
 				    .append("</span>");
 			}
 		}
@@ -78,7 +77,6 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 			url.append(" id=\"").append(bcId).append("\" ");
 		}
 	}
-	
 	
 
 	public String getBcId() {
@@ -109,17 +107,5 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 	public void setSeparator(String separator) {
 		this.separator = separator;
 	}
-
-	public Webpage getWebpage() {
-		return webpage;
-	}
-
-	public void setWebpage(Webpage webpage) {
-		this.webpage = webpage;
-	}
-	
-	
-	
-	
 	
 }

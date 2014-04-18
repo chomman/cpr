@@ -10,7 +10,6 @@
 <head>
 	<title><spring:message code="webpages.edit" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
-	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.treetable.theme.custom.css" />" />
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 	<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
@@ -51,9 +50,6 @@
 				<a:adminurl href="/webpages" cssClass="btn-webpage radius link-ico" >
 				<spring:message code="webpages.view" /> <span class="ico set"></span>
 			</a:adminurl>
-				<a:adminurl href="/webpage/add/0" cssClass="btn-webpage tt radius link-ico" title="Do hlavního menu">
-					<spring:message code="webpages.add" /> <span class="ico plus"></span>
-				</a:adminurl>
 			</div>
 			
 			<div id="ajax-result"></div>
@@ -237,6 +233,7 @@
 								</label>
 								<span class="field">
 									 <form:checkbox path="showThumbnail" id="showThumbnail" />
+									 <span class="mini-info inline">Při seznamu podstránek se bude zobrazovat avatar (Náhledový obrázek), pokud existuje.</span>
 								</span>
 							</p>
 							
@@ -252,6 +249,15 @@
 			                    	<input type="text" class="time" id="publishedSince-time" maxlength="5" />
 			                    	<form:hidden  htmlEscape="true" path="publishedSince" /><em>hh:mm</em>
 			                    </span>
+							</p>
+							<p>
+								<label>
+									Pouze pro registrované:
+								</label>
+								<span class="field">
+									 <form:checkbox path="isOnlyForRegistrated" id="isOnlyForRegistrated" />
+									 <span class="mini-info inline">Sekce bude dostupná pouze pro registrované uživatele</span>
+								</span>
 							</p>
 							
 							<c:if test="${isLoggedWebmaster}">
@@ -315,7 +321,7 @@
 			
 		</div>	
 	</div>
-<div id="fileDir" class="hidden">webpage-${webpageId}</div>
+<div id="fileDir" class="hidden">webpage</div>
 <div id="loader" class="webpage"></div>
 </body>
 </html>

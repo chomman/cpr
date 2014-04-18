@@ -126,6 +126,12 @@
 		<required>false</required>
 		<type>java.util.Boolean</type>
 	</attribute>
+	<attribute>
+		<name>isAuthenticated</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.Boolean</type>
+	</attribute>
 </tag>
 <tag>
     <name>breadcrumb</name>

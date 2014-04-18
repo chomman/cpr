@@ -67,12 +67,11 @@
 .pj-mainnav ul>li:hover {background: #fff url(../img/min_triangle.png) no-repeat bottom center}
 
 .pj-mainnav ul ul{position:absolute;top:41px;left:0;padding:4px 0 0 0;display:none;width:250px;z-index:999;display:none;-webkit-box-shadow: 0 6px 5px 2px #A8A8A8;
-box-shadow: 0 6px 5px 2px #A8A8A8;}
-.pj-mainnav ul ul li{padding:0 !important;display:block;margin:0 !important;background:#fff;border:none;}
+box-shadow: 0 6px 5px 2px #A8A8A8;background:#1B6A81;}
+.pj-mainnav ul ul li{padding:0 !important;display:block;margin:0 !important;}
 .pj-mainnav ul ul li:last-child{border:0}
-.pj-mainnav ul ul a{font-size:12px;padding:10px;border-bottom:1px solid #eee;color:#222;display:block;text-transform:none;font-weight:normal;}
-.pj-mainnav ul ul a:hover{background:#eee;border-bottom:1px solid #bbb;}
-
+.pj-mainnav ul ul a{font-size:12px;padding:10px;border-bottom:1px dotted #ccc;color:#fff;display:block;text-transform:none;font-weight:normal;}
+.pj-mainnav ul ul a:hover{background:#fff;border-bottom:1px solid #fff;}
 
 
 /* CONTENT ------ */
@@ -167,6 +166,7 @@ border-bottom:4px solid #4BA86C;border-top:1px solid #4BA86C;margin:10px 0;
 .pj-category-item .pj-content h3 {font-size:20px;padding:0 0 10px 0;}
 .pj-category-item .pj-content h3 a{color:#0088c8;}
 .pj-category-item .pj-content h3 a:hover{color:#333 !important;}
+.pj-category-item .pj-content h3 span{color:#333 !important;font-weight:normal;font-size:16px;}
 
 /* FOOTER ------ */
 footer{ 

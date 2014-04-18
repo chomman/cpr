@@ -53,4 +53,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	void incrementOrder(Webpage parentWebpage, int threshold);
 
 	void decrementOrder(Webpage parentWebpage, int threshold);
+	
+	List<Webpage> getLatestPublishedNews(int limit);
 }

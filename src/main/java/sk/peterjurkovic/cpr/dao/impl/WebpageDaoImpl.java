@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Repository;
 
 import sk.peterjurkovic.cpr.dao.WebpageDao;
 import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageModule;
+import sk.peterjurkovic.cpr.enums.WebpageType;
 
 @Repository("webpageDao")
 public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements WebpageDao{
@@ -209,5 +211,23 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		query.setLong("id", parentWebpage.getId());
 		query.setInteger("threshold", threshold);
 		query.executeUpdate();
+	}
+
+
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getLatestPublishedNews(final int limit) {
+		LocalDateTime now = new LocalDateTime();
+		StringBuilder hql = new StringBuilder("from ");
+		hql.append(Webpage.class.getName());
+		hql.append(" w");
+		hql.append(" where w.webpageType = :webpageType and w.enabled = true and w.publishedSince < :now ");
+		hql.append(" order by w.publishedSince DESC ");
+		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setParameter("webpageType", WebpageType.NEWS);
+		hqlQuery.setTimestamp("now", now.toDate());
+		hqlQuery.setMaxResults(limit);
+		return hqlQuery.list();
 	}
 }

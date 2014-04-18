@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,14 +40,14 @@ public class PublicWebpageController extends WebpageControllerSupport {
 		
 	
 	@RequestMapping( value = { "/{code}" , EN_PREFIX + "{code}"} )
-	public String handleFirstLevel(@PathVariable String code, ModelMap modelMap) throws PageNotFoundEception{
+	public String handleFirstLevel(@PathVariable String code, ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
 		return appendModelAndGetView(modelMap,  getWebpage(code));
 	}
 	
 	
 	
 	@RequestMapping( value = { "/{parentCode}/{id}/*" , EN_PREFIX + "{parentCode}/{id}/*"} )
-	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception{
+	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
 		return appendModelAndGetView(modelMap,  getWebpage(id));
 	}
 	

@@ -1,7 +1,7 @@
 var jsTree = null;
 $(function() { 					
 	 
-	('#publishedSince');
+	initDate('#publishedSince');
 	if(typeof tinyMCE !== 'undefined'){
 		tinyMCE.init({
 			selector: "textarea.wisiwig",
@@ -150,7 +150,8 @@ function getWebpageSettings(){
 		publishedSince : getDateTime('#publishedSince'),
 		enabled : getCheckVal('#enabled'),
 		webpageType : getWebpageType(),
-		showThumbnail : getCheckVal('#showThumbnail')
+		showThumbnail : getCheckVal('#showThumbnail'),
+		isOnlyForRegistrated : getCheckVal('#isOnlyForRegistrated')
 	},
 	$moduleInput = $('#webpageModule');
 	if($moduleInput.val() != ""){
@@ -361,7 +362,6 @@ function getPosition(id){
            parent : getParentFor($li)
         };
     }
-
     return null;
 }
 

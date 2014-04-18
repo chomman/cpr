@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 
 @Controller
@@ -25,26 +27,33 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	
 		
 	@RequestMapping(value = { "/"+ Constants.PORTAL_URL,  EN_PREFIX + Constants.PORTAL_URL })
-	public String handlePortalHmepage(ModelMap modelMap) throws PageNotFoundEception{
-		appendModel(modelMap, webpageService.getWebpageByCode(Constants.PORTAL_URL));
+	public String handlePortalHmepage(ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
+		appendModel(modelMap, getWebpage( Constants.PORTAL_URL ) );
 		modelMap.put("scopes", webpageService.getWebpageById(SCOPE_ID));
+		
 		return getViewDirectory() + "index";
 	}
 	
 	
 	@RequestMapping( value = { "/"+ Constants.PORTAL_URL + "/{id}/*", EN_PREFIX+ Constants.PORTAL_URL + "/{id}/*" } )
-	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception{
-		return appendModelAndGetView(modelMap, webpageService.getWebpageById(id));
+	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
+		return appendModelAndGetView(modelMap, getWebpage( id ));
 	}
+	
 	
 	@Override
 	protected Map<String, Object> prepareModel(Webpage webpage){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
+		
+		if(webpage.getWebpageType().equals(WebpageType.NEWS_CATEGORY)){
+			model.put("newsItems", webpageService.getLatestPublishedNews(30) );
+		}
 		model.put(PORTAL_MODEL_KEY, true);
 		model.put("mainnav", webpageService.getChildrensOfNode(MAIN_NAV_ID, true));
 		model.put("subnav", webpageService.getChildrensOfNode(SUB_NAV_ID, true));
 		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));
+		model.put("news", webpageService.getLatestPublishedNews(4) );
 		return model;
 	}
 	

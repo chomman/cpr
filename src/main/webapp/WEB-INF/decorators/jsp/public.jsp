@@ -1,5 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<c:set var="isAuthenticated" value="false"  />
+<sec:authorize access="isAuthenticated()"> 
+	<c:set var="isAuthenticated" value="true"  />
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -55,7 +59,7 @@
 
 			<!-- NAVIGATION -->
 			<nav>
-				<webpage:nav webpages="${webpageModel.mainnav}" ulCssClass="page-width" />
+				<webpage:nav webpages="${webpageModel.mainnav}" ulCssClass="page-width" isAuthenticated="${isAuthenticated}" />
 			</nav>
 			
 			<!-- CONTENT -->

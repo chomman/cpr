@@ -31,9 +31,6 @@
 				<a:adminurl href="/webpages" cssClass="btn-webpage radius link-ico" >
 				<spring:message code="webpages.view" /> <span class="ico set"></span>
 			</a:adminurl>
-				<a:adminurl href="/webpage/add/0" cssClass="btn-webpage tt radius link-ico" title="Do hlavního menu">
-					<spring:message code="webpages.add" /> <span class="ico plus"></span>
-				</a:adminurl>
 			</div>
 			
 			<form:form modelAttribute="webpage" cssClass="valid add-webpage">

@@ -9,7 +9,8 @@ public enum WebpageType {
 	ARTICLE(1, "webpageType.article", "webpageType.article.descr", "article"),
 	NEWS(2, "webpageType.news", "webpageType.news.descr", "news"),
 	CATEGORY(3, "webpageType.category", "webpageType.category.descr", "category"),
-	REDIRECT(4, "webpageType.redirect", "webpageType.redirect.descr", null);
+	REDIRECT(4, "webpageType.redirect", "webpageType.redirect.descr", null),
+	NEWS_CATEGORY(5, "webpageType.newsCategory", "webpageType.newsCategory.descr", "news-category");
 	
 	
 	private int id;

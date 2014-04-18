@@ -64,7 +64,7 @@ public class WebpageUrlTag  extends WebpageLinkTag implements BodyTag{
 		}
 	}
 	
-	protected StringBuilder buildTag(){
+	protected StringBuilder buildTag() {
 		StringBuilder url = new StringBuilder();
 		if(getWebpage() == null){
 			logger.warn("Webpage can not be null");

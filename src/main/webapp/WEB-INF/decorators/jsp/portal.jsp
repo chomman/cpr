@@ -1,5 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<c:set var="isAuthenticated" value="false" scope="request" />
+<sec:authorize access="isAuthenticated()"> 
+	<c:set var="isAuthenticated" value="true" scope="request" />
+</sec:authorize>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -59,7 +63,11 @@
 			<nav>
 				<div class="pj-mainnav pj-bg-light-gray">
 						<div class="pj-inner">
-							<webpage:nav webpages="${webpageModel.mainnav}" ulCssClass="first-child" withSubnav="true" parentLiCssClass="pj-parent" />
+							<webpage:nav webpages="${webpageModel.mainnav}" 
+										 ulCssClass="first-child" 
+										 withSubnav="true" 
+										 parentLiCssClass="pj-parent" 
+										 isAuthenticated="${isAuthenticated}" />
 						</div>
 				</div>
 				<div class="pj-subnav pj-bg-light-gray">
@@ -68,43 +76,26 @@
 			</nav>
 
 			<div id="content">
-				<div class="pj-inner ">	
+				<div class="pj-inner ">
 						<webpage:breadcrumb webpage="${webpageModel.webpage}" bcCssClass="pj-bc"/>
-						
 						<aside>
-							<webpage:nav webpages="${webpageModel.subnav}" ulCssClass="pj-aside-nav" withSubnav="true" parentLiCssClass="pj-parent" />
-													
+							<webpage:nav webpages="${webpageModel.subnav}" ulCssClass="pj-aside-nav" withSubnav="true" parentLiCssClass="pj-parent" isAuthenticated="${isAuthenticated}" />					
 							<strong class="pj-head pj -bg-light-gray">Poslední novinky</strong>
-
 								<div class="pj-lastnews">
-									<div class="pj-item">
-										<span class="pj-radius">20.04.2014</span>
-										<strong><a class="pj-link" href="">Směrnice, které respkektují principy nového legislativního rámce</a></strong>
-										<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
-									</div>
-
-									<div class="pj-item">
-										<span class="pj-radius">19.04.2014</span>
-										<strong><a class="pj-link" href="">Respkektují principy nového legislativního rámce</a></strong>
-										<p>Loremasdfasdfasdf Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
-									</div>
-
-									<div class="pj-item">
-										<span class="pj-radius">20.04.2014</span>
-										<strong><a class="pj-link" href="">Směrnice, které respkektují principy nového legislativního rámce</a></strong>
-										<p>Lorem Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
-									</div>
-
-									<div class="pj-item">
-										<span class="pj-radius">19.04.2014</span>
-										<strong><a class="pj-link" href="">Respkektují principy nového legislativního rámce</a></strong>
-										<p>Loremasdfasdfasdf Ipsum je fiktívny text, používaný pri návrhu tlačovín a typografie. </p>
-									</div>
-
+									<c:forEach items="${webpageModel.news}" var="i">
+										<div class="pj-item">
+											<span class="pj-radius"><joda:format value="${i.published}" pattern="dd.MM.yyyy" /></span>
+											<strong><webpage:a webpage="${i}" cssClass="pj-link" /></strong>
+											<c:if test="${fn:length(i.descriptionInLang) gt 150}">
+												<p>${fn:substring(i.descriptionInLang, 0, 150)}...</p>
+											</c:if>
+											<c:if test="${fn:length(i.descriptionInLang) lt 151}">
+												<p>${i.descriptionInLang}</p>
+											</c:if>
+										</div>
+									</c:forEach>
 								</div>
 						</aside>
-
-
 
 						<section>
 							<decorator:body/>

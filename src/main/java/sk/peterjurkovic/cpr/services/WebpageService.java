@@ -55,9 +55,11 @@ public interface WebpageService {
 	
 	Webpage getWebpageByModule(WebpageModule webpageModule);
 	
-	Webpage getTopParentWebpage(final Webpage childrenNode);
+	Webpage getTopParentWebpage(Webpage childrenNode);
 	
-	List<Webpage> getChildrensOfNode(final Long id, final boolean publishedOnly);
+	List<Webpage> getChildrensOfNode(Long id, boolean publishedOnly);
 	
 	void moveWebpage(Webpage webpage, Long parentId, int order);
+	
+	List<Webpage> getLatestPublishedNews(int limit);
 }

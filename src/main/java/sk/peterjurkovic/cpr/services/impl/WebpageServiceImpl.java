@@ -345,5 +345,11 @@ public class WebpageServiceImpl implements WebpageService{
 			i++;
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getLatestPublishedNews(int limit) {
+		return webpageDao.getLatestPublishedNews(limit);
+	}
 	
 }

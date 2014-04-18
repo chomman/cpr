@@ -1,5 +1,6 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -7,10 +8,13 @@ import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.WebpageService;
+import sk.peterjurkovic.cpr.utils.UserUtils;
+import sk.peterjurkovic.cpr.utils.WebpageUtils;
 import freemarker.log.Logger;
 
 public class WebpageControllerSupport {
@@ -27,24 +31,27 @@ public class WebpageControllerSupport {
 	protected WebpageService webpageService;
 	
 	
-	public Webpage getWebpage(final Long id) throws PageNotFoundEception{
+	public Webpage getWebpage(final Long id) throws PageNotFoundEception, AccessDeniedException{
 		return test( webpageService.getWebpageById(id) );
 	}
 	
 	
-	public Webpage getWebpage(final String code) throws PageNotFoundEception{
+	public Webpage getWebpage(final String code) throws PageNotFoundEception, AccessDeniedException{
 		return test( webpageService.getWebpageByCode(code) );
 	}
 	
 	
 	
-	private Webpage test(Webpage webpage) throws PageNotFoundEception{
+	private Webpage test(Webpage webpage) throws PageNotFoundEception, AccessDeniedException{
 		if(webpage == null || !webpage.isEnabled()){
+			throw new PageNotFoundEception();
+		}
+		User user = UserUtils.getLoggedUser();
+		if(user == null && WebpageUtils.isOnlyForRegistraged(webpage)){
 			throw new PageNotFoundEception();
 		}
 		return webpage;
 	}
-	
 	
 	protected String resolveViewFor(final Webpage webpage) {
 		if(webpage.getWebpageModule() != null){

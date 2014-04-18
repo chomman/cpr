@@ -142,4 +142,14 @@ public class WebpageUtils {
 		}
 	}
 	
+	public static boolean isOnlyForRegistraged(final Webpage webpage){
+		if(webpage.getIsOnlyForRegistrated()){
+			return true;
+		}
+		if(webpage.getParent() != null){
+			return isOnlyForRegistraged(webpage.getParent());
+		}
+		return false;
+	}
+	
 }

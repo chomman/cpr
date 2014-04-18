@@ -14,6 +14,7 @@ public class WebpageNavTag extends WebpageUrlTag {
 	private Collection<Webpage> webpages;
 	private String ulCssClass;
 	private String parentLiCssClass;
+	private boolean isAuthenticated = false;
 	private boolean withSubnav = false;
 	
 	@Override
@@ -36,6 +37,9 @@ public class WebpageNavTag extends WebpageUrlTag {
 			if(webpage.isHomepage()){
 				continue;
 			}
+			if(!isAuthenticated && webpage.getIsOnlyForRegistrated()){
+				continue;
+			}
 			setWebpage(webpage);
 			html.append("<li");
 			appendLiCssClass(html);
@@ -54,7 +58,7 @@ public class WebpageNavTag extends WebpageUrlTag {
 		if(parentLiCssClass != null){
 			cssClass += parentLiCssClass;		
 		}
-		if(withSubnav && getWebpage().getHasChildrens()){
+		if(withSubnav && getWebpage().getPublishedSections().size() > 0){
 			cssClass += " has-children";
 		}
 		if(StringUtils.isNotBlank(cssClass)){
@@ -64,7 +68,7 @@ public class WebpageNavTag extends WebpageUrlTag {
 	}
 	
 	protected void appendSubnavFor(StringBuilder html, Webpage webpage) {
-		List<Webpage> childrenList = webpage.getPublishedChildrens();
+		List<Webpage> childrenList = webpage.getPublishedSections();
 		if(childrenList.size() > 0){
 			html.append("<ul>");
 			for(Webpage child : childrenList){
@@ -116,6 +120,14 @@ public class WebpageNavTag extends WebpageUrlTag {
 
 	public void setParentLiCssClass(String parentLiCssClass) {
 		this.parentLiCssClass = parentLiCssClass;
+	}
+
+	public boolean getIsAuthenticated() {
+		return isAuthenticated;
+	}
+
+	public void setIsAuthenticated(boolean isAuthenticated) {
+		this.isAuthenticated = isAuthenticated;
 	}
 	
 	

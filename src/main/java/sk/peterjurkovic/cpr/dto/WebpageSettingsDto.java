@@ -9,7 +9,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageModule;
 import sk.peterjurkovic.cpr.enums.WebpageType;
-import sk.peterjurkovic.cpr.web.json.deserializers.DateTimeDeserializer;
+import sk.peterjurkovic.cpr.web.json.deserializers.LocalDateTimeDeserializer;
 
 public class WebpageSettingsDto extends AbstractWebpageDto{
 	
@@ -17,13 +17,15 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	private WebpageType webpageType;
 	private Boolean lockedCode;
 	private Boolean lockedRemove;
-	@JsonDeserialize(using=DateTimeDeserializer.class)
+	@JsonDeserialize( using = LocalDateTimeDeserializer.class)
 	private LocalDateTime publishedSince;
 	@NotNull
 	private Boolean enabled;
 	@NotNull
 	private Boolean showThumbnail;
 	private WebpageModule webpageModule;
+	@NotNull
+	private Boolean isOnlyForRegistrated;
 	
 	public WebpageSettingsDto(){}
 	
@@ -80,7 +82,13 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	public void setWebpageModule(WebpageModule webpageModule) {
 		this.webpageModule = webpageModule;
 	}
-	
+	public Boolean getIsOnlyForRegistrated() {
+		return isOnlyForRegistrated;
+	}
+	public void setIsOnlyForRegistrated(Boolean isOnlyForRegistrated) {
+		this.isOnlyForRegistrated = isOnlyForRegistrated;
+	}
+
 	@Override
 	public void setWebpage(Webpage webpage){
 		setId( webpage.getId() );
@@ -91,6 +99,7 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 		this.enabled = webpage.getEnabled();
 		this.showThumbnail = webpage.getShowThumbnail();
 		this.webpageModule = webpage.getWebpageModule();
+		this.isOnlyForRegistrated = webpage.getIsOnlyForRegistrated();
 	}
 	
 }

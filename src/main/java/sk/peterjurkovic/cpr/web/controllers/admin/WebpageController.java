@@ -13,6 +13,7 @@ import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
@@ -45,6 +46,7 @@ import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
 import sk.peterjurkovic.cpr.validators.admin.ImageValidator;
+import sk.peterjurkovic.cpr.web.editors.LocalDateTimeEditor;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
@@ -66,6 +68,8 @@ public class WebpageController extends SupportAdminController {
 	private MessageSource messageSource;
 	@Autowired
 	private ImageValidator imageValidator;
+	@Autowired
+	private LocalDateTimeEditor dateTimeEditor;
 	
 	public WebpageController(){
 		setViewName("webpages-add");
@@ -76,8 +80,7 @@ public class WebpageController extends SupportAdminController {
 	
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
-		//binder.registerCustomEditor(WebpageContent.class, this.webpageContentEditor);
-		//binder.registerCustomEditor(WebpageCategory.class, this.webpageCategoryEditor);
+		binder.registerCustomEditor(LocalDateTime.class, this.dateTimeEditor);
     }
 	
 
@@ -241,6 +244,10 @@ public class WebpageController extends SupportAdminController {
 		webpage.setWebpageType(form.getWebpageType());
 		webpage.setPublishedSince(form.getPublishedSince());
 		webpage.setShowThumbnail(form.getShowThumbnail());
+		webpage.setIsOnlyForRegistrated(form.getIsOnlyForRegistrated());
+		if(webpage.getWebpageType().equals(WebpageType.NEWS) && webpage.getPublished() == null){
+			webpage.setPublishedSince( new LocalDateTime() );
+		}
 		if(user.isWebmaster()){
 			webpage.setLockedCode(form.getLockedCode());
 			webpage.setLockedRemove(form.getLockedRemove());
@@ -248,6 +255,8 @@ public class WebpageController extends SupportAdminController {
 		webpage.setWebpageModule(form.getWebpageModule());
 		webpageService.saveOrUpdate(webpage);
 	}
+	
+	
 	
 	private void update(WebpageContentDto form) throws ItemNotFoundException{
 		Validate.notNull(form);

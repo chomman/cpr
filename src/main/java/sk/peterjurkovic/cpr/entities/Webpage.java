@@ -59,6 +59,7 @@ public class Webpage extends AbstractEntity {
 	private LocalDateTime publishedSince;
 	private WebpageModule webpageModule;
 	private Boolean showThumbnail;
+	private Boolean isOnlyForRegistrated;
 	
 	
 	public Webpage(){
@@ -74,6 +75,7 @@ public class Webpage extends AbstractEntity {
 		this.lockedCode = Boolean.FALSE;
 		this.lockedRemove = Boolean.FALSE;
 		this.showThumbnail = Boolean.TRUE;
+		this.isOnlyForRegistrated = Boolean.FALSE;
 		setEnabled(Boolean.FALSE);
 		if(parent != null){
 			registerInParentsChilds();
@@ -163,6 +165,11 @@ public class Webpage extends AbstractEntity {
 	public Boolean getShowThumbnail() {
 		return showThumbnail;
 	}
+	
+	@Column(name = "only_for_registraged", nullable = false)
+	public Boolean getIsOnlyForRegistrated() {
+		return isOnlyForRegistrated;
+	}
 
 	
     /* SETTER ---------------------
@@ -216,6 +223,10 @@ public class Webpage extends AbstractEntity {
 	}
 	public void setWebpageModule(WebpageModule webpageModule) {
 		this.webpageModule = webpageModule;
+	}
+	
+	public void setIsOnlyForRegistrated(Boolean isOnlyForRegistrated) {
+		this.isOnlyForRegistrated = isOnlyForRegistrated;
 	}
 
 	
@@ -291,7 +302,7 @@ public class Webpage extends AbstractEntity {
 	
 	@Transient
 	private boolean isPublishedSet(){
-		if(webpageType != null && webpageType.equals(WebpageType.ARTICLE) && publishedSince != null){
+		if(webpageType != null && webpageType.equals(WebpageType.NEWS) && publishedSince != null){
 			return true;
 		}
 		return false;
@@ -319,6 +330,20 @@ public class Webpage extends AbstractEntity {
 		return webpageList;
 	}
 	
+	
+	@Transient
+	public List<Webpage> getPublishedSections(){
+		List<Webpage> webpageList = new ArrayList<Webpage>();
+		if(CollectionUtils.isNotEmpty(childrens)){
+			for(Webpage child : childrens){
+				if(child.getIsPublished() && !WebpageType.NEWS.equals( child.getWebpageType()) ){
+					webpageList.add(child);
+				}
+			}
+		}
+		return webpageList;
+	}
+	
 	@Transient
 	public boolean getIsHomepage(){
 		return isHomepage();
@@ -335,4 +360,5 @@ public class Webpage extends AbstractEntity {
     private void registerInParentsChilds() {
         this.parent.childrens.add(this);
     }
+    
 }
