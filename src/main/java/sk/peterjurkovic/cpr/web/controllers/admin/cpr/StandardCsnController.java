@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -23,7 +22,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.dto.PageDto;
-import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.entities.StandardCsn;
 import sk.peterjurkovic.cpr.entities.StandardCsnChange;
 import sk.peterjurkovic.cpr.enums.CsnOrderBy;
@@ -33,11 +31,9 @@ import sk.peterjurkovic.cpr.services.BasicSettingsService;
 import sk.peterjurkovic.cpr.services.StandardCsnChangeService;
 import sk.peterjurkovic.cpr.services.StandardCsnService;
 import sk.peterjurkovic.cpr.services.StandardService;
-import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.validators.admin.StandardCsnValidator;
-import sk.peterjurkovic.cpr.web.controllers.PublicCprController;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 import sk.peterjurkovic.cpr.web.editors.LocalDateEditor;
 import sk.peterjurkovic.cpr.web.editors.StandardCsnPropertyEditor;
@@ -67,8 +63,6 @@ public class StandardCsnController extends SupportAdminController {
 	private LocalDateEditor localDateEditor;
 	@Autowired
 	private BasicSettingsService basicSettingsService;
-	@Autowired
-	private WebpageService webpageService;
 	@Autowired
 	private StandardCsnValidator standardCsnValidator;
 	@Autowired
@@ -104,7 +98,6 @@ public class StandardCsnController extends SupportAdminController {
 		model.put("params", params);
 		model.put("settings", basicSettingsService.getBasicSettings());
 		model.put("order", CsnOrderBy.getAll());
-		model.put("webpage", webpageService.getWebpageByCode(PublicCprController.STANDARDS_URL));
 		map.put("model", model);
 		return getTableItemsView();
 	}
@@ -278,11 +271,7 @@ public class StandardCsnController extends SupportAdminController {
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("standardStatuses", StandardStatus.getAll());
 		if(form.getId() != null && form.getId() != 0){
-			List<Standard> standards = standardService.getStandardsByCsn(form);
-			model.put("standards", standards);
-			if(CollectionUtils.isNotEmpty(standards)){
-				model.put("standard", standards.get(0));
-			}
+			model.put("standards", standardService.getStandardsByCsn(form));
 		}
 		map.addAttribute("csn", form);
 		map.put("model", model);
