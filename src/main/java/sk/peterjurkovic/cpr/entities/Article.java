@@ -15,7 +15,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDateTime;
 
-import sk.peterjurkovic.cpr.web.json.deserializers.DateTimeDeserializer;
+import sk.peterjurkovic.cpr.web.json.deserializers.LocalDateTimeDeserializer;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
@@ -90,7 +90,7 @@ public class Article extends AbstractEntity {
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	@Column(name = "published_since")
-	@JsonDeserialize(using=DateTimeDeserializer.class)
+	@JsonDeserialize(using=LocalDateTimeDeserializer.class)
 	public LocalDateTime getPublishedSince() {
 		return publishedSince;
 	}
@@ -102,7 +102,7 @@ public class Article extends AbstractEntity {
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	@Column(name = "published_until")
-	@JsonDeserialize(using=DateTimeDeserializer.class)
+	@JsonDeserialize(using=LocalDateTimeDeserializer.class)
 	public LocalDateTime getPublishedUntil() {
 		return publishedUntil;
 	}

@@ -1,12 +1,3 @@
-/*
-var datepickerOpts = {
-		dayNamesMin: ['Ne', 'Po', 'Út', 'St', 'Čt', 'Pa', 'So'], 
-		monthNames: ['Leden','Únor','Březen','Duben','Květen','Červen','Červenec','Srpen','Září','Říjen','Listopad','Prosinec'], 
-		autoSize: false,
-		dateFormat: 'dd.mm.yy',
-		firstDay: 1
-};
-*/
 $(function() {
 	var urlPrefix = $('#base').text();
 	createClasses();
@@ -65,7 +56,7 @@ $(function() {
          return confirm('Opravdu chcete zrušit přiřazení?');
      });
      
-     $('.confirmMessage').on('click', function () {
+     $('.confirmMessage').on('click', function (e) {
          return confirm($(this).attr("data-message"));
      });
      
@@ -80,7 +71,18 @@ $(function() {
   		openEffect	: 'none',
   		closeEffect	: 'none'
   	});
-    
+     $(".preview").fancybox({
+ 		maxWidth	: 1100,
+ 		maxHeight	: 1000,
+ 		fitToView	: false,
+ 		width		: '80%',
+ 		height		: '80%',
+ 		autoSize	: false,
+ 		closeClick	: false,
+ 		openEffect	: 'none',
+ 		closeEffect	: 'none',
+ 		type: "iframe"
+ 	});
      
      
      $('.date').datepicker(getDatepickerOptions());
@@ -102,6 +104,10 @@ $(function() {
     	 width : "110px"
      });
      createSelects();
+     $(document).on("click", ".btn-submit", function(){
+    	 $(this).parent('form').submit();
+    	 return false;
+     });
 });
 function createSelects(){
 	$(".chosen").chosen({
@@ -119,7 +125,7 @@ function createSelects(){
 
 function updateNav(){
 	var o = $('nav');
-	if($(document).width() < 1070){
+	if($(document).width() < 1170){
 		o.addClass("smallNav");
 	}else{
 		o.removeClass("smallNav");
@@ -234,6 +240,9 @@ function removeLoader(){
 (function($) {
     $.fn.extend( {
         limiter: function(limit, elem) {
+        	if(!elem.length){
+        		return;
+        	}
             $(this).on("keyup focus", function() {
                 setCount(this, elem);
             });
@@ -257,3 +266,12 @@ jQuery.fn.center = function () {
     this.css("left", Math.max(0, (($(window).width() - $(this).outerWidth()) / 2) + $(window).scrollLeft()) + "px");
     return this;
 };
+
+function isIE () {
+  var myNav = navigator.userAgent.toLowerCase();
+  return (myNav.indexOf('msie') != -1) ? parseInt(myNav.split('msie')[1]) : false;
+}
+
+function showUnsupportedBrowserAlert(){
+	alert("Používáte nepodporovaný prohlížeč Internet Explorer " + isIE());
+}

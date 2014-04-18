@@ -16,7 +16,7 @@
 		<org.springframework-security>3.1.4.RELEASE</org.springframework-security>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.7.5</org.slf4j-version>
-		<org.hibernate-version>4.2.8.Final</org.hibernate-version>
+		<org.hibernate-version>4.2.11.Final</org.hibernate-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
    
@@ -306,7 +306,7 @@
 		<dependency>
 			<groupId>org.xhtmlrenderer</groupId>
 			<artifactId>core-renderer</artifactId>
-			<version>R8</version>
+			<version>R8pre2</version>
 		</dependency>
 	
 	<!-- Emailing -->
@@ -353,11 +353,7 @@
 		</dependency>
   		
   		
-  		<dependency>
-			<groupId>org.apache.xmlgraphics</groupId>
-			<artifactId>batik-transcoder</artifactId>
-			<version>1.7</version>
-		</dependency>
+  		
 
    </dependencies>
    

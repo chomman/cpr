@@ -9,174 +9,324 @@
 <html>
 <head>
 	<title><spring:message code="webpages.edit" /></title>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
+	<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
+	
+	 <script>
+	$(function() {
+		$( "#tabs" ).tabs();
+		$( ".helpTip" ).selectTip();
+		$('.lightbox').fancybox();
+		$('#webpageModule').chosen({ width : "330px" });
+		$('.picker').remotePicker({
+			<c:if test="${not empty webpageContent.redirectWebpage}">
+			item : { value : '${webpageContent.redirectWebpage.defaultName}', id: ${webpageContent.redirectWebpage.id} },
+			</c:if>
+	    	sourceUrl : getBasePath()  +"ajax/autocomplete/webpages",
+	    	inputNames : { hidden : "redirectWebpage", text : "redirectUrl" },
+	    	useDefaultCallBack : true
+		});
+	});
+	
+	
+	</script>
 </head>
 <body>
 	<div id="wrapper">
-	<div id="left">
-		<jsp:include page="include/webpages-nav.jsp" />
-	</div>
-	<div id="right">
-		<div id="breadcrumb">
-			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
-			 <a href="<c:url value="/admin/webpages" />"><spring:message code="webpages" /></a> &raquo;
-			 <span><spring:message code="webpages.edit" /></span>
-		</div>
-		<h1><spring:message code="webpages.edit" /></h1>
-
 		<div id="content">
-		
-			<div id="fileDir" class="hidden">webpage-${webpageId}</div>
-			<c:url value="/admin/webpages/edit/${webpageId}" var="formUrl"  />					
-			<form:form  commandName="webpage" method="post" action="${formUrl}" cssClass="valid">
-				
-				
-				<c:if test="${not empty successCreate}">
-					<p class="msg ok"><spring:message code="success.create" /></p>
-				</c:if>
-				
-				
-				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
-				<p class="form-head"><spring:message code="webpage.head.basic" /><p>
-              
-                <c:if test="${isLoggedWebmaster}">
-	                 <p>
-	                	<label class="tt" title="<spring:message code="webpage.code.info"/>">
-	                		<spring:message code="webpage.code" />
-	                	</label>
-	                    <span class="field">
-	                    	<form:input  htmlEscape="true" path="code"  maxlength="250" cssClass="mw500" />
-	                    </span>
-	                </p>
-                </c:if>
-                <p>
-                	<label>
-                		<strong><em class="red">*</em>
-                			<spring:message code="webpage.category" />
-                		</strong>	
-                	</label>
-                <span class="field">  
-				     <form:select path="webpageCategory" cssClass="mw500 smaller"> 
-						  <option value=""><spring:message code="form.select"/></option>
-						  <form:options items="${model.categories}" itemValue="id" itemLabel="name" />
-					</form:select>
+			<div id="breadcrumb">
+				<a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
+				<a:adminurl href="/webpages"><spring:message code="webpages" /></a:adminurl>  &raquo;
+				 <span>
+				 <spring:message code="webpages.edit" />
 				 </span>
-				 </p>
-                <p>
-				    <label title="<spring:message code="publish.descr" />" class="tt">
-				 		<spring:message code="publish" />
-				 	</label>
-				     <span class="field">  
-				     	<form:checkbox path="enabled" />
-				     </span>
-				 </p>
-				 	<c:if test="${isLoggedWebmaster}">
-					 	<p>
-					 	<label>
-					 		<spring:message code="webpage.content" />
-					 	</label>
-						<span class="field content">  				
-							<span class="msg info"><spring:message code="webpage.content.info" /></span>	
-							 <form:select path="webpageContent" cssClass="mw500">
-								  <form:options items="${model.contents}" itemValue="id" itemLabel="name" />
-							</form:select>		
-						</span>
+			</div>
+			<div class="pj-nav margin-bottom">
+				<span class="pj-nav-label"><spring:message code="webpages.edit" /></span>
+				<span class="pj-nav-label2"><spring:message code="options" />:</span>
+				<a:adminurl href="/webpages" cssClass="btn-webpage radius link-ico" >
+				<spring:message code="webpages.view" /> <span class="ico set"></span>
+			</a:adminurl>
+			<c:if test="${not empty model.webpage.parent}">
+				<a:adminurl href="/webpage/add/${model.webpage.parent.id}" cssClass="btn-webpage radius link-ico" >
+					Přidat sesterskou sekci <span class="ico plus"></span>
+				</a:adminurl>
+			</c:if>
+			</div>
+			
+			<div id="ajax-result"></div>
+			
+			
+			<div id="tabs">
+				<ul>
+					<li><a href="#content">Obsah</a></li>
+					<li><a href="#settings">Publikování a nastavení </a></li>
+					<li><a href="#images">Obrázky</a></li>
+				</ul>
+			<div id="content">
+					<form:form commandName="webpageContent" method="post" cssClass="valid" name="webpageContent">
+						<p class="pj-redirect-type  pj-type">
+							 <label>
+			                 	<strong>
+			                 		<spring:message code="webpage.redirect" />:
+			                 	</strong>	
+			                 </label>
+			                     <span class="field">
+			                     	<form:input path="redirectUrl" cssClass="picker mw500"/>
+			                     </span>
 						</p>
-					</c:if>	
-					<c:if test="${not isLoggedWebmaster and webpage.id != 0}">
-					 	<p>
-					 	<label>
-					 		<spring:message code="webpage.content.notwebmaset" />
-					 	</label>
-						<span class="field content">  				
-							<span class="msg info"><spring:message code="webpage.content.info" /></span>	
-							<span class="webpageContentName">${webpage.webpageContent.name}</span>
-							<span class="webpageContentDescr">${webpage.webpageContent.description}</span>		
-						</span>
-						</p>
-					</c:if>		 
-				
-				<!-- CONTENT -->	
-				
-				 <p class="form-head"><spring:message code="webpage.head.content" /><p>
-				 <div id="ajax-result"></div>
-				 <p>
-                	<label>
-                		<strong>
-                			<spring:message code="webpage.locale" />:
-                		</strong>	
+						
+						<p <c:if test="${fn:length(model.usedLocales) eq 1}">class="pj-locale-box hidden"</c:if>>
+			                 <label>
+			                 	<strong>
+			                 		<spring:message code="webpage.locale" />:
+			                 	</strong>	
+			                 </label>
+			                     <span class="field">
+			                     	<c:forEach items="${model.locales}" var="l">
+			                     		<a href="#" data-lang="${l}" class="lang <c:if test="${l eq  webpageContent.locale}">disabled</c:if>">
+			                     			<spring:message code="l${l}" />
+			                     		</a>
+			                     	</c:forEach>
+			                    </span>
+			                </p> 
+		                
+						<p>
+			                 <label>
+				                 <strong>
+				                 	<em class="red">*</em><spring:message code="webpage.webpageContent.name" />
+				                 </strong>	
+				                 <small><spring:message code="webpage.webpageContent.name.descr" /></small>
+					         </label>
+		                    <span class="field">
+		                     <form:input htmlEscape="true" path="webpageContent.name" id="pj-name" maxlength="200" cssClass="mw500 required"
+		                     data-err-msg="Hodnota: Název sekce, musí být vyplněna" />
+		                    </span>
+			            </p>
+						<p>
+	                 		<label>
+	                 			<spring:message code="webpage.webpageContent.title" />
+							</label>
+		                    <span class="field">
+		                     <form:input htmlEscape="true" path="webpageContent.title" id="pj-title" maxlength="250" cssClass="mw500"
+		                     data-err-msg="Hodnota: Titulek sekce, musí být vyplněna" />
+		                    </span>
+                		</p>
+                		<c:if test="${isLoggedWebmaster}">
+	                		<p>
+		                 		<label>
+		                 			<spring:message code="webpage.url" />
+								</label>
+			                    <span class="field">
+			                     <form:input htmlEscape="true" path="code" id="pj-code" maxlength="250" cssClass="mw500" />
+			                    </span>
+	                		</p>
+                		</c:if>
                 		
-                	</label>
-                     <span class="field">
-                    	<a href="#" data-lang="cs" class="disabled">Česká</a>
-                    	<a href="#" data-lang="en" class="lang en processSave">Anglická</a>
-                    </span>
-                </p> 
-                <p>
-                	<label>
-                		<strong><em class="red">*</em>
-                			<spring:message code="webpage.name" />
-                		</strong>	
-                		<small><spring:message code="webpage.name.info" /></small>
-                	</label>
-                    <span class="field">
-                    	<form:input  htmlEscape="true" path="name" maxlength="60" cssClass="w300 required" 
-                    		data-err-msg="Hodnota:  Název sekce, musí být vyplněna" />
-                    </span>
-                </p>
-				 <p>
-                	<label>
-	                	<strong><em class="red">*</em>
-	                		<spring:message code="webpage.title" />
-	                	</strong>
-                		<small><spring:message code="webpage.title.info" /></small>
-                	</label>
-                    <span class="field">
-                    	<form:input  htmlEscape="true" path="title" maxlength="150" cssClass="required"
-                    		data-err-msg="Hodnota: Titulek sekce, musí být vyplněna" />
-                    </span>
-                </p>
-				 <p>
-				    <label>
-				 		<spring:message code="webpage.descr" />
-                		<small><spring:message code="webpage.descr.info" /></small>
-				 	</label>
-				     <span class="field counter">  
-				     	<form:textarea path="description" cssClass="dscrbox" />
-				     	<span id="chars"></span>
-				     </span>
-				 </p>
-				 <p>
-				    <label>
-				 		<spring:message code="webpage.toptext" />
-				 	</label>
-				     <span class="field">  								
-				     	<form:textarea path="topText" cssClass="wisiwig" />
-				     </span>
-				 </p>
+						<p>
+							<label>
+								<spring:message code="webpage.webpageContent.description" />
+						   </label>
+							<span class="field">
+								<form:textarea path="webpageContent.description" id="pj-description" cssClass="mw500 mh100" />
+							</span>
+						</p>
+						<p class="pj-content-type  pj-type">
+							
+							<span class="field full-width">
+								<form:textarea path="webpageContent.content" cssClass="wisiwig" />
+							</span>
+						</p>
+						<p>
+							<span class="field full-width">
+								<input type="submit" class="button default saveContent" value="<spring:message code="form.save" />" />
+							</span> 
+						</p>
+						
+						<form:hidden path="locale" />
+						<form:hidden path="id" />				
+					</form:form>
+
+			</div>
+			<div id="settings">
+				<table>
+					
+					<!--  JAZYKY  -->
+					<tr>
+						<td class="t-label">
+							Sekce je v jazykových mutacích:	
+						</td>
+						<td class="t-val">
+							<c:forEach items="${model.usedLocales}" var="lang" varStatus="loop">
+								<spring:message code="l${lang}" />
+								<c:if test="${!loop.last}">, </c:if>
+							</c:forEach>
+						</td>
+						<td class="t-label">Přidat jazykovou mutaci:</td>
+						<td class="t-val">
+							<c:if test="${not empty model.notUsedLocales}">
+							<c:url value="/admin/webpage/lang/${webpageContent.id}" var="actionUrl"  />
+							<form method="post" action="${actionUrl}">
+							<select name="${model.langCodeParam}" class="chosenMini">
+								<c:forEach items="${model.notUsedLocales}" var="i" >
+										<option value="${i}" >
+											<spring:message code="l${i}" />
+										</option>
+								</c:forEach>
+							</select>
+								<a class="btn-webpage btn-submit radius link-ico">Pridať<span class="ico plus"></span></a>
+							</form>
+							</c:if>
+							<c:if test="${empty model.notUsedLocales}">
+								<em>Další jazykové mutace nejsou dostupné</em>
+							</c:if>
+						</td>
+					</tr>
+					
+					<!--  JAZYKY  -->
+				</table>
+				<form:form modelAttribute="webpageSettings" name="webpageSettings">
+							<p>
+								<label>
+									Typ webové sekce:
+								</label>
+								<span class="field">
+									 <form:select path="webpageType" cssClass="chosenSmall required helpTip">
+					                	<c:forEach items="${model.webpageTypes}" var="i">
+					                		<option <c:if test="${i eq  webpageSettings.webpageType}">selected="selected"</c:if>
+					                				value="${i}" data-id="${i.id}" 
+					                				title="<spring:message code="${i.description}" />">
+					                			<spring:message code="${i.code}" />
+					                		</option>
+					                	</c:forEach>
+					                </form:select>
+								</span>
+							</p>
+							<p>
+								<label>
+									K sekci připojit modul:
+								</label>
+								<span class="field">
+									 <form:select path="webpageModule" cssClass="helpTip" >
+					                	<option value=""><spring:message code="form.select" /></option>
+					                	<c:forEach items="${model.webpageModules}" var="i">
+					                		<option <c:if test="${i eq  webpageSettings.webpageModule}">selected="selected"</c:if>
+					                				value="${i}" data-id="${i.id}" 
+					                				title="<spring:message code="${i.name}.descr" />">
+					                			<spring:message code="${i.name}" />
+					                		</option>
+					                	</c:forEach>
+					                </form:select>
+								</span>
+							</p>
+							
+							<p>
+								<label>
+									<spring:message code="publish" />:
+								</label>
+								<span class="field">
+									 <form:checkbox path="enabled" id="enabled" />
+								</span>
+							</p>
+							
+							<p>
+								<label>
+									<spring:message code="webpage.showThumnail" />:
+								</label>
+								<span class="field">
+									 <form:checkbox path="showThumbnail" id="showThumbnail" />
+									 <span class="mini-info inline">Při seznamu podstránek se bude zobrazovat avatar (Náhledový obrázek), pokud existuje.</span>
+								</span>
+							</p>
+							
+							<p  class="pj-article-type pj-type">
+								<label>
+									<spring:message code="webpage.publishedSince" />:
+                					<small><spring:message code="webpage.publishedSince.alert" /></small>
+								</label>
+								<span class="field">
+			                    	<span><spring:message code="date" />:</span>
+			                    	<input type="text" class="date" id="publishedSince-date" maxlength="10" />
+			                    	<span><spring:message code="time" />:</span>
+			                    	<input type="text" class="time" id="publishedSince-time" maxlength="5" />
+			                    	<form:hidden  htmlEscape="true" path="publishedSince" /><em>hh:mm</em>
+			                    </span>
+							</p>
+							<p>
+								<label>
+									Pouze pro registrované:
+								</label>
+								<span class="field">
+									 <form:checkbox path="isOnlyForRegistrated" id="isOnlyForRegistrated" />
+									 <span class="mini-info inline">Sekce bude dostupná pouze pro registrované uživatele</span>
+								</span>
+							</p>
+							
+							<c:if test="${isLoggedWebmaster}">
+								<p>
+									<label>
+										Zamknutá URL adresa:
+									</label>
+									<span class="field">
+										 <form:checkbox path="lockedCode" id="lockedCode" />
+									</span>
+								</p>
+								<p>
+									<label>
+										Zamčené odstraňování:
+									</label>
+									<span class="field">
+										 <form:checkbox path="lockedRemove" id="lockedRemove" />
+									</span>
+								</p>
+							</c:if>
+							<p class="button-box">
+								<input type="submit" class="button default" value="<spring:message code="form.save" />" /> 
+							</p>
+				</form:form>
+			</div>
+			<div id="images">
+				<c:url value="/admin/webpage/${webpageContent.id}/avatar" var="actionUrl" />
+				<form method="post" action="${actionUrl}" enctype="multipart/form-data" name="avatar" class="valid <c:if test="${not empty model.webpage.avatar}">hidden</c:if>"> 
+				  	<p>
+						<label>
+							<strong>
+								<em class="red">*</em>
+								<spring:message code="form.file.image.upload" />
+							</strong>
+						</label>
+						<span class="field">
+							<input name="file" id="file" type="file" class="required" />
+						</span>
+					</p>
+				  	<p class="button-box">
+				  		<input type="submit" class="button default" value="<spring:message code="form.file.upload" />" />		
+				  	</p>
+				  
+				</form>
 				
-				 
-				 
-				 <p>
-				    <label>
-				 		<spring:message code="webpage.bottomText" />
-				 	</label>
-				     <span class="field">  								
-				     	<form:textarea path="bottomText" cssClass="wisiwig " />
-				     </span>
-				 </p>
-                <form:hidden path="id"/>
-                <input type="hidden" name="locale" value="cs" />
-                <p class="button-box">
-                	 <input type="submit" class="button ajax" value="<spring:message code="form.save" />" />
-                </p>
-			</form:form>
-			<span class="note"><spring:message code="form.required" /></span>
+				<div class="pj-fotobox <c:if test="${empty model.webpage.avatar}">hidden</c:if>">
+					<h4><spring:message code="webpage.avatar" /></h4>
+					<span>
+						<c:if test="${not empty model.webpage.avatar}">
+							<a href="<c:url value="/image/n/avatars/${model.webpage.avatar}" />" class="lightbox">
+								<img src="<c:url value="/image/s/150/avatars/${model.webpage.avatar}" />" alt="avatar" />
+							</a>
+						</c:if>
+					</span>
+					<a href="#" class="confirm delete">
+						<spring:message code="form.delete" />
+					</a>
+				</div>
+			</div>
+		</div>
+			
 		</div>	
 	</div>
-	<div class="clear"></div>	
-</div>
+<div id="fileDir" class="hidden">webpage</div>
 <div id="loader" class="webpage"></div>
 </body>
 </html>

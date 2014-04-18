@@ -105,7 +105,7 @@
 					<h3>
 						<spring:message code="cpr.report.standards" />
 					</h3>
-					<jsp:include page="../../public/cpr/include/standard-table.jsp" />
+					<jsp:include page="../../include/standard-table.jsp" />
 				</div>
 
 				<div class="report-wrapp">

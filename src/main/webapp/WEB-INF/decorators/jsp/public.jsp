@@ -1,24 +1,30 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<c:set var="isAuthenticated" value="false"  />
+<sec:authorize access="isAuthenticated()"> 
+	<c:set var="isAuthenticated" value="true"  />
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><decorator:title/></title>
+		<title><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /><decorator:title/></title>
 		<meta charset="utf-8" />
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/common.css" />" />
+		<link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
 		<c:if test="${not empty isPreview and isPreview}">
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/preview.css" />" />
 		</c:if>
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="<c:url value="/resources/public/js/common.js" />"></script>
 		<script src="<c:url value="/resources/public/js/jquery.lang.switcher.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
+		<meta name="description" content="<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="description" />" />
 		<decorator:head/>
 		<c:if test="${not empty commonPublic.settings.googleAnalyticsTrackingCode}">
 			<script>
@@ -53,32 +59,22 @@
 
 			<!-- NAVIGATION -->
 			<nav>
-				<ul class="page-width">
-					<c:forEach items="${commonPublic.mainMenu}" var="webpage">
-						<li>
-							<a title="<a:localizedValue object="${webpage}" fieldName="title" />" <c:if test="${model.tab == webpage.id or webpage.id == model.webpage.id}" >class="curr"</c:if> 
-							href="<a:url href="${webpage.code}" linkOnly="true" />">
-							<a:localizedValue object="${webpage}" fieldName="name" />
-							</a>
-						</li>
-					</c:forEach>
-				</ul>
+				<webpage:nav webpages="${webpageModel.mainnav}" ulCssClass="page-width" isAuthenticated="${isAuthenticated}" />
 			</nav>
 			
 			<!-- CONTENT -->
 			<div id="content">
-				
+				<webpage:breadcrumb webpage="${webpageModel.webpage}" bcId="bc" />
 				<decorator:body />
-				
 			</div>
-			 <div class="push"></div>	
+			<div class="push"></div>	
 		</div>
 
 		
 		<!-- FOOTER -->
 		<footer>
 			<div id="footer" class="page-width">
-				<a href="http://www.itczlin.cz/cz/" title="<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />" class="itc-logo"></a>
+				<a target="_blank" href="http://www.itczlin.cz/cz/" title="<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />" class="itc-logo"></a>
 				<p class="itc-name">
 					<a:localizedValue object="${commonPublic.settings}" fieldName="systemName" /><br />
 					<a href="http://www.itczlin.cz/cz/" >

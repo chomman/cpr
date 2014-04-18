@@ -72,7 +72,8 @@ background-color:#77d42a;background-image:url(../img/ico_search.png);background-
 }
 
 .w150{width:130px;}
-.blue-color{color:#4390d7}
+.blue-color,
+.pj-category-item .pj-content h3 a{color:#4390d7}
 .blue-bg{background-color: #4390d7}
 .page-width{width:999px;margin:auto;}
 
@@ -562,3 +563,12 @@ header{position:relative;}
 .changed-csns .csns{width:270px;text-align:left;}
 .changed-csns td{text-align:center;border-left:1px solid #ddd;}
 .changed-csns .standard-change{font-size:12px;}
+
+/* new category */
+.pj-category-items{margin: 35px 10px 0 10px;}
+.pj-category-item{margin:20px 0;overflow: hidden;display: inline-block;display:block;}
+.pj-category-item .pj-foto{width:120px;text-align:center;display:block;float:left;margin-right:10px;}
+.pj-category-item .pj-foto img{border:2px solid #eee;}
+.pj-category-item .pj-content{display:;width:100%;}
+.pj-category-item .pj-content h3 {font-size:20px;padding:0 0 10px 0;}
+.pj-category-item .pj-content h3 a:hover{color:#333 !important;}

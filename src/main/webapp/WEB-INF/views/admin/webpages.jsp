@@ -7,28 +7,23 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="webpages" /></title>
+	<title><spring:message code="webpages" /></title>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/webpages.css" />" />
+	<link rel="stylesheet" href="<c:url value="/resources/admin/js/jstree/themes/default/style.css" />" />
+	<script src="<c:url value="/resources/admin/js/jstree/jstree.min.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
-	<div id="left">
-	
-		<jsp:include page="include/webpages-nav.jsp" />
+	<div class="pj-webpages">
 		
-	</div>	
-	<div id="right">
-		<div id="breadcrumb">
-			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
-			 <span><spring:message code="webpages" /></span>
-		</div>
-		<h1><spring:message code="webpages" /></h1>
-
 		<div id="content">
+			<div id="breadcrumb">
+				<a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>
+				 &raquo;
+				 <span><spring:message code="webpages" /></span>
+			</div>
 			
-			<ul class="sub-nav">
-				<li><a class="active" href="<c:url value="/admin/webpages"  />"><spring:message code="webpages.view" /></a></li>
-				<li><a href="<c:url value="/admin/webpages/edit/0"  />"><spring:message code="webpages.add" /></a></li>
-			</ul>
 			
 			<c:if test="${not empty successDelete}">
 				<p class="msg ok"><spring:message code="success.delete" /></p>
@@ -40,63 +35,36 @@
 			
 			
 				
+			
+			<div class="root-node">
+				www.nlfnorm.cz
+				<div class="pj-webpage-nav">
+					<a:adminurl href="/webpage/add/0"  cssClass="pj-ico pj-add tt" title="Přidat podstránku">
+							<span></span>
+					</a:adminurl>
+					
+					<a:adminurl href="/webpage/edit/${node.id}"  cssClass="pj-ico pj-edit tt" title="Upravit">
+						<span></span>
+					</a:adminurl>
+					<webpage:a webpage="${model.homepage}" isPreview="true" withName="false" cssClass="pj-ico  preview tt" title="Zobrazit">
+						<span></span>
+					</webpage:a>
+				</div>
+			</div>
+				
 			<c:if test="${not empty model.webpages}">
-				<table class="data">
-					<thead>
-						<tr>
-							<tH><spring:message code="webpage.name" /></th>
-							<th class="c"><spring:message code="webpage.category.table" /></th>
-							<th><spring:message code="published" /></th>
-							<th><spring:message code="form.lastEdit" /></th>
-							<th><spring:message code="form.edit" /></th>
-							<c:if test="${isLoggedWebmaster}">
-							<th><spring:message code="form.delete" /></th>
-							</c:if>
-						</tr>
-					</thead>
-					<tbody>
-						 <c:forEach items="${model.webpages}" var="i">
-						 	<tr>
-						 		<td>${i.nameCzech}</td>
-						 		<td>${i.webpageCategory.name}</td>
-						 		<td class="w100">
-						 			<c:if test="${i.enabled}">
-						 				<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
-						 					<spring:message code="yes" />
-						 				</span>
-						 			</c:if>
-						 			<c:if test="${not i.enabled}">
-						 				<span class="published no tt" title="<spring:message code="published.no.title" />" >
-						 					<spring:message code="no" />
-						 				</span>
-						 			</c:if>
-						 		</td>
-						 		<td class="last-edit">
-						 			<c:if test="${empty i.changedBy}">
-						 				<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
-						 			</c:if>
-						 			<c:if test="${not empty i.changedBy}">
-						 				<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
-						 			</c:if>
-						 		</td>
-						 		<td class="edit">
-						 			<a href="<c:url value="/admin/webpages/edit/${i.id}"  />">
-						 				<spring:message code="form.edit" />
-						 			</a>
-						 		</td>
-						 		<c:if test="${isLoggedWebmaster}">
-						 		<td class="delete">
-						 			<a class="confirm"  href="<c:url value="/admin/webpages/delete/${i.id}"  />">
-						 				<spring:message code="form.delete" />
-						 			</a>
-						 		</td>
-						 		</c:if>
-						 	</tr>
+				<div id="jstree">
+					<ul id="0">
+						  <c:forEach items="${model.webpages}" var="node" varStatus="s"  >
+						 	<c:set var="node" value="${node}" scope="request"/>
+						 	<c:set var="s" value="${s}" scope="request"/>
+						 	<jsp:include page="webpage.li.node.jsp" />
 						 </c:forEach>
-					</tbody>
-				</table>
+					</ul>	 
+				</div>
 			</c:if>
 			
+			 
 			<c:if test="${empty model.webpages}">
 				<p class="msg alert">
 					<spring:message code="alert.empty" />
@@ -107,6 +75,6 @@
 	</div>
 	<div class="clear"></div>	
 </div>
-
+<div id="loader" class="webpage"></div>
 </body>
 </html>

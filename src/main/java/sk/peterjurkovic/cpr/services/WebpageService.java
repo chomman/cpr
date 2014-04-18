@@ -1,12 +1,15 @@
 package sk.peterjurkovic.cpr.services;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 
+import sk.peterjurkovic.cpr.dto.AutocompleteDto;
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
 
 public interface WebpageService {
 
-	void createWebpage(Webpage webpage);
+	void saveWebpage(Webpage webpage);
 	
 	void updateWebpage(Webpage webpage);
 	
@@ -22,7 +25,41 @@ public interface WebpageService {
 	
 	List<Webpage> getPublicSection(Long sectionId);
 	
-	String getSeoUniqueUrl(String name);
+	String getUniqeCode(String name);
+	
+	String getUniqeCode(String name, Long excludeId);
 	
 	boolean isWebpageUrlUniqe(String code, Long id);
+	
+	List<Webpage> getAllOrderedWebpages();
+	
+	List<Webpage> getTopLevelWepages();
+	
+	List<Webpage> getTopLevelWepages(boolean enabledOnly);
+	
+	int getNextOrderValue(Long nodeId);
+	
+	Long createNewWebpage(Webpage form, Long webpageNodeId);
+	
+	Long createNewWebpage(Webpage form);
+	
+	void createWebpageContent(Long webpageId, String langCode);
+	
+	List<AutocompleteDto> autocomplete(String term);
+	
+	void deleteWebpageAvatar(Long id);
+	
+	void deleteWebpageWithAttachments(Long id) throws AccessDeniedException ;
+	
+	Webpage getHomePage();
+	
+	Webpage getWebpageByModule(WebpageModule webpageModule);
+	
+	Webpage getTopParentWebpage(Webpage childrenNode);
+	
+	List<Webpage> getChildrensOfNode(Long id, boolean publishedOnly);
+	
+	void moveWebpage(Webpage webpage, Long parentId, int order);
+	
+	List<Webpage> getLatestPublishedNews(int limit);
 }

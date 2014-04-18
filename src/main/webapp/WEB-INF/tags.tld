@@ -7,7 +7,7 @@
     
   <tlib-version>1.2</tlib-version>
   <short-name>a</short-name>
-  <uri>http://peterjukovic.sk/tags</uri>
+  <uri>http://peterjukovic.com/tags</uri>
   <tag>
     <name>url</name>
     <tag-class>sk.peterjurkovic.cpr.web.taglib.UrlTag</tag-class>
@@ -90,6 +90,11 @@
 	<attribute>
 		<name>href</name>
 		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>extraAttr</name>
+		<required>false</required>
 		<rtexprvalue>true</rtexprvalue>
 	</attribute>
   </tag>
@@ -204,4 +209,24 @@
 		<type>java.util.Boolean</type>
 	</attribute>
  </tag> 
+ <tag>
+	<name>webpageValue</name>
+ 	<tag-class>sk.peterjurkovic.cpr.web.taglib.LocalizedWebpageTag</tag-class>
+ 	<body-content>JSP</body-content>
+ 		<attribute>
+ 			<name>object</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>fieldName</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>useDefaultLocale</name>
+			<required>false</required>
+			<type>java.util.Boolean</type>
+		</attribute>       
+ </tag>
 </taglib>

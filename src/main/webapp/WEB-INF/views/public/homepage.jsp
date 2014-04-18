@@ -9,31 +9,28 @@
 <html>
 	<head>
 		<title>
-			<a:localizedValue object="${model.webpage}" fieldName="title" />
+			<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" />
 		</title>
 	</head>
 	<body>
-		
-	<!-- <div id="bc">
-		<span class="bc-info">Nacházíte se:</span>  <a href="">Home</a> &raquo; <a href="">Aktuality</a>
-	</div> -->
 
 		<div id="main-content">
 				<article>
-					<a:localizedValue object="${model.webpage}" fieldName="topText" />
+					<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
+					<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
 				</article>
-			
+				
 			 <div id="homepage">
 			 		<div class="hompage-left">
 			 			<strong class="head"><spring:message code="homepage.newest.articles" /></strong>
-			 			<c:if test="${not empty model.articles}">
-							<c:forEach items="${model.articles}" var="article">
+			 			<c:if test="${not empty webpageModel.articles}">
+							<c:forEach items="${webpageModel.articles}" var="article">
 								<div class="home-news">
 					 				<strong>
-					 					<a:url href="${model.articleUrl}/${article.code}"  cssClass="blue-color">${article.title}</a:url>
+					 					<a:url href="${webpageModel.articleUrl}/${article.code}"  cssClass="blue-color">${article.title}</a:url>
 					 				</strong>
 					 				<p>${fn:substring(article.header, 0, 120)} ...</p>
-					 				<a:url href="${model.articleUrl}/${article.code}"  cssClass="blue-color">
+					 				<a:url href="${webpageModel.articleUrl}/${article.code}"  cssClass="blue-color">
 					 					<spring:message code="view.detail" /> &raquo; 
 					 				</a:url>
 					 				<div class="clear"></div>
@@ -44,8 +41,8 @@
 
 			 		<div class="hompage-right">
 			 			<strong class="head"><spring:message code="homepage.newest.standards" /></strong>
-			 			<c:if test="${not empty model.standards}">
-				 			<c:forEach items="${model.standards}" var="standard">
+			 			<c:if test="${not empty webpageModel.standards}">
+				 			<c:forEach items="${webpageModel.standards}" var="standard">
 								<div class="norm">
 				 				<span class="edit"><joda:format value="${standard.changed}" pattern="dd.MM.yyyy"/></span>
 				 					<a:standardUrl standard="${standard}" cssClass="blue-color link" editable="${editable}"/>
@@ -57,9 +54,7 @@
 			 		<div class="clear"></div>
 			 </div>
 			 
-			 <article>
-					<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
-			 </article>
+			
 				
 			 
 		</div>

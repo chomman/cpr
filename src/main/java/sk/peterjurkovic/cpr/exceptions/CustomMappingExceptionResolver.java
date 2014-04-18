@@ -19,7 +19,7 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 	private ExceptionLogService exceptionLogService;
 	
 	@Override
-	protected ModelAndView doResolveException(HttpServletRequest request,HttpServletResponse response, Object handler, Exception ex) {
+	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		if(!(ex instanceof PageNotFoundEception)){
 			logger.error(ex);
 			exceptionLogService.logException(request, ex);

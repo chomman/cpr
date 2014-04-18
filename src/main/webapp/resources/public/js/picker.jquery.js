@@ -8,7 +8,10 @@
         autocompleteCallBack : null,
         enabledOnly : false,
         useDefaultCallBack : false,
-        debug: false
+        debug: false,
+        inputNames : {
+        	hidden : null, text : null
+        }
     };
     
     $.fn.remotePicker = function(newOpts) {
@@ -74,12 +77,18 @@
         	$this.after(html);
         	$this.attr("type", "hidden");
         	$this.val(id);
+        	if(options.inputNames.hidden !== null ){
+        		$this.attr("name", options.inputNames.hidden );
+        	}
         }
         
         function cancelSelection(){
         	$this.attr("type", "text");
         	$this.val('');
         	$('.'+options.selectedClass).remove();
+        	if(options.inputNames.text !== null ){
+        		$this.attr("name", options.inputNames.text );
+        	}
         }
 
         $(document).on("click", '.'+options.cancelBtnClass, cancelSelection );

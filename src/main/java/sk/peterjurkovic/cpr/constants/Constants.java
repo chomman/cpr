@@ -6,7 +6,7 @@ public class Constants {
 	/**
 	 * Prefix administracie 
 	 * 
-	 * http://localhost:8080/cpr/<strong>admin</strong>/
+	 * Example: http://localhost:8080/cpr/<strong>admin</strong>/
 	 */
 	public static final String ADMIN_PREFIX = "admin";
 	
@@ -115,30 +115,7 @@ public class Constants {
 	 * Identifikator nastaveni, pod ktorym su ulozene v DB
 	 */
 	public static final Long BASIC_SETTINGS_DB_ID = Long.valueOf(1);
-	
-	
-	/**
-	 * Identifikator kategorie - hlavne menu
-	 */
-	public static final Long WEBPAGE_CATEGORY_MAIN_MENU = Long.valueOf(1);
-	/**
-	 * Identifikator kategorie - nezobrazovat v ziadnom menu
-	 */
-	public static final Long WEBPAGE_CATEGORY_NO_MENU = Long.valueOf(2);
-	/**
-	 * Identifikator kategorie - podmenu CPR
-	 */
-	public static final Long WEBPAGE_CATEGORY_CPR_SUBMENU = Long.valueOf(3);
-	/**
-	 * Identifikator kategorie - podmenu CPR
-	 */
-	public static final Long WEBPAGE_CATEGORY_EHN_SUBMENU = Long.valueOf(4);
-	
-	
-	/**
-	 * Dlzka jedinecneho tokenu, identifikujuceho DoP
-	 */
-	public static final int DOP_TOKEN_LENGTH = 20;
+		
 	
 	/**
 	 * Prefix, ktory mapuje prisulusny kontroler. Automaticky sa prida ku kodu kazdej verejnej sekcie, ktoru
@@ -166,5 +143,9 @@ public class Constants {
 	 */
 	public static final String DEFAULT_IMAGE_SAVE_DIR = "images/";
 	
+	
+	public static final String PREVIEW_PARAM = "isPreview";
+	
+	public static final String PORTAL_URL = "informacni-portal";
 	
 }

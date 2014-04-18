@@ -1,14 +1,21 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
+import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -21,43 +28,48 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import sk.peterjurkovic.cpr.dto.WebpageDto;
+import sk.peterjurkovic.cpr.context.ContextHolder;
+import sk.peterjurkovic.cpr.dto.AutocompleteDto;
+import sk.peterjurkovic.cpr.dto.WebpageContentDto;
+import sk.peterjurkovic.cpr.dto.WebpageSettingsDto;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
-import sk.peterjurkovic.cpr.entities.WebpageCategory;
-import sk.peterjurkovic.cpr.entities.WebpageContent;
+import sk.peterjurkovic.cpr.enums.SystemLocale;
+import sk.peterjurkovic.cpr.enums.WebpageModule;
+import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
-import sk.peterjurkovic.cpr.resolvers.LocaleResolver;
-import sk.peterjurkovic.cpr.services.WebpageCategoryService;
-import sk.peterjurkovic.cpr.services.WebpageContentService;
+import sk.peterjurkovic.cpr.services.FileService;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
-import sk.peterjurkovic.cpr.validators.admin.WebpageValidator;
-import sk.peterjurkovic.cpr.web.editors.WebpageCategoryEditor;
-import sk.peterjurkovic.cpr.web.editors.WebpageContentEditor;
+import sk.peterjurkovic.cpr.validators.admin.ImageValidator;
+import sk.peterjurkovic.cpr.web.editors.LocalDateTimeEditor;
 import sk.peterjurkovic.cpr.web.json.JsonResponse;
 import sk.peterjurkovic.cpr.web.json.JsonStatus;
 
 
 @Controller
 public class WebpageController extends SupportAdminController {
-
+	
+	private final static String WEBPAGE_LIST_MAPPING = "/admin/webpages";
+	private final static String EDIT_WEBPAGE_MAPPING = "/admin/webpage/edit/{id}";
+	private final static String LOCALE_CODE_PARAM = "localeCode";
+	
+	
+	
 	@Autowired
 	private WebpageService webpageService;
 	@Autowired
-	private WebpageCategoryService webpageCategoryService;
+	private FileService fileService;
 	@Autowired
-	private WebpageContentService webpageContentService;
-	
+	private MessageSource messageSource;
 	@Autowired
-	private WebpageContentEditor webpageContentEditor;
+	private ImageValidator imageValidator;
 	@Autowired
-	private WebpageCategoryEditor webpageCategoryEditor;
-	
-	@Autowired
-	private WebpageValidator webpageValidator;
+	private LocalDateTimeEditor dateTimeEditor;
 	
 	public WebpageController(){
 		setViewName("webpages-add");
@@ -66,225 +78,236 @@ public class WebpageController extends SupportAdminController {
 	}
 	
 	
-	/**
-	 * Koverzia formulara (select boxov) na objekty
-	 * 
-	 * @param binder
-	 */
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(WebpageContent.class, this.webpageContentEditor);
-		binder.registerCustomEditor(WebpageCategory.class, this.webpageCategoryEditor);
+		binder.registerCustomEditor(LocalDateTime.class, this.dateTimeEditor);
     }
 	
-	
-	/**
-	 * Zobrazi verejne sekcie systemu
-	 * 
-	 * @param ModelMap
-	 * @param request
-	 * @return String JSP stranka
-	 */
-	@RequestMapping("/admin/webpages")
+
+	@RequestMapping(WEBPAGE_LIST_MAPPING)
 	public String showWebpages(ModelMap modelMap, HttpServletRequest request){
-		if(request.getParameter("successDelete") != null){
-			modelMap.put("successDelete", true);
+		if(request.getParameter(SUCCESS_DELETE_PARAM) != null){
+			modelMap.put(SUCCESS_DELETE_PARAM, true);
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpages", webpageService.getAll());
+		model.put("webpages", webpageService.getTopLevelWepages());
 		model.put("tab", 1);
+		model.put("homepage", webpageService.getHomePage());
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}
 	
 	
-	/**
-	 * Zobrazi formular, pre priadeni resp. editaciu verejnej sekcie sysstemu. V pripade
-	 * ak ID je rovne nule, jedna sa o pridanie novej sekcie, inak o editaciu
-	 * 
-	 * @param Long webpageId
-	 * @param Model model
-	 * @param HttpServletRequest request
-	 * @return String view
-	 * @throws ItemNotFoundException, ak sa verejna sekcia s danym ID v systeme nenachadza
-	 */
-	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.GET)
-	public String showForm(@PathVariable Long webpageId,  ModelMap model, HttpServletRequest request) throws ItemNotFoundException {		
-		Webpage form = null;
-		if(webpageId == 0){
-			form = createEmptyWebpageForm();
-		}else{
-			if(request.getParameter("successCreate") != null){
-				model.put("successCreate", true);
-			}
-			form = webpageService.getWebpageById(webpageId);
-			if(form == null){
-				createItemNotFoundError("Vežejná sekce s ID: "+ webpageId + " se v systému nenachází");
-				return getEditFormView();
-			}
-		}
-		prepareModel(form, model);
-		if(webpageId == 0){
+	@RequestMapping(value = "/admin/webpage/add/{nodeId}", method = RequestMethod.GET)
+	public String addWebpage(@PathVariable Long nodeId, ModelMap map) throws ItemNotFoundException{
+		prepareModelForCreate(map, new Webpage() , nodeId);
+		return getViewName();
+	}
+	
+	
+	@RequestMapping(value = "/admin/webpage/delete/{id}", method = RequestMethod.GET)
+	public String deleteWebpage(@PathVariable Long id) throws ItemNotFoundException, AccessDeniedException{
+		webpageService.deleteWebpageWithAttachments(id);
+		return "redirect:" + WEBPAGE_LIST_MAPPING + "?" + SUCCESS_DELETE_PARAM + "=1";
+	}
+	
+	
+	
+	@RequestMapping(value = "/admin/webpage/add/{nodeId}", method = RequestMethod.POST)
+	public String processCreate(@PathVariable Long nodeId, Webpage webpage, BindingResult result, ModelMap map) throws ItemNotFoundException{
+		if(StringUtils.isBlank(webpage.getDefaultName())){
+			result.rejectValue("localized['cs'].name", "webpage.error.name");
+			prepareModelForCreate(map, webpage , nodeId);
 			return getViewName();
 		}
-        return getEditFormView();
+		Long id = webpageService.createNewWebpage(webpage, nodeId);
+		return buildRedirectUrl(id, SystemLocale.getDefaultLanguage());
 	}
 	
-	/**
-	 * Ostrani verejniu sekciu na zaklade daneho IS
-	 * 
-	 * @param Long webpageId
-	 * @return String view
-	 * @throws ItemNotFoundException, ak sa verejna sekcia s danym ID v systeme nenachadza
-	 */
-	@RequestMapping( value = "/admin/webpages/delete/{webpageId}", method = RequestMethod.GET)
-	public String processDelete(@PathVariable Long webpageId) throws ItemNotFoundException {		
-		Webpage webpage = webpageService.getWebpageById(webpageId);
-		if(webpage == null){
-			throw new ItemNotFoundException("Webová sekce s ID: " + webpageId + " se v systému nenachází.");
+	
+	@RequestMapping(value = EDIT_WEBPAGE_MAPPING , method = RequestMethod.GET)
+	public String showEditPage(@PathVariable Long id, ModelMap map, @RequestParam(value = LOCALE_CODE_PARAM, required = false) String langCode) 
+			throws ItemNotFoundException{
+		Webpage webpage = getWebpage(id);
+		if(StringUtils.isBlank(langCode) || SystemLocale.isNotAvaiable(langCode)){
+			langCode = SystemLocale.getDefaultLanguage();
 		}
-		webpageService.deleteWebpage(webpage);
-		return "redirect:/admin/webpages?successDelete=1";
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpageTypes", WebpageType.getAll());
+		model.put("locales", SystemLocale.getAllCodes());
+		model.put("usedLocales", WebpageUtils.getUsedLocaleCodes(webpage));
+		model.put("notUsedLocales", WebpageUtils.getNotUsedLocales(webpage));
+		model.put("langCodeParam", LOCALE_CODE_PARAM);
+		model.put("webpage", webpage);
+		model.put("webpageModules", WebpageModule.getAll());
+		map.put("model", model);
+		map.addAttribute("webpageContent", new WebpageContentDto( webpage, langCode ) );
+		map.addAttribute("webpageSettings", new WebpageSettingsDto( webpage ) );
+		return getEditFormView();
 	}
 	
 	
-	@RequestMapping(value = "/admin/webpages/async-edit", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody JsonResponse  processAjaxSubmit(@RequestBody  WebpageDto form, @RequestParam(required = false) String changeLang) throws ItemNotFoundException{
+	@RequestMapping(value = "/admin/webpage/lang/{id}", method = RequestMethod.POST)
+	public String createLanguage(@PathVariable Long id, @RequestParam(value = LOCALE_CODE_PARAM) String localeCode) throws ItemNotFoundException{
+		webpageService.createWebpageContent(id, localeCode);
+		return buildRedirectUrl(id, localeCode);
+	}
+	
+	@RequestMapping(value = "/admin/webpage/lang/{id}", method = RequestMethod.GET)
+	public @ResponseBody JsonResponse getLanguage(@PathVariable Long id, @RequestParam(value = LOCALE_CODE_PARAM) String localeCode) throws ItemNotFoundException{
 		JsonResponse response = new JsonResponse();
-		
-		if(StringUtils.isNotBlank(changeLang)){
-			response.setData( getLanguage(form, changeLang) );
-			response.setStatus(JsonStatus.SUCCESS);
-			return response;
-		}
-		
-		final List<String> errors = webpageValidator.validate(form);
-				
-		if(errors.size() > 0){
-			response.setResult(errors);
-		}else{
-			update(form);
+		final Webpage webpage = getWebpage(id);
+		if(webpage.getLocalized().containsKey(localeCode)){
+			response.setResult(webpage.getLocalized().get(localeCode));
 			response.setStatus(JsonStatus.SUCCESS);
 		}
 		return response;
 	}
 	
 	
-	private WebpageDto getLanguage(WebpageDto webpageDto, String changeLang) throws ItemNotFoundException{
-		Webpage webpage = webpageService.getWebpageById(webpageDto.getId());
-		if(webpage == null){
-			createItemNotFoundError("Vežejná sekce s ID: "+ webpageDto.getId() + " se v systému nenachází");
+	@RequestMapping(value = "/admin/webpage/async-update", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  processAjaxSubmit(@Valid @RequestBody  WebpageContentDto form) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		update(form);
+		response.setStatus(JsonStatus.SUCCESS);
+		return response;
+	}
+	
+	@RequestMapping(value = "/admin/webpage/async-update-settings", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  updateWebpageSettings(@Valid @RequestBody  WebpageSettingsDto form) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		updateSettings(form);
+		response.setStatus(JsonStatus.SUCCESS);
+		return response;
+	}
+	
+	@RequestMapping(value = "/admin/webpage/{id}/avatar", method = RequestMethod.POST)
+	public @ResponseBody JsonResponse  saveAvatar(@PathVariable Long id, MultipartHttpServletRequest request, HttpServletResponse response) throws ItemNotFoundException{
+		JsonResponse res = new JsonResponse();
+		 Webpage webpage = getWebpage(id);
+		 Iterator<String> itr =  request.getFileNames();
+		 if(!itr.hasNext()){
+			 res.setResult(messageSource.getMessage("error.file.blank", null, ContextHolder.getLocale()));
+			 return res; 
+		 }
+	     MultipartFile multipartFile = request.getFile(itr.next());
+	     if(!imageValidator.validate(multipartFile.getOriginalFilename())){
+	    	 res.setResult(messageSource.getMessage("error.image.extetion", null, ContextHolder.getLocale()));
+			 return res; 
+	     }
+	     try {
+			final String fileName = fileService.saveAvatar( multipartFile.getOriginalFilename(), multipartFile.getBytes());
+			webpage.setAvatar(fileName);
+			webpageService.saveOrUpdate(webpage);
+			res.setResult(fileName);
+			res.setStatus(JsonStatus.SUCCESS);
+	     } catch (IOException e) {
+			logger.error(e);
 		}
-		WebpageDto webpageDtoInLang = WebpageUtils.toDTO(webpage, changeLang);
-		webpageDtoInLang.setWebpageCategory(null);
-		webpageDtoInLang.setWebpageContent(null);
-		return webpageDtoInLang;
+		return res;
+	}
+	
+	@RequestMapping(value = "/admin/webpage/{id}/avatar", method = RequestMethod.DELETE)
+	public @ResponseBody JsonResponse  deleteAvatar(@PathVariable Long id) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		webpageService.deleteWebpageAvatar(id);
+		response.setStatus(JsonStatus.SUCCESS);
+		return response;
 	}
 	
 	
-	/**
-	 * Spracuje odoslany formualr s odoslanou verejnou sekciu, v pripade ak je ID sekcie nula, 
-	 * jedna sa o pripadnie novej verejnej sekcie, inak o editaciu 
-	 * 
-	 * @param Long webpageId
-	 * @param BindingResultWebpageform
-	 * @param result
-	 * @param Model model
-	 * @return String view
-	 * @throws ItemNotFoundException, ak sa verejna sekcia s danym ID v systeme nenachadza
-	 */
-	@RequestMapping( value = "/admin/webpages/edit/{webpageId}", method = RequestMethod.POST)
-	public String pocessSubmit(@PathVariable Long webpageId, @Valid  Webpage form, BindingResult result, ModelMap model) throws ItemNotFoundException {		
-		if(!result.hasErrors()){
-			Long generatedId = createOrUpdate(form);
-			model.put("successCreate", true);
-			if(webpageId == 0){
-				return "redirect:/admin/webpages/edit/"+generatedId +"?successCreate=1";
-			}
+	
+	@RequestMapping(value = "/admin/webpage/{id}/order", method = RequestMethod.POST)
+	public @ResponseBody JsonResponse  handleMoveWebpage(@PathVariable Long id, 
+					@RequestParam(value = "order") int order, 
+					@RequestParam(value = "parentId") Long parentId ) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+		try{
+			webpageService.moveWebpage( getWebpage(id) , parentId, order);
+			response.setStatus(JsonStatus.SUCCESS);
+		}catch(Exception e){
+			logger.warn(e);
 		}
-		prepareModel(form, model);
-        return getViewName();
+		return response;
 	}
 	
+
+	@RequestMapping(value = "/ajax/autocomplete/webpages", method = RequestMethod.GET)
+	public @ResponseBody List<AutocompleteDto> search(@RequestBody @RequestParam("term") String term){
+		return webpageService.autocomplete(term);
+	}
 	
-	private Long createOrUpdate(Webpage form) throws ItemNotFoundException{
-		Webpage webpage = null;
-		
-		if(form.getId() == null || form.getId() == 0){
-			webpage =  new Webpage();
-		}else{
-			webpage = webpageService.getWebpageById(form.getId());
-			if(webpage == null){
-				createItemNotFoundError("Vežejná sekce s ID: "+ form.getId() + " se v systému nenachází");
-			}
-			
+	private void updateSettings(WebpageSettingsDto form) throws ItemNotFoundException{
+		Webpage webpage = getWebpage(form.getId());
+		final User user = UserUtils.getLoggedUser();
+		webpage.setEnabled(form.getEnabled());
+		webpage.setWebpageType(form.getWebpageType());
+		webpage.setPublishedSince(form.getPublishedSince());
+		webpage.setShowThumbnail(form.getShowThumbnail());
+		webpage.setIsOnlyForRegistrated(form.getIsOnlyForRegistrated());
+		if(webpage.getWebpageType().equals(WebpageType.NEWS) && webpage.getPublished() == null){
+			webpage.setPublishedSince( new LocalDateTime() );
 		}
-		User loggerUser = UserUtils.getLoggedUser();
-		if((!loggerUser.isWebmaster() && (form.getId() == null || form.getId() == 0)) || 
-		 (loggerUser.isWebmaster() && StringUtils.isBlank(form.getCode())) ){
-			webpage.setCode( webpageService.getSeoUniqueUrl(form.getNameCzech()));
-		}else if(loggerUser.isWebmaster()){
-			webpage.setCode(form.getCode());
+		if(user.isWebmaster()){
+			webpage.setLockedCode(form.getLockedCode());
+			webpage.setLockedRemove(form.getLockedRemove());
 		}
-		webpage.setNameCzech(form.getNameCzech());
+		webpage.setWebpageModule(form.getWebpageModule());
 		webpageService.saveOrUpdate(webpage);
-		return webpage.getId();
 	}
 	
 	
-	private void prepareModel(Webpage form, ModelMap map){
+	
+	private void update(WebpageContentDto form) throws ItemNotFoundException{
+		Validate.notNull(form);
+		Validate.notEmpty(form.getLocale());
+		Webpage webpage = getWebpage(form.getId());
+		if(!webpage.getLocalized().containsKey(form.getLocale())){
+			throw new IllegalArgumentException(String.format("Content of webpage [id=%1$d][lang=%2$s] was not found", form.getId(), form.getLocale()));
+		}
+		if(!webpage.getLockedCode() && form.getLocale().equals(SystemLocale.getDefaultLanguage())){
+			webpage.setCode(webpageService.getUniqeCode(form.getWebpageContent().getName(), webpage.getId()));
+		}else if(webpage.getLockedCode()){
+			webpage.setCode( form.getCode() );
+		}
+		webpage.setRedirectWebpage(form.getRedirectWebpage());
+		webpage.setRedirectUrl(form.getRedirectUrl());
+		webpage.getLocalized().put(form.getLocale(), form.getWebpageContent());
+		webpageService.saveOrUpdate(webpage);
+	}
+	
+	private String buildRedirectUrl(Long id, String localeCode){
+		return new StringBuilder("redirect:")
+		 	.append(EDIT_WEBPAGE_MAPPING.replace("{id}", id.toString()) )
+			.append("?")
+			.append(LOCALE_CODE_PARAM)
+			.append("=")
+			.append(localeCode)
+			.toString();
+	}
+
+	private void prepareModelForCreate(ModelMap map, Webpage form, Long nodeId) throws ItemNotFoundException{
+		Webpage parentWebpage = null;
+		if(nodeId != 0){
+			parentWebpage = getWebpage(nodeId);
+		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		if(form.getId() == 0){
-			map.addAttribute("webpage", form);
-		}else{
-			map.addAttribute("webpage", WebpageUtils.toCzechDto(form));
-		}
-		model.put("webpageId", form.getId());
-		model.put("categories", webpageCategoryService.getAll());
-		model.put("contents", webpageContentService.getAll());
-		model.put("tab", 1);
-		map.put("model", model); 
+		model.put("parentWebpage", parentWebpage);
+		model.put("webpageTypes", WebpageType.getAll());
+		map.addAttribute("webpage", new Webpage());
+		map.put("model", model);
 	}
 	
-	
-	private Webpage update(WebpageDto webpageDto) throws ItemNotFoundException{
-		Webpage webpage = webpageService.getWebpageById(webpageDto.getId());
+	private Webpage getWebpage(Long id) throws ItemNotFoundException{
+		final Webpage webpage = webpageService.getWebpageById(id);
 		if(webpage == null){
-			throw new ItemNotFoundException("Webpage with id [" + webpageDto.getId() + "] was not found");
+			throw new ItemNotFoundException(String.format("Webpage ID: %s was not found.", id));
 		}
-		User user = UserUtils.getLoggedUser();
-		if(user != null && user.isWebmaster()){
-			webpage.setCode(webpageDto.getCode());
-		}
-		webpage.setWebpageCategory(webpageDto.getWebpageCategory());
-		webpage.setWebpageContent(webpageDto.getWebpageContent());
-		webpage.setEnabled(webpageDto.isEnabled());
-		if(StringUtils.isBlank(webpageDto.getLocale()) || !LocaleResolver.isAvailable(webpageDto.getLocale())){
-			throw new IllegalArgumentException("Unsupported locale: " + 
-						webpageDto.getLocale() + " for webpage id: " + webpage.getId());
-		}
-		
-		if(webpageDto.getLocale().equals(LocaleResolver.CODE_CZ)){
-			webpage.setTitleCzech(webpageDto.getTitle());
-			webpage.setNameCzech(webpageDto.getName());
-			webpage.setDescriptionCzech(webpageDto.getDescription());
-			webpage.setTopTextCzech(webpageDto.getTopText());
-			webpage.setBottomTextCzech(webpageDto.getBottomText());
-		}else if(webpageDto.getLocale().equals(LocaleResolver.CODE_EN)){
-			webpage.setTitleEnglish(webpageDto.getTitle());
-			webpage.setNameEnglish(webpageDto.getName());
-			webpage.setDescriptionEnglish(webpageDto.getDescription());
-			webpage.setTopTextEnglish(webpageDto.getTopText());
-			webpage.setBottomTextEnglish(webpageDto.getBottomText());
-		}
-		webpageService.saveOrUpdate(webpage);
 		return webpage;
 	}
 	
-		
-	private Webpage createEmptyWebpageForm(){
-		Webpage form = new Webpage();
-		form.setId(0L);
-		return form;
-	}
+	
+	
+	
+	
 }

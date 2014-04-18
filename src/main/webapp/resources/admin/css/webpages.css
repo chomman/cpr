@@ -1,0 +1,58 @@
+#breadcrumb{margin:-25px -25px 0 -25px ;padding:6px 30px;}
+
+.pj-nav{background:#f0f0f0;margin:0 -25px;padding:0;font-size:15px;border-bottom:1px solid #ddd;height:35px;}
+.pj-nav-label{padding:10px 10px 10px 40px;border-right:3px solid #d5d5d5;color:#222;}
+.pj-nav-label,
+.pj-nav-label2{display:block;font-size:13px;float:left;}
+.pj-nav-label2{background:#e5e5e5;padding:11px 5px;font-size:10px;color:#555;border-right:1px solid #d5d5d5;}
+
+
+.margin-bottom{margin-bottom: 25px;}
+.btn-webpage:hover{background: #293D7A;}
+.link-ico{position:relative;background: #356aa0;color:#eee;font-size:12px;padding:8px;font-weight:bold;display:inline-block;margin:3px 10px;}
+.link-ico.btn-webpage{padding:8px 30px 8px 8px;}
+.link-ico.btn-webpage span{font-size: 15px;position:absolute;right:4px;top:5px;}
+
+.link-ico .ico{ background-color:#5188c0;border-radius:50%;display:inline-block;width:18px;height:18px;}
+.pj-ico span,
+.link-ico .ico{background-image:url(../img/iconset.gif);}
+.plus{background-position:26px -153px; }
+.set{background-position:-21px 4px; }
+.full-width{margin:0}
+
+.gradient-gray,
+.pj-nav-label{
+background: #ffffff; /* Old browsers */
+background: -moz-linear-gradient(top, #ffffff 0%, #e5e5e5 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffffff), color-stop(100%,#e5e5e5)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top, #ffffff 0%,#e5e5e5 100%); /* IE10+ */
+background: linear-gradient(to bottom, #ffffff 0%,#e5e5e5 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */
+}
+
+.ui-tabs{border:0 !important; }
+.ui-tabs-nav{border:0 !important;border-bottom:1px solid #ccc !important;font-size:14px;padding :0 30px !important;background:none;}
+.ui-tabs-nav li{border-top:1px solid #ccc;-webkit-border-top-left-radius: 6px;-webkit-border-top-right-radius: 6px;-moz-border-radius-topleft: 6px;-moz-border-radius-topright: 6px;
+border-top-left-radius: 6px;border-top-right-radius: 6px;}
+.ui-tabs-nav li a{color:#555 !important;font-weight:normal;padding:8px 15px !important;}
+.ui-tabs-nav li.ui-tabs-active  a{color:#e34c02 !important;font-weight:bold;}
+.ui-tabs-panel{padding:30px 10px!important;font-size:14px;}                
+.ui-tabs li.ui-state-hover{background:#eee;border-color:#999}
+
+#settings table{border-collapse:collapse;width:100%;max-width:1000px;margin-bottom:25px;}
+#settings table tr{background:#fafafa;border-bottom:1px dashed #ddd;}
+#settings table td{padding:15px 10px;}
+#settings table form{border:none;}
+#settings .btn-webpage{color:#eee;padding:7px 30px 7px 7px;cursor:pointer;}
+.t-val{color:#333;min-width:250px;}
+.t-label{width:190px;color:#777;font-size:12px;background:#f3f3f3}
+
+.pj-fotobox{padding:15px;border:2px solid #ddd;background:#fafafa}
+.pj-fotobox h4{padding:0 10px 10px 0; }
+.pj-fotobox .lightbox{display:block;width:150px;height:150px;border:2px solid #ddd;}
+.pj-fotobox .lightbox:hover{border:2px solid #bbb;}
+.pj-fotobox .delete{color:red;padding:5px 0;display:inline-block;margin-top:0px;font-size:12px;text-decoration:underline;}
+.pj-fotobox .delete:hover{text-decoration:none;color:#000}
+.root-node{background:url(../img/webpages-icons.png) no-repeat 28px -115px;font-weight:bold;color:#0d1532;margin: 10px -25px;padding:10px 25px 10px 65px;border-bottom:1px solid #ddd;}

@@ -8,6 +8,10 @@
 		<pattern>/async/*</pattern>
 		<pattern>/en/async/*</pattern>
 	</excludes>
+  
+   <decorator name="portal" page="portal.jsp">
+    <pattern>/informacni-portal*</pattern>
+  </decorator>
     
   <decorator name="blank" page="blank.jsp">
     <pattern>/blank/*</pattern>
