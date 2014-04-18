@@ -253,7 +253,9 @@ function deleteAvatar(){
 	return sendRequest("DELETE", false , $('#id').val() + '/avatar', function(json){
 		if(json.status == "SUCCESS"){
 			$('.pj-fotobox').addClass('hidden');
-			$('form[name=avatar]').removeClass('hidden');
+			if(isIE() > 9){
+				$('form[name=avatar]').removeClass('hidden');
+			}
 		}else{
 			showErrors(json);
 		}
@@ -261,6 +263,10 @@ function deleteAvatar(){
 }
 
 function uploadAvatar(){
+	if(isIE() < 10){
+		showUnsupportedBrowserAlert();
+		return false;
+	}
 	showWebpageLoader();   
 	var formData = new FormData();
 	  formData.append("file", $("#file").get(0).files[0]);
@@ -273,7 +279,6 @@ function uploadAvatar(){
 		type: 'POST'
 	})
 	 .done( function( json ){
-		 console.log('done');
 		 json = $.parseJSON(json);
 		 if(json.status == "SUCCESS"){
 			 var $wrapp = $('.pj-fotobox span');
@@ -302,21 +307,20 @@ function uploadAvatar(){
 
 
 function onDragAndDropStop(e, dnd){
+	 if(isIE()){
+		 showUnsupportedBrowserAlert();
+		 return false;
+	 }
 	 var oldPos = dnd.data.pos;
-	 
 	 if($("#"+ oldPos.id).length === 0){
 		 getInstance().open_node(getInstance().get_parent(oldPos.id));
 	 }
-	 
 	 var newPos = getPosition(oldPos.id);
-	 console.log(oldPos);
-	 console.log(newPos);
 	 if(newPos === null){
 		 console.warn('new position is NULL');
 		 return;
 	 }
 	 if(newPos.order != oldPos.order || newPos.parent != oldPos.parent){
-		  console.log('position changed');
 		  changeOrder(newPos);
 	 } 
 
@@ -344,19 +348,13 @@ function changeOrder(data){
 	return sendRequest("POST", false , url, function(json){
 		if(!json.status == "SUCCESS"){
 			showErrors(json);
-		}else{
-			console.log('SUCCESS!');
 		}
 	});
 }
 
 function getPosition(id){
-	console.log('searching for: ' + "#" + id);
 	var $li = $('#' + id);
-	console.log('found items: '+ $li.length );
-	console.log($li);
     if($li.length == 1){
-        console.log('returning');
         return {
            id : id,
            order : getOredFor($li),
@@ -375,7 +373,6 @@ function getOredFor($li){
 
 function getParentFor($li){
     var parent = getInstance().get_parent($li);
-    console.log("parent: " + parent);
     if(parent !== "#"){
         return parent;
     }
