@@ -27,7 +27,11 @@ public class WebpageBreadcrumbTag extends WebpageUrlTag {
 	
 	@Override
 	protected int doStartTagInternal() throws Exception {
-		if(getWebpage() != null || !getWebpage().isHomepage()){
+		if(getWebpage() == null){
+			logger.warn("Can not create breadcrumb nav, Webpage is NULL");
+			return SKIP_PAGE;
+		}
+		if(!getWebpage().isHomepage()){
 			pageContext.getOut().print(buildBreadcrumb());
 		}
 		return SKIP_PAGE;

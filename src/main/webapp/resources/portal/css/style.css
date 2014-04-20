@@ -135,8 +135,10 @@ article h1{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#8
 
 
 
-.pj-link{color:#0088c8;}
-.pj-link:hover{color:#111;}
+.pj-link,
+section #article a{color:#0088c8;}
+.pj-link:hover,
+section #article a:hover{color:#111;}
 
 .pj-publication{background: #6bba70;position:relative;
 background: -moz-linear-gradient(top, #6bba70 0%, #6bba70 100%);
@@ -193,3 +195,6 @@ footer ul li a:hover{color:#333}
 .pj-bc a{color:#666}
 .pj-bc span{color:#999;}
 .pj-bc a,.pj-bc span{padding:5px;}
+
+section article{margin-top:25px;}
+section #article{font-size:14px;color:#333;line-height:18px;}

@@ -20,12 +20,12 @@ function init(){
 
 function hideSubNav(e){
 	e.preventDefault();
-	$(this).find('ul').hide(100);
+	$(this).find('ul').hide(10);
 	return false;
 }
 
 function showSubnav(e){
 	e.preventDefault();
-	$(this).find('ul').stop(true).show(300);
+	$(this).find('ul').stop(true).show(200);
 	return false;
 }
