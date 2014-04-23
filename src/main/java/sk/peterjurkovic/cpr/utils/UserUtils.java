@@ -22,7 +22,7 @@ public class UserUtils {
 	
 	public static boolean hasLoggedUserRightToEdit(){
 		User user = UserUtils.getLoggedUser();
-		if(user == null || !user.isEditorUser()){
+		if(user == null || !user.isPortalUser()){
 			return false;
 		}
 		return true;

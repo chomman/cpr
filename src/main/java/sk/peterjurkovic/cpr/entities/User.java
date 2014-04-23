@@ -152,11 +152,11 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	
 	@Transient
-    public boolean isEditorUser() {
+    public boolean isPortalUser() {
 		if(isAdministrator() || isWebmaster()){
 			return true;
 		}
-        Authority authority = Authority.getInstance(Authority.ROLE_EDITOR);
+        Authority authority = Authority.getInstance(Authority.ROLE_PORTAL_USER);
         if (getAuthoritySet().contains(authority)) {
             return true;
         }

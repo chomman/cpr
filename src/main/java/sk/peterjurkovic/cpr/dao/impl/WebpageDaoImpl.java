@@ -222,8 +222,8 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		StringBuilder hql = new StringBuilder("from ");
 		hql.append(Webpage.class.getName());
 		hql.append(" w");
-		hql.append(" where w.webpageType = :webpageType and w.enabled = true and w.publishedSince < :now ");
-		hql.append(" order by w.publishedSince DESC ");
+		hql.append(" where w.webpageType = :webpageType and w.enabled = true and (w.publishedSince is NULL or w.publishedSince < :now ) ");
+		hql.append(" order by w.publishedSince, w.id DESC ");
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setParameter("webpageType", WebpageType.NEWS);
 		hqlQuery.setTimestamp("now", now.toDate());

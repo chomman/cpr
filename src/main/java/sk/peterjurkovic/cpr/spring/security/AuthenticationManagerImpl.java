@@ -51,8 +51,9 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 			 throw new BadCredentialsException("User does not exists!");
 		 }
 		 
-		 
+	
 		 if (  passwordEncoder.isPasswordValid(user.getPassword(), (String) authentication.getCredentials(), null) == false ) {
+		 //if (  passwordEncoder.matches((String) authentication.getCredentials(), user.getPassword())  ) {
 			   throw new BadCredentialsException("Wrong password!");
 		 }
 		 

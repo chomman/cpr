@@ -211,7 +211,7 @@ public class StandardController extends SupportAdminController{
 	@RequestMapping(value = "/preview/standard/{id}")
 	public ModelAndView   standards(@PathVariable Long id, ModelMap map) throws ItemNotFoundException, PageNotFoundEception{
 		User user = UserUtils.getLoggedUser();
-		if(user == null || !user.isEditorUser()){
+		if(user == null || !user.isPortalUser()){
 			throw new PageNotFoundEception();
 		}
 		final Standard standard  = getStandard(id);

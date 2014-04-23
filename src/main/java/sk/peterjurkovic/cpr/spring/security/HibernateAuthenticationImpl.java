@@ -2,7 +2,6 @@ package sk.peterjurkovic.cpr.spring.security;
 
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -19,8 +18,6 @@ public class HibernateAuthenticationImpl implements UserDetailsService {
 	@Autowired
 	private UserDao userDao;
 	
-	@Autowired
-    private PasswordEncoder passwordEncoder;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

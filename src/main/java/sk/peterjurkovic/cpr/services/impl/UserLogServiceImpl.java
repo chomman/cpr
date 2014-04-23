@@ -26,7 +26,7 @@ public class UserLogServiceImpl implements UserLogService{
 	
 	@Override
 	public void saveSuccessLogin(User user, String ipAddress, long timestamp, String sessionId) {
-		if(user != null && user.isEditorUser()){
+		if(user != null && user.isPortalUser()){
 			UserLog logItem = new UserLog();
 			logItem.setIpAddress(ipAddress);
 			logItem.setLoginSuccess(Boolean.TRUE);
@@ -53,7 +53,7 @@ public class UserLogServiceImpl implements UserLogService{
 	
 	@Override
 	public void saveLogOut(User user, long timestamp, String sessionId) {
-		if(StringUtils.isNotBlank(sessionId) && user != null && user.isEditorUser()){
+		if(StringUtils.isNotBlank(sessionId) && user != null && user.isPortalUser()){
 			UserLog userLog = userLogDao.getBySessionId(sessionId);
 	        if (userLog != null) {
 	            userLog.setLogoutDateAndTime(new DateTime(timestamp));

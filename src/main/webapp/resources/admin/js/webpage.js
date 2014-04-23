@@ -24,6 +24,7 @@ $(function() {
 	$(document).on('click', 'a.lang:not(".disabled")', switchLangs);
 	$(document).on('click', 'a.delete', deleteAvatar);
 	$(document).on('webpagetypechanged', refreshFieldsVisibility);
+	$(document).on('change', "#webpageType", refreshFieldsVisibility);
 	
 	refreshFieldsVisibility();
 	

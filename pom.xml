@@ -352,22 +352,18 @@
 			<version>2.3</version>
 		</dependency>
   		
-  		
+  		   
+  		 <!-- monitoring  
+   		<dependency>
+			<groupId>net.bull.javamelody</groupId>
+			<artifactId>javamelody-core</artifactId>
+			<version>1.50.0</version>
+        </dependency>
+   		-->
   		
 
    </dependencies>
-   
-   <!-- REPORTING  -->
-   
-   <reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>findbugs-maven-plugin</artifactId>
-				<version>2.5.2</version>
-			</plugin>
-		</plugins>
-	</reporting>
+
 	
     <!-- BUILD  -->
     
