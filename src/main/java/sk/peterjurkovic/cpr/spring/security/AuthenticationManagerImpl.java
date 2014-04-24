@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.dao.UserDao;
@@ -52,8 +52,8 @@ public class AuthenticationManagerImpl implements AuthenticationManager {
 		 }
 		 
 	
-		 if (  passwordEncoder.isPasswordValid(user.getPassword(), (String) authentication.getCredentials(), null) == false ) {
-		 //if (  passwordEncoder.matches((String) authentication.getCredentials(), user.getPassword())  ) {
+		 //if (  passwordEncoder.isPasswordValid(user.getPassword(), (String) authentication.getCredentials(), null) == false ) {
+		 if (  passwordEncoder.matches((String) authentication.getCredentials(), user.getPassword())  ) {
 			   throw new BadCredentialsException("Wrong password!");
 		 }
 		 

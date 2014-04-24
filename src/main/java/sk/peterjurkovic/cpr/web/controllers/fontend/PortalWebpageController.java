@@ -4,6 +4,9 @@ import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +16,7 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.exceptions.PortalAccessDeniedException;
 
 @Controller
 public class PortalWebpageController extends WebpageControllerSupport {
@@ -27,16 +31,19 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	
 		
 	@RequestMapping(value = { "/"+ Constants.PORTAL_URL,  EN_PREFIX + Constants.PORTAL_URL })
-	public String handlePortalHmepage(ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
+	public String handlePortalHmepage(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException{
 		appendModel(modelMap, getWebpage( Constants.PORTAL_URL ) );
 		modelMap.put("scopes", webpageService.getWebpageById(SCOPE_ID));
 		modelMap.put("publications", webpageService.getWebpageById(279l));
+		if(StringUtils.isNotBlank(request.getParameter(Constants.FAILURE_LOGIN_PARAM_KEY))){
+			modelMap.put(Constants.FAILURE_LOGIN_PARAM_KEY, true);
+		}
 		return getViewDirectory() + "index";
 	}
 	
 	
 	@RequestMapping( value = { "/"+ Constants.PORTAL_URL + "/{id}/*", EN_PREFIX+ Constants.PORTAL_URL + "/{id}/*" } )
-	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
+	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, PortalAccessDeniedException{
 		return appendModelAndGetView(modelMap, getWebpage( id ));
 	}
 	
@@ -54,6 +61,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 		model.put("subnav", webpageService.getChildrensOfNode(SUB_NAV_ID, true));
 		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));
 		model.put("news", webpageService.getLatestPublishedNews(4) );
+		model.put("portalParam", Constants.PORTAL_ID_PARAM_KEY);
 		return model;
 	}
 	

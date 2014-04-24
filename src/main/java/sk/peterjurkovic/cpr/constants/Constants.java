@@ -31,18 +31,7 @@ public class Constants {
 	public static final String SUCCESS_ROLE_USER_URL = "/";
 	
 	
-	
-	
-	/** FAILURE_ROLE_USER_URL
-	 * 
-	 * Relativna adresa, na ktoru bude uzivatel presmerovany po neuspesnom prihlaseni
-	 * v pripade ak sa prihlasoval uzivatelskej prihlasovacej stranky definovanej v "USER_ENTRY_POIN_REDIRECT_URL"
-	 */
-	public static final String FAILURE_ROLE_USER_URL = "/login?login_error=1";
-	
-	
-	
-	
+	public static final String FAILURE_LOGIN_PARAM_KEY = "loginError";
 	
 	/** FAILURE_ROLE_ADMIN_URL
 	 * 
@@ -50,7 +39,7 @@ public class Constants {
 	 * v pripade ak sa prihlasoval prostrednictvom administracneho prihlasovacieho formulara,
 	 * Definovaneho v "ADMIN_ENTRY_POIN_REDIRECT_URL" 
 	 */
-	public static final String FAILURE_ROLE_ADMIN_URL = "/admin/login?login_error=1";
+	public static final String ADMIN_FAILURE_LOGIN_URL = "/admin/login?"+Constants.FAILURE_LOGIN_PARAM_KEY+"=1";
 	
 	
 	
@@ -63,15 +52,7 @@ public class Constants {
 	public static final String ADMIN_ENTRY_POIN_REDIRECT_URL = "/admin/login";
 	
 	
-	
-	
-	
-	/** USER_ENTRY_POIN_REDIRECT_URL
-	 * 
-	 * 
-	 */
-	public static final String USER_ENTRY_POIN_REDIRECT_URL = "/login";
-	
+		
 	
 	/** ADMIN_PAGINATION_PAGE_SIZE
 	 *  	
@@ -147,5 +128,11 @@ public class Constants {
 	public static final String PREVIEW_PARAM = "isPreview";
 	
 	public static final String PORTAL_URL = "informacni-portal";
+	
+	public static final String PORTAL_ID_PARAM_KEY = "ip";
+
+	public static final String PORTAL_FAILURE_LOGIN_URL = "/"+Constants.PORTAL_URL+"?"+Constants.FAILURE_LOGIN_PARAM_KEY+"=1";
+	
+	
 	
 }

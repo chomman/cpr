@@ -38,12 +38,8 @@
 
 	  
 
-		<bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+		<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 		
-		<bean id="passwordSaltSource"	class="org.springframework.security.authentication.dao.SystemWideSaltSource">
-			<property name="systemWideSalt" value="gohaxopu" />
-		</bean>
-
 		<bean id="customUserDetailsService" class="sk.peterjurkovic.cpr.spring.security.HibernateAuthenticationImpl"/>
 		
 		<bean id="customAuthenticationManager" class="sk.peterjurkovic.cpr.spring.security.AuthenticationManagerImpl" />
@@ -52,8 +48,11 @@
 	
 		<bean id="authenticationSuccessHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationSuccessHandler" />
 		
+		
 		<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
-	    	<constructor-arg value="/admin/login"/>
+	    	<constructor-arg>
+	    		<bean class="sk.peterjurkovic.cpr.spring.security.CustomLogoutSuccessHandler" />
+	    	</constructor-arg>
 	    	<constructor-arg>
 	      		<list>
 	            	<bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler"/>
@@ -63,6 +62,7 @@
 	    	</constructor-arg>
 	    	<property name="filterProcessesUrl" value="/j_logout"/>
 		</bean>
+		
 		
 		<bean id="loginListener" class="sk.peterjurkovic.cpr.spring.listeners.LoginListener" autowire="byName" />
 	
@@ -109,8 +109,7 @@
 		</bean>	
 				
 		<bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
-			<property name="userDetailsService"	ref="customUserDetailsService" /> 
-	 		<property name="saltSource" ref="passwordSaltSource" /> 
+			<property name="userDetailsService"	ref="customUserDetailsService" />
 	 		<property name="passwordEncoder" ref="passwordEncoder" />
 		</bean>
 		

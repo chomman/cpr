@@ -26,11 +26,11 @@
 		       
               <table class="form-firma">
                 <tr class="even">
-                  <td class="label"><label for="j_username">Email:</label></td>
+                  <td class="label"><label for="j_username"><spring:message code="user.email" />:</label></td>
                   <td class="filed"><input type="text" class="title span-6" name="j_username" value="<c:if test="${not empty username}">${username}</c:if>"/></td>
                 </tr>
                 <tr class="even">
-                  <td class="label"><label for="j_password">Heslo:</label></td>
+                  <td class="label"><label for="j_password"><spring:message code="user.pass" />:</label></td>
                   <td class="filed"><input type="password" class="title span-6" name="j_password" value=""/></td>
                 </tr>
               </table>

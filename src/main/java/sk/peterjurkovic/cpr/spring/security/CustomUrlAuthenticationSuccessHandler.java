@@ -44,7 +44,7 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
 		if(user.isAdministrator()){
 			return Constants.SUCCESS_ROLE_ADMIN_URL;
 		}
-		return Constants.PORTAL_URL;
+		return "/" + Constants.PORTAL_URL;
 	}
 
 	public void setRedirectStrategy(RedirectStrategy redirectStrategy) {

@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
-import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.exceptions.PortalAccessDeniedException;
 import sk.peterjurkovic.cpr.services.ArticleService;
 import sk.peterjurkovic.cpr.services.StandardService;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
@@ -40,14 +40,14 @@ public class PublicWebpageController extends WebpageControllerSupport {
 		
 	
 	@RequestMapping( value = { "/{code}" , EN_PREFIX + "{code}"} )
-	public String handleFirstLevel(@PathVariable String code, ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
+	public String handleFirstLevel(@PathVariable String code, ModelMap modelMap) throws PageNotFoundEception, PortalAccessDeniedException{
 		return appendModelAndGetView(modelMap,  getWebpage(code));
 	}
 	
 	
 	
 	@RequestMapping( value = { "/{parentCode}/{id}/*" , EN_PREFIX + "{parentCode}/{id}/*"} )
-	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, AccessDeniedException{
+	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, PortalAccessDeniedException{
 		return appendModelAndGetView(modelMap,  getWebpage(id));
 	}
 	

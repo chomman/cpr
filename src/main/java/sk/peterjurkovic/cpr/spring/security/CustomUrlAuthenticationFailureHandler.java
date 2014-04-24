@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -13,7 +14,6 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 
 import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 
 
@@ -34,22 +34,17 @@ public class CustomUrlAuthenticationFailureHandler implements AuthenticationFail
 			HttpServletResponse response, AuthenticationException ex)
 			throws IOException, ServletException {
 	
-		redirectStrategy.sendRedirect(request, response, gatUrl(request, ex));
+		redirectStrategy.sendRedirect(request, response, getUrl(request, ex));
 		
 
 	}
 	
 	
-	protected String gatUrl(HttpServletRequest request, AuthenticationException failed) {
-		
-		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
-		
-		/*
-		if(prefix.equals(Constants.ADMIN_PREFIX)){
-			return Constants.FAILURE_ROLE_ADMIN_URL;
+	protected String getUrl(HttpServletRequest request, AuthenticationException failed) {
+		if(StringUtils.isNotBlank(request.getParameter(Constants.PORTAL_ID_PARAM_KEY))){
+			return Constants.PORTAL_FAILURE_LOGIN_URL;
 		}
-		*/
-		return Constants.FAILURE_ROLE_ADMIN_URL;
+		return Constants.ADMIN_FAILURE_LOGIN_URL;
     }
 	
 	

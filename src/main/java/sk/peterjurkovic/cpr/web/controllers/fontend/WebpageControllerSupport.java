@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
-import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +11,7 @@ import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
+import sk.peterjurkovic.cpr.exceptions.PortalAccessDeniedException;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.utils.WebpageUtils;
@@ -31,24 +31,24 @@ public class WebpageControllerSupport {
 	protected WebpageService webpageService;
 	
 	
-	public Webpage getWebpage(final Long id) throws PageNotFoundEception, AccessDeniedException{
+	public Webpage getWebpage(final Long id) throws PageNotFoundEception, PortalAccessDeniedException{
 		return test( webpageService.getWebpageById(id) );
 	}
 	
 	
-	public Webpage getWebpage(final String code) throws PageNotFoundEception, AccessDeniedException{
+	public Webpage getWebpage(final String code) throws PageNotFoundEception, PortalAccessDeniedException{
 		return test( webpageService.getWebpageByCode(code) );
 	}
 	
 	
 	
-	private Webpage test(Webpage webpage) throws PageNotFoundEception, AccessDeniedException{
+	private Webpage test(Webpage webpage) throws PageNotFoundEception, PortalAccessDeniedException{
 		if(webpage == null || !webpage.isEnabled()){
 			throw new PageNotFoundEception();
 		}
 		User user = UserUtils.getLoggedUser();
 		if(user == null && WebpageUtils.isOnlyForRegistraged(webpage)){
-			throw new PageNotFoundEception();
+			throw new PortalAccessDeniedException("You have not perrmission to acccess webpage: " + webpage.getId());
 		}
 		return webpage;
 	}
