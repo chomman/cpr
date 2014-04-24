@@ -10,7 +10,8 @@ public enum WebpageModule {
 	NOAO_LIST(3 , "webpageModule.notifiedBodyList", "/m/notifiedbodies", "notifiedbodies.jsp"),
 	REPORT_LIST(4 , "webpageModule.reportList", "/m/reports", "reports.jsp"),
 	TERMINOLOGY(5 , "webpageModule.terminologySearch", "/m/terminology", "terminology-search.jsp"),
-	CPR_AS_LIST(6 , "webpageModule.assessmetsSystemList", "/m/asessments-systems", "assessmentsystems.jsp");
+	CPR_AS_LIST(6 , "webpageModule.assessmetsSystemList", "/m/asessments-systems", "assessmentsystems.jsp"),
+	PORTAL_REGISTRATION(7 , "webpageModule.portalRegistration", "/m/portal-registration", "registration-form.jsp");
 	
 	private int id;
 	private String name;

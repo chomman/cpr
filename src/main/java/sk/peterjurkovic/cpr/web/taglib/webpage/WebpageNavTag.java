@@ -7,6 +7,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
+import sk.peterjurkovic.cpr.utils.WebpageUtils;
 
 @SuppressWarnings("serial")
 public class WebpageNavTag extends WebpageUrlTag {
@@ -37,13 +38,16 @@ public class WebpageNavTag extends WebpageUrlTag {
 			if(webpage.isHomepage()){
 				continue;
 			}
-			if(!isAuthenticated && webpage.getIsOnlyForRegistrated()){
-				continue;
-			}
+			
 			setWebpage(webpage);
 			html.append("<li");
 			appendLiCssClass(html);
-			html.append(">").append(buildTag());
+			html.append(">");
+			if(!isAuthenticated && webpage.getIsOnlyForRegistrated()){
+				appendLockedWebpage(html);
+			}else{
+				html.append(buildTag());
+			}
 			if(withSubnav){
 				appendSubnavFor(html, webpage);
 			}
@@ -51,6 +55,17 @@ public class WebpageNavTag extends WebpageUrlTag {
 		}
 		
 		return html.append("</ul>");
+	}
+	
+	protected void appendLockedWebpage(StringBuilder html) {
+	
+		if(getWebpage() == null){
+			logger.warn("Webpage can not be null");
+			return;
+		}
+		html.append("<span class=\"pj-locked\" >")
+			.append(WebpageUtils.getLocalizedValue("name", getWebpage()))
+			.append("</span>");
 	}
 	
 	private void appendLiCssClass(StringBuilder html){
@@ -73,9 +88,13 @@ public class WebpageNavTag extends WebpageUrlTag {
 			html.append("<ul>");
 			for(Webpage child : childrenList){
 				setWebpage(child);
-				html.append("<li>")
-					.append(buildTag())
-					.append("</li>");
+				html.append("<li>");
+				if(!isAuthenticated && WebpageUtils.isOnlyForRegistraged(child)){
+					appendLockedWebpage(html);
+				}else{
+					html.append(buildTag());
+				}
+				html.append("</li>");
 					
 			}
 			html.append("</ul>");

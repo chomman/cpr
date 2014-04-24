@@ -17,6 +17,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -52,6 +54,8 @@ public class User extends AbstractEntity implements UserDetails{
 	private String email;
 	private String password;
 	private Set<Authority> authoritySet = new HashSet<Authority>();
+	
+	private UserInfo userInfo;
 	
 	
 	@Id
@@ -121,7 +125,16 @@ public class User extends AbstractEntity implements UserDetails{
 		return authoritySet.remove(authority);
 	}
 	
-	
+	@PrimaryKeyJoinColumn
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
+	public UserInfo getUserInfo() {
+		return userInfo;
+	}
+
+	public void setUserInfo(UserInfo userInfo) {
+		this.userInfo = userInfo;
+	}
+
 	@Transient
     public List<GrantedAuthority> getAuthorities() {
         return new ArrayList<GrantedAuthority>(getAuthoritySet());

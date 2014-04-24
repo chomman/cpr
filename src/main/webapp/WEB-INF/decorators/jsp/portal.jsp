@@ -37,33 +37,42 @@
 							<li><a href="/">Čeština</a></li>
 							<li><a href="/">English</a></li>
 						</ul>
-
-						<uL class="pj-login <c:if test='${not empty loginError}'>hidden</c:if>">
-							<li><a href="/"><spring:message code="portal.registration" /></a></li>
-							<li><a href="#" class="show-loginbox"><spring:message code="portal.login" /></a></li>
-						</ul>
 						
-						<div id="pj-login-box" class="<c:if test='${empty loginError}'>hidden</c:if> <c:if test='${not empty loginError}'>has-errors</c:if>" >
-							 <form action="<c:url value="/j_spring_security_check?${webpageModel.portalParam}=1" />" method="post">
-					              <div class="error <c:if test='${empty loginError}'>hidden</c:if>">
-							           <spring:message  code="portal.login.error"/>
-							       </div>  
-							       
-							       <div class="bx">
-								       	<label for="j_username"><spring:message code="portal.login.email" /></label>
-								       	<input type="text" class="filed text" name="j_username" value="<c:if test="${not empty username}">${username}</c:if>"/>
-							       </div>
-							       <div class="bx">
-							       		<label for="j_password"><spring:message code="portal.login.pass" /></label>
-							       		<input type="password" class="filed text" name="j_password" value=""/>
-							       </div>
+						<c:if test="${not empty webpageModel.loggedUser}">
+							<uL class="pj-login">
+								<li><a href="#" class="user ico">${webpageModel.loggedUser.firstName} ${webpageModel.loggedUser.lastName}<span class="ic ic-user"></span></a></li>
+								<li><a href="<c:url value="/j_logout?${webpageModel.portalParam}=1" />" class="logout" ><spring:message code="portal.logout" /></a></li>
+							</ul>
+						</c:if>
+						
+						<c:if test="${empty webpageModel.loggedUser }">
+							<uL class="pj-login <c:if test='${not empty loginError}'>hidden</c:if>">
+								<li><a href="/"><spring:message code="portal.registration" /></a></li>
+								<li><a href="#" class="show-loginbox"><spring:message code="portal.login" /></a></li>
+							</ul>
 							
-							       	<input type="submit" value="<spring:message code="portal.login" />" class="button pj-radius6" />
-							        <a href="#" class="btn cancel hide-loginbox" title="<spring:message code="portal.cancel" />" >
-							        	<spring:message code="portal.cancel" />
-							        </a>
-						      </form>
-						</div>
+							<div id="pj-login-box" class="<c:if test='${empty loginError}'>hidden</c:if> <c:if test='${not empty loginError}'>has-errors</c:if>" >
+								 <form action="<c:url value="/j_spring_security_check?${webpageModel.portalParam}=1" />" method="post">
+						              <div class="error <c:if test='${empty loginError}'>hidden</c:if>">
+								           <spring:message  code="portal.login.error"/>
+								       </div>  
+								       
+								       <div class="bx">
+									       	<label for="j_username"><spring:message code="portal.login.email" /></label>
+									       	<input type="text" class="filed text" name="j_username" value="<c:if test="${not empty username}">${username}</c:if>"/>
+								       </div>
+								       <div class="bx">
+								       		<label for="j_password"><spring:message code="portal.login.pass" /></label>
+								       		<input type="password" class="filed text" name="j_password" value=""/>
+								       </div>
+								
+								       	<input type="submit" value="<spring:message code="portal.login" />" class="button pj-radius6" />
+								        <a href="#" class="btn cancel hide-loginbox" title="<spring:message code="portal.cancel" />" >
+								        	<spring:message code="portal.cancel" />
+								        </a>
+							      </form>
+							</div>
+						</c:if>
 
 					</div>
 				</div>

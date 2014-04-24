@@ -3,12 +3,12 @@ package sk.peterjurkovic.cpr.spring.security;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
 
 import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 
 
@@ -33,13 +33,11 @@ public class MultipleLoginUrlAuthenticationEntryPoint extends LoginUrlAuthentica
 		if(exception != null){
 			logger.error(exception);
 		}
-
-		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
 		
-		if(prefix.equals(Constants.ADMIN_PREFIX)){
-			return Constants.ADMIN_ENTRY_POIN_REDIRECT_URL;
+		if(StringUtils.isNotBlank(request.getParameter(Constants.PORTAL_ID_PARAM_KEY))){
+			return "/" + Constants.PORTAL_URL;
 		}
-		
-		return Constants.PORTAL_URL + "/login";
+
+		return Constants.ADMIN_ENTRY_POIN_REDIRECT_URL;
 	}
 }

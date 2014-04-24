@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
@@ -42,6 +43,7 @@ public class ModuleController extends WebpageControllerSupport {
 	private static final String REPORS_URL = 				"/m/reports";
 	private static final String CSN_TERMINOLOGY_URL =		"/m/terminology";
 	private static final String ASSESMENTS_SYSTEMS_URL =	"/m/asessments-systems";
+	private static final String PORTAL_REGISTATION_URL = 	"/m/portal-registration";
 	
 	
 	@Autowired
@@ -144,6 +146,16 @@ public class ModuleController extends WebpageControllerSupport {
         model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
         return appendModelAndGetView(model, modelMap, request);
     }
+	
+	
+	@RequestMapping( value = PORTAL_REGISTATION_URL, method = RequestMethod.GET )
+    public String portalRegistrationForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
+		Map<String, Object> model = new HashMap<String, Object>();
+        return appendModelAndGetView(model, modelMap, request);
+    }
+	
+	
     
 	private String appendModelAndGetView(Map<String, Object> model, ModelMap map, HttpServletRequest request){
 		map.put("model", model);

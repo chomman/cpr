@@ -6,6 +6,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.DefaultRedirectStrategy;
@@ -40,10 +41,17 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
 
 	
 	protected String getTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
+		
 		User user = (User)authentication.getPrincipal();
+		
+		if(StringUtils.isNotBlank(request.getParameter(Constants.PORTAL_ID_PARAM_KEY))){
+			return "/" + Constants.PORTAL_URL;
+		}
+		
 		if(user.isAdministrator()){
 			return Constants.SUCCESS_ROLE_ADMIN_URL;
 		}
+		
 		return "/" + Constants.PORTAL_URL;
 	}
 

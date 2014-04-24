@@ -1,6 +1,5 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
-import java.nio.file.AccessDeniedException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -13,10 +12,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.exceptions.PortalAccessDeniedException;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 
 @Controller
 public class PortalWebpageController extends WebpageControllerSupport {
@@ -30,6 +31,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	}
 	
 		
+	
 	@RequestMapping(value = { "/"+ Constants.PORTAL_URL,  EN_PREFIX + Constants.PORTAL_URL })
 	public String handlePortalHmepage(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException{
 		appendModel(modelMap, getWebpage( Constants.PORTAL_URL ) );
@@ -42,10 +44,18 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	}
 	
 	
+	
 	@RequestMapping( value = { "/"+ Constants.PORTAL_URL + "/{id}/*", EN_PREFIX+ Constants.PORTAL_URL + "/{id}/*" } )
 	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, PortalAccessDeniedException{
 		return appendModelAndGetView(modelMap, getWebpage( id ));
 	}
+	
+	
+	public String handleRegistrationPage(){
+		
+		return null;
+	}
+	
 	
 	
 	@Override
@@ -62,6 +72,13 @@ public class PortalWebpageController extends WebpageControllerSupport {
 		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));
 		model.put("news", webpageService.getLatestPublishedNews(4) );
 		model.put("portalParam", Constants.PORTAL_ID_PARAM_KEY);
+		
+		final User user = UserUtils.getLoggedUser();
+		if(user != null){
+			model.put("loggedUser", user);
+		}else{
+			model.put("registrationPage", webpageService.getWebpageByCode("registrace"));
+		}
 		return model;
 	}
 	
