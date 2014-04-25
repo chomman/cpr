@@ -9,6 +9,7 @@
  
  
 	<mapping class="sk.peterjurkovic.cpr.entities.User" />
+	<mapping class="sk.peterjurkovic.cpr.entities.UserInfo" />
   	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.Address"/>

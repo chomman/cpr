@@ -72,8 +72,9 @@ public class StandardCsnUrlTag extends RequestContextAwareTag {
 			url.append(object.getCsnName());
 			return;
 		}
-		url.append("<a target=\"_blank\" href=");
-		url.append(getCsnOnlineLink());
+		url.append("<a target=\"_blank\" href=\"")
+		   .append(getCsnOnlineLink())
+		   .append("\" ");
 		appendTitle(url);
 		appendCssStyles(url);
 		appendId(url);

@@ -10,7 +10,6 @@ public class StandardUrlTag extends UrlTag {
 	private Standard standard;
 	
 	
-	
 	@Override
 	protected int doStartTagInternal() throws Exception {
 		setupValues(standard);
@@ -35,8 +34,7 @@ public class StandardUrlTag extends UrlTag {
 		
 	private void appendBaseUrl(StringBuilder url){
 		url.append(buildTag())
-			.append(standard.getStandardId())
-			.append("</a>");
+			.append(standard.getStandardId());
 	}
 	
 	private void setupValues(Standard standard){

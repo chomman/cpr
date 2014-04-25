@@ -3,7 +3,7 @@
 #pj-login-box{background-color: #074e63;}
 .pj-header,.pj-mainnav ul ul{ background-color: #1B6A81 }
 
-.pj-radius{-webkit-border-radius: 8px;-moz-border-radius: 8px;border-radius: 8px;}
+.pj-radius,.basic-grey{-webkit-border-radius: 8px;-moz-border-radius: 8px;border-radius: 8px;}
 .pj-radius6{-webkit-border-radius: 6px;-moz-border-radius: 6px;border-radius: 6px;}
 
 .pj-bg-light-gray{
@@ -268,3 +268,32 @@ section #article{font-size:14px;color:#333;line-height:18px;}
 .plus{background-position:26px -153px; }
 .set{background-position:-21px 4px; }
 .ic-user{background-position:-147px -73px;background-color:#15637a; }
+
+
+/* FORM STYLE */
+
+.form{background:#fff; border:1px solid #EAEEF1; }
+.form label{display:block;padding:10px;border-bottom:1px dashed #EAEEF1}
+.form label:hover{background:#fcfcfc;border-bottom:1px solid #eee}
+.form label span{display:inline-block;min-width:140px;color:#555;font-size:14px;padding:5px 10px;text-align:right;}
+
+.form input[type=text],
+.form input[type=password] {
+    background-color: #FFFFFF;background-image: none;border: 1px solid #CCCCCC; border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.075) inset;color: #555555;display: inline-block;font-size: 14px;
+    height: 20px;padding: 6px 12px;transition: border-color 0.15s ease-in-out 0s, box-shadow 0.15s ease-in-out 0s;
+}
+.form .button{padding:10px 20px;}
+.form input[type=text]:focus,
+.form input[type=password]:focus{border-color:#177BBB}
+.form .form-head{background:#F9FAFC;font-size:13px;padding:12px 20px;display:block;border-bottom:1px solid #EAEEF1;color:#333 !important;}
+.form .formerr{border-color:#f74b5b !important;}
+.form .pj-gray{background:#fafafa !important;padding:10px 0 10px 100px;display:block;}
+.vop{font-size:12px !important;padding:5px;}
+
+
+#status{position:absolute;z-index:99999999;background:url(../../admin/img/tbg.png);padding:40px 50px;border-radius:600px;display: none;}
+#status p{border-radius:10px;background-image:url(../img/ico_ok_err.png);background-repeat:no-repeat;}
+#status p{padding:15px 15px 15px 50px;font-size: 14px; }
+#status .ok{border:5px solid #91FF99;color:#00BF0D;background-color:#fff;background-position:10px 0px;}
+#status .err{border:5px solid #f74b5b;color:#da3b4a;background-color:#fff1f2;background-position:10px -50px;}

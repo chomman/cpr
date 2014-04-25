@@ -10,7 +10,7 @@ html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p,  abbr, address, em, im
 }
 body {
 	line-height: 1;
-	font-family: Tahoma, Arial, Helvetica, sans-serif; /* 'Source Sans Pro' */
+	font-family:  Tahoma, Helvetica, Arial; 
 }
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
 	display: block;
@@ -54,4 +54,8 @@ textarea {
 }
 
 .blind { left: -5000px;position: absolute; top: -5000px;}
-
+.w200{width: 200px;}
+.w400{width: 400px;}
+.w100{width: 100px;}
+.w300{width: 300px;}
+.w80{width: 80px;}

@@ -64,8 +64,9 @@ public class NotifiedBodyUrlTag extends RequestContextAwareTag {
 			}
 			return;
 		}
-		url.append("<a href=");
+		url.append("<a href=\"");
 		appendLink(url);
+		url.append("\" ");
 		appendTitle(url);
 		if(buildNandoUrl){
 			appendTargetBlank(url);

@@ -26,7 +26,7 @@
 		<script src="<c:url value="/resources/portal/js/scripts.js" />"></script>
 		<decorator:head />
 	</head>
-	<body>
+	<body data-lang="${commonPublic.locale}">
 				<div class="pj-wrapp">
 			<header>
 				<div class="pj-above-header">
@@ -47,7 +47,9 @@
 						
 						<c:if test="${empty webpageModel.loggedUser }">
 							<uL class="pj-login <c:if test='${not empty loginError}'>hidden</c:if>">
-								<li><a href="/"><spring:message code="portal.registration" /></a></li>
+								<li>
+									<webpage:a webpage="${webpageModel.registrationPage}" />
+								</li>
 								<li><a href="#" class="show-loginbox"><spring:message code="portal.login" /></a></li>
 							</ul>
 							
