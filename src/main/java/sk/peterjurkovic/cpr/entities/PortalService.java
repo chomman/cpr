@@ -21,7 +21,8 @@ public class PortalService extends AbstractEntity {
 	
 	private static final long serialVersionUID = -6504356044793122646L;
 	
-	private String name;
+	private String czechName;
+	private String englishName;
 	private BigDecimal price;
 	
 	
@@ -32,15 +33,24 @@ public class PortalService extends AbstractEntity {
 		return super.getId();
 	}
 	
-	@Column(name = "name", length = 150)
-	public String getName() {
-		return name;
+	@Column(name = "czech_name", length = 150)
+	public String getCzechName() {
+		return czechName;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setCzechName(String name) {
+		this.czechName = name;
 	}
 	
+	@Column(name = "english_name", length = 150)
+	public String getEnglishName() {
+		return englishName;
+	}
+
+	public void setEnglishName(String englishName) {
+		this.englishName = englishName;
+	}
+
 	public BigDecimal getPrice() {
 		return price;
 	}

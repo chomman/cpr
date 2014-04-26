@@ -85,14 +85,15 @@ ALTER TABLE portal_order
   OWNER TO postgres;
 
   
-  CREATE TABLE portal_service
+ CREATE TABLE portal_service
 (
   id bigint NOT NULL,
   changed timestamp without time zone,
   code character varying(255),
   created timestamp without time zone,
   enabled boolean,
-  name character varying(150),
+  czech_name character varying(150),
+  english_name character varying(150),
   price numeric(19,2),
   id_user_changed_by bigint,
   id_user_created_by bigint,
@@ -109,6 +110,7 @@ WITH (
 );
 ALTER TABLE portal_service
   OWNER TO postgres;
+
 
   
  ALTER TABLE authority ALTER COLUMN "name" TYPE varchar(45);

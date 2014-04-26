@@ -158,4 +158,21 @@
 		<rtexprvalue>false</rtexprvalue>
 	</attribute>
 </tag>
+<tag>
+    <name>price</name>
+    <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpagePriceTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+    	<name>price</name>
+		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.math.BigDecimal</type>
+	</attribute>		
+	<attribute>
+		<name>hideCurrency</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.Boolean</type>
+	</attribute>
+</tag>
 </taglib>

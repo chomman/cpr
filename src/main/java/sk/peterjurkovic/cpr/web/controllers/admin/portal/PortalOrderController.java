@@ -21,4 +21,12 @@ public class PortalOrderController extends SupportAdminController {
 		return getTableItemsView();
 	}
 	
+	
+	@RequestMapping("/admin/portal/services")
+	public String handleServicesList(){
+		setViewName("portal/service-list");
+		
+		return getViewName();
+	}
+	
 }
