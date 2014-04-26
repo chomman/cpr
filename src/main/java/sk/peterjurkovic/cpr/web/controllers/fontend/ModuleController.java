@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
@@ -110,6 +109,7 @@ public class ModuleController extends WebpageControllerSupport {
 	}
 	
 	
+	
 	@RequestMapping( REPORS_URL  )
 	public String handleReports(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
 		validateRequest(request);
@@ -117,6 +117,7 @@ public class ModuleController extends WebpageControllerSupport {
 		 model.put("reports", reportService.getReportsForPublic());
 		 return appendModelAndGetView(model, modelMap, request);
 	}
+	
 	
 	
 
@@ -140,6 +141,7 @@ public class ModuleController extends WebpageControllerSupport {
 	}
 	
 	
+	
 	@RequestMapping( ASSESMENTS_SYSTEMS_URL )
     public String assessmentSystems(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		validateRequest(request);
@@ -149,7 +151,8 @@ public class ModuleController extends WebpageControllerSupport {
     }
 	
 	
-	@RequestMapping( value = PORTAL_REGISTATION_URL, method = RequestMethod.GET )
+	
+	@RequestMapping( PORTAL_REGISTATION_URL )
     public String portalRegistrationForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -161,17 +164,23 @@ public class ModuleController extends WebpageControllerSupport {
     
 	private String appendModelAndGetView(Map<String, Object> model, ModelMap map, HttpServletRequest request){
 		map.put("model", model);
-		if(request.getAttribute(PORTAL_MODEL_KEY) != null){
+		@SuppressWarnings("unchecked")
+		Map<String, Object> defaultModel = (Map<String, Object>)request.getAttribute(WEBPAGE_MODEL_KEY);
+		if(defaultModel != null && defaultModel.get(PORTAL_MODEL_KEY) != null){
 			return "/portal/web/" + WebpageType.ARTICLE.getViewName();
 		}
 		return "/public/web/" + WebpageType.ARTICLE.getViewName();
 	}
+	
+	
 	
 	private void validateRequest(HttpServletRequest request) throws PageNotFoundEception{
 		if(request.getAttribute(WEBPAGE_MODEL_KEY) == null){;
 			throw new PageNotFoundEception();
 		}
 	}
+	
+	
 	
 	private List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
 		PaginationLinker paginger = new PaginationLinker(request, params);

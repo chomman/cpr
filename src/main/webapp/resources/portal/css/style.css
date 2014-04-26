@@ -272,10 +272,12 @@ section #article{font-size:14px;color:#333;line-height:18px;}
 
 /* FORM STYLE */
 
-.form{background:#fff; border:1px solid #EAEEF1; }
+.form{background:#fff; border:1px solid #EAEEF1; margin: 10px 0;}
 .form label{display:block;padding:10px;border-bottom:1px dashed #EAEEF1}
 .form label:hover{background:#fcfcfc;border-bottom:1px solid #eee}
-.form label span{display:inline-block;min-width:140px;color:#555;font-size:14px;padding:5px 10px;text-align:right;}
+.form label .label{display:inline-block;min-width:140px;color:#555;font-size:14px;padding:5px 10px;text-align:right;}
+.with-info{padding:10px 10px 25px 10px !important;position:relative;}
+label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 
 .form input[type=text],
 .form input[type=password] {
@@ -293,7 +295,16 @@ section #article{font-size:14px;color:#333;line-height:18px;}
 
 
 #status{position:absolute;z-index:99999999;background:url(../../admin/img/tbg.png);padding:40px 50px;border-radius:600px;display: none;}
-#status p{border-radius:10px;background-image:url(../img/ico_ok_err.png);background-repeat:no-repeat;}
+#status p{border-radius:10px;}
 #status p{padding:15px 15px 15px 50px;font-size: 14px; }
 #status .ok{border:5px solid #91FF99;color:#00BF0D;background-color:#fff;background-position:10px 0px;}
 #status .err{border:5px solid #f74b5b;color:#da3b4a;background-color:#fff1f2;background-position:10px -50px;}
+#status p,
+.status .status-ico{background-image:url(../img/ico_ok_err.png);background-repeat:no-repeat;}
+.status .status-ico{width:25px;height:25px;display:block;position:absolute;left:10px;top:20%}
+.status{border-radius:5px;padding:10px 10px 10px 45px;margin:10px;position:relative;}
+.status .msg{display:block;}
+.status.error{border:2px solid #f74b5b;color:#da3b4a;background-color:#fff1f2;}
+.status.error .status-ico{background-position:0 -60px;}
+.status.ok{border:5px solid #91FF99;color:#00BF0D;background-color:#F5FFF6;}
+.status.ok .status-ico{background-position:0 -12px;}

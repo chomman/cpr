@@ -1,15 +1,30 @@
 package sk.peterjurkovic.cpr.web.forms.portal;
 
+import javax.validation.Valid;
+
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
+
+import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.UserInfo;
 
 public class PortalUserForm {
 	
 	private Long id;
+	
+	@NotEmpty(message = "NotEmpty.PortalUserForm.email")
+	@Email(message = "Email.PortalUserForm.email")
 	private String email;
+	@NotEmpty(message = "NotEmpty.PortalUserForm.firstName")
 	private String firstName;
+	@NotEmpty(message = "NotEmpty.PortalUserForm.lastName")
 	private String lastName;
+	@Length(min = 6, message = "Length.PortalUserForm.password")
 	private String password;
+	@Length(min = 6, message = "Length.PortalUserForm.password")
 	private String confirmPassword;
+	@Valid
 	private UserInfo userInfo;
 	
 	public Long getId() {
@@ -55,5 +70,14 @@ public class PortalUserForm {
 		this.confirmPassword = confirmPassword;
 	}
 	
-	
+	public User toUser(){
+		User user = new User();
+		user.setPassword(password);
+		user.setFirstName(firstName);
+		user.setLastName(lastName);
+		user.setEmail(email);
+		userInfo.setUser(user);
+		user.setUserInfo(getUserInfo());
+		return user;
+	}
 }

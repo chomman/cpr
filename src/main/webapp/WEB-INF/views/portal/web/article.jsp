@@ -9,7 +9,6 @@
 		<article>
 			<h1 class="pj-head"><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
 			<div id="article">
-				
 				<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
 			</div> 
 		</article>

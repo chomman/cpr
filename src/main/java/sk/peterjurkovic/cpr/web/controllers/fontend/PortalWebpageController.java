@@ -4,20 +4,37 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
+import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.exceptions.PortalAccessDeniedException;
+import sk.peterjurkovic.cpr.services.PortalUserService;
 import sk.peterjurkovic.cpr.utils.UserUtils;
+import sk.peterjurkovic.cpr.validators.forntend.PortalUserValidator;
+import sk.peterjurkovic.cpr.web.forms.portal.PortalUserForm;
+import sk.peterjurkovic.cpr.web.json.JsonResponse;
+import sk.peterjurkovic.cpr.web.json.JsonStatus;
+
+
 
 @Controller
 public class PortalWebpageController extends WebpageControllerSupport {
@@ -26,10 +43,20 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	private final static Long SUB_NAV_ID = 84l;
 	private final static Long SCOPE_ID = 104l;
 	
+	@Autowired
+	private PortalUserValidator portalUserValidator;
+	@Autowired
+	private PortalUserService portalUserService;
+	
 	public PortalWebpageController(){
 		setViewDirectory("/portal/");
 	}
 	
+	@InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(portalUserValidator);
+    }
+
 		
 	
 	@RequestMapping(value = { "/"+ Constants.PORTAL_URL,  EN_PREFIX + Constants.PORTAL_URL })
@@ -51,10 +78,21 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	}
 	
 	
-	public String handleRegistrationPage(){
-		
-		return null;
+	
+	@RequestMapping(value = "/ajax/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  processAjaxSubmit(@Valid @RequestBody  PortalUserForm form, BindingResult result) throws ItemNotFoundException{
+		JsonResponse response = new JsonResponse();
+
+		if(result.hasErrors()){
+			response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
+			return response;
+		}
+		portalUserService.createNewUser(form.toUser());
+		response.setStatus(JsonStatus.SUCCESS);
+		return response;
 	}
+	
+	
 	
 	
 	

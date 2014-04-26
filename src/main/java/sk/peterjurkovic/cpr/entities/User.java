@@ -23,11 +23,14 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.jadira.usertype.dateandtime.joda.PersistentDateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -56,7 +59,9 @@ public class User extends AbstractEntity implements UserDetails{
 	private Set<Authority> authoritySet = new HashSet<Authority>();
 	
 	private UserInfo userInfo;
-	
+	private LocalDate registrationValidity;
+	private LocalDateTime changePasswordRequestDate;
+    private String changePasswordRequestToken;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
@@ -219,6 +224,36 @@ public class User extends AbstractEntity implements UserDetails{
     public int hashCode() {
         return email.hashCode();
     }
+     
+    
+    @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+    @Column( name = "registration_validity")
+	public LocalDate getRegistrationValidity() {
+		return registrationValidity;
+	}
+
+	public void setRegistrationValidity(LocalDate registrationValidity) {
+		this.registrationValidity = registrationValidity;
+	}
+
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
+	@Column( name = "change_pass_req_date")
+	public LocalDateTime getChangePasswordRequestDate() {
+		return changePasswordRequestDate;
+	}
+	
+	public void setChangePasswordRequestDate(LocalDateTime changePasswordRequestDate) {
+		this.changePasswordRequestDate = changePasswordRequestDate;
+	}
+	
+	@Column( name = "change_pass_req_token", length = 60)
+	public String getChangePasswordRequestToken() {
+		return changePasswordRequestToken;
+	}
+
+	public void setChangePasswordRequestToken(String changePasswordRequestToken) {
+		this.changePasswordRequestToken = changePasswordRequestToken;
+	}
 
 	@Override
 	public String toString() {

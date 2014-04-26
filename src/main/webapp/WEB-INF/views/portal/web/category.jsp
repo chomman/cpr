@@ -10,7 +10,9 @@
 		<div id="main-content">
 			<article>
 				<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
-				<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
+				<div id="article">
+					<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
+				</div> 
 				
 				
 				<div class="pj-category-items">

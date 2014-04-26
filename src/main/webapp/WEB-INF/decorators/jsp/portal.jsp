@@ -156,6 +156,6 @@
 			</footer>
 		</div>
 		
-		
+		 <div id="base" class="hidden"><c:url value="/" /></div>
 	</body>
 </html>

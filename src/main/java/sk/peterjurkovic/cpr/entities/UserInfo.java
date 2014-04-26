@@ -39,6 +39,7 @@ public class UserInfo implements Serializable {
 		this.user = user;
 	}
 	
+	@Pattern(regexp = "(^[+]?[()/0-9. -]{9,}$|)*", message = "Pattern.UserInfo.phone")
 	@Column(name = "phone", length = 25)
 	public String getPhone() {
 		return phone;
@@ -47,7 +48,7 @@ public class UserInfo implements Serializable {
 		this.phone = phone;
 	}
 	
-	@Length(max = 50, message = "Město může mít max. 50 znaků")
+	@Length(max = 50)
 	@Column(name = "city", length = 50)
 	public String getCity() {
 		return city;
@@ -56,7 +57,7 @@ public class UserInfo implements Serializable {
 		this.city = city;
 	}
 	
-	@Length(max = 50, message = "Ulice může mít max. 50 znaků")
+	@Length(max = 50)
 	@Column(name = "street", length = 50)
 	public String getStreet() {
 		return street;
@@ -65,7 +66,7 @@ public class UserInfo implements Serializable {
 		this.street = street;
 	}
 	
-	@Pattern(regexp = "(^\\d{3}\\s?\\d{2}$|)*", message = "PSČ je v chybném tvaru")
+	@Pattern(regexp = "(^\\d{3}\\s?\\d{2}$|)*", message = "Pattern.UserInfo.zip")
 	@Column(name = "zip", length = 6)
 	public String getZip() {
 		return zip;
@@ -82,7 +83,7 @@ public class UserInfo implements Serializable {
 		this.companyName = companyName;
 	}
 	
-	@Pattern(regexp = "(^\\d{8}$|)*", message = "IČ je v chybném tvaru")
+	@Pattern(regexp = "(^\\d{8}$|)*",message = "Pattern.UserInfo.ico")
 	@Column(name = "ico", length = 8)
 	public String getIco() {
 		return ico;

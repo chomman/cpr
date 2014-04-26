@@ -31,7 +31,7 @@ import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
 
 @Controller
-public class AjaxCsnController {
+public class AjaxController {
 	
 	@Autowired
 	private CsnService csnService;
@@ -109,6 +109,8 @@ public class AjaxCsnController {
 		
 		return notifiedBodyService.autocomplete(term, enabled);
 	}
+	
+
 	
 	@RequestMapping("/ajax/standard-filter")
 	public @ResponseBody FilterDto  getFilterData(@RequestBody @RequestParam(value = "enabled", required = false) Boolean enabled){

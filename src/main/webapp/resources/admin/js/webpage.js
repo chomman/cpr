@@ -108,7 +108,18 @@ function sendRequest(type, data, action, callBack){
 	}
 	 return false;
 }
-
+function showErrors(json){
+	var i = 0, errorInfo = "Došlo k neočekávané chybě, operaci opakujte.";
+	if(typeof json.result !== 'undefined'){
+		for(i; i < json.result.length ; i++){
+			errorInfo += json.result[i] +(i != 0 ? "<br />" : '');  
+		}
+		$(".ajax-result").html('<p class="msg error">' + errorInfo + '</p>');
+	}
+	showStatus({err: 1, msg: errorInfo});
+	console.warn(arguments);
+	return false;
+}
 
 function refreshFieldsVisibility(){
 	$('.pj-type').removeClass('hidden');
@@ -168,18 +179,7 @@ function getWebpageSettings(){
 }
 
 
-function showErrors(json){
-	var i = 0, errorInfo = "Došlo k neočekávané chybě, operaci opakujte.";
-	if(typeof json.result !== 'undefined'){
-		for(i; i < json.result.length ; i++){
-			errorInfo += json.result[i] +(i != 0 ? "<br />" : '');  
-		}
-		$(".ajax-result").html('<p class="msg error">' + errorInfo + '</p>');
-	}
-	showStatus({err: 1, msg: errorInfo});
-	console.warn(arguments);
-	return false;
-}
+
 
 function getContent(){
 	var data = toArray($('form[name=webpageContent]').serializeArray());

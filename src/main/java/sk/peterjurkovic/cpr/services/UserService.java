@@ -46,4 +46,5 @@ public interface UserService {
 	void createOrUpdateUser(User user);
 	
 	List<User> autocomplateSearch(String query);
+	
 }

@@ -1,22 +1,25 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
-<form:form commandName="user" method="post" cssClass="valid form"  >
-	<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+<c:url value="/ajax/registration" var="url"/>
+<form:form commandName="user" method="post" cssClass="valid form" action="${url}"  >
+	<div id="ajax-result"></div>
 	
 	
 	<strong class="form-head"><spring:message code="portalUser.head.loginInfo" /></strong>
 	
-	<form:label path="email">
+	<form:label path="email" cssClass="with-info">
 			<span class="label"><spring:message code="portalUser.email" />: </span>
 		<form:input path="email" cssClass="required email w300" maxlength="50"/>
+		<span class="miniinfo"><spring:message code="portal.miniinfo.email" /></span>
 	</form:label>
 	
 	
 	
-	<form:label path="password">
+	<form:label path="password"  cssClass="with-info">
 		<span class="label"><spring:message code="portalUser.password" />:</span>
 		<form:password path="password" cssClass="required w300 more6" maxlength="50"/>
+		<span class="miniinfo"><spring:message code="portal.miniinfo.password" /></span>
 	</form:label>
 	
 	
@@ -42,7 +45,7 @@
 	
 	<form:label path="userInfo.phone">
 		<span class="label"><spring:message code="portalUser.phone" />:</span>
-		<form:input path="userInfo.phone" cssClass="required w300 more6" maxlength="25"/>
+		<form:input path="userInfo.phone" cssClass="required w300 phone" maxlength="25"/>
 	</form:label>
 	
 	
@@ -62,7 +65,7 @@
 
 	<form:label path="userInfo.zip">
 		<span class="label"><spring:message code="portalUser.zip" />:</span>
-		<form:input path="userInfo.zip" cssClass="required w80" maxlength="50"/>
+		<form:input path="userInfo.zip" cssClass="required zip w80" maxlength="50"/>
 	</form:label>
 	
 
@@ -74,7 +77,7 @@
 
 	<form:label path="userInfo.ico">
 		<span class="label"><spring:message code="portalUser.ico" />:</span>
-		<form:input path="userInfo.ico" maxlength="8"/>
+		<form:input path="userInfo.ico" maxlength="8" cssClass="numeric" />
 	</form:label>
 	
 	
