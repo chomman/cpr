@@ -242,6 +242,7 @@ nav .user{background-image: url(../img/menu-user.png);}
 nav .sett{background-image: url(../img/menu-sett.png);min-width:100px;}
 nav .web{background-image: url(../img/menu-web.png)}
 nav .csn{background-image: url(../img/menu-csn.png)}
+nav .portal{background-image: url(../img/ico_zn.png)}
 nav.smallNav{height:40px;}
 nav.smallNav li{height:40px;}
 nav.smallNav ul li a{background-image:none;padding:12px 12px 0 12px;font-weight:bold;}
@@ -265,6 +266,7 @@ nav.smallNav ul li a{background-image:none;padding:12px 12px 0 12px;font-weight:
 .ico-sett{background-image:url(../img/ico_sett_large.png);}
 .ico-web{background-image:url(../img/ico_web_large.png);}
 .ico-csn{background-image:url(../img/ico-csn.png);}
+.ico-portal{background-image: url(../img/ico_zn_large.png)}
 
 .hbox{border-bottom: 2px solid #FB9337;display: inline-block; margin: 20px 0;padding: 0 0 5px 0;}
 h1{ color:#485B79;font-size:22px;font-weight: normal;background:#fafAfa;border-bottom:1px solid #ddd;padding:15px 35px;}

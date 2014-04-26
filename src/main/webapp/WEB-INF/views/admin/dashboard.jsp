@@ -22,11 +22,6 @@
 				</a>
 			</li>
 			<li>
-				<a href="<c:url value="/admin/articles" />" class="ico-cal tt" title="<spring:message code="dashboard.news.title"/>">
-					<spring:message code="dashboard.news"/>
-				</a>
-			</li>
-			<li>
 				<a href="<c:url value="/admin/csn" />" class="ico-csn tt" title="<spring:message code="dashboard.csn.title"/>">
 					<spring:message code="dashboard.csn"/>
 				</a>
@@ -34,6 +29,11 @@
 			<li>
 				<a href="<c:url value="/admin/webpages" />" class="ico-web tt" title="<spring:message code="menu.webpages"/>" >
 					<spring:message code="menu.webpages"/>
+				</a>
+			</li>
+			<li>
+				<a href="<c:url value="/admin/portal/orders" />" class="ico-portal tt" title="<spring:message code="dashboard.portal.title"/>">
+					<spring:message code="menu.portal"/>
 				</a>
 			</li>
 			<li>

@@ -23,7 +23,7 @@
 <body>
 	<!-- HEADER  -->
 	<header>
-		<a href="<c:url value="/admin/" />" id="logo">CPR <span>ADMIN</span></a>
+		<a href="<c:url value="/admin/" />" id="logo">NLF <span>ADMIN</span></a>
 		
 		<span id="logged-user" class="radius">${common.time}  <a href="<c:url value="/admin/user/profile" />">${common.user.firstName} ${common.user.lastName}</a></span>
 		<a id="logout" href="<c:url value="/j_logout" />" class="tt" title="Odhlásit se"></a>
@@ -34,9 +34,9 @@
 		<ul>
 			<li><a href="<c:url value="/admin/" />" class="home"><spring:message code="menu.dashboard"/></a></li>
 			<li><a href="<c:url value="/admin/cpr" />" class="doc"><spring:message code="menu.cpr"/></a></li>
-			<li><a href="<c:url value="/admin/articles" />" class="cal"><spring:message code="menu.news"/></a></li>
 			<li><a href="<c:url value="/admin/csn" />" class="csn"><spring:message code="menu.csn"/></a></li>
 			<li><a href="<c:url value="/admin/webpages" />" class="web"><spring:message code="menu.webpages"/></a></li>
+			<li><a href="<c:url value="/admin/portal/orders" />" class="portal"><spring:message code="menu.portal"/></a></li>
 			<li><a href="<c:url value="/admin/users" />" class="user"><spring:message code="menu.users"/></a></li>
 			<li><a href="<c:url value="/admin/settings/basic" />" class="sett"><spring:message code="menu.settings"/></a></li>
 		</ul>

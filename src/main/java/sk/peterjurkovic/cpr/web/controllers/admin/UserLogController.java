@@ -40,7 +40,7 @@ public class UserLogController extends SupportAdminController {
 		model.put("logs", logs);
 		model.put("paginationLinks", paginationLinks);
 		model.put("orders", UserLogOrder.getAll());
-		model.put("tab",4);
+		model.put("tab",5);
 		model.put("params", params);
 		modelMap.put("model", model);
         return getTableItemsView();
