@@ -1,5 +1,7 @@
 package sk.peterjurkovic.cpr.constants;
 
+import java.math.BigDecimal;
+
 public class Constants {
 	
 	
@@ -133,6 +135,7 @@ public class Constants {
 
 	public static final String PORTAL_FAILURE_LOGIN_URL = "/"+Constants.PORTAL_URL+"?"+Constants.FAILURE_LOGIN_PARAM_KEY+"=1";
 	
+	public static final BigDecimal VAT = new BigDecimal(1.2);
 	
 	
 }

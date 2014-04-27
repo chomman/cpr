@@ -22,6 +22,9 @@
 				<script type="text/javascript">  
 				$(document).ready(function() { });
 				</script>
+				
+				<jsp:include page="service-nav.jsp" />
+				
 								
 				<c:if test="${not empty successDelete}">
 					<p class="msg ok"><spring:message code="success.delete" /></p>

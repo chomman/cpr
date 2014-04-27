@@ -13,6 +13,11 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
+
+import com.drew.lang.annotations.NotNull;
+
 @Entity
 @Table(name="portal_service")
 @SequenceGenerator(name = "portal_service_id_seq", sequenceName = "portal_service_id_seq", initialValue = 1, allocationSize =1)
@@ -24,7 +29,11 @@ public class PortalService extends AbstractEntity {
 	private String czechName;
 	private String englishName;
 	private BigDecimal price;
+	private String description;
 	
+	public PortalService(){
+		setEnabled(true);
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "portal_service_id_seq")
@@ -33,15 +42,18 @@ public class PortalService extends AbstractEntity {
 		return super.getId();
 	}
 	
+	@Length(min = 3, max = 150)
 	@Column(name = "czech_name", length = 150)
 	public String getCzechName() {
 		return czechName;
 	}
 	
+	
 	public void setCzechName(String name) {
 		this.czechName = name;
 	}
 	
+	@Length(max = 150)
 	@Column(name = "english_name", length = 150)
 	public String getEnglishName() {
 		return englishName;
@@ -51,6 +63,7 @@ public class PortalService extends AbstractEntity {
 		this.englishName = englishName;
 	}
 
+	@NotNull
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -58,7 +71,16 @@ public class PortalService extends AbstractEntity {
 		this.price = price;
 	}
 	
-	
+	@Column(name = "description")
+	@Type(type = "text")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Override
 	@Transient
 	public String getCode() {

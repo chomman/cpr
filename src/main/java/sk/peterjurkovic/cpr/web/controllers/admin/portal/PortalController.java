@@ -6,10 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 @Controller
-public class PortalOrderController extends SupportAdminController {
+public class PortalController extends SupportAdminController {
 
 	
-	public PortalOrderController(){
+	
+	public PortalController(){
 		setTableItemsView("portal/order-list");
 		setEditFormView("portal/order-edit");
 	}
@@ -20,13 +21,6 @@ public class PortalOrderController extends SupportAdminController {
 		
 		return getTableItemsView();
 	}
-	
-	
-	@RequestMapping("/admin/portal/services")
-	public String handleServicesList(){
-		setViewName("portal/service-list");
-		
-		return getViewName();
-	}
+
 	
 }

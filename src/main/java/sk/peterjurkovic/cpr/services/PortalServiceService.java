@@ -18,4 +18,6 @@ public interface PortalServiceService {
 	
 	PortalService getById(Long id);
 	
+	void createOrUpdate(PortalService portalService);
+	
 }

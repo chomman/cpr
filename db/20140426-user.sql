@@ -97,6 +97,7 @@ ALTER TABLE portal_order
   price numeric(19,2),
   id_user_changed_by bigint,
   id_user_created_by bigint,
+  description text,
   CONSTRAINT portal_service_pkey PRIMARY KEY (id),
   CONSTRAINT fk_6hnfpl7d48fqdfrnasu3acngk FOREIGN KEY (id_user_created_by)
       REFERENCES users (id) MATCH SIMPLE
