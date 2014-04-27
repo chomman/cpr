@@ -70,6 +70,12 @@ public class PortalServiceServiceImpl implements PortalServiceService {
 			update(portalService);
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PortalService> getAllNotDeleted(final boolean publishedOnly) {
+		return portalServiceDao.getAllNotDeleted(publishedOnly);
+	}
 	
 	
 	

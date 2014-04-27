@@ -8,6 +8,8 @@ import sk.peterjurkovic.cpr.entities.PortalService;
 
 public interface PortalServiceService {
 	
+	List<PortalService> getAllNotDeleted(boolean publishedOnly);
+	
 	void create(PortalService portalService);
 	
 	void update(PortalService portalService);

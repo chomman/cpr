@@ -1,6 +1,9 @@
 package sk.peterjurkovic.cpr.web.controllers.admin;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
+import org.springframework.ui.ModelMap;
 
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
@@ -59,6 +62,41 @@ public class SupportAdminController {
 		this.viewName = viewName;
 	}
     
-   
-   
+	
+	protected boolean isDeleted(HttpServletRequest request) {
+		return containsParam(request, SUCCESS_DELETE_PARAM);
+	}
+	
+	protected boolean isSucceded(HttpServletRequest request) {
+		return containsParam(request, SUCCESS_CREATE_PARAM);
+	}
+    
+    private boolean containsParam(HttpServletRequest request,  String param){
+    	if(request.getParameter(param) != null){
+			return true;
+		}
+		return false;
+    }
+    
+    protected void appendSuccessCreateParam(ModelMap model) {
+    	model.put(SUCCESS_CREATE_PARAM, true);
+	}
+    
+    protected void appendSuccessDeleteParam(ModelMap model) {
+    	model.put(SUCCESS_DELETE_PARAM, true);
+	}
+    
+    
+    public String successDeleteRedirect(String url){
+    	return buildRedirect(url, SUCCESS_DELETE_PARAM);
+    }
+    
+    public String successUpdateRedirect(String url){
+    	return buildRedirect(url, SUCCESS_CREATE_PARAM);
+    }
+    
+    private String buildRedirect(String url, String successParam){
+    	return "redirect:"+ url + "?" + successParam + "=1"; 
+    }
+ 
 }

@@ -39,7 +39,7 @@ public class UserInfo implements Serializable {
 		this.user = user;
 	}
 	
-	@Pattern(regexp = "(^[+]?[()/0-9. -]{9,}$|)*", message = "Pattern.UserInfo.phone")
+	@Pattern(regexp = "(^[+]?[()/0-9. -]{9,}$|)*", message = "{error.phone}")
 	@Column(name = "phone", length = 25)
 	public String getPhone() {
 		return phone;
@@ -66,7 +66,7 @@ public class UserInfo implements Serializable {
 		this.street = street;
 	}
 	
-	@Pattern(regexp = "(^\\d{3}\\s?\\d{2}$|)*", message = "Pattern.UserInfo.zip")
+	@Pattern(regexp = "(^\\d{3}\\s?\\d{2}$|)*", message = "{error.zip}")
 	@Column(name = "zip", length = 6)
 	public String getZip() {
 		return zip;
@@ -83,7 +83,7 @@ public class UserInfo implements Serializable {
 		this.companyName = companyName;
 	}
 	
-	@Pattern(regexp = "(^\\d{8}$|)*",message = "Pattern.UserInfo.ico")
+	@Pattern(regexp = "(^\\d{8}$|)*",message = "{error.ico}")
 	@Column(name = "ico", length = 8)
 	public String getIco() {
 		return ico;

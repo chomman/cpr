@@ -13,16 +13,16 @@ public class PortalUserForm {
 	
 	private Long id;
 	
-	@NotEmpty(message = "NotEmpty.PortalUserForm.email")
-	@Email(message = "Email.PortalUserForm.email")
+	@NotEmpty(message = "{error.email.empty}")
+	@Email(message = "{error.email}")
 	private String email;
-	@NotEmpty(message = "NotEmpty.PortalUserForm.firstName")
+	@NotEmpty(message = "{error.firstName}")
 	private String firstName;
-	@NotEmpty(message = "NotEmpty.PortalUserForm.lastName")
+	@NotEmpty(message = "{error.lastName}")
 	private String lastName;
-	@Length(min = 6, message = "Length.PortalUserForm.password")
+	@Length(min = 6, message = "{error.firstName}")
 	private String password;
-	@Length(min = 6, message = "Length.PortalUserForm.password")
+	@Length(min = 6, message = "{error.password}")
 	private String confirmPassword;
 	@Valid
 	private UserInfo userInfo;

@@ -19,6 +19,13 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Email;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.hibernate.validator.constraints.Range;
+import org.joda.time.LocalDate;
 
 import sk.peterjurkovic.cpr.enums.OrderStatus;
 
@@ -37,6 +44,8 @@ public class PortalOrder extends AbstractEntity{
 	private BigDecimal price;
 	private BigDecimal vat;
 	private OrderStatus orderStatus;
+	private LocalDate dateOfActivation;
+	private Boolean emailSent;
 	
 	private String firstName;
 	private String lastName;
@@ -52,10 +61,12 @@ public class PortalOrder extends AbstractEntity{
 	private String phone;
 	private String email;
 	
+	private String ipAddress;
 	private String note;
 	
 	public PortalOrder(){
 		this.orderStatus = OrderStatus.PENDING;
+		this.emailSent = false;
 	}
 	
 	@Id
@@ -76,8 +87,9 @@ public class PortalOrder extends AbstractEntity{
 		this.user = user;
 	}
 
+	@NotNull(message = "{error.portalOrder.portalService}")
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "portal_service")
+    @JoinColumn(name = "portal_service", nullable = false)
 	public PortalService getPortalService() {
 		return portalService;
 	}
@@ -86,7 +98,9 @@ public class PortalOrder extends AbstractEntity{
 		this.portalService = portalService;
 	}
 	
-	@Column(name = "price")
+	@NotNull(message = "{error.portalService.price}")
+	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
+	@Column(name = "price", nullable = false)
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -103,7 +117,8 @@ public class PortalOrder extends AbstractEntity{
 	public void setVat(BigDecimal vat) {
 		this.vat = vat;
 	}
-
+	
+	@NotEmpty(message = "{error.firstName}")
 	@Column(name = "first_name", length = 50)
 	public String getFirstName() {
 		return firstName;
@@ -113,6 +128,7 @@ public class PortalOrder extends AbstractEntity{
 		this.firstName = firstName;
 	}
 	
+	@NotEmpty(message = "{error.lastName}")
 	@Column(name = "last_name", length = 50)
 	public String getLastName() {
 		return lastName;
@@ -139,7 +155,8 @@ public class PortalOrder extends AbstractEntity{
 	public void setStreet(String street) {
 		this.street = street;
 	}
-
+	
+	@Pattern(regexp = "(^\\d{3}\\s?\\d{2}$|)*", message = "{error.zip}")
 	@Column(name = "zip", length = 6)
 	public String getZip() {
 		return zip;
@@ -158,6 +175,7 @@ public class PortalOrder extends AbstractEntity{
 		this.companyName = companyName;
 	}
 	
+	@Pattern(regexp = "(^\\d{8}$|)*",message = "{error.ico}")
 	@Column(name = "ico", length = 8)
 	public String getIco() {
 		return ico;
@@ -175,7 +193,8 @@ public class PortalOrder extends AbstractEntity{
 	public void setDic(String dic) {
 		this.dic = dic;
 	}
-
+	
+	@Pattern(regexp = "(^[+]?[()/0-9. -]{9,}$|)*", message = "{error.phone}")
 	@Column(name = "phone", length = 25)
 	public String getPhone() {
 		return phone;
@@ -184,7 +203,9 @@ public class PortalOrder extends AbstractEntity{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
+	
+	@Email(message = "{error.email}")
+	@Column(name = "email", length = 50)
 	public String getEmail() {
 		return email;
 	}
@@ -211,16 +232,44 @@ public class PortalOrder extends AbstractEntity{
 	public void setOrderStatus(OrderStatus orderStatus) {
 		this.orderStatus = orderStatus;
 	}
+	
+	@Column(name = "date_of_activation")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	public LocalDate getDateOfActivation() {
+		return dateOfActivation;
+	}
+
+	public void setDateOfActivation(LocalDate dateOfActivation) {
+		this.dateOfActivation = dateOfActivation;
+	}
+	
+	@Column(name = "email_sent")
+	public Boolean getEmailSent() {
+		return emailSent;
+	}
+
+	public void setEmailSent(Boolean emailSent) {
+		this.emailSent = emailSent;
+	}
+	
+	@Column(name = "ip_address", length = 45)
+	public String getIpAddress() {
+		return ipAddress;
+	}
+
+	public void setIpAddress(String ipAddress) {
+		this.ipAddress = ipAddress;
+	}
 
 	@Transient
 	@Override
 	public String getCode() {
-		throw new UnsupportedOperationException("not supported");
+		return null;
 	}
 	
 	@Transient
 	@Override
 	public Boolean getEnabled() {
-		throw new UnsupportedOperationException("not supported");
+		return null;
 	}
 }

@@ -48,21 +48,24 @@ begin;
   enabled boolean,
   city character varying(50),
   company_name character varying(50),
+  date_of_activation date,
   dic character varying(15),
-  email character varying(255),
-  first_name character varying(50),
+  email character varying(50),
+  email_sent boolean,
+  first_name character varying(50) NOT NULL,
   ico character varying(8),
-  last_name character varying(50),
+  ip_address character varying(45),
+  last_name character varying(50) NOT NULL,
   note character varying(300),
   order_status character varying(25),
   phone character varying(25),
-  price numeric(19,2),
+  price numeric(19,2) NOT NULL,
   street character varying(50),
   vat numeric(19,2),
   zip character varying(6),
   id_user_changed_by bigint,
   id_user_created_by bigint,
-  portal_service bigint,
+  portal_service bigint NOT NULL,
   user_id bigint NOT NULL,
   CONSTRAINT portal_order_pkey PRIMARY KEY (id),
   CONSTRAINT fk_8rb6uy7cjjq6rg8kb0a6f9q9c FOREIGN KEY (id_user_changed_by)
@@ -76,7 +79,8 @@ begin;
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_tl09nadh1dd4q0qn014e7yo16 FOREIGN KEY (user_id)
       REFERENCES users (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT portal_order_price_check CHECK (price <= 100000::numeric AND price >= 0::numeric)
 )
 WITH (
   OIDS=FALSE
@@ -84,8 +88,10 @@ WITH (
 ALTER TABLE portal_order
   OWNER TO postgres;
 
+
+
   
- CREATE TABLE portal_service
+CREATE TABLE portal_service
 (
   id bigint NOT NULL,
   changed timestamp without time zone,
@@ -93,24 +99,27 @@ ALTER TABLE portal_order
   created timestamp without time zone,
   enabled boolean,
   czech_name character varying(150),
+  deleted boolean NOT NULL,
+  description text,
   english_name character varying(150),
-  price numeric(19,2),
+  price numeric(19,2) NOT NULL,
   id_user_changed_by bigint,
   id_user_created_by bigint,
-  description text,
   CONSTRAINT portal_service_pkey PRIMARY KEY (id),
   CONSTRAINT fk_6hnfpl7d48fqdfrnasu3acngk FOREIGN KEY (id_user_created_by)
       REFERENCES users (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_g98br9wwyqdd5kbaypf5rcler FOREIGN KEY (id_user_changed_by)
       REFERENCES users (id) MATCH SIMPLE
-      ON UPDATE NO ACTION ON DELETE NO ACTION
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT portal_service_price_check CHECK (price <= 100000::numeric AND price >= 0::numeric)
 )
 WITH (
   OIDS=FALSE
 );
 ALTER TABLE portal_service
   OWNER TO postgres;
+
 
 
   

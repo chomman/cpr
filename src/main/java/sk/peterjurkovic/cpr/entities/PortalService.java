@@ -31,9 +31,11 @@ public class PortalService extends AbstractEntity {
 	private String englishName;
 	private BigDecimal price;
 	private String description;
+	private Boolean deleted;
 	
 	public PortalService(){
 		setEnabled(true);
+		deleted = false;
 	}
 	
 	@Id
@@ -81,6 +83,15 @@ public class PortalService extends AbstractEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	
+	@Column(nullable = false)
+	public Boolean getDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(Boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	@Override

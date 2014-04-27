@@ -11,7 +11,6 @@ import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -19,8 +18,6 @@ import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.MessageSource;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ObjectError;
-
-import sk.peterjurkovic.cpr.context.ContextHolder;
 
 public abstract class AbstractValidator implements org.springframework.validation.Validator, ApplicationContextAware,
 ConstraintValidatorFactory {
@@ -77,12 +74,7 @@ ConstraintValidatorFactory {
 			return errorMessages;
 		}
 		for(ObjectError errror : errorList){
-			String message = messageSource.getMessage(errror.getDefaultMessage(), null, ContextHolder.getLocale());
-			if(StringUtils.isNotBlank(message)){
-				errorMessages.add(message);
-			}else{
-				errorMessages.add( errror.getDefaultMessage() );
-			}
+			errorMessages.add( errror.getDefaultMessage() );
 		}
 		return errorMessages;
 	}

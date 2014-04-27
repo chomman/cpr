@@ -5,11 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
-import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -22,13 +18,13 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import sk.peterjurkovic.cpr.entities.PortalService;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.PortalServiceService;
-import sk.peterjurkovic.cpr.validators.CustomMessageInterpolator;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 @Controller
 public class PortalServiceController extends SupportAdminController {
 	
 	private final static String EDIT_MAPPING_URL = "/admin/portal/service/{serviceId}";
+	private final static String LIST_MAPPING_URL = "/admin/portal/services";
 	
 	
 	@Autowired
@@ -41,13 +37,17 @@ public class PortalServiceController extends SupportAdminController {
 		setEditFormView("portal/service-edit");
 	}
 	
-	@RequestMapping("/admin/portal/services")
-	public String handleServicesList(ModelMap modelMap){
+	@RequestMapping(LIST_MAPPING_URL)
+	public String handleServicesList(ModelMap modelMap, HttpServletRequest request){
 		Map<String,Object> model = new HashMap<String, Object>();
-		model.put("services", portalServiceService.getAll());
+		model.put("services", portalServiceService.getAllNotDeleted(false));
 		modelMap.put("model", model);
+		if(isDeleted(request)){
+			appendSuccessDeleteParam(modelMap);
+		}
 		return getTableItemsView();
 	}
+	
 	
 		
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
@@ -56,11 +56,21 @@ public class PortalServiceController extends SupportAdminController {
 		if(serviceId != 0){
 			service  = getPortalService(serviceId);
 		}
-		if(request.getParameter(SUCCESS_CREATE_PARAM) != null){
-			map.put(SUCCESS_CREATE_PARAM, true);
+		if(isSucceded(request)){
+			appendSuccessCreateParam(map);
 		}
 		prepareModel(map, service);
 		return getEditFormView();
+	}
+	
+	
+	
+	@RequestMapping("/admin/portal/service/delete/{id}")
+	public String handleDelete(@PathVariable Long id) throws ItemNotFoundException{
+		PortalService service = getPortalService(id);
+		service.setDeleted(true);
+		portalServiceService.createOrUpdate(service);
+		return successDeleteRedirect(LIST_MAPPING_URL); 
 	}
 	
 	
@@ -72,7 +82,7 @@ public class PortalServiceController extends SupportAdminController {
 			return getEditFormView();
 		}
 		Long id = createOrUpdate(form);
-		return "redirect:" + EDIT_MAPPING_URL.replace("{serviceId}", id.toString()) + "?" + SUCCESS_CREATE_PARAM + "=1";
+		return successUpdateRedirect(EDIT_MAPPING_URL.replace("{serviceId}", id.toString()));
 	}
 	
 	
@@ -101,8 +111,8 @@ public class PortalServiceController extends SupportAdminController {
 	
 	private PortalService getPortalService(final Long id) throws ItemNotFoundException{
 		PortalService service = portalServiceService.getById(id);
-		if(service == null){
-			throw new ItemNotFoundException("Služba s ID: " + id + " se v systému nenachádzi");
+		if(service == null || service.getDeleted()){
+			throw new ItemNotFoundException("Služba s ID: " + id + " se v systému nenachází");
 		}
 		return service;
 	}
