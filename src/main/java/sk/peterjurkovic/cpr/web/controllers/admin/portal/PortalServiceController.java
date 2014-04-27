@@ -1,11 +1,20 @@
 package sk.peterjurkovic.cpr.web.controllers.admin.portal;
 
-import javax.validation.Valid;
+import java.util.HashMap;
+import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
+import org.hibernate.cfg.Configuration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import sk.peterjurkovic.cpr.entities.PortalService;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.PortalServiceService;
+import sk.peterjurkovic.cpr.validators.CustomMessageInterpolator;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 @Controller
@@ -32,16 +42,22 @@ public class PortalServiceController extends SupportAdminController {
 	}
 	
 	@RequestMapping("/admin/portal/services")
-	public String handleServicesList(){		
+	public String handleServicesList(ModelMap modelMap){
+		Map<String,Object> model = new HashMap<String, Object>();
+		model.put("services", portalServiceService.getAll());
+		modelMap.put("model", model);
 		return getTableItemsView();
 	}
 	
 		
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
-	public String handleServicesEdit(@PathVariable Long serviceId, ModelMap map) throws ItemNotFoundException{
+	public String handleServicesEdit(@PathVariable Long serviceId, ModelMap map, HttpServletRequest request) throws ItemNotFoundException{
 		PortalService service =  new PortalService();
 		if(serviceId != 0){
 			service  = getPortalService(serviceId);
+		}
+		if(request.getParameter(SUCCESS_CREATE_PARAM) != null){
+			map.put(SUCCESS_CREATE_PARAM, true);
 		}
 		prepareModel(map, service);
 		return getEditFormView();
@@ -50,10 +66,13 @@ public class PortalServiceController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)
-	public String processSubmitPortalService(@PathVariable Long serviceId, @Valid PortalService form, BindingResult result,  ModelMap map) throws ItemNotFoundException{
+	public String processSubmitPortalService(@PathVariable Long serviceId, @ModelAttribute("service") @Valid PortalService form, BindingResult result,  ModelMap map) throws ItemNotFoundException{
+		if(result.hasErrors()){
+			prepareModel(map, form);
+			return getEditFormView();
+		}
 		Long id = createOrUpdate(form);
-		map.put("successCreate", true);
-		return "forward:" + EDIT_MAPPING_URL.replace("{serviceId}", id.toString());
+		return "redirect:" + EDIT_MAPPING_URL.replace("{serviceId}", id.toString()) + "?" + SUCCESS_CREATE_PARAM + "=1";
 	}
 	
 	

@@ -7,12 +7,10 @@ import java.util.Locale;
 
 import org.springframework.format.Formatter;
 
-import sk.peterjurkovic.cpr.enums.SystemLocale;
-
 
 public class PriceFormatter implements Formatter<BigDecimal>{
 
-	private NumberFormat priceFormat = NumberFormat.getCurrencyInstance(SystemLocale.getCzechLocale());
+	private NumberFormat priceFormat = NumberFormat.getCurrencyInstance(new Locale("cs", "CZ"));
 	
 	 public PriceFormatter(boolean hideCurrency) {
         if (hideCurrency) {

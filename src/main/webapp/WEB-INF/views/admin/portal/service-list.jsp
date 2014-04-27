@@ -44,7 +44,7 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${model.orders}" var="i">
+							<c:forEach items="${model.services}" var="i">
 							 	<tr>
 							 		<td class="oid">
 								 		<a:adminurl href="/portal/service/${i.id}">

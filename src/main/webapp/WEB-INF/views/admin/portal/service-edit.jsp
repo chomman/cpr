@@ -102,7 +102,6 @@
 	                            	<form:checkbox path="enabled" />
 	                            </span>
 	                        </p>
-	                        
 	                         <p>
 	                        	<label>
 	                        			<spring:message code="admin.service.enabled" /> 

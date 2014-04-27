@@ -12,11 +12,12 @@ import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.Range;
 
-import com.drew.lang.annotations.NotNull;
 
 @Entity
 @Table(name="portal_service")
@@ -42,7 +43,7 @@ public class PortalService extends AbstractEntity {
 		return super.getId();
 	}
 	
-	@Length(min = 3, max = 150)
+	@Length(min = 3, max = 150, message = "{Length.PortalService.czechName}")
 	@Column(name = "czech_name", length = 150)
 	public String getCzechName() {
 		return czechName;
@@ -63,7 +64,8 @@ public class PortalService extends AbstractEntity {
 		this.englishName = englishName;
 	}
 
-	@NotNull
+	@NotNull(message = "{error.portalService.price}")
+	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -84,7 +86,7 @@ public class PortalService extends AbstractEntity {
 	@Override
 	@Transient
 	public String getCode() {
-		throw new UnsupportedOperationException("not supported");
+		return null;
 	}
 	
 }
