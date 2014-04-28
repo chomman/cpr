@@ -1,10 +1,14 @@
 package sk.peterjurkovic.cpr.services;
 
+import javax.servlet.http.HttpServletRequest;
+
 import sk.peterjurkovic.cpr.entities.User;
 
 
 public interface PortalUserService {
 	
-	void createNewUser(User user);
+	User createNewUser(User user);
+	
+	void createPortalOrder(User user, HttpServletRequest request);
 	
 }

@@ -20,7 +20,7 @@
 	<li>
 		<a 
 		<c:if test="${model.tab == 3}">class="active"</c:if>
-		href="<c:url value="/admin/portal/services" />" >
+		href="<c:url value="/admin/portal/products" />" >
 			<spring:message code="admin.portal.services" />
 		</a>
 	</li>

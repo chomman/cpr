@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -18,12 +20,14 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
+import sk.peterjurkovic.cpr.enums.PortalProductInterval;
+
 
 @Entity
-@Table(name="portal_service")
+@Table(name="portal_product")
 @SequenceGenerator(name = "portal_service_id_seq", sequenceName = "portal_service_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
-public class PortalService extends AbstractEntity {
+public class PortalProduct extends AbstractEntity {
 	
 	private static final long serialVersionUID = -6504356044793122646L;
 	
@@ -32,10 +36,14 @@ public class PortalService extends AbstractEntity {
 	private BigDecimal price;
 	private String description;
 	private Boolean deleted;
+	private PortalProductInterval portalProductInterval;
+	private Integer intervalValue;
 	
-	public PortalService(){
+	public PortalProduct(){
 		setEnabled(true);
 		deleted = false;
+		portalProductInterval = PortalProductInterval.YEAR;
+		intervalValue = 1;
 	}
 	
 	@Id
@@ -50,10 +58,9 @@ public class PortalService extends AbstractEntity {
 	public String getCzechName() {
 		return czechName;
 	}
-	
-	
-	public void setCzechName(String name) {
-		this.czechName = name;
+
+	public void setCzechName(String czechName) {
+		this.czechName = czechName;
 	}
 	
 	@Length(max = 150)
@@ -71,6 +78,7 @@ public class PortalService extends AbstractEntity {
 	public BigDecimal getPrice() {
 		return price;
 	}
+	
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}
@@ -93,11 +101,42 @@ public class PortalService extends AbstractEntity {
 	public void setDeleted(Boolean deleted) {
 		this.deleted = deleted;
 	}
+	
+	@NotNull(message = "{error.portalProduct.intervalType}")
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "interval_type", length = 10)
+	public PortalProductInterval getPortalProductInterval() {
+		return portalProductInterval;
+	}
+
+	public void setPortalProductInterval(PortalProductInterval portalProductInterval) {
+		this.portalProductInterval = portalProductInterval;
+	}
+	
+	@Range(min = 1, max = 100, message = "{error.portalProduct.reange.invalid}")
+	@Column(name = "interval_value")
+	public Integer getIntervalValue() {
+		return intervalValue;
+	}
+
+	public void setIntervalValue(Integer intervalValue) {
+		this.intervalValue = intervalValue;
+	}
 
 	@Override
 	@Transient
 	public String getCode() {
 		return null;
+	}
+	
+	
+	@Transient
+	public String getNameCzech() {
+		return czechName;
+	}
+	@Transient
+	public String getNameEnglish(){
+		return englishName;
 	}
 	
 }

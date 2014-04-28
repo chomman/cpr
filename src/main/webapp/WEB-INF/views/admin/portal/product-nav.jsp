@@ -3,12 +3,12 @@
 
 <ul class="sub-nav">
 	<li>
-		<a:adminurl href="/portal/services">
+		<a:adminurl href="/portal/products">
 			<spring:message code="admin.service.list" />
 		</a:adminurl>
 	</li>
 	<li>
-		<a:adminurl href="/portal/service/0" >
+		<a:adminurl href="/portal/product/0" >
 			<spring:message code="admin.service.addNew" />
 		</a:adminurl>
 	</li>

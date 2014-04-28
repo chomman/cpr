@@ -25,6 +25,7 @@ import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.services.AssessmentSystemService;
 import sk.peterjurkovic.cpr.services.CsnTerminologyService;
 import sk.peterjurkovic.cpr.services.NotifiedBodyService;
+import sk.peterjurkovic.cpr.services.PortalProductService;
 import sk.peterjurkovic.cpr.services.ReportService;
 import sk.peterjurkovic.cpr.services.StandardGroupService;
 import sk.peterjurkovic.cpr.services.StandardService;
@@ -58,6 +59,8 @@ public class ModuleController extends WebpageControllerSupport {
 	private CsnTerminologyService csnTerminologyService;
 	@Autowired
 	private AssessmentSystemService assessmentSystemService;
+	@Autowired
+	private PortalProductService portalProductService;
 	
 	@Value("#{config['nandourl']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
@@ -156,6 +159,7 @@ public class ModuleController extends WebpageControllerSupport {
     public String portalRegistrationForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("portalProducts", portalProductService.getAllNotDeleted(true));
 		modelMap.addAttribute("user", new PortalUserForm());
         return appendModelAndGetView(model, modelMap, request);
     }

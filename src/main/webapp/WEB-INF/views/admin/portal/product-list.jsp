@@ -23,7 +23,7 @@
 				$(document).ready(function() { });
 				</script>
 				
-				<jsp:include page="service-nav.jsp" />
+				<jsp:include page="product-nav.jsp" />
 				
 								
 				<c:if test="${not empty successDelete}">
@@ -31,7 +31,7 @@
 				</c:if>
 				
 							
-				<c:if test="${not empty model.services}">
+				<c:if test="${not empty model.portalProducts}">
 										
 					<table class="data">
 						<thead>
@@ -44,10 +44,10 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${model.services}" var="i">
+							<c:forEach items="${model.portalProducts}" var="i">
 							 	<tr>
 							 		<td class="oid">
-								 		<a:adminurl href="/portal/service/${i.id}">
+								 		<a:adminurl href="/portal/product/${i.id}">
 								 			${i.czechName}
 								 		</a:adminurl>
 							 		</td>
@@ -67,12 +67,12 @@
 							 			</c:if>
 							 		</td>				
 							 		<td class="edit">
-							 			<a:adminurl href="/portal/service/${i.id}">
+							 			<a:adminurl href="/portal/product/${i.id}">
 							 				<spring:message code="form.edit" />
 							 			</a:adminurl>
 							 		</td>
 							 		<td class="delete">
-							 			<a:adminurl href="/portal/service/delete/${i.id}" cssClass="confirm">
+							 			<a:adminurl href="/portal/product/delete/${i.id}" cssClass="confirm">
 							 				<spring:message code="form.delete" />
 							 			</a:adminurl>
 							 		</td>
@@ -82,7 +82,7 @@
 					</table>
 				</c:if>
 				
-				<c:if test="${empty model.services}">
+				<c:if test="${empty model.portalProducts}">
 					<p class="msg alert">
 						<spring:message code="alert.empty" />
 					</p>

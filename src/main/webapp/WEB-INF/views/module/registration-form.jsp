@@ -1,9 +1,28 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-
+<script type="text/javascript" src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
+<link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
+<script type="text/javascript">
+$(function(){ 
+	$(".chosen").chosen({ width : "500px" });
+});
+</script>
 <c:url value="/ajax/registration" var="url"/>
 <form:form commandName="user" method="post" cssClass="valid form" action="${url}"  >
 	<div id="ajax-result"></div>
+	
+	<strong class="form-head"><spring:message code="portalUser.head.productInfo" /></strong>
+	<form:label path="">
+		<span class="label"><spring:message code="portalUser.portalProduct" />: </span>
+		<form:select path="portalProduct" cssClass="portalProduct chosen">
+			<c:forEach items="${model.portalProducts}" var="i">
+				<option value="${i.id}" data-price="${i.price}">
+					${i.intervalValue} / <spring:message code="${i.portalProductInterval.code}" /> -
+					<a:localizedValue object="${i}" fieldName="name" />
+				</option>
+			 </c:forEach>
+		</form:select>
+	</form:label>
 	
 	
 	<strong class="form-head"><spring:message code="portalUser.head.loginInfo" /></strong>

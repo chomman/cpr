@@ -4,10 +4,10 @@
 <html>
 <head>
 	<title>
-		<c:if test="${empty service.id}">
+		<c:if test="${empty portalProduct.id}">
 			<spring:message code="admin.service.add" />
 		</c:if>
-		<c:if test="${not empty service.id}">
+		<c:if test="${not empty portalProduct.id}">
 			<spring:message code="admin.service.edit" />
 		</c:if>
 	</title>
@@ -35,30 +35,30 @@
 		
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
-				 <a:adminurl href="/portal/services"><spring:message code="admin.portal.services" /></a:adminurl>  &raquo;
+				 <a:adminurl href="/portal/products"><spring:message code="admin.portal.services" /></a:adminurl>  &raquo;
 				 <span>
-				 	<c:if test="${empty service.id}">
+				 	<c:if test="${empty portalProduct.id}">
 						<spring:message code="admin.service.add" />
 					</c:if>
-					<c:if test="${not empty service.id}">
+					<c:if test="${not empty portalProduct.id}">
 						<spring:message code="admin.service.edit" />
 					</c:if>
 				 </span>
 			</div>
 			<h1>
-				<c:if test="${empty service.id}">
+				<c:if test="${empty portalProduct.id}">
 					<spring:message code="admin.service.add" />
 				</c:if>
-				<c:if test="${not empty service.id}">
+				<c:if test="${not empty portalProduct.id}">
 					<spring:message code="admin.service.edit" />
 				</c:if>
 			</h1>
 	
 			<div id="content">
 				
-				<jsp:include page="service-nav.jsp" />
+				<jsp:include page="product-nav.jsp" />
 				
-				<form:form commandName="service" method="post" cssClass="valfid" >
+				<form:form commandName="portalProduct" method="post" cssClass="valfid" >
 							
 							<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 							
@@ -82,6 +82,23 @@
 	                        	</label>
 	                            <span class="field">
 	                            	<form:input path="englishName" maxlength="150" cssClass="mw500" />
+	                            </span>
+	                        </p>
+	                        <p>
+	                       		<label>
+	                       			<strong><em class="red">*</em>
+	                        			<spring:message code="admin.service.interval" />
+	                        		</strong>  
+	                        	</label>
+	                            <span class="field"> 
+	                            	<form:input path="intervalValue" maxlength="3" cssClass="w50 required numeric" />
+	                            	<form:select path="portalProductInterval" cssClass="w100 chosenMini">
+	                            		<c:forEach items="${intervalTypes}" var="i">
+	                            			<option value="${i}" <c:if test="${i.id == portalProduct.portalProductInterval.id}">selected="selected"</c:if> >
+	                            				<spring:message code="${i.code}" />
+	                            			</option>
+	                            		 </c:forEach>
+	                            	</form:select>
 	                            </span>
 	                        </p>
 	                         <p>

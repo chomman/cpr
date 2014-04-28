@@ -91,7 +91,7 @@ ALTER TABLE portal_order
 
 
   
-CREATE TABLE portal_service
+CREATE TABLE portal_product
 (
   id bigint NOT NULL,
   changed timestamp without time zone,
@@ -105,20 +105,21 @@ CREATE TABLE portal_service
   price numeric(19,2) NOT NULL,
   id_user_changed_by bigint,
   id_user_created_by bigint,
-  CONSTRAINT portal_service_pkey PRIMARY KEY (id),
-  CONSTRAINT fk_6hnfpl7d48fqdfrnasu3acngk FOREIGN KEY (id_user_created_by)
+  CONSTRAINT portal_product_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_4w9x2vs83e5fwykw0vhow8frc FOREIGN KEY (id_user_changed_by)
       REFERENCES users (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT fk_g98br9wwyqdd5kbaypf5rcler FOREIGN KEY (id_user_changed_by)
+  CONSTRAINT fk_dbisqq23p4gj38mlscmsfuhj3 FOREIGN KEY (id_user_created_by)
       REFERENCES users (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION,
-  CONSTRAINT portal_service_price_check CHECK (price <= 100000::numeric AND price >= 0::numeric)
+  CONSTRAINT portal_product_price_check CHECK (price <= 100000::numeric AND price >= 0::numeric)
 )
 WITH (
   OIDS=FALSE
 );
-ALTER TABLE portal_service
+ALTER TABLE portal_product
   OWNER TO postgres;
+
 
 
 

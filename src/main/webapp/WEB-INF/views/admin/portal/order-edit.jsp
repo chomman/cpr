@@ -13,7 +13,7 @@
 		<div id="right">
 		
 			<div id="breadcrumb">
-				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
+				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  u&raquo;
 				 <a:adminurl href="/portal/orders"><spring:message code="admin.portal.orders" /></a:adminurl>  &raquo;
 				 <span><spring:message code="admin.portal.order.title" />: ${portalOrder.id}</span>
 			</div>
@@ -27,12 +27,14 @@
 				
 				
 				<table class="info">
-					<c:if test="${not empty portalOrder.id}">
+					
 						<tr>
+						<c:if test="${not empty portalOrder.id}">
 							<td class="key"><spring:message code="admin.portal.order.no" /></td>
 							<td class="val"><strong>${portalOrder.id}</strong></td>
+						</c:if>
 						</tr>
-					</c:if>
+					
 					<tr>
 						<td class="key"><spring:message code="admin.portal.order.created" /></td>
 						<td class="val"><joda:format value="${system.created}" pattern="${common.dateTimeFormat}"/></td>

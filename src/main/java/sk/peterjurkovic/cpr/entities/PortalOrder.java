@@ -39,7 +39,7 @@ public class PortalOrder extends AbstractEntity{
 	private static final long serialVersionUID = -4311231873883523058L;
 
 	private User user;
-	private PortalService portalService;
+	private PortalProduct portalProduct;
 	
 	private BigDecimal price;
 	private BigDecimal vat;
@@ -87,16 +87,17 @@ public class PortalOrder extends AbstractEntity{
 		this.user = user;
 	}
 
-	@NotNull(message = "{error.portalOrder.portalService}")
+	@NotNull(message = "{error.protalProduct.empty}")
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "portal_service", nullable = false)
-	public PortalService getPortalService() {
-		return portalService;
+    @JoinColumn(name = "portal_product", nullable = false)
+	public PortalProduct getPortalProduct() {
+		return portalProduct;
 	}
 
-	public void setPortalService(PortalService portalService) {
-		this.portalService = portalService;
+	public void setPortalProduct(PortalProduct portalProduct) {
+		this.portalProduct = portalProduct;
 	}
+
 	
 	@NotNull(message = "{error.portalService.price}")
 	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
@@ -104,7 +105,7 @@ public class PortalOrder extends AbstractEntity{
 	public BigDecimal getPrice() {
 		return price;
 	}
-
+	
 	public void setPrice(BigDecimal price) {
 		this.price = price;
 	}

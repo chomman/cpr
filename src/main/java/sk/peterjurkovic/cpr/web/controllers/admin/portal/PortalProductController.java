@@ -15,32 +15,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import sk.peterjurkovic.cpr.entities.PortalService;
+import sk.peterjurkovic.cpr.entities.PortalProduct;
+import sk.peterjurkovic.cpr.enums.PortalProductInterval;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
-import sk.peterjurkovic.cpr.services.PortalServiceService;
+import sk.peterjurkovic.cpr.services.PortalProductService;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 @Controller
-public class PortalServiceController extends SupportAdminController {
+public class PortalProductController extends SupportAdminController {
 	
-	private final static String EDIT_MAPPING_URL = "/admin/portal/service/{serviceId}";
-	private final static String LIST_MAPPING_URL = "/admin/portal/services";
+	private final static String EDIT_MAPPING_URL = "/admin/portal/product/{serviceId}";
+	private final static String LIST_MAPPING_URL = "/admin/portal/products";
 	
 	
 	@Autowired
-	private PortalServiceService portalServiceService;
+	private PortalProductService portalProductService;
 	
 	
 	
-	public PortalServiceController(){
-		setTableItemsView("portal/service-list");
-		setEditFormView("portal/service-edit");
+	public PortalProductController(){
+		setTableItemsView("portal/product-list");
+		setEditFormView("portal/product-edit");
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
 	public String handleServicesList(ModelMap modelMap, HttpServletRequest request){
 		Map<String,Object> model = new HashMap<String, Object>();
-		model.put("services", portalServiceService.getAllNotDeleted(false));
+		model.put("portalProducts", portalProductService.getAllNotDeleted(false));
 		modelMap.put("model", model);
 		if(isDeleted(request)){
 			appendSuccessDeleteParam(modelMap);
@@ -52,9 +53,9 @@ public class PortalServiceController extends SupportAdminController {
 		
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
 	public String handleServicesEdit(@PathVariable Long serviceId, ModelMap map, HttpServletRequest request) throws ItemNotFoundException{
-		PortalService service =  new PortalService();
+		PortalProduct service =  new PortalProduct();
 		if(serviceId != 0){
-			service  = getPortalService(serviceId);
+			service  = getPortalProduct(serviceId);
 		}
 		if(isSucceded(request)){
 			appendSuccessCreateParam(map);
@@ -65,18 +66,18 @@ public class PortalServiceController extends SupportAdminController {
 	
 	
 	
-	@RequestMapping("/admin/portal/service/delete/{id}")
+	@RequestMapping("/admin/portal/product/delete/{id}")
 	public String handleDelete(@PathVariable Long id) throws ItemNotFoundException{
-		PortalService service = getPortalService(id);
+		PortalProduct service = getPortalProduct(id);
 		service.setDeleted(true);
-		portalServiceService.createOrUpdate(service);
+		portalProductService.createOrUpdate(service);
 		return successDeleteRedirect(LIST_MAPPING_URL); 
 	}
 	
 	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)
-	public String processSubmitPortalService(@PathVariable Long serviceId, @ModelAttribute("service") @Valid PortalService form, BindingResult result,  ModelMap map) throws ItemNotFoundException{
+	public String processSubmitPortalService(@PathVariable Long serviceId, @ModelAttribute("service") @Valid PortalProduct form, BindingResult result,  ModelMap map) throws ItemNotFoundException{
 		if(result.hasErrors()){
 			prepareModel(map, form);
 			return getEditFormView();
@@ -87,34 +88,37 @@ public class PortalServiceController extends SupportAdminController {
 	
 	
 	
-	private void prepareModel(ModelMap map, PortalService service){
-		map.addAttribute("service", service);
+	private void prepareModel(ModelMap map, PortalProduct service){
+		map.addAttribute("portalProduct", service);
+		map.put("intervalTypes", PortalProductInterval.getAll());
 	}
 	
 	
-	private Long createOrUpdate(PortalService form) throws ItemNotFoundException{
-		PortalService service = null;
+	private Long createOrUpdate(PortalProduct form) throws ItemNotFoundException{
+		PortalProduct product = null;
 		if(form.getId() == null){
-			service = new PortalService();
+			product = new PortalProduct();
 		}else{
-			service = getPortalService(form.getId());
+			product = getPortalProduct(form.getId());
 		}
-		service.setCzechName(form.getCzechName());
-		service.setEnglishName(form.getEnglishName());
-		service.setPrice(form.getPrice());
-		service.setDescription(form.getDescription());
-		portalServiceService.createOrUpdate(service);
-		return service.getId();
+		product.setCzechName(form.getCzechName());
+		product.setEnglishName(form.getEnglishName());
+		product.setPrice(form.getPrice());
+		product.setDescription(form.getDescription());
+		product.setIntervalValue(form.getIntervalValue());
+		product.setPortalProductInterval(form.getPortalProductInterval());
+		portalProductService.createOrUpdate(product);
+		return product.getId();
 	}
 	
 	
 	
-	private PortalService getPortalService(final Long id) throws ItemNotFoundException{
-		PortalService service = portalServiceService.getById(id);
-		if(service == null || service.getDeleted()){
+	private PortalProduct getPortalProduct(final Long id) throws ItemNotFoundException{
+		PortalProduct product = portalProductService.getById(id);
+		if(product == null || product.getDeleted()){
 			throw new ItemNotFoundException("Služba s ID: " + id + " se v systému nenachází");
 		}
-		return service;
+		return product;
 	}
 	
 }

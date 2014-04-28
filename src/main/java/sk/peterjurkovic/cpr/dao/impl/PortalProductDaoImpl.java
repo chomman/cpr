@@ -4,22 +4,22 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import sk.peterjurkovic.cpr.dao.PortalServiceDao;
-import sk.peterjurkovic.cpr.entities.PortalService;
+import sk.peterjurkovic.cpr.dao.PortalProductDao;
+import sk.peterjurkovic.cpr.entities.PortalProduct;
 
-@Repository("portalServiceDao")
-public class PortalServiceDaoImpl extends BaseDaoImpl<PortalService, Long> implements PortalServiceDao {
+@Repository("portalProductDao")
+public class PortalProductDaoImpl extends BaseDaoImpl<PortalProduct, Long> implements PortalProductDao {
 
-	public PortalServiceDaoImpl() {
-		super(PortalService.class);
+	public PortalProductDaoImpl() {
+		super(PortalProduct.class);
 	}
 
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<PortalService> getAllNotDeleted(final boolean publishedOnly) {
+	public List<PortalProduct> getAllNotDeleted(final boolean publishedOnly) {
 		StringBuilder hql = new StringBuilder("FROM ");
-		hql.append(PortalService.class.getName());
+		hql.append(PortalProduct.class.getName());
 		hql.append(" s where s.deleted = false ");
 		if(publishedOnly){
 			hql.append(" and s.enabled = true  ");

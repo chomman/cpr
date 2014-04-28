@@ -21,13 +21,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.entities.PortalOrder;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.exceptions.PortalAccessDeniedException;
+import sk.peterjurkovic.cpr.services.PortalOrderService;
 import sk.peterjurkovic.cpr.services.PortalUserService;
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.validators.forntend.PortalUserValidator;
 import sk.peterjurkovic.cpr.web.forms.portal.PortalUserForm;
@@ -47,6 +50,8 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	private PortalUserValidator portalUserValidator;
 	@Autowired
 	private PortalUserService portalUserService;
+	@Autowired
+	private PortalOrderService portalOrderService;
 	
 	public PortalWebpageController(){
 		setViewDirectory("/portal/");
@@ -80,16 +85,25 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	
 	
 	@RequestMapping(value = "/ajax/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public @ResponseBody JsonResponse  processAjaxSubmit(@Valid @RequestBody  PortalUserForm form, BindingResult result) throws ItemNotFoundException{
-		JsonResponse response = new JsonResponse();
-
-		if(result.hasErrors()){
-			response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
-			return response;
-		}
-		portalUserService.createNewUser(form.toUser());
-		response.setStatus(JsonStatus.SUCCESS);
-		return response;
+	public @ResponseBody JsonResponse  processAjaxSubmit(
+			@Valid @RequestBody  PortalUserForm form, 
+			BindingResult result, 
+			HttpServletRequest request) throws ItemNotFoundException{
+		
+				JsonResponse response = new JsonResponse();
+		
+				if(result.hasErrors()){
+					response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
+					return response;
+				}
+				final User user = portalUserService.createNewUser(form.toUser());
+				PortalOrder order = form.toPortalOrder();
+				order.setUser(user);
+				order.setIpAddress(RequestUtils.getIpAddress(request));
+				order.setCreatedBy(user);
+				
+				response.setStatus(JsonStatus.SUCCESS);
+				return response;
 	}
 	
 	

@@ -37,6 +37,7 @@ function init(){
 		});
 		return false;
 	});
+	
 }
 
 function hideSubNav(e){
