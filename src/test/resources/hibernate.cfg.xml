@@ -8,6 +8,7 @@
  <session-factory >
  
  	<mapping class="sk.peterjurkovic.cpr.entities.User" />
+	<mapping class="sk.peterjurkovic.cpr.entities.UserInfo" />
   	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.Address"/>
@@ -37,6 +38,9 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnCategory"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminology"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminologyLog"/>	
+	
+	<mapping class="sk.peterjurkovic.cpr.entities.PortalProduct"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrder"/>		
 	
 	 
  </session-factory>

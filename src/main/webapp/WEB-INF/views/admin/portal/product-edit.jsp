@@ -24,6 +24,19 @@
 				plugins: "image,link,table",
 				convert_urls: false
 		});
+		 $(function() { 	
+			 $(document).on('click', 'a.lang', function(){
+				var $selected = $('.disabled'),
+					$this = $(this),
+					locale = $this.attr('data-lang'),
+					$boxes = $('.switchable');
+					$boxes.removeClass('hidden');
+					$boxes.not('.' + locale).addClass('hidden');
+					$selected.removeClass('disabled').addClass('lang');
+					$this.addClass('disabled').removeClass('lang');
+					return false;
+			 });
+		 });
 	</script>
 </head>
 <body>
@@ -65,25 +78,6 @@
 							<c:if test="${not empty successCreate}">
 								<p class="msg ok"><spring:message code="success.create" /></p>
 							</c:if>
-							
-							<p>
-	                        	<label>
-	                        		<strong><em class="red">*</em>
-	                        			<spring:message code="admin.service.czechName" />  
-	                        		</strong>
-	                        	</label>
-	                            <span class="field">
-	                            	<form:input path="czechName" maxlength="150" cssClass="mw500 required" />
-	                            </span>
-	                        </p>
-	                        <p>
-	                       		<label>
-	                        		<spring:message code="admin.service.englishName" />  
-	                        	</label>
-	                            <span class="field">
-	                            	<form:input path="englishName" maxlength="150" cssClass="mw500" />
-	                            </span>
-	                        </p>
 	                        <p>
 	                       		<label>
 	                       			<strong><em class="red">*</em>
@@ -119,12 +113,50 @@
 	                            	<form:checkbox path="enabled" />
 	                            </span>
 	                        </p>
-	                         <p>
+	                        <p>
+								<label> <strong> <spring:message
+											code="webpage.locale" />:
+								</strong>
+		
+								</label> <span class="field"> <a href="#" data-lang="cs"
+									class="disabled">Česká</a> <a href="#" data-lang="en"
+									class="lang">Anglická</a>
+								</span>
+							</p>
+							<p class="switchable cs">
 	                        	<label>
-	                        			<spring:message code="admin.service.enabled" /> 
+	                        		<strong><em class="red">*</em>
+	                        			<spring:message code="admin.service.czechName" />  
+	                        		</strong>
 	                        	</label>
 	                            <span class="field">
-	                            	<form:textarea path="description" cssClass="wisiwig" />
+	                            	<form:input path="czechName" maxlength="150" cssClass="mw500 required" />
+	                            </span>
+	                        </p>
+	                         <p class="switchable en hidden">
+	                       		<label>
+	                        		<spring:message code="admin.service.englishName" />  
+	                        	</label>
+	                            <span class="field">
+	                            	<form:input path="englishName" maxlength="150" cssClass="mw500" />
+	                            </span>
+	                        </p>
+	                         <p class="switchable cs">
+	                        	<label>
+	                        			<spring:message code="admin.service.description" /> (<spring:message
+								code="cs" />)
+	                        	</label>
+	                            <span class="field">
+	                            	<form:textarea path="descriptionCzech" cssClass="wisiwig" />
+	                            </span>
+	                        </p>
+	                         <p class="switchable en hidden">
+	                        	<label>
+	                        			<spring:message code="admin.service.description" /> (<spring:message
+								code="en" />)
+	                        	</label>
+	                            <span class="field">
+	                            	<form:textarea path="descriptionEnglish" cssClass="wisiwig" />
 	                            </span>
 	                        </p>
 							

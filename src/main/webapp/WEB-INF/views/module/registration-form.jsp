@@ -23,8 +23,24 @@ $(function(){
 			 </c:forEach>
 		</form:select>
 	</form:label>
-	
-	
+	<div class="desc-wrapp">
+		<c:forEach items="${model.portalProducts}" var="i">
+			<div id="p${i.id}">
+				<span class="descr">
+					<a:localizedValue object="${i}" fieldName="description" />
+				</span>
+				<span class="price-wrapp no-vat">
+					<span class="l"><spring:message code="portalUser.price" />: </span>
+					<span class="v"><webpage:price price="${i.price}" /></span>
+					
+				</span>
+				<span class="price-wrapp with-vat">
+					<span class="l"><spring:message code="portalUser.priceWithVat" />: </span>
+					<span class="v"><webpage:price price="${i.price}" useSystemVat="true" /></span>
+				</span>
+			</div>
+		</c:forEach>
+	</div>	
 	<strong class="form-head"><spring:message code="portalUser.head.loginInfo" /></strong>
 	
 	<form:label path="email" cssClass="with-info">

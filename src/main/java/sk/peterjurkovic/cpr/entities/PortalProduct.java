@@ -34,7 +34,8 @@ public class PortalProduct extends AbstractEntity {
 	private String czechName;
 	private String englishName;
 	private BigDecimal price;
-	private String description;
+	private String descriptionCzech;
+	private String descriptionEnglish;
 	private Boolean deleted;
 	private PortalProductInterval portalProductInterval;
 	private Integer intervalValue;
@@ -53,7 +54,7 @@ public class PortalProduct extends AbstractEntity {
 		return super.getId();
 	}
 	
-	@Length(min = 3, max = 150, message = "{Length.PortalService.czechName}")
+	@Length(min = 3, max = 150, message = "{error.portalService.name}")
 	@Column(name = "czech_name", length = 150)
 	public String getCzechName() {
 		return czechName;
@@ -83,14 +84,24 @@ public class PortalProduct extends AbstractEntity {
 		this.price = price;
 	}
 	
-	@Column(name = "description")
+	@Column(name = "description_czech")
 	@Type(type = "text")
-	public String getDescription() {
-		return description;
+	public String getDescriptionCzech() {
+		return descriptionCzech;
 	}
 
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescriptionCzech(String descriptionCzech) {
+		this.descriptionCzech = descriptionCzech;
+	}
+	
+	@Column(name = "description_english")
+	@Type(type = "text")
+	public String getDescriptionEnglish() {
+		return descriptionEnglish;
+	}
+
+	public void setDescriptionEnglish(String descriptionEnglish) {
+		this.descriptionEnglish = descriptionEnglish;
 	}
 	
 	@Column(nullable = false)

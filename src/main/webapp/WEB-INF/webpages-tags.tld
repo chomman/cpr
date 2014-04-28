@@ -174,5 +174,16 @@
 		<rtexprvalue>true</rtexprvalue>
 		<type>java.util.Boolean</type>
 	</attribute>
+	<attribute>
+		<name>useSystemVat</name>
+		<required>false</required>
+		<type>java.util.Boolean</type>
+	</attribute>
+	<attribute>
+    	<name>vat</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.math.BigDecimal</type>
+	</attribute>
 </tag>
 </taglib>

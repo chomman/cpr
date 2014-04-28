@@ -77,7 +77,7 @@ public class PortalProductController extends SupportAdminController {
 	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)
-	public String processSubmitPortalService(@PathVariable Long serviceId, @ModelAttribute("service") @Valid PortalProduct form, BindingResult result,  ModelMap map) throws ItemNotFoundException{
+	public String processSubmitPortalService(@PathVariable Long serviceId, @ModelAttribute("portalProduct") @Valid PortalProduct form, BindingResult result,  ModelMap map) throws ItemNotFoundException{
 		if(result.hasErrors()){
 			prepareModel(map, form);
 			return getEditFormView();
@@ -104,7 +104,8 @@ public class PortalProductController extends SupportAdminController {
 		product.setCzechName(form.getCzechName());
 		product.setEnglishName(form.getEnglishName());
 		product.setPrice(form.getPrice());
-		product.setDescription(form.getDescription());
+		product.setDescriptionCzech(form.getDescriptionCzech());
+		product.setDescriptionEnglish(form.getDescriptionEnglish());
 		product.setIntervalValue(form.getIntervalValue());
 		product.setPortalProductInterval(form.getPortalProductInterval());
 		portalProductService.createOrUpdate(product);
