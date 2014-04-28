@@ -76,6 +76,7 @@ public class PortalProduct extends AbstractEntity {
 
 	@NotNull(message = "{error.portalService.price}")
 	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
+	@Column(precision = 6)
 	public BigDecimal getPrice() {
 		return price;
 	}

@@ -7,6 +7,7 @@ import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
+import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
 import sk.peterjurkovic.cpr.entities.PortalProduct;
 import sk.peterjurkovic.cpr.entities.User;
@@ -111,6 +112,11 @@ public class PortalUserForm {
 	
 	public PortalOrder toPortalOrder(){
 		PortalOrder order = new PortalOrder();
+		
+		order.setPortalProduct(portalProduct);
+		order.setPrice(portalProduct.getPrice());
+		order.setVat(Constants.VAT);
+		
 		order.setEmail(getEmail());
 		order.setPhone(userInfo.getPhone());
 		order.setFirstName(getFirstName());
@@ -125,4 +131,14 @@ public class PortalUserForm {
 		order.setIco(userInfo.getIco());
 		return order;
 	}
+	@Override
+	public String toString() {
+		return "PortalUserForm [id=" + id + ", email=" + email + ", firstName="
+				+ firstName + ", lastName=" + lastName + ", password="
+				+ password + ", confirmPassword=" + confirmPassword
+				+ ", userInfo=" + userInfo + ", portalProduct=" + portalProduct
+				+ ", node=" + node + "]";
+	}
+	
+	
 }

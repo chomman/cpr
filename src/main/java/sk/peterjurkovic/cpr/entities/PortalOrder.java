@@ -101,7 +101,7 @@ public class PortalOrder extends AbstractEntity{
 	
 	@NotNull(message = "{error.portalService.price}")
 	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
-	@Column(name = "price", nullable = false)
+	@Column(name = "price", nullable = false, precision = 6, scale = 2)
 	public BigDecimal getPrice() {
 		return price;
 	}
@@ -110,7 +110,7 @@ public class PortalOrder extends AbstractEntity{
 		this.price = price;
 	}
 	
-	@Column(name = "vat")
+	@Column(name = "vat", precision = 3, scale = 2)
 	public BigDecimal getVat() {
 		return vat;
 	}

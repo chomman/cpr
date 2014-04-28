@@ -33,6 +33,7 @@
 .placeholder{color: #ddd !important;}
 .clear { clear: both; }
 .hidden{display: none !important;}
+
 /* HEADER ------------*/
 .pj-above-header .pj-inner{position: relative;}
 .pj-above-header{height: 25px;border-bottom: 1px solid #05475b;color:#d7cdcd;font-size: 11px;}
@@ -161,6 +162,8 @@ article h1{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#8
 section #article a{color:#0088c8;}
 .pj-link:hover,
 section #article a:hover{color:#111;}
+section article{margin-top:25px;}
+section #article{font-size:14px;color:#222;line-height:20px;}
 
 .pj-publication{background: #6bba70;position:relative;
 background: -moz-linear-gradient(top, #6bba70 0%, #6bba70 100%);
@@ -218,8 +221,6 @@ footer ul li a:hover{color:#333}
 .pj-bc span{color:#999;}
 .pj-bc a,.pj-bc span{padding:5px;}
 
-section article{margin-top:25px;}
-section #article{font-size:14px;color:#333;line-height:18px;}
 
 
 
@@ -293,6 +294,15 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 .form .pj-gray{background:#fafafa !important;padding:10px 0 10px 100px;display:block;}
 .vop{font-size:12px !important;padding:5px;}
 
+.product-info{padding:10px 20px 60px 20px;position:relative;}
+.product-info .price-wrapp{display:inline-block;position:absolute;}
+.product-info .v{font-weight:bold;}
+.product-info .l{font-size:13px;margin-right:10px}
+.no-vat{background:#44c767;padding:10px 15px;font-size:17px;color:#fff;bottom:15px;right:20px}
+.with-vat{padding:10px 15px;font-size:15px;color:#555;bottom:15px;right:240px;background:#eee;}
+.is-company{padding:15px;text-align:center;color:#18557a;text-decoration:underline;}
+.is-company:hover{background:#18557a;color:#fff;cursor:pointer;}
+.descr{font-size:13px;display:block;line-height:16px;position:relative;}
 
 #status{position:absolute;z-index:99999999;background:url(../../admin/img/tbg.png);padding:40px 50px;border-radius:600px;display: none;}
 #status p{border-radius:10px;}

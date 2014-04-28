@@ -89,19 +89,22 @@ public class PortalWebpageController extends WebpageControllerSupport {
 			@Valid @RequestBody  PortalUserForm form, 
 			BindingResult result, 
 			HttpServletRequest request) throws ItemNotFoundException{
-		
 				JsonResponse response = new JsonResponse();
-		
 				if(result.hasErrors()){
 					response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
 					return response;
 				}
-				final User user = portalUserService.createNewUser(form.toUser());
-				PortalOrder order = form.toPortalOrder();
-				order.setUser(user);
-				order.setIpAddress(RequestUtils.getIpAddress(request));
-				order.setCreatedBy(user);
-				
+				try{
+					final User user = portalUserService.createNewUser(form.toUser());
+					PortalOrder order = form.toPortalOrder();
+					order.setUser(user);
+					order.setIpAddress(RequestUtils.getIpAddress(request));
+					order.setCreatedBy(user);
+					portalOrderService.create(order);
+					logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
+				}catch(Exception e){
+					logger.error("Objednavku sa nepodarilo vytvorit, " + form.toString(), e);
+				}
 				response.setStatus(JsonStatus.SUCCESS);
 				return response;
 	}
