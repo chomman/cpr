@@ -21,4 +21,14 @@ public class PriceUtils {
 		return getPriceWithVat(priceWithoutVat, vat).subtract(priceWithoutVat);
 	}
 	
+	public static String getFormatedVat(BigDecimal vat){
+		if(vat == null){
+			return "";
+		}
+		return vat.subtract(new BigDecimal("1"))
+				  .multiply(new BigDecimal("100"))
+				  .setScale(0)
+				  .toString()+ "%";
+	}
+	
 }

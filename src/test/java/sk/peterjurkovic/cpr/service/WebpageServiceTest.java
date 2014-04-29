@@ -4,22 +4,12 @@ import junit.framework.Assert;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.services.WebpageService;
 import sk.peterjurkovic.cpr.test.WebpageDateSet;
 
-
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration("/application-testContext.xml")
-@TransactionConfiguration
-@Transactional
 public class WebpageServiceTest extends WebpageDateSet{
 	
 	

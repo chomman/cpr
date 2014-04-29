@@ -5,7 +5,7 @@ import java.util.List;
 
 import sk.peterjurkovic.cpr.entities.Webpage;
 
-public class WebpageDateSet {
+public class WebpageDateSet extends AbstractTest {
 	
 	protected List<Webpage> list = new ArrayList<Webpage>();
 	

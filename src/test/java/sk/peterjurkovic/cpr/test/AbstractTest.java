@@ -1,17 +1,42 @@
 package sk.peterjurkovic.cpr.test;
 
+import org.junit.Before;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.AbstractTransactionalJUnit4SpringContextTests;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.services.UserService;
+
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@TransactionConfiguration(transactionManager = "transactionManagerBean", defaultRollback = true)
+@ContextConfiguration(locations = 
+	{ 
+	"/application-testContext.xml",  
+	"file:src/main/webapp/WEB-INF/spring/applicationContext-security.xml"
+})
+@TransactionConfiguration
 @Transactional
-@ContextConfiguration
-public class AbstractTest extends AbstractTransactionalJUnit4SpringContextTests{
-
+public class AbstractTest{
+	
+	 @Autowired
+	 private UserService userService;
+	
+	 @Before
+     public void onSetUp() {
+         User user = new User();
+         user.setFirstName("testF");
+         user.setLastName("testL");
+         user.setEmail("logged-user@nlfnorm.cz");
+         userService.saveUser(user);
+         Authentication auth = new UsernamePasswordAuthenticationToken(user,null);
+         SecurityContextHolder.getContext().setAuthentication(auth);
+     }
+	 
 }

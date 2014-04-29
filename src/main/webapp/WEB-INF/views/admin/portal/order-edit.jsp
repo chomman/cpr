@@ -3,7 +3,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="admin.portal.order.title" />: ${portalOrder.id}</title>
+	<title><spring:message code="admin.portal.order.title" />: ${model.order.id}</title>
+	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
+	<script>
+		$(function() {
+			$( ".helpTip" ).selectTip();
+		});
+	</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -15,10 +21,10 @@
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  u&raquo;
 				 <a:adminurl href="/portal/orders"><spring:message code="admin.portal.orders" /></a:adminurl>  &raquo;
-				 <span><spring:message code="admin.portal.order.title" />: ${portalOrder.id}</span>
+				 <span><spring:message code="admin.portal.order.title" />: ${model.order.id}</span>
 			</div>
 			<h1>
-				<spring:message code="admin.portal.order.title" />: <strong>${portalOrder.id}</strong>
+				<spring:message code="admin.portal.order.title" />: <strong>${model.order.id}</strong>
 			</h1>
 	
 			<div id="content">
@@ -26,33 +32,45 @@
 				<jsp:include page="order-nav.jsp" />
 				
 				
-				<table class="info">
+				<table class="info mw600" style="width:600px;">
 					
 						<tr>
-						<c:if test="${not empty portalOrder.id}">
+						<c:if test="${not empty model.order.id}">
 							<td class="key"><spring:message code="admin.portal.order.no" /></td>
-							<td class="val"><strong>${portalOrder.id}</strong></td>
+							<td class="val">${model.order.id}</td>
+							<td class="key">Zákazník</td>
+							<td class="val">
+								<a:adminurl href="/portal/user/${portalOrder.user.id}">
+									${portalOrder.user.firstName} ${portalOrder.user.lastName}
+								</a:adminurl>
+							</td>
 						</c:if>
 						</tr>
 					
 					<tr>
 						<td class="key"><spring:message code="admin.portal.order.created" /></td>
-						<td class="val"><joda:format value="${system.created}" pattern="${common.dateTimeFormat}"/></td>
-						<c:if test="${not empty portalOrder.ipAddress}">
+						<td class="val"><joda:format value="${model.order.created}" pattern="${common.dateTimeFormat}"/></td>
+						<c:if test="${not empty model.order.ipAddress}">
 						<td class="key"><spring:message code="admin.portal.order.idAddres" /></td>
-						<td class="val">${portalOrder.ipAddress}</td>
+						<td class="val">${model.order.ipAddress}</td>
 						</c:if>
 					</tr>
-					<c:if test="${not empty portalOrder.dateOfActivation}">
+					
 						<tr>
-							<td class="key"><spring:message code="admin.portal.order.dateOfActivation" /></td>
-							<td class="val"><strong><joda:format value="${system.dateOfActivation}" pattern="dd.MM.yyyy"/></strong> </td>
+							<c:if test="${not empty model.order.dateOfActivation}">
+								<td class="key"><spring:message code="admin.portal.order.dateOfActivation" /></td>
+								<td class="val"><joda:format value="${model.order.dateOfActivation}" pattern="dd.MM.yyyy"/></td>
+							</c:if>
+							<c:if test="${not empty model.order.user.registrationValidity}">
+								<td class="key">Platnost registrace do:</td>
+								<td class="val"><joda:format value="${model.order.user.registrationValidity}" pattern="dd.MM.yyyy"/></td>
+							</c:if>
 						</tr>
-					</c:if>
+					
 				</table>
 				
 				
-				<form:form commandName="service" method="post" cssClass="valfid" >
+				<form:form commandName="portalOrder" method="post" cssClass="valfid" >
 							
 							<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 							
@@ -68,9 +86,9 @@
 	                        		</strong>
 	                        	</label>
 	                            <span class="field">
-	                            	<form:select path="portalService">
-	                            		<c:forEach items="${model.services}" var="i">
-	                            			<option value="${id}" >${i.czechName}</option>
+	                            	<form:select path="portalProduct">
+	                            		<c:forEach items="${model.portalProducts}" var="i">
+	                            			<option value="${i.id}" >${i.czechName}</option>
 	                            		</c:forEach>
 	                            	</form:select>
 	                            </span>
@@ -83,7 +101,27 @@
 	                        	</label>
 	                            <span class="field"> 
 	                            	<form:input path="price" maxlength="5" cssClass="w100 required numeric" />
-	                            	<span>DPH: ${service.vat - 1}%</span>
+	                            	<span>s (${model.order.formatedVat}) DPH: 
+	                            	<strong>${model.order.priceWithVat}</strong> </span>
+	                            </span>
+	                        </p>
+	                         <p class="orderStatus">
+	                       		<label>
+	                       			<strong><em class="red">*</em>
+	                        			<spring:message code="admin.portal.order.stav" />:
+	                        		</strong>  
+	                        	</label>
+	                            <span class="field">
+	                            	<form:select path="orderStatus" cssClass="chosenSmall helpTip">
+	                            		<c:forEach items="${model.orderStatuses}" var="i">
+	                            			<option value="${i}" 
+	                            				data-id="${i.id}"
+	                            		  		<c:if test="${empty portalOrder.dateOfActivation }">title="<spring:message code="admin.${i.code}" />"</c:if>
+	                            				<c:if test="${portalOrder.orderStatus eq i}">selected="selected"</c:if> >
+	                            				<spring:message code="${i.code}" />
+	                            			</option>
+	                            		</c:forEach>
+	                            	</form:select>
 	                            </span>
 	                        </p>
 	                        <p class="form-head"><spring:message code="admin.portal.order.head.customer" /></p>
@@ -94,7 +132,7 @@
 	                        		</strong>
 	                        	</label>
 	                            <span class="field">
-	                            	<form:input path="firtsName" cssClass="mw500 required" />
+	                            	<form:input path="firstName" cssClass="mw500 required" />
 	                            </span>
 	                        </p>
 	                        <p>
@@ -139,7 +177,7 @@
 	                            <span class="field">
 	                            	<form:input path="street" cssClass="mw300" />
 	                            	<span><spring:message code="admin.portal.zip" />:</span>
-	                            	<form:input path="zip" cssClass="mw100" maxlength="6"/>
+	                            	<form:input path="zip" cssClass="w50" maxlength="6"/>
 	                            </span>
 	                        </p>
 	                        <p class="form-head"><spring:message code="admin.portal.order.head.company" /></p>
@@ -148,7 +186,7 @@
 	                        		<spring:message code="admin.portal.companyName" />  
 	                        	</label>
 	                            <span class="field">
-	                            	<form:input path="city" cssClass="mw300" />
+	                            	<form:input path="companyName" cssClass="mw300" />
 	                            </span>
 	                        </p>
 	                        <p>

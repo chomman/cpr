@@ -20,4 +20,8 @@ public interface PortalOrderService {
 	
 	PageDto getPortalOrderPage(int currentPage, Map<String, Object> criteria);
 	
+	void updateAndSetChanged(PortalOrder order, boolean sendEmail);
+	
+	void activateProduct(PortalOrder order);
+	
 }

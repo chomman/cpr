@@ -28,6 +28,7 @@ import org.hibernate.validator.constraints.Range;
 import org.joda.time.LocalDate;
 
 import sk.peterjurkovic.cpr.enums.OrderStatus;
+import sk.peterjurkovic.cpr.utils.PriceUtils;
 
 
 @Entity
@@ -76,9 +77,8 @@ public class PortalOrder extends AbstractEntity{
 		return super.getId();
 	}
 	
-	@NotNull
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")	
+    @JoinColumn(name = "user_id", nullable = false)	
 	public User getUser() {
 		return user;
 	}
@@ -272,5 +272,49 @@ public class PortalOrder extends AbstractEntity{
 	@Override
 	public Boolean getEnabled() {
 		return null;
+	}
+	
+	@Transient
+	public String getFormatedVat(){
+		return PriceUtils.getFormatedVat(vat);
+	}
+	
+	@Transient
+	public BigDecimal getPriceWithVat(){
+		return PriceUtils.getPriceWithVat(price, vat);
+	}
+	
+	
+	@Transient
+	public boolean getIsActivated(){
+		return dateOfActivation != null;
+	}
+	
+	@Transient 
+	public boolean merge(PortalOrder form){
+		boolean sendEmail = false;
+		if(!getEmailSent() && 
+		   !form.getOrderStatus().equals(OrderStatus.PENDING) &&
+		   !getOrderStatus().equals(form.getOrderStatus())){
+			sendEmail = true;
+		}
+		
+		setPortalProduct(form.getPortalProduct());
+		setPrice(form.getPrice());
+		setOrderStatus(form.getOrderStatus());
+		setFirstName(form.getFirstName());
+		setLastName(form.getLastName());
+		setCity(form.getCity());
+		setStreet(form.getStreet());
+		setZip(form.getZip());
+		
+		setCompanyName(form.getCompanyName());
+		setIco(form.getIco());
+		setDic(form.getDic());
+		
+		setEmail(form.getEmail());
+		setPhone(form.getPhone());
+		
+		return sendEmail;
 	}
 }

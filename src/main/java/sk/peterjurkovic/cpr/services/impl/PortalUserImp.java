@@ -35,7 +35,9 @@ public class PortalUserImp implements PortalUserService {
 	public User createNewUser(User user) {
 		Validate.notNull(user);
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		user.getAuthorities().add(authorityDao.getByCode(Authority.ROLE_PORTAL_USER));
+		Authority portalUser = authorityDao.getByCode(Authority.ROLE_PORTAL_USER);
+		Validate.notNull(portalUser);
+		user.getAuthoritySet().add(portalUser);
 		user.setChanged(new LocalDateTime());
 		user.setCreated(new LocalDateTime());
 		userService.saveUser(user);

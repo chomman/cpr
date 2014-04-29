@@ -136,7 +136,7 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public void createOrUpdateUser(User user) {
-		User loggedUser = getUserByUsername(UserUtils.getLoggedUser().getUsername());
+		User loggedUser = UserUtils.getLoggedUser();
 		
 		if(user.getId() == null){
 			user.setCreatedBy(loggedUser);

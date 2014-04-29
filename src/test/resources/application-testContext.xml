@@ -24,6 +24,9 @@
     
    <util:properties id="config" location="config.properties"/>
    
+   <bean name="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+	    <property name="validationMessageSource" ref="messageSource" />
+	</bean>
   
   <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
     	<property name="location"

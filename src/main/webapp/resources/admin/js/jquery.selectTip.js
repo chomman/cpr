@@ -32,6 +32,9 @@ $.fn.selectTip = function(opts) {
 	function create($select){
 		var text = $select.find(' option:selected').attr('title'),
 			$infoBox = $select.parent().find(options.selector);	
+		if(typeof text === 'undefined' || text.lenght > 0){
+			return false;
+		}
 		if($infoBox.length > 0){
 			$infoBox.html( text );
 		}else{

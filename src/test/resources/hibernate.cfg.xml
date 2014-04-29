@@ -8,6 +8,7 @@
  <session-factory >
  
  	<mapping class="sk.peterjurkovic.cpr.entities.User" />
+	<mapping class="sk.peterjurkovic.cpr.entities.User" />
 	<mapping class="sk.peterjurkovic.cpr.entities.UserInfo" />
   	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
@@ -28,8 +29,6 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.Article" />
 	<mapping class="sk.peterjurkovic.cpr.entities.Webpage" />
 	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.DeclarationOfPerformance"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Report"/>
 	
@@ -40,7 +39,7 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminologyLog"/>	
 	
 	<mapping class="sk.peterjurkovic.cpr.entities.PortalProduct"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrder"/>		
+	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrder"/>	
 	
 	 
  </session-factory>

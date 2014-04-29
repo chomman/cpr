@@ -34,7 +34,7 @@
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span class="filter-label"><spring:message code="cpr.standard.added" /></span>
+					<span class="filter-label">Stav objednávky: </span>
 					<select name="orderStatus" class="chosenSmall">
 							<option value="">Nezáleží</option>
 						<c:forEach items="${model.orderStatuses}" var="i">
@@ -108,7 +108,7 @@
 							 				${i.firstName} ${i.lastName}
 										</c:if>
 							 		</td>
-							 		<td class="w100 status">
+							 		<td class="w100 status c">
 							 			<spring:message code="${i.orderStatus.code}" />
 							 		</td>
 							 		<td class="last-edit">
