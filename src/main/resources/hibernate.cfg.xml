@@ -29,8 +29,6 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.Article" />
 	<mapping class="sk.peterjurkovic.cpr.entities.Webpage" />
 	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.DeclarationOfPerformance"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.EssentialCharacteristic"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.Report"/>
 	

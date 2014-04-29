@@ -1,5 +1,9 @@
 package sk.peterjurkovic.cpr.web.controllers.admin.portal;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,10 +13,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
+import sk.peterjurkovic.cpr.enums.OrderStatus;
+import sk.peterjurkovic.cpr.enums.PortalOrderOrder;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.PortalOrderService;
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
+import sk.peterjurkovic.cpr.web.pagination.PageLink;
+import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 
 @Controller
 public class PortalOrderController extends SupportAdminController {
@@ -29,9 +39,19 @@ public class PortalOrderController extends SupportAdminController {
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
-	public String handleOrderList(){
-		
-		
+	public String handleOrderList(HttpServletRequest request,  ModelMap modelMap){
+		Map<String, Object> model = new HashMap<String, Object>();
+		int currentPage = RequestUtils.getPageNumber(request);
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		PageDto page = portalOrderService.getPortalOrderPage(currentPage, params);
+		if(page.getCount() > 0){
+			model.put("paginationLinks", getPaginationItems(request,params, currentPage, page.getCount()));
+			model.put("portalOrders", page.getItems() );
+		}
+		model.put("params", params);
+		model.put("orders", PortalOrderOrder.getAll());
+		model.put("orderStatuses", OrderStatus.getAll());
+		modelMap.put("model", model);
 		return getTableItemsView();
 	}
 	
@@ -57,6 +77,14 @@ public class PortalOrderController extends SupportAdminController {
 			throw new ItemNotFoundException("Obejdnavka ID: " + id + " se v systému nenachází");
 		}
 		return order;
+	}
+	
+	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setUrl("/admin/orders");
+		paginger.setCurrentPage(currentPage);
+		paginger.setRowCount(count);
+		return paginger.getPageLinks(); 
 	}
 	
 }

@@ -161,3 +161,8 @@ function initManthPicker(){
 }
 
 $(document).on('click', '.disabled', function(){return false;});
+
+
+$(document).on('submit', 'form', function(){
+	
+});

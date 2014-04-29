@@ -128,4 +128,9 @@ ALTER TABLE portal_product
 insert into authority (id, changed, code, created, enabled, long_description, name, short_description)
 values (5, NOW(), 'ROLE_PORTAL_USER', NOW(), true, 'Je mu umožněno zobrazovat jednotlivé sekce v informačním portálu', 'Registrovaný uživatel portálu', 'Je mu umožněno zobrazovat jednotlivé sekce v informačním portálu');
 
+
+DROP TABLE essential_characteristic;
+DROP TABLE declaration_of_performance;
+
+
 end;

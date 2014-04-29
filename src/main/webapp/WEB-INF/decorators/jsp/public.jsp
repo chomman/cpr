@@ -23,6 +23,9 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="<c:url value="/resources/public/js/common.js" />"></script>
 		<script src="<c:url value="/resources/public/js/jquery.lang.switcher.js" />"></script>
+		<script src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
+		<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
+		<script src="<c:url value="/resources/public/js/jquery.pagination.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<meta name="description" content="<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="description" />" />
 		<decorator:head/>

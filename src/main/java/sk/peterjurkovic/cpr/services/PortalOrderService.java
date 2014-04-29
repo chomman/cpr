@@ -1,7 +1,9 @@
 package sk.peterjurkovic.cpr.services;
 
 import java.util.List;
+import java.util.Map;
 
+import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
 
 public interface PortalOrderService {
@@ -16,6 +18,6 @@ public interface PortalOrderService {
 	
 	List<PortalOrder> getAll();
 	
-	
+	PageDto getPortalOrderPage(int currentPage, Map<String, Object> criteria);
 	
 }

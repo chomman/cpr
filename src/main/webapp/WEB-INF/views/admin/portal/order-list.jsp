@@ -4,6 +4,11 @@
 <html>
 <head>
 	<title><spring:message code="admin.portal.orders" /></title>
+	<script type="text/javascript">  
+	$(document).ready(function() {  
+		
+	});
+	</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -19,16 +24,46 @@
 	
 			<div id="content">
 				
-				<script type="text/javascript">  
-				$(document).ready(function() {    });
-				</script>
+				
+								
+			<form class="filter" method="get">
+				<div >
+					<span class="filter-label long"><spring:message code="form.orderby" />:</span>
+					<select name="orderBy" class="chosenSmall">
+						<c:forEach items="${model.orders}" var="i">
+							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
+						</c:forEach>
+					</select>
+					<span class="filter-label"><spring:message code="cpr.standard.added" /></span>
+					<select name="orderStatus" class="chosenSmall">
+							<option value="">Nezáleží</option>
+						<c:forEach items="${model.orderStatuses}" var="i">
+							<option value="${i}" <c:if test="${i == model.params.orderStatus}" >selected="selected"</c:if> >
+								<spring:message code="${i.code}" />
+							</option>
+						</c:forEach>
+					</select>
+										
+				</div>
+				<div>
+					<span class="filter-label long">Datum přijetí:</span>
+					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
+					<span class="filter-label">do:</span>
+					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
+				</div>
+				<div>
+					<span class="filter-label long">Název zákazníka:</span>
+					<input type="text" class="query " name="query"   value="${model.params.query}" />
+					<input type="submit" value="Filtrovat" class="btn filter-btn-standard" />
+				</div>
+			</form>				
 								
 				<c:if test="${not empty successDelete}">
 					<p class="msg ok"><spring:message code="success.delete" /></p>
 				</c:if>
 				
 							
-				<c:if test="${not empty model.orders}">
+				<c:if test="${not empty model.portalOrders}">
 					
 					<!-- STRANKOVANIE -->
 					<c:if test="${not empty model.paginationLinks}" >
@@ -56,9 +91,9 @@
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach items="${model.orders}" var="i">
-							 	<tr>
-							 		<td class="oid">
+							<c:forEach items="${model.portalOrders}" var="i">
+							 	<tr class="status-${i.orderStatus.id }">
+							 		<td class="oid w100 c">
 								 		<a:adminurl href="/portal/order/${i.id}">
 								 			${i.id}
 								 		</a:adminurl>
@@ -95,7 +130,7 @@
 					</table>
 				</c:if>
 				
-				<c:if test="${empty model.orders}">
+				<c:if test="${empty model.portalOrders}">
 					<p class="msg alert">
 						<spring:message code="alert.empty" />
 					</p>

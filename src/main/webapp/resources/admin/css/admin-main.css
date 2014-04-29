@@ -1313,3 +1313,6 @@ h1.pj-smaller{font-size:18px;padding:10px 35px;}
 .sub-nav.webpages{margin:-20px -20px 0 -25px;padding:5px 20px 0 45px;height:60px;background-position:0 40px}
 .sub-nav.webpages li a{padding:8px 13px;font-size:13px;font-weight:bold;}
 .sub-nav.webpages a.active{font-weight:normal;}
+
+.status-1 .oid{background:#ebffb0;}
+.status-3 .oid{background:#ffc9bf;}

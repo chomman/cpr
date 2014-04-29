@@ -23,6 +23,7 @@ public class Filter {
 	public static final String CREATED_TO 			= "createdTo";
 	public static final String CREATED_FROM 		= "createdFrom";
 	public static final String STANDARD_STAUTS		= "standardStatus";
+	public static final String ORDER_STATUS			= "orderStatus";
 	
 	
 }

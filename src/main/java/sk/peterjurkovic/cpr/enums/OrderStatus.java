@@ -1,5 +1,8 @@
 package sk.peterjurkovic.cpr.enums;
 
+import java.util.Arrays;
+import java.util.List;
+
 public enum OrderStatus {
 	
 	PENDING(1, "orderStatus.pending"),
@@ -15,6 +18,9 @@ public enum OrderStatus {
 		this.code = code;
 	}
 	
+	public static List<OrderStatus> getAll() {
+        return Arrays.asList(values());
+    }
 
 	public int getId() {
 		return id;
