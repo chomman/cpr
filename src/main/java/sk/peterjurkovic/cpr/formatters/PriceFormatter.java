@@ -10,29 +10,43 @@ import org.springframework.format.Formatter;
 
 public class PriceFormatter implements Formatter<BigDecimal>{
 
-	private NumberFormat priceFormat = NumberFormat.getCurrencyInstance(new Locale("cs", "CZ"));
-	
+	 private NumberFormat priceFormat = NumberFormat.getCurrencyInstance(new Locale("cs", "CZ"));
+	 private boolean hideCurrency = false;
+	 
 	 public PriceFormatter(boolean hideCurrency) {
-        if (hideCurrency) {
-            priceFormat = NumberFormat.getInstance();
-        }
-	 }
+	        this.hideCurrency = hideCurrency;
+	}
+	 
+	public String print(BigDecimal price, String currency){ 
+		priceFormat = NumberFormat.getInstance();
+		String strPrice =  print(price);
+		if(hideCurrency){
+			return strPrice;
+		}
+		return strPrice + " "+ currency;
+	}
 	
 	@Override
 	public String print(BigDecimal price, Locale locale) {
+		if(hideCurrency){
+        	priceFormat = NumberFormat.getInstance();
+        }
+		return print(price);
+	}
+	
+	private String print(BigDecimal price){
 		if (price == null) {
             return "";
         }
-
-        try {
-            if (price.stripTrailingZeros().scale() > 0) {
-                priceFormat.setMinimumFractionDigits(2);
-                priceFormat.setMaximumFractionDigits(2);
-            }
-            return priceFormat.format(price);
-        } catch (IllegalArgumentException iae) {
-            return "";
-        }
+		try {
+			if (price.stripTrailingZeros().scale() > 0) {
+			    priceFormat.setMinimumFractionDigits(2);
+			    priceFormat.setMaximumFractionDigits(2);
+			}
+			return priceFormat.format(price);
+		} catch (IllegalArgumentException iae) {
+		    return "";
+		}
 	}
 
 	@Override

@@ -20,6 +20,7 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
+import sk.peterjurkovic.cpr.enums.OnlinePublication;
 import sk.peterjurkovic.cpr.enums.PortalProductInterval;
 import sk.peterjurkovic.cpr.enums.PortalProductType;
 
@@ -42,11 +43,13 @@ public class PortalProduct extends AbstractEntity {
 	private PortalProductInterval portalProductInterval;
 	private Integer intervalValue;
 	private PortalProductType portalProductType;
+	private OnlinePublication onlinePublication;
 	
 	public PortalProduct(){
 		setEnabled(true);
 		deleted = false;
 		portalProductInterval = PortalProductInterval.YEAR;
+		portalProductType = PortalProductType.REGISTRATION;
 		intervalValue = 1;
 	}
 	
@@ -150,6 +153,16 @@ public class PortalProduct extends AbstractEntity {
 
 	public void setPortalProductType(PortalProductType portalProductType) {
 		this.portalProductType = portalProductType;
+	}
+	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "online_publication", length = 20)
+	public OnlinePublication getOnlinePublication() {
+		return onlinePublication;
+	}
+
+	public void setOnlinePublication(OnlinePublication onlinePublication) {
+		this.onlinePublication = onlinePublication;
 	}
 
 	@Range(min = 1, max = 100, message = "{error.portalProduct.reange.invalid}")

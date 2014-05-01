@@ -1,5 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>	
+<c:set var="isLoggedWebmaster" value="false"/>
+<sec:authorize access="hasRole('ROLE_WEBMASTER')">	
+	<c:set var="isLoggedWebmaster" value="true"/>
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 <head>
@@ -16,7 +20,7 @@
 		 tinyMCE.init({
 			 	selector: "textarea.wisiwig",
 				language : "cs",
-				height : 170,
+				height : 200,
 				width : 630,
 				forced_root_block : "",
 				force_br_newlines : true,
@@ -78,7 +82,42 @@
 							<c:if test="${not empty successCreate}">
 								<p class="msg ok"><spring:message code="success.create" /></p>
 							</c:if>
-	                        <p>
+							<c:if test="${isLoggedWebmaster}">
+								<p>
+		                       		<label>
+		                       			<strong><em class="red">*</em>
+		                        			<spring:message code="admin.service.selectType" />
+		                        		</strong>  
+		                        	</label>
+		                            <span class="field"> 	                            	
+		                            	<form:select path="portalProductType" cssClass="w100 chosenSmall">
+		                            		<c:forEach items="${portalProductTypes}" var="i">
+		                            			<option value="${i}" <c:if test="${i.id == portalProduct.portalProductType.id}">selected="selected"</c:if> >
+		                            				<spring:message code="${i.code}" />
+		                            			</option>
+		                            		 </c:forEach>
+		                            	</form:select>
+		                            </span>
+		                        </p>
+		                        <p class="prod publication">
+		                       		<label>
+		                       			<strong><em class="red">*</em>
+		                        			<spring:message code="admin.service.onlinePublication" />
+		                        		</strong>  
+		                        	</label>
+		                            <span class="field"> 
+		                            	<form:select path="onlinePublication" cssClass="w100 chosenSmall">
+		                            		<option value="">-- Vybrat --</option>
+		                            		<c:forEach items="${onlinePublications}" var="i">
+		                            			<option value="${i}" <c:if test="${i eq portalProduct.onlinePublication}">selected="selected"</c:if> >
+		                            				${i}
+		                            			</option>
+		                            		 </c:forEach>
+		                            	</form:select>
+		                            </span>
+		                        </p>
+	                        </c:if>
+	                        <p class="prod registration">
 	                       		<label>
 	                       			<strong><em class="red">*</em>
 	                        			<spring:message code="admin.service.interval" />
@@ -95,14 +134,25 @@
 	                            	</form:select>
 	                            </span>
 	                        </p>
+ 	                        
 	                         <p>
 	                       		<label>
 	                       			<strong><em class="red">*</em>
-	                        			<spring:message code="admin.service.price" />
+	                        			<spring:message code="admin.service.price" /> (Kč)
 	                        		</strong>  
 	                        	</label>
 	                            <span class="field"> 
-	                            	<form:input path="price" maxlength="5" cssClass="w100 required numeric" />
+	                            	<form:input path="priceCzk" maxlength="5" cssClass="w100 required numeric" />
+	                            </span>
+	                        </p>
+	                         <p>
+	                       		<label>
+	                       			<strong><em class="red">*</em>
+	                        			<spring:message code="admin.service.price" /> (EUR)
+	                        		</strong>  
+	                        	</label>
+	                            <span class="field"> 
+	                            	<form:input path="priceEur" maxlength="5" cssClass="w100 required numeric" />
 	                            </span>
 	                        </p>
 	                         <p>

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import org.springframework.web.servlet.tags.RequestContextAwareTag;
 
 import sk.peterjurkovic.cpr.constants.Constants;
-import sk.peterjurkovic.cpr.context.ContextHolder;
+import sk.peterjurkovic.cpr.entities.PortalCurrency;
 import sk.peterjurkovic.cpr.formatters.PriceFormatter;
 import sk.peterjurkovic.cpr.utils.PriceUtils;
 
@@ -13,6 +13,7 @@ import sk.peterjurkovic.cpr.utils.PriceUtils;
 public class WebpagePriceTag extends RequestContextAwareTag{
 	
 	private BigDecimal price;
+	private boolean isEuro = false;
 	private boolean hideCurrency = false;
 	private BigDecimal vat;
 	private boolean useSystemVat = false;
@@ -23,8 +24,15 @@ public class WebpagePriceTag extends RequestContextAwareTag{
 			return SKIP_PAGE;
 		}
 		PriceFormatter formetter = new PriceFormatter(hideCurrency);
-		pageContext.getOut().print(formetter.print(preparePrice(), ContextHolder.getLocale()));		
+		pageContext.getOut().print(formetter.print(preparePrice(), getCurrency()));		
 		return SKIP_PAGE;
+	}
+	
+	private String getCurrency(){
+		if(isEuro){
+			return PortalCurrency.EUR.getSymbol();
+		}
+		return PortalCurrency.CZK.getSymbol();
 	}
 
 	private BigDecimal preparePrice(){
@@ -71,6 +79,12 @@ public class WebpagePriceTag extends RequestContextAwareTag{
 	public void setUseSystemVat(boolean useSystemVat) {
 		this.useSystemVat = useSystemVat;
 	}
+
+	public void setIsEuro(Boolean isEuro) {
+		this.isEuro = isEuro;
+	}
+	
+	
 	
 	
 

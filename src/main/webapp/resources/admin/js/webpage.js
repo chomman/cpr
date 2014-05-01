@@ -12,8 +12,9 @@ $(function() {
 			force_br_newlines : true,
 			force_p_newlines : false,
 			content_css : getBasePath() + 'resources/admin/css/tinymce.css',
-			plugins: "image,link,table,autoresize,fullscreen",
+			plugins: "textcolor,image,link,table,autoresize,fullscreen",
 			convert_urls: false,
+			toolbar: "undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright | bullist numlist | link image",
 			autoresize_min_height: 400,
 			autoresize_max_height: 700
 		});

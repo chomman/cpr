@@ -66,7 +66,7 @@ public class PortalOrder extends AbstractEntity{
 	private String email;
 	
 	private String ipAddress;
-	private OrderCurrency currency;
+	private PortalCurrency currency;
 	
 	private Set<PortalOrderItem> orderItems;
 	private PortalOrderSource portalOrderSource;
@@ -76,7 +76,7 @@ public class PortalOrder extends AbstractEntity{
 		this.emailSent = false;
 		this.orderItems = new HashSet<PortalOrderItem>();
 		this.portalOrderSource = PortalOrderSource.NLFNORM;
-		this.currency = OrderCurrency.CZK;
+		this.currency = PortalCurrency.CZK;
 	}
 	
 	@Id
@@ -273,19 +273,20 @@ public class PortalOrder extends AbstractEntity{
 	
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "currency", length = 3, nullable = false)	
-	public OrderCurrency getCurrency() {
+	public PortalCurrency getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(OrderCurrency currency) {
+	public void setCurrency(PortalCurrency currency) {
 		this.currency = currency;
-	}
-
+	}	
+	
 	@Transient
 	@Override
 	public String getCode() {
 		return null;
 	}
+	
 	
 	@Transient
 	@Override

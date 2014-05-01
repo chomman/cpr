@@ -175,6 +175,12 @@
 		<type>java.util.Boolean</type>
 	</attribute>
 	<attribute>
+		<name>isEuro</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.Boolean</type>
+	</attribute>
+	<attribute>
 		<name>useSystemVat</name>
 		<required>false</required>
 		<type>java.util.Boolean</type>

@@ -52,7 +52,8 @@
 								 		</a:adminurl>
 							 		</td>
 							 		<td>
-							 			<webpage:price price="${i.price}" /> 
+							 			<webpage:price price="${i.priceCzk}" /> /
+							 			<webpage:price price="${i.priceEur}" isEuro="true" />
 							 		</td>			
 							 		<td class="w100">
 							 			<c:if test="${i.enabled}">

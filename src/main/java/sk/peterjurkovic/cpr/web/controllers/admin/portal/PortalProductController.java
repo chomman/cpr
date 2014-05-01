@@ -16,9 +16,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import sk.peterjurkovic.cpr.entities.PortalProduct;
+import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.enums.OnlinePublication;
 import sk.peterjurkovic.cpr.enums.PortalProductInterval;
+import sk.peterjurkovic.cpr.enums.PortalProductType;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.PortalProductService;
+import sk.peterjurkovic.cpr.utils.UserUtils;
 import sk.peterjurkovic.cpr.web.controllers.admin.SupportAdminController;
 
 @Controller
@@ -91,6 +95,8 @@ public class PortalProductController extends SupportAdminController {
 	private void prepareModel(ModelMap map, PortalProduct service){
 		map.addAttribute("portalProduct", service);
 		map.put("intervalTypes", PortalProductInterval.getAll());
+		map.put("portalProductTypes", PortalProductType.getAll());
+		map.put("onlinePublications", OnlinePublication.getAll());
 	}
 	
 	
@@ -100,6 +106,11 @@ public class PortalProductController extends SupportAdminController {
 			product = new PortalProduct();
 		}else{
 			product = getPortalProduct(form.getId());
+		}
+		User user = UserUtils.getLoggedUser();
+		if(user.isWebmaster()){
+			product.setPortalProductType(form.getPortalProductType());
+			product.setOnlinePublication(form.getOnlinePublication());
 		}
 		product.setCzechName(form.getCzechName());
 		product.setEnglishName(form.getEnglishName());
