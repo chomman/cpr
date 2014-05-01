@@ -76,6 +76,18 @@ public class PortalProductServiceImpl implements PortalProductService {
 	public List<PortalProduct> getAllNotDeleted(final boolean publishedOnly) {
 		return portalProductDao.getAllNotDeleted(publishedOnly);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PortalProduct> getAllOnlinePublications(boolean publishedOnly) {
+		return portalProductDao.getAllOnlinePublications(publishedOnly);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<PortalProduct> getAllRegistrations(boolean publishedOnly) {
+		return portalProductDao.getAllRegistrations(publishedOnly);
+	}
 	
 	
 	

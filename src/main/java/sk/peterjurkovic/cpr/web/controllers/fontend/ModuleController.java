@@ -159,7 +159,8 @@ public class ModuleController extends WebpageControllerSupport {
     public String portalRegistrationForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("portalProducts", portalProductService.getAllNotDeleted(true));
+		model.put("portalRegistrations", portalProductService.getAllRegistrations(true));
+		model.put("portalOnlinePublications", portalProductService.getAllOnlinePublications(true));
 		modelMap.addAttribute("user", new PortalUserForm());
         return appendModelAndGetView(model, modelMap, request);
     }

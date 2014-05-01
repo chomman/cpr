@@ -22,4 +22,8 @@ public interface PortalProductService {
 	
 	void createOrUpdate(PortalProduct portalService);
 	
+	List<PortalProduct> getAllOnlinePublications(boolean publishedOnly);
+	
+	List<PortalProduct> getAllRegistrations(final boolean publishedOnly);
+	
 }

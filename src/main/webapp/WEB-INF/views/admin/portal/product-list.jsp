@@ -1,5 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<c:set var="isLoggedWebmaster" value="false"/>
+<sec:authorize access="hasRole('ROLE_WEBMASTER')">	
+	<c:set var="isLoggedWebmaster" value="true"/>
+</sec:authorize>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,6 +40,7 @@
 					<table class="data">
 						<thead>
 							<tr>
+								<tH>Typ</th>
 								<tH><spring:message code="admin.service.name" /></th>
 								<th><spring:message code="admin.service.price" /></th>
 								<th><spring:message code="admin.service.enabled" /></th>
@@ -45,8 +50,11 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${model.portalProducts}" var="i">
-							 	<tr>
-							 		<td class="oid">
+							 	<tr class="product-${i.portalProductType.id}">
+							 		<td class="w100 prod c">
+							 			<spring:message code="${i.portalProductType.code}" />
+							 		</td>
+							 		<td class="pid">
 								 		<a:adminurl href="/portal/product/${i.id}">
 								 			${i.czechName}
 								 		</a:adminurl>
@@ -73,9 +81,11 @@
 							 			</a:adminurl>
 							 		</td>
 							 		<td class="delete">
-							 			<a:adminurl href="/portal/product/delete/${i.id}" cssClass="confirm">
-							 				<spring:message code="form.delete" />
-							 			</a:adminurl>
+							 			<c:if test="${i.portalProductType.id == 1 or isLoggedWebmaster}">
+								 			<a:adminurl href="/portal/product/delete/${i.id}" cssClass="confirm">
+								 				<spring:message code="form.delete" />
+								 			</a:adminurl>
+							 			</c:if>
 							 		</td>
 							 	</tr>
 							 </c:forEach>
