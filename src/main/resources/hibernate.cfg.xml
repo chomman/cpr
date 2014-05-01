@@ -40,6 +40,8 @@
 	
 	<mapping class="sk.peterjurkovic.cpr.entities.PortalProduct"/>
 	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrder"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrderItem"/>
+	
 	 
  </session-factory>
 </hibernate-configuration>

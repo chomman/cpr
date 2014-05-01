@@ -352,14 +352,13 @@
 			<version>2.3</version>
 		</dependency>
   		
-  		   
-  		 <!-- monitoring  
+  		      		
    		<dependency>
-			<groupId>net.bull.javamelody</groupId>
-			<artifactId>javamelody-core</artifactId>
-			<version>1.50.0</version>
-        </dependency>
-   		-->
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.3</version>
+		</dependency>
+            
   		
 
    </dependencies>

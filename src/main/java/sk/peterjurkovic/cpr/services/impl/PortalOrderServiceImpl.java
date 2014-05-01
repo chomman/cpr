@@ -99,7 +99,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		Validate.notNull(order);
 		User user = order.getUser();
 		Validate.notNull(user);
-		PortalProduct product = order.getPortalProduct();
+		/*PortalProduct product = order.getPortalProduct();
 		Validate.notNull(product);
 		
 		LocalDate today = new LocalDate();
@@ -114,6 +114,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		userService.createOrUpdateUser(user);
 		
 		order.setDateOfActivation(today);
+		*/
 		update(order);
 	}
 	

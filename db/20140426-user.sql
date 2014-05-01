@@ -31,12 +31,19 @@ begin;
 	  START 11050
 	  CACHE 1;
 	
-	  CREATE SEQUENCE portal_service_id_seq
+	CREATE SEQUENCE portal_service_id_seq
 	  INCREMENT 1
 	  MINVALUE 1
 	  MAXVALUE 9223372036854775807
 	  START 221
 	  CACHE 1;
+	  
+	CREATE SEQUENCE porta_order_item_seq
+	  INCREMENT 1
+	  MINVALUE 1
+	  MAXVALUE 9223372036854775807
+	  START 221
+	  CACHE 1;	  
 	
 	  
 	  CREATE TABLE portal_order

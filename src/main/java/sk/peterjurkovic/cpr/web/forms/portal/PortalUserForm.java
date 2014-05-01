@@ -113,8 +113,7 @@ public class PortalUserForm {
 	public PortalOrder toPortalOrder(){
 		PortalOrder order = new PortalOrder();
 		
-		order.setPortalProduct(portalProduct);
-		order.setPrice(portalProduct.getPrice());
+		//order.setPortalProduct(portalProduct);
 		order.setVat(Constants.VAT);
 		
 		order.setEmail(getEmail());

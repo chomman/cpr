@@ -21,6 +21,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
 
 import sk.peterjurkovic.cpr.enums.PortalProductInterval;
+import sk.peterjurkovic.cpr.enums.PortalProductType;
 
 
 @Entity
@@ -33,12 +34,14 @@ public class PortalProduct extends AbstractEntity {
 	
 	private String czechName;
 	private String englishName;
-	private BigDecimal price;
+	private BigDecimal priceCzk;
+	private BigDecimal priceEur;
 	private String descriptionCzech;
 	private String descriptionEnglish;
 	private Boolean deleted;
 	private PortalProductInterval portalProductInterval;
 	private Integer intervalValue;
+	private PortalProductType portalProductType;
 	
 	public PortalProduct(){
 		setEnabled(true);
@@ -76,20 +79,34 @@ public class PortalProduct extends AbstractEntity {
 
 	@NotNull(message = "{error.portalService.price}")
 	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
-	@Column(precision = 6)
-	public BigDecimal getPrice() {
-		return price;
+	@Column(precision = 6, name = "price_czk")
+	public BigDecimal getPriceCzk() {
+		return priceCzk;
 	}
 	
-	public void setPrice(BigDecimal price) {
-		this.price = price;
+	public void setPriceCzk(BigDecimal priceCzk) {
+		this.priceCzk = priceCzk;
 	}
+
+	@NotNull(message = "{error.portalService.price}")
+	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
+	@Column(precision = 6, name = "price_eur")
+	public BigDecimal getPriceEur() {
+		return priceEur;
+	}
+
+	public void setPriceEur(BigDecimal priceEur) {
+		this.priceEur = priceEur;
+	}
+	
+	
 	
 	@Column(name = "description_czech")
 	@Type(type = "text")
 	public String getDescriptionCzech() {
 		return descriptionCzech;
 	}
+
 
 	public void setDescriptionCzech(String descriptionCzech) {
 		this.descriptionCzech = descriptionCzech;
@@ -114,7 +131,7 @@ public class PortalProduct extends AbstractEntity {
 		this.deleted = deleted;
 	}
 	
-	@NotNull(message = "{error.portalProduct.intervalType}")
+
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "interval_type", length = 10)
 	public PortalProductInterval getPortalProductInterval() {
@@ -125,6 +142,16 @@ public class PortalProduct extends AbstractEntity {
 		this.portalProductInterval = portalProductInterval;
 	}
 	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "portal_product_type", length = 12)
+	public PortalProductType getPortalProductType() {
+		return portalProductType;
+	}
+
+	public void setPortalProductType(PortalProductType portalProductType) {
+		this.portalProductType = portalProductType;
+	}
+
 	@Range(min = 1, max = 100, message = "{error.portalProduct.reange.invalid}")
 	@Column(name = "interval_value")
 	public Integer getIntervalValue() {

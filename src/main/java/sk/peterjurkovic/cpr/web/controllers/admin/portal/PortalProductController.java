@@ -103,7 +103,8 @@ public class PortalProductController extends SupportAdminController {
 		}
 		product.setCzechName(form.getCzechName());
 		product.setEnglishName(form.getEnglishName());
-		product.setPrice(form.getPrice());
+		product.setPriceCzk(form.getPriceCzk());
+		product.setPriceEur(form.getPriceEur());
 		product.setDescriptionCzech(form.getDescriptionCzech());
 		product.setDescriptionEnglish(form.getDescriptionEnglish());
 		product.setIntervalValue(form.getIntervalValue());

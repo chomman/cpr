@@ -1,7 +1,10 @@
 package sk.peterjurkovic.cpr.entities;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -13,7 +16,7 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -28,6 +31,8 @@ import org.hibernate.validator.constraints.Range;
 import org.joda.time.LocalDate;
 
 import sk.peterjurkovic.cpr.enums.OrderStatus;
+import sk.peterjurkovic.cpr.enums.PortalOrderSource;
+import sk.peterjurkovic.cpr.enums.PortalProductType;
 import sk.peterjurkovic.cpr.utils.PriceUtils;
 
 
@@ -40,8 +45,6 @@ public class PortalOrder extends AbstractEntity{
 	private static final long serialVersionUID = -4311231873883523058L;
 
 	private User user;
-	private PortalProduct portalProduct;
-	
 	private BigDecimal price;
 	private BigDecimal vat;
 	private OrderStatus orderStatus;
@@ -63,11 +66,17 @@ public class PortalOrder extends AbstractEntity{
 	private String email;
 	
 	private String ipAddress;
-	private String note;
+	private OrderCurrency currency;
+	
+	private Set<PortalOrderItem> orderItems;
+	private PortalOrderSource portalOrderSource;
 	
 	public PortalOrder(){
 		this.orderStatus = OrderStatus.PENDING;
 		this.emailSent = false;
+		this.orderItems = new HashSet<PortalOrderItem>();
+		this.portalOrderSource = PortalOrderSource.NLFNORM;
+		this.currency = OrderCurrency.CZK;
 	}
 	
 	@Id
@@ -86,16 +95,15 @@ public class PortalOrder extends AbstractEntity{
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	@NotNull(message = "{error.protalProduct.empty}")
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "portal_product", nullable = false)
-	public PortalProduct getPortalProduct() {
-		return portalProduct;
+	
+	
+	@OneToMany(mappedBy = "portalOrder", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<PortalOrderItem> getOrderItems() {
+		return orderItems;
 	}
 
-	public void setPortalProduct(PortalProduct portalProduct) {
-		this.portalProduct = portalProduct;
+	public void setOrderItems(Set<PortalOrderItem> orderItems) {
+		this.orderItems = orderItems;
 	}
 
 	
@@ -214,15 +222,6 @@ public class PortalOrder extends AbstractEntity{
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
-	@Column(name = "note", length = 300)
-	public String getNote() {
-		return note;
-	}
-
-	public void setNote(String note) {
-		this.note = note;
-	}
 
 	@Enumerated(value = EnumType.STRING)
 	@Column(name = "order_status", length = 25)
@@ -234,6 +233,16 @@ public class PortalOrder extends AbstractEntity{
 		this.orderStatus = orderStatus;
 	}
 	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "order_source", length = 15)	
+	public PortalOrderSource getPortalOrderSource() {
+		return portalOrderSource;
+	}
+
+	public void setPortalOrderSource(PortalOrderSource portalOrderSource) {
+		this.portalOrderSource = portalOrderSource;
+	}
+
 	@Column(name = "date_of_activation")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	public LocalDate getDateOfActivation() {
@@ -261,6 +270,16 @@ public class PortalOrder extends AbstractEntity{
 	public void setIpAddress(String ipAddress) {
 		this.ipAddress = ipAddress;
 	}
+	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "currency", length = 3, nullable = false)	
+	public OrderCurrency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(OrderCurrency currency) {
+		this.currency = currency;
+	}
 
 	@Transient
 	@Override
@@ -279,12 +298,7 @@ public class PortalOrder extends AbstractEntity{
 		return PriceUtils.getFormatedVat(vat);
 	}
 	
-	@Transient
-	public BigDecimal getPriceWithVat(){
-		return PriceUtils.getPriceWithVat(price, vat);
-	}
-	
-	
+		
 	@Transient
 	public boolean getIsActivated(){
 		return dateOfActivation != null;
@@ -299,7 +313,6 @@ public class PortalOrder extends AbstractEntity{
 			sendEmail = true;
 		}
 		
-		setPortalProduct(form.getPortalProduct());
 		setPrice(form.getPrice());
 		setOrderStatus(form.getOrderStatus());
 		setFirstName(form.getFirstName());
@@ -316,5 +329,36 @@ public class PortalOrder extends AbstractEntity{
 		setPhone(form.getPhone());
 		
 		return sendEmail;
+	}
+	
+	
+	@Transient
+	public BigDecimal getTotalPrice(){
+		BigDecimal totalPrice = new BigDecimal("0");
+		for(PortalOrderItem item : getOrderItems()){
+			totalPrice = totalPrice.add(item.getPrice());
+		}
+		return totalPrice;
+	}
+	
+	@Transient
+	public BigDecimal getTotalPriceWithVat(){
+		BigDecimal totalPrice = new BigDecimal("0");
+		for(PortalOrderItem item : getOrderItems()){
+			totalPrice = totalPrice.add(item.getPriceWithVat());
+		}
+		return totalPrice;
+	}
+	
+	
+	@Transient
+	public PortalProduct getRegistrationPortalProduct(){
+		for(PortalOrderItem item : getOrderItems()){
+			PortalProductType type = item.getPortalProduct().getPortalProductType();
+			if(type.equals(PortalProductType.REGISTRATION)){
+				return item.getPortalProduct();
+			}
+		}
+		return null;
 	}
 }
