@@ -17,6 +17,7 @@ import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
 import sk.peterjurkovic.cpr.entities.PortalProduct;
 import sk.peterjurkovic.cpr.entities.User;
+import sk.peterjurkovic.cpr.entities.UserOnlinePublication;
 import sk.peterjurkovic.cpr.enums.OrderStatus;
 import sk.peterjurkovic.cpr.enums.PortalProductInterval;
 import sk.peterjurkovic.cpr.services.PortalOrderService;
@@ -82,13 +83,17 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	@Override
 	public void updateAndSetChanged(PortalOrder order, boolean sendEmail) {
 		setChanged(order);
+		boolean isUpdated = false;
 		if(sendEmail){
 			if(order.getDateOfActivation() == null && order.getOrderStatus().equals(OrderStatus.PAYED)){
-				activateProduct(order);
+				activateProducts(order);
+				isUpdated = true;
 			}
 			// TODO send information email impl
 		}
-		update(order);
+		if(!isUpdated){
+			update(order);
+		}
 	}
 
 	private void setChanged(PortalOrder order){
@@ -98,31 +103,66 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	}
 	
 	@Override
-	public void activateProduct(PortalOrder order) {
+	public void activateProducts(PortalOrder order) {
+		activateRegistraion(order);
+		activatePublications(order);
+		order.setDateOfActivation(new LocalDate());
+		update(order);
+	}
+
+	private void activateRegistraion(PortalOrder order){
 		Validate.notNull(order);
 		User user = order.getUser();
 		Validate.notNull(user);
-		/*PortalProduct product = order.getPortalProduct();
-		Validate.notNull(product);
-		
+		PortalProduct product = order.getRegistrationPortalProduct();
 		LocalDate today = new LocalDate();
-		LocalDate newRegistrationValidity = null;
-		if(user.getRegistrationValidity() == null || user.getRegistrationValidity().isBefore(today)){
-			newRegistrationValidity = calculateNewRegistrationValidity(today, product);
-		}else{
-			newRegistrationValidity = calculateNewRegistrationValidity(user.getRegistrationValidity(), product);
+		if(product != null){
+			LocalDate newRegistrationValidity = null;
+			if(user.getRegistrationValidity() == null || user.getRegistrationValidity().isBefore(today)){
+				newRegistrationValidity = incrementValidity(today, product);
+			}else{
+				newRegistrationValidity = incrementValidity(user.getRegistrationValidity(), product);
+			}
+			user.setRegistrationValidity(newRegistrationValidity);
+			userService.createOrUpdateUser(user);
 		}
-		
-		user.setRegistrationValidity(newRegistrationValidity);
-		userService.createOrUpdateUser(user);
-		
-		order.setDateOfActivation(today);
-		*/
-		update(order);
 	}
 	
+	private void activatePublications(PortalOrder order){
+		List<PortalProduct> publicationList = order.getPublications();
+		if(publicationList.size() > 0){
+			User user = order.getUser();
+			Validate.notNull(user);
+			for(PortalProduct product : publicationList){
+				UserOnlinePublication userOnlinePublication =  user.getUserOnlinePublication(product.getOnlinePublication());
+				if(userOnlinePublication == null){
+					// create new one
+					userOnlinePublication = new UserOnlinePublication(user);
+					LocalDate newValidity = computeNewValidity( null , product);
+					userOnlinePublication.setValidity(newValidity);
+					userOnlinePublication.setOnlinePublication(product.getOnlinePublication());
+					user.getOnlinePublications().add(userOnlinePublication);
+				}else{
+					// Extensions of existing
+					LocalDate newValidity = computeNewValidity(userOnlinePublication.getValidity(), product);
+					userOnlinePublication.setValidity(newValidity);
+					userOnlinePublication.setChanged(new LocalDateTime());
+				}
+			}
+		  userService.createOrUpdateUser(user);
+		}
+	}
 	
-	private LocalDate calculateNewRegistrationValidity(LocalDate fromDate, PortalProduct product){
+	private LocalDate computeNewValidity(LocalDate currentValidity, PortalProduct product){
+		Validate.notNull(product);
+		LocalDate today = new LocalDate();
+		if(currentValidity == null || currentValidity.isBefore(today)){
+			return incrementValidity(today, product);
+		}
+		return incrementValidity(currentValidity, product);
+	}
+	
+	private LocalDate incrementValidity(LocalDate fromDate, PortalProduct product){
 		Validate.notNull(fromDate);
 		Validate.notNull(product);
 		PortalProductInterval intervalType = product.getPortalProductInterval();

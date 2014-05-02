@@ -1,8 +1,10 @@
 package sk.peterjurkovic.cpr.entities;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -35,6 +37,7 @@ import sk.peterjurkovic.cpr.enums.OrderStatus;
 import sk.peterjurkovic.cpr.enums.PortalOrderSource;
 import sk.peterjurkovic.cpr.enums.PortalProductType;
 import sk.peterjurkovic.cpr.utils.PriceUtils;
+import sk.peterjurkovic.cpr.utils.RequestUtils;
 
 
 @Entity
@@ -70,6 +73,9 @@ public class PortalOrder extends AbstractEntity{
 	
 	private Set<PortalOrderItem> orderItems;
 	private PortalOrderSource portalOrderSource;
+	
+	private String userAgent;
+	private String referer;
 	
 	public PortalOrder(){
 		this.orderStatus = OrderStatus.PENDING;
@@ -269,6 +275,24 @@ public class PortalOrder extends AbstractEntity{
 		this.currency = currency;
 	}	
 	
+	@Column(name = "user_agent", length = 150)
+	public String getUserAgent() {
+		return userAgent;
+	}
+
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+
+	@Column(name = "referer", length = 250)
+	public String getReferer() {
+		return referer;
+	}
+
+	public void setReferer(String referer) {
+		this.referer = referer;
+	}
+
 	@Transient
 	@Override
 	public String getCode() {
@@ -319,6 +343,7 @@ public class PortalOrder extends AbstractEntity{
 		return sendEmail;
 	}
 	
+	@Transient 
 	public boolean removeOrderItem(final Long id){
 		Validate.notNull(id);
 		Iterator<PortalOrderItem> i = orderItems.iterator();
@@ -354,6 +379,10 @@ public class PortalOrder extends AbstractEntity{
 		return getTotalPriceWithVat().subtract(getTotalPrice());
 	}
 	
+	@Transient
+	public String getBrowser(){
+		return RequestUtils.getBrowserName(getUserAgent());
+	}
 	
 	@Transient
 	public PortalProduct getRegistrationPortalProduct(){
@@ -364,5 +393,17 @@ public class PortalOrder extends AbstractEntity{
 			}
 		}
 		return null;
+	}
+	
+	@Transient
+	public List<PortalProduct> getPublications(){
+		List<PortalProduct> products = new ArrayList<PortalProduct>();
+		for(PortalOrderItem item : getOrderItems()){
+			PortalProductType type = item.getPortalProduct().getPortalProductType();
+			if(type.equals(PortalProductType.PUBLICATION)){
+				products.add(item.getPortalProduct());
+			}
+		}
+		return products;
 	}
 }

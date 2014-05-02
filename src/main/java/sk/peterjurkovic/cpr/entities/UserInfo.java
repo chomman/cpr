@@ -101,5 +101,12 @@ public class UserInfo implements Serializable {
 		this.dic = dic;
 	}
 	
+	@Override
+	public String toString() {
+		return "UserInfo [user=" + user + ", phone=" + phone + ", city=" + city
+				+ ", street=" + street + ", zip=" + zip + ", companyName="
+				+ companyName + ", ico=" + ico + ", dic=" + dic + "]";
+	}
+	
 	
 }

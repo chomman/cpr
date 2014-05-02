@@ -24,6 +24,6 @@ public interface PortalOrderService {
 	
 	void updateAndSetChanged(PortalOrder order, boolean sendEmail);
 	
-	void activateProduct(PortalOrder order);
+	void activateProducts(PortalOrder order);
 	
 }

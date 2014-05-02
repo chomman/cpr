@@ -205,4 +205,54 @@ public class RequestUtils {
     	   }
     	return ipAddress;
     }
+    
+    
+    public static String getUserAgent(HttpServletRequest request, int maxLenght){
+    	return cropValue(request.getHeader("User-Agent"), maxLenght);
+    }
+    
+    public static String getBrowserName(String userAgent){
+    	if (StringUtils.isBlank(userAgent)) {
+            return "neznámý";
+        }
+    	userAgent = userAgent.toLowerCase();
+        StringBuilder result = new StringBuilder();
+        if (userAgent.contains("ipad")) {
+            result.append("Tablet iPad");
+        } else if (userAgent.contains("nexus 7")) {
+            result.append("Tablet Nexus 7");
+        }
+        if (result.length() > 0) {
+            result.append("/");
+        }
+        if (userAgent.contains("chrome")) {
+            result.append("Chrome");
+        } else if (userAgent.contains("safari")) {
+            result.append("Safari");
+        } else if (userAgent.contains("firefox")) {
+            result.append("Firefox");
+        } else if (userAgent.contains("opera")) {
+            result.append("Opera");
+        } else if (userAgent.contains("msie")) {
+            result.append("Internet Explorer");
+        } else {
+            result.append("neznámý");
+        }
+        return result.toString();
+    }
+    
+    public static String getReferer(HttpServletRequest request, int maxLenght) {
+        return cropValue(request.getHeader("referer"), maxLenght);
+    }
+    
+    private static String cropValue(String value, int maxLength){
+    	 if(StringUtils.isNotBlank(value)){
+         	if(value.length() > maxLength){
+         		return value.substring(0, maxLength -1);
+         	}
+         	return value;
+         }
+         return null;
+    }
+    
 }

@@ -75,6 +75,9 @@ public class PortalOrderDaoImpl extends BaseDaoImpl<PortalOrder, Long> implement
 			if(StringUtils.isNotBlank((String)criteria.get(Filter.ORDER_STATUS) )){
 				where.add(" o.orderStatus =:" + Filter.ORDER_STATUS);
 			}
+			if(StringUtils.isNotBlank((String)criteria.get("orderSource") )){
+				where.add(" o.portalOrderSource = :orderSource");
+			}
 		}
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
 	}
@@ -96,6 +99,10 @@ public class PortalOrderDaoImpl extends BaseDaoImpl<PortalOrder, Long> implement
 			String status = (String)criteria.get(Filter.ORDER_STATUS);
 			if(StringUtils.isNotBlank( status )){
 				hqlQuery.setString(Filter.ORDER_STATUS, status);
+			}
+			String orderSource = (String)criteria.get("orderSource");
+			if(StringUtils.isNotBlank( orderSource )){
+				hqlQuery.setString("orderSource", orderSource);
 			}
 		}
 	}

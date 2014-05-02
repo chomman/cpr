@@ -34,7 +34,7 @@
 							<option value="${i.id}" <c:if test="${i.id == model.params.orderBy}" >selected="selected"</c:if> >${i.name}</option>
 						</c:forEach>
 					</select>
-					<span class="filter-label">Stav objednávky: </span>
+					&nbsp;<span class="filter-label">Stav objednávky: </span>
 					<select name="orderStatus" class="chosenSmall">
 							<option value="">Nezáleží</option>
 						<c:forEach items="${model.orderStatuses}" var="i">
@@ -50,6 +50,15 @@
 					<input type="text" class="date"  name="createdFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
 					<span class="filter-label">do:</span>
 					<input type="text" class="date" name="createdTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
+					&nbsp;<span class="filter-label"><spring:message code="portalOrderSource" /></span>
+					<select name="orderSource" class="chosenSmall">
+						<option value="">Nezáleží</option>
+						<c:forEach items="${model.sources}" var="i">
+							<option value="${i}" <c:if test="${i == model.params.orderSource}" >selected="selected"</c:if> >
+								<spring:message code="${i.code}" />
+							</option>
+						</c:forEach>
+					</select>
 				</div>
 				<div>
 					<span class="filter-label long">Název zákazníka:</span>

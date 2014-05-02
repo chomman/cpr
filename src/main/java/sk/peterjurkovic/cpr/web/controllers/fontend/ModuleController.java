@@ -19,6 +19,7 @@ import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
 import sk.peterjurkovic.cpr.entities.PortalCurrency;
 import sk.peterjurkovic.cpr.entities.Standard;
+import sk.peterjurkovic.cpr.enums.PortalOrderSource;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
 import sk.peterjurkovic.cpr.enums.WebpageType;
@@ -40,6 +41,7 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 public class ModuleController extends WebpageControllerSupport {
 
 	public static final String CURRENCY_PARAM = "currency";
+	public static final String SOURCE_PARAM = "source";
 	
 	private static final String STANDARDS_URL = 			"/m/harmonized-standards";
 	private static final String STANDARD_GROUPS_URL =		"/m/cpr-groups";
@@ -165,13 +167,14 @@ public class ModuleController extends WebpageControllerSupport {
 		model.put("portalRegistrations", portalProductService.getAllRegistrations(true));
 		model.put("portalOnlinePublications", portalProductService.getAllOnlinePublications(true));
 		model.put("vat", Constants.VAT);
+		PortalUserForm form = new PortalUserForm();
+		model.put("useEuro", false);
 		final String currency = request.getParameter(CURRENCY_PARAM);
-		 PortalUserForm form = new PortalUserForm();
-		 model.put("useEuro", false);
 		if(StringUtils.isNotBlank(currency) && currency.toUpperCase().equals(PortalCurrency.EUR.getCode())){
 			model.put("useEuro", true);
-			form = new PortalUserForm(PortalCurrency.EUR);
+			form.setPortalCurrency(PortalCurrency.EUR);
 		}
+		setPortalOrderSource(request, form);
 		modelMap.addAttribute("user", form);
         return appendModelAndGetView(model, modelMap, request);
     }
@@ -205,5 +208,15 @@ public class ModuleController extends WebpageControllerSupport {
 		return paginger.getPageLinks(); 
 	}
 
+	
+	private void setPortalOrderSource(HttpServletRequest request, PortalUserForm form){
+		String orderSource = request.getParameter(SOURCE_PARAM);
+		if(StringUtils.isNotBlank(orderSource)){
+			PortalOrderSource source = PortalOrderSource.getById(Integer.valueOf(orderSource));
+			if(source != null){
+				form.setPortalOrderSource(source);
+			}
+		}
+	}
 	
 }

@@ -56,16 +56,23 @@
 						</c:if>
 					</tr>
 					
-						<tr>
-							<c:if test="${not empty model.order.dateOfActivation}">
-								<td class="key"><spring:message code="admin.portal.order.dateOfActivation" /></td>
-								<td class="val"><joda:format value="${model.order.dateOfActivation}" pattern="dd.MM.yyyy"/></td>
-							</c:if>
-							<c:if test="${not empty model.order.user.registrationValidity}">
-								<td class="key">Platnost registrace do:</td>
-								<td class="val"><joda:format value="${model.order.user.registrationValidity}" pattern="dd.MM.yyyy"/></td>
-							</c:if>
-						</tr>
+					<tr>
+						<c:if test="${not empty model.order.dateOfActivation}">
+							<td class="key"><spring:message code="admin.portal.order.dateOfActivation" /></td>
+							<td class="val"><joda:format value="${model.order.dateOfActivation}" pattern="dd.MM.yyyy"/></td>
+						</c:if>
+						<c:if test="${not empty model.order.user.registrationValidity}">
+							<td class="key">Platnost registrace do:</td>
+							<td class="val"><joda:format value="${model.order.user.registrationValidity}" pattern="dd.MM.yyyy"/></td>
+						</c:if>
+					</tr>
+					
+					<tr>
+						<td class="key"><spring:message code="portalOrderSource" /></td>
+						<td class="val"><spring:message code="${model.order.portalOrderSource.code}" /></td>
+						<td class="key"><spring:message code="admin.portal.userAgent" /></td>
+						<td class="val">${model.order.browser}</td>
+					</tr>
 					
 				</table>
 				

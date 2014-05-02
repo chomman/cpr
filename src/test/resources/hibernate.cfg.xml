@@ -7,8 +7,7 @@
 <hibernate-configuration>
  <session-factory >
  
- 	<mapping class="sk.peterjurkovic.cpr.entities.User" />
-	<mapping class="sk.peterjurkovic.cpr.entities.User" />
+ 		<mapping class="sk.peterjurkovic.cpr.entities.User" />
 	<mapping class="sk.peterjurkovic.cpr.entities.UserInfo" />
   	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
   	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
@@ -39,7 +38,10 @@
 	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminologyLog"/>	
 	
 	<mapping class="sk.peterjurkovic.cpr.entities.PortalProduct"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrder"/>	
+	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrder"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrderItem"/>
+	<mapping class="sk.peterjurkovic.cpr.entities.UserOnlinePublication"/>
+	
 	
 	 
  </session-factory>

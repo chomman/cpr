@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -14,6 +15,7 @@ import sk.peterjurkovic.cpr.entities.PortalCurrency;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.UserInfo;
+import sk.peterjurkovic.cpr.enums.PortalOrderSource;
 
 public class PortalUserForm {
 	
@@ -35,7 +37,11 @@ public class PortalUserForm {
 	@Length(min = 6, message = "{error.password}")
 	private String confirmPassword;
 	
+	@NotNull
 	private PortalCurrency portalCurrency = PortalCurrency.CZK;
+	
+	@NotNull
+	private PortalOrderSource portalOrderSource = PortalOrderSource.NLFNORM;
 	
 	@Valid
 	private UserInfo userInfo;
@@ -108,6 +114,16 @@ public class PortalUserForm {
 	public void setPortalProductItems(List<Long> portalProductItems) {
 		this.portalProductItems = portalProductItems;
 	}
+	
+	public PortalOrderSource getPortalOrderSource() {
+		return portalOrderSource;
+	}
+
+	public void setPortalOrderSource(PortalOrderSource portalOrderSource) {
+		this.portalOrderSource = portalOrderSource;
+	}
+	
+	
 
 	public User toUser(){
 		User user = new User();
@@ -123,7 +139,8 @@ public class PortalUserForm {
 	public PortalOrder toPortalOrder(){
 		PortalOrder order = new PortalOrder();
 		order.setVat(Constants.VAT);
-		
+		order.setCurrency(getPortalCurrency());
+		order.setPortalOrderSource(getPortalOrderSource());
 		order.setEmail(getEmail());
 		order.setPhone(userInfo.getPhone());
 		order.setFirstName(getFirstName());
@@ -138,13 +155,16 @@ public class PortalUserForm {
 		order.setIco(userInfo.getIco());
 		return order;
 	}
+
 	@Override
 	public String toString() {
 		return "PortalUserForm [id=" + id + ", email=" + email + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", password="
 				+ password + ", confirmPassword=" + confirmPassword
-				+ ", userInfo=" + userInfo 	+ "]";
+				+ ", portalCurrency=" + portalCurrency + ", portalOrderSource="
+				+ portalOrderSource + ", userInfo=" + userInfo
+				+ ", portalProductItems=" + portalProductItems + "]";
 	}
 	
-	
+		
 }

@@ -23,6 +23,7 @@ import sk.peterjurkovic.cpr.entities.PortalOrder;
 import sk.peterjurkovic.cpr.entities.PortalProduct;
 import sk.peterjurkovic.cpr.enums.OrderStatus;
 import sk.peterjurkovic.cpr.enums.PortalOrderOrder;
+import sk.peterjurkovic.cpr.enums.PortalOrderSource;
 import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.services.PortalOrderService;
 import sk.peterjurkovic.cpr.services.PortalProductService;
@@ -68,6 +69,7 @@ public class PortalOrderController extends SupportAdminController {
 		model.put("params", params);
 		model.put("orders", PortalOrderOrder.getAll());
 		model.put("orderStatuses", OrderStatus.getAll());
+		model.put("sources", PortalOrderSource.getAll());
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}

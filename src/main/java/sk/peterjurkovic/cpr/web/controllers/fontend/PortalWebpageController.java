@@ -108,6 +108,8 @@ public class PortalWebpageController extends WebpageControllerSupport {
 					PortalOrder order = form.toPortalOrder();
 					order.setUser(user);
 					order.setIpAddress(RequestUtils.getIpAddress(request));
+					order.setUserAgent(RequestUtils.getUserAgent(request, 150));
+					order.setReferer(RequestUtils.getReferer(request, 250));
 					order.setCreatedBy(user);
 					order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
 					portalOrderService.create(order);

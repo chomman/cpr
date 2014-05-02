@@ -17,6 +17,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
@@ -33,6 +34,8 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import sk.peterjurkovic.cpr.enums.OnlinePublication;
 
 /**
  * Entita reprezentujuca opravneneho uzivatela informacneho systemu
@@ -57,6 +60,7 @@ public class User extends AbstractEntity implements UserDetails{
 	private String email;
 	private String password;
 	private Set<Authority> authoritySet = new HashSet<Authority>();
+	private Set<UserOnlinePublication> onlinePublications = new HashSet<UserOnlinePublication>();
 	
 	private UserInfo userInfo;
 	private LocalDate registrationValidity;
@@ -139,6 +143,15 @@ public class User extends AbstractEntity implements UserDetails{
 	public void setUserInfo(UserInfo userInfo) {
 		this.userInfo = userInfo;
 	}
+	
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	public Set<UserOnlinePublication> getOnlinePublications() {
+		return onlinePublications;
+	}
+
+	public void setOnlinePublications(Set<UserOnlinePublication> onlinePublications) {
+		this.onlinePublications = onlinePublications;
+	}
 
 	@Transient
     public List<GrantedAuthority> getAuthorities() {
@@ -209,6 +222,29 @@ public class User extends AbstractEntity implements UserDetails{
 	@Transient
 	public boolean isCredentialsNonExpired() {
 		return true;
+	}
+	
+	@Transient
+	public UserOnlinePublication getUserOnlinePublication(OnlinePublication publication){
+		for(UserOnlinePublication uop : onlinePublications ){
+			if(uop.getOnlinePublication().equals(publication)){
+				return uop;
+			}
+		}
+		return null;
+	}
+	
+	@Transient
+	public boolean hasValidOnlinePublication(OnlinePublication publication){
+		UserOnlinePublication uop = getUserOnlinePublication(publication);
+		if(uop == null){
+			return false;
+		}
+		LocalDate today = new LocalDate();
+		if(today.isBefore(uop.getValidity()) || today.isEqual(uop.getValidity())){
+			return true;
+		}
+		return false;
 	}
 
 	@Override

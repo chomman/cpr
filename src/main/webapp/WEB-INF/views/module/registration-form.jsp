@@ -162,6 +162,7 @@
 		<span class="vop">Odesláním formuláře souhlasíte s <a href="" class="pj-link">obchodními podmínkami</a></span>
 	</span>
 	<form:hidden path="portalCurrency" />
+	<form:hidden path="portalOrderSource" />
 </form:form>
 <div id="status"></div>
 <div id="vat">${model.vat}</div>
