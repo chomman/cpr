@@ -17,6 +17,7 @@ import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.constants.Filter;
 import sk.peterjurkovic.cpr.dto.PageDto;
 import sk.peterjurkovic.cpr.entities.NotifiedBody;
+import sk.peterjurkovic.cpr.entities.PortalCurrency;
 import sk.peterjurkovic.cpr.entities.Standard;
 import sk.peterjurkovic.cpr.enums.StandardOrder;
 import sk.peterjurkovic.cpr.enums.StandardStatus;
@@ -38,6 +39,8 @@ import sk.peterjurkovic.cpr.web.pagination.PaginationLinker;
 @Controller
 public class ModuleController extends WebpageControllerSupport {
 
+	public static final String CURRENCY_PARAM = "currency";
+	
 	private static final String STANDARDS_URL = 			"/m/harmonized-standards";
 	private static final String STANDARD_GROUPS_URL =		"/m/cpr-groups";
 	private static final String NOTIFIE_BODIES_URL = 		"/m/notifiedbodies";
@@ -45,7 +48,7 @@ public class ModuleController extends WebpageControllerSupport {
 	private static final String CSN_TERMINOLOGY_URL =		"/m/terminology";
 	private static final String ASSESMENTS_SYSTEMS_URL =	"/m/asessments-systems";
 	private static final String PORTAL_REGISTATION_URL = 	"/m/portal-registration";
-	
+	 
 	
 	@Autowired
 	private StandardService standardService;
@@ -161,7 +164,15 @@ public class ModuleController extends WebpageControllerSupport {
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("portalRegistrations", portalProductService.getAllRegistrations(true));
 		model.put("portalOnlinePublications", portalProductService.getAllOnlinePublications(true));
-		modelMap.addAttribute("user", new PortalUserForm());
+		model.put("vat", Constants.VAT);
+		final String currency = request.getParameter(CURRENCY_PARAM);
+		 PortalUserForm form = new PortalUserForm();
+		 model.put("useEuro", false);
+		if(StringUtils.isNotBlank(currency) && currency.toUpperCase().equals(PortalCurrency.EUR.getCode())){
+			model.put("useEuro", true);
+			form = new PortalUserForm(PortalCurrency.EUR);
+		}
+		modelMap.addAttribute("user", form);
         return appendModelAndGetView(model, modelMap, request);
     }
 	

@@ -11,6 +11,7 @@
   
    <decorator name="portal" page="portal.jsp">
     <pattern>/informacni-portal*</pattern>
+    <pattern>/en/informacni-portal*</pattern>
   </decorator>
     
   <decorator name="blank" page="blank.jsp">

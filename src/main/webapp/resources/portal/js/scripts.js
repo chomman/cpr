@@ -22,23 +22,7 @@ function init(){
 	$(document).on("click", ".show-loginbox", showLoginBox );
 	$(document).on("click", ".hide-loginbox", hideLoginBox );
 	
-	$(document).on("submit", "form#user", function(){
-		var $form = $(this);
-		if(!validate($form)){
-			return false;
-		}
-		var data = toArray($form.serializeArray());
-		console.log(data);
-		sendRequest("POST", data, $form.attr('action'), function(json){
-			if(json.status === "SUCCESS"){
-				$form.after('<div><p class="status ok"><span class="status-ico"></span>Objednávka bola úspešne odoslaná.</p><div>');
-				$form.remove();
-			}else{
-				showErrors(json);
-			}
-		});
-		return false;
-	});
+	
 	
 }
 

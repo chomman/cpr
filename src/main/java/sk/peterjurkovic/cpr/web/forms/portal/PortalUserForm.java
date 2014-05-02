@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.entities.PortalCurrency;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
 import sk.peterjurkovic.cpr.entities.PortalProduct;
 import sk.peterjurkovic.cpr.entities.User;
@@ -36,6 +37,8 @@ public class PortalUserForm {
 	@Length(min = 6, message = "{error.password}")
 	private String confirmPassword;
 	
+	private PortalCurrency portalCurrency = PortalCurrency.CZK;
+	
 	@Valid
 	private UserInfo userInfo;
 	
@@ -43,7 +46,12 @@ public class PortalUserForm {
 	@NotNull(message = "{error.protalProduct.empty}")
 	private PortalProduct portalProduct;
 	
-	private String node;
+	public PortalUserForm(){}
+	
+	public PortalUserForm(PortalCurrency currency){
+		this.portalCurrency = currency;
+	}
+	
 	
 	public Long getId() {
 		return id;
@@ -93,11 +101,12 @@ public class PortalUserForm {
 	public void setPortalProduct(PortalProduct portalProduct) {
 		this.portalProduct = portalProduct;
 	}
-	public String getNode() {
-		return node;
+	
+	public PortalCurrency getPortalCurrency() {
+		return portalCurrency;
 	}
-	public void setNode(String node) {
-		this.node = node;
+	public void setPortalCurrency(PortalCurrency portalCurrency) {
+		this.portalCurrency = portalCurrency;
 	}
 	public User toUser(){
 		User user = new User();
@@ -136,7 +145,7 @@ public class PortalUserForm {
 				+ firstName + ", lastName=" + lastName + ", password="
 				+ password + ", confirmPassword=" + confirmPassword
 				+ ", userInfo=" + userInfo + ", portalProduct=" + portalProduct
-				+ ", node=" + node + "]";
+				+ "]";
 	}
 	
 	

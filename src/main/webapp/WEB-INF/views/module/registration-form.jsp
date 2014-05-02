@@ -10,33 +10,70 @@
 	<strong class="form-head"><spring:message code="portalUser.head.productInfo" /></strong>
 	<form:label path="">
 		<span class="label"><spring:message code="portalUser.portalProduct" />: </span>
-		<form:select path="portalProduct" cssClass="portalProduct chosen">
-			<c:forEach items="${model.portalProducts}" var="i">
-				<option value="${i.id}" data-price="${i.price}">
-					${i.intervalValue} / <spring:message code="${i.portalProductInterval.code}" /> -
+		<select name="portalProduct" id="portalProduct" class="portalProduct chosen">
+			<c:forEach items="${model.portalRegistrations}" var="i">
+				<option value="${i.id}" data-price="${model.useEuro ? i.priceEur : i.priceCzk}">
 					<a:localizedValue object="${i}" fieldName="name" />
-				</option>
+				</option> 
 			 </c:forEach>
-		</form:select>
+		</select>
 	</form:label>
 	<div class="desc-wrapp">
-		<c:forEach items="${model.portalProducts}" var="i">
+		<c:forEach items="${model.portalRegistrations}" var="i"> 
 			<div id="p${i.id}" class="product-info hidden">
 				<span class="descr">
 					<a:localizedValue object="${i}" fieldName="description" />
 				</span>
-				<span class="price-wrapp no-vat pj-radius">
+				 <span class="price-wrapp no-vat pj-radius">
 					<span class="l"><spring:message code="portalUser.price" />: </span>
-					<span class="v"><webpage:price price="${i.price}" /></span>
-					
+					<span class="v">
+						<webpage:price price="${model.useEuro ? i.priceEur : i.priceCzk}" isEuro="${model.useEuro}" />
+					</span>
 				</span>
+				<!-- 
 				<span class="price-wrapp with-vat pj-radius">
 					<span class="l"><spring:message code="portalUser.priceWithVat" />: </span>
-					<span class="v"><webpage:price price="${i.price}" useSystemVat="true" /></span>
+					<span class="v">
+						<webpage:price price="${model.useEuro ? i.priceEur : i.priceCzk}" isEuro="${model.useEuro}" useSystemVat="true" />
+					</span>
 				</span>
+				 --> 
 			</div>
 		</c:forEach>
 	</div>	
+	<strong class="form-head"><spring:message code="portalUser.head.otherProducts" /></strong>
+		<table class="pubs">
+			<tr >
+				<th><spring:message code="portaluser.th.onlinePublication" /></th>
+				<th><spring:message code="portaluser.th.price" /></th>
+				<th>&nbsp;</th>
+			</tr>
+			
+			<c:forEach items="${model.portalOnlinePublications}" var="i" varStatus="s">
+			<tr class="${s.index % 2 == 0 ? 'even' : 'odd'}" data-id="${i.id}" data-price="${model.useEuro ? i.priceEur : i.priceCzk}">
+				<td><a:localizedValue object="${i}" fieldName="name" /></td>
+				<td class="price-wrapp"> 
+					<webpage:price price="${model.useEuro ? i.priceEur : i.priceCzk}" isEuro="${model.useEuro}" /> 
+				</td>
+				<td class="btn-wrapp">
+					<a href="#" class="pub-btn add pj-radius6" title="<spring:message code="portaluser.add.title" />"> 
+						<spring:message code="portaluser.add" />
+					</a>
+					<a href="#" class="pub-btn remove pj-radius6" title="<spring:message code="portaluser.remove.title" />"> 
+						<spring:message code="portaluser.remove" />
+					</a>
+				</td>
+			</tr>
+			</c:forEach>
+		</table>
+	
+	<strong class="form-head"><spring:message code="portalUser.head.price" /></strong>
+	<div class="price-sum-wrapp">
+		<div><spring:message code="price.sum" />: <span id="price"></span></div> 
+		<div><spring:message code="price.dph" arguments="${(model.vat - 1 ) * 100}" />: <span id="price-vat"></span></div>
+		<div class="bigger"><spring:message code="price.sumWithDph" />: <span id="price-with-dph"></span></div>
+	</div>
+	
 	<strong class="form-head"><spring:message code="portalUser.head.loginInfo" /></strong>
 	
 	<form:label path="email" cssClass="with-info">
@@ -124,5 +161,7 @@
 		<input type="submit" value="Odeslat" class="button pj-radius6"/>
 		<span class="vop">Odesláním formuláře souhlasíte s <a href="" class="pj-link">obchodními podmínkami</a></span>
 	</span>
+	<form:hidden path="portalCurrency" />
 </form:form>
 <div id="status"></div>
+<div id="vat">${model.vat}</div>

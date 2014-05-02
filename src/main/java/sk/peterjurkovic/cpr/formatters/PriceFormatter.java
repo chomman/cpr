@@ -18,12 +18,10 @@ public class PriceFormatter implements Formatter<BigDecimal>{
 	}
 	 
 	public String print(BigDecimal price, String currency){ 
-		priceFormat = NumberFormat.getInstance();
-		String strPrice =  print(price);
-		if(hideCurrency){
-			return strPrice;
-		}
-		return strPrice + " "+ currency;
+		if(!currency.equals("Kč")){
+			priceFormat = NumberFormat.getCurrencyInstance(new Locale("sk", "SK"));
+		}		
+		return print(price);
 	}
 	
 	@Override

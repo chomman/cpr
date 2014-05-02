@@ -298,7 +298,7 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 .product-info .price-wrapp{display:inline-block;position:absolute;}
 .product-info .v{font-weight:bold;}
 .product-info .l{font-size:13px;margin-right:10px}
-.no-vat{background:#44c767;padding:10px 15px;font-size:17px;color:#fff;bottom:15px;right:20px}
+.no-vat{background:#44c767;padding:8px 10px;font-size:14px;color:#fff;bottom:15px;right:20px}
 .with-vat{padding:10px 15px;font-size:15px;color:#555;bottom:15px;right:240px;background:#eee;}
 .is-company{padding:15px;text-align:center;color:#18557a;text-decoration:underline;}
 .is-company:hover{background:#18557a;color:#fff;cursor:pointer;}
@@ -318,3 +318,33 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 .status.error .status-ico{background-position:0 -60px;}
 .status.ok{border:5px solid #91FF99;color:#00BF0D;background-color:#F5FFF6;}
 .status.ok .status-ico{background-position:0 -12px;}
+
+
+.pubs th{padding:6px 10px;font-size:12px;font-weight:normal;background:#eee;vertical-align: middle;}
+.pubs .odd{background:#F5FFFE}
+.pubs .even{background:#F0FAF9}
+.pubs tr{border-bottom:1px solid #fff;}
+.pubs tr:hover{background-color:#fff}
+.pubs tr.selected{background-color: #9CFFAF;color:#000}
+.pubs{width:100%;border-collapse:collapse;font-size:14px;color:#333}
+.pubs td{padding:7px 10px;line-height:18px;}
+.pubs .price-wrapp{text-align: center;}
+.pubs .btn-wrapp{width:80px;}
+.pubs .btn-wrapp a{display:inline-block;padding:8px;font-size:12px;text-decoration:none;font-weight:bold;}
+.pubs .btn-wrapp .add{background-color:#0da192;color:#fff;}
+.pubs .btn-wrapp .add:hover{background-color:#128277}
+.pubs .btn-wrapp .remove{background-color:#F06767;color:#fff;}
+.pubs .btn-wrapp .remove:hover{background-color:#D42C2C;color:#fff;}
+.pubs .btn-wrapp {text-align: center;}
+
+.pubs .selected .add{display:none !important;}
+.pubs .selected .remove{display:inline-block !important;}
+.pubs .btn-wrapp.add{display:inline-block;}
+.pubs .btn-wrapp .remove{display:none;}
+
+.price-sum-wrapp{text-align:right;padding:10px 20px;font-size:15px;color:#222;}
+.price-sum-wrapp div{margin:4px 0;}
+.price-sum-wrapp span{display:inline-block;min-width:100px;}
+.price-sum-wrapp .bigger{font-size:20px;margin-top:10px;color:#000;}
+.price-sum-wrapp .bigger span{font-weight:bold;color:#FF8800;}
+#vat{display: none;}
