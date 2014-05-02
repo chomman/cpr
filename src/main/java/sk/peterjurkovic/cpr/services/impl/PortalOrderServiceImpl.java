@@ -81,10 +81,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 
 	@Override
 	public void updateAndSetChanged(PortalOrder order, boolean sendEmail) {
-		final User user = UserUtils.getLoggedUser();
-		order.setChangedBy(user);
-		order.setChanged(new LocalDateTime());
-		
+		setChanged(order);
 		if(sendEmail){
 			if(order.getDateOfActivation() == null && order.getOrderStatus().equals(OrderStatus.PAYED)){
 				activateProduct(order);
@@ -94,6 +91,12 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		update(order);
 	}
 
+	private void setChanged(PortalOrder order){
+		final User user = UserUtils.getLoggedUser();
+		order.setChangedBy(user);
+		order.setChanged(new LocalDateTime());
+	}
+	
 	@Override
 	public void activateProduct(PortalOrder order) {
 		Validate.notNull(order);
@@ -130,6 +133,13 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 			return fromDate.plusYears(product.getIntervalValue());
 		}
 		throw new IllegalArgumentException("Unknown portalProduct interval: " + intervalType.toString());
+	}
+
+	
+	@Override
+	public void mergeAndSetChange(PortalOrder order) {
+		setChanged(order);
+		portalOrderDao.merge(order);
 	}
 
 }

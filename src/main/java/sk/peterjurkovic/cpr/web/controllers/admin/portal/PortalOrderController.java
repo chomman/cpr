@@ -78,6 +78,9 @@ public class PortalOrderController extends SupportAdminController {
 		if(orderId != 0){
 			portalOrder = getOrder(orderId);
 		}
+		if(isSucceded(request)){
+			appendSuccessCreateParam(map);
+		}
 		prepareModel(map, portalOrder);
 		return getEditFormView();
 	}
@@ -92,6 +95,16 @@ public class PortalOrderController extends SupportAdminController {
 		map.put(SUCCESS_CREATE_PARAM, true);
 		prepareModel(map, portalOrder);
 		return getEditFormView();
+	}
+	
+	@RequestMapping(value = EDIT_MAPPING_URL + "/delete/{itemId}", method = RequestMethod.GET)
+	public String handleRemoveOrderItem(@PathVariable Long orderId, @PathVariable Long itemId) throws ItemNotFoundException{
+		PortalOrder portalOrder = getOrder(orderId);
+			if(portalOrder.removeOrderItem(itemId)){
+				portalOrderService.mergeAndSetChange(portalOrder);
+				return successUpdateRedirect(EDIT_MAPPING_URL.replace("{orderId}", orderId.toString()));
+			}
+		return  "redirect:"+ EDIT_MAPPING_URL.replace("{orderId}", orderId.toString());
 	}
 	
 	

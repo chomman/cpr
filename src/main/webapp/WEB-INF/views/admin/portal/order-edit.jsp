@@ -78,34 +78,7 @@
 								<p class="msg ok"><spring:message code="success.create" /></p>
 							</c:if>
 							
-							<p class="form-head"><spring:message code="admin.portal.order.head.service" /></p>
-							<p>
-	                        	<label>
-	                        		<strong><em class="red">*</em>
-	                        			<spring:message code="admin.portal.order" />  
-	                        		</strong>
-	                        	</label>
-	                            <span class="field">
-	                            	<form:select path="portalProduct">
-	                            		<c:forEach items="${model.portalProducts}" var="i">
-	                            			<option value="${i.id}" >${i.czechName}</option>
-	                            		</c:forEach>
-	                            	</form:select>
-	                            </span>
-	                        </p>
-	                         <p>
-	                       		<label>
-	                       			<strong><em class="red">*</em>
-	                        			<spring:message code="admin.service.price" />
-	                        		</strong>  
-	                        	</label>
-	                            <span class="field"> 
-	                            	<form:input path="price" maxlength="5" cssClass="w100 required numeric" />
-	                            	<span>s (${model.order.formatedVat}) DPH: 
-	                            	<strong>${model.order.priceWithVat}</strong> </span>
-	                            </span>
-	                        </p>
-	                         <p class="orderStatus">
+						 <p class="orderStatus">
 	                       		<label>
 	                       			<strong><em class="red">*</em>
 	                        			<spring:message code="admin.portal.order.stav" />:
@@ -132,7 +105,7 @@
 	                        		</strong>
 	                        	</label>
 	                            <span class="field">
-	                            	<form:input path="firstName" cssClass="mw500 required" />
+	                            	<form:input path="firstName" cssClass="mw300 required" />
 	                            </span>
 	                        </p>
 	                        <p>
@@ -142,7 +115,7 @@
 	                        		</strong>
 	                        	</label>
 	                            <span class="field">
-	                            	<form:input path="lastName" cssClass="mw500 required" />
+	                            	<form:input path="lastName" cssClass="mw300 required" />
 	                            </span>
 	                        </p>
 	                         <p>
@@ -194,27 +167,62 @@
 	                        		<spring:message code="admin.portal.ico" />  
 	                        	</label>
 	                            <span class="field">
-	                            	<form:input path="ico" cssClass="mw300" maxlength="8" />
+	                            	<form:input path="ico" cssClass="w100" maxlength="8" />
+	                            	<span><spring:message code="admin.portal.dic" /> </span>
+	                            	<form:input path="dic" cssClass="w200" maxlength="12" /> 
 	                            </span>
-	                        </p>
-	                        <p>
-	                        	<label>
-	                        		<spring:message code="admin.portal.dic" />  
-	                        	</label>
-	                            <span class="field">
-	                            	<form:input path="dic" cssClass="mw300" maxlength="12" />
-	                            </span>
-	                        </p>
-	                        
-							
-							
+	                        </p>	
 		                    <form:hidden path="id" />
 	                        <p class="button-box">
 	                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
 	                        </p>
 						</form:form>
-				<span class="note"><spring:message code="form.required" /></span>
-			</div>	
+								
+				<div class="hbox" >
+					<h2>Položky obejdnávky</h2>
+				</div>
+				<c:if test="${empty portalOrder.orderItems}">
+					<p class="msg alert">
+						<spring:message code="alert.empty" />
+					</p>
+				</c:if>
+				<c:if test="${not empty portalOrder.orderItems}">	
+					<table class="data">
+							<thead>
+								<tr>
+									<th><spring:message code="admin.service.name" /></th>
+									<th><spring:message code="admin.service.price" /> </th>
+									<th><spring:message code="form.delete" /></th>
+								</tr>
+							</thead>
+							<tbody>
+									<c:forEach items="${portalOrder.orderItems}" var="i">
+										<tr>
+											<td>
+												${i.portalProduct.czechName}
+											</td>
+											<td class="c">
+												${i.price} ${portalOrder.currency.symbol}
+											</td>
+											<td class="delete">
+									 			<a:adminurl href="/portal/order/${portalOrder.id}/delete/${i.id}" cssClass="confirm">
+									 				<spring:message code="form.delete" />
+									 			</a:adminurl>
+								 			</td>
+										</tr>
+									</c:forEach>
+							</tbody>
+					</table>
+					
+					<div class="total-price">
+							<div><spring:message code="price.sum" />: <span>${portalOrder.totalPrice} ${portalOrder.currency.symbol}</span></div>
+							<div><spring:message code="price.dph" arguments="${(portalOrder.vat- 1) * 100}" />: <span>${portalOrder.vatPriceValue} ${portalOrder.currency.symbol}</span></div>
+							<div class="bigger"><spring:message code="price.sumWithDph" />: <span>${portalOrder.totalPriceWithVat} ${portalOrder.currency.symbol}</span></div>
+					</div>
+					 
+				</c:if>
+			</div>
+			<span class="note"><spring:message code="form.required" /></span>	
 		</div>
 		<div class="clear"></div>	
 	</div>

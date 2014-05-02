@@ -14,6 +14,8 @@ public interface PortalOrderService {
 	
 	void delete(PortalOrder pordalOrder);
 	
+	void mergeAndSetChange(PortalOrder order);
+	
 	PortalOrder getById(Long id);
 	
 	List<PortalOrder> getAll();

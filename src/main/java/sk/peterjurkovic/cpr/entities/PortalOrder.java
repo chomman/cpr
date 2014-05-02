@@ -2,6 +2,7 @@ package sk.peterjurkovic.cpr.entities;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -23,6 +24,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
+import org.apache.commons.lang.Validate;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
@@ -93,8 +96,8 @@ public class PortalOrder extends AbstractEntity{
 		this.user = user;
 	}
 	
-	
-	@OneToMany(mappedBy = "portalOrder", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OrderBy(clause = "id ASC")
+	@OneToMany(mappedBy = "portalOrder", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<PortalOrderItem> getOrderItems() {
 		return orderItems;
 	}
@@ -316,6 +319,17 @@ public class PortalOrder extends AbstractEntity{
 		return sendEmail;
 	}
 	
+	public boolean removeOrderItem(final Long id){
+		Validate.notNull(id);
+		Iterator<PortalOrderItem> i = orderItems.iterator();
+		while(i.hasNext()){
+			PortalOrderItem item = i.next();
+			if(item.getId().equals(id)){
+				return orderItems.remove(item);
+			}
+		}
+		return false;
+	}
 	
 	@Transient
 	public BigDecimal getTotalPrice(){
@@ -333,6 +347,11 @@ public class PortalOrder extends AbstractEntity{
 			totalPrice = totalPrice.add(item.getPriceWithVat());
 		}
 		return totalPrice;
+	}
+	
+	@Transient
+	public BigDecimal getVatPriceValue(){
+		return getTotalPriceWithVat().subtract(getTotalPrice());
 	}
 	
 	
