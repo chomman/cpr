@@ -344,7 +344,7 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 
 .price-sum-wrapp{text-align:right;padding:10px 20px;font-size:15px;color:#222;}
 .price-sum-wrapp div{margin:4px 0;}
-.price-sum-wrapp span{display:inline-block;min-width:100px;}
+.price-sum-wrapp span{display:inline-block;min-width:120px;}
 .price-sum-wrapp .bigger{font-size:20px;margin-top:10px;color:#000;}
 .price-sum-wrapp .bigger span{font-weight:bold;color:#FF8800;}
 #vat{display: none;}

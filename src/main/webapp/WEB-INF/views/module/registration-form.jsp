@@ -10,7 +10,7 @@
 	<strong class="form-head"><spring:message code="portalUser.head.productInfo" /></strong>
 	<form:label path="">
 		<span class="label"><spring:message code="portalUser.portalProduct" />: </span>
-		<select name="portalProduct" id="portalProduct" class="portalProduct chosen">
+		<select id="portalProduct" class="portalProduct chosen">
 			<c:forEach items="${model.portalRegistrations}" var="i">
 				<option value="${i.id}" data-price="${model.useEuro ? i.priceEur : i.priceCzk}">
 					<a:localizedValue object="${i}" fieldName="name" />

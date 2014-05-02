@@ -1,7 +1,10 @@
 package sk.peterjurkovic.cpr.web.controllers.fontend;
 
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -21,7 +24,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import sk.peterjurkovic.cpr.constants.Constants;
+import sk.peterjurkovic.cpr.entities.PortalCurrency;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
+import sk.peterjurkovic.cpr.entities.PortalOrderItem;
+import sk.peterjurkovic.cpr.entities.PortalProduct;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.Webpage;
 import sk.peterjurkovic.cpr.enums.WebpageType;
@@ -29,6 +35,7 @@ import sk.peterjurkovic.cpr.exceptions.ItemNotFoundException;
 import sk.peterjurkovic.cpr.exceptions.PageNotFoundEception;
 import sk.peterjurkovic.cpr.exceptions.PortalAccessDeniedException;
 import sk.peterjurkovic.cpr.services.PortalOrderService;
+import sk.peterjurkovic.cpr.services.PortalProductService;
 import sk.peterjurkovic.cpr.services.PortalUserService;
 import sk.peterjurkovic.cpr.utils.RequestUtils;
 import sk.peterjurkovic.cpr.utils.UserUtils;
@@ -52,6 +59,8 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	private PortalUserService portalUserService;
 	@Autowired
 	private PortalOrderService portalOrderService;
+	@Autowired
+	private PortalProductService portalProductService;
 	
 	public PortalWebpageController(){
 		setViewDirectory("/portal/");
@@ -100,6 +109,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 					order.setUser(user);
 					order.setIpAddress(RequestUtils.getIpAddress(request));
 					order.setCreatedBy(user);
+					order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
 					portalOrderService.create(order);
 					logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
 				}catch(Exception e){
@@ -110,6 +120,21 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	}
 	
 	
+	private Set<PortalOrderItem> getOrderItems(List<Long> productIds, PortalOrder order){
+		Set<PortalOrderItem> orderItems = new HashSet<PortalOrderItem>();
+		for(Long productId : productIds){
+			PortalProduct product = portalProductService.getById(productId);
+			PortalOrderItem productItem = new PortalOrderItem();
+			productItem.setPortalOrder(order);
+			productItem.setPortalProduct(product);
+			productItem.setPrice( 
+					order.getCurrency().equals(PortalCurrency.CZK) ? 
+				    product.getPriceCzk() :
+				    product.getPriceEur() );
+			orderItems.add(productItem);
+		}
+		return orderItems;
+	}
 	
 	
 	

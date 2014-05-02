@@ -26,11 +26,11 @@ $(function(){
 			return false;
 		}
 		var data = toArray($form.serializeArray());
-		console.log(data);
+		data.portalProductItems = getPortalProductItems();
 		sendRequest("POST", data, $form.attr('action'), function(json){
 			if(json.status === "SUCCESS"){
-				$form.after('<div><p class="status ok"><span class="status-ico"></span>Objednávka bola úspešne odoslaná.</p><div>');
-				$form.remove();
+				//$form.after('<div><p class="status ok"><span class="status-ico"></span>Objednávka bola úspešne odoslaná.</p><div>');
+				//$form.remove();
 			}else{
 				showErrors(json);
 			}
@@ -56,11 +56,20 @@ $(function(){
 	$(document).trigger('updateprice');
 });
 
+function getPortalProductItems(){
+	var items = [];
+	items.push(toInt($('#portalProduct').val()));
+	$('.selected').each(function(){
+		items.push(toInt($(this).attr('data-id')));
+	});
+	return items;
+}
+
 function updateTotalPrice(){
 	var curr = getCurrency();
-	$('#price').text( getTotalPrice() + ' '+ curr);
-	$('#price-vat').text( getVat() + ' '+ curr);
-	$('#price-with-dph').text( getTotalPriceWithVat() + ' '+ curr);
+	$('#price').html( rounded(getTotalPrice()) + ' '+ curr);
+	$('#price-vat').html( getVat() + ' '+ curr);
+	$('#price-with-dph').html( rounded(getTotalPriceWithVat()) + ' '+ curr);
 	return false;
 }
 
@@ -73,13 +82,16 @@ function getTotalPrice(){
 }
 
 function getVat(){
-	return getTotalPriceWithVat() - getTotalPrice();
+	return rounded(getTotalPriceWithVat() - getTotalPrice()) ;
+}
+
+function rounded(v){
+	return v.toFixed(2);
 }
 
 function getTotalPriceWithVat(){
-	var vat = parseFloat($('#vat').text(), 10),
+	var vat = parseFloat($('#vat').text()),
 		price = toInt($("#portalProduct option:selected").attr('data-price')) * vat;
-	console.log('vat: ' + vat);
 	$('.selected').each(function(){
 		price += toInt($(this).attr('data-price')) * vat;
 	});
@@ -87,7 +99,7 @@ function getTotalPriceWithVat(){
 }
 
 function toInt(v){
-	return parseInt(v, 10);
+	return parseFloat(v);
 }
 
 function getCurrency(){

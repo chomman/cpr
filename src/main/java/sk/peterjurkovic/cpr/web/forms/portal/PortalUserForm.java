@@ -1,7 +1,9 @@
 package sk.peterjurkovic.cpr.web.forms.portal;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
@@ -10,12 +12,8 @@ import org.hibernate.validator.constraints.NotEmpty;
 import sk.peterjurkovic.cpr.constants.Constants;
 import sk.peterjurkovic.cpr.entities.PortalCurrency;
 import sk.peterjurkovic.cpr.entities.PortalOrder;
-import sk.peterjurkovic.cpr.entities.PortalProduct;
 import sk.peterjurkovic.cpr.entities.User;
 import sk.peterjurkovic.cpr.entities.UserInfo;
-import sk.peterjurkovic.cpr.web.json.deserializers.PortalProductDeserializer;
-
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 public class PortalUserForm {
 	
@@ -42,14 +40,14 @@ public class PortalUserForm {
 	@Valid
 	private UserInfo userInfo;
 	
-	@JsonDeserialize( using = PortalProductDeserializer.class)
-	@NotNull(message = "{error.protalProduct.empty}")
-	private PortalProduct portalProduct;
+	@NotEmpty(message = "{error.protalProduct.empty}")
+	private List<Long> portalProductItems;
 	
 	public PortalUserForm(){}
 	
 	public PortalUserForm(PortalCurrency currency){
 		this.portalCurrency = currency;
+		this.portalProductItems = new ArrayList<Long>();
 	}
 	
 	
@@ -95,19 +93,22 @@ public class PortalUserForm {
 	public void setConfirmPassword(String confirmPassword) {
 		this.confirmPassword = confirmPassword;
 	}
-	public PortalProduct getPortalProduct() {
-		return portalProduct;
-	}
-	public void setPortalProduct(PortalProduct portalProduct) {
-		this.portalProduct = portalProduct;
-	}
-	
+		
 	public PortalCurrency getPortalCurrency() {
 		return portalCurrency;
 	}
 	public void setPortalCurrency(PortalCurrency portalCurrency) {
 		this.portalCurrency = portalCurrency;
 	}
+		
+	public List<Long> getPortalProductItems() {
+		return portalProductItems;
+	}
+
+	public void setPortalProductItems(List<Long> portalProductItems) {
+		this.portalProductItems = portalProductItems;
+	}
+
 	public User toUser(){
 		User user = new User();
 		user.setPassword(password);
@@ -121,8 +122,6 @@ public class PortalUserForm {
 	
 	public PortalOrder toPortalOrder(){
 		PortalOrder order = new PortalOrder();
-		
-		//order.setPortalProduct(portalProduct);
 		order.setVat(Constants.VAT);
 		
 		order.setEmail(getEmail());
@@ -144,8 +143,7 @@ public class PortalUserForm {
 		return "PortalUserForm [id=" + id + ", email=" + email + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", password="
 				+ password + ", confirmPassword=" + confirmPassword
-				+ ", userInfo=" + userInfo + ", portalProduct=" + portalProduct
-				+ "]";
+				+ ", userInfo=" + userInfo 	+ "]";
 	}
 	
 	

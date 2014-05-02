@@ -21,13 +21,11 @@ import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.hibernate.validator.constraints.Range;
 import org.joda.time.LocalDate;
 
 import sk.peterjurkovic.cpr.enums.OrderStatus;
@@ -45,7 +43,6 @@ public class PortalOrder extends AbstractEntity{
 	private static final long serialVersionUID = -4311231873883523058L;
 
 	private User user;
-	private BigDecimal price;
 	private BigDecimal vat;
 	private OrderStatus orderStatus;
 	private LocalDate dateOfActivation;
@@ -104,18 +101,6 @@ public class PortalOrder extends AbstractEntity{
 
 	public void setOrderItems(Set<PortalOrderItem> orderItems) {
 		this.orderItems = orderItems;
-	}
-
-	
-	@NotNull(message = "{error.portalService.price}")
-	@Range(min = 0, max = 100000, message = "{error.portalService.price.range}")
-	@Column(name = "price", nullable = false, precision = 6, scale = 2)
-	public BigDecimal getPrice() {
-		return price;
-	}
-	
-	public void setPrice(BigDecimal price) {
-		this.price = price;
 	}
 	
 	@Column(name = "vat", precision = 3, scale = 2)
@@ -314,7 +299,6 @@ public class PortalOrder extends AbstractEntity{
 			sendEmail = true;
 		}
 		
-		setPrice(form.getPrice());
 		setOrderStatus(form.getOrderStatus());
 		setFirstName(form.getFirstName());
 		setLastName(form.getLastName());
