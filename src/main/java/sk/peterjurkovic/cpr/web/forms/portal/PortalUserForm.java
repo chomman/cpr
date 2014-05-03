@@ -160,8 +160,7 @@ public class PortalUserForm {
 	public String toString() {
 		return "PortalUserForm [id=" + id + ", email=" + email + ", firstName="
 				+ firstName + ", lastName=" + lastName + ", password="
-				+ password + ", confirmPassword=" + confirmPassword
-				+ ", portalCurrency=" + portalCurrency + ", portalOrderSource="
+				+ (password != null ? password.length() : "[NULL]" ) + ", portalCurrency=" + portalCurrency + ", portalOrderSource="
 				+ portalOrderSource + ", userInfo=" + userInfo
 				+ ", portalProductItems=" + portalProductItems + "]";
 	}
