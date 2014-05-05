@@ -26,14 +26,14 @@ import cz.nlfnorm.parser.cpr.StandardGroupParser;
 import cz.nlfnorm.services.CommissionDecisionService;
 import cz.nlfnorm.services.MandateService;
 import cz.nlfnorm.services.StandardGroupService;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.CommissionDecisionEditor;
 import cz.nlfnorm.web.editors.MandatePropertyEditor;
 import cz.nlfnorm.web.forms.admin.MandateForm;
 
 @Controller
 @SessionAttributes("standardGroup")
-public class StandardGroupController extends SupportAdminController {
+public class StandardGroupController extends AdminSupportController {
 	
 	
 	public static final int CPR_TAB_INDEX = 2;

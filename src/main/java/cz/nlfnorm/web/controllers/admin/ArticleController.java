@@ -36,7 +36,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
 
 @Controller
 @SessionAttributes("article")
-public class ArticleController extends SupportAdminController {
+public class ArticleController extends AdminSupportController {
 	
 	@Autowired
 	private ArticleService articleService;

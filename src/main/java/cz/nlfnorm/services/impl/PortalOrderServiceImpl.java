@@ -182,4 +182,10 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		portalOrderDao.merge(order);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<PortalOrder> getUserOrders(final Long userId) {
+		return portalOrderDao.getUserOrders(userId);
+	}
+
 }

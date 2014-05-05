@@ -20,7 +20,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
 
 
 @Controller
-public class UserLogController extends SupportAdminController {
+public class UserLogController extends AdminSupportController {
 	
 	@Autowired
 	private UserLogService userLogService;

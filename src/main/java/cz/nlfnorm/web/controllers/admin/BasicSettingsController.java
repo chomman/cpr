@@ -17,7 +17,7 @@ import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.services.BasicSettingsService;
 
 @Controller
-public class BasicSettingsController extends SupportAdminController {
+public class BasicSettingsController extends AdminSupportController {
 		
 	@Autowired
 	private BasicSettingsService basicSettingsService;

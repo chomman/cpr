@@ -21,14 +21,14 @@ import cz.nlfnorm.entities.Mandate;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.MandateService;
 import cz.nlfnorm.utils.RequestUtils;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.MandatePropertyEditor;
 import cz.nlfnorm.web.forms.admin.MandateForm;
 import cz.nlfnorm.web.pagination.PageLink;
 import cz.nlfnorm.web.pagination.PaginationLinker;
 
 @Controller
-public class MandateController extends SupportAdminController {
+public class MandateController extends AdminSupportController {
 
 	public static final int CPR_TAB_INDEX = 5;
 	private static final String MANDATE_URL = "/admin/cpr/mandates";

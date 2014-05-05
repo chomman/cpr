@@ -24,13 +24,13 @@ import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.utils.CodeUtils;
 import cz.nlfnorm.validators.admin.NotifiedBodyValidator;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.CountryEditor;
 
 
 @Controller
 @SessionAttributes("notifiedBody")
-public class NotifiedBodyController extends SupportAdminController {
+public class NotifiedBodyController extends AdminSupportController {
 	
 	public static final int CPR_TAB_INDEX = 3;
 	

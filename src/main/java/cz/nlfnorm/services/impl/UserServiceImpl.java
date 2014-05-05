@@ -9,8 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.AuthorityDao;
 import cz.nlfnorm.dao.UserDao;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.services.UserService;
@@ -106,23 +108,17 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<User> getUserPage(int pageNumber, Map<String, Object> criteria) {
+	public PageDto getUserPage(int pageNumber, Map<String, Object> criteria) {
 		return userDao.getUserPage(pageNumber, validateCriteria(criteria));
 	}
 
-	@Override
-	@Transactional(readOnly = true)
-	public Long getCountOfUsers(Map<String, Object> criteria) {
-		return userDao.getCountOfUsers(validateCriteria(criteria));
-	}
-	
 	
 	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
 		if(criteria.size() != 0){
-			criteria.put("orderBy", ParseUtils.parseIntFromStringObject(criteria.get("orderBy")));
-			criteria.put("createdFrom", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdFrom")));
-			criteria.put("createdTo", ParseUtils.parseDateTimeFromStringObject(criteria.get("createdTo")));
-			criteria.put("enabled", ParseUtils.parseStringToBoolean(criteria.get("enabled")));
+			criteria.put(Filter.ORDER, ParseUtils.parseIntFromStringObject(criteria.get(Filter.ORDER)));
+			criteria.put(Filter.CREATED_FROM, ParseUtils.parseDateTimeFromStringObject(criteria.get(Filter.CREATED_FROM)));
+			criteria.put(Filter.CREATED_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(Filter.CREATED_TO)));
+			criteria.put(Filter.ENABLED, ParseUtils.parseStringToBoolean(criteria.get(Filter.ENABLED)));
 		}
 		return criteria;
 	}

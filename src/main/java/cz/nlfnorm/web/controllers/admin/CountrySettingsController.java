@@ -21,7 +21,7 @@ import cz.nlfnorm.services.CountryService;
 
 @Controller
 @SessionAttributes("country")
-public class CountrySettingsController extends SupportAdminController {
+public class CountrySettingsController extends AdminSupportController {
 	
 	public static final int TAB_INDEX = 3;
 

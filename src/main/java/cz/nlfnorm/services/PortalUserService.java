@@ -1,14 +1,15 @@
 package cz.nlfnorm.services;
 
-import javax.servlet.http.HttpServletRequest;
+import java.util.Map;
 
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.User;
 
 
 public interface PortalUserService {
 	
 	User createNewUser(User user);
-	
-	void createPortalOrder(User user, HttpServletRequest request);
+		
+	PageDto getPage(int page, Map<String, Object> criteria);
 	
 }

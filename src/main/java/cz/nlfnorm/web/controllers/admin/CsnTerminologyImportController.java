@@ -26,7 +26,7 @@ import cz.nlfnorm.services.CsnTerminologyService;
 
 
 @Controller
-public class CsnTerminologyImportController extends SupportAdminController {
+public class CsnTerminologyImportController extends AdminSupportController {
 	
 	private static final int TAB_INDEX = 4;
 	private static final String MAPPING_URL = "/admin/csn/terminology/import";

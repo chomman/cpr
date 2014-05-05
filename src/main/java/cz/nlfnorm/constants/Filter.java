@@ -25,5 +25,7 @@ public class Filter {
 	public static final String STANDARD_STAUTS		= "standardStatus";
 	public static final String ORDER_STATUS			= "orderStatus";
 	
+	public static final String AUHTORITY 			= "authority";
+	
 	
 }

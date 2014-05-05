@@ -1,5 +1,8 @@
 package cz.nlfnorm.web.controllers.admin;
 
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -7,13 +10,16 @@ import org.springframework.ui.ModelMap;
 
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.utils.RequestUtils;
+import cz.nlfnorm.web.pagination.PageLink;
+import cz.nlfnorm.web.pagination.PaginationLinker;
 
 /**
  * 
  * @author Peter Jurkovič email@peterjurkovic.sk
  *
  */
-public class SupportAdminController {
+public class AdminSupportController {
     
 	protected static final String SUCCESS_CREATE_PARAM = "successCreate";
 	protected static final String SUCCESS_DELETE_PARAM = "successDelete";
@@ -98,5 +104,14 @@ public class SupportAdminController {
     private String buildRedirect(String url, String successParam){
     	return "redirect:"+ url + "?" + successParam + "=1"; 
     }
+    
+    
+    protected  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int count, String url){
+		PaginationLinker paginger = new PaginationLinker(request, params);
+		paginger.setUrl(url);
+		paginger.setCurrentPage(RequestUtils.getPageNumber(request));
+		paginger.setRowCount(count);
+		return paginger.getPageLinks(); 
+	}
  
 }

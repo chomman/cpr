@@ -29,11 +29,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.utils.UserUtils;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 
 @Controller
-public class AccessController extends SupportAdminController {
+public class AccessController extends AdminSupportController {
 	 
 	 @RequestMapping(value = "/admin/login", method = RequestMethod.GET)
 	 public String getAdminLoginPage(HttpServletRequest request,   ModelMap model) {	  

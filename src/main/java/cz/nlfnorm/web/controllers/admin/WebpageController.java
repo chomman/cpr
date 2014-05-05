@@ -52,7 +52,7 @@ import cz.nlfnorm.web.json.JsonStatus;
 
 
 @Controller
-public class WebpageController extends SupportAdminController {
+public class WebpageController extends AdminSupportController {
 	
 	private final static String WEBPAGE_LIST_MAPPING = "/admin/webpages";
 	private final static String EDIT_WEBPAGE_MAPPING = "/admin/webpage/edit/{id}";

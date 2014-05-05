@@ -26,7 +26,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
  *
  */
 @Controller
-public class ExceptionLogController extends SupportAdminController {
+public class ExceptionLogController extends AdminSupportController {
 
 	@Autowired
 	private ExceptionLogService exceptionLogService;

@@ -34,7 +34,7 @@ import cz.nlfnorm.services.StandardService;
 import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.validators.admin.StandardCsnValidator;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 import cz.nlfnorm.web.editors.StandardCsnPropertyEditor;
 import cz.nlfnorm.web.pagination.PageLink;
@@ -48,7 +48,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
  *
  */
 @Controller
-public class StandardCsnController extends SupportAdminController {
+public class StandardCsnController extends AdminSupportController {
 	
 	private static final int CPR_TAB_INDEX = 9;
 	private static final String SUCCESS_PARAM = "successCreate";

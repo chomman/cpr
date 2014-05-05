@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-public class HelpController extends SupportAdminController {
+public class HelpController extends AdminSupportController {
 	
 	/**
 	 * Zobrazi JSP stranku s HTML napovedou

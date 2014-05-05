@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.enums.UserOrder;
@@ -41,12 +42,10 @@ import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.validators.admin.UserValidator;
 import cz.nlfnorm.web.editors.DateTimeEditor;
 import cz.nlfnorm.web.forms.admin.UserForm;
-import cz.nlfnorm.web.pagination.PageLink;
-import cz.nlfnorm.web.pagination.PaginationLinker;
 
 @Controller
 @SessionAttributes("userForm")
-public class UserController extends SupportAdminController {
+public class UserController extends AdminSupportController {
 	
 	@Autowired
 	private UserService userService;
@@ -125,10 +124,11 @@ public class UserController extends SupportAdminController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		List<PageLink>paginationLinks = getPaginationItems(request, params, currentPage);
-		List<User> users = userService.getUserPage(currentPage, params);
-		model.put("users", users);
-		model.put("paginationLinks", paginationLinks);
+		PageDto page = userService.getUserPage(currentPage, params);
+		if(page.getCount() > 0){
+			model.put("paginationLinks", getPaginationItems(request,params, page.getCount(), "/admin/users"));
+			model.put("users", page.getItems());
+		}
 		model.put("orders", UserOrder.getAll());
 		model.put("tab", 1);
 		model.put("params", params);
@@ -343,22 +343,6 @@ public class UserController extends SupportAdminController {
 		}
 		
 	}
-	
-	
-	
-	
-	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params,int currentPage){
-		PaginationLinker paginger = new PaginationLinker(request, params);
-		paginger.setUrl("/admin/users");
-		paginger.setCurrentPage(currentPage);
-		paginger.setRowCount( userService.getCountOfUsers(params).intValue() );
-		return paginger.getPageLinks(); 
-	}
-	
-	
-	
-	
-	
 	
 	private void prepareModel(ModelMap modelMap, UserForm form){
 		Map<String, Object> model = new HashMap<String, Object>();

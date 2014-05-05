@@ -58,7 +58,7 @@ import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.validators.admin.StandardValidator;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.AssessmentSystemCollectionEditor;
 import cz.nlfnorm.web.editors.CountryEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
@@ -75,7 +75,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
 
 
 @Controller
-public class StandardController extends SupportAdminController{
+public class StandardController extends AdminSupportController{
 	
 	public static final int CPR_TAB_INDEX = 1;
 	private static final String UPDATED_STANDARD_PARAM = "updatedStandard";

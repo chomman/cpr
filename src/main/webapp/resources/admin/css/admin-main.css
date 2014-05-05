@@ -658,3 +658,14 @@ h1.pj-smaller{font-size:18px;padding:10px 35px;}
 .total-price div{margin:5px;}
 .total-price div span{display:inline-block;min-width:100px;}
 .total-price .bigger{margin:10px 5px;font-size:20px;font-weight:bold;}
+
+/* UI TABS */
+.ui-tabs{border:0 !important; }
+.ui-tabs-nav{border:0 !important;border-bottom:1px solid #ccc !important;font-size:14px !important;padding :0 30px !important;background:none !important;}
+.ui-tabs-nav li{border-top:1px solid #ccc;-webkit-border-top-left-radius: 6px;-webkit-border-top-right-radius: 6px;-moz-border-radius-topleft: 6px;-moz-border-radius-topright: 6px;
+border-top-left-radius: 6px;border-top-right-radius: 6px;}
+.ui-tabs-nav li a{color:#555 !important;font-weight:normal;padding:8px 15px !important;}
+.ui-tabs-nav li.ui-tabs-active  a{color:#e34c02 !important;font-weight:bold;}
+.ui-tabs-panel{padding:30px 10px!important;font-size:14px;}                
+.ui-tabs li.ui-state-hover{background:#eee;border-color:#999}
+ 

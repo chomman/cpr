@@ -9,9 +9,10 @@ import org.hibernate.Query;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
-import cz.nlfnorm.constants.CacheRegion;
 import cz.nlfnorm.constants.Constants;
+import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.UserDao;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.enums.UserOrder;
@@ -100,52 +101,17 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
          				.list();
 	}
 
-	/**
-	 * Vrati stranku uzivatelov, vyhovujucich danym kriteriam
-	 * 
-	 * @param int cislo stranky
-	 * @param Map<String, Object> kriteria
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<User> getUserPage(final int pageNumber, Map<String, Object> criteria) {
-		StringBuffer hql = new StringBuffer("from User u");
-		hql.append(prepareHqlForQuery(criteria));
+	
+
+	private void appendOrderBy(Map<String, Object> criteria, StringBuilder hql){
 		if((Integer)criteria.get("orderBy") != null){
 			hql.append(UserOrder.getSqlById((Integer)criteria.get("orderBy") ));
 		}else{
 			hql.append(UserOrder.getSqlById(1));
 		}
-
-		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
-		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
-		hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.USER_CACHE);
-		return hqlQuery.list();
-	}
-
-	
-	/**
-	 * Vrati pocet zaznamov/uzivatelov, vyhovujucich danym kriteriam
-	 * 
-	 * @param Map<String, Object> kriteria
-	 * @return Long pocet zaznamov
-	 */
-	@Override
-	public Long getCountOfUsers(Map<String, Object> criteria) {
-		StringBuffer hql = new StringBuffer("SELECT count(*) FROM User u");
-		hql.append(prepareHqlForQuery(criteria));
-		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
-		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.USER_CACHE);
-	    return (Long) hqlQuery.uniqueResult();
 	}
 	
-	
-	
+		
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
@@ -154,15 +120,18 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 						  " u.lastName like CONCAT('%', :query , '%') OR " +
 						  " u.email like CONCAT('%', :query , '%')) ");
 			}
-			if((DateTime)criteria.get("createdFrom") != null){
-				where.add(" u.created >= :createdFrom ");
+			if((DateTime)criteria.get(Filter.CREATED_FROM) != null){
+				where.add(" u.created >= :"+Filter.CREATED_FROM);
 			}
-			if((DateTime)criteria.get("createdTo") != null){
-				where.add(" u.created < :createdTo ");
+			if((DateTime)criteria.get(Filter.CREATED_TO) != null){
+				where.add(" u.created < :"+Filter.CREATED_TO);
 			}
-			Boolean enabled = (Boolean)criteria.get("enabled");
+			Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
 			if(enabled != null){
-				where.add(" (u.enabled=:enabled)");
+				where.add(" u.enabled=:"+Filter.ENABLED);
+			}
+			if(StringUtils.isNotBlank((String)criteria.get(Filter.AUHTORITY))){
+				where.add(" a.code =:"+Filter.AUHTORITY);
 			}
 		}
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
@@ -176,18 +145,22 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				hqlQuery.setString("query", (String)criteria.get("query"));
 			}
-			DateTime publishedSince = (DateTime)criteria.get("createdFrom");
+			DateTime publishedSince = (DateTime)criteria.get(Filter.CREATED_FROM);
 			if(publishedSince != null){
-				hqlQuery.setTimestamp("createdFrom", publishedSince.toDate());
+				hqlQuery.setTimestamp(Filter.CREATED_FROM, publishedSince.toDate());
 			}
-			DateTime publishedUntil = (DateTime)criteria.get("createdTo");
+			DateTime publishedUntil = (DateTime)criteria.get(Filter.CREATED_TO);
 			if(publishedUntil != null){
-				hqlQuery.setTimestamp("createdTo", publishedUntil.plusDays(1).toDate());
+				hqlQuery.setTimestamp(Filter.CREATED_TO, publishedUntil.plusDays(1).toDate());
 			}
 		   
-			Boolean enabled = (Boolean)criteria.get("enabled");
+			Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
 			if(enabled != null){
-				hqlQuery.setBoolean("enabled", enabled);
+				hqlQuery.setBoolean(Filter.ENABLED, enabled);
+			}
+			String authorityCode = (String)criteria.get(Filter.AUHTORITY);
+			if(StringUtils.isNotBlank(authorityCode)){
+				hqlQuery.setString(Filter.AUHTORITY, authorityCode);
 			}
 		}
 	}
@@ -213,7 +186,38 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		result = (Long)query.uniqueResult();
 		return (result == 0);
 	}
+
 	
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public PageDto getUserPage(int currentPage, Map<String, Object> criteria) {
+		StringBuilder hql = new StringBuilder("from User u ");
+		hql.append(" left outer join u.authoritySet a ");
+		hql.append(prepareHqlForQuery(criteria));
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
+		prepareHqlQueryParams(hqlQuery, criteria);
+		PageDto items = new PageDto();
+		Long countOfItems = (Long)hqlQuery.uniqueResult();
+		if(countOfItems == null){
+			items.setCount(0l);
+		}else{
+			items.setCount(countOfItems);
+			if(items.getCount() > 0){
+				
+				appendOrderBy(criteria, hql);
+				hqlQuery = sessionFactory.getCurrentSession().createQuery("select u " + hql.toString());
+				prepareHqlQueryParams(hqlQuery, criteria); 
+				hqlQuery.setCacheable(false);
+				hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( currentPage -1));
+				hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
+				items.setItems(hqlQuery.list());
+			}
+		}
+		return items;
+		
+	}
+
 	
 	
 }

@@ -18,11 +18,11 @@ import cz.nlfnorm.constants.DopTextVariable;
 import cz.nlfnorm.entities.AssessmentSystem;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.AssessmentSystemService;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 
 @Controller
-public class AssessmentSystemController extends SupportAdminController {
+public class AssessmentSystemController extends AdminSupportController {
 	
 	
 	public static final int CPR_TAB_INDEX = 4;

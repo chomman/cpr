@@ -35,7 +35,7 @@ import cz.nlfnorm.web.editors.CsnTerminologyLanguageEditor;
  *
  */
 @Controller
-public class CsnTerminologyController extends SupportAdminController {
+public class CsnTerminologyController extends AdminSupportController {
 		
 	@Autowired
 	private CsnService csnService;

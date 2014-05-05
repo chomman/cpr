@@ -23,10 +23,10 @@ import cz.nlfnorm.enums.PortalProductType;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.utils.UserUtils;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 @Controller
-public class PortalProductController extends SupportAdminController {
+public class PortalProductController extends AdminSupportController {
 	
 	private final static String EDIT_MAPPING_URL = "/admin/portal/product/{serviceId}";
 	private final static String LIST_MAPPING_URL = "/admin/portal/products";
@@ -46,6 +46,7 @@ public class PortalProductController extends SupportAdminController {
 	public String handleServicesList(ModelMap modelMap, HttpServletRequest request){
 		Map<String,Object> model = new HashMap<String, Object>();
 		model.put("portalProducts", portalProductService.getAllNotDeleted(false));
+		model.put("tab", 3);
 		modelMap.put("model", model);
 		if(isDeleted(request)){
 			appendSuccessDeleteParam(modelMap);

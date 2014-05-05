@@ -18,11 +18,11 @@ import cz.nlfnorm.entities.BasicRequirement;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.BasicRequirementService;
 import cz.nlfnorm.utils.CodeUtils;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 
 @Controller
-public class BasicRequirementController extends SupportAdminController {
+public class BasicRequirementController extends AdminSupportController {
 	
 	public static final int CPR_TAB_INDEX = 6;
 	

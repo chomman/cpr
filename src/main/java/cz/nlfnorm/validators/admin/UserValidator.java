@@ -1,14 +1,12 @@
 package cz.nlfnorm.validators.admin;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.utils.ValidationsUtils;
 import cz.nlfnorm.web.forms.admin.UserForm;
 
 @Component
@@ -17,21 +15,10 @@ public class UserValidator {
 	@Autowired
 	private UserService userService;
 	
-	private Pattern pattern;
-	private Matcher matcher;
- 
-	private static final String EMAIL_PATTERN = 
-		"^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@"
-		+ "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
- 
-	
-	public UserValidator(){
-		pattern = Pattern.compile(EMAIL_PATTERN);
-	}
 	
 	public void validate(BindingResult result, UserForm form){
 		
-		if(!validate(form.getUser().getEmail())){
+		if(!ValidationsUtils.isEmailValid(form.getUser().getEmail())){
 			result.rejectValue("user.email", "error.user.email.invalid");
 		}
 		
@@ -72,10 +59,5 @@ public class UserValidator {
 	
 	
 	
-	public boolean validate(final String hex) {
-		matcher = pattern.matcher(hex);
-		return matcher.matches();
- 
-	}
 	
 }

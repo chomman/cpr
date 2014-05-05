@@ -1,7 +1,6 @@
 package cz.nlfnorm.web.controllers.admin.portal;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,13 +27,11 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.utils.RequestUtils;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.PortalProductPropertyEditor;
-import cz.nlfnorm.web.pagination.PageLink;
-import cz.nlfnorm.web.pagination.PaginationLinker;
 
 @Controller
-public class PortalOrderController extends SupportAdminController {
+public class PortalOrderController extends AdminSupportController {
 
 	private final static String EDIT_MAPPING_URL = "/admin/portal/order/{orderId}";
 	private final static String LIST_MAPPING_URL = "/admin/portal/orders";
@@ -63,13 +60,14 @@ public class PortalOrderController extends SupportAdminController {
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		PageDto page = portalOrderService.getPortalOrderPage(currentPage, params);
 		if(page.getCount() > 0){
-			model.put("paginationLinks", getPaginationItems(request,params, currentPage, page.getCount()));
+			model.put("paginationLinks", getPaginationItems(request,params, page.getCount(), LIST_MAPPING_URL));
 			model.put("portalOrders", page.getItems() );
 		}
 		model.put("params", params);
 		model.put("orders", PortalOrderOrder.getAll());
 		model.put("orderStatuses", OrderStatus.getAll());
 		model.put("sources", PortalOrderSource.getAll());
+		model.put("tab", 1);
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}
@@ -125,6 +123,7 @@ public class PortalOrderController extends SupportAdminController {
 		model.put("orderStatuses", OrderStatus.getAll());
 		model.put("portalProducts", portalProductService.getAll() );
 		model.put("order", portalOrderService.getById(portalOrder.getId()));
+		model.put("tab", 1);
 		map.put("model", model);
 	}
 	
@@ -137,12 +136,6 @@ public class PortalOrderController extends SupportAdminController {
 		return order;
 	}
 	
-	private  List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
-		PaginationLinker paginger = new PaginationLinker(request, params);
-		paginger.setUrl("/admin/orders");
-		paginger.setCurrentPage(currentPage);
-		paginger.setRowCount(count);
-		return paginger.getPageLinks(); 
-	}
+	
 	
 }

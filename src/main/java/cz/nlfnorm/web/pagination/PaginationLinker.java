@@ -100,7 +100,7 @@ public class PaginationLinker {
 	  * @param Map<String, Object>  mapa parametrov
 	  */
 	 private void encodeUrlParams(Map<String, Object> params) {
-	        StringBuffer item = new StringBuffer();
+	        StringBuilder item = new StringBuilder();
 	        String encoding = "UTF-8";
 	        try {
 	            for (Iterator<String> iter = params.keySet().iterator(); iter.hasNext();) {

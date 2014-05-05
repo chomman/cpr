@@ -22,7 +22,7 @@ import cz.nlfnorm.services.FileService;
 import cz.nlfnorm.validators.admin.ImageValidator;
 
 @Controller
-public class FileManagerController extends SupportAdminController {
+public class FileManagerController extends AdminSupportController {
 
 	@Autowired
 	private FileService fileService;

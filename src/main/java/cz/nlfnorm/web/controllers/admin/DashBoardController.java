@@ -13,7 +13,7 @@ import cz.nlfnorm.services.StandardService;
 
 
 @Controller
-public class DashBoardController extends SupportAdminController {
+public class DashBoardController extends AdminSupportController {
     
 	private static final int COUNT_OF_LAST_EDITED_STANDARDS = 8;
 	

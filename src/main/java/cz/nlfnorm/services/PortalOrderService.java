@@ -25,5 +25,6 @@ public interface PortalOrderService {
 	void updateAndSetChanged(PortalOrder order, boolean sendEmail);
 	
 	void activateProducts(PortalOrder order);
-	
+
+	List<PortalOrder> getUserOrders(Long userId);
 }

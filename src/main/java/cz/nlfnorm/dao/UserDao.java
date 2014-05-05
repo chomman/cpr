@@ -3,6 +3,7 @@ package cz.nlfnorm.dao;
 import java.util.List;
 import java.util.Map;
 
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 
@@ -52,16 +53,7 @@ public interface UserDao extends BaseDao<User, Long>{
 	 * @param int cislo stranky
 	 * @param Map<String, Object> kriteria
 	 */
-	List<User> getUserPage(int pageNumber, Map<String, Object> criteria);
-	
-	
-	/**
-	 * Vrati pocet zaznamov/uzivatelov, vyhovujucich danym kriteriam
-	 * 
-	 * @param Map<String, Object> kriteria
-	 * @return Long pocet zaznamov
-	 */
-	Long getCountOfUsers(Map<String, Object> criteria);
+	PageDto getUserPage(int pageNumber, Map<String, Object> criteria);
 	
 	
 	/**
@@ -71,4 +63,6 @@ public interface UserDao extends BaseDao<User, Long>{
 	 * @param String kontrolovane uzivatelske meno
 	 */
 	boolean isUserNameUniqe(Long id, String userName);
+	
+	
 }

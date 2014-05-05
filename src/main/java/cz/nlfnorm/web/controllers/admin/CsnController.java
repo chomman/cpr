@@ -52,7 +52,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
  * @date 27.07.2013
  */
 @Controller
-public class CsnController extends SupportAdminController {
+public class CsnController extends AdminSupportController {
 	
 	// položka menu
 	private static final int TAB_INDEX = 1;

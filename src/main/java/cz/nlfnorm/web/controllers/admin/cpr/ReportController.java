@@ -27,13 +27,13 @@ import cz.nlfnorm.entities.Report;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.ReportService;
 import cz.nlfnorm.validators.admin.ReportValidator;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 import cz.nlfnorm.web.json.JsonResponse;
 import cz.nlfnorm.web.json.JsonStatus;
 
 @Controller
-public class ReportController extends SupportAdminController {
+public class ReportController extends AdminSupportController {
 	
 	private final static int CPR_TAB_INDEX = 10;
 	private final static String SUCCESS_DELETE_PARAM = "successDelete";

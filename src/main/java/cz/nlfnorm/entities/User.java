@@ -23,6 +23,7 @@ import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.Valid;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
@@ -134,6 +135,7 @@ public class User extends AbstractEntity implements UserDetails{
 		return authoritySet.remove(authority);
 	}
 	
+	@Valid
 	@PrimaryKeyJoinColumn
 	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
 	public UserInfo getUserInfo() {
@@ -256,10 +258,13 @@ public class User extends AbstractEntity implements UserDetails{
         return getEnabled().booleanValue();
 	}
 
+	
     @Override
     public int hashCode() {
         return email.hashCode();
     }
+    
+    
      
     
     @Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
@@ -298,7 +303,26 @@ public class User extends AbstractEntity implements UserDetails{
 				+ " authoritySize: " + getAuthoritySet().size() + "]";
 	}
 
+	@Transient
+	public boolean getHasActiveRegistration(){
+		if(!getEnabled() || getRegistrationValidity() == null){
+			return false;
+		}
+		LocalDate today = new LocalDate();
+		return !getRegistrationValidity().isBefore(today);
+	}
 	
+	@Transient
+	public int getCountOfActivePublications(){
+		int count = 0;
+		LocalDate today = new LocalDate();
+		for(UserOnlinePublication pub : onlinePublications){
+			if(!pub.getValidity().isBefore(today)){
+				count++;
+			}
+		}
+		return count;
+	}
     
 		
 }

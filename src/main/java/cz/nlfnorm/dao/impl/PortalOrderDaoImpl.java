@@ -31,6 +31,7 @@ public class PortalOrderDaoImpl extends BaseDaoImpl<PortalOrder, Long> implement
 			.append(" o")
 		    .append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
+		hqlQuery.setCacheable(false);
 		prepareHqlQueryParams(hqlQuery, criteria);
 		PageDto items = new PageDto();
 		Long countOfItems = (Long)hqlQuery.uniqueResult();
@@ -45,6 +46,7 @@ public class PortalOrderDaoImpl extends BaseDaoImpl<PortalOrder, Long> implement
 				hqlQuery.setCacheable(false);
 				hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( currentPage -1));
 				hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
+				hqlQuery.setCacheable(false);
 				items.setItems(hqlQuery.list());
 			}
 		}
@@ -105,6 +107,18 @@ public class PortalOrderDaoImpl extends BaseDaoImpl<PortalOrder, Long> implement
 				hqlQuery.setString("orderSource", orderSource);
 			}
 		}
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<PortalOrder> getUserOrders(final Long userId) {
+		StringBuilder hql = new StringBuilder("select o from ");
+		hql.append(PortalOrder.class.getName());
+		hql.append(" o join o.user u where u.id =:userId order by o.created desc ");
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		hqlQuery.setLong("userId", userId);
+		hqlQuery.setCacheable(false);
+		return hqlQuery.list();
 	}
 
 }

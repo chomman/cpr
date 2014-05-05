@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cz.nlfnorm.entities.CommissionDecision;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.CommissionDecisionService;
-import cz.nlfnorm.web.controllers.admin.SupportAdminController;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 @Controller
-public class CommissionDecisionConteroller extends SupportAdminController {
+public class CommissionDecisionConteroller extends AdminSupportController {
 	
 	private static final int CPR_TAB_INDEX = 9;	
 	public static final String BASE_URL = "/admin/cpr/commission-decisions";

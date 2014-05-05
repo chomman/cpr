@@ -62,11 +62,11 @@
 			
 			<div id="tabs">
 				<ul>
-					<li><a href="#content">Obsah</a></li>
+					<li><a href="#content2">Obsah</a></li>
 					<li><a href="#settings">Publikování a nastavení </a></li>
 					<li><a href="#images">Obrázky</a></li>
 				</ul>
-			<div id="content">
+			<div id="content2">
 					<form:form commandName="webpageContent" method="post" cssClass="valid" name="webpageContent">
 						<p class="pj-redirect-type  pj-type">
 							 <label>

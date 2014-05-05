@@ -23,7 +23,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
 
 
 @Controller
-public class CsnTerminologyLogController extends SupportAdminController {
+public class CsnTerminologyLogController extends AdminSupportController {
 	
 	public static final int TAB_INDEX = 5;
 	

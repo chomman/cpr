@@ -34,7 +34,7 @@ import cz.nlfnorm.services.CsnCategoryService;
  * @date 02.08.2013
  */
 @Controller
-public class CsnCategoryController extends SupportAdminController {
+public class CsnCategoryController extends AdminSupportController {
 	
 	// položka menu
 	public static final int TAB_INDEX = 3;
