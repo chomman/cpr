@@ -26,13 +26,13 @@
 	        </beans:bean>
 	        <beans:bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" >
 	        	<beans:property name="objectMapper">
-                    <beans:bean class="sk.peterjurkovic.cpr.web.json.mappers.HibernateAwareObjectMapper" />
+                    <beans:bean class="cz.nlfnorm.web.json.mappers.HibernateAwareObjectMapper" />
                 </beans:property>
             </beans:bean>  
     	</mvc:message-converters>
 	</mvc:annotation-driven>
 
-	<context:component-scan base-package="sk.peterjurkovic.cpr.web.controllers" />
+	<context:component-scan base-package="cz.nlfnorm.web.controllers" />
 	
 	<beans:bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
 	    <beans:property name="alwaysUseFullPath" value="true" />
@@ -62,7 +62,7 @@
 			<mvc:mapping path="/admin/**" />
 		    <exclude-mapping path="/image/**"/>
 			<exclude-mapping path="/resources/**"/>
-		   	<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.AdminInterceptor" />
+		   	<beans:bean class="cz.nlfnorm.web.interceptors.AdminInterceptor" />
 		</mvc:interceptor>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
@@ -70,16 +70,16 @@
 			<exclude-mapping path="/admin/**"/>
 			<exclude-mapping path="/image/**"/>
 			<exclude-mapping path="/ajax/**"/>
-			<beans:bean class="sk.peterjurkovic.cpr.web.interceptors.WebpageInterceptor" />
+			<beans:bean class="cz.nlfnorm.web.interceptors.WebpageInterceptor" />
 		</mvc:interceptor>
 	</mvc:interceptors>
 	
 	
-	<beans:bean id="exceptionResolver"  class="sk.peterjurkovic.cpr.exceptions.CustomMappingExceptionResolver">
+	<beans:bean id="exceptionResolver"  class="cz.nlfnorm.exceptions.CustomMappingExceptionResolver">
 		<beans:property name="exceptionMappings">
 			  <beans:map>
-			    <beans:entry key="sk.peterjurkovic.cpr.exceptions.ItemNotFoundException" value="exceptions/item-not-found"  />
-			    <beans:entry key="sk.peterjurkovic.cpr.exceptions.PageNotFoundEception" value="exceptions/page-not-found" />
+			    <beans:entry key="cz.nlfnorm.exceptions.ItemNotFoundException" value="exceptions/item-not-found"  />
+			    <beans:entry key="cz.nlfnorm.exceptions.PageNotFoundEception" value="exceptions/page-not-found" />
 			    <beans:entry key="java.lang.Exception" value="exceptions/unexpected-error" />
 	   		</beans:map>
 	  </beans:property>

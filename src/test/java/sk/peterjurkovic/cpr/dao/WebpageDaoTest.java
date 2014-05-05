@@ -10,7 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import sk.peterjurkovic.cpr.entities.Webpage;
+import cz.nlfnorm.dao.WebpageDao;
+import cz.nlfnorm.entities.Webpage;
 import sk.peterjurkovic.cpr.test.WebpageDateSet;
 
 @RunWith(SpringJUnit4ClassRunner.class)

@@ -26,38 +26,38 @@
 	
 	<tx:annotation-driven transaction-manager="transactionManagerBean"/>
 
-    <context:component-scan base-package="sk.peterjurkovic.cpr.dao">
+    <context:component-scan base-package="cz.nlfnorm.dao">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
     </context:component-scan>
     
-    <context:component-scan base-package="sk.peterjurkovic.cpr.services">
+    <context:component-scan base-package="cz.nlfnorm.services">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
     </context:component-scan>  
     
-    <context:component-scan base-package="sk.peterjurkovic.cpr.validators">
+    <context:component-scan base-package="cz.nlfnorm.validators">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>
     
-    <context:component-scan base-package="sk.peterjurkovic.cpr.mail">
+    <context:component-scan base-package="cz.nlfnorm.mail">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>      
     
-    <context:component-scan base-package="sk.peterjurkovic.cpr.web">
+    <context:component-scan base-package="cz.nlfnorm.web">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
     
-    <context:component-scan base-package="sk.peterjurkovic.cpr.parser">
+    <context:component-scan base-package="cz.nlfnorm.parser">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
     
-    <context:component-scan base-package="sk.peterjurkovic.cpr.csvimport">
+    <context:component-scan base-package="cz.nlfnorm.csvimport">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
      
    
-    <bean name="localeFilter" class="sk.peterjurkovic.cpr.filters.LocaleFilter" />
+    <bean name="localeFilter" class="cz.nlfnorm.filters.LocaleFilter" />
 	
-	<bean name="localeResolver" class="sk.peterjurkovic.cpr.resolvers.LocaleResolver" />
+	<bean name="localeResolver" class="cz.nlfnorm.resolvers.LocaleResolver" />
    
   
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
@@ -92,9 +92,9 @@
    	  </property>
     </bean>
        
-    <bean id="pdfView" scope="request" class="sk.peterjurkovic.cpr.export.PdfByXhtmlrendererView" />
+    <bean id="pdfView" scope="request" class="cz.nlfnorm.export.PdfByXhtmlrendererView" />
 
-    <bean id="pdfByXhtmlrendererExporter" scope="singleton" class="sk.peterjurkovic.cpr.export.PdfExporter">
+    <bean id="pdfByXhtmlrendererExporter" scope="singleton" class="cz.nlfnorm.export.PdfExporter">
         <property name="fonts">
         	<list>
         		<value>/fonts/tahoma.ttf</value>

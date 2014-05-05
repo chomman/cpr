@@ -3,6 +3,7 @@ package sk.peterjurkovic.cpr.mail;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import cz.nlfnorm.mail.MailSender;
 import sk.peterjurkovic.cpr.test.AbstractTest;
 
 public class MailTest extends AbstractTest {

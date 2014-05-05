@@ -9,19 +9,19 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
-import sk.peterjurkovic.cpr.entities.PortalOrder;
-import sk.peterjurkovic.cpr.entities.PortalOrderItem;
-import sk.peterjurkovic.cpr.entities.PortalProduct;
-import sk.peterjurkovic.cpr.entities.User;
-import sk.peterjurkovic.cpr.entities.UserInfo;
-import sk.peterjurkovic.cpr.entities.UserOnlinePublication;
-import sk.peterjurkovic.cpr.enums.OnlinePublication;
-import sk.peterjurkovic.cpr.enums.PortalProductType;
-import sk.peterjurkovic.cpr.services.PortalOrderService;
-import sk.peterjurkovic.cpr.services.PortalProductService;
-import sk.peterjurkovic.cpr.services.PortalUserService;
+import cz.nlfnorm.entities.PortalOrder;
+import cz.nlfnorm.entities.PortalOrderItem;
+import cz.nlfnorm.entities.PortalProduct;
+import cz.nlfnorm.entities.User;
+import cz.nlfnorm.entities.UserInfo;
+import cz.nlfnorm.entities.UserOnlinePublication;
+import cz.nlfnorm.enums.OnlinePublication;
+import cz.nlfnorm.enums.PortalProductType;
+import cz.nlfnorm.services.PortalOrderService;
+import cz.nlfnorm.services.PortalProductService;
+import cz.nlfnorm.services.PortalUserService;
+import cz.nlfnorm.web.forms.portal.PortalUserForm;
 import sk.peterjurkovic.cpr.test.AbstractTest;
-import sk.peterjurkovic.cpr.web.forms.portal.PortalUserForm;
 
 public class PortalServiceTest extends AbstractTest{
 	

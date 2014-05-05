@@ -3,7 +3,7 @@ package sk.peterjurkovic.cpr.test;
 import java.util.ArrayList;
 import java.util.List;
 
-import sk.peterjurkovic.cpr.entities.Webpage;
+import cz.nlfnorm.entities.Webpage;
 
 public class WebpageDateSet extends AbstractTest {
 	

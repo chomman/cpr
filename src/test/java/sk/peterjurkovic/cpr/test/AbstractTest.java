@@ -11,8 +11,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import sk.peterjurkovic.cpr.entities.User;
-import sk.peterjurkovic.cpr.services.UserService;
+import cz.nlfnorm.entities.User;
+import cz.nlfnorm.services.UserService;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)

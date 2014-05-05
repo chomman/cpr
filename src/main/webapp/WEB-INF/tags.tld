@@ -10,7 +10,7 @@
   <uri>http://peterjukovic.com/tags</uri>
   <tag>
     <name>url</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.UrlTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.UrlTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
 			<name>title</name>
@@ -50,7 +50,7 @@
  </tag>
  <tag>
 	<name>localizedValue</name>
- 	<tag-class>sk.peterjurkovic.cpr.web.taglib.LocalizedValueTag</tag-class>
+ 	<tag-class>cz.nlfnorm.web.taglib.LocalizedValueTag</tag-class>
  	<body-content>JSP</body-content>
  		<attribute>
  			<name>object</name>
@@ -65,7 +65,7 @@
 </tag>   
 <tag>
     <name>adminurl</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.AdminUrlTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.AdminUrlTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
 			<name>title</name>
@@ -100,7 +100,7 @@
   </tag>
   <tag>
     <name>standardUrl</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.StandardUrlTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.StandardUrlTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
 			<name>title</name>
@@ -126,7 +126,7 @@
 		<name>standard</name>
 		<required>true</required>
 		<rtexprvalue>true</rtexprvalue>
-		<type>sk.peterjurkovic.cpr.entities.Standard</type>
+		<type>cz.nlfnorm.entities.Standard</type>
 	</attribute>
 	<attribute>
 		<name>editable</name>
@@ -137,7 +137,7 @@
  </tag> 
   <tag>
     <name>standardCsnUrl</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.StandardCsnUrlTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.StandardCsnUrlTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
 			<name>title</name>
@@ -163,7 +163,7 @@
 		<name>object</name>
 		<required>true</required>
 		<rtexprvalue>true</rtexprvalue>
-		<type>sk.peterjurkovic.cpr.entities.AbstractStandardCsn</type>
+		<type>cz.nlfnorm.entities.AbstractStandardCsn</type>
 	</attribute>
 	<attribute>
 		<name>editable</name>
@@ -174,7 +174,7 @@
  </tag> 
   <tag>
     <name>noaoUrl</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.NotifiedBodyUrlTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.NotifiedBodyUrlTag</tag-class>
     <body-content>JSP</body-content>
 	<attribute>
 		<name>cssClass</name>
@@ -190,7 +190,7 @@
 		<name>object</name>
 		<required>true</required>
 		<rtexprvalue>true</rtexprvalue>
-		<type>sk.peterjurkovic.cpr.entities.StandardNotifiedBody</type>
+		<type>cz.nlfnorm.entities.StandardNotifiedBody</type>
 	</attribute>
 	<attribute>
 		<name>editable</name>
@@ -209,9 +209,10 @@
 		<type>java.util.Boolean</type>
 	</attribute>
  </tag> 
+<!-- 
  <tag>
 	<name>webpageValue</name>
- 	<tag-class>sk.peterjurkovic.cpr.web.taglib.LocalizedWebpageTag</tag-class>
+ 	<tag-class>cz.nlfnorm.web.taglib.webpage.LocalizedWebpageTag</tag-class>
  	<body-content>JSP</body-content>
  		<attribute>
  			<name>object</name>
@@ -229,4 +230,5 @@
 			<type>java.util.Boolean</type>
 		</attribute>       
  </tag>
+ -->
 </taglib>

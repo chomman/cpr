@@ -8,10 +8,11 @@ import javax.annotation.Resource;
 import org.junit.Assert;
 import org.junit.Test;
 
-import sk.peterjurkovic.cpr.entities.Standard;
-import sk.peterjurkovic.cpr.entities.StandardChange;
-import sk.peterjurkovic.cpr.entities.StandardCsn;
-import sk.peterjurkovic.cpr.entities.StandardCsnChange;
+import cz.nlfnorm.entities.Standard;
+import cz.nlfnorm.entities.StandardChange;
+import cz.nlfnorm.entities.StandardCsn;
+import cz.nlfnorm.entities.StandardCsnChange;
+import cz.nlfnorm.parser.cpr.StandardParser;
 
 @Resource
 public class StandardParserTest {

@@ -15,6 +15,11 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
+import cz.nlfnorm.parser.NoSectionTerminologyParser;
+import cz.nlfnorm.parser.SingleSectionTerminologyParser;
+import cz.nlfnorm.parser.TerminologyParser;
+import cz.nlfnorm.parser.TikaProcessingContext;
+import cz.nlfnorm.parser.WordDocumentParser;
 import sk.peterjurkovic.cpr.test.AbstractTest;
 
 

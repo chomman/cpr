@@ -7,8 +7,9 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import sk.peterjurkovic.cpr.entities.Mandate;
-import sk.peterjurkovic.cpr.entities.StandardGroup;
+import cz.nlfnorm.entities.Mandate;
+import cz.nlfnorm.entities.StandardGroup;
+import cz.nlfnorm.parser.cpr.StandardGroupParser;
 import sk.peterjurkovic.cpr.test.AbstractTest;
 
 public class StandardGroupParserTest extends AbstractTest {

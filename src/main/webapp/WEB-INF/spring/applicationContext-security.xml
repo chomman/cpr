@@ -40,18 +40,18 @@
 
 		<bean id="passwordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder" />
 		
-		<bean id="customUserDetailsService" class="sk.peterjurkovic.cpr.spring.security.HibernateAuthenticationImpl"/>
+		<bean id="customUserDetailsService" class="cz.nlfnorm.spring.security.HibernateAuthenticationImpl"/>
 		
-		<bean id="customAuthenticationManager" class="sk.peterjurkovic.cpr.spring.security.AuthenticationManagerImpl" />
+		<bean id="customAuthenticationManager" class="cz.nlfnorm.spring.security.AuthenticationManagerImpl" />
 		  
-		<bean id="authenticationFailureHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationFailureHandler" />
+		<bean id="authenticationFailureHandler" class="cz.nlfnorm.spring.security.CustomUrlAuthenticationFailureHandler" />
 	
-		<bean id="authenticationSuccessHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationSuccessHandler" />
+		<bean id="authenticationSuccessHandler" class="cz.nlfnorm.spring.security.CustomUrlAuthenticationSuccessHandler" />
 		
 		
 		<bean id="logoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
 	    	<constructor-arg>
-	    		<bean class="sk.peterjurkovic.cpr.spring.security.CustomLogoutSuccessHandler" />
+	    		<bean class="cz.nlfnorm.spring.security.CustomLogoutSuccessHandler" />
 	    	</constructor-arg>
 	    	<constructor-arg>
 	      		<list>
@@ -64,9 +64,9 @@
 		</bean>
 		
 		
-		<bean id="loginListener" class="sk.peterjurkovic.cpr.spring.listeners.LoginListener" autowire="byName" />
+		<bean id="loginListener" class="cz.nlfnorm.spring.listeners.LoginListener" autowire="byName" />
 	
-		<bean id="logoutListener" class="sk.peterjurkovic.cpr.spring.listeners.LogoutListener" autowire="byName" />
+		<bean id="logoutListener" class="cz.nlfnorm.spring.listeners.LogoutListener" autowire="byName" />
 	
 		<bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
 			<property name="accessDeniedHandler" ref="accessDeniedHandler" />
@@ -81,7 +81,7 @@
 		</bean>
 	
 	
-		<bean id="authenticationEntryPoint" class="sk.peterjurkovic.cpr.spring.security.MultipleLoginUrlAuthenticationEntryPoint">
+		<bean id="authenticationEntryPoint" class="cz.nlfnorm.spring.security.MultipleLoginUrlAuthenticationEntryPoint">
 			 <constructor-arg value="/admin/login" />
 			<property name="forceHttps" value="false" />
 		</bean>

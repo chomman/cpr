@@ -79,8 +79,7 @@
 				
 				<form:form commandName="portalOrder" method="post" cssClass="valfid" >
 							
-							<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
-							
+						
 							<c:if test="${not empty successCreate}">
 								<p class="msg ok"><spring:message code="success.create" /></p>
 							</c:if>

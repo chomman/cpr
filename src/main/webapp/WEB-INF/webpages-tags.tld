@@ -9,7 +9,7 @@
   <uri>http://nlfnorm.cz/webpage</uri>
   <tag>
     <name>link</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpageLinkTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.webpage.WebpageLinkTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
 			<name>webpage</name>
@@ -19,7 +19,7 @@
  </tag>
  <tag>
 	<name>filedVal</name>
- 	<tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpageLocalizedFiledTag</tag-class>
+ 	<tag-class>cz.nlfnorm.web.taglib.webpage.WebpageLocalizedFiledTag</tag-class>
  	<body-content>JSP</body-content>
  		<attribute>
  			<name>webpage</name>
@@ -39,7 +39,7 @@
 </tag>   
 <tag>
     <name>a</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpageUrlTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.webpage.WebpageUrlTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
     	<name>webpage</name>
@@ -94,7 +94,7 @@
 </tag>
 <tag>
     <name>nav</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpageNavTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.webpage.WebpageNavTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
     	<name>webpages</name>
@@ -135,7 +135,7 @@
 </tag>
 <tag>
     <name>breadcrumb</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpageBreadcrumbTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.webpage.WebpageBreadcrumbTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
     	<name>webpage</name>
@@ -160,7 +160,7 @@
 </tag>
 <tag>
     <name>price</name>
-    <tag-class>sk.peterjurkovic.cpr.web.taglib.webpage.WebpagePriceTag</tag-class>
+    <tag-class>cz.nlfnorm.web.taglib.webpage.WebpagePriceTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
     	<name>price</name>

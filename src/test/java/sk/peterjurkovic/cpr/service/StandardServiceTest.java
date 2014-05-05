@@ -10,9 +10,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
-import sk.peterjurkovic.cpr.entities.Standard;
-import sk.peterjurkovic.cpr.enums.StandardStatus;
-import sk.peterjurkovic.cpr.services.StandardService;
+import cz.nlfnorm.entities.Standard;
+import cz.nlfnorm.enums.StandardStatus;
+import cz.nlfnorm.services.StandardService;
 import sk.peterjurkovic.cpr.test.AbstractTest;
 
 
