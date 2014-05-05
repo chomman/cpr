@@ -18,7 +18,7 @@
      >
    
    <!--
-   <bean name="standardDao" class="sk.peterjurkovic.cpr.test.StandardDaoTest" /> 
+   <bean name="standardDao" class="cz.nlfnorm.test.StandardDaoTest" /> 
    --> 
    
     
@@ -94,7 +94,7 @@
    <tx:annotation-driven transaction-manager="transactionManagerBean"/>
  -->
 
-   	<context:component-scan base-package="sk.peterjurkovic.cpr" />
+   	<context:component-scan base-package="cz.nlfnorm" />
   
     
 
@@ -104,15 +104,15 @@
 		<property name="systemWideSalt" value="gohaxopu" />
 	</bean>
 
-	<bean id="customUserDetailsService" class="sk.peterjurkovic.cpr.spring.security.HibernateAuthenticationImpl"/>
+	<bean id="customUserDetailsService" class="cz.nlfnorm.spring.security.HibernateAuthenticationImpl"/>
 	
-	<bean id="customAuthenticationManager" class="sk.peterjurkovic.cpr.spring.security.AuthenticationManagerImpl" />
+	<bean id="customAuthenticationManager" class="cz.nlfnorm.spring.security.AuthenticationManagerImpl" />
 	  
-	<bean id="authenticationFailureHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationFailureHandler" />
+	<bean id="authenticationFailureHandler" class="cz.nlfnorm.spring.security.CustomUrlAuthenticationFailureHandler" />
 
-	<bean id="authenticationSuccessHandler" class="sk.peterjurkovic.cpr.spring.security.CustomUrlAuthenticationSuccessHandler" />
+	<bean id="authenticationSuccessHandler" class="cz.nlfnorm.spring.security.CustomUrlAuthenticationSuccessHandler" />
          <!-- 
-    <bean id="fileService" class="sk.peterjurkovic.cpr.services.impl.FileServiceImpl" /> -->
+    <bean id="fileService" class="cz.nlfnorm.services.impl.FileServiceImpl" /> -->
     
 </beans>
 

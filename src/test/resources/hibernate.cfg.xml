@@ -7,40 +7,40 @@
 <hibernate-configuration>
  <session-factory >
  
- 		<mapping class="sk.peterjurkovic.cpr.entities.User" />
-	<mapping class="sk.peterjurkovic.cpr.entities.UserInfo" />
-  	<mapping class="sk.peterjurkovic.cpr.entities.Authority"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.UserLog"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.Address"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.AssessmentSystem"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.Country"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.Mandate"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.NotifiedBody"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.Standard"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsn"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.StandardCsnChange"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.StandardGroup"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.StandardChange"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.StandardNotifiedBody"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.CommissionDecision"/>
-  	<mapping class="sk.peterjurkovic.cpr.entities.BasicRequirement"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.Requirement" />
-	<mapping class="sk.peterjurkovic.cpr.entities.Article" />
-	<mapping class="sk.peterjurkovic.cpr.entities.Webpage" />
-	<mapping class="sk.peterjurkovic.cpr.entities.BasicSettings"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.ExceptionLog"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.Report"/>
+ 	<mapping class="cz.nlfnorm.entities.User" />
+	<mapping class="cz.nlfnorm.entities.UserInfo" />
+  	<mapping class="cz.nlfnorm.entities.Authority"/>
+  	<mapping class="cz.nlfnorm.entities.UserLog"/>
+  	<mapping class="cz.nlfnorm.entities.Address"/>
+  	<mapping class="cz.nlfnorm.entities.AssessmentSystem"/>
+  	<mapping class="cz.nlfnorm.entities.Country"/>
+  	<mapping class="cz.nlfnorm.entities.Mandate"/>
+  	<mapping class="cz.nlfnorm.entities.NotifiedBody"/>
+  	<mapping class="cz.nlfnorm.entities.Standard"/>
+  	<mapping class="cz.nlfnorm.entities.StandardCsn"/>
+  	<mapping class="cz.nlfnorm.entities.StandardCsnChange"/>
+  	<mapping class="cz.nlfnorm.entities.StandardGroup"/>
+  	<mapping class="cz.nlfnorm.entities.StandardChange"/>
+  	<mapping class="cz.nlfnorm.entities.StandardNotifiedBody"/>
+  	<mapping class="cz.nlfnorm.entities.CommissionDecision"/>
+  	<mapping class="cz.nlfnorm.entities.BasicRequirement"/>
+	<mapping class="cz.nlfnorm.entities.Requirement" />
+	<mapping class="cz.nlfnorm.entities.Article" />
+	<mapping class="cz.nlfnorm.entities.Webpage" />
+	<mapping class="cz.nlfnorm.entities.BasicSettings"/>
+	<mapping class="cz.nlfnorm.entities.ExceptionLog"/>
+	<mapping class="cz.nlfnorm.entities.Report"/>
 	
 	<!-- Terminology -->
-	<mapping class="sk.peterjurkovic.cpr.entities.Csn"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.CsnCategory"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminology"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.CsnTerminologyLog"/>	
+	<mapping class="cz.nlfnorm.entities.Csn"/>
+	<mapping class="cz.nlfnorm.entities.CsnCategory"/>
+	<mapping class="cz.nlfnorm.entities.CsnTerminology"/>
+	<mapping class="cz.nlfnorm.entities.CsnTerminologyLog"/>	
 	
-	<mapping class="sk.peterjurkovic.cpr.entities.PortalProduct"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrder"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.PortalOrderItem"/>
-	<mapping class="sk.peterjurkovic.cpr.entities.UserOnlinePublication"/>
+	<mapping class="cz.nlfnorm.entities.PortalProduct"/>
+	<mapping class="cz.nlfnorm.entities.PortalOrder"/>
+	<mapping class="cz.nlfnorm.entities.PortalOrderItem"/>
+	<mapping class="cz.nlfnorm.entities.UserOnlinePublication"/>
 	
 	
 	 

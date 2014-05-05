@@ -12,4 +12,5 @@ public interface PortalUserService {
 		
 	PageDto getPage(int page, Map<String, Object> criteria);
 	
+	void sendRequest();
 }
