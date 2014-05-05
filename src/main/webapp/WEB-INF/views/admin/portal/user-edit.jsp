@@ -7,7 +7,7 @@
 	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
 	<script>
 		$(function() {
-			$( "#tabs" ).tabs();
+			$( "#tabs" ).tabs(${not empty validityChanged ? '{active : 2}' : '' });
 		});
 	</script>
 </head>

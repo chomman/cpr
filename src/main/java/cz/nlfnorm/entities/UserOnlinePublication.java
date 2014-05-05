@@ -2,8 +2,6 @@ package cz.nlfnorm.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -17,8 +15,6 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
-import cz.nlfnorm.enums.OnlinePublication;
-
 @Entity
 @SequenceGenerator(name = "user_has_online_publication_seq", sequenceName = "user_has_online_publication_seq", initialValue = 1, allocationSize =1)
 @Table(name="user_has_online_publication")
@@ -28,7 +24,7 @@ public class UserOnlinePublication {
 	
 	private User user;
 	
-	private OnlinePublication onlinePublication;
+	private PortalProduct portalProduct;
 	
 	private LocalDate validity;
 	
@@ -69,16 +65,17 @@ public class UserOnlinePublication {
 		this.user = user;
 	}
 
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "online_publication", length = 20, nullable = false)
-	public OnlinePublication getOnlinePublication() {
-		return onlinePublication;
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "portal_product_id", nullable = false)
+	public PortalProduct getPortalProduct() {
+		return portalProduct;
 	}
 
-	public void setOnlinePublication(OnlinePublication onlinePublication) {
-		this.onlinePublication = onlinePublication;
+	public void setPortalProduct(PortalProduct portalProduct) {
+		this.portalProduct = portalProduct;
 	}
-	
+
 	@Column(name = "validity", nullable = false)
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	public LocalDate getValidity() {

@@ -25,6 +25,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.Validate;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -35,8 +36,6 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import cz.nlfnorm.enums.OnlinePublication;
 
 /**
  * Entita reprezentujuca opravneneho uzivatela informacneho systemu
@@ -227,9 +226,10 @@ public class User extends AbstractEntity implements UserDetails{
 	}
 	
 	@Transient
-	public UserOnlinePublication getUserOnlinePublication(OnlinePublication publication){
+	public UserOnlinePublication getUserOnlinePublication(final PortalProduct onlinePublication){
+		Validate.notNull(onlinePublication);
 		for(UserOnlinePublication uop : onlinePublications ){
-			if(uop.getOnlinePublication().equals(publication)){
+			if(uop.getPortalProduct().equals(onlinePublication)){
 				return uop;
 			}
 		}
@@ -237,8 +237,8 @@ public class User extends AbstractEntity implements UserDetails{
 	}
 	
 	@Transient
-	public boolean hasValidOnlinePublication(OnlinePublication publication){
-		UserOnlinePublication uop = getUserOnlinePublication(publication);
+	public boolean hasValidOnlinePublication(final PortalProduct onlinePublication){
+		UserOnlinePublication uop = getUserOnlinePublication(onlinePublication);
 		if(uop == null){
 			return false;
 		}
@@ -324,5 +324,15 @@ public class User extends AbstractEntity implements UserDetails{
 		return count;
 	}
     
+	@Transient
+	public UserOnlinePublication getUserOnlineUplication(Long id){
+		Validate.notNull(id);
+		for(UserOnlinePublication pub : onlinePublications){
+			if(pub.getId().equals(id)){
+				return pub;
+			}
+		}
+		return null;
+	}
 		
 }

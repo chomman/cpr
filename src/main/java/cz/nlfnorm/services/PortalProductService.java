@@ -25,5 +25,6 @@ public interface PortalProductService {
 	List<PortalProduct> getAllOnlinePublications(boolean publishedOnly);
 	
 	List<PortalProduct> getAllRegistrations(final boolean publishedOnly);
-	
+		
+	PortalProduct getByOnlinePublication(final String publicationCode);
 }

@@ -2,6 +2,7 @@ package cz.nlfnorm.services.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ import cz.nlfnorm.utils.UserUtils;
 
 @Transactional(propagation = Propagation.REQUIRED)
 @Service("portalProductService")
-public class PortalProductServiceImpl implements PortalProductService {
+public  class PortalProductServiceImpl implements PortalProductService {
 
 	@Autowired
 	private PortalProductDao portalProductDao;
@@ -87,6 +88,16 @@ public class PortalProductServiceImpl implements PortalProductService {
 	@Transactional(readOnly = true)
 	public List<PortalProduct> getAllRegistrations(boolean publishedOnly) {
 		return portalProductDao.getAllRegistrations(publishedOnly);
+	}
+
+	
+	@Override
+	@Transactional(readOnly = true)
+	public PortalProduct getByOnlinePublication(String publicationCode) {
+		if(StringUtils.isBlank(publicationCode)){
+			return null;
+		}
+		return portalProductDao.getByOnlinePublication(publicationCode);
 	}
 	
 	

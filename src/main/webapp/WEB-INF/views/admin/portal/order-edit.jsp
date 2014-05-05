@@ -40,8 +40,8 @@
 							<td class="val">${model.order.id}</td>
 							<td class="key">Zákazník</td>
 							<td class="val">
-								<a:adminurl href="/portal/user/${portalOrder.user.id}">
-									${portalOrder.user.firstName} ${portalOrder.user.lastName}
+								<a:adminurl href="/portal/user/${model.order.user.id}">
+									${model.order.user.firstName} ${model.order.user.lastName}
 								</a:adminurl>
 							</td>
 						</c:if>

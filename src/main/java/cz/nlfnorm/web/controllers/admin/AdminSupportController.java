@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.ui.ModelMap;
 
@@ -112,6 +113,13 @@ public class AdminSupportController {
 		paginger.setCurrentPage(RequestUtils.getPageNumber(request));
 		paginger.setRowCount(count);
 		return paginger.getPageLinks(); 
+	}
+    
+    protected boolean isParamSet(String paramName, HttpServletRequest request) {
+		if(StringUtils.isNotBlank(request.getParameter(paramName))){
+			return true;
+		}
+		return false;
 	}
  
 }

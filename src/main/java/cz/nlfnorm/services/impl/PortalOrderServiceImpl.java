@@ -134,13 +134,14 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 			User user = order.getUser();
 			Validate.notNull(user);
 			for(PortalProduct product : publicationList){
-				UserOnlinePublication userOnlinePublication =  user.getUserOnlinePublication(product.getOnlinePublication());
+				UserOnlinePublication userOnlinePublication =  user.getUserOnlinePublication(product);
 				if(userOnlinePublication == null){
 					// create new one
 					userOnlinePublication = new UserOnlinePublication(user);
 					LocalDate newValidity = computeNewValidity( null , product);
 					userOnlinePublication.setValidity(newValidity);
-					userOnlinePublication.setOnlinePublication(product.getOnlinePublication());
+					userOnlinePublication.setUser(user);
+					userOnlinePublication.setPortalProduct(product);
 					user.getOnlinePublications().add(userOnlinePublication);
 				}else{
 					// Extensions of existing

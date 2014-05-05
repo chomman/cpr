@@ -49,8 +49,7 @@ public class PortalServiceTest extends AbstractTest{
 	public void userRegistrationTest(){
 		PortalProduct registrationProduct = getRegistrationProduct();
 		portalProductService.create(registrationProduct);
-		PortalProduct publicationProduct = getPublicationProduct(OnlinePublication.ANALYZA_REACH);
-		portalProductService.create(publicationProduct);
+		
 		PortalUserForm userForm  = getPortalUserRegistrationForm();
 		User user = userForm.toUser();
 		user = portalUserService.createNewUser(user);
@@ -59,8 +58,8 @@ public class PortalServiceTest extends AbstractTest{
 		addProduct(registrationProduct, order);
 		
 		Assert.assertNotNull(order.getRegistrationPortalProduct());
-		
-		addProduct(publicationProduct, order);
+		PortalProduct analyzaPublication =  create(OnlinePublication.ANALYZA_REACH);
+		addProduct(analyzaPublication, order);
 		order.setUser(user);
 		portalOrderService.create(order);
 		Assert.assertNotNull(order.getId());
@@ -71,32 +70,31 @@ public class PortalServiceTest extends AbstractTest{
 		LocalDate date = new LocalDate().plusYears(1);
 		Assert.assertEquals(date, user.getRegistrationValidity());
 		
-		Assert.assertTrue(user.hasValidOnlinePublication(OnlinePublication.ANALYZA_REACH));
-		Assert.assertFalse(user.hasValidOnlinePublication(OnlinePublication.CHEMICKE_LATKY));
+		Assert.assertTrue(user.hasValidOnlinePublication(analyzaPublication));
+		PortalProduct chemLatkyPublication =  create(OnlinePublication.CHEMICKE_LATKY);
+		Assert.assertFalse(user.hasValidOnlinePublication(chemLatkyPublication));
 		
-		UserOnlinePublication uop = user.getUserOnlinePublication(OnlinePublication.ANALYZA_REACH);
+		UserOnlinePublication uop = user.getUserOnlinePublication(analyzaPublication);
 		
 		Assert.assertNotNull(uop);
 		Assert.assertEquals(date, uop.getValidity());
 		
-		PortalProduct publicationProduct2 = getPublicationProduct(OnlinePublication.CHEMICKE_LATKY);
-		portalProductService.create(publicationProduct2);
+
 		
 		order.setDateOfActivation(null);
-		addProduct(publicationProduct2, order);
+		addProduct(chemLatkyPublication, order);
 		portalOrderService.update(order);
 		portalOrderService.activateProducts(order);
 		Assert.assertNotNull(order.getDateOfActivation());
 		
-		Assert.assertTrue(user.hasValidOnlinePublication(OnlinePublication.ANALYZA_REACH));
-		Assert.assertTrue(user.hasValidOnlinePublication(OnlinePublication.CHEMICKE_LATKY));
-		Assert.assertFalse(user.hasValidOnlinePublication(OnlinePublication.NORMY));
+		Assert.assertTrue(user.hasValidOnlinePublication(chemLatkyPublication));
+		Assert.assertTrue(user.hasValidOnlinePublication(analyzaPublication));
 		
 		LocalDate twoYars = date.plusYears(1);
 		Assert.assertEquals(twoYars, user.getRegistrationValidity());
 		Assert.assertEquals(twoYars, uop.getValidity());
 		
-		UserOnlinePublication uop2 = user.getUserOnlinePublication(OnlinePublication.CHEMICKE_LATKY);
+		UserOnlinePublication uop2 = user.getUserOnlinePublication(chemLatkyPublication);
 		
 		Assert.assertNotNull(uop2);
 		Assert.assertEquals(date, uop2.getValidity());
@@ -143,5 +141,11 @@ public class PortalServiceTest extends AbstractTest{
 		item.setPortalOrder(order);
 		item.setPrice(product.getPriceCzk());
 		order.getOrderItems().add(item);
+	}
+	
+	private PortalProduct create(OnlinePublication pub){
+		PortalProduct publicationProduct = getPublicationProduct(pub);
+		portalProductService.create(publicationProduct);
+		return publicationProduct;
 	}
 }

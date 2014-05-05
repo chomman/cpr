@@ -12,4 +12,5 @@ public interface PortalProductDao extends BaseDao<PortalProduct, Long>{
 	
 	List<PortalProduct> getAllRegistrations(final boolean publishedOnly);
 	
+	PortalProduct getByOnlinePublication(String publicationCode);
 }

@@ -2,6 +2,7 @@ package cz.nlfnorm.dao.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
@@ -57,6 +58,21 @@ public class PortalProductDaoImpl extends BaseDaoImpl<PortalProduct, Long> imple
 			query.setParameter("type", type);
 		}				
 		return query.list();
+	}
+
+
+	@Override
+	public PortalProduct getByOnlinePublication(final String publicationCode) {
+		Validate.notEmpty(publicationCode);
+		StringBuilder hql = new StringBuilder("FROM ");
+		hql.append(PortalProduct.class.getName());
+		hql.append(" s where s.onlinePublication = :publicationCode ");
+		Query query = sessionFactory.getCurrentSession()
+				.createQuery(hql.toString());
+		query.setString("publicationCode", publicationCode);
+		query.setMaxResults(1);
+		query.setCacheable(false);
+		return (PortalProduct)query.uniqueResult();
 	}
 
 }
