@@ -1,5 +1,6 @@
 package cz.nlfnorm.utils;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -70,7 +71,20 @@ public class RequestUtils {
         return getRequestParameterMap(request, null);
     }
 	
-	
+
+    public static Map<String, List<String>> getParametersMap(HttpServletRequest request) {
+        Enumeration<String> names = request.getParameterNames();
+        Map<String, List<String>> params = new HashMap<String, List<String>>();
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            List<String> v = new ArrayList<String>();
+            for (int j = 0; j < request.getParameterValues(name).length; j++) {
+                v.add(request.getParameterValues(name)[j]);
+            }
+            params.put(name, v);
+        }
+        return params;
+    }
 	
 	/**
 	 * Vrati mapu parametrov requestu okrem daneho parametra.
@@ -94,6 +108,15 @@ public class RequestUtils {
 		
 	}
     
+	 public static Map<String, String> getHeadersMap(HttpServletRequest request) {
+        Enumeration<String> names = request.getHeaderNames();
+        Map<String, String> params = new HashMap<String, String>();
+        while (names.hasMoreElements()) {
+            String name = names.nextElement();
+            params.put(name, request.getHeader(name));
+        }
+        return params;
+     }
 	
 	
 	/**

@@ -21,6 +21,7 @@ import cz.nlfnorm.entities.UserOnlinePublication;
 import cz.nlfnorm.enums.OrderStatus;
 import cz.nlfnorm.enums.PortalProductInterval;
 import cz.nlfnorm.services.PortalOrderService;
+import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
@@ -37,6 +38,8 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	private LocalDateEditor localDateEditor;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private PortalUserService portalUserService;
 	
 	@Override
 	public void create(final PortalOrder pordalOrder) {
@@ -106,6 +109,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	public void activateProducts(PortalOrder order) {
 		activateRegistraion(order);
 		activatePublications(order);
+		portalUserService.syncUser(order.getUser());
 		order.setDateOfActivation(new LocalDate());
 		update(order);
 	}

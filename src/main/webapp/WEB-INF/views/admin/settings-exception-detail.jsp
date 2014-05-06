@@ -82,6 +82,30 @@
 					</td>
 				</tr>
 				<tr>
+					<td><strong>Query params:</strong></td>
+					<td>
+						<c:if test="${not empty model.exception.queryParams}">
+							${model.exception.queryParams}
+						</c:if> 
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Request params:</strong></td>
+					<td>
+						<c:if test="${not empty model.exception.requestParams}">
+							${model.exception.requestParams}
+						</c:if> 
+					</td>
+				</tr>
+				<tr>
+					<td><strong>Request headesrs:</strong></td>
+					<td>
+						<c:if test="${not empty model.exception.requestHeaders}">
+							${model.exception.requestHeaders}
+						</c:if> 
+					</td>
+				</tr>
+				<tr>
 					<td><strong>StackTrace:</strong></td>
 					<td>
 						<c:if test="${not empty model.exception.stackTrace}">

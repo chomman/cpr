@@ -100,7 +100,7 @@ public class UserInfo implements Serializable {
 	public void setDic(String dic) {
 		this.dic = dic;
 	}
-	
+		
 	@Override
 	public String toString() {
 		return "UserInfo [user=" + user + ", phone=" + phone + ", city=" + city

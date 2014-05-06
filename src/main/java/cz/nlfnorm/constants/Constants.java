@@ -137,6 +137,5 @@ public class Constants {
 	
 	public static final BigDecimal VAT = new BigDecimal("1.21");
 	
-	
-	
+		
 }

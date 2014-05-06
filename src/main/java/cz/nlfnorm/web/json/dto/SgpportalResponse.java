@@ -1,6 +1,9 @@
-package cz.nlfnorm.web.json;
+package cz.nlfnorm.web.json.dto;
 
 public class SgpportalResponse {
+	
+	public static final int STATUS_OK = 0;
+	public static final int STATUS_ERROR = 1;
 	
 	private int error;
 	
@@ -22,6 +25,10 @@ public class SgpportalResponse {
 		this.message = message;
 	}
 
+	public int getStatus(){
+		return getError();
+	}
+	
 	@Override
 	public String toString() {
 		return "SgpportalResponse [error=" + error + ", message=" + message

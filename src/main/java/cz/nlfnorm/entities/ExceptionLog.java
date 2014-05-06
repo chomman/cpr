@@ -46,7 +46,9 @@ public class ExceptionLog {
 	
 	private String referer;
 
-	
+	private String queryParams;
+	private String requestParams;
+	private String requestHeaders;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "exception_log_id_seq")
@@ -127,6 +129,36 @@ public class ExceptionLog {
 
 	public void setReferer(String referer) {
 		this.referer = referer;
+	}
+	
+	@Type(type = "text")
+	@Column(name = "query_params")
+	public String getQueryParams() {
+		return queryParams;
+	}
+
+	public void setQueryParams(String queryParams) {
+		this.queryParams = queryParams;
+	}
+	
+	@Type(type = "text")
+	@Column(name = "request_params")
+	public String getRequestParams() {
+		return requestParams;
+	}
+
+	public void setRequestParams(String requestParams) {
+		this.requestParams = requestParams;
+	}
+
+	@Type(type = "text")
+	@Column(name = "request_headers")
+	public String getRequestHeaders() {
+		return requestHeaders;
+	}
+
+	public void setRequestHeaders(String requestHeaders) {
+		this.requestHeaders = requestHeaders;
 	}
 	
 	

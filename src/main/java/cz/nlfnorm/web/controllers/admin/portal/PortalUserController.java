@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -117,6 +116,7 @@ public class PortalUserController extends AdminSupportController {
 				throw new ItemNotFoundException("Uživatel: " + user.getFirstName()+ " " + user.getLastName() + " nemá přiřazenou publikaci [id="+id+"] ");
 			}
 			uop.setValidity(date);
+			portalUserService.syncUserOnlinePublicaions(user);
 		}
 		userService.createOrUpdateUser(user);
 		map.put("validityChanged", true);

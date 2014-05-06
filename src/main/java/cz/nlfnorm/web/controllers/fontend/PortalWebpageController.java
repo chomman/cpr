@@ -34,6 +34,7 @@ import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.exceptions.PortalAccessDeniedException;
+import cz.nlfnorm.services.ExceptionLogService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.PortalUserService;
@@ -61,7 +62,9 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	private PortalOrderService portalOrderService;
 	@Autowired
 	private PortalProductService portalProductService;
-	
+	@Autowired
+	private ExceptionLogService exceptionLogService;
+		
 	public PortalWebpageController(){
 		setViewDirectory("/portal/");
 	}
@@ -114,10 +117,11 @@ public class PortalWebpageController extends WebpageControllerSupport {
 					order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
 					portalOrderService.create(order);
 					logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
+					response.setStatus(JsonStatus.SUCCESS);
 				}catch(Exception e){
 					logger.error("Objednavku sa nepodarilo vytvorit, " + form.toString(), e);
+					exceptionLogService.logException(request, e);
 				}
-				response.setStatus(JsonStatus.SUCCESS);
 				return response;
 	}
 	

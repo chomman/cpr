@@ -66,6 +66,7 @@ public class User extends AbstractEntity implements UserDetails{
 	private LocalDate registrationValidity;
 	private LocalDateTime changePasswordRequestDate;
     private String changePasswordRequestToken;
+    private String sgpPassword;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_id_seq")
@@ -314,15 +315,22 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	@Transient
 	public int getCountOfActivePublications(){
-		int count = 0;
+		return getAllActiveUserOnlinePublications().size();
+	}
+	
+	
+	@Transient
+	public List<UserOnlinePublication> getAllActiveUserOnlinePublications(){
+		List<UserOnlinePublication> list = new ArrayList<UserOnlinePublication>();
 		LocalDate today = new LocalDate();
 		for(UserOnlinePublication pub : onlinePublications){
 			if(!pub.getValidity().isBefore(today)){
-				count++;
+				list.add(pub);
 			}
 		}
-		return count;
+		return list;
 	}
+		
     
 	@Transient
 	public UserOnlinePublication getUserOnlineUplication(Long id){
@@ -334,5 +342,15 @@ public class User extends AbstractEntity implements UserDetails{
 		}
 		return null;
 	}
+
+	@Column(name = "sgp_password", length = 48)
+	public String getSgpPassword() {
+		return sgpPassword;
+	}
+
+	public void setSgpPassword(String sgpPassword) {
+		this.sgpPassword = sgpPassword;
+	}
 		
+	
 }
