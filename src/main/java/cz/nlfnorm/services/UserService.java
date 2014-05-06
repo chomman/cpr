@@ -46,4 +46,5 @@ public interface UserService {
 	
 	List<User> autocomplateSearch(String query);
 	
+	void setUserPassword(User user, String password);
 }

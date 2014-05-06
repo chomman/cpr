@@ -3,8 +3,10 @@ package cz.nlfnorm.services.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +18,7 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.spring.security.MD5Crypt;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -23,11 +26,12 @@ import cz.nlfnorm.utils.UserUtils;
 @Transactional(propagation = Propagation.REQUIRED)
 public class UserServiceImpl implements UserService {
 	
-	 @Autowired
-	 private UserDao userDao;
-	 
-	 @Autowired
-	 private AuthorityDao authorityDao;
+	@Autowired
+	private UserDao userDao;
+	@Autowired
+	private AuthorityDao authorityDao;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	    
 	@Override
 	@Transactional(readOnly = true)
@@ -129,18 +133,23 @@ public class UserServiceImpl implements UserService {
 		return userDao.isUserNameUniqe(id, userName.trim());
 	}
 	
+	public void setUserPassword(User user, final String password){
+		Validate.notNull(user);
+		Validate.notEmpty(password);
+		user.setSgpPassword(MD5Crypt.crypt(password));
+		user.setPassword(passwordEncoder.encode( password ));
+	}
 	
 	@Override
 	public void createOrUpdateUser(User user) {
-		User loggedUser = UserUtils.getLoggedUser();
-		
+		final User loggedUser = UserUtils.getLoggedUser();
+		user.setChangedBy(loggedUser);
+		user.setChanged(new LocalDateTime());
 		if(user.getId() == null){
 			user.setCreatedBy(loggedUser);
 			user.setCreated(new LocalDateTime());
 			userDao.save(user);
 		}else{
-			user.setChangedBy(loggedUser);
-			user.setChanged(new LocalDateTime());
 			userDao.update(user);
 		}
 		

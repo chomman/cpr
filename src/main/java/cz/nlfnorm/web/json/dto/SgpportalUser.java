@@ -53,7 +53,7 @@ public class SgpportalUser {
 		this.userId = user.getId();
 		this.login = user.getEmail();
 		this.changed = user.getChanged();
-		this.pass = user.getPassword();
+		this.pass = user.getSgpPassword();
 	}
 	
 	

@@ -5,10 +5,8 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
-import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,7 +24,6 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserOnlinePublication;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
-import cz.nlfnorm.spring.security.MD5Crypt;
 import cz.nlfnorm.web.json.dto.SgpportalRequest;
 import cz.nlfnorm.web.json.dto.SgpportalResponse;
 import cz.nlfnorm.web.json.dto.SgpportalUser;
@@ -40,8 +37,6 @@ public class PortalUserServiceImp implements PortalUserService {
 	private UserService userService;
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
 	@Autowired
 	private AuthorityDao authorityDao;
 	
@@ -57,21 +52,15 @@ public class PortalUserServiceImp implements PortalUserService {
 	@Override
 	public User createNewUser(User user) {
 		Validate.notNull(user);
-		user.setSgpPassword(cryptedPassowrd(user.getPassword()));
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
+		userService.setUserPassword(user, user.getPassword());
 		Authority portalUser = authorityDao.getByCode(Authority.ROLE_PORTAL_USER);
 		Validate.notNull(portalUser);
 		user.getAuthoritySet().add(portalUser);
-		user.setChanged(new LocalDateTime());
-		user.setCreated(new LocalDateTime());
-		userService.saveUser(user);
+		userService.createOrUpdateUser(user);
 		return user;
 	}
 	
-	private String cryptedPassowrd(String plainPass){
-		return MD5Crypt.crypt(plainPass);
-	}
-
+	
 			
 	@Override
 	public void syncUser(User user){

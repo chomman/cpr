@@ -51,27 +51,7 @@ MD5Crypt
 
 public final class MD5Crypt {
 
- /**
-  * Command line test rig.
-  */
-
- static public void main(String argv[]) {
-     if ((argv.length < 1) || (argv.length > 3)) {
-         System.err.println("Usage: MD5Crypt [-apache] password salt");
-         System.exit(1);
-     }
-
-     if (argv.length == 3) {
-         System.err.println(MD5Crypt.apacheCrypt(argv[1], argv[2]));
-     } else if (argv.length == 2) {
-         System.err.println(MD5Crypt.crypt(argv[0], argv[1]));
-     } else {
-         System.err.println(MD5Crypt.crypt(argv[0]));
-     }
-
-     System.exit(0);
- }
-
+ 
  static private final String SALTCHARS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
  static private final String itoa64 = "./0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 

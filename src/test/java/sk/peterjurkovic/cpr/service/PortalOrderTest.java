@@ -31,7 +31,7 @@ public class PortalOrderTest extends AbstractTest {
 		 req.addOnlinePublication(getPublication(OnlinePublication.ANALYZA_REACH, user));
 		 req.addOnlinePublication(getPublication(OnlinePublication.CHEMICKE_LATKY, user));
 		 req.addOnlinePublication(getPublication(OnlinePublication.NORMY, user));
-		 portalUserService.syncUser(user, "123456");
+		 portalUserService.syncUser(user);
 		 
 		 req.addOnlinePublication(getPublication(OnlinePublication.NORMY, user));
 		 req.addOnlinePublication(getPublication(OnlinePublication.STYK_S_POTRAV, user));
@@ -45,6 +45,7 @@ public class PortalOrderTest extends AbstractTest {
 	private User getUser(){
 		User user = new User();
 		user.setId(5000l);
+		user.setSgpPassword("1234456");
 		user.setEmail(new LocalDateTime().toString("mm:ss") + "test@test.cs");
 		user.setChanged(new LocalDateTime());
 		return user;

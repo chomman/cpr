@@ -14,7 +14,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -53,9 +52,7 @@ public class UserController extends AdminSupportController {
 	private DateTimeEditor dateTimeEditor;
 	@Autowired
 	private UserValidator userValidator;
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
+		
 	public UserController(){
 		setEditFormView("user-add");
 	}
@@ -308,14 +305,14 @@ public class UserController extends AdminSupportController {
 		User user = null;
 		if(form.getUser().getId() == null || form.getUser().getId() == 0){
 			user = new User();
-	        user.setPassword(passwordEncoder.encode( form.getPassword() ));
+			userService.setUserPassword(user, form.getPassword());
 		}else{
 			user = userService.getUserById(form.getUser().getId());
 			if(user == null){
 				createUserNotFound(form.getUser().getId());
 			}
 			if(StringUtils.isNotBlank(form.getPassword()) && StringUtils.isNotBlank(form.getConfifmPassword())){
-				user.setPassword(passwordEncoder.encode( form.getPassword() ));
+				userService.setUserPassword(user, form.getPassword());
 			}
 		}
 		
