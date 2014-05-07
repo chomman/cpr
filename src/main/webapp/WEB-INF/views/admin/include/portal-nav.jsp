@@ -25,4 +25,12 @@
 		</a>
 	</li>
 	
+	<li>
+		<a 
+		<c:if test="${model.tab == 4}">class="active"</c:if>
+		href="<c:url value="/admin/portal/settings" />" >
+			<spring:message code="menu.settings" />
+		</a>
+	</li>
+	
 </ul>
