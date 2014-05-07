@@ -1,20 +1,54 @@
 package sk.peterjurkovic.cpr.mail;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.mail.MessagingException;
+
+import junit.framework.Assert;
+
+import org.apache.commons.lang.Validate;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cz.nlfnorm.mail.MailSender;
 import sk.peterjurkovic.cpr.test.AbstractTest;
+import cz.nlfnorm.mail.HtmlMailMessage;
+import cz.nlfnorm.mail.NlfnormMailSender;
 
 public class MailTest extends AbstractTest {
 
+
 	@Autowired
-	private MailSender mailSender;
+	private NlfnormMailSender nlfnormMailSender;
+	
+	@Test
+	public void htmlMailMessageTest(){
+		Map<String, Object> context = new HashMap<String, Object>();
+		String replaceVal = "SUCCESS!";
+		context.put("test", replaceVal);
+		String htmlMessage =  "test ${test}";
+		HtmlMailMessage message = new HtmlMailMessage("test", " subject", htmlMessage, context);
+		try {
+			Assert.assertNotNull(message.createMessage());
+		} catch (MessagingException e) {
+		
+			e.printStackTrace();
+		}
+		Assert.assertEquals(htmlMessage.replace("${test}", replaceVal), message.getHtmlContent());
+		
+	}
 	
 	
 	@Test
-	public void test(){
-		mailSender.sendMail("Test", "petojurkovic@gmail.com", "Test", "Test msg");
+	public void sendEmailTest(){
+		Map<String, Object> context = new HashMap<String, Object>();
+		context.put("firstName", "Peter");
+		context.put("lastName", "Jurkovic");
+		String htmlMessage =  "Hello ${firstName} ${lastName} ! this si a test email";
+		HtmlMailMessage message = new HtmlMailMessage("info@nlfnorm.cz", " jUnit email test", htmlMessage, context);
+		Validate.notNull(message);
+		message.addRecipientTo("email@peterjurkovic.com");
+		nlfnormMailSender.send(message);
 	}
 	
 }

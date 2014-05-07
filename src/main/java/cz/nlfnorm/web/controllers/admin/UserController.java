@@ -33,8 +33,6 @@ import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.enums.UserOrder;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
-import cz.nlfnorm.mail.MailMessageCreator;
-import cz.nlfnorm.mail.MailSender;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.utils.UserUtils;
@@ -334,9 +332,7 @@ public class UserController extends AdminSupportController {
 		userService.mergeUser(user);
 		
 		if(form.getSendEmail() != null && form.getSendEmail()){
-			MailSender mailSender = new MailSender();
-			mailSender.sendMail(user.getFirstName() + "" + user.getLastName(), user.getEmail(), "Vytvoření uživatelského účtu", 
-					MailMessageCreator.newUserCreatedMessage(loggedUser, user, form.getPassword()));
+		
 		}
 		
 	}

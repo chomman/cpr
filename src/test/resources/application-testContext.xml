@@ -114,5 +114,30 @@
          <!-- 
     <bean id="fileService" class="cz.nlfnorm.services.impl.FileServiceImpl" /> -->
     
+    <bean id="mailSender" class="cz.nlfnorm.mail.NlfnormMailSender">
+		<property name="host" value="${mail.smtp.host}"/>
+		<property name="port" value="${mail.smtp.port}" />
+		<property name="username" value="${mail.username}" />
+		<property name="password" value="${mail.password}" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">${mail.smtp.auth}</prop>
+				<prop key="mail.smtp.starttls.enable">${mail.smtp.starttls.enable}</prop>
+				<prop key="mail.smtps.ssl.trust">*</prop>
+			</props>
+		</property>
+		<property name="sendEmails" value="${mail.sendEmails}" />
+	</bean>
+	
+	<!-- freemarker -->
+    <bean id="freeMarkerConfigurer" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+	  <property name="templateLoaderPath" value="/WEB-INF/templates/"/>
+	  <property name="freemarkerSettings">
+        <props>
+            <prop key="auto_import">spring.ftl as spring</prop>
+        </props>
+   	  </property>
+    </bean>
+    
 </beans>
 

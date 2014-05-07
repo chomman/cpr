@@ -20,6 +20,8 @@ import org.hibernate.annotations.Type;
 @Table(name = "email_template")
 public class EmailTemplate extends AbstractEntity {
 	
+	public final static String PORTAL_CREATE_ORDER = "PORTAL_CREATE_ORDER";
+	
 	private String name;
 	private String subject;
 	private String body;

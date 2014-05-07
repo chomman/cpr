@@ -646,6 +646,7 @@ table.log td,.log-descr{padding:2px;}
 }
 
 h1.pj-smaller{font-size:18px;padding:10px 35px;}
+
 .pj-webpages{background:#fff;}
 .sub-nav.webpages{margin:-20px -20px 0 -25px;padding:5px 20px 0 45px;height:60px;background-position:0 40px}
 .sub-nav.webpages li a{padding:8px 13px;font-size:13px;font-weight:bold;}
@@ -684,3 +685,6 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 
 .pj-unsynced{background:#FFEBCC;}
 .pj-unsync-alert{background:url(../img/ico_alert.png) no-repeat 0px center;display:block;width:40px;height:25px;float:left;}
+
+#pj-email-vars{padding:20px;color:#333;line-height:20px;}
+#pj-email-vars ul{padding: 0 30px;}
