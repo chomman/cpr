@@ -10,4 +10,6 @@ public interface PortalUserService {
 	void syncUserOnlinePublicaions(User user);
 	
 	void syncUser(User user);
+	
+	void setSynchronizationFailedFor(Long userId);
 }

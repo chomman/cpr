@@ -17,7 +17,7 @@
 
 <ehcache>
 	
-	<diskStore path="java.io.tmpdir"/>
+	<diskStore path="/var/www/tomcat/cache"/>
 	
 	
 	<!-- Default cache -->
@@ -26,7 +26,7 @@
         eternal="false"
         timeToIdleSeconds="120"
         timeToLiveSeconds="120"
-        overflowToDisk="true"
+        overflowToDisk="false"
         diskPersistent="false"     
         />
         
@@ -54,24 +54,5 @@
         timeToLiveSeconds="604800"
         diskPersistent="true"
         />     
-     
-     <!-- Cache uchovavajuca data tykajuce sa redakcneho systemu -->   
-     <cache name="newsCache"
-        maxElementsInMemory="1000"
-        eternal="false"
-        overflowToDisk="false"
-        timeToLiveSeconds="604800"
-        diskPersistent="true"
-        />        
-        
-     
-     <!-- Cache uchovavajuca data tykajuce sa webovych sekcii -->   
-     <cache name="webpageCache"
-        maxElementsInMemory="1000"
-        eternal="false"
-        overflowToDisk="false"
-        timeToLiveSeconds="604800"
-        diskPersistent="true"
-        />        
-			
+   
 </ehcache>

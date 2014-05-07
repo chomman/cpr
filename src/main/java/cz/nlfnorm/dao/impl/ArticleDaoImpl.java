@@ -91,8 +91,7 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		prepareHqlQueryParams(hqlQuery, criteria);
 		hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
 		hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
+		hqlQuery.setCacheable(false);
 		return hqlQuery.list();
 	}
 
@@ -109,8 +108,6 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
 		return (Long) hqlQuery.uniqueResult();
 	}
 	
@@ -190,8 +187,6 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 	public List<Article> getNewestArticles(int count) {
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString() + "order by a.id desc");
 		hqlQuery.setMaxResults(count);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
 		return hqlQuery.list();
 	}
 	
@@ -207,8 +202,6 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(getHqlArticleQueryForPublicSection().toString() + "order by a.id desc");
 		hqlQuery.setFirstResult(Constants.PUBLIC_PAGINATION_PAGE_SIZE * ( pageNumber -1));
 		hqlQuery.setMaxResults(Constants.PUBLIC_PAGINATION_PAGE_SIZE);
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
 		return hqlQuery.list();
 	}
 	
@@ -224,8 +217,6 @@ public class ArticleDaoImpl extends BaseDaoImpl<Article, Long>  implements Artic
 		StringBuffer hql = new StringBuffer("SELECT count(*) ");
 		hql.append(getHqlArticleQueryForPublicSection().toString());
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
-		hqlQuery.setCacheable(true);
-		hqlQuery.setCacheRegion(CacheRegion.NEWS_CACHE);
 		return (Long) hqlQuery.uniqueResult();
 	}
 }

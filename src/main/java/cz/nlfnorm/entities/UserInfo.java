@@ -29,6 +29,8 @@ public class UserInfo implements Serializable {
 	private String ico;
 	private String dic;
 	
+	private Boolean synced = true;
+	
 	@Id
 	@OneToOne(fetch=FetchType.LAZY)
     @JoinColumn(name="user_id")
@@ -100,7 +102,14 @@ public class UserInfo implements Serializable {
 	public void setDic(String dic) {
 		this.dic = dic;
 	}
-		
+	
+	@Column(name = "sgp_sync_ok", length = 15)
+	public Boolean getSynced() {
+		return synced;
+	}
+	public void setSynced(Boolean synced) {
+		this.synced = synced;
+	}
 	@Override
 	public String toString() {
 		return "UserInfo [user=" + user + ", phone=" + phone + ", city=" + city

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -22,6 +23,7 @@ import cz.nlfnorm.dao.UserDao;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserOnlinePublication;
+import cz.nlfnorm.services.ExceptionLogService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.web.json.dto.SgpportalRequest;
@@ -39,6 +41,8 @@ public class PortalUserServiceImp implements PortalUserService {
 	private UserDao userDao;
 	@Autowired
 	private AuthorityDao authorityDao;
+	@Autowired
+	private ExceptionLogService exceptionLogService;
 	
 	private Logger logger = Logger.getLogger(getClass());
 	
@@ -76,21 +80,32 @@ public class PortalUserServiceImp implements PortalUserService {
 	}
 	
 	
+	@Override
+	public void setSynchronizationFailedFor(final Long userId){
+		User user = userService.getUserById(userId);
+		if(user != null && user.getUserInfo() != null){
+			user.getUserInfo().setSynced(false);
+			userService.createOrUpdateUser(user);
+			// TODO send alert to email
+		}
+	}
+	
 	private void syncUserOnlinePublicaions(final User user, SgpportalRequest request){
 		Validate.notNull(user);
 		List<UserOnlinePublication> publicationList = user.getAllActiveUserOnlinePublications();
 		if(CollectionUtils.isNotEmpty(publicationList)){
 			request.addAllUserOnlinePublications(publicationList);
 		}
-		prepareRequest(request);
+		prepareRequest(request, user.getId());
 	}
 	
 	private String toJsonString(final SgpportalRequest object) throws JsonProcessingException{
 		ObjectMapper mapper = new ObjectMapper();
 		return mapper.writeValueAsString(object);
 	}
+	
 
-	private void prepareRequest(SgpportalRequest requesBody){
+	private void prepareRequest(final SgpportalRequest requesBody, final long userId){
 	   MultiValueMap<String, String> data = new LinkedMultiValueMap<String, String>();
 	   try {
 			data.add("data", toJsonString(requesBody));
@@ -98,19 +113,31 @@ public class PortalUserServiceImp implements PortalUserService {
 			logger.error(e);
 	   }
 	   data.add("token", authToken);
-	   sendRequestInNewThread(data);
+	   sendRequestInNewThread(data, userId);
 	}
 	
-	private void sendRequestInNewThread(final MultiValueMap<String, String> data){
+	
+	
+	private void sendRequestInNewThread(final MultiValueMap<String, String> data, final long userId){
 		Thread thread = new Thread() {
 			 public void run() {
-				  RestTemplate restTemplate = new RestTemplate();
-				  SgpportalResponse response =  restTemplate.postForObject(apiUrl, data , SgpportalResponse.class);
-				  if(response.getStatus() == SgpportalResponse.STATUS_ERROR){
-					  logger.error(response.getMessage());
-				  }else{
-					  logger.info(response);
+				 boolean syncFailed = true; 
+				 try{
+					  RestTemplate restTemplate = new RestTemplate();
+					  SgpportalResponse response =  restTemplate.postForObject(apiUrl, data , SgpportalResponse.class);
+					  if(response.getStatus() == SgpportalResponse.STATUS_ERROR){
+						  logger.warn(response.getMessage());
+					  }else{
+						  syncFailed = false;
+						  logger.info(response);
+					  }
+				  }catch(RestClientException e){
+					  exceptionLogService.logException(e);
+					  logger.warn(e);
 				  }
+				 if(syncFailed){
+					 setSynchronizationFailedFor(userId);
+				 }
 			 }
 		 };
 		 thread.run(); 

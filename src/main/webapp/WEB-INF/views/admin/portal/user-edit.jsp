@@ -26,6 +26,15 @@
 			<h1><spring:message code="user.edit"/> ${user.firstName} ${user.lastName}</h1>
 	
 			<div id="content">
+				<c:if test="${not empty model.user.userInfo.synced and not model.user.userInfo.synced }">
+					<p class="msg alert">
+						<spring:message code="admin.portalUser.unsyncAlert" />
+						&nbsp; | &nbsp;
+						<a:adminurl href="/portal/user/${model.user.id}/sync">
+							<strong>Znovu skusit synchronizovat</strong>
+						</a:adminurl>
+					</p>									
+				</c:if>
 									
 				<div id="tabs">
 					<ul>

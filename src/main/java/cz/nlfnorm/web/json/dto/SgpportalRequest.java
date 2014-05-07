@@ -6,7 +6,7 @@ import java.util.List;
 import cz.nlfnorm.entities.UserOnlinePublication;
 
 public class SgpportalRequest {
-	
+			
 	private SgpportalUser user;
 	
 	private List<SgpportalOnlinePublication> publications = new ArrayList<SgpportalOnlinePublication>();
@@ -40,4 +40,6 @@ public class SgpportalRequest {
 			addOnlinePublication(uop);
 		}
 	}
+	
+		
 }

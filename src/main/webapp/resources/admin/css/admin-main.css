@@ -676,6 +676,11 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 .pj-online-pub li:first-child{border-top:0;}
 .pj-online-pub li.odd{background:#f9f9f9;}
 .pj-online-pub li:hover{background:#fff;}
+
+
 .pj-online-pub span{display:inline-block;display:inline-block; vertical-align:middle;}
 .pj-pub-name{width:500px;display:block;padding:0 10px;margin:0 10px;border-left:1px solid #ccc;border-right:1px solid #ccc;}
 .pj-pub-code{width:80px;font-weight:bold;text-align:center; }
+
+.pj-unsynced{background:#FFEBCC;}
+.pj-unsync-alert{background:url(../img/ico_alert.png) no-repeat 0px center;display:block;width:40px;height:25px;float:left;}

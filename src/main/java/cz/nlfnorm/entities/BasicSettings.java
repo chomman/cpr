@@ -41,6 +41,8 @@ public class BasicSettings extends AbstractEntity {
 	private String googleAnalyticsTrackingCode;
 	private String csnOnlineUrl;
 	private String version;
+	
+	
 
 	
 	@Id

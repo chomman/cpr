@@ -83,11 +83,16 @@
 							<th><spring:message code="form.edit" /></th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody> 
 						 <c:forEach items="${model.users}" var="i">
-						 	<tr>
+						 	<tr <c:if test="${not empty i.userInfo.synced and not i.userInfo.synced }">class="pj-unsynced"</c:if>>
 						 		<td>
-						 			<strong>${i.firstName} ${i.lastName}</strong>
+						 			<strong>
+						 				<c:if test="${not empty i.userInfo.synced and not i.userInfo.synced }">
+						 					<span class="pj-unsync-alert tt" title="<spring:message code="admin.portalUser.unsyncAlert" />"></span>
+						 				</c:if>
+						 			${i.firstName} ${i.lastName}
+						 			</strong>
 						 			<c:if test="${not empty i.userInfo and not empty i.userInfo.companyName}">
 						 				&nbsp; (${i.userInfo.companyName})
 						 			</c:if>

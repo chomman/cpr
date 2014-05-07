@@ -123,6 +123,15 @@ public class PortalUserController extends AdminSupportController {
 		return handlePortalUserEdit(userId, map, request);
 	}
 	
+	@RequestMapping("/admin/portal/user/{userId}/sync")
+	public String updateValidity(@PathVariable Long userId, ModelMap map, HttpServletRequest request) throws ItemNotFoundException{
+		User user = getUser(userId);
+		user.getUserInfo().setSynced(true);
+		userService.updateUser(user);
+		portalUserService.syncUser(user);
+		return "redirect:" + EDIT_MAPPING_URL.replace("{userId}", userId.toString());
+	}
+	
 	
 	private User updateBasicInfo(User form) throws ItemNotFoundException{
 		User user = getUser(form.getId());

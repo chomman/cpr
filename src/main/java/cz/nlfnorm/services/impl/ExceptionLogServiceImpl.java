@@ -34,23 +34,32 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
 	}
 	
 	@Override
+	public void logException(Exception exception){
+		logException(exception, new ExceptionLog());
+	}
+	
+	
+	@Override
 	public void logException(HttpServletRequest request, Exception exception){
 		ExceptionLog log = new ExceptionLog();
 		log.setUrl(request.getRequestURL()+ "?" +request.getQueryString());
-		log.setStackTrace(ExceptionUtils.getStackTrace(exception));
-		log.setMessage(exception.getMessage());
 		log.setMehtod(request.getMethod());
-		log.setCreated(new DateTime());
 		log.setReferer(request.getHeader("referer"));
-		log.setType(exception.getClass().getName());
 		log.setRequestParams(getRequestMparams(request));
 		log.setRequestHeaders(getRequestHeaders(request));
 		log.setQueryParams(request.getQueryString());
+		logException(exception, log);
+	}
+	
+	private void logException(Exception exception, ExceptionLog log){
+		log.setCreated(new DateTime());
+		log.setStackTrace(ExceptionUtils.getStackTrace(exception));
+		log.setMessage(exception.getMessage());
+		log.setType(exception.getClass().getName());
 		User user = UserUtils.getLoggedUser();
 		if(user != null){
 			log.setUser(user);
 		}
-		
 		create(log);
 	}
 	

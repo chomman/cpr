@@ -23,12 +23,8 @@ public class CacheRegion {
 	
 	
 	
-	
-	/** NEWS_CACHE
-	 * Cache uchovavajuce data tykajuce sa aktualit
-	 */
-	public static final String NEWS_CACHE = "newsCache";
-	
 		
 	public static final String CSN_CACHE = "csnCache";
+	
+	
 }

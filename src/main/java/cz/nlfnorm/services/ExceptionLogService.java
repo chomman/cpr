@@ -69,4 +69,5 @@ public interface ExceptionLogService {
 	 */
 	void deleteException(ExceptionLog exceptionLog);
 	
+	void logException(Exception exception);
 }
