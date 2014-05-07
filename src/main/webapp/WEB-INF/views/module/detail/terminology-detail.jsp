@@ -76,7 +76,7 @@
 				<tr>
 					<td class="label"><spring:message code="csn.csnonline" />:</td>
 					<td>
-			 			<a class="file pdf tt" title='<spring:message code="csn.csnonline.info" />' target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', model.terminology.csn.catalogId)}">
+			 			<a class="file pdf tt" title='<spring:message code="csn.csnonline.info" />' target="_blank" href="${fn:replace(model.csnOnlineUrl, '{0}', model.terminology.csn.catalogId)}">
 							${model.terminology.csn.csnId}
 						</a>
 						<a class="showMore" href="#"><spring:message code="csn.csnonline.info.show" /></a>

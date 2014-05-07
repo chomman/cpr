@@ -33,6 +33,7 @@ import cz.nlfnorm.enums.CsnTerminologyLanguage;
 import cz.nlfnorm.enums.WebpageModule;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.services.AssessmentSystemService;
+import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.CsnService;
 import cz.nlfnorm.services.CsnTerminologyService;
 import cz.nlfnorm.services.NotifiedBodyService;
@@ -59,6 +60,8 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	private CsnService csnService;
 	@Autowired
 	private AssessmentSystemService assessmentSystemService;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
 	private static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
 	public static final String TERMINOLOGY_URL_MAPPING = "terminologicky-slovnik";
@@ -198,6 +201,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		if(webpage == null){
 			throw new PageNotFoundEception();
 		}
+		model.put("csnOnlineUrl", basicSettingsService.getCsnOnlineUrl());
 		model.put("webpage", webpage );
 		model.put("detailUrl", "/"  + TERMINOLOGY_URL_MAPPING );
 		modelMap.put("model", model);

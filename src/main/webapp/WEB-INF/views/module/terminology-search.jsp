@@ -68,7 +68,7 @@
 			 		</td>
 			 		<td class="norm c">
 				 		<c:if test="${not empty i.csn.catalogId}">
-				 			<a class="file pdf" target="_blank" href="${fn:replace(commonPublic.settings.csnOnlineUrl, '{0}', i.csn.catalogId)}">
+				 			<a class="file pdf" target="_blank" href="${fn:replace(model.csnOnlineUrl, '{0}', i.csn.catalogId)}">
 								${i.csn.csnId}
 							</a>	
 				 		</c:if>

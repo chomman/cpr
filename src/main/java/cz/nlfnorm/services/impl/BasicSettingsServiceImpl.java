@@ -2,6 +2,7 @@ package cz.nlfnorm.services.impl;
 
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,8 +24,8 @@ public class BasicSettingsServiceImpl implements BasicSettingsService {
 	private BasicSettingsDao basicSettingsDao;
 	@Autowired
 	private UserService userService;
-	
-	
+	@Value("#{config['csnonlineurl']}")
+	private String csnOnlineUrl;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -45,6 +46,15 @@ public class BasicSettingsServiceImpl implements BasicSettingsService {
 		basicSettings.setChangedBy(user);
 		basicSettings.setChanged(new LocalDateTime());
 		basicSettingsDao.merge(basicSettings);
+	}
+
+
+	@Override
+	public String getCsnOnlineUrl() {
+		if(csnOnlineUrl == null){
+			return "";
+		}
+		return csnOnlineUrl;
 	}
 
 }

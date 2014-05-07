@@ -70,15 +70,7 @@ public class BasicSettingsController extends AdminSupportController {
 	
 	public void updateSettings(BasicSettings form){
 		BasicSettings settings = basicSettingsService.getBasicSettings();
-		settings.setCsnOnlineUrl(form.getCsnOnlineUrl());
-		settings.setSystemNameCzech(form.getSystemNameCzech());
-		settings.setHeaderTitleCzech(form.getHeaderTitleCzech());
 		settings.setSystemEmail(form.getSystemEmail());
-		settings.setGoogleAnalyticsTrackingCode(form.getGoogleAnalyticsTrackingCode());
-		settings.setOwnerNameCzech(form.getOwnerNameCzech());
-		settings.setSystemNameEnglish(form.getSystemNameEnglish());
-		settings.setHeaderTitleEnglish(form.getHeaderTitleEnglish());
-		settings.setOwnerNameEnglish(form.getOwnerNameEnglish());
 		if(StringUtils.isNotBlank(form.getVersion())){
 			settings.setVersion(form.getVersion());
 		}

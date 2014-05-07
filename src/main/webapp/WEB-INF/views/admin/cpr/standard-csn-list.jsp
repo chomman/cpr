@@ -90,7 +90,7 @@
 						 		</td>
 						 		<td class="w100 c">
 						 			<c:if test="${not empty i.csnOnlineId}">
-						 				<a class="file pdf" target="_blank" href="${fn:replace(model.settings.csnOnlineUrl, '{0}', i.csnOnlineId)}">
+						 				<a class="file pdf" target="_blank" href="${fn:replace(model.csnOnlineUrl, '{0}', i.csnOnlineId)}">
 						 					${i.csnOnlineId}
 						 				</a>
 						 			</c:if>

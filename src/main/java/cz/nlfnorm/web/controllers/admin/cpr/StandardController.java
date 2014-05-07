@@ -131,7 +131,6 @@ public class StandardController extends AdminSupportController{
 		binder.registerCustomEditor(Country.class, this.countryEditor);
 		binder.registerCustomEditor(Standard.class, this.standardPropertyEditor);
 		binder.registerCustomEditor(StandardCsn.class, this.standardCsnPropertyEditor);
-		//binder.registerCustomEditor(Tag.class, this.tagEditor);
 		binder.registerCustomEditor(NotifiedBody.class, this.notifiedBodyEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
     }

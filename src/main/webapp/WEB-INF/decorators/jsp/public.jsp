@@ -29,11 +29,14 @@
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<meta name="description" content="<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="description" />" />
 		<decorator:head/>
-		<c:if test="${not empty commonPublic.settings.googleAnalyticsTrackingCode}">
-			<script>
-			${commonPublic.settings.googleAnalyticsTrackingCode}
-			</script>
-		</c:if> 
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		  ga('create', 'UA-40352149-1', 'nlfnorm.cz');
+		  ga('send', 'pageview');
+		</script>
 	</head>
 	<body>
 		<div id="wrapper">
@@ -43,9 +46,9 @@
 			<header class="page-width">
 					<a:url href="/" id="logo" ></a:url>
 					<strong>
-						<span class="is"><a:localizedValue object="${commonPublic.settings}" fieldName="systemName" /></span>
-						<span class="is-name"><a:localizedValue object="${commonPublic.settings}" fieldName="headerTitle" /></span>
-						<span class="itc-name"><a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" /></span>
+						<span class="is"><spring:message code="head.subtitle" /></span>
+						<span class="is-name"><spring:message code="head.title" /></span>
+						<span class="itc-name"><spring:message code="head.itc" /></span>
 					</strong>
 						<div id="lswitcher-wrapp">
 							<div id="lswitcher">
@@ -77,11 +80,11 @@
 		<!-- FOOTER -->
 		<footer>
 			<div id="footer" class="page-width">
-				<a target="_blank" href="http://www.itczlin.cz/cz/" title="<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />" class="itc-logo"></a>
+				<a target="_blank" href="http://www.itczlin.cz/cz/" title="<spring:message code="head.itc" />"></a>
 				<p class="itc-name">
-					<a:localizedValue object="${commonPublic.settings}" fieldName="systemName" /><br />
+					<spring:message code="head.subtitle" /><br />
 					<a href="http://www.itczlin.cz/cz/" >
-						<a:localizedValue object="${commonPublic.settings}" fieldName="ownerName" />
+						<spring:message code="head.itc" />
 					</a>
 				</p>
 				<a class="admin" href="<c:url value="/admin/login" />" title="Přihlášení do administrace systému" ><spring:message code="admin" /></a>

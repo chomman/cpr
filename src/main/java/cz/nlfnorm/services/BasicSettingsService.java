@@ -25,4 +25,6 @@ public interface BasicSettingsService {
 	 */
 	void updateBasicSettings(BasicSettings basicSettings);
 	
+	String getCsnOnlineUrl();
+	
 }

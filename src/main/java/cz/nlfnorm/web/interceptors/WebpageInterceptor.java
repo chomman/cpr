@@ -42,8 +42,6 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 			 if(StringUtils.isNotBlank(request.getParameter(Constants.PREVIEW_PARAM))){
 				 modelAndView.addObject(Constants.PREVIEW_PARAM, true); 
 			 }
-			 
-			 commonModel.put("settings", basicSettingsService.getBasicSettings());
 			 commonModel.put("dateTimeFormat", Constants.DATE_FORMAT);
 			 commonModel.put("locale", ContextHolder.getLang());
 			 if(modelAndView != null){

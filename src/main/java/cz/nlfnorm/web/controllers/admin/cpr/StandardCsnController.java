@@ -62,13 +62,13 @@ public class StandardCsnController extends AdminSupportController {
 	@Autowired
 	private LocalDateEditor localDateEditor;
 	@Autowired
-	private BasicSettingsService basicSettingsService;
-	@Autowired
 	private StandardCsnValidator standardCsnValidator;
 	@Autowired
 	private StandardCsnPropertyEditor standardCsnPropertyEditor;
 	@Autowired
 	private StandardCsnChangeService standardCsnChangeService;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
 	public StandardCsnController(){
 		setEditFormView("cpr/standard-csn-edit");
@@ -96,7 +96,7 @@ public class StandardCsnController extends AdminSupportController {
 		model.put("count", page.getCount());
 		model.put("tab", CPR_TAB_INDEX);
 		model.put("params", params);
-		model.put("settings", basicSettingsService.getBasicSettings());
+		model.put("csnOnlineUrl", basicSettingsService.getCsnOnlineUrl());
 		model.put("order", CsnOrderBy.getAll());
 		map.put("model", model);
 		return getTableItemsView();

@@ -80,7 +80,7 @@ public interface StandardCsnService {
 	
 	boolean isStandardCsnUnique(StandardCsn csn);
 	
+	
 	List<StandardCsn> getChangedStandardCsn(LocalDate dateFrom, LocalDate dateTo, boolean enabledOnly);
 	
-
 }

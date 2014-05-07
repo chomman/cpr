@@ -25,6 +25,7 @@ import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.services.AssessmentSystemService;
+import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.CsnTerminologyService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.PortalProductService;
@@ -66,6 +67,8 @@ public class ModuleController extends WebpageControllerSupport {
 	private AssessmentSystemService assessmentSystemService;
 	@Autowired
 	private PortalProductService portalProductService;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
 	@Value("#{config['nandourl']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
@@ -141,6 +144,7 @@ public class ModuleController extends WebpageControllerSupport {
 			if(page.getCount() > 0){
 				model.put("paginationLinks", getPaginationItems(request, params, currentPage, page.getCount()));
 				model.put("page", page.getItems() );
+				model.put("csnOnlineUrl", basicSettingsService.getCsnOnlineUrl());
 			}
 			model.put("detailUrl", "/"+ModuleDetailController.TERMINOLOGY_URL_MAPPING);
 			model.put("params", params );
