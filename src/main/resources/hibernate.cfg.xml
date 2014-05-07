@@ -42,6 +42,8 @@
 	<mapping class="cz.nlfnorm.entities.PortalOrder"/>
 	<mapping class="cz.nlfnorm.entities.PortalOrderItem"/>
 	<mapping class="cz.nlfnorm.entities.UserOnlinePublication"/>
+	<mapping class="cz.nlfnorm.entities.EmailTemplate"/>
+	
 	
 	
 	 

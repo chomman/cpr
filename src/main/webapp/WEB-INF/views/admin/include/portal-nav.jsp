@@ -33,4 +33,12 @@
 		</a>
 	</li>
 	
+	<li>
+		<a 
+		<c:if test="${model.tab == 5}">class="active"</c:if>
+		href="<c:url value="/admin/portal/email-templates" />" >
+			<spring:message code="admin.emailTemplate" />
+		</a>
+	</li>
+	
 </ul>
