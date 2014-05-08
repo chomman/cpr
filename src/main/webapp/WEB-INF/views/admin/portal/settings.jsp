@@ -40,7 +40,7 @@
 			</c:if>
 					
 					
-					
+				
 				<form:form commandName="settings" method="post" cssClass="valid" >
 						
 					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
@@ -50,7 +50,7 @@
 						
 					<p class="form-head"><spring:message code="admin.portal.settings.head.fa" /></p>	
 					<p>
-						<label class="tt" title="<spring:message code="settings.basic.systememail.info" />">
+						<label>
 							<strong><em class="red">*</em>
 								<spring:message code="basicSettings.companyName" />:
 							</strong>
@@ -60,7 +60,7 @@
 						</span>
 					</p>
 					<p>
-						<label class="tt" title="<spring:message code="settings.basic.systememail.info" />">
+						<label>
 							<strong><em class="red">*</em>
 								<spring:message code="admin.portal.city" />:
 							</strong>
@@ -151,7 +151,15 @@
                            	<form:input path="euIban" cssClass="mw500" maxlength="34" />
                          </span>
                      </p>
-                     
+                     <p class="form-head"><spring:message code="admin.portal.settings.head.partners" /></p>
+                      <p>
+                       	<label>
+                       		PlasticPortal e-mail:
+                       	</label>
+                        <span class="field">
+                           	<form:input path="plasticPortalEmail" cssClass="mw300" maxlength="40" />
+                         </span>
+                     </p>
                      
 					<p class="button-box">
 						<input type="submit" class="button" value="<spring:message code="form.save" />" />

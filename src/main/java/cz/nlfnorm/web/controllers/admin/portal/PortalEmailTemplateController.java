@@ -22,6 +22,7 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.EmailTemplateService;
 import cz.nlfnorm.utils.UserUtils;
+import cz.nlfnorm.utils.ValidationsUtils;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 @Controller
@@ -81,6 +82,16 @@ public class PortalEmailTemplateController extends AdminSupportController {
 		if(!emailTemplateService.isEmailTemplateValid(emailTemplate)){
 			result.rejectValue("body", "error.emailTemplate.body");
 		}
+		
+		if(StringUtils.isNotBlank(emailTemplate.getBcc())){
+			String[] emails = emailTemplate.getBcc().split(",");
+			for(String email : emails){
+				email = StringUtils.trim(email);
+				if(!ValidationsUtils.isEmailValid(email)){
+					result.rejectValue("bcc", "error.emailTemplate.bcc");
+				}
+			}
+		}
 	}
 	
 	
@@ -103,6 +114,7 @@ public class PortalEmailTemplateController extends AdminSupportController {
 		}
 		emailTemplate.setSubject(form.getSubject());
 		emailTemplate.setBody(form.getBody());
+		emailTemplate.setBcc(StringUtils.trim(form.getBcc()));
 		emailTemplateService.createOrUpdate(emailTemplate);
 		return emailTemplate.getId();
 	}

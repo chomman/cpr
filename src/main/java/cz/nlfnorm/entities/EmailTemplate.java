@@ -1,5 +1,8 @@
 package cz.nlfnorm.entities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,6 +17,8 @@ import javax.persistence.Transient;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Type;
 
+import cz.nlfnorm.utils.ValidationsUtils;
+
 
 @SuppressWarnings("serial")
 @Entity
@@ -27,6 +32,7 @@ public class EmailTemplate extends AbstractEntity {
 	private String name;
 	private String subject;
 	private String body;
+	private String bcc;
 	private String variables;
 	private String variablesDescription;
 	
@@ -51,7 +57,16 @@ public class EmailTemplate extends AbstractEntity {
 	public void setSubject(String subject) {
 		this.subject = subject;
 	}
-		
+	
+	@Column(name = "bcc_forwarding")		
+	public String getBcc() {
+		return bcc;
+	}
+
+	public void setBcc(String bcc) {
+		this.bcc = bcc;
+	}
+
 	@Type(type = "text")
 	@Column(name = "body")
 	public String getBody() {
@@ -87,6 +102,21 @@ public class EmailTemplate extends AbstractEntity {
 			return vars.split(",");
 		}
 		return null;
+	}
+	
+	@Transient
+	public List<String> getBccEmails(){
+		List<String> bccEmails = new ArrayList<String>();
+		if(StringUtils.isNotBlank(bcc)){
+			String[] emails = bcc.split(",");
+			for(String email : emails){
+				email = StringUtils.trim(email);
+				if(ValidationsUtils.isEmailValid(email)){
+					bccEmails.add(email);
+				}
+			}
+		}
+		return bccEmails;
 	}
 	
 }

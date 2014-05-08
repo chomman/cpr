@@ -116,6 +116,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 					order.setCreatedBy(user);
 					order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
 					portalOrderService.create(order);
+					portalOrderService.sendRegistrationOrderEmail(order);
 					logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
 					response.setStatus(JsonStatus.SUCCESS);
 				}catch(Exception e){

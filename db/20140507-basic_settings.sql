@@ -23,7 +23,7 @@ begin;
 	ALTER TABLE basic_settings ADD COLUMN phone character varying(20);
 	ALTER TABLE basic_settings ADD COLUMN street character varying(80);
 	ALTER TABLE basic_settings ADD COLUMN zip character varying(6);
-
+	ALTER TABLE basic_settings ADD COLUMN plastic_portal_email character varying(40);
 	
 	CREATE SEQUENCE email_template_id_seq
 	  INCREMENT 1
@@ -47,6 +47,7 @@ begin;
   variable_description text,
   id_user_changed_by bigint,
   id_user_created_by bigint,
+  bcc_forwarding character varying(255),
   CONSTRAINT email_template_pkey PRIMARY KEY (id),
   CONSTRAINT fk_9bdjqgopmkq9cl70fbwr39a6j FOREIGN KEY (id_user_created_by)
       REFERENCES users (id) MATCH SIMPLE

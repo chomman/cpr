@@ -50,6 +50,8 @@ public class BasicSettings extends AbstractEntity {
 	private String euSwift;
 	private String euIban;	
 	
+	private String plasticPortalEmail;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "basic_settings_id_seq")
 	public Long getId() {
@@ -222,7 +224,17 @@ public class BasicSettings extends AbstractEntity {
 		this.euIban = euIban;
 	}
 
+	@Email(message = "{error.email}")
+	@Column(name ="plastic_portal_email", length = 40)
+	public String getPlasticPortalEmail() {
+		return plasticPortalEmail;
+	}
 
+	public void setPlasticPortalEmail(String plasticPortalEmail) {
+		this.plasticPortalEmail = plasticPortalEmail;
+	}
+
+	
 		
 	
 }

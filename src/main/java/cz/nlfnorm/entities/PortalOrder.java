@@ -406,4 +406,9 @@ public class PortalOrder extends AbstractEntity{
 		}
 		return products;
 	}
+	
+	@Transient
+	public String getTotalPriceWithVatAndCurrency(){
+		return getTotalPriceWithVat().toString() + " " + currency.getSymbol();
+	}
 }

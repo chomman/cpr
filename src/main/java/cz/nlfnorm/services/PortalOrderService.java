@@ -27,4 +27,8 @@ public interface PortalOrderService {
 	void activateProducts(PortalOrder order);
 
 	List<PortalOrder> getUserOrders(Long userId);
+	
+	void sendRegistrationOrderEmail(PortalOrder order);
+	
+	StringBuilder getForamtedOrderItems(PortalOrder order);
 }

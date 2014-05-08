@@ -51,8 +51,10 @@
 			<h1><spring:message code="admin.emailTemplate.edit"/></h1>
 	
 			<div id="content">
-			
-				<form:form commandName="emailTemplate" method="post" cssClass="valid" >
+				
+				<c:url value="/admin/portal/email-template/${empty emailTemplate.id ? 0 : emailTemplate.id }" var="formUrl"/>
+				
+				<form:form commandName="emailTemplate" method="post" cssClass="valid" action="${formUrl}" >
 								
 					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 					
@@ -110,6 +112,17 @@
 			           	<form:textarea path="body" cssClass="wisiwig" />
 			           </span>
 			       </p> 
+			       <p>
+			       	<label>
+			       		<spring:message code="admin.emailTemplate.forward" />  
+			       	</label>
+			           <span class="field">
+			           	<form:input path="bcc" cssClass="mw300" />
+			           	<span class="mini-info inline">
+			           		Emaily oddělte čárkou
+			           	</span>
+			           </span>
+			       </p>
 			       
 			       <c:if test="${isWebmaster}">
 				       <p>
@@ -117,7 +130,7 @@
 				       		Seznam proměnných, oddělené čárkou:
 				       	</label>
 				           <span class="field">
-				           	<form:input path="variables" cssClass="mw500" />
+				           	<form:input path="variables" cssClass="mw500" maxlength="255" />
 				           </span>
 				       </p>
 				        <p class="pj-content-type  pj-type ">

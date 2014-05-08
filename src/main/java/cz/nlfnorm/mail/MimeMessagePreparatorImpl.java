@@ -28,6 +28,8 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
+import cz.nlfnorm.utils.ValidationsUtils;
+
 public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator {
 	
 	protected static final Logger logger = Logger.getLogger(MimeMessagePreparatorImpl.class);
@@ -67,19 +69,17 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
         }
         
         for (String emailTo : to) {
-            mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+        	mimeMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(emailTo));
+        }
+
+        for (String emailCc : cc) {
+        	mimeMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(emailCc));
+        }
+
+        for (String emailBcc : bcc) {
+        	mimeMessage.addRecipient(Message.RecipientType.BCC, new InternetAddress(emailBcc));
         }
         
-        if (cc != null) {
-            for (String emailCc : cc) {
-                mimeMessage.addRecipient(Message.RecipientType.CC, new InternetAddress(emailCc));
-            }
-        }
-        if (bcc != null) {
-            for (String emailBcc : bcc) {
-                mimeMessage.addRecipient(Message.RecipientType.BCC, new InternetAddress(emailBcc));
-            }
-        }
         // adding from and subject
         mimeMessage.setFrom(new InternetAddress(getFrom()));
         mimeMessage.setSubject(getSubject());
@@ -135,6 +135,13 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
             }
         });
     }
+	 
+	private boolean isValidEmailAddres(final String email){
+		if(StringUtils.isNotBlank(email) && ValidationsUtils.isEmailValid(email)){
+			return true;
+		}
+		return false;
+	}
 	
 	public Map<String, Object> getContext() {
 		return context;
@@ -169,19 +176,35 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 	}
 	
 	public void addRecipientTo(final String emailAddress){
-		this.to.add(emailAddress);
+		addEmail(to, emailAddress);
 	}
 	
 	public void addRecipientCc(final String emailAddress){
-		this.cc.add(emailAddress);
+		addEmail(cc, emailAddress);
 	}
 	
 	public void addRecipientBcc(final String emailAddress){
-		this.bcc.add(emailAddress);
+		addEmail(bcc, emailAddress);
+	}
+	
+	public void addRecipientBcc(final List<String> emailAddresses){
+		if(emailAddresses != null){
+			for(String email : emailAddresses){
+				addEmail(bcc, email);
+			}
+		}
 	}
 	
 	public void addAttachment(String fileLocation) {
         this.fileNames.add(fileLocation);
     }
+	
+	private void addEmail(List<String> list, String email){
+		if(isValidEmailAddres(email)){
+			list.add(email);
+		}else{
+			logger.warn("Invalid email address: " + email);
+		}
+	}
 	
 }
