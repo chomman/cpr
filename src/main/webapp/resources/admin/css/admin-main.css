@@ -686,5 +686,8 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 .pj-unsynced{background:#FFEBCC;}
 .pj-unsync-alert{background:url(../img/ico_alert.png) no-repeat 0px center;display:block;width:40px;height:25px;float:left;}
 
-#pj-email-vars{padding:20px;color:#333;line-height:20px;}
+#pj-email-vars{padding:20px;color:#333;line-height:20px;font-size:13px;}
 #pj-email-vars ul{padding: 0 30px;}
+#pj-email-vars table{border-collapse:collapse;border:3px solid #aaa}
+#pj-email-vars table td{padding:4px 10px;border-left:1px solid #ddd;}
+#pj-email-vars table tr{border-bottom:1px solid #ddd;}

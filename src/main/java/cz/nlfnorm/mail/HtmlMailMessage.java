@@ -92,4 +92,14 @@ public class HtmlMailMessage extends MimeMessagePreparatorImpl {
 	}
 	
 	
+	 public boolean isContentValid() {
+	        try {
+	            Template template = getFreemakerTemplate();
+	            template.process(getContext(), new StringWriter());
+	        } catch (Exception e) {
+	            return false;
+	        }
+        return true;
+    }
+	
 }

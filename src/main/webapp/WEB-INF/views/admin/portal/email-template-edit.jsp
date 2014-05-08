@@ -25,13 +25,12 @@
 				autoresize_min_height: 200,
 				autoresize_max_height: 700,
 				setup: function(editor) {
-					if(editor.id === "variables"){
+					if(editor.id === "variablesDescription"){
 				        editor.on('keyup', function(e) {
 				            $('#pj-email-vars').html(editor.getContent()); 
 				        });
 					}
 			    }
-
 			});
 	   
 		});
@@ -60,6 +59,13 @@
 					<c:if test="${not empty successCreate}">
 						<p class="msg ok"><spring:message code="success.create" /></p>
 					</c:if>
+					<c:if test="${not empty emailSent}">
+						<p class="msg ok"><spring:message code="admin.emailTemplate.sent" />:
+							<strong>${emailSent}</strong>
+						</p>
+					</c:if>
+					
+					
 					
 					<c:if test="${isWebmaster}">
 						<p>
@@ -75,7 +81,7 @@
 				       <p>
 				       	<label>
 				       		<strong><em class="red">*</em>
-				       			<spring:message code="admin.emailTemplate.name" />  
+				       			Kód:
 				       		</strong>
 				       	</label>
 				           <span class="field">
@@ -106,21 +112,26 @@
 			       </p> 
 			       
 			       <c:if test="${isWebmaster}">
-			        <p class="pj-content-type  pj-type ">
-			       		<label>
-				       		<spring:message  code="admin.emailTemplate.variables" />
-			       		</label>
-			           <span class="field full-width">
-			           	<form:textarea path="variables" cssClass="wisiwig" id="variables" />
-			           </span>
-			       </p> 
+				       <p>
+				       	<label>
+				       		Seznam proměnných, oddělené čárkou:
+				       	</label>
+				           <span class="field">
+				           	<form:input path="variables" cssClass="mw500" />
+				           </span>
+				       </p>
+				        <p class="pj-content-type  pj-type ">
+				       		<label>
+					       		<spring:message  code="admin.emailTemplate.variables" />
+				       		</label>
+				           <span class="field full-width">
+				           	<form:textarea path="variablesDescription" cssClass="wisiwig" id="variablesDescription" />
+				           </span>
+				       </p> 
 			       </c:if>
 			       
 
-			       	<p class="form-head"><spring:message  code="admin.emailTemplate.variables" /></p>
-			       	<div id="pj-email-vars">
-			       		${emailTemplate.variables}
-			       	</div>
+			    
 			     
 			       
 			    	<form:hidden path="id" />
@@ -129,6 +140,28 @@
 			       </p>
 				</form:form>	
 				
+			   	<p class="form-head"><spring:message  code="admin.emailTemplate.variables" /></p>
+		       	<div id="pj-email-vars">
+		       		${emailTemplate.variablesDescription}
+		       	</div>
+			      
+			    <form method="get" class="valid">
+			    	 <p>
+				       	<label>
+				       		<strong><em class="red">*</em>
+				       			Poslat testovací email na adresu:
+				       		</strong>
+				       	</label>
+				           <span class="field">
+				           	<input type="text" name="email" class="mw300 required email" />
+				           	<input type="hidden" name="templateId" value="${emailTemplate.id}" > 
+				           </span>
+				       </p>
+			    	 <p class="button-box">
+				       	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+				       </p>
+			    </form>   	
+			       	
 				<span class="note"><spring:message code="form.required" /></span>	
 			</div>	
 			

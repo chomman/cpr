@@ -34,30 +34,31 @@ begin;
 	  
 	  
 	CREATE TABLE email_template
-	(
-	  id bigint NOT NULL,
-	  changed timestamp without time zone,
-	  code character varying(255),
-	  created timestamp without time zone,
-	  enabled boolean,
-	  body text,
-	  name character varying(100),
-	  subject character varying(150),
-	  variables text,
-	  id_user_changed_by bigint,
-	  id_user_created_by bigint,
-	  CONSTRAINT email_template_pkey PRIMARY KEY (id),
-	  CONSTRAINT fk_9bdjqgopmkq9cl70fbwr39a6j FOREIGN KEY (id_user_created_by)
-	      REFERENCES users (id) MATCH SIMPLE
-	      ON UPDATE NO ACTION ON DELETE NO ACTION,
-	  CONSTRAINT fk_f8eis4obuupn0wgi3pbh1qsth FOREIGN KEY (id_user_changed_by)
-	      REFERENCES users (id) MATCH SIMPLE
-	      ON UPDATE NO ACTION ON DELETE NO ACTION
-	)
-	WITH (
-	  OIDS=FALSE
-	);
-	ALTER TABLE email_template
-	  OWNER TO postgres;
+(
+  id bigint NOT NULL,
+  changed timestamp without time zone,
+  code character varying(255),
+  created timestamp without time zone,
+  enabled boolean,
+  body text,
+  name character varying(100),
+  subject character varying(150),
+  variables character varying(300),
+  variable_description text,
+  id_user_changed_by bigint,
+  id_user_created_by bigint,
+  CONSTRAINT email_template_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_9bdjqgopmkq9cl70fbwr39a6j FOREIGN KEY (id_user_created_by)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
+  CONSTRAINT fk_f8eis4obuupn0wgi3pbh1qsth FOREIGN KEY (id_user_changed_by)
+      REFERENCES users (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION
+)
+WITH (
+  OIDS=FALSE
+);
+ALTER TABLE email_template
+  OWNER TO postgres;
 		  
 end;

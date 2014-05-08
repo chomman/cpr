@@ -9,7 +9,9 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Type;
 
 
@@ -26,6 +28,7 @@ public class EmailTemplate extends AbstractEntity {
 	private String subject;
 	private String body;
 	private String variables;
+	private String variablesDescription;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "email_template_id_seq")
@@ -59,8 +62,7 @@ public class EmailTemplate extends AbstractEntity {
 		this.body = body;
 	}
 	
-	@Type(type = "text")
-	@Column(name = "variables")
+	@Column(name = "variables", length = 300)
 	public String getVariables() {
 		return variables;
 	}
@@ -68,6 +70,23 @@ public class EmailTemplate extends AbstractEntity {
 		this.variables = variables;
 	}
 	
+	@Type(type = "text")
+	@Column(name = "variable_description")
+	public String getVariablesDescription() {
+		return variablesDescription;
+	}
+
+	public void setVariablesDescription(String variablesDescription) {
+		this.variablesDescription = variablesDescription;
+	}
 	
+	@Transient
+	public String[] getAvaiableVariables(){
+		if(StringUtils.isNotBlank(variables)){
+			String vars = variables.replace(" ", "");
+			return vars.split(",");
+		}
+		return null;
+	}
 	
 }

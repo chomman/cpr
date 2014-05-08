@@ -89,8 +89,11 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
         // Create an "ATTACHMENT" - we must put it to mpRoot(mixed content)
         if (getFileNames() != null) {
             for (String filename : getFileNames()) {
-            	if(StringUtils.isBlank(filename)){
-            		mpRoot.addBodyPart(createAttachment(filename));
+            	if(StringUtils.isNotBlank(filename)){
+            		File file = new File(filename);
+            		if(file.exists()){
+            			mpRoot.addBodyPart(createAttachment(file));
+            		}
             	}
             }
         }
@@ -102,16 +105,15 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 
 	public abstract BodyPart createMessage() throws MessagingException;
 	
-	private BodyPart createAttachment(final String filename) throws Exception {
+	private BodyPart createAttachment(final File file) throws Exception {
 		BodyPart attachBodypart = new MimeBodyPart();
-		File file = new File(filename);
 		FileDataSource fds = new FileDataSource(file);
 		DataHandler dh = new DataHandler(fds);
 		attachBodypart.setFileName(file.getName());
 		attachBodypart.setDisposition(Part.ATTACHMENT);
 		attachBodypart.setDescription("Attached file: " + file.getName());
 		attachBodypart.setDataHandler(dh);
-		logger.info("ATTACHMENT ADDED ; filename: " + filename);
+		logger.info("ATTACHMENT ADDED ; filename: " + file.getName());
 		return attachBodypart;
 	}
 	 
@@ -177,5 +179,9 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 	public void addRecipientBcc(final String emailAddress){
 		this.bcc.add(emailAddress);
 	}
+	
+	public void addAttachment(String fileLocation) {
+        this.fileNames.add(fileLocation);
+    }
 	
 }

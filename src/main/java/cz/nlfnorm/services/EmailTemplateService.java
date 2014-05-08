@@ -18,4 +18,8 @@ public interface EmailTemplateService {
 	
 	void createOrUpdate(EmailTemplate emailTemplate);
 	
+	boolean isEmailTemplateValid(EmailTemplate emailTemplate);
+	
+	void sendTestEmailTo(String emailAddress, Long templateId);
+	
 }
