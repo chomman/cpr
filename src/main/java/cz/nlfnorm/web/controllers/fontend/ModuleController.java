@@ -51,7 +51,7 @@ public class ModuleController extends WebpageControllerSupport {
 	private static final String CSN_TERMINOLOGY_URL =		"/m/terminology";
 	private static final String ASSESMENTS_SYSTEMS_URL =	"/m/asessments-systems";
 	private static final String PORTAL_REGISTATION_URL = 	"/m/portal-registration";
-	 
+	private static final String PORTAL_ONLNE_PUBLICCATIONS ="/m/online-publications";	 
 	
 	@Autowired
 	private StandardService standardService;
@@ -159,6 +159,15 @@ public class ModuleController extends WebpageControllerSupport {
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
         model.put("assessmentSystems", assessmentSystemService.getAssessmentSystemsForPublic());
+        return appendModelAndGetView(model, modelMap, request);
+    }
+	
+	
+	@RequestMapping( PORTAL_ONLNE_PUBLICCATIONS )
+    public String onlinePublications(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
+		Map<String, Object> model = new HashMap<String, Object>();
+        model.put("onlinePublications", portalProductService.getAllOnlinePublications(true));
         return appendModelAndGetView(model, modelMap, request);
     }
 	

@@ -37,6 +37,7 @@ import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.CsnService;
 import cz.nlfnorm.services.CsnTerminologyService;
 import cz.nlfnorm.services.NotifiedBodyService;
+import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.ReportService;
 import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
@@ -62,9 +63,12 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	private AssessmentSystemService assessmentSystemService;
 	@Autowired
 	private BasicSettingsService basicSettingsService;
+	@Autowired
+	private PortalProductService portalProductService;
 	
 	private static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
 	public static final String TERMINOLOGY_URL_MAPPING = "terminologicky-slovnik";
+
 	
 	@Value("#{config['nandourl']}")
 	protected String ceEuropeNotifiedBodyDetailUrl;
@@ -208,10 +212,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		return getView("terminology-detail");
 	}
 	
-	
-	
-	
-	
+		
 	@RequestMapping(value = {"/cpr/as/{id}", EN_PREFIX + "cpr/as/{id}"})
     public String showAssessmentSystemDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
             final AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(id);
@@ -224,6 +225,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
             modelmap.put("model", model);
             return getView("assessmentsystem-detail");
     }
+	
 	
 	private String getView(String name){
 		return "/module/detail/" + name;

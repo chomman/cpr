@@ -23,6 +23,7 @@ import org.hibernate.validator.constraints.Range;
 import cz.nlfnorm.enums.OnlinePublication;
 import cz.nlfnorm.enums.PortalProductInterval;
 import cz.nlfnorm.enums.PortalProductType;
+import cz.nlfnorm.web.controllers.fontend.PortalModuleWebpageController;
 
 
 @Entity
@@ -189,6 +190,11 @@ public class PortalProduct extends AbstractEntity {
 	@Transient
 	public String getNameEnglish(){
 		return englishName;
+	}
+	
+	@Transient
+	public String getPublicationUrl(){
+		return PortalModuleWebpageController.ONLINE_PUBLICATION_URL.replace("{pid}", getId().toString());
 	}
 	
 }
