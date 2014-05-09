@@ -27,7 +27,15 @@ import cz.nlfnorm.utils.ValidationsUtils;
 @Table(name = "email_template")
 public class EmailTemplate extends AbstractEntity {
 	
-	public final static String PORTAL_CREATE_ORDER = "PORTAL_CREATE_ORDER";
+	public final static String PORTAL_ORDER_CREATE = "PORTAL_ORDER_CREATE";
+	public final static String PORTAL_ORDER_ACTIVATION = "PORTAL_ORDER_ACTIVATION";
+	public final static String PORTAL_ORDER_CANCELATION = "PORTAL_ORDER_CANCELATION";
+	
+	public final static String PORTAL_MEDIATOR_INFO_ACTIVATION = "PORTAL_MEDIATOR_INFO_ACTIVATION";
+	public final static String PORTAL_MEDIATOR_INFO_CANCELATION = "PORTAL_MEDIATOR_INFO_CANCELATION";
+	public final static String PORTAL_MEDIATOR_INFO_CREATE_ORDER = "PORTAL_MEDIATOR_INFO_CREATE_ORDER";
+	
+	
 	
 	private String name;
 	private String subject;

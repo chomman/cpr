@@ -6,7 +6,6 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.apache.log4j.Logger;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +46,6 @@ import cz.nlfnorm.web.editors.LocalDateEditor;
 @Service("portalOrderService")
 public class PortalOrderServiceImpl implements PortalOrderService {
 
-	private final static Logger logger = Logger.getLogger(PortalOrderServiceImpl.class);
 	
 	@Autowired
 	private PortalOrderDao portalOrderDao;
@@ -111,19 +109,20 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	}
 
 	@Override
-	public void updateAndSetChanged(PortalOrder order, boolean sendEmail) {
+	public void updateAndSetChanged(PortalOrder order) {
 		setChanged(order);
-		boolean isUpdated = false;
-		if(sendEmail){
-			if(order.getDateOfActivation() == null && order.getOrderStatus().equals(OrderStatus.PAYED)){
+		final OrderStatus orderStatus = order.getOrderStatus();
+		if(!order.getEmailSent() && !orderStatus.equals(OrderStatus.PENDING)){
+			if(orderStatus.equals(OrderStatus.PAYED)){
 				activateProducts(order);
-				isUpdated = true;
+				sendOrderActivationEmail(order);
+				order.setEmailSent(true);
+			}else if(orderStatus.equals(OrderStatus.CANCELED)){
+				sendOrderCancelationEmail(order);
+				order.setEmailSent(true);
 			}
-			// TODO send information email impl
 		}
-		if(!isUpdated){
-			update(order);
-		}
+		setChanged(order);
 	}
 
 	private void setChanged(PortalOrder order){
@@ -222,26 +221,58 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public void sendRegistrationOrderEmail(final PortalOrder order) {
+	public void sendOrderCreateEmail(final PortalOrder order) {
+		final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_ORDER_CREATE);
+		sendPortalOrderEmail(order, template);
+		
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public void sendOrderActivationEmail(final PortalOrder order) {
+		final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_ORDER_ACTIVATION);
+		sendPortalOrderEmail(order, template);
+		
+	}
+	@Override
+	@Transactional(readOnly = true)
+	public void sendOrderCancelationEmail(final PortalOrder order) {
+		final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_ORDER_CANCELATION);
+		sendPortalOrderEmail(order, template);
+	}
+	
+	
+	private void sendPortalOrderEmail(final PortalOrder order, EmailTemplate emailTemplate){
+		Validate.notNull(emailTemplate);
+		Validate.notNull(order);
+		
 		final BasicSettings basicSettings = basicSettingsService.getBasicSettings();
-		final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_CREATE_ORDER);
-		Validate.notNull(template);
-		final Map<String, Object> context = getMailContextForRegistrationOrder(basicSettings, order);
-		HtmlMailMessage mailMessage = new HtmlMailMessage(basicSettings.getSystemEmail(), template.getSubject(), template.getBody(), context);
-		mailMessage.addRecipientTo(order.getEmail());
-		mailMessage.addRecipientBcc(template.getBccEmails());
-		final String emailAddress = determineEmailForPortalOrderSource(basicSettings, order);
-		if(StringUtils.isNotBlank(emailAddress)){
-			mailMessage.addRecipientBcc(emailAddress);
+		final Map<String, Object> context = getMailContextPortalOrder(basicSettings, order);
+		HtmlMailMessage customerMailMessage = new HtmlMailMessage(basicSettings.getSystemEmail(), emailTemplate,  context);
+		customerMailMessage.addRecipientTo(order.getEmail());
+		final String mediatorEmailAddress = determineMediatorEmail(basicSettings, order);
+		final String templateCode = emailTemplate.getCode();
+		if(templateCode.equals(EmailTemplate.PORTAL_ORDER_CREATE)){
+			sendEmailToMediator(EmailTemplate.PORTAL_MEDIATOR_INFO_CREATE_ORDER, context, mediatorEmailAddress , basicSettings);
+		}else if(templateCode.equals(EmailTemplate.PORTAL_ORDER_ACTIVATION)){
+			sendEmailToMediator(EmailTemplate.PORTAL_MEDIATOR_INFO_ACTIVATION, context, mediatorEmailAddress , basicSettings);
+		}else if(templateCode.equals(EmailTemplate.PORTAL_ORDER_CANCELATION)){
+			sendEmailToMediator(EmailTemplate.PORTAL_MEDIATOR_INFO_CANCELATION, context, mediatorEmailAddress , basicSettings);
 		}
-		try{
-			nlfnormMailSender.send(mailMessage);
-		}catch(Exception e){
-			logger.error("Nepodarilo sa odoslat objednavku registracie [oid="+order.getId()+"]", e);
-		}
+		nlfnormMailSender.send(customerMailMessage);
+	}
+	
+	
+	private void sendEmailToMediator(final String emailTemplateCode,final  Map<String, Object> context, final  String mediatorEmailAddress, final BasicSettings settings){
+			if(StringUtils.isNotBlank(mediatorEmailAddress)){
+				final EmailTemplate mediatorTemplate = emailTemplateService.getByCode(emailTemplateCode);
+				HtmlMailMessage customerMailMessage = new HtmlMailMessage(settings.getSystemEmail(), mediatorTemplate, context);
+				customerMailMessage.addRecipientTo(mediatorEmailAddress);
+				nlfnormMailSender.send(customerMailMessage);
+			}
 	}
 
-	private Map<String, Object> getMailContextForRegistrationOrder(final BasicSettings basicSettings, final PortalOrder order){
+	private Map<String, Object> getMailContextPortalOrder(final BasicSettings basicSettings, final PortalOrder order){
 		Map<String, Object> context = new HashMap<String, Object>();
 		appendOrederContext(order, context);
 		if(order.getCurrency().equals(PortalCurrency.CZK)){
@@ -257,7 +288,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	}
 	
 	
-	private String determineEmailForPortalOrderSource(final BasicSettings settings, final PortalOrder order){
+	private String determineMediatorEmail(final BasicSettings settings, final PortalOrder order){
 		final PortalOrderSource orderSource = order.getPortalOrderSource();
 		if(orderSource.equals(PortalOrderSource.PLASTIC_PORTAL)){
 			return settings.getPlasticPortalEmail();

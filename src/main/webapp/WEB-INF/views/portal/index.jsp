@@ -49,13 +49,13 @@
 						</p>
 				
 						<ul>
-							<c:forEach items="${publications.publishedChildrens}" var="i">
+							<c:forEach items="${publications}" var="i">
 								<li class="pj-publication pj-radius">
-								<a href="<webpage:link webpage="${i}" />">
+								<a href="">
 									<span class="pj-name">
-										<webpage:filedVal webpage="${i}" fieldName="name" />
+										<a:localizedValue object="${i}" fieldName="name" />
 									</span>
-									<span class="pj-price"><webpage:filedVal webpage="${i}" fieldName="description" /></span>
+									<span class="pj-price"><webpage:price price="${i.priceCzk}" /></span>
 									<span class="pj-ico"></span>
 								</a>
 							</li>

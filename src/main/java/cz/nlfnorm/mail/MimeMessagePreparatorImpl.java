@@ -206,5 +206,15 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 			logger.warn("Invalid email address: " + email);
 		}
 	}
+
+	@Override
+	public String toString() {
+		String emails = "";
+		for(String e : to){
+			emails += e+",";
+		}
+		return "[to=" + emails + ", subject=" + subject+ "]";
+	}
+	
 	
 }

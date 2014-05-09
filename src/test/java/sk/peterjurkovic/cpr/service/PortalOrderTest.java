@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -21,6 +22,8 @@ public class PortalOrderTest extends AbstractTest {
 
 	@Autowired
 	private PortalUserService portalUserService;
+	@Value("${mail.developer}")
+	private String developerEmail;
 
 	@Test
 	public void testRequest(){
@@ -46,7 +49,7 @@ public class PortalOrderTest extends AbstractTest {
 		User user = new User();
 		user.setId(5000l);
 		user.setSgpPassword("1234456");
-		user.setEmail(new LocalDateTime().toString("mm:ss") + "test@test.cs");
+		user.setEmail(new LocalDateTime().toString("mm:ss") + developerEmail);
 		user.setChanged(new LocalDateTime());
 		return user;
 	}

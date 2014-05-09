@@ -318,14 +318,7 @@ public class PortalOrder extends AbstractEntity{
 	}
 	
 	@Transient 
-	public boolean merge(PortalOrder form){
-		boolean sendEmail = false;
-		if(!getEmailSent() && 
-		   !form.getOrderStatus().equals(OrderStatus.PENDING) &&
-		   !getOrderStatus().equals(form.getOrderStatus())){
-			sendEmail = true;
-		}
-		
+	public void merge(PortalOrder form){
 		setOrderStatus(form.getOrderStatus());
 		setFirstName(form.getFirstName());
 		setLastName(form.getLastName());
@@ -339,8 +332,6 @@ public class PortalOrder extends AbstractEntity{
 		
 		setEmail(form.getEmail());
 		setPhone(form.getPhone());
-		
-		return sendEmail;
 	}
 	
 	@Transient 

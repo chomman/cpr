@@ -64,6 +64,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	private PortalProductService portalProductService;
 	@Autowired
 	private ExceptionLogService exceptionLogService;
+	
 		
 	public PortalWebpageController(){
 		setViewDirectory("/portal/");
@@ -80,7 +81,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 	public String handlePortalHmepage(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException{
 		appendModel(modelMap, getWebpage( Constants.PORTAL_URL ) );
 		modelMap.put("scopes", webpageService.getWebpageById(SCOPE_ID));
-		modelMap.put("publications", webpageService.getWebpageById(279l));
+		modelMap.put("publications", portalProductService.getAllOnlinePublications(true));
 		if(StringUtils.isNotBlank(request.getParameter(Constants.FAILURE_LOGIN_PARAM_KEY))){
 			modelMap.put(Constants.FAILURE_LOGIN_PARAM_KEY, true);
 		}
@@ -116,7 +117,7 @@ public class PortalWebpageController extends WebpageControllerSupport {
 					order.setCreatedBy(user);
 					order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
 					portalOrderService.create(order);
-					portalOrderService.sendRegistrationOrderEmail(order);
+					portalOrderService.sendOrderCreateEmail(order);
 					logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
 					response.setStatus(JsonStatus.SUCCESS);
 				}catch(Exception e){

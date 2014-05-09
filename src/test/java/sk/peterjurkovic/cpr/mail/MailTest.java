@@ -10,6 +10,7 @@ import junit.framework.Assert;
 import org.apache.commons.lang.Validate;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 
 import sk.peterjurkovic.cpr.test.AbstractTest;
 import cz.nlfnorm.mail.HtmlMailMessage;
@@ -20,6 +21,9 @@ public class MailTest extends AbstractTest {
 
 	@Autowired
 	private NlfnormMailSender nlfnormMailSender;
+	
+	@Value("${mail.developer}")
+	private String developerEmail;
 	
 	@Test
 	public void htmlMailMessageTest(){
@@ -47,7 +51,7 @@ public class MailTest extends AbstractTest {
 		String htmlMessage =  "Hello ${firstName} ${lastName} ! this si a test email";
 		HtmlMailMessage message = new HtmlMailMessage("info@nlfnorm.cz", " jUnit email test", htmlMessage, context);
 		Validate.notNull(message);
-		message.addRecipientTo("email@peterjurkovic.com");
+		message.addRecipientTo(developerEmail);
 		nlfnormMailSender.send(message);
 	}
 	

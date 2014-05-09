@@ -2,6 +2,7 @@ package cz.nlfnorm.mail;
 
 import javax.mail.internet.MimeMessage;
 
+import org.apache.log4j.Logger;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessagePreparator;
@@ -9,6 +10,8 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 public class NlfnormMailSender extends JavaMailSenderImpl {
 	
 	private boolean sendEmails = true;
+	
+	private final Logger logger = Logger.getLogger(getClass());
 	
 	
 	@Override
@@ -28,7 +31,12 @@ public class NlfnormMailSender extends JavaMailSenderImpl {
 	@Override
 	public void send(MimeMessagePreparator mimeMessagePreparator) throws MailException {
 		if(sendEmails){
-			super.send(mimeMessagePreparator);
+			try{
+				super.send(mimeMessagePreparator);
+			}catch(Exception e){
+				String info = ((MimeMessagePreparatorImpl)mimeMessagePreparator).toString();
+				logger.warn("Nepodarilo sa odoslat email na adresy: " + info , e);
+			}
 		}
 	}
 	

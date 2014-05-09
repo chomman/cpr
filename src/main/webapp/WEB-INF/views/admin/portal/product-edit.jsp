@@ -16,6 +16,7 @@
 		</c:if>
 	</title>
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
 	<script type="text/javascript">
 		 tinyMCE.init({
 			 	selector: "textarea.wisiwig",
@@ -40,6 +41,7 @@
 					$this.addClass('disabled').removeClass('lang');
 					return false;
 			 });
+			 $( ".helpTip" ).selectTip();
 		 });
 	</script>
 </head>
@@ -92,7 +94,7 @@
 		                            <span class="field"> 	                            	
 		                            	<form:select path="portalProductType" cssClass="w100 chosenSmall">
 		                            		<c:forEach items="${portalProductTypes}" var="i">
-		                            			<option value="${i}" <c:if test="${i.id == portalProduct.portalProductType.id}">selected="selected"</c:if> >
+		                            			<option value="${i}" <c:if test="${i.id == portalProduct.portalProductType.id}">selected="selected"</c:if> > 
 		                            				<spring:message code="${i.code}" />
 		                            			</option>
 		                            		 </c:forEach>
@@ -106,14 +108,30 @@
 		                        		</strong>  
 		                        	</label>
 		                            <span class="field"> 
-		                            	<form:select path="onlinePublication" cssClass="w100 chosenSmall">
+		                            	<form:select path="onlinePublication" cssClass="w100 chosenSmall helpTip">
 		                            		<option value="">-- Vybrat --</option>
 		                            		<c:forEach items="${onlinePublications}" var="i">
-		                            			<option value="${i}" <c:if test="${i eq portalProduct.onlinePublication}">selected="selected"</c:if> >
+		                            			<option value="${i}" data-id="${i}" title="${i.url}" <c:if test="${i eq portalProduct.onlinePublication}">selected="selected"</c:if> >
 		                            				${i}
 		                            			</option>
 		                            		 </c:forEach>
 		                            	</form:select>
+		                            </span>
+		                        </p>
+	                        </c:if>
+	                        <c:if test="${not empty portalProduct.onlinePublication}">
+		                        <p>
+		                       		<label>
+		                       			<strong><em class="red">*</em>
+		                        			Adresa publikace: 
+		                        		</strong>  
+		                        	</label>
+		                            <span class="field"> 
+		                            	<span><strong>${portalProduct.onlinePublication.code}</strong> &nbsp; | &nbsp;	                             	
+			                            	<a href="${portalProduct.onlinePublication.url}" target="_blank">
+			                            		${portalProduct.onlinePublication.url}
+			                            	</a>
+		                            	</span>
 		                            </span>
 		                        </p>
 	                        </c:if>

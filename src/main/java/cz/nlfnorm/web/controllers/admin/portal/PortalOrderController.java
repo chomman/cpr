@@ -113,8 +113,8 @@ public class PortalOrderController extends AdminSupportController {
 		if(portalOrder == null){
 			throw new ItemNotFoundException("Objednavka s ID" + form.getId() + " se nenašla");
 		}
-		boolean sendEmail = portalOrder.merge(form);
-		portalOrderService.updateAndSetChanged(portalOrder, sendEmail);
+		portalOrder.merge(form);
+		portalOrderService.updateAndSetChanged(portalOrder);
 	}
 
 	private void prepareModel(ModelMap map, PortalOrder portalOrder){

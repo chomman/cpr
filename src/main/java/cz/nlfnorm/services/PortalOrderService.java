@@ -22,13 +22,17 @@ public interface PortalOrderService {
 	
 	PageDto getPortalOrderPage(int currentPage, Map<String, Object> criteria);
 	
-	void updateAndSetChanged(PortalOrder order, boolean sendEmail);
+	void updateAndSetChanged(PortalOrder order);
 	
 	void activateProducts(PortalOrder order);
 
 	List<PortalOrder> getUserOrders(Long userId);
 	
-	void sendRegistrationOrderEmail(PortalOrder order);
+	void sendOrderCreateEmail(PortalOrder order);
+	
+	void sendOrderActivationEmail(PortalOrder order);
+	
+	void sendOrderCancelationEmail(PortalOrder order);
 	
 	StringBuilder getForamtedOrderItems(PortalOrder order);
 }

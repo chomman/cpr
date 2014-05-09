@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.mail.MailPreparationException;
 
+import cz.nlfnorm.entities.EmailTemplate;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -30,6 +31,11 @@ public class HtmlMailMessage extends MimeMessagePreparatorImpl {
 		this.htmlContent = htmlContent;
 	}
 	
+	public HtmlMailMessage(final String from, EmailTemplate emailTemplate, final Map<String, Object> context){
+		super(from, emailTemplate.getSubject(), context);
+		addRecipientBcc(emailTemplate.getBccEmails());
+		this.htmlContent = emailTemplate.getBody();
+	}
 	
 	public HtmlMailMessage(String from, String subject, String htmlContent) {
 		super(from, subject);

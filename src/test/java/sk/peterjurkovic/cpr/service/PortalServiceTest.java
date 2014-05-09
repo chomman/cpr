@@ -7,8 +7,11 @@ import junit.framework.Assert;
 import org.joda.time.LocalDate;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.annotation.Rollback;
 
+import sk.peterjurkovic.cpr.test.AbstractTest;
+import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.PortalOrderItem;
 import cz.nlfnorm.entities.PortalProduct;
@@ -16,16 +19,16 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserInfo;
 import cz.nlfnorm.entities.UserOnlinePublication;
 import cz.nlfnorm.enums.OnlinePublication;
+import cz.nlfnorm.enums.OrderStatus;
+import cz.nlfnorm.enums.PortalOrderSource;
 import cz.nlfnorm.enums.PortalProductType;
+import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.web.forms.portal.PortalUserForm;
-import sk.peterjurkovic.cpr.test.AbstractTest;
 
 public class PortalServiceTest extends AbstractTest{
-	
-	private final static String USER_EMAIL = "test@nlfnorm.cz";
 	
 	@Autowired
 	private PortalOrderService portalOrderService;
@@ -33,7 +36,12 @@ public class PortalServiceTest extends AbstractTest{
 	private PortalProductService portalProductService;
 	@Autowired
 	private PortalUserService portalUserService;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
+	@Value("${mail.developer}")
+	private String developerEmail;
+
 		
 	
 	@Test
@@ -100,13 +108,33 @@ public class PortalServiceTest extends AbstractTest{
 		Assert.assertEquals(date, uop2.getValidity());
 	}
 	
-	
+	public void orderCancelationTest(){
+		PortalProduct registrationProduct = getRegistrationProduct();
+		portalProductService.create(registrationProduct);
+		PortalUserForm userForm  = getPortalUserRegistrationForm();
+		User user = userForm.toUser();
+		user = portalUserService.createNewUser(user);
+		PortalOrder order = userForm.toPortalOrder();
+		order.setPortalOrderSource(PortalOrderSource.PLASTIC_PORTAL);
+		addProduct(registrationProduct, order);
+		PortalProduct analyzaPublication =  create(OnlinePublication.ANALYZA_REACH);
+		addProduct(analyzaPublication, order);
+		order.setUser(user);
+		portalOrderService.create(order);
+		
+		BasicSettings settings = basicSettingsService.getBasicSettings();
+		
+		settings.setPlasticPortalEmail(developerEmail);
+		basicSettingsService.updateBasicSettings(settings);
+		order.setOrderStatus(OrderStatus.CANCELED);
+		portalOrderService.updateAndSetChanged(order);
+	}
 	
 	private PortalUserForm getPortalUserRegistrationForm(){
 		PortalUserForm form = new PortalUserForm();
 		form.setFirstName("test");	
 		form.setLastName("test");
-		form.setEmail(USER_EMAIL);
+		form.setEmail(developerEmail);
 		form.setPassword("123456");
 		form.setUserInfo(new UserInfo());
 		form.getUserInfo().setPhone("+421 123 123 165");
