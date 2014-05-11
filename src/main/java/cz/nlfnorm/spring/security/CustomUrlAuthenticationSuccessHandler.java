@@ -42,7 +42,7 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
 	
 	protected String getTargetUrl(HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
 		
-		User user = (User)authentication.getPrincipal();
+		final User user = (User)authentication.getPrincipal();
 		
 		if(StringUtils.isNotBlank(request.getParameter(Constants.PORTAL_ID_PARAM_KEY))){
 			return "/" + Constants.PORTAL_URL;

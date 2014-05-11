@@ -3,6 +3,8 @@ package cz.nlfnorm.enums;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
+
 public enum OnlinePublication {
 
 	NORMY("normy", "normy/csn.htm", "normy_demo/csn.htm"),
@@ -30,6 +32,18 @@ public enum OnlinePublication {
 	public static List<OnlinePublication> getAll() {
         return Arrays.asList(values());
     }
+	
+	public static OnlinePublication getByCode(final String code){
+		if(StringUtils.isBlank(code)){
+			return null;
+		}
+		for(OnlinePublication onlinePublication : getAll()){
+			if(onlinePublication.getCode().equals(code)){
+				return onlinePublication;
+			}
+		}
+		return null;
+	}
 	
 	public String getCode() {
 		return code;

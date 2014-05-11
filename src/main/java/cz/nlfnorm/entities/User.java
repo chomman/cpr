@@ -37,6 +37,8 @@ import org.joda.time.LocalDateTime;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import cz.nlfnorm.enums.OnlinePublication;
+
 /**
  * Entita reprezentujuca opravneneho uzivatela informacneho systemu
  * @author peto
@@ -146,7 +148,7 @@ public class User extends AbstractEntity implements UserDetails{
 		this.userInfo = userInfo;
 	}
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<UserOnlinePublication> getOnlinePublications() {
 		return onlinePublications;
 	}
@@ -196,6 +198,8 @@ public class User extends AbstractEntity implements UserDetails{
         return false;
     }
 	
+	
+	
 	public void clearAuthorities(){
 		authoritySet.clear();
 	}
@@ -238,11 +242,30 @@ public class User extends AbstractEntity implements UserDetails{
 	}
 	
 	@Transient
-	public boolean hasValidOnlinePublication(final PortalProduct onlinePublication){
-		UserOnlinePublication uop = getUserOnlinePublication(onlinePublication);
+	public boolean hasValidOnlinePublication(final OnlinePublication onlinePublication){
+		if(onlinePublication != null){
+			for(UserOnlinePublication uop : onlinePublications ){
+				if(uop.getPortalProduct().getOnlinePublication().equals(onlinePublication)){
+					return isValid(uop);
+				}
+			}
+		}
+		return false;
+	}
+	
+	
+	
+	@Transient
+	public boolean hasValidOnlinePublication(final PortalProduct portalProduct){
+		UserOnlinePublication uop = getUserOnlinePublication(portalProduct);
 		if(uop == null){
 			return false;
 		}
+		return isValid(uop);
+	}
+	
+	
+	private boolean isValid(final UserOnlinePublication uop){
 		LocalDate today = new LocalDate();
 		if(today.isBefore(uop.getValidity()) || today.isEqual(uop.getValidity())){
 			return true;
@@ -330,7 +353,11 @@ public class User extends AbstractEntity implements UserDetails{
 		}
 		return list;
 	}
-		
+	
+	@Transient
+	public boolean isPortalAuthorized(){
+		return getHasActiveRegistration() || isAdministrator();
+	}
     
 	@Transient
 	public UserOnlinePublication getUserOnlineUplication(Long id){

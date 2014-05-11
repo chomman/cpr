@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<sec:authorize access="@portalSecurity.hasValidRegistration()" var="hasValidRegistration"  />
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -25,20 +26,22 @@
 										
 									</div>
 									<c:if test="${not empty i.publishedChildrens}" >
-										<ul class="pj-scope-nav">
-											<li class="pj-subcat pj-head">
+										<div class="pj-dropdown">
+											<strong class="pj-subcat pj-head"> 
 												<spring:message code="subcategories" />
-											</li>
-											<c:forEach items="${i.publishedChildrens}" var="j">
-												<li><webpage:a webpage="${j}" /></li>
-											</c:forEach>
-										</ul>
+											</strong>
+
+											<webpage:nav webpages="${i.publishedChildrens}" 
+											 ulCssClass="pj-scope-nav" 
+											 isAuthenticated="${hasValidRegistration}" />
+										 </div>
 									</c:if>
 								</div>
 							</div>
 						</c:forEach>
 						<div class="clear"></div>
 				</div>
+				
 				
 				<c:if test="${not empty onlinePublicationPage}">
 					<div class="pj-publications">
@@ -50,16 +53,9 @@
 				
 						<c:if test="${not empty publications}">
 							<ul>
-								<c:forEach items="${publications}" var="i">
-									<li class="pj-publication pj-radius">
-									<a href="<a:url href="/${i.publicationUrl}"  linkOnly="true" />" >
-										<span class="pj-name">
-											<a:localizedValue object="${i}" fieldName="name" />
-										</span>
-										<span class="pj-price"><webpage:price price="${i.priceCzk}" /></span>
-										<span class="pj-ico"></span>
-									</a>
-								</li>
+								<c:forEach items="${publications}" var="i" >
+								 	<c:set var="i" value="${i}" scope="request" />
+									<jsp:include page="poublication-item.jsp"  />
 								</c:forEach>
 							</ul>
 						</c:if>

@@ -143,18 +143,23 @@ article h1{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#8
 .pj-scopes .pj-img{width:180px;height:120px;display:block;background-repeat:no-repeat;background-position: center;}
 
 
-.pj-scopes .pj-item .pj-wrapp ul{display:none;margin-top:15px;}
-.pj-scopes .pj-item .pj-wrapp ul a{text-decoration:none;display:block;padding:8px 8px 8px 20px;font-size:13px;color:#074e63;background:#fff url(../img/list.png) no-repeat 8px center;margin:1px;border:2px solid #eee;}
+
+.pj-scopes .pj-item .pj-wrapp ul{margin-top:15px;}
+.pj-scopes .pj-item .pj-wrapp ul a{background:#fff url(../img/list.png) no-repeat 8px center;}
+.pj-scopes .pj-item .pj-wrapp ul a,
+.pj-scopes ul .pj-locked{text-decoration:none;display:block;padding:8px 8px 8px 20px;font-size:13px;color:#074e63;margin:1px;border:2px solid #eee;}
+.pj-scopes ul .pj-locked{background-color:#fff;color:#555;}
 .pj-scopes .pj-item .pj-wrapp ul a:hover{background-color:#074e63;color:#fff;border:2px solid #fff;}
 .pj-scopes .pj-item:hover .pj-wrapp{position:absolute;z-index:99;top:-5px;left:-5px;padding:10px;background:#FAFAFA;height:auto;border:5px solid #fff;
     -webkit-box-shadow: 0 0 5px 2px #DDD;box-shadow: 0 0 5px 3px #bbb;}
-.pj-scopes .pj-item:hover .pj-wrapp ul{display:block;}
+.pj-dropdown{display:none;}
+.pj-scopes .pj-item:hover .pj-dropdown{display:block;}
 
 .pj-scopes .pj-item:hover .pj-wrapp,
 .pj-scopes .pj-item:hover .pj-wrapp ul a{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius:5px;}
 
 .pj-scopes .pj-item .pj-head{font-size:14px;padding:14px 4px 4px 4px;display:block;}
-
+.pj-scopes ul .pj-locked{}
 
 
 
@@ -183,6 +188,9 @@ border-bottom:4px solid #4BA86C;border-top:1px solid #4BA86C;margin:10px 0;
 .pj-publication:hover .pj-ico{position:absolute;display:block;width:15px;height:30px;background:url(../img/ico_arrow.png) no-repeat;right:15px;top:15px;}
 .pj-publication:hover{background:#4BA86C;}
 
+.pj-brought{background:#E88400;border-color:#D47902}
+.pj-brought a{color:#fff;padding:15px 8px 15px 50px;background:url(../img/ico_doc.png) no-repeat 10px center;font-size:20px;}
+.pj-brought:hover{background-color:#D47902;border-color:#BF5600;}
 
 /* new category */
 .pj-category-items{margin: 35px 10px 0 10px;}

@@ -33,13 +33,17 @@
 				<a:localizedValue object="${webpageModel.portalProduct}" fieldName="description" />
 				
 				<div class="pub-nav">
+					<sec:authorize access="@portalSecurity.hasOnlinePublicatoin('${webpageModel.portalProduct.onlinePublication.code}')" var="hasPublication" />	
+					<c:if test="${not hasPublication}">
 					<a href="${webpageModel.portalProduct.onlinePublication.previewUrl}" class="online-pub-preview pj-radius">
 						<spring:message  code="onlniePublication.preview" />
 					</a>
-					
-					<a href="${webpageModel.portalProduct.onlinePublication.url}" target="_blank" class="online-pub-enter pj-radius">
-						<spring:message  code="onlniePublication.enter" />
-					</a>
+					</c:if>
+					<c:if test="${hasPublication}">
+						<a href="${webpageModel.portalProduct.onlinePublication.url}" target="_blank" class="online-pub-enter pj-radius">
+							<spring:message  code="onlniePublication.enter" />
+						</a>
+					</c:if>
 				</div>
 			</div> 
 		</article>
@@ -50,16 +54,9 @@
 				<strong class="pj-head"><spring:message code="onlniePublication.other" /></strong>
 					<ul>
 						<c:forEach items="${webpageModel.publications}" var="i">
-						 <c:if test="${webpageModel.portalProduct.onlinePublication.code != i.code}">	
-								<li class="pj-publication pj-radius">
-									<a href="<a:url href="/${i.publicationUrl}"  linkOnly="true" />" >
-										<span class="pj-name">
-											<a:localizedValue object="${i}" fieldName="name" />
-										</span>
-										<span class="pj-price"><webpage:price price="${i.priceCzk}" /></span>
-										<span class="pj-ico"></span>
-									</a>
-								</li>
+						 <c:if test="${webpageModel.portalProduct.onlinePublication.code != i.onlinePublication.code}" >	
+								<c:set var="i" value="${i}" scope="request"/>
+								<jsp:include page="../../portal/poublication-item.jsp" />
 						</c:if>
 						</c:forEach>
 					</ul>

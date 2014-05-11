@@ -1,9 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<c:set var="isAuthenticated" value="false" scope="request" />
-<sec:authorize access="isAuthenticated()"> 
-	<c:set var="isAuthenticated" value="true" scope="request" />
-</sec:authorize>
+<sec:authorize access="@portalSecurity.hasValidRegistration()" var="hasValidRegistration"  /> 
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -101,7 +98,7 @@
 										 ulCssClass="first-child" 
 										 withSubnav="true" 
 										 parentLiCssClass="pj-parent" 
-										 isAuthenticated="${isAuthenticated}" />
+										 isAuthenticated="${hasValidRegistration}" />
 						</div>
 				</div>
 				<div class="pj-subnav pj-bg-light-gray">
@@ -113,7 +110,13 @@
 				<div class="pj-inner ">
 						<webpage:breadcrumb webpage="${webpageModel.webpage}" bcCssClass="pj-bc"/>
 						<aside>
-							<webpage:nav webpages="${webpageModel.subnav}" ulCssClass="pj-aside-nav" withSubnav="true" parentLiCssClass="pj-parent" isAuthenticated="${isAuthenticated}" />					
+						
+							<webpage:nav webpages="${webpageModel.subnav}" 
+										 ulCssClass="pj-aside-nav" 
+										 withSubnav="true" 
+										 parentLiCssClass="pj-parent" 
+										 isAuthenticated="${hasValidRegistration}" />	
+										 				
 							<strong class="pj-head pj -bg-light-gray">Poslední novinky</strong>
 								<div class="pj-lastnews">
 									<c:forEach items="${webpageModel.news}" var="i">

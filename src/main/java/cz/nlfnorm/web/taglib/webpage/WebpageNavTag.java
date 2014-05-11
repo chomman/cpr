@@ -29,9 +29,9 @@ public class WebpageNavTag extends WebpageUrlTag {
 	protected StringBuilder buildItems() {
 		StringBuilder html = new StringBuilder("<ul");
 		if(StringUtils.isNotBlank(ulCssClass)){
-			html.append(" class=")
+			html.append(" class=\"")
 				.append(ulCssClass)
-				.append("");
+				.append(" \"");
 		}
 		html.append(">");
 		for(Webpage webpage : webpages){

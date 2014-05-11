@@ -21,10 +21,20 @@ public class UserUtils {
 	
 	
 	public static boolean hasLoggedUserRightToEdit(){
-		User user = UserUtils.getLoggedUser();
+		final User user = UserUtils.getLoggedUser();
 		if(user == null || !user.isPortalUser()){
 			return false;
 		}
 		return true;
 	}
+	
+	
+	public static boolean isPortalAuthorized(){
+		final User user = getLoggedUser();
+		if(user != null){
+			return user.isPortalAuthorized();
+		}
+		return false;
+	}
+	
 }

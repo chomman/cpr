@@ -1,7 +1,7 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <c:set var="editable" value="false" />
-<sec:authorize access="isAuthenticated()"> 
+<sec:authorize access="hasRole('ROLE_ADMIN')"> 
 	<c:set var="editable" value="true"  />
 </sec:authorize>
 <c:if test="${not empty model.standards}">
