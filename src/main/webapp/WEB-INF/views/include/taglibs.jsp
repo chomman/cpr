@@ -9,3 +9,4 @@
 <%@ taglib prefix="fmt"  uri="http://java.sun.com/jstl/fmt"%>
 <%@ taglib prefix="a" uri="http://peterjukovic.com/tags"%>
 <%@ taglib prefix="webpage"  uri="http://nlfnorm.cz/webpage"%>
+<%@ taglib prefix="nlf"  uri="http://nlfnorm.cz/fnc"%>

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserInfo;
@@ -22,6 +23,7 @@ import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
+import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.web.forms.portal.BaseUserForm;
@@ -38,6 +40,8 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 	private PortalOrderService portalOrderService;
 	@Autowired
 	private BasicSettingsService basicSettingsService;
+	@Autowired
+	private PortalProductService portalProductService;
 	
 	@RequestMapping( value = { PRIFILE_URL, EN_PREFIX + PRIFILE_URL }, method = RequestMethod.GET)
 	public String showProfile(ModelMap map){
@@ -71,6 +75,15 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 		return getView();
 	}
 	
+	@RequestMapping( value = { PRIFILE_URL + "/products", EN_PREFIX + PRIFILE_URL + "/products" })
+	public String showActivatedProducts(ModelMap map){
+		Map<String, Object> model = prepareModel(webpageService.getHomePage());
+		model.put("user", userService.getUserById(UserUtils.getLoggedUser().getId()));
+		map.put(WEBPAGE_MODEL_KEY, model);
+		map.put(TAB_KEY, 4);
+		return getView();
+	}
+	
 	@RequestMapping( value = { PRIFILE_URL + "/order/{oid}", EN_PREFIX + PRIFILE_URL + "/order/{oid}" })
 	public String showOrder(@PathVariable Long oid, ModelMap map) throws PageNotFoundEception{
 		final PortalOrder portalOrder = portalOrderService.getById(oid);
@@ -89,6 +102,17 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 		return getView();
 	}
 	
+	@RequestMapping( value = { PRIFILE_URL + "/new-order", EN_PREFIX + PRIFILE_URL + "/new-order" })
+	public String handleCreateOrderForm(ModelMap map){
+		Map<String, Object> model = prepareModel(webpageService.getHomePage());
+		model.put("portalRegistrations", portalProductService.getAllRegistrations(true));
+		model.put("portalOnlinePublications", portalProductService.getAllOnlinePublications(true));
+		model.put("vat", Constants.VAT);
+		
+		map.put(WEBPAGE_MODEL_KEY, model);
+		map.put(TAB_KEY, 2);
+		return getView();
+	}
 	
 	private void updateProfile(BaseUserForm form){
 		User user = userService.getUserById(UserUtils.getLoggedUser().getId());

@@ -26,6 +26,7 @@ import javax.persistence.Transient;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.Validate;
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
@@ -148,6 +149,7 @@ public class User extends AbstractEntity implements UserDetails{
 		this.userInfo = userInfo;
 	}
 	
+	@OrderBy(clause = "id")
 	@OneToMany(mappedBy = "user", fetch = FetchType.EAGER, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<UserOnlinePublication> getOnlinePublications() {
 		return onlinePublications;

@@ -13,17 +13,22 @@
 	<div class="profile-nav pj-profile-nav">
 		<ul class="pj-aside-nav ">
 			<li class="pj-parent ${profileTab == 1 ? 'pj-nav-active' : ''}" >
-				<a href="<a:url href="/${webpageModel.profileUrl}" linkOnly="true"  />">
+				<a href="<a:url href="${webpageModel.profileUrl}" linkOnly="true"  />">
 					<spring:message code="portaluser.profile.nav.personalInfo" />
 				</a>
 			</li>
+			<li class="pj-parent ${profileTab == 4 ? 'pj-nav-active' : ''}" >
+				<a href="<a:url href="${webpageModel.profileUrl}/products" linkOnly="true"  />">
+					<spring:message code="portaluser.profile.nav.activatedProducts" />
+				</a>
+			</li>
 			<li class="pj-parent ${profileTab == 2 ? 'pj-nav-active' : ''}" > 
-				<a href="<a:url href="/${webpageModel.profileUrl}/orders" linkOnly="true"  />">
+				<a href="<a:url href="${webpageModel.profileUrl}/orders" linkOnly="true"  />">
 					<spring:message code="portaluser.profile.nav.orders" />
 				</a>
 			</li>
-			<li class="pj-parent">
-				<a href="">
+			<li class="pj-parent ${profileTab == 5 ? 'pj-nav-active' : ''}" >
+				<a href="<a:url href="${webpageModel.profileUrl}/new-order" linkOnly="true"  />">
 					<spring:message code="portaluser.profile.nav.newOrder" />
 				</a>
 			</li>
@@ -39,6 +44,15 @@
 			</li>
 			
 		</ul>
+		
+		<c:if test="${not empty webpageModel.loggedUser }">
+			<p class="status info no-ico">
+				<spring:message code="portaluser.profile.registrationValidity" />:
+				<strong>
+					<joda:format value="${webpageModel.loggedUser.registrationValidity}" pattern="dd.MM.yyyy"/>
+				</strong>
+			</p>
+		</c:if>
 	</div>
 	<div class="profile-content">
 	
@@ -50,6 +64,9 @@
 		</c:if>
 		<c:if test="${profileTab == 3}">
 			<jsp:include page="profile-order-view.jsp" />
+		</c:if>
+		<c:if test="${profileTab == 4}">
+			<jsp:include page="profile-products.jsp" />
 		</c:if>
 	
 		<div id="status"></div>

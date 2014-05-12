@@ -116,6 +116,7 @@
 
 			<div id="content">
 				<div class="pj-inner ">
+					<c:if test="${empty profileTab}">
 						<webpage:breadcrumb webpage="${webpageModel.webpage}" bcCssClass="pj-bc"/>
 						<aside>
 						
@@ -141,7 +142,7 @@
 									</c:forEach>
 								</div>
 						</aside>
-
+					</c:if>
 						<section>
 							<decorator:body/>
 						</section>
