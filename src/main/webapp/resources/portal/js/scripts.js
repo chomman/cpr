@@ -136,19 +136,29 @@ function hideWebpageLoader(){
 
 function showErrors(json){
 	var i = 0, errorInfo = "";
-	if(typeof json.result !== 'undefined'){
+	if(typeof json.result !== 'undefined' && json.result != null){
 		for(i; i < json.result.length ; i++){
 			errorInfo += '<span class="msg">' + json.result[i] + '</span>';  
 		}
-		$("#ajax-result").html('<p class="status error"><span class="status-ico"></span>' + errorInfo + '</p>');
+		$("#ajax-result").html('<p class="status error"><span class="status-ico"></span>' + ( errorInfo.lenght === 0 ? getUnexpectedError() : errorInfo )+ '</p>');
 	}
-	showStatus({err: 1, msg: getFormErrorMessage() });
-	console.warn(arguments);
+	if(json.result == null){
+		showStatus({err: 1, msg: getUnexpectedError() });
+	}else{
+		showStatus({err: 1, msg: getFormErrorMessage() });
+	}
+	if(typeof console !== 'undefined'){
+		console.warn(arguments);
+	}
 	return false;
 }
 
 function getFormErrorMessage(){
 	return isCzech() ? 'Chybně vyplněný formulář' : 'Form contains errors';
+}
+
+function getUnexpectedError(){
+	return isCzech() ? 'Došlo k neočekávané chybě, zkuste operaci opakovat.' : 'An unexpected error occurred, please try it again later';
 }
 
 function getBasePath(){

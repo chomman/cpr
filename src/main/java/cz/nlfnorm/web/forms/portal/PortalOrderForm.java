@@ -11,6 +11,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.PortalCurrency;
 import cz.nlfnorm.entities.PortalOrder;
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.enums.PortalOrderSource;
 
 public class PortalOrderForm extends BaseUserForm{
@@ -25,16 +26,13 @@ public class PortalOrderForm extends BaseUserForm{
 	@NotNull
 	private PortalOrderSource portalOrderSource = PortalOrderSource.NLFNORM;
 		
-	@NotEmpty(message = "{error.protalProduct.empty}")
-	private List<Long> portalProductItems;
+	@NotEmpty(message = "{portalOrderForm.portalProductItems.empty}")
+	private List<Long> portalProductItems = new ArrayList<Long>();
 	
-	public PortalOrderForm(){
-		
-	}
+	public PortalOrderForm(){}
 	
 	public PortalOrderForm(PortalCurrency currency){
 		this.portalCurrency = currency;
-		this.portalProductItems = new ArrayList<Long>();
 	}
 	
 	public PortalCurrency getPortalCurrency() {
@@ -63,21 +61,29 @@ public class PortalOrderForm extends BaseUserForm{
 	public String getEmail() {
 		return email;
 	}
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
 	
+	public void setUser(final User user){
+		setId(user.getId());
+		setFirstName(user.getFirstName());
+		setLastName(user.getLastName());
+		setEmail(user.getEmail());
+		getUserInfo().merge(user.getUserInfo());
+	}
 	
 	public PortalOrder toPortalOrder(){
 		PortalOrder order = new PortalOrder();
 		order.setVat(Constants.VAT);
 		order.setCurrency(getPortalCurrency());
 		order.setPortalOrderSource(getPortalOrderSource());
-		order.setEmail(getEmail());
 		order.setPhone(getUserInfo().getPhone());
 		order.setFirstName(getFirstName());
 		order.setLastName(getLastName());
-		
+		order.setEmail(getEmail());
 		order.setCity(getUserInfo().getCity());
 		order.setZip(getUserInfo().getZip());
 		order.setStreet(getUserInfo().getStreet());
@@ -87,5 +93,17 @@ public class PortalOrderForm extends BaseUserForm{
 		order.setIco(getUserInfo().getIco());
 		return order;
 	}
+
+	@Override
+	public String toString() {
+		return "PortalOrderForm [email=" + email + ", portalCurrency="
+				+ portalCurrency + ", portalOrderSource=" + portalOrderSource
+				+ ", portalProductItems=" + portalProductItems + ", getId()="
+				+ getId() + ", getFirstName()=" + getFirstName()
+				+ ", getLastName()=" + getLastName() + ", getUserInfo()="
+				+ getUserInfo() + "]";
+	}
+	
+	
 	
 }

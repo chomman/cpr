@@ -40,9 +40,7 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
 
 @Controller
 public class ModuleController extends WebpageControllerSupport {
-
-	public static final String CURRENCY_PARAM = "currency";
-	public static final String SOURCE_PARAM = "source";
+	
 	
 	private static final String STANDARDS_URL = 			"/m/harmonized-standards";
 	private static final String STANDARD_GROUPS_URL =		"/m/cpr-groups";

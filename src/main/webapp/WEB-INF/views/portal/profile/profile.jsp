@@ -45,7 +45,7 @@
 			
 		</ul>
 		
-		<c:if test="${not empty webpageModel.loggedUser }">
+		<c:if test="${not empty webpageModel.loggedUser and not empty webpageModel.loggedUser.registrationValidity}">
 			<p class="status info no-ico">
 				<spring:message code="portaluser.profile.registrationValidity" />:
 				<strong>
@@ -67,6 +67,9 @@
 		</c:if>
 		<c:if test="${profileTab == 4}">
 			<jsp:include page="profile-products.jsp" />
+		</c:if>
+		<c:if test="${profileTab == 5}">
+			<jsp:include page="profile-neworder.jsp" />
 		</c:if>
 	
 		<div id="status"></div>

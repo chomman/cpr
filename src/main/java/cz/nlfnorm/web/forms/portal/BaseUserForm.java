@@ -18,7 +18,7 @@ public class BaseUserForm {
 	private String lastName;
 	
 	@Valid
-	private UserInfo userInfo;
+	private UserInfo userInfo = new UserInfo();
 	
 	public Long getId() {
 		return id;

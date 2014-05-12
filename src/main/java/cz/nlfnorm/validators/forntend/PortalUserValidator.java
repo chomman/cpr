@@ -20,19 +20,19 @@ public class PortalUserValidator extends AbstractValidator {
 	
 	@Override
 	protected void addExtraValidation(Object objectForm, Errors errors) {
-		if(!(objectForm instanceof  PortalUserForm)){
-			throw new IllegalArgumentException("Given objectFrom is not instance of " + PortalUserForm.class.getName());
-		}
-		PortalUserForm form = (PortalUserForm)objectForm;
-		
-		if(!form.getPassword().equals(form.getConfirmPassword())){
-			errors.reject("user.password", 
-					messageSource.getMessage("error.password.notMatch", null, ContextHolder.getLocale()) );
-		}
-		
-		if(!userService.isUserNameUniqe(0l, form.getEmail())){
-			errors.reject("user.password", 
-					messageSource.getMessage("error.email.uniqe", null, ContextHolder.getLocale()));
+		if(objectForm instanceof  PortalUserForm){
+					
+			PortalUserForm form = (PortalUserForm)objectForm;
+			
+			if(!form.getPassword().equals(form.getConfirmPassword())){
+				errors.reject("user.password", 
+						messageSource.getMessage("error.password.notMatch", null, ContextHolder.getLocale()) );
+			}
+			
+			if(!userService.isUserNameUniqe(0l, form.getEmail())){
+				errors.reject("user.password", 
+						messageSource.getMessage("error.email.uniqe", null, ContextHolder.getLocale()));
+			}
 		}
 	}
 	

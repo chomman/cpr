@@ -398,3 +398,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fe9090', end
 .data .status-1 .oid{background:#D9FFE2 !important;}
 .data .status-3 .oid{background:#FFD9D9 !important;}
 .data td{padding:10px;}
+
+.pro-name{width:410px;}

@@ -22,7 +22,7 @@ $(function(){
 	
 	$(document).on("submit", "form#user", function(){
 		var $form = $(this);
-		if(!validate($form)){
+		if(!validate($form) || getTotalPrice() === 0 ){
 			return false;
 		}
 		var data = toArray($form.serializeArray());
@@ -57,8 +57,11 @@ $(function(){
 });
 
 function getPortalProductItems(){
-	var items = [];
-	items.push(toInt($('#portalProduct').val()));
+	var items = [],
+		$regEl = $('#portalProduct');
+	if($regEl.lenght > 0){
+		items.push(toInt($regEl.val()));
+	}
 	$('.selected').each(function(){
 		items.push(toInt($(this).attr('data-id')));
 	});
@@ -74,7 +77,11 @@ function updateTotalPrice(){
 }
 
 function getTotalPrice(){
-	var price = toInt($("#portalProduct option:selected").attr('data-price'));
+	var $select = $("#portalProduct option:selected"),
+		price = 0;
+	if($select.lenght > 0){
+		price = toInt($select.attr('data-price'));
+	}
 	$('.selected').each(function(){
 		price += toInt($(this).attr('data-price'));
 	});
@@ -90,8 +97,12 @@ function rounded(v){
 }
 
 function getTotalPriceWithVat(){
-	var vat = parseFloat($('#vat').text()),
-		price = toInt($("#portalProduct option:selected").attr('data-price')) * vat;
+	var $select = $("#portalProduct option:selected"),
+		price = 0,
+		vat = parseFloat($('#vat').text());
+	if($select.length > 0){	
+		toInt($select.attr('data-price')) * vat;
+	}
 	$('.selected').each(function(){
 		price += toInt($(this).attr('data-price')) * vat;
 	});

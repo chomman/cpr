@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -33,8 +34,11 @@ import cz.nlfnorm.services.ExceptionLogService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.PortalUserService;
+import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.RequestUtils;
+import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.validators.forntend.PortalUserValidator;
+import cz.nlfnorm.web.forms.portal.PortalOrderForm;
 import cz.nlfnorm.web.forms.portal.PortalUserForm;
 import cz.nlfnorm.web.json.JsonResponse;
 import cz.nlfnorm.web.json.JsonStatus;
@@ -55,7 +59,8 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 	private PortalUserValidator portalUserValidator;
 	@Autowired
 	private ExceptionLogService exceptionLogService;
-	
+	@Autowired
+	private UserService userService;
 	
 	
 	@RequestMapping(value = "/ajax/registration", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -63,29 +68,51 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 			@Valid @RequestBody  PortalUserForm form, 
 			BindingResult result, 
 			HttpServletRequest request) throws ItemNotFoundException{
-				JsonResponse response = new JsonResponse();
-				if(result.hasErrors()){
-					response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
-					return response;
-				}
-				try{
-					final User user = portalUserService.createNewUser(form.toUser());
-					PortalOrder order = form.toPortalOrder();
-					order.setUser(user);
-					order.setIpAddress(RequestUtils.getIpAddress(request));
-					order.setUserAgent(RequestUtils.getUserAgent(request, 150));
-					order.setReferer(RequestUtils.getReferer(request, 250));
-					order.setCreatedBy(user);
-					order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
-					portalOrderService.create(order);
-					portalOrderService.sendOrderCreateEmail(order);
-					logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
-					response.setStatus(JsonStatus.SUCCESS);
-				}catch(Exception e){
-					logger.error("Objednavku sa nepodarilo vytvorit, " + form.toString(), e);
-					exceptionLogService.logException(request, e);
-				}
+			return createOrder(form, result, request);
+		}
+	
+	@RequestMapping(value = "/ajax/order", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public @ResponseBody JsonResponse  processAjaxOrderSubmit(
+			@Valid @RequestBody  PortalOrderForm form, 
+			BindingResult result, 
+			HttpServletRequest request) throws ItemNotFoundException{
+				return createOrder(form, result, request);
+	}
+	
+	private JsonResponse createOrder(PortalOrderForm form, 
+			BindingResult result, 
+			HttpServletRequest request){
+		
+			JsonResponse response = new JsonResponse();
+			if(result.hasErrors()){
+				response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
 				return response;
+			}
+			try{
+				User user = null;
+				if(form instanceof PortalUserForm){
+					 portalUserService.createNewUser(((PortalUserForm)form).toUser());
+				}else{
+					user = userService.getUserById( UserUtils.getLoggedUser().getId() );
+				}
+				Validate.notNull(user);
+				PortalOrder order = form.toPortalOrder();
+				order.setUser(user);
+				order.setIpAddress(RequestUtils.getIpAddress(request));
+				order.setUserAgent(RequestUtils.getUserAgent(request, 150));
+				order.setReferer(RequestUtils.getReferer(request, 250));
+				order.setCreatedBy(user);
+				order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
+				portalOrderService.create(order);
+				portalOrderService.sendOrderCreateEmail(order);
+				logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
+				response.setStatus(JsonStatus.SUCCESS);
+			}catch(Exception e){
+				logger.error("Objednavku sa nepodarilo vytvorit, " + form.toString(), e);
+				exceptionLogService.logException(request, e);
+			}
+			return response;
+		
 	}
 	
 	@RequestMapping(value = {ONLINE_PUBLICATION_URL, EN_PREFIX + ONLINE_PUBLICATION_URL})
