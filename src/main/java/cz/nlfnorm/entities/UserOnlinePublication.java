@@ -1,5 +1,7 @@
 package cz.nlfnorm.entities;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,8 +20,10 @@ import org.joda.time.LocalDateTime;
 @Entity
 @SequenceGenerator(name = "user_has_online_publication_seq", sequenceName = "user_has_online_publication_seq", initialValue = 1, allocationSize =1)
 @Table(name="user_has_online_publication")
-public class UserOnlinePublication {
+public class UserOnlinePublication implements Serializable {
 	
+	private static final long serialVersionUID = 2415936857505611756L;
+
 	private Long id;
 	
 	private User user;

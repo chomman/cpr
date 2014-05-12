@@ -48,6 +48,9 @@
 		<c:if test="${profileTab == 2}">
 			<jsp:include page="profile-orders.jsp" />
 		</c:if>
+		<c:if test="${profileTab == 3}">
+			<jsp:include page="profile-order-view.jsp" />
+		</c:if>
 	
 		<div id="status"></div>
 	</div>

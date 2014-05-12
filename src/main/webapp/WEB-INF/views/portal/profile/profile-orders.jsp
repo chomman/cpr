@@ -25,7 +25,7 @@
 			 			<spring:message code="${i.orderStatus.code}" />
 			 		</td>
 			 		<td class="edit">
-			 			<a href="<a:url href="/${webpageModel.profileUrl}/order/${i.id}" linkOnly="true"  />">
+			 			<a href="<a:url href="${webpageModel.profileUrl}/order/${i.id}" linkOnly="true"  />">
 			 				<spring:message code="form.view" />
 			 			</a>
 			 		</td>

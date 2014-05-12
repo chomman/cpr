@@ -20,6 +20,7 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserInfo;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
+import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
@@ -35,7 +36,8 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 	private UserService userService;
 	@Autowired
 	private PortalOrderService portalOrderService;
-	
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
 	@RequestMapping( value = { PRIFILE_URL, EN_PREFIX + PRIFILE_URL }, method = RequestMethod.GET)
 	public String showProfile(ModelMap map){
@@ -71,16 +73,17 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 	
 	@RequestMapping( value = { PRIFILE_URL + "/order/{oid}", EN_PREFIX + PRIFILE_URL + "/order/{oid}" })
 	public String showOrder(@PathVariable Long oid, ModelMap map) throws PageNotFoundEception{
-		Map<String, Object> model = prepareModel(webpageService.getHomePage());
 		final PortalOrder portalOrder = portalOrderService.getById(oid);
 		final User user = UserUtils.getLoggedUser();
 		if(portalOrder == null ){
 			throw new PageNotFoundEception("Order [id="+oid+"] was not found");
 		}
-		if(!portalOrder.getUser().getId().equals(user.getId())){
+		if(!portalOrder.getUser().equals(user)){
 			throw new AccessDeniedException("User [id="+ user.getId()+ "] tryed to access to order [oid=" + oid +"] ");
 		}
+		Map<String, Object> model = prepareModel(webpageService.getHomePage());
 		model.put("portalOrder",  portalOrder );
+		model.put("settings",  basicSettingsService.getBasicSettings() );
 		map.put(WEBPAGE_MODEL_KEY, model);
 		map.put(TAB_KEY, 3);
 		return getView();

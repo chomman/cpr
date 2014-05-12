@@ -402,4 +402,9 @@ public class PortalOrder extends AbstractEntity{
 	public String getTotalPriceWithVatAndCurrency(){
 		return getTotalPriceWithVat().toString() + " " + currency.getSymbol();
 	}
+	
+	@Transient
+	public boolean getIsInEuro(){
+		return currency.equals(PortalCurrency.EUR);
+	}
 }
