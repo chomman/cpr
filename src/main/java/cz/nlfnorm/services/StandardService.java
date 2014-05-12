@@ -38,8 +38,6 @@ public interface StandardService {
 	
 	void saveOrUpdate(Standard standard);
 	
-	void clearStandardTags(Standard standard);
-	
 	List<Standard> autocomplateSearch(String query, Boolean enabled);
 	
 	List<Standard> getLastEditedOrNewestStandards(int count, Boolean enabled);

@@ -22,8 +22,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 		
 	Long getCountOfSdandards(Map<String, Object> criteria);
 	
-	void clearStandardTags(Standard standard);
-	
 	boolean isStandardIdUnique(String standardId, Long id);
 	
 	List<Standard> autocomplateSearch(String query, Boolean enabled);

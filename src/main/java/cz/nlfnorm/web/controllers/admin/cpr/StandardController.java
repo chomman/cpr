@@ -861,7 +861,6 @@ public class StandardController extends AdminSupportController{
 			standard = new Standard();
 		}else{
 			standard = getStandard(form.getId());
-			standardService.clearStandardTags(standard);
 		}
 		standard.setReleased(form.getReleased());
 		standard.setCode(CodeUtils.toSeoUrl(form.getStandardId()));

@@ -138,13 +138,7 @@ public class PortalUserController extends AdminSupportController {
 		user.setEmail(form.getEmail());
 		user.setFirstName(form.getFirstName());
 		user.setLastName(form.getLastName());
-		user.getUserInfo().setCity(form.getUserInfo().getCity());
-		user.getUserInfo().setZip(form.getUserInfo().getZip());
-		user.getUserInfo().setStreet(form.getUserInfo().getStreet());
-		user.getUserInfo().setPhone(form.getUserInfo().getPhone());
-		user.getUserInfo().setCompanyName(form.getUserInfo().getCompanyName());
-		user.getUserInfo().setIco(form.getUserInfo().getIco());
-		user.getUserInfo().setDic(form.getUserInfo().getDic());
+		user.getUserInfo().merge(form.getUserInfo());
 		userService.createOrUpdateUser(user);
 		return user;
 	}

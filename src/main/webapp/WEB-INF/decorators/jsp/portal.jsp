@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /><decorator:title/></title>
+		<title><decorator:title/></title>
 		<meta charset="utf-8">
 		<meta name="description" content="" />
 		<meta name="keywords" content="" />
@@ -22,6 +22,14 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 		<script src="<c:url value="/resources/portal/js/scripts.js" />"></script>
 		<decorator:head />
+		<script>
+		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+		  ga('create', 'UA-40352149-1', 'nlfnorm.cz');
+		  ga('send', 'pageview');
+		</script>
 	</head>
 	<body data-lang="${commonPublic.locale}">
 				<div class="pj-wrapp">
@@ -37,7 +45,7 @@
 						
 						<c:if test="${not empty webpageModel.loggedUser}">
 							<uL class="pj-login">
-								<li><a href="#" class="user ico">${webpageModel.loggedUser.firstName} ${webpageModel.loggedUser.lastName}<span class="ic ic-user"></span></a></li>
+								<li><a href="<a:url href="/${webpageModel.profileUrl}" linkOnly="true"  />" class="user ico">${webpageModel.loggedUser.firstName} ${webpageModel.loggedUser.lastName}<span class="ic ic-user"></span></a></li>
 								<li><a href="<c:url value="/j_logout?${webpageModel.portalParam}=1" />" class="logout" ><spring:message code="portal.logout" /></a></li>
 							</ul>
 						</c:if>

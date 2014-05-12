@@ -102,18 +102,6 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	}
 
 
-	@Override
-	public void clearStandardTags(final Standard standard) {
-		StringBuilder hql = new StringBuilder("delete from Tag tag where tag.standard=:standard");
-		sessionFactory.getCurrentSession()
-		.createQuery(hql.toString())
-		.setEntity("standard", standard)
-		.executeUpdate();
-	}
-
-	
-
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> autocomplateSearch(final String query, final Boolean enabled) {

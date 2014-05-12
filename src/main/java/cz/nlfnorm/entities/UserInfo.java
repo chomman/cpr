@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -115,6 +116,17 @@ public class UserInfo implements Serializable {
 		return "UserInfo [user=" + user + ", phone=" + phone + ", city=" + city
 				+ ", street=" + street + ", zip=" + zip + ", companyName="
 				+ companyName + ", ico=" + ico + ", dic=" + dic + "]";
+	}
+	
+	@Transient
+	public void merge(UserInfo userInfo){
+		phone = userInfo.getPhone();
+		city = userInfo.getCity();
+		street = userInfo.getStreet();
+		zip = userInfo.getZip();
+		companyName = userInfo.getCompanyName();
+		ico = userInfo.getIco();
+		dic = userInfo.getDic();
 	}
 	
 	

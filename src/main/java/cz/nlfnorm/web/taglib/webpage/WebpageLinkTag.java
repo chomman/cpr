@@ -19,10 +19,12 @@ public class WebpageLinkTag  extends RequestContextAwareTag{
 	}
 	
 	protected String getWebpageUrl() {
-		try{
-			return WebpageUtils.getUrlFor(webpage, getRequestContext().getContextPath());
-		}catch(Exception e){
-			logger.warn(e);
+		if(webpage != null){
+			try{
+				return WebpageUtils.getUrlFor(webpage, getRequestContext().getContextPath());
+			}catch(Exception e){
+				logger.warn(e);
+			}
 		}
 		return "";
 	}

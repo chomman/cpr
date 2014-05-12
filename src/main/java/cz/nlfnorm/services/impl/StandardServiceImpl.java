@@ -141,10 +141,6 @@ public class StandardServiceImpl implements StandardService {
 		
 	}
 
-	@Override
-	public void clearStandardTags(Standard standard) {
-		standardDao.clearStandardTags(standard);
-	}
 
 	@Override
 	@Transactional(readOnly =  true )

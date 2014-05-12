@@ -3,7 +3,6 @@ package cz.nlfnorm.web.forms.portal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Email;
@@ -14,22 +13,14 @@ import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.PortalCurrency;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.User;
-import cz.nlfnorm.entities.UserInfo;
 import cz.nlfnorm.enums.PortalOrderSource;
 
-public class PortalUserForm {
+public class PortalUserForm extends BaseUserForm{
 	
-	private Long id;
 	
 	@NotEmpty(message = "{error.email.empty}")
 	@Email(message = "{error.email}")
 	private String email;
-	
-	@NotEmpty(message = "{error.firstName}")
-	private String firstName;
-	
-	@NotEmpty(message = "{error.lastName}")
-	private String lastName;
 	
 	@Length(min = 6, message = "{error.firstName}")
 	private String password;
@@ -42,10 +33,7 @@ public class PortalUserForm {
 	
 	@NotNull
 	private PortalOrderSource portalOrderSource = PortalOrderSource.NLFNORM;
-	
-	@Valid
-	private UserInfo userInfo;
-	
+		
 	@NotEmpty(message = "{error.protalProduct.empty}")
 	private List<Long> portalProductItems;
 	
@@ -56,37 +44,13 @@ public class PortalUserForm {
 		this.portalProductItems = new ArrayList<Long>();
 	}
 	
-	
-	public Long getId() {
-		return id;
-	}
-	public void setId(Long id) {
-		this.id = id;
-	}
 	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getFirstName() {
-		return firstName;
-	}
-	public void setFirstName(String firstName) {
-		this.firstName = firstName;
-	}
-	public String getLastName() {
-		return lastName;
-	}
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-	public UserInfo getUserInfo() {
-		return userInfo;
-	}
-	public void setUserInfo(UserInfo userInfo) {
-		this.userInfo = userInfo;
-	}
+	
 	public String getPassword() {
 		return password;
 	}
@@ -128,10 +92,10 @@ public class PortalUserForm {
 	public User toUser(){
 		User user = new User();
 		user.setPassword(password);
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
+		user.setFirstName(getFirstName());
+		user.setLastName(getLastName());
 		user.setEmail(email);
-		userInfo.setUser(user);
+		getUserInfo().setUser(user);
 		user.setUserInfo(getUserInfo());
 		return user;
 	}
@@ -142,26 +106,26 @@ public class PortalUserForm {
 		order.setCurrency(getPortalCurrency());
 		order.setPortalOrderSource(getPortalOrderSource());
 		order.setEmail(getEmail());
-		order.setPhone(userInfo.getPhone());
+		order.setPhone(getUserInfo().getPhone());
 		order.setFirstName(getFirstName());
 		order.setLastName(getLastName());
 		
-		order.setCity(userInfo.getCity());
-		order.setZip(userInfo.getZip());
-		order.setStreet(userInfo.getStreet());
+		order.setCity(getUserInfo().getCity());
+		order.setZip(getUserInfo().getZip());
+		order.setStreet(getUserInfo().getStreet());
 		
-		order.setCompanyName(userInfo.getCompanyName());
-		order.setDic(userInfo.getDic());
-		order.setIco(userInfo.getIco());
+		order.setCompanyName(getUserInfo().getCompanyName());
+		order.setDic(getUserInfo().getDic());
+		order.setIco(getUserInfo().getIco());
 		return order;
 	}
 
 	@Override
 	public String toString() {
-		return "PortalUserForm [id=" + id + ", email=" + email + ", firstName="
-				+ firstName + ", lastName=" + lastName + ", password="
+		return "PortalUserForm [id=" + getId() + ", email=" + email + ", firstName="
+				+ getFirstName() + ", lastName=" + getLastName() + ", password="
 				+ (password != null ? password.length() : "[NULL]" ) + ", portalCurrency=" + portalCurrency + ", portalOrderSource="
-				+ portalOrderSource + ", userInfo=" + userInfo
+				+ portalOrderSource + ", userInfo=" + getUserInfo()
 				+ ", portalProductItems=" + portalProductItems + "]";
 	}
 	

@@ -3,6 +3,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<title><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></title>
 	</head>
 	<body>
 

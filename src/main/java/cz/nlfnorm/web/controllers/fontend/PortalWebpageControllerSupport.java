@@ -13,14 +13,14 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	
 	private final static Long MAIN_NAV_ID = 75l;
 	private final static Long SUB_NAV_ID = 84l;
-
+	protected static final String PRIFILE_URL =  Constants.PORTAL_URL + "/profile";
 	
 	public PortalWebpageControllerSupport(){
 		setViewDirectory("/portal/");
 	}
 	
 	@Override
-	protected Map<String, Object> prepareModel(Webpage webpage){
+	protected Map<String, Object> prepareModel(final Webpage webpage){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
 		
@@ -33,7 +33,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));
 		model.put("news", webpageService.getLatestPublishedNews(4) );
 		model.put("portalParam", Constants.PORTAL_ID_PARAM_KEY);
-		
+		model.put("profileUrl", "/" + PRIFILE_URL);
 		final User user = UserUtils.getLoggedUser();
 		if(user != null){
 			model.put("loggedUser", user);
