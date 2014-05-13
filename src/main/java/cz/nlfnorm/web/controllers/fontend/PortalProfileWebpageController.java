@@ -26,12 +26,16 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserInfo;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
+import cz.nlfnorm.exceptions.PortalAccessDeniedException;
 import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalProductService;
+import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
+import cz.nlfnorm.validators.forntend.ChangePassowrdValidator;
 import cz.nlfnorm.web.forms.portal.BaseUserForm;
+import cz.nlfnorm.web.forms.portal.ChangePasswordForm;
 import cz.nlfnorm.web.forms.portal.PortalOrderForm;
 
 
@@ -49,10 +53,17 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 	private BasicSettingsService basicSettingsService;
 	@Autowired
 	private PortalProductService portalProductService;
+	@Autowired
+	private ChangePassowrdValidator changePassowrdValidator;
+	@Autowired
+	private PortalUserService portalUserService;
 	
 	@RequestMapping( value = { PRIFILE_URL, EN_PREFIX + PRIFILE_URL }, method = RequestMethod.GET)
-	public String showProfile(ModelMap map){
-		User user = userService.getUserById(UserUtils.getLoggedUser().getId());
+	public String showProfile(ModelMap map) throws PortalAccessDeniedException{
+		if(UserUtils.getLoggedUser() == null){
+			throw new PortalAccessDeniedException("Access denied");
+		}
+		final User user = userService.getUserById(UserUtils.getLoggedUser().getId());
 		BaseUserForm form = new BaseUserForm();
 		form.setUser(user);
 		prepareModel(map, form);
@@ -130,6 +141,26 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 		return getView();
 	}
 	
+	@RequestMapping( value = { PRIFILE_URL + "/password", EN_PREFIX + PRIFILE_URL + "/password" }, method = RequestMethod.GET)
+	public String handleChangePasswordPage(ModelMap map){
+		return prepareModelAndGetView(new ChangePasswordForm(UserUtils.getLoggedUser()), map);
+	}
+	
+	@RequestMapping( value = { PRIFILE_URL + "/password", EN_PREFIX + PRIFILE_URL + "/password" }, method = RequestMethod.POST)
+	public String processChangePassword(@Valid @ModelAttribute("user") ChangePasswordForm form, BindingResult result, ModelMap map){
+		final User user = userService.getUserById(form.getUserId());
+		Validate.notNull(user);
+		if(!result.hasErrors()){
+			changePassowrdValidator.validate(form, result);
+		}
+		if(result.hasErrors()){
+			return prepareModelAndGetView(form, map);
+		}
+		portalUserService.changeUserPassword(form);
+		map.put("successCreate", true);
+		return prepareModelAndGetView(form, map);
+	}
+	
 	
 	@RequestMapping(value = { "/async/order/{code}" , EN_PREFIX + "/async/order/{code}" })
 	public ModelAndView   standards(HttpServletRequest request, ModelMap map, @PathVariable String code ){
@@ -144,7 +175,15 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 		return new ModelAndView("/portal/profile/profile-order-view", map );
 	}
 	
+
 	
+	private String prepareModelAndGetView(ChangePasswordForm form, ModelMap map){
+		Map<String, Object> model = prepareModel(webpageService.getHomePage());
+		map.put(WEBPAGE_MODEL_KEY, model);
+		map.put(TAB_KEY, 6);
+		map.addAttribute("user", form);
+		return getView();
+	}
 	
 	private void updateProfile(BaseUserForm form){
 		User user = userService.getUserById(UserUtils.getLoggedUser().getId());

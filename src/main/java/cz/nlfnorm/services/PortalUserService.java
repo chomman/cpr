@@ -1,6 +1,7 @@
 package cz.nlfnorm.services;
 
 import cz.nlfnorm.entities.User;
+import cz.nlfnorm.web.forms.portal.ChangePasswordForm;
 
 
 public interface PortalUserService {
@@ -12,4 +13,6 @@ public interface PortalUserService {
 	void syncUser(User user);
 	
 	void setSynchronizationFailedFor(Long userId);
+	
+	void changeUserPassword(ChangePasswordForm form);
 }

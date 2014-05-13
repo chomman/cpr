@@ -45,7 +45,7 @@
 						
 						<c:if test="${not empty webpageModel.loggedUser}">
 							<uL class="pj-login">
-								<li><a href="<a:url href="/${webpageModel.profileUrl}" linkOnly="true"  />" class="user ico">${webpageModel.loggedUser.firstName} ${webpageModel.loggedUser.lastName}<span class="ic ic-user"></span></a></li>
+								<li><a href="<a:url href="${webpageModel.profileUrl}" linkOnly="true"  />" class="user ico">${webpageModel.loggedUser.firstName} ${webpageModel.loggedUser.lastName}<span class="ic ic-user"></span></a></li>
 								<li><a href="<c:url value="/j_logout?${webpageModel.portalParam}=1" />" class="logout" ><spring:message code="portal.logout" /></a></li>
 							</ul>
 						</c:if>

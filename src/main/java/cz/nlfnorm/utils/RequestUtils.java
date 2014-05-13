@@ -278,4 +278,23 @@ public class RequestUtils {
          return null;
     }
     
+    public static String getFullURL(HttpServletRequest request) {
+        StringBuffer requestURL = request.getRequestURL();
+        String queryString = request.getQueryString();
+
+        if (queryString == null) {
+            return requestURL.toString();
+        } else {
+            return requestURL.append('?').append(queryString).toString();
+        }
+    }
+    
+    public static boolean urlContains(final String term, HttpServletRequest request){
+    	final String url = getFullURL(request);
+    	if(StringUtils.isNotBlank(url)){
+    		return StringUtils.contains(url, term);
+    	}
+    	return false;
+    }
+    
 }

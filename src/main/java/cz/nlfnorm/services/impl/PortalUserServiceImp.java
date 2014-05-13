@@ -26,6 +26,7 @@ import cz.nlfnorm.entities.UserOnlinePublication;
 import cz.nlfnorm.services.ExceptionLogService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.web.forms.portal.ChangePasswordForm;
 import cz.nlfnorm.web.json.dto.SgpportalRequest;
 import cz.nlfnorm.web.json.dto.SgpportalResponse;
 import cz.nlfnorm.web.json.dto.SgpportalUser;
@@ -141,6 +142,17 @@ public class PortalUserServiceImp implements PortalUserService {
 			 }
 		 };
 		 thread.run(); 
+	}
+
+
+
+	@Override
+	public void changeUserPassword(final ChangePasswordForm form) {
+		User user = userService.getUserById(form.getUserId());
+		Validate.notNull(user);
+		userService.setUserPassword(user, form.getNewPassword());
+		userService.createOrUpdateUser(user);
+		syncUser(user);
 	}
 
 	

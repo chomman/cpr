@@ -32,8 +32,8 @@
 					<spring:message code="portaluser.profile.nav.newOrder" />
 				</a>
 			</li>
-			<li class="pj-parent">
-				<a href="">
+			<li class="pj-parent ${profileTab == 6 ? 'pj-nav-active' : ''}" >
+				<a href="<a:url href="${webpageModel.profileUrl}/password" linkOnly="true"  />">
 					<spring:message code="portaluser.profile.nav.changePass" />
 				</a>
 			</li>
@@ -70,6 +70,9 @@
 		</c:if>
 		<c:if test="${profileTab == 5}">
 			<jsp:include page="profile-neworder.jsp" />
+		</c:if>
+		<c:if test="${profileTab == 6}">
+			<jsp:include page="profile-password.jsp" />
 		</c:if>
 	
 		<div id="status"></div>
