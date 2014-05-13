@@ -52,7 +52,7 @@
 	 	 
 	  <p>
 	 	<label>
-	 		<spring:message code="dop.as.note" />
+	 		<spring:message code="note" />
 	 	</label>
 	     <span class="field">  
 	     	<form:textarea path="note" cssClass="mw500" />
@@ -62,7 +62,7 @@
 	 <form:hidden path="id"  />
 	 <p class="button-box">
 	 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
-	 	 <a href="${formUrl}" class="button cancel"><spring:message code="dop.cancel" /></a>
+	 	 <a href="${formUrl}" class="button cancel"><spring:message code="cancel" /></a>
 	 </p>
  </form:form>
  
