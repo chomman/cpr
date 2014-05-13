@@ -18,6 +18,8 @@ public interface PortalOrderService {
 	
 	PortalOrder getById(Long id);
 	
+	PortalOrder getByCode(String code);
+	
 	List<PortalOrder> getAll();
 	
 	PageDto getPortalOrderPage(int currentPage, Map<String, Object> criteria);

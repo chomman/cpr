@@ -10,7 +10,6 @@ import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
-import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
@@ -52,8 +51,8 @@ public class WebpageControllerSupport {
 		if(webpage == null || !webpage.isEnabled()){
 			throw new PageNotFoundEception();
 		}
-		User user = UserUtils.getLoggedUser();
-		if(user == null && WebpageUtils.isOnlyForRegistraged(webpage)){
+
+		if(!UserUtils.isPortalAuthorized() && WebpageUtils.isOnlyForRegistraged(webpage)){
 			throw new PortalAccessDeniedException("You have not perrmission to acccess webpage: " + webpage.getId());
 		}
 		return webpage;

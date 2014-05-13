@@ -1,5 +1,7 @@
 package cz.nlfnorm.utils;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.HashMap;
@@ -125,5 +127,6 @@ public class CodeUtils {
 	    	}
 	    	return Character.toUpperCase(value.charAt(0)) + value.substring(1); 
 	    }
+	
 	
 }

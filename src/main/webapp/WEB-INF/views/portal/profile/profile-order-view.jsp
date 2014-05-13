@@ -4,8 +4,14 @@
 
 
 <c:if test="${webpageModel.portalOrder.orderStatus.id == 1}">
-	<p class="status alert"><spring:message code="portaluser.profile.order.alert" /></p>
-	
+	<c:if test="${empty webpageModel.hideAlert}">
+		<p class="status alert"><spring:message code="portaluser.profile.order.alert" /></p>
+	</c:if>
+	<c:if test="${not empty webpageModel.hideAlert}">
+			<strong class="pj-bank-head">
+				<spring:message code="bank.payment" />
+			</strong>
+	</c:if>
 	<table class="payment-info">
 		<tr>
 			<td class="key"><spring:message code="bank.accountNo" />:</td>

@@ -1,4 +1,6 @@
-
+.pj-bank-head{
+color:#333;padding:8px 5px;border-bottom:1px solid #ccc;display:block;
+}
 .clip {
     -webkit-background-clip: padding-box;
     -moz-background-clip: padding;

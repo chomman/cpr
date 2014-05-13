@@ -341,4 +341,9 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		html.append("</table>");
 		return html;
 	}
+
+	@Override
+	public PortalOrder getByCode(final String code) {
+		return portalOrderDao.getByCode(code);
+	}
 }

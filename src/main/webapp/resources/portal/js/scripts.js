@@ -105,17 +105,18 @@ function isCzech(){
 	return getLang() === 'cs';
 }
 
+function sendHtmlReqest(type, data, url, callBack){
+	return executeXHR({
+		url : url,
+		type : type,
+		data : data === null ? false : JSON.stringify(data)
+	 }, callBack);
+}
 
-function sendRequest(type, data, url, callBack){
+function executeXHR(opts, callBack){
 	try{
 		showWebpageLoader(); 
-		$.ajax({
-			url : url,
-			contentType: "application/json",
-			type : type,
-			dataType : "json",
-			data : JSON.stringify(data)
-		 })
+		$.ajax(opts)
 		 .done( callBack )
 		 .fail( showErrors )
 		 .always( hideWebpageLoader );
@@ -123,6 +124,16 @@ function sendRequest(type, data, url, callBack){
 		console.warn(e);
 	}
 	 return false;
+}
+
+function sendRequest(type, data, url, callBack){
+	return executeXHR({
+		url : url,
+		contentType: "application/json",
+		type : type,
+		dataType : "json",
+		data : data === null ? false : JSON.stringify(data)
+	 }, callBack);
 }
 
 function showWebpageLoader(){

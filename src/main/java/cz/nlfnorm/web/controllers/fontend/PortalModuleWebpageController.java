@@ -8,6 +8,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -48,6 +49,7 @@ import cz.nlfnorm.web.json.JsonStatus;
 public class PortalModuleWebpageController extends PortalWebpageControllerSupport{
 	
 	public static final String ONLINE_PUBLICATION_URL = Constants.PORTAL_URL + "/online-publikace/{pid}";
+	public static final String SESSION_TOKEN = "secToken";
 	
 	@Autowired
 	private PortalOrderService portalOrderService;
@@ -76,13 +78,16 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 			@Valid @RequestBody  PortalOrderForm form, 
 			BindingResult result, 
 			HttpServletRequest request) throws ItemNotFoundException{
-				return createOrder(form, result, request);
+			return createOrder(form, result, request);
 	}
+	
 	
 	private JsonResponse createOrder(PortalOrderForm form, 
 			BindingResult result, 
 			HttpServletRequest request){
-			portalUserValidator.validate(form, result);
+		 	if(!result.hasErrors()){
+		 		portalUserValidator.validate(form, result);
+		 	}
 			JsonResponse response = new JsonResponse();
 			if(result.hasErrors()){
 				response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
@@ -98,6 +103,7 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 				Validate.notNull(user);
 				PortalOrder order = form.toPortalOrder();
 				order.setUser(user);
+				order.setCode(RandomStringUtils.randomAlphanumeric(32));
 				order.setIpAddress(RequestUtils.getIpAddress(request));
 				order.setUserAgent(RequestUtils.getUserAgent(request, 150));
 				order.setReferer(RequestUtils.getReferer(request, 250));
@@ -107,6 +113,7 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 				portalOrderService.sendOrderCreateEmail(order);
 				logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
 				response.setStatus(JsonStatus.SUCCESS);
+				response.setData(order.getCode());
 			}catch(Exception e){
 				logger.error("Objednavku sa nepodarilo vytvorit, " + form.toString(), e);
 				exceptionLogService.logException(request, e);

@@ -293,12 +293,6 @@ public class PortalOrder extends AbstractEntity{
 		this.referer = referer;
 	}
 
-	@Transient
-	@Override
-	public String getCode() {
-		return null;
-	}
-	
 	
 	@Transient
 	@Override

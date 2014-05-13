@@ -29,8 +29,14 @@ $(function(){
 		data.portalProductItems = getPortalProductItems();
 		sendRequest("POST", data, $form.attr('action'), function(json){
 			if(json.status === "SUCCESS"){
-				//$form.after('<div><p class="status ok"><span class="status-ico"></span>Objednávka bola úspešne odoslaná.</p><div>');
-				//$form.remove();
+				$form.after('<div><p class="status ok"><span class="status-ico"></span>'+getSuccessMessage(data)+
+							'</p><div><div id="orderWrapp" class="loading"><p>'+ getLoadingMsg()+'</p></div>');
+				$form.remove();
+				sendHtmlReqest("GET", null, getRequestOrederUrl(json.data), function(html){
+					var $wrapp = $('#orderWrapp');
+					 $wrapp.removeClass('loading');
+					 $wrapp.html(html);
+				});
 			}else{
 				showErrors(json);
 			}
@@ -38,6 +44,19 @@ $(function(){
 		return false;
 	});
 	
+	function getSuccessMessage(data){
+		if(isCzech()){
+			return "Objednávka byla úspěšně odeslána. Informace o objednávce byly odeslány na email: <b>"+data.email+"</b>.";
+		}
+		return "Order was successfully sent. Order information was sent to given e-mail: <b>"+data.email+"</b>.";
+	}
+	
+	function getLoadingMsg(){
+		if(isCzech()){
+			return "Načítají se informace o objednávce...";
+		}
+		return "Loading order information...";
+	}
 	
 	function selectPublication(){
 		var $this = $(this);
@@ -55,6 +74,11 @@ $(function(){
 	
 	$(document).trigger('updateprice');
 });
+
+function getRequestOrederUrl(token){
+	return getBasePath() + (
+			isCzech() ? "async/order/"  :  "en/async/order/" ) + token;
+}
 
 function getPortalProductItems(){
 	var items = [],

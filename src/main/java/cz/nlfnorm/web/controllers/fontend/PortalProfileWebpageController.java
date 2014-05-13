@@ -1,5 +1,6 @@
 package cz.nlfnorm.web.controllers.fontend;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.PortalCurrency;
@@ -126,6 +128,20 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 		map.put(TAB_KEY, 5);
 		map.addAttribute("user", form);
 		return getView();
+	}
+	
+	
+	@RequestMapping(value = { "/async/order/{code}" , EN_PREFIX + "/async/order/{code}" })
+	public ModelAndView   standards(HttpServletRequest request, ModelMap map, @PathVariable String code ){
+		final PortalOrder portalOrder = portalOrderService.getByCode(code);
+		if(portalOrder != null){
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("portalOrder", portalOrder );
+			model.put("hideAlert", true );
+			model.put("settings",  basicSettingsService.getBasicSettings() );
+			map.put(WEBPAGE_MODEL_KEY, model);
+		}
+		return new ModelAndView("/portal/profile/profile-order-view", map );
 	}
 	
 	

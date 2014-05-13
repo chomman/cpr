@@ -43,7 +43,7 @@ public class WebpageNavTag extends WebpageUrlTag {
 			html.append("<li");
 			appendLiCssClass(html);
 			html.append(">");
-			if(!isAuthenticated && webpage.getIsOnlyForRegistrated()){
+			if(!isAuthenticated && WebpageUtils.isOnlyForRegistraged(webpage)){
 				appendLockedWebpage(html);
 			}else{
 				html.append(buildTag());
