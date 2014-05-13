@@ -159,13 +159,19 @@ WITH (
 ALTER TABLE portal_order_has_items
   OWNER TO postgres;
 
+
 CREATE TABLE user_has_online_publication
 (
   id bigint NOT NULL,
-  online_publication character varying(20) NOT NULL,
+  changed timestamp without time zone,
+  created timestamp without time zone,
   validity date NOT NULL,
+  portal_product_id bigint NOT NULL,
   user_id bigint NOT NULL,
   CONSTRAINT user_has_online_publication_pkey PRIMARY KEY (id),
+  CONSTRAINT fk_1c21j4t3nn9ltf0e01bu5sjbc FOREIGN KEY (portal_product_id)
+      REFERENCES portal_product (id) MATCH SIMPLE
+      ON UPDATE NO ACTION ON DELETE NO ACTION,
   CONSTRAINT fk_9tu3mlf5j9oecnkpypw0eyyxg FOREIGN KEY (user_id)
       REFERENCES users (id) MATCH SIMPLE
       ON UPDATE NO ACTION ON DELETE NO ACTION
@@ -175,6 +181,7 @@ WITH (
 );
 ALTER TABLE user_has_online_publication
   OWNER TO postgres;
+
 
   
  ALTER TABLE authority ALTER COLUMN "name" TYPE varchar(45);

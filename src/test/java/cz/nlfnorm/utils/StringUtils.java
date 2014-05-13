@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.utils;
+package cz.nlfnorm.utils;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;

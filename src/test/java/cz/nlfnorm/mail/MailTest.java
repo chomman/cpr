@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.mail;
+package cz.nlfnorm.mail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,9 +12,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import sk.peterjurkovic.cpr.test.AbstractTest;
-import cz.nlfnorm.mail.HtmlMailMessage;
-import cz.nlfnorm.mail.NlfnormMailSender;
+import cz.nlfnorm.tests.AbstractTest;
 
 public class MailTest extends AbstractTest {
 

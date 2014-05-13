@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.test;
+package cz.nlfnorm.tests;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

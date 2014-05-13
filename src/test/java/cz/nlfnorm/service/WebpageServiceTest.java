@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.service;
+package cz.nlfnorm.service;
 
 import junit.framework.Assert;
 
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.services.WebpageService;
-import sk.peterjurkovic.cpr.test.WebpageDateSet;
+import cz.nlfnorm.tests.WebpageDateSet;
 
 public class WebpageServiceTest extends WebpageDateSet{
 	

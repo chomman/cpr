@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.parser;
+package cz.nlfnorm.parser;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -20,7 +20,7 @@ import cz.nlfnorm.parser.SingleSectionTerminologyParser;
 import cz.nlfnorm.parser.TerminologyParser;
 import cz.nlfnorm.parser.TikaProcessingContext;
 import cz.nlfnorm.parser.WordDocumentParser;
-import sk.peterjurkovic.cpr.test.AbstractTest;
+import cz.nlfnorm.tests.AbstractTest;
 
 
 public class WordDocumentParserTest extends AbstractTest {

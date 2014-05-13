@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.parser.cpr;
+package cz.nlfnorm.parser.cpr;
 
 import java.util.List;
 import java.util.Set;
@@ -10,7 +10,7 @@ import org.junit.Test;
 import cz.nlfnorm.entities.Mandate;
 import cz.nlfnorm.entities.StandardGroup;
 import cz.nlfnorm.parser.cpr.StandardGroupParser;
-import sk.peterjurkovic.cpr.test.AbstractTest;
+import cz.nlfnorm.tests.AbstractTest;
 
 public class StandardGroupParserTest extends AbstractTest {
 

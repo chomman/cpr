@@ -4,7 +4,7 @@
  	
     <appender  name="fileAppender" class="org.apache.log4j.RollingFileAppender">
         <param name="File" value="/var/www/tomcat/logs/cpr.log" />
-        <param name="MaxFileSize" value="15000KB" />
+        <param name="MaxFileSize" value="5000KB" />
         <param name="MaxBackupIndex" value="100" />
         <param name="Threshold" value="INFO" />
         <layout class="org.apache.log4j.PatternLayout">
@@ -13,7 +13,7 @@
     </appender> 
    
 
-	<logger name="sk.peterjurkovic.cpr">
+	<logger name="cz.nlfnorm">
 		<level value="warn" />
 		<appender-ref ref="fileAppender"></appender-ref>
 	</logger>

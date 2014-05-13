@@ -72,7 +72,9 @@ public class PortalOrderForm extends BaseUserForm{
 		setFirstName(user.getFirstName());
 		setLastName(user.getLastName());
 		setEmail(user.getEmail());
-		getUserInfo().merge(user.getUserInfo());
+		if(user.getUserInfo() != null){
+			getUserInfo().merge(user.getUserInfo());
+		}
 	}
 	
 	public PortalOrder toPortalOrder(){

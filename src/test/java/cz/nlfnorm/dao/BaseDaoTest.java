@@ -1,8 +1,8 @@
-package sk.peterjurkovic.cpr.dao;
+package cz.nlfnorm.dao;
 
 import org.junit.Test;
 
-import sk.peterjurkovic.cpr.test.AbstractTest;
+import cz.nlfnorm.tests.AbstractTest;
 
 public class BaseDaoTest extends AbstractTest {
 		

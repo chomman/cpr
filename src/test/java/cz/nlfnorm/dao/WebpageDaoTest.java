@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.dao;
+package cz.nlfnorm.dao;
 
 import junit.framework.Assert;
 
@@ -10,9 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import cz.nlfnorm.dao.WebpageDao;
 import cz.nlfnorm.entities.Webpage;
-import sk.peterjurkovic.cpr.test.WebpageDateSet;
+import cz.nlfnorm.tests.WebpageDateSet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/application-testContext.xml")

@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.test;
+package cz.nlfnorm.tests;
 
 import java.util.ArrayList;
 import java.util.List;

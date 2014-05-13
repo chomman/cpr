@@ -1,13 +1,12 @@
-package sk.peterjurkovic.cpr.dao;
+package cz.nlfnorm.dao;
 
 import junit.framework.Assert;
 
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cz.nlfnorm.dao.UserDao;
 import cz.nlfnorm.entities.User;
-import sk.peterjurkovic.cpr.test.AbstractTest;
+import cz.nlfnorm.tests.AbstractTest;
 
 public class UserDaoTest extends AbstractTest {
 	

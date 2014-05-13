@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.service;
+package cz.nlfnorm.service;
 
 import java.math.BigDecimal;
 
@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.annotation.Rollback;
 
-import sk.peterjurkovic.cpr.test.AbstractTest;
 import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.PortalOrderItem;
@@ -26,6 +25,7 @@ import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.PortalUserService;
+import cz.nlfnorm.tests.AbstractTest;
 import cz.nlfnorm.web.forms.portal.PortalUserForm;
 
 public class PortalServiceTest extends AbstractTest{

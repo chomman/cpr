@@ -1,4 +1,4 @@
-package sk.peterjurkovic.cpr.service;
+package cz.nlfnorm.service;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.springframework.test.annotation.Rollback;
 import cz.nlfnorm.entities.Standard;
 import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.services.StandardService;
-import sk.peterjurkovic.cpr.test.AbstractTest;
+import cz.nlfnorm.tests.AbstractTest;
 
 
 public class StandardServiceTest extends AbstractTest{
