@@ -5,7 +5,7 @@
 <script type="text/javascript" src="<c:url value="/resources/portal/js/registration-form.js" />"></script>
 <c:url value="/ajax/registration" var="url"/>
 <form:form commandName="user" method="post" cssClass="valid form" action="${url}"  >
-	<div id="ajax-result"></div>
+	
 	
 	<strong class="form-head"><spring:message code="portalUser.head.productInfo" /></strong>
 	<form:label path="">
@@ -50,8 +50,12 @@
 			</tr>
 			
 			<c:forEach items="${model.portalOnlinePublications}" var="i" varStatus="s">
-			<tr class="${s.index % 2 == 0 ? 'even' : 'odd'}" data-id="${i.id}" data-price="${model.useEuro ? i.priceEur : i.priceCzk}">
-				<td><a:localizedValue object="${i}" fieldName="name" /></td>
+			<tr class="${s.index % 2 == 0 ? 'even' : 'odd'} ${i.id == model.pid ? ' selected' : ''}" data-id="${i.id}" data-price="${model.useEuro ? i.priceEur : i.priceCzk}">
+				<td>
+					<a href="<c:url value="/${i.publicationUrl}" />" target="_blank" class="product-url">
+						<a:localizedValue object="${i}" fieldName="name" />
+					</a>
+				</td>
 				<td class="price-wrapp"> 
 					<webpage:price price="${model.useEuro ? i.priceEur : i.priceCzk}" isEuro="${model.useEuro}" /> 
 				</td>
@@ -75,7 +79,7 @@
 	</div>
 	
 	<strong class="form-head"><spring:message code="portalUser.head.loginInfo" /></strong>
-	
+	<div id="ajax-result"></div>
 	<form:label path="email" cssClass="with-info">
 			<span class="label"><spring:message code="portalUser.email" />: </span>
 		<form:input path="email" cssClass="required email w300" maxlength="50"/>
@@ -97,7 +101,7 @@
 	</form:label>
 	
 	
-	<strong class="form-head"><spring:message code="portalUser.head.otherInfo" /></strong>
+	<strong class="form-head"><spring:message code="portaluser.profile.order.fa" /></strong>
 	 
 	<form:label path="firstName">
 		<span class="label"><spring:message code="portalUser.firstName" />:</span>
@@ -166,3 +170,4 @@
 </form:form>
 <div id="status"></div>
 <div id="vat">${model.vat}</div>
+<div id="loader"></div>

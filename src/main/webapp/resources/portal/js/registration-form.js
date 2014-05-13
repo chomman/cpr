@@ -58,9 +58,9 @@ $(function(){
 
 function getPortalProductItems(){
 	var items = [],
-		$regEl = $('#portalProduct');
-	if($regEl.lenght > 0){
-		items.push(toInt($regEl.val()));
+		$select = $('#portalProduct');
+	if($select.length === 1){
+		items.push(parseInt( $select.val(), 10) );
 	}
 	$('.selected').each(function(){
 		items.push(toInt($(this).attr('data-id')));
@@ -70,43 +70,36 @@ function getPortalProductItems(){
 
 function updateTotalPrice(){
 	var curr = getCurrency();
-	$('#price').html( rounded(getTotalPrice()) + ' '+ curr);
+	$('#price').html( rounded(getTotalPrice(false)) + ' '+ curr);
 	$('#price-vat').html( getVat() + ' '+ curr);
-	$('#price-with-dph').html( rounded(getTotalPriceWithVat()) + ' '+ curr);
+	$('#price-with-dph').html( rounded(getTotalPrice(true)) + ' '+ curr);
 	return false;
 }
 
-function getTotalPrice(){
-	var $select = $("#portalProduct option:selected"),
-		price = 0;
-	if($select.lenght > 0){
-		price = toInt($select.attr('data-price'));
+function getTotalPrice(withWat){
+	var price = 0.0,
+		vat = toInt($('#vat').text()),
+		$option = $("#portalProduct option:selected");
+		
+	if($option.length === 1){
+		price += getPrice(toInt($option.attr('data-price')), withWat, vat);
 	}
 	$('.selected').each(function(){
-		price += toInt($(this).attr('data-price'));
+		price += getPrice(toInt($(this).attr('data-price')), withWat, vat);
 	});
 	return price;
 }
 
+function getPrice(price, withWat, vat){
+	return withWat ? (price * vat) : price;
+}
+
 function getVat(){
-	return rounded(getTotalPriceWithVat() - getTotalPrice()) ;
+	return rounded(getTotalPrice(true) - getTotalPrice(false)) ;
 }
 
 function rounded(v){
 	return v.toFixed(2);
-}
-
-function getTotalPriceWithVat(){
-	var $select = $("#portalProduct option:selected"),
-		price = 0,
-		vat = parseFloat($('#vat').text());
-	if($select.length > 0){	
-		toInt($select.attr('data-price')) * vat;
-	}
-	$('.selected').each(function(){
-		price += toInt($(this).attr('data-price')) * vat;
-	});
-	return price;
 }
 
 function toInt(v){

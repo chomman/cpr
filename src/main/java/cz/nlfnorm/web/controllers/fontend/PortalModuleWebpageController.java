@@ -82,7 +82,7 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 	private JsonResponse createOrder(PortalOrderForm form, 
 			BindingResult result, 
 			HttpServletRequest request){
-		
+			portalUserValidator.validate(form, result);
 			JsonResponse response = new JsonResponse();
 			if(result.hasErrors()){
 				response.setResult(portalUserValidator.getErrorMessages(result.getAllErrors()));
@@ -91,7 +91,7 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 			try{
 				User user = null;
 				if(form instanceof PortalUserForm){
-					 portalUserService.createNewUser(((PortalUserForm)form).toUser());
+					user = portalUserService.createNewUser(((PortalUserForm)form).toUser());
 				}else{
 					user = userService.getUserById( UserUtils.getLoggedUser().getId() );
 				}

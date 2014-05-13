@@ -237,12 +237,17 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	@Override
 	@Transactional(readOnly = true)
 	public void sendOrderCancelationEmail(final PortalOrder order) {
-		final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_ORDER_CANCELATION);
-		sendPortalOrderEmail(order, template);
+		 Thread thread = new Thread(){
+			 public void run(){
+				final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_ORDER_CANCELATION);
+				sendPortalOrderEmail(order, template);
+			 }
+		 };
+		 thread.run();
 	}
 	
 	
-	private void sendPortalOrderEmail(final PortalOrder order, EmailTemplate emailTemplate){
+	private void sendPortalOrderEmail(final PortalOrder order, final EmailTemplate emailTemplate){
 		Validate.notNull(emailTemplate);
 		Validate.notNull(order);
 		

@@ -7,6 +7,8 @@
 <form:form commandName="user" method="post" cssClass="valid form" action="${url}"  >
 	<div id="ajax-result"></div>
 
+
+		<strong class="form-head"><spring:message code="portaluser.selectProducts" /></strong>
 		<table class="pubs">
 			<tr >
 				<th><spring:message code="portalProductType.registration" /></th>
@@ -22,7 +24,7 @@
 				</td>
 				<td class="btn-wrapp">
 					<a href="#" class="pub-btn add pj-radius6" title="<spring:message code="portaluser.add.title" />"> 
-						<spring:message code="portaluser.add" />
+						<spring:message code="onlinePublication.add" />
 					</a>
 					<a href="#" class="pub-btn remove pj-radius6" title="<spring:message code="portaluser.remove.title" />"> 
 						<spring:message code="portaluser.remove" />
@@ -41,13 +43,17 @@
 			
 			<c:forEach items="${webpageModel.portalOnlinePublications}" var="i" varStatus="s">
 				<tr class="${s.index % 2 == 0 ? 'even' : 'odd'} ${i.id == webpageModel.pid ? ' selected' : ''}" data-id="${i.id}" data-price="${webpageModel.useEuro ? i.priceEur : i.priceCzk}">
-					<td  class="pro-name"><a:localizedValue object="${i}" fieldName="name" /></td>
+					<td  class="pro-name">
+						<a href="<c:url value="/${i.publicationUrl}" />" target="_blank" class="product-url">
+							<a:localizedValue object="${i}" fieldName="name" />
+						</a>
+					</td>
 					<td class="price-wrapp"> 
 						<webpage:price price="${webpageModel.useEuro ? i.priceEur : i.priceCzk}" isEuro="${webpageModel.useEuro}" /> 
 					</td>
 					<td class="btn-wrapp">
 						<a href="#" class="pub-btn add pj-radius6" title="<spring:message code="portaluser.add.title" />"> 
-							<spring:message code="portaluser.add" />
+							<spring:message code="onlinePublication.add" />
 						</a>
 						<a href="#" class="pub-btn remove pj-radius6" title="<spring:message code="portaluser.remove.title" />"> 
 							<spring:message code="portaluser.remove" />
@@ -137,3 +143,4 @@
 </form:form>
 <div id="status"></div>
 <div id="vat">${webpageModel.vat}</div>
+<div id="loader"></div>

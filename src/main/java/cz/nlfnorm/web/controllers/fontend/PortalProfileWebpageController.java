@@ -37,7 +37,7 @@ import cz.nlfnorm.web.forms.portal.PortalOrderForm;
 public class PortalProfileWebpageController extends	PortalWebpageControllerSupport {
 	
 	private final static String TAB_KEY = "profileTab";
-	private final static String PRODUCT_KEY = "pid";
+
 	
 	@Autowired
 	private UserService userService;
@@ -128,20 +128,7 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 		return getView();
 	}
 	
-	private void appendSelectedProduct(Map<String, Object> model, HttpServletRequest request){
-		final Long pid = getProduct(request);
-		if(pid != null){
-			model.put(PRODUCT_KEY, pid);
-		}
-	}
 	
-	private Long getProduct(HttpServletRequest request){
-		final String strProductId = request.getParameter(PRODUCT_KEY);
-		if(StringUtils.isNotBlank(strProductId)){
-			return Long.valueOf(strProductId);
-		}
-		return null;
-	}
 	
 	private void updateProfile(BaseUserForm form){
 		User user = userService.getUserById(UserUtils.getLoggedUser().getId());

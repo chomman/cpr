@@ -4,10 +4,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.enums.WebpageModule;
@@ -20,6 +22,7 @@ import cz.nlfnorm.services.PortalProductService;
 @Controller
 public class PortalWebpageController extends PortalWebpageControllerSupport {
 
+	public static final String ACCESS_DENIED_URL = "/" + Constants.PORTAL_URL + "/pristup-zamitnut";
 	
 	private final static Long SCOPE_ID = 104l;
 	
@@ -46,6 +49,12 @@ public class PortalWebpageController extends PortalWebpageControllerSupport {
 		return appendModelAndGetView(modelMap, getWebpage( id ));
 	}
 	
+	@ResponseStatus(HttpStatus.UNAUTHORIZED)
+	@RequestMapping( ACCESS_DENIED_URL )
+	public String handlePortalAccessDenied(ModelMap modelMap) throws PageNotFoundEception, PortalAccessDeniedException{
+		appendModel(modelMap, getWebpage( Constants.PORTAL_URL ) );
+		return getViewDirectory() + "access-denied";
+	}
 	
 	
 }

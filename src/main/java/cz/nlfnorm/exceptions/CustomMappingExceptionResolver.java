@@ -9,6 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 
 import cz.nlfnorm.services.ExceptionLogService;
+import cz.nlfnorm.web.controllers.fontend.PortalWebpageController;
 
 
 public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolver {
@@ -20,6 +21,10 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 	
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
+		if(ex instanceof PortalAccessDeniedException){
+			logger.error(ex);
+			return new ModelAndView("redirect:" + PortalWebpageController.ACCESS_DENIED_URL);
+		}
 		if(!(ex instanceof PageNotFoundEception)){
 			logger.error(ex);
 			exceptionLogService.logException(request, ex);

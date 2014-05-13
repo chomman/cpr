@@ -180,6 +180,7 @@ public class ModuleController extends WebpageControllerSupport {
 		model.put("vat", Constants.VAT);
 		PortalUserForm form = new PortalUserForm();
 		model.put("useEuro", false);
+		appendSelectedProduct(model, request);
 		final String currency = request.getParameter(CURRENCY_PARAM);
 		if(StringUtils.isNotBlank(currency) && currency.toUpperCase().equals(PortalCurrency.EUR.getCode())){
 			model.put("useEuro", true);

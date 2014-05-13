@@ -35,13 +35,31 @@
 				<div class="pub-nav">
 					<sec:authorize access="@portalSecurity.hasOnlinePublicatoin('${webpageModel.portalProduct.onlinePublication.code}')" var="hasPublication" />	
 					<c:if test="${not hasPublication}">
-					<a href="${webpageModel.portalProduct.onlinePublication.previewUrl}" class="online-pub-preview pj-radius">
-						<spring:message  code="onlniePublication.preview" />
-					</a>
+						<a href="${webpageModel.portalProduct.onlinePublication.previewUrl}" class="online-pub-preview pj-radius">
+							<spring:message  code="onlniePublication.preview" />
+						</a>
+						<c:if test="${empty webpageModel.loggedUser }">
+							<a href="<webpage:link webpage="${webpageModel.registrationPage}" />?pid=${webpageModel.portalProduct.id}" class="online-pub-extend pj-radius">
+								<spring:message  code="onlinePublication.orderProduct" />
+							</a>
+						</c:if>
+						
+						<c:if test="${not empty webpageModel.loggedUser }">
+						
+							<a href="<a:url href="${webpageModel.profileUrl}/new-order?pid=${webpageModel.portalProduct.id}" linkOnly="true" />" 
+								class="online-pub-extend pj-radius">
+								<spring:message  code="onlinePublication.orderProduct" />
+							</a>
+						</c:if>
+						
 					</c:if>
 					<c:if test="${hasPublication}">
 						<a href="${webpageModel.portalProduct.onlinePublication.url}" target="_blank" class="online-pub-enter pj-radius">
 							<spring:message  code="onlniePublication.enter" />
+						</a>
+						<a href="<a:url href="${webpageModel.profileUrl}/new-order?pid=${webpageModel.portalProduct.id}" linkOnly="true" />" 
+							class="online-pub-extend pj-radius">
+							<spring:message  code="onlinePublication.extend" />
 						</a>
 					</c:if>
 				</div>

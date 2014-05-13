@@ -3,6 +3,9 @@ package cz.nlfnorm.web.controllers.fontend;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
@@ -24,6 +27,7 @@ public class WebpageControllerSupport {
 	public final static String PORTAL_MODEL_KEY = "isPortal";
 	public final static String EN_PREFIX = "/en/";
 	public final static String WEBPAGE_MODEL_KEY = "webpageModel";
+	private final static String PRODUCT_KEY = "pid";
 	
 	protected Logger logger = Logger.getLogger(getClass().getName());
 
@@ -90,5 +94,21 @@ public class WebpageControllerSupport {
 		modelMap.put(WEBPAGE_MODEL_KEY, prepareModel(webpage));
 	}
 	
+	public void appendSelectedProduct(Map<String, Object> model, HttpServletRequest request){
+		final Long pid = getProduct(request);
+		if(pid != null){
+			model.put(PRODUCT_KEY, pid);
+		}
+	}
+	
+	public Long getProduct(HttpServletRequest request){
+		final String strProductId = request.getParameter(PRODUCT_KEY);
+		if(StringUtils.isNotBlank(strProductId)){
+			try{
+				return Long.valueOf(strProductId);
+			}catch(NumberFormatException e){}
+		}
+		return null;
+	}
 	
 }
