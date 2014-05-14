@@ -183,6 +183,7 @@ public class NotifiedBodyController extends AdminSupportController {
 		notifiedBody.setEmail(form.getEmail());
 		notifiedBody.setDescription( form.getDescription());
 		notifiedBody.setCountry(form.getCountry());
+		notifiedBody.setNandoCode(form.getNandoCode());
 		notifiedBody.setCity(form.getCity());
 		notifiedBody.setZip(form.getZip());
 		notifiedBody.setStreet(form.getStreet());
