@@ -54,6 +54,10 @@ public class PortalUserServiceImp implements PortalUserService {
 	private String apiUrl;
 	
 	
+	/**
+	 * Create new portal user. Set hashed password, setup privileges {@link Authority.ROLE_PORTAL_USER}
+	 * @return persisted user
+	 */
 	@Override
 	public User createNewUser(User user) {
 		Validate.notNull(user);

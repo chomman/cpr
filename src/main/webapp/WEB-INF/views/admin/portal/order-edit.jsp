@@ -159,6 +159,22 @@
 	                            	<form:input path="zip" cssClass="w50" maxlength="6"/>
 	                            </span>
 	                        </p>
+	                         <p>
+	                        	<label>
+	                        		<spring:message code="portalCountry" />:
+	                        	</label>
+	                            <span class="field">
+	                            	<form:select path="portalCountry" cssClass="chosenSmall" >
+										<c:forEach items="${model.portalCountries}" var="i">
+											<option ${i == portalOrder.portalCountry ? 'selected="selected" ' : ''}
+											value="${i}"><spring:message code="${i.code}" /></option>
+										</c:forEach>
+									</form:select>
+	                            </span>
+	                        </p>
+	                        
+	                        
+	                        
 	                        <p class="form-head"><spring:message code="admin.portal.order.head.company" /></p>
 							<p>
 	                        	<label>
@@ -187,12 +203,12 @@
 				<div class="hbox" >
 					<h2>Položky obejdnávky</h2>
 				</div>
-				<c:if test="${empty portalOrder.orderItems}">
+				<c:if test="${empty model.order.orderItems}">
 					<p class="msg alert">
 						<spring:message code="alert.empty" />
 					</p>
 				</c:if>
-				<c:if test="${not empty portalOrder.orderItems}">	
+				<c:if test="${not empty model.order.orderItems}">	
 					<table class="data">
 							<thead>
 								<tr>
@@ -202,7 +218,7 @@
 								</tr>
 							</thead>
 							<tbody>
-									<c:forEach items="${portalOrder.orderItems}" var="i">
+									<c:forEach items="${model.order.orderItems}" var="i">
 										<tr>
 											<td>
 												${i.portalProduct.czechName}
@@ -221,9 +237,9 @@
 					</table>
 					
 					<div class="total-price">
-							<div><spring:message code="price.sum" />: <span>${portalOrder.totalPrice} ${portalOrder.currency.symbol}</span></div>
-							<div><spring:message code="price.dph" arguments="${(portalOrder.vat- 1) * 100}" />: <span>${portalOrder.vatPriceValue} ${portalOrder.currency.symbol}</span></div>
-							<div class="bigger"><spring:message code="price.sumWithDph" />: <span>${portalOrder.totalPriceWithVat} ${portalOrder.currency.symbol}</span></div>
+							<div><spring:message code="price.sum" />: <span>${model.order.totalPrice} ${model.order.currency.symbol}</span></div>
+							<div><spring:message code="vat"/> (${model.order.percentageVat}): <span>${model.order.vatPriceValue} ${model.order.currency.symbol}</span></div>
+							<div class="bigger"><spring:message code="price.sumWithDph" />: <span>${model.order.totalPriceWithVat} ${model.order.currency.symbol}</span></div>
 					</div>
 					 
 				</c:if>

@@ -291,6 +291,7 @@ footer ul li a:hover{color:#333}
 .with-info{padding:10px 10px 25px 10px !important;position:relative;}
 label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 
+.form select{padding:5px !important;}
 .form input[type=text],
 .form input[type=password] {
     background-color: #FFFFFF;background-image: none;border: 1px solid #CCCCCC; border-radius: 4px;
@@ -347,8 +348,10 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 .pubs .price-wrapp{text-align: center;}
 .pubs .btn-wrapp{width:80px;}
 .pubs .btn-wrapp a{display:inline-block;padding:8px;font-size:12px;text-decoration:none;font-weight:bold;}
-.pubs .btn-wrapp .add{background-color:#0da192;color:#fff;}
-.pubs .btn-wrapp .add:hover{background-color:#128277}
+.pubs .btn-wrapp .add,
+.rf-right ul li a{background-color:#0da192;color:#fff;}
+.pubs .btn-wrapp .add:hover,
+.rf-right ul li a:hover{background-color:#128277}
 .pubs .btn-wrapp .remove{background-color:#F06767;color:#fff;}
 .pubs .btn-wrapp .remove:hover{background-color:#D42C2C;color:#fff;}
 .pubs .btn-wrapp {text-align: center;}
@@ -360,12 +363,26 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 
 .price-sum-wrapp{text-align:right;padding:10px 20px;font-size:15px;color:#222;}
 .price-sum-wrapp div{margin:4px 0;}
-.price-sum-wrapp span{display:inline-block;min-width:120px;}
+.price-sum-wrapp .price-bx{display:inline-block;min-width:120px;}
 .price-sum-wrapp .bigger{font-size:20px;margin-top:10px;color:#000;}
 .price-sum-wrapp .bigger span{font-weight:bold;color:#FF8800;}
 #vat{display: none;}
 .product-url{color:#444;}
 .product-url:hover{color:#222;text-decoration: none;}
+
+
+.rf-left,
+.rf-right{width:50%;float:left;padding:10px 0}
+.rf-left{text-align:center;}
+.rf-left strong,
+.rf-right span{display:block;padding:15px 0;}
+.rf-left strong{border-right:1px solid #ccc;}
+.rf-right{}
+.rf-right span{display:block;width:35%;float:left;margin-left:20px;}
+.rf-right ul{width:55%;float:left;padding-top:5px}
+.rf-right ul li{display:inline;margin:5px}
+.rf-right ul li a{display:inline-block;padding:9px 12px;text-decoration:none;font-weight:bold;-webkit-box-shadow: 0 0 2px 0px #6B6B6B;box-shadow: 0 0 3px 0px #aaa;}
+.rf-right ul li a.active{background:#eee;border:1px solid #ddd;color:#555;opacity:.7;padding:8px 12px;font-size:14px;box-shadow:0 0 0 0;}
 
 .pub-nav{background:#f5f5f5;padding:10px;margin-top:30px;border:3px solid #eee;}
 .pub-nav a{display:inline-block;padding:10px 20px;color:#fff !important;text-decoration:none;font-weight:bold;font-size:16px;margin:0 10px;}

@@ -34,6 +34,7 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.LocalDate;
 
 import cz.nlfnorm.enums.OrderStatus;
+import cz.nlfnorm.enums.PortalCountry;
 import cz.nlfnorm.enums.PortalOrderSource;
 import cz.nlfnorm.enums.PortalProductType;
 import cz.nlfnorm.utils.PriceUtils;
@@ -76,6 +77,7 @@ public class PortalOrder extends AbstractEntity{
 	
 	private String userAgent;
 	private String referer;
+	private PortalCountry portalCountry;
 	
 	public PortalOrder(){
 		this.orderStatus = OrderStatus.PENDING;
@@ -83,6 +85,7 @@ public class PortalOrder extends AbstractEntity{
 		this.orderItems = new HashSet<PortalOrderItem>();
 		this.portalOrderSource = PortalOrderSource.NLFNORM;
 		this.currency = PortalCurrency.CZK;
+		this.portalCountry = PortalCountry.CR;
 	}
 	
 	@Id
@@ -292,8 +295,17 @@ public class PortalOrder extends AbstractEntity{
 	public void setReferer(String referer) {
 		this.referer = referer;
 	}
-
 	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "portal_country", length = 2)
+	public PortalCountry getPortalCountry() {
+		return portalCountry;
+	}
+
+	public void setPortalCountry(PortalCountry portalCountry) {
+		this.portalCountry = portalCountry;
+	}
+
 	@Transient
 	@Override
 	public Boolean getEnabled() {
@@ -326,6 +338,7 @@ public class PortalOrder extends AbstractEntity{
 		
 		setEmail(form.getEmail());
 		setPhone(form.getPhone());
+		setPortalCountry(form.getPortalCountry());;
 	}
 	
 	@Transient 
@@ -400,5 +413,10 @@ public class PortalOrder extends AbstractEntity{
 	@Transient
 	public boolean getIsInEuro(){
 		return currency.equals(PortalCurrency.EUR);
+	}
+	
+	@Transient
+	public String getPercentageVat(){
+		return PriceUtils.getFormatedVat(vat);
 	}
 }

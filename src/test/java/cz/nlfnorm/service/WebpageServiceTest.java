@@ -6,9 +6,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import cz.nlfnorm.WebpageDateSet;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.services.WebpageService;
-import cz.nlfnorm.tests.WebpageDateSet;
 
 public class WebpageServiceTest extends WebpageDateSet{
 	

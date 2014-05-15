@@ -21,6 +21,7 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.PortalProduct;
 import cz.nlfnorm.enums.OrderStatus;
+import cz.nlfnorm.enums.PortalCountry;
 import cz.nlfnorm.enums.PortalOrderOrder;
 import cz.nlfnorm.enums.PortalOrderSource;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
@@ -120,6 +121,7 @@ public class PortalOrderController extends AdminSupportController {
 	private void prepareModel(ModelMap map, PortalOrder portalOrder){
 		map.addAttribute("portalOrder", portalOrder);
 		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("portalCountries", PortalCountry.getAll());
 		model.put("orderStatuses", OrderStatus.getAll());
 		model.put("portalProducts", portalProductService.getAll() );
 		model.put("order", portalOrderService.getById(portalOrder.getId()));

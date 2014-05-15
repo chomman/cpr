@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import cz.nlfnorm.tests.AbstractTest;
+import cz.nlfnorm.AbstractTest;
 
 public class MailTest extends AbstractTest {
 

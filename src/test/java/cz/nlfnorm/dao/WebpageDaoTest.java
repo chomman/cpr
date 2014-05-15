@@ -10,8 +10,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import cz.nlfnorm.WebpageDateSet;
 import cz.nlfnorm.entities.Webpage;
-import cz.nlfnorm.tests.WebpageDateSet;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/application-testContext.xml")

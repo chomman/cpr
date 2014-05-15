@@ -8,13 +8,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
+import cz.nlfnorm.AbstractTest;
 import cz.nlfnorm.entities.PortalProduct;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserOnlinePublication;
 import cz.nlfnorm.enums.OnlinePublication;
 import cz.nlfnorm.enums.PortalProductType;
 import cz.nlfnorm.services.PortalUserService;
-import cz.nlfnorm.tests.AbstractTest;
 import cz.nlfnorm.web.json.dto.SgpportalRequest;
 
 

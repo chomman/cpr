@@ -193,7 +193,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	@Override
 	public PageDto getUserPage(int currentPage, Map<String, Object> criteria) {
 		StringBuilder hql = new StringBuilder("from User u ");
-		hql.append(" left outer join u.authoritySet a ");
+		hql.append(" left join u.authoritySet a ");
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
@@ -204,7 +204,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		}else{
 			items.setCount(countOfItems);
 			if(items.getCount() > 0){
-				
+				hql.append(" group by u.id ");
 				appendOrderBy(criteria, hql);
 				hqlQuery = sessionFactory.getCurrentSession().createQuery("select u " + hql.toString());
 				prepareHqlQueryParams(hqlQuery, criteria); 

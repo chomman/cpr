@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -13,6 +15,8 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
+
+import cz.nlfnorm.enums.PortalCountry;
 
 @Entity
 @Table(name = "user_info", schema = "public")
@@ -29,6 +33,8 @@ public class UserInfo implements Serializable {
 	private String companyName;
 	private String ico;
 	private String dic;
+	
+	private PortalCountry portalCountry = PortalCountry.CR;
 	
 	private Boolean synced = true;
 	
@@ -111,6 +117,17 @@ public class UserInfo implements Serializable {
 	public void setSynced(Boolean synced) {
 		this.synced = synced;
 	}
+	
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "portal_country", length = 2, nullable = false)		
+	public PortalCountry getPortalCountry() {
+		return portalCountry;
+	}
+	public void setPortalCountry(PortalCountry portalCountry) {
+		this.portalCountry = portalCountry;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return "UserInfo [user=" + user + ", phone=" + phone + ", city=" + city
@@ -127,6 +144,7 @@ public class UserInfo implements Serializable {
 		companyName = userInfo.getCompanyName();
 		ico = userInfo.getIco();
 		dic = userInfo.getDic();
+		portalCountry = userInfo.getPortalCountry();
 	}
 	
 	

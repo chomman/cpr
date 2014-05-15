@@ -1,5 +1,6 @@
 package cz.nlfnorm.web.controllers.fontend;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -29,11 +30,10 @@ import cz.nlfnorm.entities.PortalProduct;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageModule;
+import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.services.ExceptionLogService;
-import cz.nlfnorm.services.PortalOrderService;
-import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.RequestUtils;
@@ -48,13 +48,14 @@ import cz.nlfnorm.web.json.JsonStatus;
 @Controller
 public class PortalModuleWebpageController extends PortalWebpageControllerSupport{
 	
+	private static final String PORTAL_REGISTATION_MODULE_URL = 	"/m/portal-registration";
+	private static final String PORTAL_ONLNE_PUBLICCATIONS_MODULE_URL ="/m/online-publications";	 
+	
+	
 	public static final String ONLINE_PUBLICATION_URL = Constants.PORTAL_URL + "/online-publikace/{pid}";
 	public static final String SESSION_TOKEN = "secToken";
 	
-	@Autowired
-	private PortalOrderService portalOrderService;
-	@Autowired
-	private PortalProductService portalProductService;
+	
 	@Autowired
 	private PortalUserService portalUserService;
 	@Autowired
@@ -122,6 +123,7 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 		
 	}
 	
+	
 	@RequestMapping(value = {ONLINE_PUBLICATION_URL, EN_PREFIX + ONLINE_PUBLICATION_URL})
     public String onlinePublicationDetail(@PathVariable Long pid, ModelMap modelMap) throws PageNotFoundEception {
 		final PortalProduct product = portalProductService.getById(pid);
@@ -134,6 +136,27 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 		model.put("publications", portalProductService.getAllOnlinePublications(true));
 		modelMap.put(WEBPAGE_MODEL_KEY, model);
 		return "/module/detail/online-publication-detail";
+    }
+	
+	
+	@RequestMapping( PORTAL_ONLNE_PUBLICCATIONS_MODULE_URL )
+    public String onlinePublications(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
+		Map<String, Object> model = new HashMap<String, Object>();
+        model.put("onlinePublications", portalProductService.getAllOnlinePublications(true));
+        //Map<String, Object> defaultModel = (Map<String, Object>)request.getAttribute(WEBPAGE_MODEL_KEY);
+        modelMap.put("model", model);	
+        return "/portal/web/" + WebpageType.ARTICLE.getViewName();
+    }
+	
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping( PORTAL_REGISTATION_MODULE_URL )
+    public String portalRegistrationForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
+		Map<String, Object> defaultModel = (Map<String, Object>)request.getAttribute(WEBPAGE_MODEL_KEY);
+		preparePortalOrderModel(defaultModel, modelMap, request, new PortalUserForm());
+        return "/portal/web/" + WebpageType.ARTICLE.getViewName();
     }
 	
 	

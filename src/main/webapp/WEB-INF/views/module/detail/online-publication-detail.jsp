@@ -34,23 +34,27 @@
 				
 				<div class="pub-nav">
 					<sec:authorize access="@portalSecurity.hasOnlinePublicatoin('${webpageModel.portalProduct.onlinePublication.code}')" var="hasPublication" />	
-					<c:if test="${not hasPublication}">
-						<a href="${webpageModel.portalProduct.onlinePublication.previewUrl}" class="online-pub-preview pj-radius">
-							<spring:message  code="onlniePublication.preview" />
-						</a>
-						<c:if test="${empty webpageModel.loggedUser }">
-							<a href="<webpage:link webpage="${webpageModel.registrationPage}" />?pid=${webpageModel.portalProduct.id}" class="online-pub-extend pj-radius">
-								<spring:message  code="onlinePublication.orderProduct" />
-							</a>
-						</c:if>
 						
-						<c:if test="${not empty webpageModel.loggedUser }">
+						<c:if test="${not hasPublication}">
+							<c:if test="${webpageModel.portalProduct.portalProductType.id == 2}">
+								<a href="${webpageModel.portalProduct.onlinePublication.previewUrl}" class="online-pub-preview pj-radius">
+									<spring:message  code="onlniePublication.preview" />
+								</a>
+							</c:if>
 						
-							<a href="<a:url href="${webpageModel.profileUrl}/new-order?pid=${webpageModel.portalProduct.id}" linkOnly="true" />" 
-								class="online-pub-extend pj-radius">
-								<spring:message  code="onlinePublication.orderProduct" />
-							</a>
-						</c:if>
+							<c:if test="${empty webpageModel.loggedUser }">
+								<a href="<webpage:link webpage="${webpageModel.registrationPage}" />?pid=${webpageModel.portalProduct.id}" class="online-pub-extend pj-radius">
+									<spring:message  code="onlinePublication.orderProduct" />
+								</a>
+							</c:if>
+							
+							<c:if test="${not empty webpageModel.loggedUser }">
+							
+								<a href="<a:url href="${webpageModel.profileUrl}/new-order?pid=${webpageModel.portalProduct.id}" linkOnly="true" />" 
+									class="online-pub-extend pj-radius">
+									<spring:message  code="onlinePublication.orderProduct" />
+								</a>
+							</c:if>
 						
 					</c:if>
 					<c:if test="${hasPublication}">
@@ -67,7 +71,7 @@
 		</article>
 		
 		
-		<c:if test="${not empty webpageModel.publications}">
+		<c:if test="${webpageModel.portalProduct.portalProductType.id == 2 and not empty webpageModel.publications}">
 			<div class="pj-publications" style="margin-top:30px">
 				<strong class="pj-head"><spring:message code="onlniePublication.other" /></strong>
 					<ul>

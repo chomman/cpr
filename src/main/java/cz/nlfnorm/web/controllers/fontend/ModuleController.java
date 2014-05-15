@@ -17,9 +17,7 @@ import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.NotifiedBody;
-import cz.nlfnorm.entities.PortalCurrency;
 import cz.nlfnorm.entities.Standard;
-import cz.nlfnorm.enums.PortalOrderSource;
 import cz.nlfnorm.enums.StandardOrder;
 import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.enums.WebpageType;
@@ -34,7 +32,6 @@ import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.RequestUtils;
-import cz.nlfnorm.web.forms.portal.PortalUserForm;
 import cz.nlfnorm.web.pagination.PageLink;
 import cz.nlfnorm.web.pagination.PaginationLinker;
 
@@ -48,8 +45,6 @@ public class ModuleController extends WebpageControllerSupport {
 	private static final String REPORS_URL = 				"/m/reports";
 	private static final String CSN_TERMINOLOGY_URL =		"/m/terminology";
 	private static final String ASSESMENTS_SYSTEMS_URL =	"/m/asessments-systems";
-	private static final String PORTAL_REGISTATION_URL = 	"/m/portal-registration";
-	private static final String PORTAL_ONLNE_PUBLICCATIONS ="/m/online-publications";	 
 	
 	@Autowired
 	private StandardService standardService;
@@ -161,41 +156,12 @@ public class ModuleController extends WebpageControllerSupport {
     }
 	
 	
-	@RequestMapping( PORTAL_ONLNE_PUBLICCATIONS )
-    public String onlinePublications(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
-		validateRequest(request);
-		Map<String, Object> model = new HashMap<String, Object>();
-        model.put("onlinePublications", portalProductService.getAllOnlinePublications(true));
-        return appendModelAndGetView(model, modelMap, request);
-    }
 	
 	
 	
-	@RequestMapping( PORTAL_REGISTATION_URL )
-    public String portalRegistrationForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
-		validateRequest(request);
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("portalRegistrations", portalProductService.getAllRegistrations(true));
-		model.put("portalOnlinePublications", portalProductService.getAllOnlinePublications(true));
-		model.put("vat", Constants.VAT);
-		PortalUserForm form = new PortalUserForm();
-		model.put("useEuro", false);
-		appendSelectedProduct(model, request);
-		final String currency = request.getParameter(CURRENCY_PARAM);
-		if(StringUtils.isNotBlank(currency) && currency.toUpperCase().equals(PortalCurrency.EUR.getCode())){
-			model.put("useEuro", true);
-			form.setPortalCurrency(PortalCurrency.EUR);
-		}
-		setPortalOrderSource(request, form);
-		modelMap.addAttribute("user", form);
-        return appendModelAndGetView(model, modelMap, request);
-    }
-	
-	
-    
+	@SuppressWarnings("unchecked")
 	private String appendModelAndGetView(Map<String, Object> model, ModelMap map, HttpServletRequest request){
-		map.put("model", model);
-		@SuppressWarnings("unchecked")
+		map.put("model", model);	
 		Map<String, Object> defaultModel = (Map<String, Object>)request.getAttribute(WEBPAGE_MODEL_KEY);
 		if(defaultModel != null && defaultModel.get(PORTAL_MODEL_KEY) != null){
 			return "/portal/web/" + WebpageType.ARTICLE.getViewName();
@@ -204,14 +170,7 @@ public class ModuleController extends WebpageControllerSupport {
 	}
 	
 	
-	
-	private void validateRequest(HttpServletRequest request) throws PageNotFoundEception{
-		if(request.getAttribute(WEBPAGE_MODEL_KEY) == null){;
-			throw new PageNotFoundEception();
-		}
-	}
-	
-	
+		
 	
 	private List<PageLink> getPaginationItems(HttpServletRequest request, Map<String, Object> params, int currentPage, int count){
 		PaginationLinker paginger = new PaginationLinker(request, params);
@@ -221,14 +180,6 @@ public class ModuleController extends WebpageControllerSupport {
 	}
 
 	
-	private void setPortalOrderSource(HttpServletRequest request, PortalUserForm form){
-		String orderSource = request.getParameter(SOURCE_PARAM);
-		if(StringUtils.isNotBlank(orderSource)){
-			PortalOrderSource source = PortalOrderSource.getById(Integer.valueOf(orderSource));
-			if(source != null){
-				form.setPortalOrderSource(source);
-			}
-		}
-	}
+	
 	
 }

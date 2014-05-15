@@ -69,7 +69,7 @@
 			<jsp:include page="profile-products.jsp" />
 		</c:if>
 		<c:if test="${profileTab == 5}">
-			<jsp:include page="profile-neworder.jsp" />
+			<jsp:include page="../../module/registration-form.jsp" />
 		</c:if>
 		<c:if test="${profileTab == 6}">
 			<jsp:include page="profile-password.jsp" />

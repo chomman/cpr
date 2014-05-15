@@ -1,4 +1,4 @@
-package cz.nlfnorm.tests;
+package cz.nlfnorm;
 
 import org.junit.Before;
 import org.junit.runner.RunWith;

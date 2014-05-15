@@ -6,7 +6,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -19,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import cz.nlfnorm.constants.Constants;
-import cz.nlfnorm.entities.PortalCurrency;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserInfo;
@@ -123,21 +120,9 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 	@RequestMapping( value = { PRIFILE_URL + "/new-order", EN_PREFIX + PRIFILE_URL + "/new-order" })
 	public String handleCreateOrderForm(ModelMap map, HttpServletRequest request){
 		Map<String, Object> model = prepareModel(webpageService.getHomePage());
-		model.put("portalRegistrations", portalProductService.getAllRegistrations(true));
-		model.put("portalOnlinePublications", portalProductService.getAllOnlinePublications(true));
-		model.put("vat", Constants.VAT);
-		appendSelectedProduct(model, request);
-		PortalOrderForm form = new PortalOrderForm();
-		final User user = userService.getUserById(UserUtils.getLoggedUser().getId());
-		form.setUser(user);
-		final String currency = request.getParameter(CURRENCY_PARAM);
-		if(StringUtils.isNotBlank(currency) && currency.toUpperCase().equals(PortalCurrency.EUR.getCode())){
-			model.put("useEuro", true);
-			form.setPortalCurrency(PortalCurrency.EUR);
-		}
+		preparePortalOrderModel(model, map, request, new PortalOrderForm());
 		map.put(WEBPAGE_MODEL_KEY, model);
 		map.put(TAB_KEY, 5);
-		map.addAttribute("user", form);
 		return getView();
 	}
 	

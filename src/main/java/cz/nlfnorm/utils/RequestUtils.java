@@ -297,4 +297,21 @@ public class RequestUtils {
     	return false;
     }
     
+    /**
+     * Return return request parameter integer value. If is parameter blank, or is not a number, 
+     * return value is -1
+     * 
+     * @param name of parameter
+     * @param request
+     * @return parser int value if is parameter valid number, -1 otherwise
+     */
+    public static final int getIntParameter(final String name, HttpServletRequest request){
+    	final String strInt = request.getParameter(name);
+    	if(StringUtils.isNotBlank(strInt)){
+    		try{
+				return Integer.valueOf(strInt);
+			}catch(NumberFormatException e){}
+    	}
+    	return -1;
+    }
 }

@@ -3,17 +3,41 @@ package cz.nlfnorm.web.controllers.fontend;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
+
 import cz.nlfnorm.constants.Constants;
+import cz.nlfnorm.entities.PortalCurrency;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.Webpage;
+import cz.nlfnorm.enums.PortalCountry;
+import cz.nlfnorm.enums.PortalOrderSource;
 import cz.nlfnorm.enums.WebpageType;
+import cz.nlfnorm.services.PortalOrderService;
+import cz.nlfnorm.services.PortalProductService;
+import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.utils.UserUtils;
+import cz.nlfnorm.web.forms.portal.PortalOrderForm;
+import cz.nlfnorm.web.forms.portal.PortalUserForm;
 
 public abstract class PortalWebpageControllerSupport extends WebpageControllerSupport {
+	
+	public static final String CURRENCY_PARAM = "currency";
+	public static final String SOURCE_PARAM = "source";
+	public static final String COUNTRY_PARAM = "country";
 	
 	private final static Long MAIN_NAV_ID = 75l;
 	private final static Long SUB_NAV_ID = 84l;
 	protected static final String PRIFILE_URL =  Constants.PORTAL_URL + "/profile";
+	
+	@Autowired
+	protected PortalOrderService portalOrderService;
+	@Autowired
+	protected PortalProductService portalProductService;
+	
+	
 	
 	public PortalWebpageControllerSupport(){
 		setViewDirectory("/portal/");
@@ -23,7 +47,6 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	protected Map<String, Object> prepareModel(final Webpage webpage){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
-		
 		if(webpage.getWebpageType().equals(WebpageType.NEWS_CATEGORY)){
 			model.put("newsItems", webpageService.getLatestPublishedNews(30) );
 		}
@@ -44,6 +67,50 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	}
 	
 	
-
+	protected void preparePortalOrderModel(Map<String, Object> model, ModelMap map, HttpServletRequest request, PortalOrderForm form) {
+		model.put("portalRegistrations", portalProductService.getAllRegistrations(true));
+		model.put("portalOnlinePublications", portalProductService.getAllOnlinePublications(true));
+		model.put("vat", Constants.VAT);
+		model.put("portalCountries", PortalCountry.getAll());
+		model.put("portalCurrencies", PortalCurrency.getAll());
+		model.put("isRegistration", (form instanceof PortalUserForm));
+		appendSelectedProduct(model, request);
+		setPortaOrderCurrency(request, form);
+		setPortalOrderSource(request, form);
+		setPortaOrderCountry(request, form);
+		map.addAttribute("user", form);
+	}
+	
+	
+	private void setPortaOrderCurrency(HttpServletRequest request, PortalOrderForm form){
+		final int paramVal = RequestUtils.getIntParameter(CURRENCY_PARAM, request);
+		if(paramVal != -1){
+			final PortalCurrency currency = PortalCurrency.getById(Integer.valueOf(paramVal));
+			if(currency != null){
+				form.setPortalCurrency(currency);
+			}
+		}
+	}
+	
+	private void setPortaOrderCountry(HttpServletRequest request, PortalOrderForm form){
+		final int paramVal = RequestUtils.getIntParameter(COUNTRY_PARAM, request);
+		if(paramVal != -1){
+			final PortalCountry country = PortalCountry.getById(Integer.valueOf(paramVal));
+			if(country != null){
+				form.getUserInfo().setPortalCountry(country);
+			}
+		}
+	}
+	
+		
+	private void setPortalOrderSource(HttpServletRequest request, PortalOrderForm form){
+		final int paramVal = RequestUtils.getIntParameter(SOURCE_PARAM, request);
+		if(paramVal != -1){
+			final PortalOrderSource source = PortalOrderSource.getById(Integer.valueOf(paramVal));
+			if(source != null){
+				form.setPortalOrderSource(source);
+			}
+		}
+	}
 	
 }

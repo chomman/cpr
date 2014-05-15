@@ -1,4 +1,4 @@
-package cz.nlfnorm.tests;
+package cz.nlfnorm;
 
 import java.util.ArrayList;
 import java.util.List;

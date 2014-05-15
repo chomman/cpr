@@ -60,9 +60,13 @@
 				<a class="email" href="mailto:${webpageModel.portalOrder.email}">${webpageModel.portalOrder.email}</a>
 				
 				<div class="adr">
+					
 					<div class="street-address">${webpageModel.portalOrder.street}</div>
 					<span class="locality">${webpageModel.portalOrder.zip}</span>
 					<span class="country-name">${webpageModel.portalOrder.city}</span>
+					<div>
+						<spring:message code="${webpageModel.portalOrder.portalCountry.code}" />
+					</div>
 				</div>
 			<c:if test="${not empty webpageModel.portalOrder.companyName}">
 				<div class="adr">
@@ -135,6 +139,8 @@
 								-
 							</c:if>
 						</dd>
+						<dt class="invoice-date"><spring:message code="payment.method"  /></dt>
+						<dd><spring:message code="payment.method.bank"  /></dd>
 						<dt class="invoice-date"><spring:message code="portaluser.profile.order.info.state"  /></dt>
 						<dd><spring:message code="${webpageModel.portalOrder.orderStatus.code}" /></dd>
 					</dl>
@@ -184,7 +190,7 @@
 						<td><webpage:price price="${webpageModel.portalOrder.totalPrice}" isEuro="${webpageModel.portalOrder.isInEuro}" /></td>
 					</tr>
 					<tr>
-						<th><spring:message code="price.dph"  arguments="${(webpageModel.portalOrder.vat- 1) * 100}"/>:</th>
+						<th><spring:message code="vat"/> (${webpageModel.portalOrder.percentageVat}):</th>
 						<td><webpage:price price="${webpageModel.portalOrder.vatPriceValue}" isEuro="${webpageModel.portalOrder.isInEuro}" /></td>
 					</tr>
 					<tr>

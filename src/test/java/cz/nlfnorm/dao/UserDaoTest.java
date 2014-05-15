@@ -5,8 +5,8 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import cz.nlfnorm.AbstractTest;
 import cz.nlfnorm.entities.User;
-import cz.nlfnorm.tests.AbstractTest;
 
 public class UserDaoTest extends AbstractTest {
 	

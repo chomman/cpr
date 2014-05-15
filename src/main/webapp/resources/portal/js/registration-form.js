@@ -1,24 +1,18 @@
 $(function(){ 
-	$(".chosen").chosen({ width : "500px" });
-	$(document).on('change', 'select', showProductInfo);
+	$(".chosen").chosen({ width : "320px", disable_search : true });
+	
 	$(document).on('click', '.is-company',function(){
 		$('.pj-company').hide().removeClass('hidden').show(500);
 		$(this).remove();
 		return false;
 	});
-	function showProductInfo(){
-		var id = $('#portalProduct').val();
-		$('.product-info').addClass('hidden');
-		$('#p' + id).removeClass('hidden');
-		$(document).trigger('updateprice');
-		return false;
-	}
-	
-	showProductInfo();
 	
 	$(document).on("click", ".pub-btn.add", selectPublication);
 	$(document).on("click", ".pub-btn.remove", deselectPublication);
+	$(document).on("change", "#portalCountry", updateTotalPrice);
 	$(document).on("updateprice", updateTotalPrice);
+	$(document).on("currencychanged", onCurrencyChanged);
+	$(document).on("click","a.currency", onChangeCurrency);
 	
 	$(document).on("submit", "form#user", function(){
 		var $form = $(this);
@@ -51,6 +45,29 @@ $(function(){
 		return "Order was successfully sent. Order information was sent to given e-mail: <b>"+data.email+"</b>.";
 	}
 	
+	function onChangeCurrency(){
+		var $this = $(this),
+			activeCls = 'active',
+			CURR = $.trim($this.text());
+		if($this.hasClass(activeCls)){
+			return false;
+		}
+		
+		$('.currency.' + activeCls).removeClass(activeCls);
+		$this.addClass(activeCls);
+		setCurrency(CURR);
+		return false;
+	}
+	
+	
+	function onCurrencyChanged(){
+		updateProductPriceLabels();
+		updateTotalPrice();
+		return false;
+	}
+	
+	
+	
 	function getLoadingMsg(){
 		if(isCzech()){
 			return "Načítají se informace o objednávce...";
@@ -72,20 +89,16 @@ $(function(){
 		return false;
 	}
 	
-	$(document).trigger('updateprice');
+	$(document).trigger('currencychanged');
 });
 
 function getRequestOrederUrl(token){
 	return getBasePath() + (
-			isCzech() ? "async/order/"  :  "en/async/order/" ) + token;
+			isCzech() ? "async/order/" : "en/async/order/" ) + token;
 }
 
 function getPortalProductItems(){
-	var items = [],
-		$select = $('#portalProduct');
-	if($select.length === 1){
-		items.push(parseInt( $select.val(), 10) );
-	}
+	var items = [];
 	$('.selected').each(function(){
 		items.push(toInt($(this).attr('data-id')));
 	});
@@ -93,7 +106,8 @@ function getPortalProductItems(){
 }
 
 function updateTotalPrice(){
-	var curr = getCurrency();
+	var curr = getCurrencySymobol();
+	$('#vat-val').text(getVatFormattedValue());
 	$('#price').html( rounded(getTotalPrice(false)) + ' '+ curr);
 	$('#price-vat').html( getVat() + ' '+ curr);
 	$('#price-with-dph').html( rounded(getTotalPrice(true)) + ' '+ curr);
@@ -102,20 +116,43 @@ function updateTotalPrice(){
 
 function getTotalPrice(withWat){
 	var price = 0.0,
-		vat = toInt($('#vat').text()),
-		$option = $("#portalProduct option:selected");
-		
-	if($option.length === 1){
-		price += getPrice(toInt($option.attr('data-price')), withWat, vat);
-	}
+		vat = getVatValue(),
+		key = getPriceKey();
 	$('.selected').each(function(){
-		price += getPrice(toInt($(this).attr('data-price')), withWat, vat);
+		price += getPrice(toInt($(this).attr(key)), withWat, vat);
 	});
 	return price;
 }
 
+function updateProductPriceLabels(){
+	var curr = getCurrencySymobol(),
+		key = getPriceKey();
+	$('tr[data-id]').each(function(){
+		var $this = $(this);
+		$this.find('.price-wrapp').html($this.attr(key) + " " + curr);
+	});
+}
+
+
+function getVatFormattedValue(){
+	var vat = getVatValue();
+	return  vat == 0 ? '0 %' : (vat * 100 - 100)+ ' %';
+}
+
+function getVatValue(){
+	return isSelectedCR() ? toInt($('#vat').text()) : 0.0;
+}
+
+function isSelectedCR(){
+	return $('#portalCountry').val() === 'CR'; 
+}
+
+function getPriceKey(){
+	return useCzkCurrency() ? 'data-czkprice' : 'data-eurprice';
+}
+
 function getPrice(price, withWat, vat){
-	return withWat ? (price * vat) : price;
+	return !withWat || vat === 0.0 ? price : (price * vat);
 }
 
 function getVat(){
@@ -129,7 +166,15 @@ function rounded(v){
 function toInt(v){
 	return parseFloat(v);
 }
-
-function getCurrency(){
-	return $('#portalCurrency').val() === 'CZK' ? 'Kč' : '&euro;';
+function setCurrency(code){
+	$('#portalCurrency').val(code);
+	$(document).trigger('currencychanged');
 }
+function useCzkCurrency(){
+	return $('#portalCurrency').val() === 'CZK' ? true : false;
+}
+
+function getCurrencySymobol(){
+	return useCzkCurrency() ? 'Kč' : '&euro;';
+}
+
