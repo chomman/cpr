@@ -1,0 +1,83 @@
+package cz.nlfnorm.web.controllers;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.RequestContext;
+
+import cz.nlfnorm.context.ContextHolder;
+import cz.nlfnorm.entities.PortalOrder;
+import cz.nlfnorm.entities.User;
+import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.exceptions.PageNotFoundEception;
+import cz.nlfnorm.services.BasicSettingsService;
+import cz.nlfnorm.services.PortalOrderService;
+import cz.nlfnorm.spring.PdfXhtmlRendererView;
+import cz.nlfnorm.utils.DateTimeUtils;
+import cz.nlfnorm.utils.UserUtils;
+import cz.nlfnorm.web.controllers.admin.AdminSupportController;
+
+@Controller
+public class ExportController extends AdminSupportController {
+	
+	private final static String INVOICE_FLT_TEMPLATE = "invoice-portal.ftl";
+	
+	@Autowired
+	private PortalOrderService portalOrderService;
+	@Autowired
+	private MessageSource messageSource;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
+	
+	
+	
+	@RequestMapping(value = "/profile/order/pdf/{code}", method = RequestMethod.GET)
+	public PdfXhtmlRendererView downloadPDF(
+			@PathVariable String code, ModelMap map, 
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			@RequestParam("type") int type) throws ItemNotFoundException, PageNotFoundEception{
+		
+		Map<String, Object> model = preparePDFModel(code, request, response);
+		model.put("type", type);
+		PdfXhtmlRendererView pdfView = new PdfXhtmlRendererView();
+		pdfView.setFtlTemplateName(INVOICE_FLT_TEMPLATE);
+		try {
+			pdfView.renderMergedOutputModel(model, request, response);
+		} catch (Exception e) {
+			logger.warn("Nepodarilo sa vygenerovat PDF [type="+type+"][oid="+code+"]", e);
+		}
+		return pdfView;
+	}
+	
+	
+	private Map<String, Object> preparePDFModel(final String code, HttpServletRequest req, HttpServletResponse res) throws ItemNotFoundException, PageNotFoundEception{
+		final PortalOrder portalOrder = portalOrderService.getByCode(code);
+		if(portalOrder == null){
+			throw new PageNotFoundEception();
+		}
+		final User user = UserUtils.getLoggedUser();
+		if(user.isAdministrator() || user.equals(portalOrder.getUser())){
+			Map<String, Object> model = new HashMap<String, Object>();
+			model.put("springMacroRequestContext", new RequestContext(req, res, null, null));
+			model.put("portalOrder", portalOrder);
+			model.put("settings", basicSettingsService.getBasicSettings());
+			model.put("created", DateTimeUtils.getFormatedLocalDate(portalOrder.getChanged()));
+			model.put("customerCountry", messageSource.getMessage(portalOrder.getPortalCountry().getCode(), null, ContextHolder.getLocale()));
+			return model;
+		}
+		throw new AccessDeniedException("User [id="+user.getId()+"] tried to access order [oid="+ portalOrder.getId() +"]");
+	}
+}

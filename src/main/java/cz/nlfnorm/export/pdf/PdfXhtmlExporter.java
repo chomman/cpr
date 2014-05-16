@@ -38,7 +38,7 @@ public class PdfXhtmlExporter {
     private Configuration configuration;    
     private ITextRenderer renderer = new ITextRenderer();    
     
-    public ByteArrayOutputStream generatePdf(String ftlTemplate, Map<String, Object> model, String basePath) {
+    public ByteArrayOutputStream generatePdf(final String ftlTemplate,final Map<String, Object> model,final String basePath) {
         try {
             Template temp = configuration.getTemplate(ftlTemplate, ENCODING);
             ByteArrayOutputStream htmlAsOs = new ByteArrayOutputStream();
@@ -56,7 +56,7 @@ public class PdfXhtmlExporter {
     }
 
    
-    public ByteArrayOutputStream generatePdf(InputStream xhtml, String baseUrl) {
+    public ByteArrayOutputStream generatePdf(final InputStream xhtml, final String baseUrl) {
         ByteArrayOutputStream out = null;
         Document document = null;
         try {
