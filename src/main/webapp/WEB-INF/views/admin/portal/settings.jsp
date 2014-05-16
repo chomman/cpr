@@ -93,7 +93,7 @@
                        </p>	
                     <p class="form-head"><spring:message code="admin.portal.settings.head.contact" /></p>
                      <p>
-                       	<label>
+                       	<label class="tt" title="Bude se zobrazovat na vygenerovaných dokladech (Zálohová faktura, Příkaz k fakturaci)">
                        		<strong><em class="red">*</em>
                        			<spring:message code="admin.portal.order.email" />:
                        		</strong>
@@ -104,7 +104,7 @@
                          </span>
                      </p>
                      <p>
-                       	<label>
+                       	<label class="tt" title="Bude se zobrazovat na vygenerovaných dokladech (Zálohová faktura, Příkaz k fakturaci)">
                        		<spring:message code="admin.portal.order.phone" />:
                        	</label>
                         <span class="field">
@@ -151,7 +151,24 @@
                            	<form:input path="euIban" cssClass="mw500" maxlength="34" />
                          </span>
                      </p>
-                     <p class="form-head"><spring:message code="admin.portal.settings.head.partners" /></p>
+                    <p class="form-head"><spring:message code="admin.portal.settings.head.partners" /></p>
+                      <p>
+                       	<label class="tt" title="Bude se zobrazovat na vygenerovaných dokladech (Zálohová faktura, Příkaz k fakturaci)">
+                       		Jméno a příjmení správce: 
+                       	</label>
+                        <span class="field">
+                           	<form:input path="portalAdminName" cssClass="mw300" maxlength="40" />
+                         </span>
+                     </p>
+                      <p>
+                       	<label class="tt" title="Budou se zobrazovat na vygenerovaných dokladech">
+                       		Kontaktní informace:
+                       	</label>
+                        <span class="field">
+                           	<form:input path="portalAdminContact" cssClass="mw500" maxlength="80" />
+                         </span>
+                     </p>
+                      <p class="form-head"><spring:message code="admin.portal.settings.head.partners" /></p>
                       <p>
                        	<label>
                        		PlasticPortal e-mail:

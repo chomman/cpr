@@ -73,6 +73,9 @@ public class PortalSettingsController extends AdminSupportController {
 		settings.setInvoiceEmai(form.getInvoiceEmai());
 		settings.setPhone(form.getPhone());
 		settings.setPlasticPortalEmail(form.getPlasticPortalEmail()); 
+		
+		settings.setPortalAdminName(form.getPortalAdminName());
+		settings.setPortalAdminContact(form.getPortalAdminContact());
 		basicSettingsService.updateBasicSettings(settings);
 	}
 	

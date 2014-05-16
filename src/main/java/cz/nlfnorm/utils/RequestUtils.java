@@ -61,6 +61,26 @@ public class RequestUtils {
         return result;
     }
     
+    public static String getApplicationUrlPrefix(HttpServletRequest request) {
+        boolean includePort = true;
+        if ("http".equals(request.getScheme().toLowerCase()) && (request.getServerPort() == 80)) {
+            includePort = false;
+        }
+        if ("https".equals(request.getScheme().toLowerCase()) && (request.getServerPort() == 443)) {
+            includePort = false;
+        }
+        StringBuilder url = new StringBuilder();
+        url.append(request.getScheme()).append("://");
+        url.append(request.getServerName());
+        if (includePort) {
+            url.append(":").append(request.getServerPort());
+        }
+        if (request.getRequestURI().startsWith(request.getContextPath())) {
+            url.append(request.getContextPath());
+        }
+        return url.toString();
+    }
+    
    /**
     * Vrati mapu parametrov daneho requestu
     * 

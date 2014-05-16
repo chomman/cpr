@@ -52,6 +52,9 @@ public class BasicSettings extends AbstractEntity {
 	
 	private String plasticPortalEmail;
 	
+	private String portalAdminName;
+	private String portalAdminContact;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "basic_settings_id_seq")
 	public Long getId() {
@@ -232,6 +235,28 @@ public class BasicSettings extends AbstractEntity {
 
 	public void setPlasticPortalEmail(String plasticPortalEmail) {
 		this.plasticPortalEmail = plasticPortalEmail;
+	}
+
+	
+	@Column(name ="portal_admin_name", length = 50)
+	public String getPortalAdminName() {
+		return portalAdminName;
+	}
+
+
+	public void setPortalAdminName(String portalAdminName) {
+		this.portalAdminName = portalAdminName;
+	}
+
+	
+	@Column(name ="portal_admin_contacts", length = 80)
+	public String getPortalAdminContact() {
+		return portalAdminContact;
+	}
+
+
+	public void setPortalAdminContact(String portalAdminContact) {
+		this.portalAdminContact = portalAdminContact;
 	}
 
 	

@@ -1,4 +1,4 @@
-package cz.nlfnorm.export;
+package cz.nlfnorm.export.pdf;
 
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
@@ -13,6 +13,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import org.apache.log4j.Logger;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer;
@@ -20,36 +21,37 @@ import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import org.xhtmlrenderer.resource.FSEntityResolver;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.lowagie.text.pdf.BaseFont;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 
-@Component("pdfExport")
-public class PdfExporter {
-				
-    private List<Resource> fonts = new ArrayList<Resource>();
+@Component("pdfXhtmlExporter")
+public class PdfXhtmlExporter {
+	
+	private static final String ENCODING = "utf-8";
+	
+	private final static Logger logger  = Logger.getLogger(PdfXhtmlExporter.class);
+    private List<Resource> fonts = new ArrayList<Resource>();    
+    private Configuration configuration;    
+    private ITextRenderer renderer = new ITextRenderer();    
     
-    private Configuration configuration;
-    
-    private ITextRenderer renderer = new ITextRenderer();
-    
-    public static final String ENCODING = "utf-8";
-
-   
-    public ByteArrayOutputStream generatePdf(String ftlTemplate, Map<String, Object> model, String url) {
+    public ByteArrayOutputStream generatePdf(String ftlTemplate, Map<String, Object> model, String basePath) {
         try {
             Template temp = configuration.getTemplate(ftlTemplate, ENCODING);
             ByteArrayOutputStream htmlAsOs = new ByteArrayOutputStream();
             temp.process(model, new BufferedWriter(new OutputStreamWriter(htmlAsOs, ENCODING)));
             htmlAsOs.close();
             String content = htmlAsOs.toString().replaceAll("&(?!amp;|nbsp;|#)", "&amp;");
-            ByteArrayOutputStream pdfAsOs = generatePdf(new ByteArrayInputStream(htmlAsOs.toString().getBytes()), url);
-            return pdfAsOs;
+            logger.debug("Vysledný HTML dokument:" +  content);
+            ByteArrayOutputStream pdfOutputStream = generatePdf(new ByteArrayInputStream(content.getBytes()), basePath);
+            logger.info("Generovanie PDF je uspesne dokoncene.");
+            return pdfOutputStream;
         } catch (Exception e) {
-        	e.printStackTrace();
-        	throw new RuntimeException();
+        	logger.error("Generovanie PDF zlyhalo ["+ftlTemplate+"].", e);
+        	throw new RuntimeException("Some error occures. Can not generate PDF.", e);
         }
     }
 
@@ -64,13 +66,18 @@ public class PdfExporter {
             DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = builderFactory.newDocumentBuilder();
             builder.setEntityResolver(FSEntityResolver.instance());
-            document = builder.parse(new InputSource(new InputStreamReader(xhtml, ENCODING)));
+            InputSource is = new InputSource(new InputStreamReader(xhtml, ENCODING));
+            document = builder.parse(is);
             renderer.setDocument(document, baseUrl);
             out = new ByteArrayOutputStream();
             renderer.layout();
             renderer.createPDF(out);
             out.close();
-        } catch (Exception e) {
+        }catch(SAXException e){ 
+        	logger.error("Nepodaril sa parsovat výsledny HTML dokument", e);
+            throw new RuntimeException();
+        }catch (Exception e) {
+        	logger.error("Generovanie PDF zlyhalo", e);
             throw new RuntimeException();
         }
         return out;

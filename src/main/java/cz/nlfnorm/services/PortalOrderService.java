@@ -37,4 +37,5 @@ public interface PortalOrderService {
 	void sendOrderCancelationEmail(PortalOrder order);
 	
 	StringBuilder getForamtedOrderItems(PortalOrder order);
+	
 }

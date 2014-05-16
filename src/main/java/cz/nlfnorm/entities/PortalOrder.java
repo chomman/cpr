@@ -79,6 +79,8 @@ public class PortalOrder extends AbstractEntity{
 	private String referer;
 	private PortalCountry portalCountry;
 	
+	private String duzp;
+	
 	public PortalOrder(){
 		this.orderStatus = OrderStatus.PENDING;
 		this.emailSent = false;
@@ -305,6 +307,19 @@ public class PortalOrder extends AbstractEntity{
 	public void setPortalCountry(PortalCountry portalCountry) {
 		this.portalCountry = portalCountry;
 	}
+	
+	/**
+	 * Datum uskutečnění zdanitelného plnění
+	 * @return datum vo formate dd.MM.yyyy
+	 */
+	@Column(name = "duzp", length = 10)
+	public String getDuzp() {
+		return duzp;
+	}
+
+	public void setDuzp(String duzp) {
+		this.duzp = duzp;
+	}
 
 	@Transient
 	@Override
@@ -338,7 +353,8 @@ public class PortalOrder extends AbstractEntity{
 		
 		setEmail(form.getEmail());
 		setPhone(form.getPhone());
-		setPortalCountry(form.getPortalCountry());;
+		setPortalCountry(form.getPortalCountry());
+		setDuzp(form.getDuzp());
 	}
 	
 	@Transient 
@@ -406,6 +422,16 @@ public class PortalOrder extends AbstractEntity{
 	}
 	
 	@Transient
+	public String getVatPriceValueWithCurrency(){
+		return getVatPriceValue() + " " + currency.getSymbol();
+	}
+	
+	@Transient
+	public String getTotalPriceWithCurrency(){
+		return getTotalPrice().toString() + " " + currency.getSymbol();
+	}
+	
+	@Transient
 	public String getTotalPriceWithVatAndCurrency(){
 		return getTotalPriceWithVat().toString() + " " + currency.getSymbol();
 	}
@@ -419,4 +445,13 @@ public class PortalOrder extends AbstractEntity{
 	public String getPercentageVat(){
 		return PriceUtils.getFormatedVat(vat);
 	}
+	
+	@Transient
+	public String getOrderNo(){
+		return getId().toString();
+	}
+
+	
+	
+	
 }

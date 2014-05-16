@@ -103,6 +103,14 @@
 	                            	</form:select>
 	                            </span>
 	                        </p>
+	                         <p>
+	                        	<label class="tt" title="Datum uskutečnění zdanitelného plnění">
+	                        			DUZP:
+	                        	</label>
+	                            <span class="field">
+	                            	<form:input path="duzp" cssClass="date" maxlength="10" />
+	                            </span>
+	                        </p>
 	                        <p class="form-head"><spring:message code="admin.portal.order.head.customer" /></p>
 	                        <p>
 	                        	<label>

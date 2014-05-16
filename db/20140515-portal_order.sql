@@ -11,4 +11,8 @@ begin;
 	DROP SEQUENCE essential_characteristic_id_seq;
 	DROP SEQUENCE tag_id_seq;
 	DROP SEQUENCE declaration_of_performance_id_seq;
+	
+	ALTER TABLE basic_settings ADD COLUMN portal_admin_contacts character varying(80);
+	ALTER TABLE basic_settings ADD COLUMN portal_admin_name character varying(50);
+	ALTER TABLE portal_order ADD COLUMN duzp character varying(10);
 end;

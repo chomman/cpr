@@ -4,9 +4,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,7 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.support.RequestContext;
 
+import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.PortalProduct;
@@ -25,8 +30,11 @@ import cz.nlfnorm.enums.PortalCountry;
 import cz.nlfnorm.enums.PortalOrderOrder;
 import cz.nlfnorm.enums.PortalOrderSource;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalProductService;
+import cz.nlfnorm.spring.PdfXhtmlRendererView;
+import cz.nlfnorm.utils.DateTimeUtils;
 import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.PortalProductPropertyEditor;
@@ -34,15 +42,25 @@ import cz.nlfnorm.web.editors.PortalProductPropertyEditor;
 @Controller
 public class PortalOrderController extends AdminSupportController {
 
+	private final static String INVOICE_FLT_TEMPLATE = "invoice-portal.ftl";
+	
 	private final static String EDIT_MAPPING_URL = "/admin/portal/order/{orderId}";
 	private final static String LIST_MAPPING_URL = "/admin/portal/orders";
 	
+	//@Autowired
+	//private PdfXhtmlRendererView pdfView; 
 	@Autowired
 	private PortalOrderService portalOrderService;
 	@Autowired
 	private PortalProductService portalProductService;
 	@Autowired
 	private PortalProductPropertyEditor portalProductPropertyEditor;
+	@Autowired
+	private MessageSource messageSource;
+	
+	
+	@Autowired
+	private BasicSettingsService basicSettingsService;
 	
 	public PortalOrderController(){
 		setTableItemsView("portal/order-list");
@@ -108,6 +126,37 @@ public class PortalOrderController extends AdminSupportController {
 		return  "redirect:"+ EDIT_MAPPING_URL.replace("{orderId}", orderId.toString());
 	}
 	
+	
+	@RequestMapping(value = EDIT_MAPPING_URL +"/pdf", method = RequestMethod.GET)
+	public PdfXhtmlRendererView downloadPDF(
+			@PathVariable Long orderId, ModelMap map, 
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			@RequestParam("type") int type) throws ItemNotFoundException{
+		
+		Map<String, Object> model = preparePDFModel(orderId, request, response);
+		model.put("type", type);
+		PdfXhtmlRendererView pdfView = new PdfXhtmlRendererView();
+		pdfView.setFtlTemplateName(INVOICE_FLT_TEMPLATE);
+		try {
+			pdfView.renderMergedOutputModel(model, request, response);
+		} catch (Exception e) {
+			logger.warn("Nepodarilo sa vygenerovat PDF [type="+type+"][oid="+orderId+"]", e);
+		}
+		
+		return pdfView;
+	}
+	
+	private Map<String, Object> preparePDFModel(final Long id, HttpServletRequest req, HttpServletResponse res) throws ItemNotFoundException{
+		final PortalOrder portalOrder = getOrder(id);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("springMacroRequestContext", new RequestContext(req, res, null, null));
+		model.put("portalOrder", portalOrder);
+		model.put("settings", basicSettingsService.getBasicSettings());
+		model.put("created", DateTimeUtils.getFormatedLocalDate(portalOrder.getChanged()));
+		model.put("customerCountry", messageSource.getMessage(portalOrder.getPortalCountry().getCode(), null, ContextHolder.getLocale()));
+		return model;
+	}
 	
 	private void update(PortalOrder form) throws ItemNotFoundException {
 		PortalOrder portalOrder = portalOrderService.getById(form.getId());

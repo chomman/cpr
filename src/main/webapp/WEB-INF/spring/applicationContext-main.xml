@@ -53,7 +53,8 @@
     <context:component-scan base-package="cz.nlfnorm.csvimport">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>
-    <context:component-scan base-package="cz.nlfnorm.spring.security">
+    
+    <context:component-scan base-package="cz.nlfnorm.spring">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
      
@@ -94,10 +95,12 @@
         </props>
    	  </property>
     </bean>
-       
-    <bean id="pdfView" scope="request" class="cz.nlfnorm.export.PdfByXhtmlrendererView" />
-
-    <bean id="pdfByXhtmlrendererExporter" scope="singleton" class="cz.nlfnorm.export.PdfExporter">
+    
+	<!-- 
+    <bean name="pdfView" scope="request" class="cz.nlfnorm.export.pdf.PdfXhtmlRendererView" />
+    -->
+    	
+    <bean id="pdfXhtmlExporter" class="cz.nlfnorm.export.pdf.PdfXhtmlExporter">
         <property name="fonts">
         	<list>
         		<value>/fonts/tahoma.ttf</value>
