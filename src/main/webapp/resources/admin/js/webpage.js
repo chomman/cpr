@@ -164,6 +164,7 @@ function getWebpageSettings(){
 		enabled : getCheckVal('#enabled'),
 		webpageType : getWebpageType(),
 		showThumbnail : getCheckVal('#showThumbnail'),
+		fullWidth : getCheckVal('#fullWidth'),
 		isOnlyForRegistrated : getCheckVal('#isOnlyForRegistrated')
 	},
 	$moduleInput = $('#webpageModule');

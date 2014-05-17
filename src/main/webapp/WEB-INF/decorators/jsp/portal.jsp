@@ -120,6 +120,7 @@
 				<div class="pj-inner ">
 					<c:if test="${empty profileTab}">
 						<webpage:breadcrumb webpage="${webpageModel.webpage}" bcCssClass="pj-bc"/>
+						<c:if test="${not webpageModel.webpage.fullWidth}">
 						<aside>
 						
 							<webpage:nav webpages="${webpageModel.subnav}" 
@@ -144,8 +145,9 @@
 									</c:forEach>
 								</div>
 						</aside>
+						</c:if>
 					</c:if>
-						<section>
+						<section ${webpageModel.webpage.fullWidth ? 'class="pj-fullWidth"' : ''}>
 							<decorator:body/>
 						</section>
 						<div class="clear"></div>

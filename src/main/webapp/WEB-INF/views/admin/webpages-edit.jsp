@@ -268,6 +268,15 @@
 									 <span class="mini-info inline">Sekce bude dostupná pouze pro registrované uživatele</span>
 								</span>
 							</p>
+							<p>
+								<label>
+									Zobrazit na celou šířku:
+								</label>
+								<span class="field">
+									 <form:checkbox path="fullWidth" id="fullWidth" />
+									 <span class="mini-info inline">Obsah webové sekce bude zobrazen na celou šířku. Nebude se zobrazovat levý boční panel (navigace a novinky)</span>
+								</span>
+							</p>
 							
 							<c:if test="${isLoggedWebmaster}">
 								<p>

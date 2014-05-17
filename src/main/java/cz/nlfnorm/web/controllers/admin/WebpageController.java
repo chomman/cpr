@@ -245,6 +245,7 @@ public class WebpageController extends AdminSupportController {
 		webpage.setPublishedSince(form.getPublishedSince());
 		webpage.setShowThumbnail(form.getShowThumbnail());
 		webpage.setIsOnlyForRegistrated(form.getIsOnlyForRegistrated());
+		webpage.setFullWidth(form.getFullWidth());
 		if(webpage.getWebpageType().equals(WebpageType.NEWS) && webpage.getPublished() == null){
 			webpage.setPublishedSince( new LocalDateTime() );
 		}

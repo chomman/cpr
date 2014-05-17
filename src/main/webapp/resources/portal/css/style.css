@@ -169,6 +169,7 @@ article h1{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#8
 .pj-link,
 section #article a{color:#0088c8;}
 .pj-link:hover,
+section.pj-fullWidth{max-width:100%;margin-left:0 !important}
 section #article a:hover{color:#111;}
 section article{margin-top:25px;}
 section #article{font-size:14px;color:#222;line-height:20px;}

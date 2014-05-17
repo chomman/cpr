@@ -26,6 +26,8 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	private WebpageModule webpageModule;
 	@NotNull
 	private Boolean isOnlyForRegistrated;
+	@NotNull
+	private Boolean fullWidth;
 	
 	public WebpageSettingsDto(){}
 	
@@ -88,6 +90,12 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 	public void setIsOnlyForRegistrated(Boolean isOnlyForRegistrated) {
 		this.isOnlyForRegistrated = isOnlyForRegistrated;
 	}
+	public Boolean getFullWidth() {
+		return fullWidth;
+	}
+	public void setFullWidth(Boolean fullWidth) {
+		this.fullWidth = fullWidth;
+	}
 
 	@Override
 	public void setWebpage(Webpage webpage){
@@ -100,6 +108,7 @@ public class WebpageSettingsDto extends AbstractWebpageDto{
 		this.showThumbnail = webpage.getShowThumbnail();
 		this.webpageModule = webpage.getWebpageModule();
 		this.isOnlyForRegistrated = webpage.getIsOnlyForRegistrated();
+		this.fullWidth = webpage.getFullWidth();
 	}
 	
 }
