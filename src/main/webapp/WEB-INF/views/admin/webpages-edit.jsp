@@ -143,6 +143,10 @@
 						<p>
 							<span class="field full-width">
 								<input type="submit" class="button default saveContent" value="<spring:message code="form.save" />" />
+								
+								<a href="<webpage:link webpage="${model.webpage}" />?isPreview=true" class="button preview">
+								<spring:message code="form.preview" />
+								</a>
 							</span> 
 						</p>
 						

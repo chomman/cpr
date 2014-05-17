@@ -76,6 +76,24 @@
 					
 				</table>
 				
+				<div class="action-nav">
+					<span>
+						<spring:message code="options" />:
+					</span>
+					<a href="<c:url value="/auth/order/pdf/${model.order.code}?type=1" />" class="file pdf">
+						<spring:message code="invoice.proforma" />
+					</a>
+					
+					<a href="<c:url value="/auth/order/pdf/${model.order.code}?type=2" />" class="file pdf">
+						<spring:message code="invoice.command" />
+					</a>
+					<a title="<spring:message code="invoice.proforma" />" href="<c:url value="/auth/order/print/${model.order.code}?type=1" />" target="_blank"  class="file print">
+						ZFA
+					</a>
+					<a title="<spring:message code="invoice.command" />" href="<c:url value="/auth/order/print/${model.order.code}?type=2" />" target="_blank"  class="file print">
+						PKFA
+					</a>
+				</div>
 				
 				<form:form commandName="portalOrder" method="post" cssClass="valfid" >
 							

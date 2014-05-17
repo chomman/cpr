@@ -16,7 +16,9 @@ a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
 .radius,.published,#req-nav a,.btn,.cpr-dashboard li,#chars{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 
-.pdf{background:url(../../public/img/file_pdf_22x22.png) no-repeat center left;padding:0 0 0 25px;display:inline-block;}
+.file{padding:0 0 0 25px;display:inline-block;background-position: 0 center;background-repeat: no-repeat;}
+.print{background-image:url(../img/ico_print.png)}
+.pdf{background-image:url(../../public/img/file_pdf_22x22.png);}
 
 /* Assessment system form */
 .variable-info{padding:10px 0;font-size:14px !important;display:inline-block;}
@@ -627,7 +629,7 @@ table.log td,.log-descr{padding:2px;}
 .report-wrapp .standards .block{padding:2px 0;}
 
 .standard-preview{background: url(../img/ico_preview.png) no-repeat 5px center !important;padding-left: 35px !important;}
-.button.preview{background: #254694 url(../img/ico_preview.png) no-repeat 5px center; padding:10px 15px 10px 35px !important;border:2px solid #ddd;margin-left:10px}
+.button.preview{color:#fff; background: #254694 url(../img/ico_preview.png) no-repeat 5px center; padding:10px 15px 10px 35px !important;border:2px solid #ddd;margin-left:10px}
 .button.preview:hover{background: #153173 url(../img/ico_preview.png) no-repeat 5px center;border:2px solid #fff;}
 
 
@@ -691,3 +693,9 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 #pj-email-vars table{border-collapse:collapse;border:3px solid #aaa}
 #pj-email-vars table td{padding:4px 10px;border-left:1px solid #ddd;}
 #pj-email-vars table tr{border-bottom:1px solid #ddd;}
+
+.action-nav{border:3px solid #eee;width:575px;margin:10px 0;padding:8px 10px;font-size:14px;background:#fbfbfb}
+.action-nav *{display:inline-block;}
+.action-nav span{width:80px;color:#555}
+.action-nav a{margin:0 10px;line-height:19px;}
+.action-nav a:hover{color: #222;}

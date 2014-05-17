@@ -60,6 +60,8 @@ public class Webpage extends AbstractEntity {
 	private WebpageModule webpageModule;
 	private Boolean showThumbnail;
 	private Boolean isOnlyForRegistrated;
+	private Boolean fullWidth;
+	private Long hit;
 	
 	
 	public Webpage(){
@@ -76,6 +78,8 @@ public class Webpage extends AbstractEntity {
 		this.lockedRemove = Boolean.FALSE;
 		this.showThumbnail = Boolean.TRUE;
 		this.isOnlyForRegistrated = Boolean.FALSE;
+		this.fullWidth = Boolean.FALSE;
+		this.hit = 0l;
 		setEnabled(Boolean.FALSE);
 		if(parent != null){
 			registerInParentsChilds();
@@ -170,7 +174,15 @@ public class Webpage extends AbstractEntity {
 	public Boolean getIsOnlyForRegistrated() {
 		return isOnlyForRegistrated;
 	}
+	
+	@Column(name = "full_page_width")
+	public Boolean getFullWidth() {
+		return fullWidth;
+	}
 
+	public Long getHit() {
+		return hit;
+	}
 	
     /* SETTER ---------------------
 	 * 
@@ -228,8 +240,16 @@ public class Webpage extends AbstractEntity {
 	public void setIsOnlyForRegistrated(Boolean isOnlyForRegistrated) {
 		this.isOnlyForRegistrated = isOnlyForRegistrated;
 	}
+		
+	public void setFullWidth(Boolean fullWidth) {
+		this.fullWidth = fullWidth;
+	}
 
-	
+
+	public void setHit(Long hit) {
+		this.hit = hit;
+	}
+
 	@Transient
 	public String getTitleInLang(){
 		if(localized.containsKey(ContextHolder.getLang())){

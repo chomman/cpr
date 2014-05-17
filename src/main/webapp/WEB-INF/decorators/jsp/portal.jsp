@@ -14,7 +14,9 @@
 		<link rel="shortcut icon" href="/img/icon.png" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/style.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/common.css" />" />
-		
+		<c:if test="${not empty isPreview and isPreview}">
+			<link rel="stylesheet" href="<c:url value="/resources/portal/css/preview.css" />" />
+		</c:if>
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->

@@ -10,6 +10,8 @@ import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
+import cz.nlfnorm.constants.Constants;
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
@@ -32,6 +34,8 @@ public class WebpageControllerSupport {
 	
 	@Autowired
 	protected WebpageService webpageService;
+	@Autowired
+	private HttpServletRequest requestContext;
 	
 	
 	public Webpage getWebpage(final Long id) throws PageNotFoundEception, PortalAccessDeniedException{
@@ -46,7 +50,7 @@ public class WebpageControllerSupport {
 	
 	
 	private Webpage test(Webpage webpage) throws PageNotFoundEception, PortalAccessDeniedException{
-		if(webpage == null || !webpage.isEnabled()){
+		if(webpage == null || (!webpage.isEnabled() && !isPreview())){
 			throw new PageNotFoundEception();
 		}
 
@@ -113,5 +117,16 @@ public class WebpageControllerSupport {
 		if(request.getAttribute(WEBPAGE_MODEL_KEY) == null){;
 			throw new PageNotFoundEception();
 		}
+	}
+	
+	private boolean isPreview() {
+		final User user =UserUtils.getLoggedUser();
+		if(user == null || !user.isAdministrator()){
+			return false;
+		}
+		if(requestContext.getParameter(Constants.PREVIEW_PARAM) != null){
+			return true;
+		}
+		return false;
 	}
 }
