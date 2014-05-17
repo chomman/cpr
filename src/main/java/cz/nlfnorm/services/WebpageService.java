@@ -62,4 +62,6 @@ public interface WebpageService {
 	void moveWebpage(Webpage webpage, Long parentId, int order);
 	
 	List<Webpage> getLatestPublishedNews(int limit);
+	
+	void incrementHit(Webpage webpage);
 }

@@ -381,4 +381,9 @@ public class Webpage extends AbstractEntity {
         this.parent.childrens.add(this);
     }
     
+    @Transient
+    public void incrementHit(){
+    	hit++;
+    }
+    
 }

@@ -49,13 +49,18 @@ public class WebpageControllerSupport {
 	
 	
 	
-	private Webpage test(Webpage webpage) throws PageNotFoundEception, PortalAccessDeniedException{
-		if(webpage == null || (!webpage.isEnabled() && !isPreview())){
+	private Webpage test(final Webpage webpage) throws PageNotFoundEception, PortalAccessDeniedException{
+		final boolean isPreview = isPreview();
+		
+		if(webpage == null || (!webpage.isEnabled() && !isPreview)){
 			throw new PageNotFoundEception();
 		}
 
 		if(!UserUtils.isPortalAuthorized() && WebpageUtils.isOnlyForRegistraged(webpage)){
 			throw new PortalAccessDeniedException("You have not perrmission to acccess webpage: " + webpage.getId());
+		}
+		if(!isPreview){
+			webpageService.incrementHit(webpage);
 		}
 		return webpage;
 	}

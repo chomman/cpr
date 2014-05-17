@@ -34,14 +34,14 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 			ModelAndView modelAndView) throws Exception {
 		
 		
-		String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
+		final String prefix = RequestUtils.getPartOfURLOnPosition(request, 1);
 		if(StringUtils.isBlank(prefix) || !prefix.equals(Constants.ADMIN_PREFIX)){
 			 Map<String, Object> commonModel = new HashMap<String, Object>();
 			 
-
 			 if(StringUtils.isNotBlank(request.getParameter(Constants.PREVIEW_PARAM))){
 				 modelAndView.addObject(Constants.PREVIEW_PARAM, true); 
 			 }
+			 
 			 commonModel.put("dateTimeFormat", Constants.DATE_FORMAT);
 			 commonModel.put("locale", ContextHolder.getLang());
 			 if(modelAndView != null){

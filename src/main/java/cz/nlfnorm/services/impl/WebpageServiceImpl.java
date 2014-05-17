@@ -351,5 +351,11 @@ public class WebpageServiceImpl implements WebpageService{
 	public List<Webpage> getLatestPublishedNews(int limit) {
 		return webpageDao.getLatestPublishedNews(limit);
 	}
+
+	@Override
+	public void incrementHit(final Webpage webpage) {
+		webpage.incrementHit();
+		updateWebpage(webpage);
+	}
 	
 }
