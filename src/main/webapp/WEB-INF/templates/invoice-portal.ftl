@@ -1,7 +1,14 @@
 <!DOCTYPE html  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="cs" lang="cs">
 <head>
-	<title>DOP</title>	
+	<title>
+		<#if type == 1>
+			<@spring.message code="invoice.proforma" />: 
+		<#else>
+			<@spring.message code="invoice.command" />: 
+		</#if>
+		${portalOrder.orderNo?string}
+	</title>	
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<style type="text/css">
 	html, body, *{margin:0;padding:0}
@@ -25,6 +32,7 @@
 	.total-wrapp span{padding:2px;}
 	.total-wrapp i{display:inline-block;width:100px;}
 	.w50{width:50%} 
+	i{font-style:normal;}
 	@page {
 		  size: A4;
 		  margin-top: 5mm;
@@ -37,6 +45,11 @@
 		  -fs-flow-right: "right";
 		}
 	</style>
+	<script type="text/javascript">
+	<!--
+	window.print();
+	//-->
+	</script>
 </head>
 <body>
 <#setting locale="cs">

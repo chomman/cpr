@@ -3,6 +3,7 @@ package cz.nlfnorm.export.pdf;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -27,6 +28,7 @@ import com.lowagie.text.pdf.BaseFont;
 
 import freemarker.template.Configuration;
 import freemarker.template.Template;
+import freemarker.template.TemplateException;
 
 @Component("pdfXhtmlExporter")
 public class PdfXhtmlExporter {
@@ -38,13 +40,10 @@ public class PdfXhtmlExporter {
     private Configuration configuration;    
     private ITextRenderer renderer = new ITextRenderer();    
     
+    
     public ByteArrayOutputStream generatePdf(final String ftlTemplate,final Map<String, Object> model,final String basePath) {
         try {
-            Template temp = configuration.getTemplate(ftlTemplate, ENCODING);
-            ByteArrayOutputStream htmlAsOs = new ByteArrayOutputStream();
-            temp.process(model, new BufferedWriter(new OutputStreamWriter(htmlAsOs, ENCODING)));
-            htmlAsOs.close();
-            String content = htmlAsOs.toString().replaceAll("&(?!amp;|nbsp;|#)", "&amp;");
+            String content = geneareXhtml(ftlTemplate, model).replaceAll("&(?!amp;|nbsp;|#)", "&amp;");
             logger.debug("Vysledný HTML dokument:" +  content);
             ByteArrayOutputStream pdfOutputStream = generatePdf(new ByteArrayInputStream(content.getBytes()), basePath);
             logger.info("Generovanie PDF je uspesne dokoncene.");
@@ -54,8 +53,22 @@ public class PdfXhtmlExporter {
         	throw new RuntimeException("Some error occures. Can not generate PDF.", e);
         }
     }
-
+    
+    
+    public String geneareXhtml(final String ftlTemplate,final Map<String, Object> model){
+		try {
+			Template temp = configuration.getTemplate(ftlTemplate, ENCODING);
+			ByteArrayOutputStream htmlAsOs = new ByteArrayOutputStream();
+			temp.process(model, new BufferedWriter(new OutputStreamWriter(htmlAsOs, ENCODING)));
+			htmlAsOs.close();
+			return  htmlAsOs.toString();
+		} catch (TemplateException | IOException e) {
+			logger.error("Generovanie XHTML zlyhalo ["+ftlTemplate+"].", e);
+		}
+		throw new RuntimeException("Some error occures. Can not generate XHTML.");
+    }
    
+    
     public ByteArrayOutputStream generatePdf(final InputStream xhtml, final String baseUrl) {
         ByteArrayOutputStream out = null;
         Document document = null;

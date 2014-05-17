@@ -16,6 +16,7 @@
     
   <decorator name="blank" page="blank.jsp">
     <pattern>/blank/*</pattern>
+    <pattern>/auth/*</pattern>
   </decorator>
 	
   <decorator name="admin-login" page="admin-login.jsp">

@@ -22,6 +22,7 @@ import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
+import cz.nlfnorm.export.pdf.PdfXhtmlExporter;
 import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.spring.PdfXhtmlRendererView;
@@ -40,20 +41,22 @@ public class ExportController extends AdminSupportController {
 	private MessageSource messageSource;
 	@Autowired
 	private BasicSettingsService basicSettingsService;
+	@Autowired
+	private PdfXhtmlExporter pdfXhtmlExporter;
 	
 	
 	
-	@RequestMapping(value = "/profile/order/pdf/{code}", method = RequestMethod.GET)
+	@RequestMapping(value = "/auth/order/pdf/{code}", method = RequestMethod.GET)
 	public PdfXhtmlRendererView downloadPDF(
 			@PathVariable String code, ModelMap map, 
 			HttpServletRequest request, 
 			HttpServletResponse response, 
 			@RequestParam("type") int type) throws ItemNotFoundException, PageNotFoundEception{
 		
-		Map<String, Object> model = preparePDFModel(code, request, response);
-		model.put("type", type);
+		Map<String, Object> model = preparePDFModel(code, request, response, type);
 		PdfXhtmlRendererView pdfView = new PdfXhtmlRendererView();
 		pdfView.setFtlTemplateName(INVOICE_FLT_TEMPLATE);
+		pdfView.setOutputFileName(getFileName(type, (PortalOrder)model.get("portalOrder")));
 		try {
 			pdfView.renderMergedOutputModel(model, request, response);
 		} catch (Exception e) {
@@ -62,8 +65,24 @@ public class ExportController extends AdminSupportController {
 		return pdfView;
 	}
 	
+	@RequestMapping(value = "/auth/order/print/{code}", method = RequestMethod.GET)
+	public String printPDF(
+			@PathVariable String code, ModelMap map, 
+			HttpServletRequest request, 
+			HttpServletResponse response, 
+			@RequestParam("type") int type) throws ItemNotFoundException, PageNotFoundEception{
+		
+		Map<String, Object> model = preparePDFModel(code, request, response, type);
+		try {
+			map.put("content",  pdfXhtmlExporter.geneareXhtml(INVOICE_FLT_TEMPLATE, model));
+		} catch (Exception e) {
+			logger.warn("Nepodarilo sa vygenerovat XHTML [type="+type+"][oid="+code+"]", e);
+		}
+		return "/include/print";
+	}
 	
-	private Map<String, Object> preparePDFModel(final String code, HttpServletRequest req, HttpServletResponse res) throws ItemNotFoundException, PageNotFoundEception{
+	
+	private Map<String, Object> preparePDFModel(final String code, HttpServletRequest req, HttpServletResponse res, int type) throws ItemNotFoundException, PageNotFoundEception{
 		final PortalOrder portalOrder = portalOrderService.getByCode(code);
 		if(portalOrder == null){
 			throw new PageNotFoundEception();
@@ -76,8 +95,16 @@ public class ExportController extends AdminSupportController {
 			model.put("settings", basicSettingsService.getBasicSettings());
 			model.put("created", DateTimeUtils.getFormatedLocalDate(portalOrder.getChanged()));
 			model.put("customerCountry", messageSource.getMessage(portalOrder.getPortalCountry().getCode(), null, ContextHolder.getLocale()));
+			model.put("type", type);
 			return model;
 		}
 		throw new AccessDeniedException("User [id="+user.getId()+"] tried to access order [oid="+ portalOrder.getId() +"]");
+	}
+	
+	private String getFileName(final int type, PortalOrder portalOrder){
+		if(type == 1){
+			return "proforma-" + portalOrder.getOrderNo() + ".pdf";
+		}
+		return "prikaz-k-fakturaci-" + portalOrder.getOrderNo() + ".pdf";
 	}
 }

@@ -39,6 +39,20 @@
 	</table>
 </c:if>
 
+<c:if test="${webpageModel.portalOrder.orderStatus.id == 1 or webpageModel.portalOrder.orderStatus.id == 2}">
+	<div class="action-nav">
+		<span>
+			<spring:message code="options" />:
+		</span>
+		<a href="<c:url value="/auth/order/pdf/${webpageModel.portalOrder.code}?type=1" />" class="file pdf">
+			<spring:message code="invoice.proforma" />
+		</a>
+		<a href="<c:url value="/auth/order/print/${webpageModel.portalOrder.code}?type=1" />" target="_blank"  class="file print">
+			<spring:message code="print" />
+		</a>
+	</div>
+</c:if>
+
 <div id="invoice" class="new iv">
 	<div class="this-is">
 		<strong>
@@ -98,6 +112,7 @@
 					<div class="street-address">${webpageModel.settings.street}</div>
 					<span class="locality">${webpageModel.settings.zip}</span>
 					<span class="country-name">${webpageModel.settings.city}</span>
+					<div>Česká republika</div>
 				</div>
 				
 				

@@ -21,7 +21,7 @@ public class PdfXhtmlRendererView extends AbstractView {
 	private PdfXhtmlExporter pdfXhtmlExporter;
 	
 	private String ftlTemplateName;
-	private String outputFileName;
+	private String outputFileName = "file.pdf";
 	
 	public PdfXhtmlRendererView(){
 		super();
@@ -29,7 +29,7 @@ public class PdfXhtmlRendererView extends AbstractView {
 	}
 	
 	@Override
-    public void renderMergedOutputModel(final Map model, HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public void renderMergedOutputModel(final Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
         ByteArrayOutputStream pdfAsOs = pdfXhtmlExporter.generatePdf(ftlTemplateName, model, RequestUtils.getApplicationUrlPrefix(request));
         response.setContentLength(pdfAsOs.size());
         response.setHeader("Content-disposition", "attachment; filename=" + outputFileName);

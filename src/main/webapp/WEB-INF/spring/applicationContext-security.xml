@@ -30,6 +30,7 @@
 		 	 <security:intercept-url pattern="/informacni-portal/profile/**" access="isAuthenticated()" />
 		 	 <security:intercept-url pattern="/en/informacni-portal/profile" access="isAuthenticated()" />
 		 	 <security:intercept-url pattern="/en/informacni-portal/profile/**" access="isAuthenticated()" />
+		 	 <security:intercept-url pattern="/auth/**" access="isAuthenticated()" />
 		 	 
 		 	 <security:anonymous />
 			  

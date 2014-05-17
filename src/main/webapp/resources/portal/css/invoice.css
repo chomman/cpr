@@ -76,8 +76,10 @@ color:#333;padding:8px 5px;border-bottom:1px solid #ccc;display:block;
 }
 
 .iv #header { padding-bottom: 20px }
-.iv a{color:#0088c8;}
-.iv a:hover{color:#333; text-decoration: none;}
+.iv a,
+.action-nav a{color:#0088c8;}
+.iv a:hover,
+.action-nav a:hover{color:#333; text-decoration: none;}
 .invoice-intro p {
     font-size: 12px;
     font-style: italic;
@@ -247,8 +249,17 @@ color:#333;padding:8px 5px;border-bottom:1px solid #ccc;display:block;
 
 .l{text-align: left !important;padding-left: 10px} 
 
-.payment-info{margin:15px 0;padding:10px;background:#f8f8f8;border-collapse:collapse;width:100%;border:3px solid #ccc;color:#333}
+.payment-info{margin:15px 0 5px 0;padding:10px;background:#f8f8f8;border-collapse:collapse;width:100%;border:3px solid #ccc;color:#333}
 .payment-info td{padding:10px 15px;font-size:14px;}
 .payment-info tr{border-bottom:1px solid #ccc;}
 .payment-info .key{width:130px;}
 .payment-info .val{font-weight:bold;color:#000}
+
+.action-nav{padding:5px;border:3px solid #ccc;margin:15px 0;background:#f8f8f8;font-size:14px;}
+.action-nav *{display:inline-block;}
+.action-nav span{min-width:80px;padding:0 10px;}
+
+.file{padding:8px 5px 8px 30px;background-repeat:no-repeat;background-position:0 center;margin:0 10px;}
+.pdf{background-image:url(../../public/img/file_pdf_22x22.png)}
+.print{background-image:url(../../admin/img/ico_print.png)}
+
