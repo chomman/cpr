@@ -53,7 +53,7 @@
 			</div>
 				
 			<c:if test="${not empty model.webpages}">
-				<div id="jstree">
+				<div id="jstree" class="hidden">
 					<ul id="0">
 						  <c:forEach items="${model.webpages}" var="node" varStatus="s"  >
 						 	<c:set var="node" value="${node}" scope="request"/>
@@ -62,6 +62,7 @@
 						 </c:forEach>
 					</ul>	 
 				</div>
+				<div id="webpage-loader">Čekejte prosím, načítám...</div>
 			</c:if>
 			
 			 

@@ -48,3 +48,5 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .pj-fotobox .delete{color:red;padding:5px 0;display:inline-block;margin-top:0px;font-size:12px;text-decoration:underline;}
 .pj-fotobox .delete:hover{text-decoration:none;color:#000}
 .root-node{background:url(../img/webpages-icons.png) no-repeat 28px -115px;font-weight:bold;color:#0d1532;margin: 10px -25px;padding:10px 25px 10px 65px;border-bottom:1px solid #ddd;}
+
+#webpage-loader{background: url(../img/ajax-loader.gif) no-repeat 0 center;padding:20px 20px 20px 50px;position:absolute;top:400px;left:45%}

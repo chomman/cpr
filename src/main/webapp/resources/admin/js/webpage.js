@@ -1,4 +1,8 @@
 var jsTree = null;
+$( window ).load(function() {
+	$('#jstree').removeClass('hidden');
+	$('#webpage-loader').remove();
+});
 $(function() { 					
 	 
 	initDate('#publishedSince');
@@ -40,7 +44,7 @@ $(function() {
 	    "core" : {
 	      "check_callback" : true
 	    },
-	    "plugins" : [ "dnd" ]
+	    "plugins" : [ "dnd", "state"]
 	  });
 	}
 });
