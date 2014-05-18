@@ -113,7 +113,6 @@
 	  <property name="cache" value="true"/>
 	  <property name="prefix" value=""/>
 	  <property name="suffix" value=".ftl"/>
-	  <property name="exposeSpringMacroHelpers" value="true"/>
 	</bean>
 	
     <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" >

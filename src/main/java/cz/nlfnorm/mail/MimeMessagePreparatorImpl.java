@@ -28,6 +28,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
+import cz.nlfnorm.dto.ByteFileDto;
 import cz.nlfnorm.utils.ValidationsUtils;
 
 public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator {
@@ -41,6 +42,7 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 	private String from = "";
 	private String subject = "";
 	private List<String> fileNames = new ArrayList<String>();
+	private List<ByteFileDto> files = new ArrayList<ByteFileDto>();
 	
 	
 	
@@ -83,27 +85,28 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
         // adding from and subject
         mimeMessage.setFrom(new InternetAddress(getFrom()));
         mimeMessage.setSubject(getSubject());
-
         mp.addBodyPart(createMessage());
 
         // Create an "ATTACHMENT" - we must put it to mpRoot(mixed content)
-        if (getFileNames() != null) {
-            for (String filename : getFileNames()) {
-            	if(StringUtils.isNotBlank(filename)){
-            		File file = new File(filename);
-            		if(file.exists()){
-            			mpRoot.addBodyPart(createAttachment(file));
-            		}
-            	}
-            }
+        for (final String filename : getFileNames()) {
+        	if(StringUtils.isNotBlank(filename)){
+        		File file = new File(filename);
+        		if(file.exists()){
+        			mpRoot.addBodyPart(createAttachment(file));
+        		}
+        	}
         }
-
+        
+        for (final ByteFileDto file : files) {
+    		mpRoot.addBodyPart(createAttachment(file));
+        }
+      
         mimeMessage.setContent(mpRoot);
-
         logger.debug("Message is prepared to send");
     }
 
 	public abstract BodyPart createMessage() throws MessagingException;
+	
 	
 	private BodyPart createAttachment(final File file) throws Exception {
 		BodyPart attachBodypart = new MimeBodyPart();
@@ -117,6 +120,16 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 		return attachBodypart;
 	}
 	 
+	private BodyPart createAttachment(final ByteFileDto file) throws Exception {
+		BodyPart attachBodypart = new MimeBodyPart();
+		DataHandler dh = createDataHandler(file.getData(), file.getContentType());
+		attachBodypart.setFileName(file.getName());
+		attachBodypart.setDisposition(Part.ATTACHMENT);
+		attachBodypart.setDescription("Attached file: " + file.getName());
+		attachBodypart.setDataHandler(dh);
+		logger.info("ATTACHMENT ADDED ; filename: " + file.getName());
+		return attachBodypart;
+	}
 	
 	 protected DataHandler createDataHandler(final byte[] stringBytes, final String contentType) {
         return new DataHandler(new DataSource() {
@@ -137,7 +150,7 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
     }
 	 
 	private boolean isValidEmailAddres(final String email){
-		if(StringUtils.isNotBlank(email) && ValidationsUtils.isEmailValid(email)){
+		if(ValidationsUtils.isEmailValid(email)){
 			return true;
 		}
 		return false;
@@ -195,8 +208,14 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 		}
 	}
 	
-	public void addAttachment(String fileLocation) {
+	public void addAttachment(final String fileLocation) {
         this.fileNames.add(fileLocation);
+    }
+	
+	public void addAttachment(final ByteFileDto file) {
+		if(file != null){
+			this.files.add(file);
+		}
     }
 	
 	private void addEmail(List<String> list, String email){

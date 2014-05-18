@@ -1,5 +1,6 @@
 package cz.nlfnorm.services.impl;
 
+import java.io.ByteArrayOutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,9 +14,12 @@ import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.servlet.support.RequestContext;
 
 import cz.nlfnorm.constants.Filter;
+import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dao.PortalOrderDao;
+import cz.nlfnorm.dto.ByteFileDto;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.entities.EmailTemplate;
@@ -29,6 +33,7 @@ import cz.nlfnorm.enums.OrderStatus;
 import cz.nlfnorm.enums.PortalOrderSource;
 import cz.nlfnorm.enums.PortalProductInterval;
 import cz.nlfnorm.enums.SystemLocale;
+import cz.nlfnorm.export.pdf.PdfXhtmlExporter;
 import cz.nlfnorm.mail.HtmlMailMessage;
 import cz.nlfnorm.mail.NlfnormMailSender;
 import cz.nlfnorm.services.BasicSettingsService;
@@ -37,8 +42,10 @@ import cz.nlfnorm.services.ExceptionLogService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.utils.DateTimeUtils;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
+import cz.nlfnorm.web.controllers.ExportController;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 
 
@@ -65,7 +72,9 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	private ExceptionLogService exceptionLogService;
 	@Autowired
 	private MessageSource messageSource;
-		
+	@Autowired
+	private PdfXhtmlExporter pdfXhtmlExporter;
+	
 	@Override
 	public void create(final PortalOrder pordalOrder) {
 		portalOrderDao.save(pordalOrder);
@@ -221,10 +230,14 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public void sendOrderCreateEmail(final PortalOrder order) {
-		final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_ORDER_CREATE);
-		sendPortalOrderEmail(order, template);
-		
+	public void sendOrderCreateEmail(final PortalOrder order, final RequestContext requestContext) {
+		Thread thread = new Thread(){
+			 public void run(){
+				final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.PORTAL_ORDER_CREATE);
+				sendPortalOrderEmail(order, template, requestContext);
+			 }
+		};
+		thread.run();
 	}
 	
 	@Override
@@ -246,8 +259,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		 thread.run();
 	}
 	
-	
-	private void sendPortalOrderEmail(final PortalOrder order, final EmailTemplate emailTemplate){
+	private void sendPortalOrderEmail(final PortalOrder order, final EmailTemplate emailTemplate, final RequestContext requestContext){
 		Validate.notNull(emailTemplate);
 		Validate.notNull(order);
 		
@@ -258,6 +270,10 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		final String mediatorEmailAddress = determineMediatorEmail(basicSettings, order);
 		final String templateCode = emailTemplate.getCode();
 		if(templateCode.equals(EmailTemplate.PORTAL_ORDER_CREATE)){
+			if(requestContext != null){
+				final ByteFileDto file = createInvoiceAttachement(order, basicSettings, requestContext);
+				customerMailMessage.addAttachment(file);
+			}
 			sendEmailToMediator(EmailTemplate.PORTAL_MEDIATOR_INFO_CREATE_ORDER, context, mediatorEmailAddress , basicSettings);
 		}else if(templateCode.equals(EmailTemplate.PORTAL_ORDER_ACTIVATION)){
 			sendEmailToMediator(EmailTemplate.PORTAL_MEDIATOR_INFO_ACTIVATION, context, mediatorEmailAddress , basicSettings);
@@ -266,6 +282,13 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		}
 		nlfnormMailSender.send(customerMailMessage);
 	}
+	
+	
+	private void sendPortalOrderEmail(final PortalOrder order, final EmailTemplate emailTemplate){
+		sendPortalOrderEmail(order, emailTemplate, null);
+	}
+	
+	
 	
 	
 	private void sendEmailToMediator(final String emailTemplateCode,final  Map<String, Object> context, final  String mediatorEmailAddress, final BasicSettings settings){
@@ -320,7 +343,7 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 
 	
 	@Override
-	public StringBuilder getForamtedOrderItems(PortalOrder order) {
+	public StringBuilder getForamtedOrderItems(final PortalOrder order) {
 		Validate.notNull(order);
 		String currency = " " + order.getCurrency().getSymbol();
 		String thCss = "style=\"padding:8px 5px;background:#ccc;\"";
@@ -347,5 +370,41 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 		return portalOrderDao.getByCode(code);
 	}
 	
+	private ByteFileDto createInvoiceAttachement(final PortalOrder order, final BasicSettings settings, final RequestContext context){
+		// type == 1 proforma invoice
+		Map<String,Object> model = prepareInvoiceModel(order, settings, 1, context);
+		try{
+			ByteArrayOutputStream file = pdfXhtmlExporter.generatePdf(ExportController.INVOICE_FLT_TEMPLATE, model, "/");
+			ByteFileDto fileDto = new ByteFileDto();
+			fileDto.setData(file.toByteArray());
+			fileDto.setName(getFileNameFor(1, order));
+			fileDto.setContentType("application/pdf");
+			return fileDto;
+		}catch(Exception e){
+			
+		}
+		return null;
+	}
+	
+	@Override
+	public Map<String, Object> prepareInvoiceModel(final PortalOrder order, final BasicSettings settings, final int type, final RequestContext context){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("springMacroRequestContext", context);
+		model.put("portalOrder", order);
+		model.put("settings", basicSettingsService.getBasicSettings());
+		model.put("created", DateTimeUtils.getFormatedLocalDate(order.getChanged()));
+		model.put("customerCountry", messageSource.getMessage(order.getPortalCountry().getCode(), null, ContextHolder.getLocale()));
+		model.put("type", type);
+		return model;
+	}
+
+	
+	@Override
+	public String getFileNameFor(final int type, final PortalOrder portalOrder) {
+		if(type == 1){
+			return "proforma-" + portalOrder.getOrderNo() + ".pdf";
+		}
+		return "prikaz-k-fakturaci-" + portalOrder.getOrderNo() + ".pdf";
+	}
 	
 }

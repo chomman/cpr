@@ -1,6 +1,5 @@
 package cz.nlfnorm.web.controllers;
 
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.support.RequestContext;
 
-import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
@@ -26,14 +24,13 @@ import cz.nlfnorm.export.pdf.PdfXhtmlExporter;
 import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.spring.PdfXhtmlRendererView;
-import cz.nlfnorm.utils.DateTimeUtils;
 import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 @Controller
 public class ExportController extends AdminSupportController {
 	
-	private final static String INVOICE_FLT_TEMPLATE = "invoice-portal.ftl";
+	public final static String INVOICE_FLT_TEMPLATE = "invoice-portal.ftl";
 	
 	@Autowired
 	private PortalOrderService portalOrderService;
@@ -53,10 +50,10 @@ public class ExportController extends AdminSupportController {
 			HttpServletResponse response, 
 			@RequestParam("type") int type) throws ItemNotFoundException, PageNotFoundEception{
 		
-		Map<String, Object> model = preparePDFModel(code, request, response, type);
+		Map<String, Object> model = preparePDFModel(code, new RequestContext(request), type);
 		PdfXhtmlRendererView pdfView = new PdfXhtmlRendererView();
 		pdfView.setFtlTemplateName(INVOICE_FLT_TEMPLATE);
-		pdfView.setOutputFileName(getFileName(type, (PortalOrder)model.get("portalOrder")));
+		pdfView.setOutputFileName(portalOrderService.getFileNameFor(type, (PortalOrder)model.get("portalOrder")));
 		try {
 			pdfView.renderMergedOutputModel(model, request, response);
 		} catch (Exception e) {
@@ -72,7 +69,7 @@ public class ExportController extends AdminSupportController {
 			HttpServletResponse response, 
 			@RequestParam("type") int type) throws ItemNotFoundException, PageNotFoundEception{
 		
-		Map<String, Object> model = preparePDFModel(code, request, response, type);
+		Map<String, Object> model =  preparePDFModel(code, new RequestContext(request), type);
 		try {
 			map.put("content",  pdfXhtmlExporter.geneareXhtml(INVOICE_FLT_TEMPLATE, model));
 		} catch (Exception e) {
@@ -82,29 +79,17 @@ public class ExportController extends AdminSupportController {
 	}
 	
 	
-	private Map<String, Object> preparePDFModel(final String code, HttpServletRequest req, HttpServletResponse res, int type) throws ItemNotFoundException, PageNotFoundEception{
+	private Map<String, Object> preparePDFModel(final String code, RequestContext reqContext, int type) throws ItemNotFoundException, PageNotFoundEception{
 		final PortalOrder portalOrder = portalOrderService.getByCode(code);
 		if(portalOrder == null){
 			throw new PageNotFoundEception();
 		}
 		final User user = UserUtils.getLoggedUser();
 		if(user.isAdministrator() || user.equals(portalOrder.getUser())){
-			Map<String, Object> model = new HashMap<String, Object>();
-			model.put("springMacroRequestContext", new RequestContext(req, res, null, null));
-			model.put("portalOrder", portalOrder);
-			model.put("settings", basicSettingsService.getBasicSettings());
-			model.put("created", DateTimeUtils.getFormatedLocalDate(portalOrder.getChanged()));
-			model.put("customerCountry", messageSource.getMessage(portalOrder.getPortalCountry().getCode(), null, ContextHolder.getLocale()));
-			model.put("type", type);
-			return model;
+			return portalOrderService.prepareInvoiceModel(portalOrder, basicSettingsService.getBasicSettings(), type, reqContext);
 		}
 		throw new AccessDeniedException("User [id="+user.getId()+"] tried to access order [oid="+ portalOrder.getId() +"]");
 	}
 	
-	private String getFileName(final int type, PortalOrder portalOrder){
-		if(type == 1){
-			return "proforma-" + portalOrder.getOrderNo() + ".pdf";
-		}
-		return "prikaz-k-fakturaci-" + portalOrder.getOrderNo() + ".pdf";
-	}
+	
 }

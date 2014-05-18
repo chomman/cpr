@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.support.RequestContext;
 
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.PortalCurrency;
@@ -111,7 +112,7 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
 				order.setCreatedBy(user);
 				order.setOrderItems(getOrderItems(form.getPortalProductItems(), order));
 				portalOrderService.create(order);
-				portalOrderService.sendOrderCreateEmail(order);
+				portalOrderService.sendOrderCreateEmail(order, new RequestContext(request));
 				logger.info(String.format("Objednavka bola uspesne vytvorena [oid=%1$d][uid=%2$d]", order.getId(), user.getId()));
 				response.setStatus(JsonStatus.SUCCESS);
 				response.setData(order.getCode());

@@ -14,17 +14,15 @@ public class CacheRegion {
 	 */
 	public static final String USER_CACHE = "userCache";
 	
-	
-	
 	/** CPR_CACHE
 	 * Cache uchovavajuce data tykajuce sa CPR
 	 */
 	public static final String CPR_CACHE = "cprCache";
-	
-	
-	
 		
+	
 	public static final String CSN_CACHE = "csnCache";
 	
+		
+	public static final String WEBPAGE_CACHE = "webpageCache";
 	
 }

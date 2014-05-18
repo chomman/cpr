@@ -55,14 +55,14 @@
         diskPersistent="true"
         />     
      
-     <!-- Cache uchovavajuca data tykajuce sa redakcneho systemu -->   
-     <cache name="newsCache"
-        maxElementsInMemory="1000"
+      <!-- Cache uchovavajuca data tykajuce webových sekcí -->      	    
+    <cache name="webpageCache"
+        maxElementsInMemory="3000"
         eternal="false"
         overflowToDisk="false"
         timeToLiveSeconds="604800"
-        diskPersistent="true"
-        />        
+        diskPersistent="false"
+        />     
              
 			
 </ehcache>

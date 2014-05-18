@@ -39,7 +39,7 @@
 	</table>
 </c:if>
 
-<c:if test="${webpageModel.portalOrder.orderStatus.id == 1 or webpageModel.portalOrder.orderStatus.id == 2}">
+<c:if test="${empty webpageModel.hideAlert and webpageModel.portalOrder.orderStatus.id == 1 or webpageModel.portalOrder.orderStatus.id == 2}">
 	<div class="action-nav">
 		<span>
 			<spring:message code="options" />:

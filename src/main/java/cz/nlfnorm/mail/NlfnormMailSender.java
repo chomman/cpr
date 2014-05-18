@@ -3,13 +3,15 @@ package cz.nlfnorm.mail;
 import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
 public class NlfnormMailSender extends JavaMailSenderImpl {
 	
-	private boolean sendEmails = true;
+	@Value("#{config['mail.sendEmails']}")
+	private boolean sendEmails;
 	
 	private final Logger logger = Logger.getLogger(getClass());
 	

@@ -7,6 +7,7 @@ import org.hibernate.Query;
 import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Repository;
 
+import cz.nlfnorm.constants.CacheRegion;
 import cz.nlfnorm.dao.WebpageDao;
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.entities.Webpage;
@@ -134,6 +135,7 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		Query q = sessionFactory.getCurrentSession().createQuery(hql.toString());
 		q.setMaxResults(1);
 		q.setCacheable(true);
+		q.setCacheRegion(CacheRegion.WEBPAGE_CACHE);
 		return (Webpage)q.uniqueResult();
 	}
 
@@ -228,6 +230,8 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setParameter("webpageType", WebpageType.NEWS);
 		hqlQuery.setTimestamp("now", now.toDate());
 		hqlQuery.setMaxResults(limit);
+		hqlQuery.setCacheRegion(CacheRegion.WEBPAGE_CACHE);
+		hqlQuery.setCacheable(true);
 		return hqlQuery.list();
 	}
 }
