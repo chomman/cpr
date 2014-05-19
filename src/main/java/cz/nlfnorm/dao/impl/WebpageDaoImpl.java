@@ -1,8 +1,10 @@
 package cz.nlfnorm.dao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang.Validate;
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.type.LongType;
 import org.joda.time.LocalDateTime;
@@ -14,6 +16,7 @@ import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dao.WebpageDao;
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.dto.PageDto;
+import cz.nlfnorm.dto.WebpageSearchDto;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageModule;
 import cz.nlfnorm.enums.WebpageType;
@@ -138,15 +141,14 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setMaxResults(1);
 		hqlQuery.setCacheable(false);
 		hqlQuery.setString("query", term);
-		hqlQuery.setString("locale", ContextHolder.getLang());
 		hqlQuery.setString("fullTextQuery", term.replace(" ", "&"));
 		hqlQuery.setLong("nodeId", parentNodeId);
 		PageDto items = new PageDto();
 		items.setCount((Long)hqlQuery.uniqueResult());
 		if(items.getCount() > 0){
-			hqlQuery =  sessionFactory.getCurrentSession().createSQLQuery(buildSearchQuery(false));
+			hqlQuery =  sessionFactory.getCurrentSession().createSQLQuery(buildSearchQuery(false))
+						.addEntity(Webpage.class);				
 			hqlQuery.setCacheable(false);
-			hqlQuery.setString("locale", ContextHolder.getLang());
 			hqlQuery.setString("query", term);
 			hqlQuery.setString("fullTextQuery", term.replace(" ", "&"));
 			hqlQuery.setLong("nodeId", parentNodeId);
@@ -160,15 +162,16 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	private String buildSearchQuery(final boolean isCountQuery){
 		StringBuilder sql = new StringBuilder();
 		sql.append("with recursive tmp_webpage(id, parent) as ( ")
-		   .append("	values(cast(-1 as bigint), cast(:nodeId as bigint)) ")
+		   .append("	values(cast(-1 as bigint), cast(:nodeId as bigint) ) ")
 		   .append(" union all ")
 		   .append(" 	select w.id, w.parent_id ")
 		   .append("    from tmp_webpage as tw, webpage as w ")
 		   .append("    where w.id = parent ")
 		   .append(" ) ")
-		   .append("SELECT " + (isCountQuery ? "count(w) as count" : "w") + " FROM webpage w ")
-		   .append(" 	inner join webpage_content wc ON w.id=wc.webpage_id ")
-		   .append("WHERE wc.localized_key= :locale AND w.enabled=true (")
+		   .append("SELECT "+ (isCountQuery ? " count(w) as count " : "w.* "))	
+		   .append("FROM webpage w ")
+		   .append("JOIN webpage_content wc ON w.id=wc.webpage_id ")
+		   .append("WHERE w.enabled=true AND (")
 		   .append(" 	unaccent(lower(wc.title)) like CONCAT('%', unaccent(lower(:query)) , '%') OR ")
 		   .append(" 	wc.webpage_tsvector @@ to_tsquery( cast( wc.localized_key as regconfig), :fullTextQuery) ) ");
 		if(!isCountQuery){

@@ -42,8 +42,8 @@ public class PostgreSQLFullTextSearchFunction implements SQLFunction {
 	      if (ftsConfig == null) {
 	         fragment = "to_tsvector(" + field + ") @@ " + "to_tsquery('" + value + "')";
 	      } else {
-	         fragment = "to_tsvector(" + ftsConfig + "::regconfig, " + field + ") @@ "
-	        		 	+ "to_tsquery(" + ftsConfig + ", " + value + ")";
+	         fragment = "to_tsvector(localized_key::regconfig, concat(title, content, unaccent(title), unaccent(content))) @@ "
+	        		 	+ "to_tsquery(" + ftsConfig + "::regconfig, " + value + ")";
 	      }
 	      return fragment;
 	}

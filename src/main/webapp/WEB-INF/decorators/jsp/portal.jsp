@@ -101,10 +101,10 @@
 							</span>
 						</a>
 
-						<div class="pj-search pj-radius">
-							<input type="text" name="q" class="query" placeholder="Vyhledat..." />
+						<form class="pj-search pj-radius" action="<webpage:link webpage="${webpageModel.rootwebpage}" />/search">
+							<input type="text" name="q" class="query" placeholder="<spring:message code="portal.search" />..." />
 							<a href=""></a>
-						</div>
+						</form>
 
 					</div>
 				</div>

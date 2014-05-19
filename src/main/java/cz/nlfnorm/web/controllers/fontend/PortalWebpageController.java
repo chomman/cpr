@@ -1,6 +1,5 @@
 package cz.nlfnorm.web.controllers.fontend;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -69,8 +68,7 @@ public class PortalWebpageController extends PortalWebpageControllerSupport {
 	@RequestMapping(value = { "/"+ Constants.PORTAL_URL+"/search",  EN_PREFIX + Constants.PORTAL_URL+"/search" })
 	public String search(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException{
 		final Webpage webpage = getWebpage( Constants.PORTAL_URL );
-		appendModel(modelMap, webpage );
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model =  prepareModel( webpage );
 		int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		PageDto page = webpageService.getSearchPage(currentPage, (String)params.get("q"), webpage.getId());
@@ -79,7 +77,8 @@ public class PortalWebpageController extends PortalWebpageControllerSupport {
 			model.put("items", page.getItems() );
 		}
 		model.put("count", page.getCount());
-		
+		model.put("q", (String)params.get("q"));
+		modelMap.put(WEBPAGE_MODEL_KEY, model );
 		return getViewDirectory() + "search-results";
 	}
 	
