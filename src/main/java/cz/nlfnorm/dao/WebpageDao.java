@@ -3,6 +3,7 @@ package cz.nlfnorm.dao;
 import java.util.List;
 
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageModule;
 
@@ -55,4 +56,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	void decrementOrder(Webpage parentWebpage, int threshold);
 	
 	List<Webpage> getLatestPublishedNews(int limit);
+	
+	PageDto search(int pageNumber, String term, Long parentNodeId);
 }

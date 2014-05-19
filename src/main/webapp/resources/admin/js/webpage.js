@@ -18,6 +18,7 @@ $(function() {
 			content_css : getBasePath() + 'resources/admin/css/tinymce.css',
 			plugins: "textcolor,image,link,table,autoresize,fullscreen",
 			convert_urls: false,
+			entity_encoding : 'raw',
 			toolbar: "undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright | bullist numlist | link image",
 			autoresize_min_height: 400,
 			autoresize_max_height: 700

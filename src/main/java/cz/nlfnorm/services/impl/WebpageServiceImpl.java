@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dao.WebpageDao;
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.entities.WebpageContent;
@@ -356,6 +357,16 @@ public class WebpageServiceImpl implements WebpageService{
 	public void incrementHit(final Webpage webpage) {
 		webpage.incrementHit();
 		updateWebpage(webpage);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public PageDto getSearchPage(final int pageNumber, String term, final Long parentNodeId) {
+		if(StringUtils.isNotBlank(term)){
+			term  =  term.trim().replaceAll(" +", " ");
+			return webpageDao.search(pageNumber, term, parentNodeId);
+		}
+		return new PageDto();
 	}
 	
 }

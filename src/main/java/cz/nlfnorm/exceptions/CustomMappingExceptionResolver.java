@@ -3,6 +3,7 @@ package cz.nlfnorm.exceptions;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -54,7 +55,7 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 			public void run() {
 				HtmlMailMessage message = new HtmlMailMessage("portal@nlfnorm.cz", ex.getClass().getName());
 				message.addRecipientTo(sendExceptionsToEmailAddress);
-				message.setHtmlContent(ex.getStackTrace().toString());
+				message.setHtmlContent(ExceptionUtils.getStackTrace(ex));
 				nlfnormMailSender.send(message);
 			}
 		};

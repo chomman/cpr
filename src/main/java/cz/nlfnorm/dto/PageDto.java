@@ -1,12 +1,13 @@
 package cz.nlfnorm.dto;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PageDto {
 
-	private Long count;
+	private Long count = 0l;
 	
-	private List<Object> items;
+	private List<Object> items = new ArrayList<Object>();
 
 	public int getCount() {
 		return count.intValue();

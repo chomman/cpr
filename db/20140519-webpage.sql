@@ -1,0 +1,4 @@
+begin;
+	ALTER TABLE webpage_content ADD COLUMN webpage_tsvector TSVECTOR;
+	UPDATE webpage_content set webpage_tsvector = to_tsvector(localized_key::regconfig, concat(title, content, unaccent(title), unaccent(content)));
+end;

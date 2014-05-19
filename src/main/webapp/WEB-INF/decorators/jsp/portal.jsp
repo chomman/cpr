@@ -41,14 +41,16 @@
 						
 						<uL class="pj-langbox">
 							<li><a:url href="/">www.nlfnorm.cz</a:url></li>
-							<li ${commonPublic.locale == 'cs' ? 'class="class"' : ''}>
+							<li ${commonPublic.locale == 'cs' ? 'class="current"' : ''}>
 								<a href="" data-lang="cs"><spring:message code="cs" /></a>
 							</li>
-							<li ${commonPublic.locale == 'en' ? 'class="class"' : ''}>
-								<a href="" data-lang="en">	
-									<spring:message code="en" />
-								</a>
-							</li>
+							 <c:if test="${fn:length(webpageModel.webpage.localized) > 1 }">
+								<li ${commonPublic.locale == 'en' ? 'class="class"' : ''}>
+									<a href="" data-lang="en">	
+										<spring:message code="en" />
+									</a>
+								</li>
+							</c:if>
 						</ul>
 						
 						<c:if test="${not empty webpageModel.loggedUser}">

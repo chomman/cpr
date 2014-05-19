@@ -4,6 +4,7 @@ import java.nio.file.AccessDeniedException;
 import java.util.List;
 
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageModule;
 
@@ -64,4 +65,6 @@ public interface WebpageService {
 	List<Webpage> getLatestPublishedNews(int limit);
 	
 	void incrementHit(Webpage webpage);
+	
+	PageDto getSearchPage(int pageNumber, String term, Long nodeId);
 }

@@ -30,7 +30,7 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ffffff',GradientType=0 );
 }
 .pj-wrapp{height:100%}
-.pj-inner{max-width: 970px;width: 100%;margin: auto;}
+.pj-inner{width: 970px;margin: auto;}
 .placeholder{color: #ddd !important;}
 .clear { clear: both; }
 .hidden{display: none !important;}
@@ -48,6 +48,7 @@
 .pj-header{height: 90px;border-top:1px solid #1f7a94;border-bottom:1px solid #074e63;}
 .pj-header .pj-inner{position:relative;}
 .pj-langbox{float:left;}
+.pj-langbox .current{opacity:.5}
 .pj-login{float:right;}
 .pj-login a{color:#fff;}
 

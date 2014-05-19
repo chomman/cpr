@@ -21,6 +21,7 @@
 				content_css : getBasePath() + 'resources/admin/css/tinymce.css',
 				plugins: "link,table,autoresize,fullscreen",
 				convert_urls: false,
+				entity_encoding : 'raw',
 				toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist | link ",
 				autoresize_min_height: 200,
 				autoresize_max_height: 700,
