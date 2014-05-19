@@ -127,7 +127,7 @@ function makeUrl(current, selected){
 	}else{
 		url = basePath + url.substring(3, url.length);
 	}
-	return "http://" + document.location.host + url;
+	return document.location.protocol + "//" + document.location.host + url;
 	
 }
 

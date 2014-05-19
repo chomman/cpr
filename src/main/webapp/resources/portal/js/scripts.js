@@ -22,9 +22,37 @@ function init(){
 	$(document).on("click", ".show-loginbox", showLoginBox );
 	$(document).on("click", ".hide-loginbox", hideLoginBox );
 	
+	$(document).on("click", ".pj-langbox a", onChangeLang );
 	
 	
 }
+
+function onChangeLang(){
+	var langAttr = "data-lang",
+		newLocale = $(this).attr(langAttr),
+		oldLocale = $('body').attr(langAttr);
+	if(newLocale != oldLocale){
+		 console.log(buildUrl(oldLocale, newLocale));
+		 document.location.replace(buildUrl(oldLocale, newLocale));
+	}
+	
+	return false;
+	
+	function buildUrl(oldLocale, newLocale){
+		var url = document.location.pathname + document.location.search,
+			basePath = getBasePath();
+		url = url.substring(basePath.length, url.length);
+		if(newLocale !== "cs" && oldLocale === "cs"){
+			url = basePath + newLocale + "/" +url;
+		}else{
+			url = basePath + url.substring(3, url.length);
+		}
+		return document.location.protocol + "//" + document.location.host + url;
+		
+	}
+}
+
+
 
 function hideSubNav(e){
 	e.preventDefault();
