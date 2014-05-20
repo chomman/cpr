@@ -54,11 +54,11 @@
 .pj-login a{color:#fff;}
 
 #logo{width:460px;height:52px;background:url(../img/logo.png)  no-repeat -70px 0; display:block;margin-top:15px;}
-.pj-search{float:right;background:#6298a8;width:250px;top:10px;position:absolute;right:0;padding:4px 3px;}
+.pj-search{float:right;background:#6298a8;width:250px;top:10px;position:absolute;right:0;padding:4px 3px;z-index:99;height:30px;}
 .pj-search.pj-active{background:#fafafa;}
 .pj-search.pj-active input{color:#333 !important;}
-.pj-search input{background:transparent;border: none;padding:10px 5px;min-width:245px;color:#fff;margin-top:2px;position:absolute;top:0px;right:0}
-.pj-search a{background:url(../img/ico_search.png) center;;width:30px;height:30px;display:block;float:right;-khtml-opacity: 0.50;opacity: 0.50;filter:alpha(opacity=50);}
+.pj-search input{background:transparent;border: none;padding:10px 5px;min-width:245px;color:#fff;margin-top:2px;position:absolute;top:0px;right:0;z-index:100;}
+.pj-search a{background: url(../img/ico_search.png) center;;width:40px;height:40px;display:block;float:right;-khtml-opacity: 0.50;opacity: 0.50;filter:alpha(opacity=50);position:absolute;z-index:101;right:0;top:0}
 .pj-search a:hover{-khtml-opacity:1;opacity:1;filter:alpha(opacity=100);}
 
 

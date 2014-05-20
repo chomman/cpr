@@ -103,7 +103,7 @@
 							</span>
 						</a>
 
-						<form class="pj-search pj-radius" action="<webpage:link webpage="${webpageModel.rootwebpage}" />/search">
+						<form enctype="application/x-www-form-urlencoded" class="pj-search pj-radius" action="<webpage:link webpage="${webpageModel.rootwebpage}" />/search">
 							<input type="text" name="q" class="query" placeholder="<spring:message code="portal.search" />..." />
 							<a href=""></a>
 						</form>

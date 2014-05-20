@@ -9,7 +9,7 @@
 	<body>
 		<section class="search">
 		
-			<form class="form valid"  action="<webpage:link webpage="${webpageModel.rootwebpage}" />/search">
+			<form enctype="application/x-www-form-urlencoded" class="form valid"  action="<webpage:link webpage="${webpageModel.rootwebpage}" />/search">
 				<input value="${webpageModel.q}"  type="text" name="q" class="query required" />
 				<input type="submit" class="button pj-radius" value="<spring:message code="portal.search" />" /> 
 			</form>

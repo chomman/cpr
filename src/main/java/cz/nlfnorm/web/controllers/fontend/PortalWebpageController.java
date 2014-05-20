@@ -1,5 +1,6 @@
 package cz.nlfnorm.web.controllers.fontend;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 import java.util.Map;
 
@@ -66,18 +67,19 @@ public class PortalWebpageController extends PortalWebpageControllerSupport {
 	}
 	
 	@RequestMapping(value = { "/"+ Constants.PORTAL_URL+"/search",  EN_PREFIX + Constants.PORTAL_URL+"/search" })
-	public String search(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException{
+	public String search(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException, UnsupportedEncodingException{
 		final Webpage webpage = getWebpage( Constants.PORTAL_URL );
 		Map<String, Object> model =  prepareModel( webpage );
 		int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		PageDto page = webpageService.getSearchPage(currentPage, (String)params.get("q"), webpage.getId());
+		final String term = request.getParameter("q");
+		PageDto page = webpageService.getSearchPage(currentPage, term, webpage.getId());
 		if(page.getCount() > 0){
-			model.put("paginationLinks", getPaginationItems(request,params, currentPage, page.getCount()));
+			model.put("paginationLinks", getPaginationItems(request, params, currentPage, page.getCount()));
 			model.put("items", page.getItems() );
 		}
 		model.put("count", page.getCount());
-		model.put("q", (String)params.get("q"));
+		model.put("q", term );
 		modelMap.put(WEBPAGE_MODEL_KEY, model );
 		return getViewDirectory() + "search-results";
 	}
