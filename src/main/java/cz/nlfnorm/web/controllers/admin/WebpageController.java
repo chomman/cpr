@@ -233,8 +233,9 @@ public class WebpageController extends AdminSupportController {
 	
 
 	@RequestMapping(value = "/ajax/autocomplete/webpages", method = RequestMethod.GET)
-	public @ResponseBody List<AutocompleteDto> search(@RequestBody @RequestParam("term") String term){
-		return webpageService.autocomplete(term);
+	public @ResponseBody List<AutocompleteDto> search(@RequestBody @RequestParam("term") String term,
+			@RequestBody @RequestParam(value = "enabledOnly", required = false, defaultValue = "false") Boolean enabledOnly){
+		return webpageService.autocomplete(term, enabledOnly);
 	}
 	
 	private void updateSettings(WebpageSettingsDto form) throws ItemNotFoundException{
@@ -275,6 +276,7 @@ public class WebpageController extends AdminSupportController {
 		webpage.setRedirectUrl(form.getRedirectUrl());
 		webpage.getLocalized().put(form.getLocale(), form.getWebpageContent());
 		webpageService.saveOrUpdate(webpage);
+		webpageService.updateTsVector(webpage);
 	}
 	
 	private String buildRedirectUrl(Long id, String localeCode){

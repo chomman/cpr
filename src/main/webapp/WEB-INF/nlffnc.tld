@@ -15,4 +15,16 @@
         <function-signature>int daysLeft(org.joda.time.LocalDate )</function-signature>
     </function>
     
+    <function>
+        <name>crop</name>
+        <function-class>cz.nlfnorm.utils.NlfStringUtils</function-class>
+        <function-signature>String getCroppedText(java.lang.String, int)</function-signature>
+    </function>
+    
+    <function>
+        <name>isOnlyForRegistrated</name>
+        <function-class>cz.nlfnorm.utils.WebpageUtils</function-class>
+        <function-signature>boolean isOnlyForRegistraged( cz.nlfnorm.entities.Webpage )</function-signature>
+    </function>
+    
 </taglib>

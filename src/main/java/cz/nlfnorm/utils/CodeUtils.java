@@ -1,7 +1,5 @@
 package cz.nlfnorm.utils;
 
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.text.Normalizer;
 import java.text.Normalizer.Form;
 import java.util.HashMap;

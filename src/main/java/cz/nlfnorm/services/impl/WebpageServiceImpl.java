@@ -12,6 +12,7 @@ import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -208,9 +209,9 @@ public class WebpageServiceImpl implements WebpageService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<AutocompleteDto> autocomplete(final String term) {
+	public List<AutocompleteDto> autocomplete(final String term, final Boolean enabledOnly) {
 		if(StringUtils.isNotBlank(term)){
-			return webpageDao.autocomplete(term);
+			return webpageDao.autocomplete(term, enabledOnly);
 		}
 		return new ArrayList<AutocompleteDto>();
 	}
@@ -367,6 +368,13 @@ public class WebpageServiceImpl implements WebpageService{
 			return webpageDao.search(pageNumber, term, parentNodeId);
 		}
 		return new PageDto();
+	}
+
+
+	@Async
+	@Override
+	public void updateTsVector(Webpage webpage) {
+		webpageDao.updatetsVector(webpage);
 	}
 	
 }

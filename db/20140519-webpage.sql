@@ -4,4 +4,5 @@ begin;
 	set webpage_tsvector = 
 	to_tsvector(localized_key::regconfig, 
 	concat(title, content, unaccent(title), unaccent(content), unaccent(description), unaccent(description) ));
+	to_tsvector(cast(localized_key as regconfig), concat(title, ' ', content, ' ', unaccent(title), ' ', unaccent(content), ' ', unaccent(description), ' ', unaccent(description) ))
 end;

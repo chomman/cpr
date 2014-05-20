@@ -96,6 +96,7 @@ public class AjaxController {
 		return csnService.autocompleteByCsnId(query);
 	}
 	
+		
 	
 	@RequestMapping(value = "/ajax/standard-csn/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<StandardCsn>  searchInStandardCsns(@RequestBody @RequestParam("term") String term){

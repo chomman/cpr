@@ -4,7 +4,7 @@ import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;
 import org.springframework.util.Assert;
 
-public class StringUtils {
+public class StringUtilsTest {
 	
 	@Test
 	public void randomTokenTest(){
@@ -12,4 +12,6 @@ public class StringUtils {
 			   token = RandomStringUtils.randomAscii(32);
 		Assert.notNull(token);
 	}
+
+	
 }

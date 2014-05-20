@@ -267,6 +267,14 @@ public class Webpage extends AbstractEntity {
 	}
 	
 	@Transient
+	public String getContentInLang(){
+		if(localized.containsKey(ContextHolder.getLang())){
+			return localized.get(ContextHolder.getLang()).getContent();
+		}
+		return null;
+	}
+	
+	@Transient
 	public String getDefaultName(){
 		WebpageContent content = getDefaultWebpageContent();
 		if( content != null){

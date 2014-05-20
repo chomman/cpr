@@ -46,7 +46,7 @@ public interface WebpageService {
 	
 	void createWebpageContent(Long webpageId, String langCode);
 	
-	List<AutocompleteDto> autocomplete(String term);
+	List<AutocompleteDto> autocomplete(String term, Boolean enabledOnly);
 	
 	void deleteWebpageAvatar(Long id);
 	
@@ -67,4 +67,6 @@ public interface WebpageService {
 	void incrementHit(Webpage webpage);
 	
 	PageDto getSearchPage(int pageNumber, String term, Long nodeId);
+	
+	void updateTsVector(Webpage webpage);
 }

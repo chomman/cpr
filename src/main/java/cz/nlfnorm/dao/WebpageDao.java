@@ -40,7 +40,7 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	
 	int getMaxOrderInNode(Long nodeId);
 	
-	List<AutocompleteDto> autocomplete(String term);
+	List<AutocompleteDto> autocomplete(String term, boolean enabledOnly);
 	
 	Webpage getHomePage();
 	
@@ -58,4 +58,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	List<Webpage> getLatestPublishedNews(int limit);
 	
 	PageDto search(int pageNumber, String term, Long parentNodeId);
+	
+	void updatetsVector(Webpage webpage);
 }

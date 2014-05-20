@@ -8,9 +8,7 @@
 <c:forEach items="${webpageModel.newsItems}" var="i">
 
 	<div class="pj-category-item"> 	
-		<c:if test="${not isAuthenticated and i.isOnlyForRegistrated}">
-			 <<<continue>>>
-		</c:if>
+		
 		<c:if test="${webpageModel.webpage.showThumbnail}">
 			<div class="pj-foto">
 				<c:if test="${not empty i.avatar}">

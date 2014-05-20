@@ -2,17 +2,21 @@ $(init);
 
 function init(){
 	$('[placeholder]').focus(function() {
-	  var input = $(this);
+	  var input = $(this),
+	  	  $form = input.parent();
 	  if (input.val() == input.attr('placeholder')) {
 	    input.val('');
 	    input.removeClass('placeholder');
 	  }
+	  $form.addClass('pj-active');
 	}).blur(function() {
-	  var input = $(this);
+	  var input = $(this),
+	  	  $form = input.parent();
 	  if (input.val() == "" || input.val() == input.attr('placeholder')) {
 	    input.addClass('placeholder');
 	    input.val(input.attr('placeholder'));
-	  }
+	  } 
+	  $form.removeClass('pj-active');
 	}).blur();
 	
 	
@@ -23,9 +27,38 @@ function init(){
 	$(document).on("click", ".hide-loginbox", hideLoginBox );
 	
 	$(document).on("click", ".pj-langbox a", onChangeLang );
+	$(document).on("click", ".pj-search a", onSearchClicked );
 	
-	
+	$("input.query").autocomplete({
+		 source: function(request, response){  
+		 	 $.getJSON( getBasePath() +"ajax/autocomplete/webpages?enabledOnly=true", request, function(data) {  
+	        	 response( $.map( data, function( item ) {
+	        		 	var text = item[1],
+	        		 		val = item[1];
+	        		 	if(text.length > 40){
+	        		 		val = text.substring(0, 40);
+	        		 		text = val + "...";
+	        		 	}
+						return {label: text, value: val };
+					}));
+	   	});  
+		 },
+		minLength: 2,
+		select: function( event, ui ) {
+			ui.item.value;
+		}
+	});
 }
+
+function onSearchClicked(){
+	var $form = $(this).parent(),
+		term = $form.find('[name=q]').val(); 
+	if($.trim(term) != "" && (term !== "Vyhledat..." && term !== "Search...") ){
+		$form.submit();
+	}
+	return false;
+}
+
 
 function onChangeLang(){
 	var langAttr = "data-lang",
@@ -219,3 +252,4 @@ function toArray(a){
 	}
 	return d;
 }
+

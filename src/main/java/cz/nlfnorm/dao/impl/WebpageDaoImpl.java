@@ -1,10 +1,8 @@
 package cz.nlfnorm.dao.impl;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.lang.Validate;
-import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.type.LongType;
 import org.joda.time.LocalDateTime;
@@ -12,11 +10,9 @@ import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.constants.CacheRegion;
 import cz.nlfnorm.constants.Constants;
-import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dao.WebpageDao;
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.dto.PageDto;
-import cz.nlfnorm.dto.WebpageSearchDto;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageModule;
 import cz.nlfnorm.enums.WebpageType;
@@ -119,13 +115,23 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<AutocompleteDto> autocomplete(final String term) {
-		StringBuilder hql = new StringBuilder("select w.id as id, l.name as name from ");
-		hql.append(Webpage.class.getName())
-		   .append(" w join w.localized l")
-		   .append(" where unaccent(lower(l.name)) like  CONCAT('', unaccent(lower(:query)) , '%'))  AND key(l) = 'cs' ")
-		   .append("group by w.id ");
-		   
+	public List<AutocompleteDto> autocomplete(final String term, final boolean enabledOnly) {
+		StringBuilder hql = new StringBuilder();
+		if(enabledOnly){
+			hql.append("select w.id as id, l.title as name ")
+				.append("from Webpage w ")
+				.append("	join w.localized l ")
+				.append("where w.enabled=true and ")
+				.append("  	unaccent(lower(l.title)) like  CONCAT('', unaccent(lower(:query)) , '%'))  AND key(l) = 'cs' ")
+				.append("group by w.id ")
+				.append("order by l.title desc ");
+		}else{
+			hql.append("select w.id as id, l.name as name from Webpage w")
+				.append(" w join w.localized l where")
+				.append("  unaccent(lower(l.name)) like  CONCAT('', unaccent(lower(:query)) , '%'))  AND key(l) = 'cs' ")
+				.append("group by w.id ");
+		}
+		
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setString("query", term);
 		hqlQuery.setMaxResults(8);
@@ -288,5 +294,21 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setCacheRegion(CacheRegion.WEBPAGE_CACHE);
 		hqlQuery.setCacheable(true);
 		return hqlQuery.list();
+	}
+
+
+	@Override
+	public void updatetsVector(final Webpage webpage) {
+		Validate.notNull(webpage);
+		Validate.notNull(webpage.getId());
+		StringBuilder sql = new StringBuilder("UPDATE webpage_content ");
+		sql.append("SET webpage_tsvector = ")
+			.append(" to_tsvector(cast(localized_key as regconfig), concat(title, ' ', content, ' ', unaccent(title), ' ', unaccent(content), ' ', unaccent(description), ' ', unaccent(description) )) ")
+			.append("WHERE webpage_id = :webpageId");
+		Query hqlQuery = sessionFactory
+					.getCurrentSession()
+					.createSQLQuery(sql.toString());
+		hqlQuery.setLong("webpageId", webpage.getId());
+		hqlQuery.executeUpdate();
 	}
 }
