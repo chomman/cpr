@@ -29,6 +29,19 @@
 	background: linear-gradient(to bottom, #eee 0%,#ffffff 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ffffff',GradientType=0 );
 }
+
+.pj-radius-bottom-right{
+    -webkit-border-bottom-right-radius: 10px;
+    -moz-border-radius-bottomright: 10px;
+    border-bottom-right-radius: 10px;
+}
+.pj-radius-bottom-left{
+    -webkit-border-bottom-left-radius: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+
 .pj-wrapp{height:100%}
 .pj-inner{max-width: 1000px;width: 100%;margin: auto;}
 .placeholder{color: #ddd !important;}
@@ -172,8 +185,8 @@ article h1{display:block;padding:0 5px 8px 5px;text-transform:uppercase;color:#8
 
 .pj-link,
 section #article a{color:#0088c8;}
-.pj-link:hover,
 section.pj-fullWidth{max-width:100%;margin-left:0 !important}
+.pj-link:hover,
 section #article a:hover{color:#111;}
 section article{margin-top:25px;}
 section #article{font-size:14px;color:#222;line-height:20px;}
@@ -259,15 +272,20 @@ footer ul li a:hover{color:#333}
 .pj-bc a,.pj-bc span{padding:5px;}
 
 
-#pj-login-box{ position:absolute;top:25px;right:-20px;width:280px;border-bottom:5px solid #15637a;border-right:1px solid #15637a;padding:0 20px 5px 20px;z-index:99;border-radius: 0px 0px 10px 10px;-moz-border-radius: 0px 0px 10px 10px;-webkit-border-radius: 0px 0px 10px 10px;}
+
+#pj-login-box{ position:absolute;top:25px;right:-20px;width:280px;border-bottom:5px solid #15637a;border-right:1px solid #15637a;padding:0 20px 5px 20px;z-index:999;border-radius: 0px 0px 10px 10px;-moz-border-radius: 0px 0px 10px 10px;-webkit-border-radius: 0px 0px 10px 10px;}
 #pj-login-box.has-errors{top:0px;padding-top:5px;}
 #pj-login-box .error{padding:8px;margin:5px;background:#FFE0E0;border:2px solid #FFB0B0;color:#960B0B;}
 #pj-login-box .bx{padding:5px 0;border-bottom:1px solid #15637a;}
 #pj-login-box .bx label{display:inline-block;min-width:80px;}
 #pj-login-box .filed.text{padding:4px;color:#333;font-size:11px !important;width:180px;}
 #pj-login-box .button{float:right;}
-#pj-login-box .btn{margin-top:15px;display:inline-block;color:#FFA3A3;}
-
+#pj-login-box .btn{margin-top:15px;display:block;color:#bbb;}
+#pj-login-box .cancel{position:absolute;bottom:-17px;right:130px;background:#15637a;width:60px;text-align:center;height:14px;font-size:10px;text-decoration:none;}
+#pj-login-box .cancel:hover{color:#fff;height:16px;width:70px;right:125px;bottom:-19px;}
+#pj-login-box .remeber{float:right;margin-top:9px;margin-right:15px;}
+#pj-login-box .pj-forgotten-pass{position:absolute;left:0px;top:-18px;font-size:11px;width:320px;text-align:center;color:#ccc}
+#pj-login-box .pj-forgotten-pass:hover{color:#fff;}
 .button {
 	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
 	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
@@ -282,8 +300,8 @@ footer ul li a:hover{color:#333}
 	color:#777777;
 	font-family:arial;
 	font-size:13px;
-       padding:5px 10px;margin:5px 0;
-       cursor:pointer;
+    padding:5px 10px;margin:5px 0;
+    cursor:pointer;
 	font-weight:bold;
 	font-style:normal;
 	text-decoration:none;
@@ -303,6 +321,7 @@ footer ul li a:hover{color:#333}
 .ico .ic{ background-image:url(../../admin/img/iconset.gif);background-repeat: no-repeat;width: 19px;height:19px;position: absolute;left:-20px;top: 0px;border-radius:50%;}
 .plus{background-position:26px -153px; }
 .set{background-position:-21px 4px; }
+.ic-close{background-position:-21px 4px;}
 .ic-user{background-position:-147px -73px;background-color:#15637a; }
 
 
@@ -353,7 +372,7 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 .status.error{border:2px solid #f74b5b;color:#da3b4a;background-color:#fff1f2;}
 .status.error .status-ico{background-position:0 -60px;}
 .status.ok{border:5px solid #91FF99;color:#00BF0D;background-color:#F5FFF6;}
-.status.ok .status-ico{background-position:0 -12px;}
+.status.ok.status-ico{background-position: 5px -8px;}
 .status.alert{border:5px solid #FFD04F;color:#29210A;background-color:#FFF9E8;background-image:url(../img/ico-alert.png);background-repeat:no-repeat;background-position: 10px center;}
 .status a{display:block;margin:20px 0 5px 0;color:#333}
 .status.status-ico.error{background-position:5px -57px;}
@@ -489,3 +508,10 @@ background: -o-linear-gradient(top, #f7f7f7 0%,#e5e5e5 100%); /* Opera 11.10+ */
 background: -ms-linear-gradient(top, #f7f7f7 0%,#e5e5e5 100%); /* IE10+ */
 background: linear-gradient(to bottom, #f7f7f7 0%,#e5e5e5 100%); /* W3C */
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f7f7f7', endColorstr='#e5e5e5',GradientType=0 ); /* IE6-9 */ border:1px solid #ddd;-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;color:#333}
+
+/* Forgotten password */
+.pj-forgotten-pass .pj-left{float:left;width:30%;}
+.pj-forgotten-pass .pj-right{float:left;width:68%;margin-left:2%;}
+.pj-forgotten-pass h2{color:#333;margin-bottom:5px;margin-top:10px;}
+.pj-forgotten-pass .label{min-width:50px !important;}
+.pj-forgotten-pass .button{margin-left:80px;}

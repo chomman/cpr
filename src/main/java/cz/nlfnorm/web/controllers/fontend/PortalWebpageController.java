@@ -57,6 +57,7 @@ public class PortalWebpageController extends PortalWebpageControllerSupport {
 	public String handleChildPages(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception, PortalAccessDeniedException{
 		return appendModelAndGetView(modelMap, getWebpage( id ));
 	}
+		
 	
 	
 	@ResponseStatus(HttpStatus.UNAUTHORIZED)
@@ -65,6 +66,8 @@ public class PortalWebpageController extends PortalWebpageControllerSupport {
 		appendModel(modelMap, getWebpage( Constants.PORTAL_URL ) );
 		return getViewDirectory() + "access-denied";
 	}
+	
+		
 	
 	@RequestMapping(value = { "/"+ Constants.PORTAL_URL+"/search",  EN_PREFIX + Constants.PORTAL_URL+"/search" })
 	public String search(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException, UnsupportedEncodingException{
@@ -80,7 +83,7 @@ public class PortalWebpageController extends PortalWebpageControllerSupport {
 		}
 		model.put("count", page.getCount());
 		model.put("q", term );
-		modelMap.put(WEBPAGE_MODEL_KEY, model );
+		appendModel(modelMap, model);
 		return getViewDirectory() + "search-results";
 	}
 	

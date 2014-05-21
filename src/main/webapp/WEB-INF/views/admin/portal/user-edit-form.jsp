@@ -8,7 +8,7 @@
 		<p class="msg ok"><spring:message code="success.create" /></p>
 	</c:if>
 	
-	<p class="form-head"><spring:message code="portalUser.head.otherInfo" /></p>
+	<p class="form-head"><spring:message code="portaluser.profile.order.fa" /></p> 
 		<p>
        	<label>
        		<strong><em class="red">*</em>

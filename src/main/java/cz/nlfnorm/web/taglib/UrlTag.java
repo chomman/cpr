@@ -183,5 +183,4 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 		this.fixedLocale = fixedLocale;
 	}
 
-
 }

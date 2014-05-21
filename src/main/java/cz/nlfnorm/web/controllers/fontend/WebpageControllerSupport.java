@@ -80,24 +80,28 @@ public class WebpageControllerSupport {
 	}
 
 
-	public void setViewDirectory(String viewDirectory) {
+	public void setViewDirectory(final String viewDirectory) {
 		this.viewDirectory = viewDirectory;
 	}
 	
-	protected Map<String, Object> prepareModel(Webpage webpage){
+	protected Map<String, Object> prepareModel(final Webpage webpage){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("webpage", webpage);
 		return model;
 	}
 	
 	
-	protected String appendModelAndGetView(ModelMap modelMap, Webpage webpage){	
+	protected String appendModelAndGetView(ModelMap modelMap,final Webpage webpage){	
 		appendModel(modelMap, webpage);
 		return resolveViewFor(webpage);
 	}
 	
-	protected void appendModel(ModelMap modelMap, Webpage webpage) {
-		modelMap.put(WEBPAGE_MODEL_KEY, prepareModel(webpage));
+	protected void appendModel(ModelMap modelMap, final Map<String, Object> model) {
+		modelMap.put(WEBPAGE_MODEL_KEY, model);
+	}
+	
+	protected void appendModel(ModelMap modelMap, final Webpage webpage) {
+		appendModel(modelMap, prepareModel(webpage));
 	}
 	
 	public void appendSelectedProduct(Map<String, Object> model, HttpServletRequest request){

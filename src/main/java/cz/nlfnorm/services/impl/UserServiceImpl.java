@@ -1,11 +1,15 @@
 package cz.nlfnorm.services.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.RandomStringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,7 +20,13 @@ import cz.nlfnorm.dao.AuthorityDao;
 import cz.nlfnorm.dao.UserDao;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
+import cz.nlfnorm.entities.BasicSettings;
+import cz.nlfnorm.entities.EmailTemplate;
 import cz.nlfnorm.entities.User;
+import cz.nlfnorm.mail.HtmlMailMessage;
+import cz.nlfnorm.mail.NlfnormMailSender;
+import cz.nlfnorm.services.BasicSettingsService;
+import cz.nlfnorm.services.EmailTemplateService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.spring.security.MD5Crypt;
 import cz.nlfnorm.utils.ParseUtils;
@@ -32,7 +42,16 @@ public class UserServiceImpl implements UserService {
 	private AuthorityDao authorityDao;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
-	    
+	@Autowired
+	private EmailTemplateService emailTemplateService;
+	@Autowired
+	private NlfnormMailSender nlfnormMailSender;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
+	
+	@Value("#{config['changePasswordTokenValidity']}")
+	private int changePasswordTokenValidity;
+		    
 	@Override
 	@Transactional(readOnly = true)
 	public Authority getAuthorityByCode(String code) {
@@ -158,5 +177,32 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> autocomplateSearch(String query) {
 		return userDao.autocomplateSearch(query);
+	}
+
+	@Override
+	public void sendChangePassowrdEmail(final User user, final String changePasswordUrl) {
+		Validate.notNull(user);
+		final String token = RandomStringUtils.randomAlphanumeric(32);
+		user.setChangePasswordRequestDate(new LocalDateTime().plusHours(changePasswordTokenValidity));
+		user.setChangePasswordRequestToken(token);
+		final EmailTemplate template = emailTemplateService.getByCode(EmailTemplate.USER_CHANGE_PASSWORD_REQUEST);
+		Validate.notNull(template);
+		final BasicSettings settings = basicSettingsService.getBasicSettings();
+		Map<String, Object> mailContext = new HashMap<String, Object>();
+		mailContext.put("odkaz", changePasswordUrl + token);
+		mailContext.put("platnostOdkazu", changePasswordTokenValidity);
+		final HtmlMailMessage mailMessage = new HtmlMailMessage(settings.getSystemEmail(), template,  mailContext);
+		mailMessage.addRecipientTo(user.getEmail());
+		nlfnormMailSender.send(mailMessage);
+		updateUser(user);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public User getUserByChangePasswordRequestToken(final String token) {
+		if(StringUtils.isBlank(token)){
+			return null;
+		}
+		return userDao.getUserByChangePasswordRequestToken(token);
 	}
 }

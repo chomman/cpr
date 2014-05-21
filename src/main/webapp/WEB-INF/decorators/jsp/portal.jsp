@@ -42,12 +42,12 @@
 					<div class="pj-inner">
 						
 						<uL class="pj-langbox">
-							<li><a:url href="/">www.nlfnorm.cz</a:url></li>
+							<li><a href="<a:url href="/" linkOnly="true" />">www.nlfnorm.cz</a></li>
 							<li ${commonPublic.locale == 'cs' ? 'class="current"' : ''}>
 								<a href="" data-lang="cs"><spring:message code="cs" /></a>
 							</li>
 							 <c:if test="${fn:length(webpageModel.webpage.localized) > 1 }">
-								<li ${commonPublic.locale == 'en' ? 'class="class"' : ''}>
+								<li ${commonPublic.locale == 'en' ? 'class="current"' : ''}>
 									<a href="" data-lang="en">	
 										<spring:message code="en" />
 									</a>
@@ -84,11 +84,19 @@
 								       		<label for="j_password"><spring:message code="portal.login.pass" /></label>
 								       		<input type="password" class="filed text" name="j_password" value=""/>
 								       </div>
-								
+										
 								       	<input type="submit" value="<spring:message code="portal.login" />" class="button pj-radius6" />
-								        <a href="#" class="btn cancel hide-loginbox" title="<spring:message code="portal.cancel" />" >
-								        	<spring:message code="portal.cancel" />
+								        <a href="#" class="btn cancel hide-loginbox pj-radius-bottom-right pj-radius-bottom-left" title="<spring:message code="portal.close" />" >
+								        	<spring:message code="portal.close" />
 								        </a>
+								        <a href="<webpage:link webpage="${webpageModel.rootwebpage}" />/zapomenute-heslo" class="pj-forgotten-pass" >
+								        	<spring:message code="forgottenPassowrd" />
+								        </a>
+								        
+										<span class="remeber">
+											<label><spring:message code="rememberMe" /></label>
+											<input class="checkbox" type="checkbox" name="_spring_security_remember_me" />
+										</span>
 							      </form>
 							</div>
 						</c:if>
@@ -139,7 +147,9 @@
 										 parentLiCssClass="pj-parent" 
 										 isAuthenticated="${hasValidRegistration}" />	
 										 				
-							<strong class="pj-head pj -bg-light-gray">Poslední novinky</strong>
+							<strong class="pj-head pj -bg-light-gray">
+								<spring:message code="lastNews" />
+							</strong>
 								<div class="pj-lastnews">
 									<c:forEach items="${webpageModel.news}" var="i">
 										<div class="pj-item">

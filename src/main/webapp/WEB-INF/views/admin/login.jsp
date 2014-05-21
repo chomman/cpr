@@ -36,7 +36,7 @@
               </table>
               <span class="remeber">
               	<input class="checkbox" type="checkbox" name="_spring_security_remember_me">
-              	<label>přihlásit se trvale na tomto počítači</label>
+              	<label><spring:message code="rememberMe" /></label>
               </span>
       		  <input type="submit" value="Přihlásit se" class="submit"/>
       </form>

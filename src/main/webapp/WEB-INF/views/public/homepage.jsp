@@ -1,7 +1,7 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <c:set var="editable" value="false" scope="application"/>
-<sec:authorize access="isAuthenticated()"> 
+<sec:authorize access="hasRole('ROLE_ADMIN')"> 
 	<c:set var="editable" value="true" scope="application" />
 </sec:authorize>
 
@@ -22,17 +22,18 @@
 				
 			 <div id="homepage">
 			 		<div class="hompage-left">
-			 			<strong class="head"><spring:message code="homepage.newest.articles" /></strong>
-			 			<c:if test="${not empty webpageModel.articles}">
-							<c:forEach items="${webpageModel.articles}" var="article">
+			 			<strong class="head"><spring:message code="lastNews" /></strong>
+			 			<c:if test="${not empty webpageModel.news}">
+							<c:forEach items="${webpageModel.news}" var="i">
 								<div class="home-news">
+								<span class="pj-radius"><joda:format value="${i.published}" pattern="dd.MM.yyyy" /> | </span>
 					 				<strong>
-					 					<a:url href="${webpageModel.articleUrl}/${article.code}"  cssClass="blue-color">${article.title}</a:url>
+					 					<webpage:a webpage="${i}" cssClass="blue-color" />
 					 				</strong>
-					 				<p>${fn:substring(article.header, 0, 120)} ...</p>
-					 				<a:url href="${webpageModel.articleUrl}/${article.code}"  cssClass="blue-color">
+					 				<p>${fn:substring(i.descriptionInLang, 0, 120)} ...</p>
+					 				<a href="<webpage:link webpage="${i}"  />" class="blue-color">
 					 					<spring:message code="view.detail" /> &raquo; 
-					 				</a:url>
+					 				</a>
 					 				<div class="clear"></div>
 				 				</div>
 				 			</c:forEach>

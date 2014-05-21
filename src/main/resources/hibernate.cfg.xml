@@ -26,7 +26,6 @@
   	<mapping class="cz.nlfnorm.entities.CommissionDecision"/>
   	<mapping class="cz.nlfnorm.entities.BasicRequirement"/>
 	<mapping class="cz.nlfnorm.entities.Requirement" />
-	<mapping class="cz.nlfnorm.entities.Article" />
 	<mapping class="cz.nlfnorm.entities.Webpage" />
 	<mapping class="cz.nlfnorm.entities.BasicSettings"/>
 	<mapping class="cz.nlfnorm.entities.ExceptionLog"/>

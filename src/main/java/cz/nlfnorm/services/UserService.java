@@ -47,4 +47,8 @@ public interface UserService {
 	List<User> autocomplateSearch(String query);
 	
 	void setUserPassword(User user, String password);
+	
+	void sendChangePassowrdEmail(User user, String changePasswordUrl);
+	
+	User getUserByChangePasswordRequestToken(String token);
 }

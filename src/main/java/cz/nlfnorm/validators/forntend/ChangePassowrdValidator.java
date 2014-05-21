@@ -12,6 +12,7 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.validators.AbstractValidator;
 import cz.nlfnorm.web.forms.portal.ChangePasswordForm;
+import cz.nlfnorm.web.forms.portal.ResetPassowrdForm;
 
 @Component
 public class ChangePassowrdValidator extends AbstractValidator{
@@ -26,19 +27,18 @@ public class ChangePassowrdValidator extends AbstractValidator{
 	
 	@Override
 	protected void addExtraValidation(Object objectForm, Errors errors) {
-		if(objectForm instanceof  ChangePasswordForm){
-			
-			objectForm = (ChangePasswordForm)objectForm;
-			
-			final User user = userService.getUserById(((ChangePasswordForm) objectForm).getUserId());
-			
-			if(!passwordEncoder.matches(((ChangePasswordForm) objectForm).getCurrentPassword(), user.getPassword())){
-				errors.reject("user.currentPassword", 
-						messageSource.getMessage("error.password.old", null, ContextHolder.getLocale()) );
+		
+			objectForm = (ResetPassowrdForm)objectForm;
+			if(objectForm instanceof ChangePasswordForm){
+				final User user = userService.getUserById(((ChangePasswordForm) objectForm).getUserId());
+				
+				if(!passwordEncoder.matches(((ChangePasswordForm) objectForm).getCurrentPassword(), user.getPassword())){
+					errors.reject("user.currentPassword", 
+							messageSource.getMessage("error.password.old", null, ContextHolder.getLocale()) );
+				}
 			}
-			
-			final String newPass = ((ChangePasswordForm) objectForm).getNewPassword();
-			final String confirmPass = ((ChangePasswordForm) objectForm).getConfirmPassword();
+			final String newPass = ((ResetPassowrdForm) objectForm).getNewPassword();
+			final String confirmPass = ((ResetPassowrdForm) objectForm).getConfirmPassword();
 			
 			
 			if(StringUtils.isBlank(confirmPass) || StringUtils.isBlank(newPass) || !newPass.equals(confirmPass) ){
@@ -46,5 +46,5 @@ public class ChangePassowrdValidator extends AbstractValidator{
 						messageSource.getMessage("error.password.notMatch", null, ContextHolder.getLocale()) );
 			}
 		}
-	}
+	
 }

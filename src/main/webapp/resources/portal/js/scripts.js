@@ -26,7 +26,7 @@ function init(){
 	$(document).on("click", ".show-loginbox", showLoginBox );
 	$(document).on("click", ".hide-loginbox", hideLoginBox );
 	
-	$(document).on("click", ".pj-langbox a", onChangeLang );
+	$(document).on("click", ".pj-langbox a[data-lang]", onChangeLang );
 	$(document).on("click", ".pj-search a", onSearchClicked );
 	
 	$("input.query").autocomplete({

@@ -12,15 +12,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.exceptions.PortalAccessDeniedException;
-import cz.nlfnorm.services.ArticleService;
 import cz.nlfnorm.services.StandardService;
 import cz.nlfnorm.utils.WebpageUtils;
 
 @Controller
 public class PublicWebpageController extends WebpageControllerSupport {
 		
-	@Autowired
-	private ArticleService articleService;
 	@Autowired
 	private StandardService standardService;
 	
@@ -31,8 +28,7 @@ public class PublicWebpageController extends WebpageControllerSupport {
 	@RequestMapping(value = {"/", EN_PREFIX })
 	public String handleHomepage(ModelMap map){
 		Map<String, Object> model = prepareModel(webpageService.getHomePage());
-		model.put("articleUrl", "/article/");
-		model.put("articles", articleService.getNewestArticles(3));
+		model.put("news", webpageService.getLatestPublishedNews(3) );
 		model.put("standards", standardService.getLastEditedOrNewestStandards(6, Boolean.TRUE));
 		map.put( WEBPAGE_MODEL_KEY , model);
 		return "/public/homepage";

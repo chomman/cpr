@@ -65,4 +65,6 @@ public interface UserDao extends BaseDao<User, Long>{
 	boolean isUserNameUniqe(Long id, String userName);
 	
 	
+	User getUserByChangePasswordRequestToken(String token);
+	
 }

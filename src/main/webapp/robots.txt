@@ -3,3 +3,7 @@ User-Agent: *
 Disallow: /.#
 Disallow: /*.js$
 Disallow: /admin/
+Disallow: /*/profile/*
+Disallow: /en/*/profile/*
+Disallow: /*/pristup-zamitnut
+Disallow: /*/zapomenute-heslo

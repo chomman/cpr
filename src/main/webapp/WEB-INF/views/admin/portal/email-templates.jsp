@@ -49,7 +49,7 @@
 						</thead>
 						<tbody>
 							<c:forEach items="${model.emailTemplates}" var="i">
-								<c:if test="${fn:substring(i.code, 0, 15) != 'PORTAL_MEDIATOR'}">
+								<c:if test="${fn:substring(i.code, 0, 7) == 'PORTAL_' and fn:substring(i.code, 0, 15) != 'PORTAL_MEDIATOR'}">
 								 	<tr>
 								 		<td><strong>${i.subject}</strong></td>
 								 		<td>${i.name}</td>
@@ -108,7 +108,46 @@
 							 </c:forEach>
 						</tbody>
 					</table>
+					
+					<div class="hbox">
+						<h2>Ostatní emailové šablony</h2>
+					</div>									
+					<table class="data">
+						<thead>
+							<tr>
+								<tH><spring:message code="admin.emailTemplate.subject" /></th>
+								<tH><spring:message code="admin.emailTemplate.name" /></th>
+								<th><spring:message code="form.lastEdit" /></th>
+								<th><spring:message code="form.edit" /></th>
+							</tr>
+						</thead>
+						<tbody>
+							<c:forEach items="${model.emailTemplates}" var="i">
+								<c:if test="${fn:substring(i.code, 0, 7) != 'PORTAL_'}">
+								 	<tr>
+								 		<td><strong>${i.subject}</strong></td>
+								 		<td>${i.name}</td>
+								 		<td class="last-edit">
+								 			<c:if test="${empty i.changedBy}">
+								 				<joda:format value="${i.created}" pattern="${common.dateTimeFormat}"/>
+								 			</c:if>
+								 			<c:if test="${not empty i.changedBy}">
+								 				<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
+								 			</c:if>
+								 		</td>
+								 		<td class="edit">
+								 			<a:adminurl href="/portal/email-template/${i.id}">
+								 				<spring:message code="form.edit" />
+								 			</a:adminurl>
+								 		</td>
+								 	</tr>
+							 	</c:if>
+							 </c:forEach>
+						</tbody>
+					</table>
 				</c:if>
+				
+				
 				
 				<c:if test="${empty model.emailTemplates}">
 					<p class="msg alert">

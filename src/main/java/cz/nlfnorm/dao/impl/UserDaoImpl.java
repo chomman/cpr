@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.constants.Constants;
@@ -216,6 +217,20 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		}
 		return items;
 		
+	}
+
+	@Override
+	public User getUserByChangePasswordRequestToken(final String token) {
+		final LocalDateTime now = new LocalDateTime();
+		StringBuilder hql = new StringBuilder("from User u ");
+		hql.append("where u.enabled=true AND u.changePasswordRequestToken=:token AND ")
+			.append(" u.changePasswordRequestDate > :now" );
+		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setMaxResults(1);
+		query.setCacheable(false);
+		query.setString("token", token);
+		query.setTimestamp("now", now.toDate());
+		return (User)query.uniqueResult();
 	}
 
 	

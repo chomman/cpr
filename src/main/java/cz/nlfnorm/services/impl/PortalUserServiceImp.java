@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -26,7 +25,7 @@ import cz.nlfnorm.entities.UserOnlinePublication;
 import cz.nlfnorm.services.ExceptionLogService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
-import cz.nlfnorm.web.forms.portal.ChangePasswordForm;
+import cz.nlfnorm.web.forms.portal.ResetPassowrdForm;
 import cz.nlfnorm.web.json.dto.SgpportalRequest;
 import cz.nlfnorm.web.json.dto.SgpportalResponse;
 import cz.nlfnorm.web.json.dto.SgpportalUser;
@@ -136,7 +135,7 @@ public class PortalUserServiceImp implements PortalUserService {
 						  syncFailed = false;
 						  logger.info(response);
 					  }
-				  }catch(RestClientException e){
+				  }catch(Exception e){
 					  exceptionLogService.logException(e);
 					  logger.warn(e);
 				  }
@@ -151,7 +150,7 @@ public class PortalUserServiceImp implements PortalUserService {
 
 
 	@Override
-	public void changeUserPassword(final ChangePasswordForm form) {
+	public void changeUserPassword(final ResetPassowrdForm form) {
 		User user = userService.getUserById(form.getUserId());
 		Validate.notNull(user);
 		userService.setUserPassword(user, form.getNewPassword());
