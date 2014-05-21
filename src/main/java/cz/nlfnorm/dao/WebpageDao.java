@@ -40,7 +40,7 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	
 	int getMaxOrderInNode(Long nodeId);
 	
-	List<AutocompleteDto> autocomplete(String term, boolean enabledOnly);
+	List<AutocompleteDto> autocomplete(String term, boolean enabledOnly, Long excludeId);
 	
 	Webpage getHomePage();
 	

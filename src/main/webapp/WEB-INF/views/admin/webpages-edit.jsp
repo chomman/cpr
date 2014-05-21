@@ -27,7 +27,8 @@
 			</c:if>
 	    	sourceUrl : getBasePath()  +"ajax/autocomplete/webpages",
 	    	inputNames : { hidden : "redirectWebpage", text : "redirectUrl" },
-	    	useDefaultCallBack : true
+	    	useDefaultCallBack : true,
+	    	excludeId : ${webpageContent.id}
 		});
 	});
 	

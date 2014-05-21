@@ -1,8 +1,4 @@
 var jsTree = null;
-$( window ).load(function() {
-	$('#jstree').removeClass('hidden');
-	$('#webpage-loader').remove();
-});
 $(function() { 					
 	 
 	initDate('#publishedSince');
@@ -41,12 +37,7 @@ $(function() {
 	
 	$jsTree = $("#jstree");
 	if($jsTree.length !== 0){
-		$jsTree.jstree({
-	    "core" : {
-	      "check_callback" : true
-	    },
-	    "plugins" : [ "dnd", "state"]
-	  });
+		loadWebpages($jsTree);
 	}
 });
 
@@ -97,23 +88,48 @@ function saveContent(){
 }
 
 function sendRequest(type, data, action, callBack){
+	return executeRequest(
+			{
+				url :  getBasePath() + 'admin/webpage/' + action,
+				contentType: "application/json",
+				type : type,
+				dataType : "json",
+				data : JSON.stringify(data)
+			 }
+			,
+			callBack
+	);
+}
+function loadWebpages($jsTree){
+	return executeRequest( 
+		{url :getBasePath() + "async/webpages"},
+		function(html){
+			$jsTree.html(html);
+			$jsTree.jstree({
+			    "core" : {
+			      "check_callback" : true
+			    },
+			    "plugins" : [ "dnd", "state"]
+			});
+			$jsTree.removeClass('hidden');	
+		}
+	);
+}
+
+function executeRequest(opts, callBack){
 	try{
 		showWebpageLoader(); 
-		$.ajax({
-			url :  getBasePath() + 'admin/webpage/' + action,
-			contentType: "application/json",
-			type : type,
-			dataType : "json",
-			data : JSON.stringify(data)
-		 })
+		$.ajax( opts )
 		 .done( callBack )
 		 .fail( showErrors )
 		 .always( hideWebpageLoader );
 	}catch(e){
 		console.warn(e);
 	}
-	 return false;
+	return false;
 }
+
+
 function showErrors(json){
 	var i = 0, errorInfo = "Došlo k neočekávané chybě, operaci opakujte.";
 	if(typeof json.result !== 'undefined'){

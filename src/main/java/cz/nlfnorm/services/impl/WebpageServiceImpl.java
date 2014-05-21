@@ -210,8 +210,14 @@ public class WebpageServiceImpl implements WebpageService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<AutocompleteDto> autocomplete(final String term, final Boolean enabledOnly) {
+		return autocomplete(term, enabledOnly, null);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<AutocompleteDto> autocomplete(final String term, final Boolean enabledOnly, final Long excludeId) {
 		if(StringUtils.isNotBlank(term)){
-			return webpageDao.autocomplete(term, enabledOnly);
+			return webpageDao.autocomplete(term, enabledOnly, excludeId);
 		}
 		return new ArrayList<AutocompleteDto>();
 	}

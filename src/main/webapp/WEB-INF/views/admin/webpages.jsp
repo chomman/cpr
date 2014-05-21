@@ -33,9 +33,6 @@
 				<p class="msg error"><spring:message code="cpr.group.isnotempty" /></p>
 			</c:if>
 			
-			
-				
-			
 			<div class="root-node">
 				www.nlfnorm.cz
 				<div class="pj-webpage-nav">
@@ -43,7 +40,7 @@
 							<span></span>
 					</a:adminurl>
 					
-					<a:adminurl href="/webpage/edit/${node.id}"  cssClass="pj-ico pj-edit tt" title="Upravit">
+					<a:adminurl href="/webpage/edit/${model.homepage.id}"  cssClass="pj-ico pj-edit tt" title="Upravit">
 						<span></span>
 					</a:adminurl>
 					<webpage:a webpage="${model.homepage}" isPreview="true" withName="false" cssClass="pj-ico  preview tt" title="Zobrazit">
@@ -51,27 +48,7 @@
 					</webpage:a>
 				</div>
 			</div>
-				
-			<c:if test="${not empty model.webpages}">
-				<div id="jstree" class="hidden">
-					<ul id="0">
-						  <c:forEach items="${model.webpages}" var="node" varStatus="s"  >
-						 	<c:set var="node" value="${node}" scope="request"/>
-						 	<c:set var="s" value="${s}" scope="request"/>
-						 	<jsp:include page="webpage.li.node.jsp" />
-						 </c:forEach>
-					</ul>	 
-				</div>
-				<div id="webpage-loader">Čekejte prosím, načítám...</div>
-			</c:if>
-			
-			 
-			<c:if test="${empty model.webpages}">
-				<p class="msg alert">
-					<spring:message code="alert.empty" />
-				</p>
-			</c:if>
-
+			<div id="jstree" class="hidden"></div>
 		</div>	
 	</div>
 	<div class="clear"></div>	

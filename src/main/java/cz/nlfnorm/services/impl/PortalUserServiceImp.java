@@ -67,14 +67,13 @@ public class PortalUserServiceImp implements PortalUserService {
 		userService.createOrUpdateUser(user);
 		return user;
 	}
-	
-	
 			
 	@Override
 	public void syncUser(User user){
 		Validate.notNull(user);
 		SgpportalRequest req = new SgpportalRequest();
 		req.setUser(new SgpportalUser(user));
+		req.createSqpAccessFor(user);
 		syncUserOnlinePublicaions(user, req);
 	}
 	

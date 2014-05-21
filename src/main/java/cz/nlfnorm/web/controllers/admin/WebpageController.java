@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dto.AutocompleteDto;
@@ -90,13 +91,19 @@ public class WebpageController extends AdminSupportController {
 			modelMap.put(SUCCESS_DELETE_PARAM, true);
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpages", webpageService.getTopLevelWepages());
 		model.put("tab", 1);
 		model.put("homepage", webpageService.getHomePage());
 		modelMap.put("model", model);
 		return getTableItemsView();
 	}
 	
+	@RequestMapping("/async/webpages")
+	public ModelAndView   standards( ModelMap map ){
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("webpages",   webpageService.getTopLevelWepages() );
+		map.put("model", model);
+		return new ModelAndView("/admin/webpage-list", map );
+	}
 	
 	@RequestMapping(value = "/admin/webpage/add/{nodeId}", method = RequestMethod.GET)
 	public String addWebpage(@PathVariable Long nodeId, ModelMap map) throws ItemNotFoundException{
@@ -234,8 +241,9 @@ public class WebpageController extends AdminSupportController {
 
 	@RequestMapping(value = "/ajax/autocomplete/webpages", method = RequestMethod.GET)
 	public @ResponseBody List<AutocompleteDto> search(@RequestBody @RequestParam("term") String term,
-			@RequestBody @RequestParam(value = "enabledOnly", required = false, defaultValue = "false") Boolean enabledOnly){
-		return webpageService.autocomplete(term, enabledOnly);
+			@RequestBody @RequestParam(value = "enabledOnly", required = false, defaultValue = "false") Boolean enabledOnly,
+			@RequestBody @RequestParam(value = "id", required = false) Long id){
+		return webpageService.autocomplete(term, enabledOnly, id);
 	}
 	
 	private void updateSettings(WebpageSettingsDto form) throws ItemNotFoundException{

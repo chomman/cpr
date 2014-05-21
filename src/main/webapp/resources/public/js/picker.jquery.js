@@ -9,6 +9,7 @@
         enabledOnly : false,
         useDefaultCallBack : false,
         debug: false,
+        excludeId :  null,
         inputNames : {
         	hidden : null, text : null
         }
@@ -31,6 +32,9 @@
         	source: options.autocompleteCallBack !== null ? options.autocompleteCallBack : function(request, response){  
    			 if(options.enabledOnly){
    				 request.enabled = true;
+   			 }
+   			 if(options.excludeId !== null){
+   				 request.id = options.excludeId;
    			 }
    		 	 $.getJSON( options.sourceUrl , request, function(data) {  
    	         	 response( $.map( data,  function( item) {	         		 	

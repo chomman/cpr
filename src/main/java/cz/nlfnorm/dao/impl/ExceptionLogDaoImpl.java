@@ -24,7 +24,7 @@ public class ExceptionLogDaoImpl extends BaseDaoImpl<ExceptionLog, Long> impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<ExceptionLog> getExceptionLogPage(int pageNumber, Map<String, Object> criteria) {
-		StringBuffer hql = new StringBuffer("from ExceptionLog el");
+		StringBuilder hql = new StringBuilder("from ExceptionLog el");
 		hql.append(prepareHqlForQuery(criteria));
 		if((Integer)criteria.get("orderBy") != null){
 			hql.append(ExceptionLogOrder.getSqlById((Integer)criteria.get("orderBy") ));
@@ -40,7 +40,7 @@ public class ExceptionLogDaoImpl extends BaseDaoImpl<ExceptionLog, Long> impleme
 
 	@Override
 	public Long getCountOfLogs(Map<String, Object> criteria) {
-		StringBuffer hql = new StringBuffer("SELECT count(*) FROM ExceptionLog el");
+		StringBuilder hql = new StringBuilder("SELECT count(*) FROM ExceptionLog el");
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery(hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
@@ -82,5 +82,15 @@ public class ExceptionLogDaoImpl extends BaseDaoImpl<ExceptionLog, Long> impleme
 				hqlQuery.setTimestamp("createdTo", publishedUntil.toDate());
 			}
 		}
+	}
+
+	@Override
+	public ExceptionLog getLastException() {
+		Query hqlQuery =  sessionFactory
+							.getCurrentSession()
+							.createQuery("from ExceptionLog e order by e.id desc");
+		hqlQuery.setMaxResults(1);
+		hqlQuery.setCacheable(false);
+		return (ExceptionLog)hqlQuery.uniqueResult();
 	}
 }

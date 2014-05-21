@@ -48,6 +48,8 @@ public interface WebpageService {
 	
 	List<AutocompleteDto> autocomplete(String term, Boolean enabledOnly);
 	
+	List<AutocompleteDto> autocomplete(String term, Boolean enabledOnly, Long excludeId);
+	
 	void deleteWebpageAvatar(Long id);
 	
 	void deleteWebpageWithAttachments(Long id) throws AccessDeniedException ;

@@ -3,6 +3,11 @@ package cz.nlfnorm.web.json.dto;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserOnlinePublication;
 
 public class SgpportalRequest {
@@ -25,6 +30,11 @@ public class SgpportalRequest {
 		this.publications = publications;
 	}
 	
+	public void addItem(SgpportalOnlinePublication uop){
+		if(uop != null){
+			publications.add(uop);
+		}
+	}
 	
 	public void addOnlinePublication(UserOnlinePublication uop){
 		SgpportalOnlinePublication sgpPublication = new SgpportalOnlinePublication();
@@ -41,5 +51,21 @@ public class SgpportalRequest {
 		}
 	}
 	
+	public void createSqpAccessFor(final User user){
+		Validate.notNull(user);
+		if(user.getHasActiveRegistration()){
+			SgpportalOnlinePublication sop = new SgpportalOnlinePublication();
+			sop.setChanged(new LocalDateTime());
+			sop.setCode(SgpportalOnlinePublication.SGP_PORTAL_ACCESS);
+			sop.setUserId(user.getId());
+			if(user.isAdministrator()){
+				// Admin has unlimited access years access (5 years)
+				sop.setValidity(new LocalDate().plusYears(5));
+			}else{
+				sop.setValidity(user.getRegistrationValidity());
+			}
+			addItem(sop);
+		}
+	}
 		
 }

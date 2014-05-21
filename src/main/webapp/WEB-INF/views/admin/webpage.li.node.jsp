@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <c:if test="${not node.isHomepage}">
 	<li data-order="${node.order}" data-jstree='{"icon": "pj-enabled-${node.isPublished} pj-type-${node.webpageType.id}"}' id="${node.id}" class="pj-enabled-${node.isPublished} pj-type-${node.webpageType.id}">
 		<c:if test="${fn:length(node.defaultName) gt 50}">
@@ -12,7 +13,6 @@
 					<a:adminurl href="/webpage/add/${node.id}"  cssClass="pj-ico pj-add tt" title="Přidat podstránku">
 						<span></span>
 					</a:adminurl>
-					
 					<a:adminurl href="/webpage/edit/${node.id}"  cssClass="pj-ico pj-edit tt" title="Upravit">
 						<span></span>
 					</a:adminurl>

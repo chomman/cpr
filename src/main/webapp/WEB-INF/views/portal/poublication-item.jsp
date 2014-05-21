@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <sec:authorize access="@portalSecurity.hasOnlinePublicatoin('${i.onlinePublication.code}')" var="hasPublication" />									
 <c:if test="${not hasPublication}">
 	<li class="pj-publication pj-radius">

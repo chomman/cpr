@@ -10,6 +10,8 @@ import cz.nlfnorm.web.json.serializers.SgpportalOnlinePublicationSerializer;
 @JsonSerialize(using = SgpportalOnlinePublicationSerializer.class)
 public class SgpportalOnlinePublication {
 	
+	public final static String SGP_PORTAL_ACCESS = "SGP_portal";
+	
 	private long userId;
 	private String code;
 	private LocalDate validity;

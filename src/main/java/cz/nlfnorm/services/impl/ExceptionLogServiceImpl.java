@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.exception.ExceptionUtils;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,8 @@ import org.springframework.transaction.annotation.Transactional;
 import cz.nlfnorm.dao.ExceptionLogDao;
 import cz.nlfnorm.entities.ExceptionLog;
 import cz.nlfnorm.entities.User;
+import cz.nlfnorm.mail.HtmlMailMessage;
+import cz.nlfnorm.mail.NlfnormMailSender;
 import cz.nlfnorm.services.ExceptionLogService;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.RequestUtils;
@@ -24,6 +28,20 @@ import cz.nlfnorm.utils.UserUtils;
 @Transactional(propagation = Propagation.REQUIRED)
 public class ExceptionLogServiceImpl implements ExceptionLogService {
 	
+	@Value("#{config['mail.sendExcaptions']}")
+	private boolean sendExceptions;
+	
+	@Value("#{config['mail.sendExceptionTo']}")
+	private String sendExceptionsToEmailAddress;
+	
+	@Autowired
+	private NlfnormMailSender nlfnormMailSender;
+
+	
+	/**
+	 * Delay between sending email alert in minutes
+	 */
+	public final static int EMAIL_ALERT_DELAY_BETWEEN_EXCEPTIONS = 10;
 	
 	@Autowired
 	private ExceptionLogDao exceptionLogDao;
@@ -59,6 +77,9 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
 		User user = UserUtils.getLoggedUser();
 		if(user != null){
 			log.setUser(user);
+		}
+		if(shuldSendEmailAlertFor(log)){
+			sendExceptionEmailAlert(log);
 		}
 		create(log);
 	}
@@ -120,6 +141,36 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
 	@Override
 	public void deleteException(ExceptionLog exceptionLog) {
 		exceptionLogDao.remove(exceptionLog);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public ExceptionLog getLastException() {
+		return exceptionLogDao.getLastException();
+	}
+	
+	private boolean shuldSendEmailAlertFor(final ExceptionLog ex){
+		final ExceptionLog lastEx = getLastException();
+		if(lastEx == null){
+			return true;
+		}else if(lastEx.getType().equals(ex.getType())){
+			//return false;
+		}
+		DateTime now = new DateTime();
+		DateTime exCreatedTimeWithOffest = ex.getCreated().plusMinutes(EMAIL_ALERT_DELAY_BETWEEN_EXCEPTIONS);
+		if(exCreatedTimeWithOffest.isBefore(now)){
+			return true;
+		}
+		return false;
+	}
+	
+	
+	@Async
+	private void sendExceptionEmailAlert(final ExceptionLog ex){
+		HtmlMailMessage message = new HtmlMailMessage("portal@nlfnorm.cz",ex.getType());
+		message.addRecipientTo(sendExceptionsToEmailAddress);
+		message.setHtmlContent(ex.getStackTrace());
+		nlfnormMailSender.send(message);
 	}
 
 }

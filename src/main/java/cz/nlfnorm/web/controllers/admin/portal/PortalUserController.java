@@ -116,8 +116,8 @@ public class PortalUserController extends AdminSupportController {
 				throw new ItemNotFoundException("Uživatel: " + user.getFirstName()+ " " + user.getLastName() + " nemá přiřazenou publikaci [id="+id+"] ");
 			}
 			uop.setValidity(date);
-			portalUserService.syncUserOnlinePublicaions(user);
 		}
+		portalUserService.syncUser(user);
 		userService.createOrUpdateUser(user);
 		map.put("validityChanged", true);
 		return handlePortalUserEdit(userId, map, request);

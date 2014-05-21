@@ -33,4 +33,7 @@ public interface ExceptionLogDao extends BaseDao<ExceptionLog, Long>{
 	 * @return Long pocet vyhovujucich zaznamov
 	 */
 	Long getCountOfLogs(Map<String, Object> criteria);
+	
+	
+	ExceptionLog getLastException(); 
 }

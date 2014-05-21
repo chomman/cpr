@@ -115,25 +115,34 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<AutocompleteDto> autocomplete(final String term, final boolean enabledOnly) {
+	public List<AutocompleteDto> autocomplete(final String term, final boolean enabledOnly, final Long excludeId) {
 		StringBuilder hql = new StringBuilder();
 		if(enabledOnly){
 			hql.append("select w.id as id, l.title as name ")
 				.append("from Webpage w ")
 				.append("	join w.localized l ")
 				.append("where w.enabled=true and ")
-				.append("  	unaccent(lower(l.title)) like  CONCAT('', unaccent(lower(:query)) , '%'))  AND key(l) = 'cs' ")
-				.append("group by w.id ")
+				.append("  	unaccent(lower(l.title)) like  CONCAT('', unaccent(lower(:query)) , '%'))  AND key(l) = 'cs' ");
+			if(excludeId != null){
+				hql.append(" and w.id != :excludeId ");
+			}
+			hql.append("group by w.id ")
 				.append("order by l.title desc ");
 		}else{
-			hql.append("select w.id as id, l.name as name from Webpage w")
-				.append(" w join w.localized l where")
-				.append("  unaccent(lower(l.name)) like  CONCAT('', unaccent(lower(:query)) , '%'))  AND key(l) = 'cs' ")
-				.append("group by w.id ");
+			hql.append("select w.id as id, l.name as name from Webpage w ")
+				.append("  join w.localized l where ");
+			if(excludeId != null){
+				hql.append("w.id != :excludeId and ");
+			}
+			hql.append("  unaccent(lower(l.name)) like  CONCAT('', unaccent(lower(:query)) , '%'))  AND key(l) = 'cs' ")
+				.append("group by w.id order by l.name desc");
 		}
 		
 		Query hqlQuery =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		hqlQuery.setString("query", term);
+		if(excludeId != null){
+			hqlQuery.setLong("excludeId", excludeId);
+		}
 		hqlQuery.setMaxResults(8);
 		hqlQuery.setCacheable(false);
 		return hqlQuery.list();
