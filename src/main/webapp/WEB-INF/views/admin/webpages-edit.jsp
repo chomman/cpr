@@ -340,7 +340,6 @@
 			
 		</div>	
 	</div>
-<div id="fileDir" class="hidden">webpage</div>
-<div id="loader" class="webpage"></div>
+	<div id="loader" class="webpage"></div>
 </body>
 </html>

@@ -116,6 +116,7 @@ public class PortalProductController extends AdminSupportController {
 		product.setDescriptionEnglish(form.getDescriptionEnglish());
 		product.setIntervalValue(form.getIntervalValue());
 		product.setPortalProductInterval(form.getPortalProductInterval());
+		product.setEnabled(form.getEnabled());
 		portalProductService.createOrUpdate(product);
 		return product.getId();
 	}

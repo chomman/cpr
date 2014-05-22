@@ -3,6 +3,8 @@ package cz.nlfnorm.services;
 import java.io.InputStream;
 import java.util.List;
 
+import cz.nlfnorm.dto.FileDto;
+
 
 
 public interface FileService {
@@ -20,11 +22,13 @@ public interface FileService {
 	
 	List<String> getImagesFromDirectory(String dirName);
 	
-	void convertImage(String i, String o);
-	
+	List<FileDto> readDirectory(String dirName);
+		
 	String saveAvatar(String fileName, byte[] content);
 	
 	boolean removeFile(String fileName, String directory);
+	
+	boolean removeFile(final String fileLocation);
 	
 	boolean removeAvatar(String avatarName);
 	
