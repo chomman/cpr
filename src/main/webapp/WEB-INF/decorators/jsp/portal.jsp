@@ -183,11 +183,9 @@
 							763 02 Zlín, Česká republika
 						</span>
 					</p>
-
-					<ul>
-						<li><a href="">Kontakty</a></li>
-						<li><a href="">Obchodní podmínky</a></li>
-					</ul>
+					
+					<webpage:nav webpages="${webpageModel.footerNav}"
+								 isAuthenticated="${hasValidRegistration}" />
 				</div>
 			</footer>
 		</div>

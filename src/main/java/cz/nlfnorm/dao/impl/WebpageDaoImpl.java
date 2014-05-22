@@ -320,4 +320,20 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setLong("webpageId", webpage.getId());
 		hqlQuery.executeUpdate();
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getFooterWebpages() {
+		StringBuilder sql = new StringBuilder();
+			sql.append("select w.* from webpage w ")
+				.append("where w.enabled=true and w.parent_id = ")
+				.append("(select id from webpage where code = :code limit 1 )");
+		Query query = sessionFactory.getCurrentSession().createSQLQuery(sql.toString())
+					.addEntity(Webpage.class)
+					.setString("code", Webpage.FOOTER_CODE)
+					.setCacheable(true)
+					.setCacheRegion(CacheRegion.WEBPAGE_CACHE);
+		return query.list();
+	}
 }

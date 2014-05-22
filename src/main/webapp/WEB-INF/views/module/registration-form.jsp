@@ -147,7 +147,8 @@
 	<span class="pj-gray">
 		<span>&nbsp;</span>
 		<input type="submit" value="<spring:message code="form.submit" />" class="button pj-radius6"/>
-		<span class="vop">Odesláním formuláře souhlasíte s <a href="" class="pj-link">obchodními podmínkami</a></span>
+		<span class="vop">Odesláním formuláře souhlasíte s <a target="_blank" href="<webpage:link webpage="${webpageModel.termsOfConditions}" />" 
+															class="pj-link">obchodními podmínkami</a></span>
 	</span>
 	<form:hidden path="portalCurrency" />
 	<form:hidden path="portalOrderSource" />

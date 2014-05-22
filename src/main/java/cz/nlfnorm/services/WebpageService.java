@@ -71,4 +71,6 @@ public interface WebpageService {
 	PageDto getSearchPage(int pageNumber, String term, Long nodeId);
 	
 	void updateTsVector(Webpage webpage);
+	
+	List<Webpage> getFooterWebpages();
 }

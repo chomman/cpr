@@ -60,4 +60,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	PageDto search(int pageNumber, String term, Long parentNodeId);
 	
 	void updatetsVector(Webpage webpage);
+	
+	List<Webpage> getFooterWebpages();
 }

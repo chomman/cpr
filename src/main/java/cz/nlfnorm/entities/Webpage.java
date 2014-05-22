@@ -44,6 +44,10 @@ import cz.nlfnorm.enums.WebpageType;
 @Table(name = "webpage")
 public class Webpage extends AbstractEntity {
 	
+	public static final String FOOTER_CODE = "paticka";
+	public static final String REGISTATION_CODE = "registrace";
+	public static final String TERMS_OF_CONDITIONS_CODE = "obchodni-podminky";
+	
 	private static final long serialVersionUID = 2815648808531067866L;
 
 	private Webpage parent;

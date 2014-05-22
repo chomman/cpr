@@ -382,5 +382,11 @@ public class WebpageServiceImpl implements WebpageService{
 	public void updateTsVector(Webpage webpage) {
 		webpageDao.updatetsVector(webpage);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getFooterWebpages() {
+		return webpageDao.getFooterWebpages();
+	}
 	
 }

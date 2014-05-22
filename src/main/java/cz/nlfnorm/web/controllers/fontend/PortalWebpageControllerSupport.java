@@ -54,6 +54,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 		model.put("mainnav", webpageService.getChildrensOfNode(MAIN_NAV_ID, true));
 		model.put("subnav", webpageService.getChildrensOfNode(SUB_NAV_ID, true));
 		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));
+		model.put("footerNav", webpageService.getFooterWebpages());
 		model.put("news", webpageService.getLatestPublishedNews(4) );
 		model.put("portalParam", Constants.PORTAL_ID_PARAM_KEY);
 		model.put("profileUrl", "/" + PRIFILE_URL);
@@ -61,7 +62,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 		if(user != null){
 			model.put("loggedUser", user);
 		}else{
-			model.put("registrationPage", webpageService.getWebpageByCode("registrace"));
+			model.put("registrationPage", webpageService.getWebpageByCode(Webpage.REGISTATION_CODE));
 		}
 		return model;
 	}

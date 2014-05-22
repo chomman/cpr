@@ -19,7 +19,6 @@
 	
 	<diskStore path="java.io.tmpdir"/>
 	
-	
 	<!-- Default cache -->
 	<defaultCache
         maxElementsInMemory="5000"
@@ -30,14 +29,6 @@
         diskPersistent="false"     
         />
         
-        
-    <!-- UpdateTimestampsCache -->    
-    <cache
-		name="org.hibernate.cache.UpdateTimestampsCache"
-		maxElementsInMemory="4000"
-		overflowToDisk="true"
-		eternal="true"
-		/>
 		
 	<!-- Cache uzivatelov -->    	
     <cache name="userCache"
@@ -67,7 +58,7 @@
        
     <!-- Cache uchovavajuca data tykajuce webových sekcí -->      	    
     <cache name="webpageCache"
-        maxElementsInMemory="3000"
+        maxElementsInMemory="5000"
         eternal="false"
         overflowToDisk="false"
         timeToLiveSeconds="604800"
