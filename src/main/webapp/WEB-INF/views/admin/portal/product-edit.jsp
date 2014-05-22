@@ -84,7 +84,6 @@
 							<c:if test="${not empty successCreate}">
 								<p class="msg ok"><spring:message code="success.create" /></p>
 							</c:if>
-							<c:if test="${isLoggedWebmaster}">
 								<p>
 		                       		<label>
 		                       			<strong><em class="red">*</em>
@@ -112,13 +111,12 @@
 		                            		<option value="">-- Vybrat --</option>
 		                            		<c:forEach items="${onlinePublications}" var="i">
 		                            			<option value="${i}" data-id="${i}" title="${i.url}" <c:if test="${i eq portalProduct.onlinePublication}">selected="selected"</c:if> >
-		                            				${i}
+		                            				${i.code}
 		                            			</option>
 		                            		 </c:forEach>
 		                            	</form:select>
 		                            </span>
 		                        </p>
-	                        </c:if>
 	                        <c:if test="${not empty portalProduct.onlinePublication}">
 		                        <p>
 		                       		<label>

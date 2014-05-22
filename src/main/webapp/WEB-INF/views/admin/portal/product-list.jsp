@@ -81,11 +81,9 @@
 							 			</a:adminurl>
 							 		</td>
 							 		<td class="delete">
-							 			<c:if test="${i.portalProductType.id == 1 or isLoggedWebmaster}">
 								 			<a:adminurl href="/portal/product/delete/${i.id}" cssClass="confirm">
 								 				<spring:message code="form.delete" />
 								 			</a:adminurl>
-							 			</c:if>
 							 		</td>
 							 	</tr>
 							 </c:forEach>

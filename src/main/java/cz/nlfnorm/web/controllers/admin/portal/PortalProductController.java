@@ -16,13 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.entities.PortalProduct;
-import cz.nlfnorm.entities.User;
 import cz.nlfnorm.enums.OnlinePublication;
 import cz.nlfnorm.enums.PortalProductInterval;
 import cz.nlfnorm.enums.PortalProductType;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.PortalProductService;
-import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 @Controller
@@ -108,11 +106,8 @@ public class PortalProductController extends AdminSupportController {
 		}else{
 			product = getPortalProduct(form.getId());
 		}
-		User user = UserUtils.getLoggedUser();
-		if(user.isWebmaster()){
-			product.setPortalProductType(form.getPortalProductType());
-			product.setOnlinePublication(form.getOnlinePublication());
-		}
+		product.setPortalProductType(form.getPortalProductType());
+		product.setOnlinePublication(form.getOnlinePublication());
 		product.setCzechName(form.getCzechName());
 		product.setEnglishName(form.getEnglishName());
 		product.setPriceCzk(form.getPriceCzk());
