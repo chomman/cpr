@@ -22,23 +22,31 @@ public class PdfXhtmlRendererView extends AbstractView {
 	
 	private String ftlTemplateName;
 	private String outputFileName = "file.pdf";
+	private boolean renderOutput = false;
 	
 	public PdfXhtmlRendererView(){
-		super();
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}
 	
 	@Override
     public void renderMergedOutputModel(final Map<String, Object> model, HttpServletRequest request, HttpServletResponse response) throws Exception {
-        ByteArrayOutputStream pdfAsOs = pdfXhtmlExporter.generatePdf(ftlTemplateName, model, RequestUtils.getApplicationUrlPrefix(request));
-        response.setContentLength(pdfAsOs.size());
-        response.setHeader("Content-disposition", "attachment; filename=" + outputFileName);
-        response.setContentType("application/pdf");
-        response.setHeader("Expires", "0");
-        FileCopyUtils.copy(pdfAsOs.toByteArray(), response.getOutputStream());
-        pdfAsOs.close();
+        if(renderOutput){
+			ByteArrayOutputStream pdfAsOs = pdfXhtmlExporter.generatePdf(ftlTemplateName, model, RequestUtils.getApplicationUrlPrefix(request));
+	        response.setContentLength(pdfAsOs.size());
+	        response.setHeader("Content-disposition", "attachment; filename=" + outputFileName);
+	        response.setContentType("application/pdf");
+	        response.setHeader("Expires", "0");
+	        FileCopyUtils.copy(pdfAsOs.toByteArray(), response.getOutputStream());
+	        pdfAsOs.close();
+	        renderOutput = false;
+        }
     }
-
+	
+	@Override
+	protected boolean generatesDownloadContent() {
+		return true;
+	}
+	
 	public String getFtlTemplateName() {
 		return ftlTemplateName;
 	}
@@ -54,4 +62,14 @@ public class PdfXhtmlRendererView extends AbstractView {
 	public void setOutputFileName(String outputFileName) {
 		this.outputFileName = outputFileName;
 	}
+
+	public boolean isRenderOutput() {
+		return renderOutput;
+	}
+
+	public void setRenderOutput(boolean renderOutput) {
+		this.renderOutput = renderOutput;
+	}
+	
+	
 }

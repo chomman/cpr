@@ -64,8 +64,8 @@ public class PdfXhtmlExporter {
 			return  htmlAsOs.toString();
 		} catch (TemplateException | IOException e) {
 			logger.error("Generovanie XHTML zlyhalo ["+ftlTemplate+"].", e);
+			throw new RuntimeException("Some error occures. Can not generate XHTML.");
 		}
-		throw new RuntimeException("Some error occures. Can not generate XHTML.");
     }
    
     

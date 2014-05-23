@@ -55,6 +55,7 @@ public class ExportController extends AdminSupportController {
 		pdfView.setFtlTemplateName(INVOICE_FLT_TEMPLATE);
 		pdfView.setOutputFileName(portalOrderService.getFileNameFor(type, (PortalOrder)model.get("portalOrder")));
 		try {
+			pdfView.setRenderOutput(true);
 			pdfView.renderMergedOutputModel(model, request, response);
 		} catch (Exception e) {
 			logger.warn("Nepodarilo sa vygenerovat PDF [type="+type+"][oid="+code+"]", e);

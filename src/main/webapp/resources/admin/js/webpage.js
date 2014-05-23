@@ -288,7 +288,7 @@ function deleteAvatar(){
 }
 
 function uploadAvatar(){
-	if(isIE() < 10){
+	if(isIE() && isIE() < 10){
 		showUnsupportedBrowserAlert();
 		return false;
 	}
