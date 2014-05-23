@@ -5,10 +5,10 @@ import junit.framework.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cz.nlfnorm.AbstractTest;
+import cz.nlfnorm.AbstractTestConfig;
 import cz.nlfnorm.entities.User;
 
-public class UserDaoTest extends AbstractTest {
+public class UserDaoTest extends AbstractTestConfig {
 	
 	@Autowired
 	private UserDao userDao;

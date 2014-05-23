@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import cz.nlfnorm.AbstractTest;
+import cz.nlfnorm.AbstractTestConfig;
 import cz.nlfnorm.entities.PortalProduct;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserOnlinePublication;
@@ -18,7 +18,7 @@ import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.web.json.dto.SgpportalRequest;
 
 
-public class PortalOrderTest extends AbstractTest {
+public class PortalOrderTest extends AbstractTestConfig {
 
 	@Autowired
 	private PortalUserService portalUserService;

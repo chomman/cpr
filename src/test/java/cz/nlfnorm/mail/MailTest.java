@@ -12,9 +12,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import cz.nlfnorm.AbstractTest;
+import cz.nlfnorm.AbstractTestConfig;
 
-public class MailTest extends AbstractTest {
+public class MailTest extends AbstractTestConfig {
 
 
 	@Autowired

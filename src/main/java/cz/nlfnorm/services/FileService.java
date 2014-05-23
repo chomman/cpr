@@ -1,5 +1,6 @@
 package cz.nlfnorm.services;
 
+import java.io.File;
 import java.io.InputStream;
 import java.util.List;
 
@@ -31,5 +32,7 @@ public interface FileService {
 	boolean removeFile(final String fileLocation);
 	
 	boolean removeAvatar(String avatarName);
+	
+	File getFile(String dirName, String fileName);
 	
 }

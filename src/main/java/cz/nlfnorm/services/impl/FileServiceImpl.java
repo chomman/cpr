@@ -256,4 +256,15 @@ public class FileServiceImpl implements FileService {
 		}
 		return fileList;
 	}
+
+
+	@Override
+	public File getFile(String dirName, String fileName) {
+		final String absolutePath = getFileSaveDir() + "/" + dirName + "/"+ fileName;
+		File file = new File(absolutePath);
+		if(file.exists()){
+			return file;
+		}
+		return null;
+	}
 }

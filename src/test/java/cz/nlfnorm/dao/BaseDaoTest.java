@@ -2,9 +2,9 @@ package cz.nlfnorm.dao;
 
 import org.junit.Test;
 
-import cz.nlfnorm.AbstractTest;
+import cz.nlfnorm.AbstractTestConfig;
 
-public class BaseDaoTest extends AbstractTest {
+public class BaseDaoTest extends AbstractTestConfig {
 		
 	
 	 @Test

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.annotation.Rollback;
 
-import cz.nlfnorm.AbstractTest;
+import cz.nlfnorm.AbstractTestConfig;
 import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.PortalOrderItem;
@@ -28,7 +28,7 @@ import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.web.forms.portal.PortalUserForm;
 
-public class PortalServiceTest extends AbstractTest{
+public class PortalServiceTest extends AbstractTestConfig{
 	
 	@Autowired
 	private PortalOrderService portalOrderService;
