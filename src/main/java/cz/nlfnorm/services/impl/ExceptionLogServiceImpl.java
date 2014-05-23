@@ -154,10 +154,10 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
 		if(lastEx == null){
 			return true;
 		}else if(lastEx.getType().equals(ex.getType())){
-			//return false;
+			return false;
 		}
 		DateTime now = new DateTime();
-		DateTime exCreatedTimeWithOffest = ex.getCreated().plusMinutes(EMAIL_ALERT_DELAY_BETWEEN_EXCEPTIONS);
+		DateTime exCreatedTimeWithOffest = lastEx.getCreated().plusMinutes(EMAIL_ALERT_DELAY_BETWEEN_EXCEPTIONS);
 		if(exCreatedTimeWithOffest.isBefore(now)){
 			return true;
 		}

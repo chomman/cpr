@@ -131,9 +131,11 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 			if(enabled != null){
 				where.add(" u.enabled=:"+Filter.ENABLED);
 			}
-			if(StringUtils.isNotBlank((String)criteria.get(Filter.AUHTORITY))){
-				where.add(" a.code =:"+Filter.AUHTORITY);
-			}
+		}
+		if(StringUtils.isNotBlank((String)criteria.get(Filter.AUHTORITY))){
+			where.add(" a.code =:"+Filter.AUHTORITY);
+		}else{
+			where.add(" a.code !=:"+Filter.AUHTORITY);
 		}
 		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
 
@@ -159,10 +161,12 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 			if(enabled != null){
 				hqlQuery.setBoolean(Filter.ENABLED, enabled);
 			}
-			String authorityCode = (String)criteria.get(Filter.AUHTORITY);
-			if(StringUtils.isNotBlank(authorityCode)){
-				hqlQuery.setString(Filter.AUHTORITY, authorityCode);
-			}
+		}
+		String authorityCode = (String)criteria.get(Filter.AUHTORITY);
+		if(StringUtils.isNotBlank(authorityCode)){
+			hqlQuery.setString(Filter.AUHTORITY, authorityCode);
+		}else{
+			hqlQuery.setString(Filter.AUHTORITY, Authority.ROLE_PORTAL_USER);
 		}
 	}
 
@@ -193,8 +197,7 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public PageDto getUserPage(int currentPage, Map<String, Object> criteria) {
-		StringBuilder hql = new StringBuilder("from User u ");
-		hql.append(" left join u.authoritySet a ");
+		StringBuilder hql = new StringBuilder("from User u join u.authoritySet a ");
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
