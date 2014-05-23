@@ -12,7 +12,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import cz.nlfnorm.exceptions.PageNotFoundEception;
@@ -28,15 +27,12 @@ public class FileController {
 	private FileService fileService;
 	protected static Logger logger = Logger.getLogger(FileController.class);
 	
-	@RequestMapping("/f/{dirName}/*")
-	public void hladneFileDownload(
-			final @PathVariable String dirName, 
-			HttpServletRequest request,
-			HttpServletResponse  response) throws PageNotFoundEception{
-		final String fileName = RequestUtils.getPartOfURLOnPosition(request, 3);
-		final File file = fileService.getFile(dirName, fileName);
+	@RequestMapping("/f/**")
+	public void hladneFileDownload(	HttpServletRequest request,	HttpServletResponse  response) throws PageNotFoundEception{
+	
+		final String fileLocation = RequestUtils.getPartOfUrlAfterPattern(request, "/f/");
+		final File file = fileService.getFile(fileLocation);
 		if(file != null){
-			
 			try {
 				response.setContentType(determineContentType(file));
 				response.setContentLength((int) file.length());
@@ -46,7 +42,7 @@ public class FileController {
 		        response.setDateHeader("Expires",Long.MAX_VALUE);
 		        FileCopyUtils.copy(new FileInputStream(file), response.getOutputStream());
 			} catch (IOException e) {
-				logger.warn(String.format("Downloading failed [%1$s/%2$s]", dirName, fileName),e);
+				logger.warn(String.format("Downloading failed [%1$s]", fileLocation),e);
 			}	
 			
 		}else{

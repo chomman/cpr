@@ -40,9 +40,20 @@ public class RequestUtils {
         String URI = request.getRequestURI();
         String contextPath = request.getContextPath();
         String pattern = URI.replaceFirst(contextPath, "");
-
         return getPartOFURLOnPosition(pattern, position);
     }
+	
+	
+	public static String getPartOfUrlAfterPattern(HttpServletRequest request, final String charSeq){
+		final String URI = request.getRequestURI();
+        final String contextPath = request.getContextPath();
+        final String pattern = URI.replaceFirst(contextPath, "");
+        final  int pos = pattern.indexOf(charSeq);
+        if(pos != -1){
+        	return pattern.substring(pos + charSeq.length());
+        }
+        return null;
+	}
     
 	
     public static String getPartOFURLOnPosition(String pattern, int position) {
@@ -155,7 +166,7 @@ public class RequestUtils {
 		for(Entry<String, Object> entry : params.entrySet()) {
 		    String key = entry.getKey();
 		    String value = (String)entry.getValue();
-		    if(StringUtils.isBlank(value)){
+		    if(StringUtils.isBlank(value) || key.equalsIgnoreCase(excludeParameter)){
 		    	continue;
 		    }
 		    if(!strParams.toString().equals("?")){

@@ -2,6 +2,7 @@ package cz.nlfnorm.dto;
 
 public class FileDto {
 	
+	private boolean isDir;
 	private String name;
 	private String dir;
 	private String extension;
@@ -31,6 +32,13 @@ public class FileDto {
 	public void setSize(String size) {
 		this.size = size;
 	}
+	public boolean getIsDir() {
+		return isDir;
+	}
+	public void setDir(boolean isDir) {
+		this.isDir = isDir;
+	}
+	
 	
 	
 	

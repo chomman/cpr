@@ -9,7 +9,7 @@ body.docs-upload{background:#fff;}
 .l{ text-align:left;}
 
 .blind {   left: -5000px;position: absolute; top: -5000px;}
-.radius,.imgBox a{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
+.radius,.imgBox a, #newDir{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 
 #status{position:absolute;z-index:99999999;background:url(../img/tbg.png);padding:50px;display:none;}
 #status p{padding:15px 15px 15px 50px;font-size: 14px; }
@@ -37,10 +37,8 @@ body.docs-upload{background:#fff;}
 
 .error{background:#FFE3E3;padding:6px 8px;font-size:11px;border:3px solid red;color:#A10E0E; }
 
-#wrapper{padding:15px;overflow:auto;padding-top:70px;}
-.docs-upload #wrapper{padding:51px 0 0 0}
-.upload{padding:10px 15px;border-bottom:4px solid #6F87BD;color:#fff;position:fixed;z-index:999;width:100%;background: #3f4c6b;-webkit-box-shadow: 0px 5px 15px rgba(50, 50, 50, 0.75);-moz-box-shadow:0px 5px 15px rgba(50, 50, 50, 0.75);box-shadow:0px 2px 10px rgba(50, 50, 50, 0.75);}
-.docs-upload .upload{border-bottom:0;box-shadow: 0 0 0;}
+#wrapper{overflow:auto;padding-top:70px;padding:51px 0 0 0}
+.upload{padding:10px 15px;color:#fff;position:fixed;z-index:999;width:100%;background: #3f4c6b;}
 
 .imgBox{width:120px;float:left;background:#fff;margin:0 10px 10px 0;text-align:center;border:1px solid #ccc;padding:5px 0 }
 .imgBox div{cursor:pointer; width:100px;height:100px;position:relative;margin:auto;border:1px solid #ccc}
@@ -69,7 +67,7 @@ table .pj-sel a{color:#2F8C0F;}
 .sort{text-decoration: underline;text-align:left;padding-left:10px;}
 .sort:hover{color: #222;cursor: pointer;}
 
-.file{background-image:url(../img/ext_set.png);background-repeat:no-repeat;padding:2px 0 2px 22px;display:inline-block;background-position:0 -2px;}
+.file,.dir,.up{background-image:url(../img/ext_set.png);background-repeat:no-repeat;padding:2px 0 2px 22px;display:inline-block;background-position:0 -2px;width:100%}
 .file.png,
 .file.jpg,
 .file.jepg,
@@ -82,3 +80,15 @@ table .pj-sel a{color:#2F8C0F;}
 
 .file.xls,
 .file.xlsx{background-position:0 -24px;}
+.dir{background-position:0 -110px;color:#111;font-weight:bold;text-decoration:none;}
+.up{background-position:0 -132px;color:#111;font-weight:bold;text-decoration:none;letter-spacing:3px;padding-top:5px;}
+
+
+.upload ul{position:absolute;background:#52699E;z-index:99;top:0;left:0;list-style:none;height:100%;}
+.upload {padding-left:90px !important;min-height:31px;}
+.upload ul li{display:bolock;float:left;margin:6px 2px;}
+.upload ul li a{background-image:url(../img/folder-doc.png);background-repeat:none;display:block;height:35px;width:35px;}
+.upload ul li a:hover,.active{opacity:.8;}
+.add-folder{background-position:0 -35px;}
+
+#newDir{padding:8px 5px;border:1px solid #333;border-radius}

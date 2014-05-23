@@ -37,6 +37,15 @@ $(function() {
 			window.opener.focus();
 	});
 	
+	$(document).on('click', 'ul li a', function(){
+		$('form').addClass('hidden');
+		$('ul li a').removeClass('active');
+		var cls = $(this).attr('data-class');
+		$('.'+cls).removeClass('hidden');
+		$(this).addClass('active');
+		return false;
+	});
+	
 	$("table").stupidtable();
 	$("[data-sort]").eq(0).click();
 });

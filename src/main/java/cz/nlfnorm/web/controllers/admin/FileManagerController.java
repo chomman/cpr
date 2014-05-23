@@ -1,5 +1,6 @@
 package cz.nlfnorm.web.controllers.admin;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -22,6 +23,8 @@ import org.springframework.web.multipart.MultipartFile;
 import cz.nlfnorm.dto.FileUploadItemDto;
 import cz.nlfnorm.services.FileService;
 import cz.nlfnorm.services.impl.FileServiceImpl;
+import cz.nlfnorm.utils.CodeUtils;
+import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.validators.admin.ImageValidator;
 import cz.nlfnorm.web.json.JsonResponse;
 import cz.nlfnorm.web.json.JsonStatus;
@@ -31,6 +34,7 @@ public class FileManagerController extends AdminSupportController {
 	
 	private static final String UPLOAD_TYPE_PARAM = "uploadType";
 	private static final String TINY_MCE_SELECTOR_PARAM = "selector";
+	private static final String FOLDER_PARAM = "dir";
 	
 	private static final int IMAGE_UPLOAD = 1;
 	private static final int DOCUMET_UPLOAD = 2;
@@ -106,6 +110,15 @@ public class FileManagerController extends AdminSupportController {
 					}
 				}
 				
+			}else if(StringUtils.isNotBlank(form.getNewDir())){
+				String newDirLocation = determineDir(request) + "/" + CodeUtils.generateProperFilename(form.getNewDir());
+				File dir = new File(fileService.getFileSaveDir() + newDirLocation);
+				if(dir.exists() && dir.isDirectory()){
+					modelMap.put("dirExists", true);
+				}else{
+					fileService.createDirectory(newDirLocation);
+					form.setNewDir(null);
+				}
 			}
 		}else{
 			logger.warn("Opener window selector is not set: " + request.getQueryString());
@@ -118,12 +131,16 @@ public class FileManagerController extends AdminSupportController {
 		final int uploadType =  getUploadType(request);
 		modelMap.addAttribute(COMMAND, form );
 		if(uploadType == IMAGE_UPLOAD){
-			modelMap.put("images", fileService.getImagesFromDirectory(form.getSaveDir()));
+			modelMap.put("documets", fileService.getImagesFromDirectory(form.getSaveDir()));
 		}else{
 			modelMap.put("documets", fileService.readDirectory(form.getSaveDir()));
 		}
 		modelMap.put(TINY_MCE_SELECTOR_PARAM, request.getParameter(TINY_MCE_SELECTOR_PARAM));
 		modelMap.put(UPLOAD_TYPE_PARAM, uploadType);
+		modelMap.put("parentDir", determineParentDir(request) );
+		modelMap.put("currentDir", getCurrentDir(request) );
+		modelMap.put("url", buildCurrentDirUrl(request) );
+		modelMap.put("parentUrl", buildParentDirUrl(request) );
 	}
 
 	
@@ -131,15 +148,45 @@ public class FileManagerController extends AdminSupportController {
 		final int type = getUploadType(request);
 		switch(type){
 			case DOCUMET_UPLOAD :
-				return FileServiceImpl.DOCUMENTS_DIR_NAME;
+				return FileServiceImpl.DOCUMENTS_DIR_NAME + getCurrentDir(request);
 			case IMAGE_UPLOAD :
-				return FileServiceImpl.IMAGES_DIR_NAME;
+				return FileServiceImpl.IMAGES_DIR_NAME + getCurrentDir(request);
 			default :
 				throw new IllegalArgumentException("Unknown dir type " + type );
 		}
 	}
 	
+	private String getCurrentDir(HttpServletRequest request){
+		final String dir = request.getParameter(FOLDER_PARAM);
+		if(StringUtils.isBlank(dir)){
+			return "";
+		}
+		return dir;
+	}
+	
+	
+	private String determineParentDir(HttpServletRequest request){
+		String dir = getCurrentDir(request);
+		if(StringUtils.isBlank(dir)){
+			return "";
+		}
+		return dir.substring(0, dir.lastIndexOf("/"));
+	}
+	
 	private int getUploadType(HttpServletRequest request){
 		return Integer.valueOf(request.getParameter(UPLOAD_TYPE_PARAM));
+	}
+	
+	private String buildParentDirUrl(HttpServletRequest request){
+		return buildUrl(request, determineParentDir(request));
+	}
+	
+	private String buildCurrentDirUrl(HttpServletRequest request){
+		return buildUrl(request, getCurrentDir(request));
+	}
+	
+	private String buildUrl(HttpServletRequest request, String dir){
+		final String url = RequestUtils.getRequestParams(request, FOLDER_PARAM);
+		return url + "&" + FOLDER_PARAM  + "=" + dir;
 	}
 }

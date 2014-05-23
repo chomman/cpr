@@ -70,6 +70,8 @@ public class FileServiceImpl implements FileService {
 		return fileSaveDir;
 	}
 	
+
+	
 	@Override
 	public void createDirectory(final String dirName){
 		if(StringUtils.isNotBlank(dirName)){
@@ -140,19 +142,8 @@ public class FileServiceImpl implements FileService {
 	}
 	
 	@Override
-	public List<String> getImagesFromDirectory(final String dirName){
-		List<String> files = new ArrayList<String>();
-			File file = new File(fileSaveDir + "/" + dirName);
-			
-			if(file.exists() && file.isDirectory()){
-				for(File f : file.listFiles()){
-					if(imageValidator.validate(f.getName())){
-						files.add(dirName+"/"+f.getName());
-					}
-				}
-			}
-			
-		return files;
+	public List<FileDto> getImagesFromDirectory(final String dirName){
+		return readDirectory(dirName, true);
 	}
 
 	public List<String> readDir(final String dirName, final String extension){
@@ -222,7 +213,16 @@ public class FileServiceImpl implements FileService {
 		Validate.notEmpty(fileLocation);
 		File file = new File(fileSaveDir +  File.separatorChar + fileLocation);
 		if(file.exists()){
-			return file.delete();
+			if(file.isFile()){
+				return file.delete();
+			}else{
+				try {
+					FileUtils.deleteDirectory(file);
+					return true;
+				} catch (IOException e) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -242,15 +242,26 @@ public class FileServiceImpl implements FileService {
 
 	@Override
 	public List<FileDto> readDirectory(final String dirName) {
+		return readDirectory(dirName, false);
+	}
+	
+
+	public List<FileDto> readDirectory(final String dirName, final boolean imagesOnly) {
 		List<FileDto> fileList = new ArrayList<FileDto>();
 		File file = new File(fileSaveDir + "/" + dirName);
 		if(file.exists() && file.isDirectory()){
 			for(File f : file.listFiles()){
+				if(imagesOnly && !imageValidator.validate(f.getName())){
+					continue;
+				}
 				FileDto fileDto = new FileDto();
 				fileDto.setName(f.getName());
 				fileDto.setDir(dirName);
-				fileDto.setSize(FileUtils.byteCountToDisplaySize(f.length()));
-				fileDto.setExtension(FilenameUtils.getExtension(f.getName()));
+				if(f.isFile()){
+					fileDto.setSize(FileUtils.byteCountToDisplaySize(f.length()));
+					fileDto.setExtension(FilenameUtils.getExtension(f.getName()));
+				}
+				fileDto.setDir(f.isDirectory());
 				fileList.add(fileDto);
 			}
 		}
@@ -259,10 +270,20 @@ public class FileServiceImpl implements FileService {
 
 
 	@Override
-	public File getFile(String dirName, String fileName) {
+	public File getFile(final String dirName,final String fileName) {
 		final String absolutePath = getFileSaveDir() + "/" + dirName + "/"+ fileName;
 		File file = new File(absolutePath);
 		if(file.exists()){
+			return file;
+		}
+		return null;
+	}
+	
+	@Override
+	public File getFile(final String fileLocation) {
+		final String absolutePath = getFileSaveDir() + "/" + fileLocation;
+		File file = new File(absolutePath);
+		if(file.exists() && file.isFile()){
 			return file;
 		}
 		return null;

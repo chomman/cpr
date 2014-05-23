@@ -6,6 +6,8 @@ import cz.nlfnorm.entities.Csn;
 
 public class FileUploadItemDto {
 	
+	private String newDir;
+	
 	private String saveDir;
 
 	private MultipartFile fileData;
@@ -35,6 +37,15 @@ public class FileUploadItemDto {
 	public void setCsn(Csn csn) {
 		this.csn = csn;
 	}
+
+	public String getNewDir() {
+		return newDir;
+	}
+
+	public void setNewDir(String newDir) {
+		this.newDir = newDir;
+	}
+	
 	
 	
 	

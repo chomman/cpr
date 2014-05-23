@@ -23,6 +23,7 @@ import cz.nlfnorm.constants.ImageFormat;
 import cz.nlfnorm.image.Image;
 import cz.nlfnorm.image.ImageLoader;
 import cz.nlfnorm.services.FileService;
+import cz.nlfnorm.utils.RequestUtils;
 
 
 @Controller
@@ -37,27 +38,21 @@ public class ImageController {
     private static final String IF_MODIFIED_SINCE_HEADER = "If-Modified-Since";
     private static final String IF_NONE_MATCH_HEADER = "If-None-Match";
     private static final String LAST_MODIFIED_HEADER = "Last-Modified";
-    
-    
-    
+        
 	@Autowired
 	private FileService fileService;
-	
-
-	
-	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_NORMAL +"/{dir}/{name:.*}")
+		
+	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_NORMAL +"/**")
 	public @ResponseBody byte[] showImage(
-			@PathVariable String name, 
-			@PathVariable String dir, 
 			HttpServletRequest request, 
 			HttpServletResponse response){
 		
 		if(isNotModified(request, response)){
 			return null;
 		}
-		
-		if(StringUtils.isNotBlank(name)){
-			String path = getImageAbsolutePath(request, dir, name);
+		String location = RequestUtils.getPartOfUrlAfterPattern(request, Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_NORMAL + "/");
+		if(StringUtils.isNotBlank(location)){
+			final String path = getImageAbsolutePath(request, location);
 			File file = new File(path);
 			if(file.exists()){
 				try {
@@ -65,7 +60,7 @@ public class ImageController {
 					setCachingResponseHeaders(response);
 					return image;
 				} catch (IOException e) {
-				  logger.warn("Obrazok " + name +" sa nepodarilo spracovat: " + e.getMessage());
+				  logger.warn("Obrazok " + location +" sa nepodarilo spracovat: " + e.getMessage());
 				}
 			}
 		}
@@ -161,6 +156,11 @@ public class ImageController {
 	private String getImageAbsolutePath(HttpServletRequest request, String dir, String name){
 		Validate.notNull(name);
 		return fileService.getFileSaveDir() + File.separatorChar + dir +  File.separatorChar+ name;
+	}
+	
+	private String getImageAbsolutePath(HttpServletRequest request, String location){
+		Validate.notNull(location);
+		return fileService.getFileSaveDir() + File.separatorChar + location;
 	}
 	
 	private boolean isNotModified(HttpServletRequest request, HttpServletResponse response){

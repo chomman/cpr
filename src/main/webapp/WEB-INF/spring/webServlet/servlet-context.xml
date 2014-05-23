@@ -38,10 +38,6 @@
 	    <beans:property name="alwaysUseFullPath" value="true" />
 	</beans:bean>
 	
-	<beans:bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-	    <beans:property name="useDefaultSuffixPattern" value="false"/>
-	</beans:bean>
-
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
 

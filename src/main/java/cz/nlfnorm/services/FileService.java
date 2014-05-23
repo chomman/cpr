@@ -21,7 +21,7 @@ public interface FileService {
 	
 	String saveFile(String originalFilename, byte[] content, String intoDir);
 	
-	List<String> getImagesFromDirectory(String dirName);
+	List<FileDto> getImagesFromDirectory(String dirName);
 	
 	List<FileDto> readDirectory(String dirName);
 		
@@ -34,5 +34,7 @@ public interface FileService {
 	boolean removeAvatar(String avatarName);
 	
 	File getFile(String dirName, String fileName);
+	
+	File getFile(String fileLocation);
 	
 }
