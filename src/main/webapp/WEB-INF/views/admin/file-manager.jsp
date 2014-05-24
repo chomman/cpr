@@ -94,7 +94,7 @@
 							${i.name}</a>
 						</td>
 						<td class="pj-size c">${i.size}</td>
-						<td class="pj-sel c"><a class="document" data-url="${i.dir}/${i.name}" href="#">Vybrat</a></td>
+						<td class="pj-sel c"><a class="image" data-url="${i.dir}/${i.name}" href="#">Vybrat</a></td>
 						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#">Odstranit</a></td>
 					</c:if>
 				</tr>

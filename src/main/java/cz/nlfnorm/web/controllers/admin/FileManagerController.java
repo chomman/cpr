@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
 import cz.nlfnorm.context.ContextHolder;
@@ -84,14 +85,16 @@ public class FileManagerController extends AdminSupportController {
 		form.setSaveDir(determineDir(request));	
 		try{
 			if(form.getFileData() != null){
-				uploadFile(form, isImageUpload(request));
 				modelMap.put("fileUpload", true);
+				uploadFile(form, isImageUpload(request));
 			}else{
-				createNewDir(request, form);
 				modelMap.put("newDir", true);
+				createNewDir(request, form);
 			}
 		}catch(IllegalArgumentException e){
 			modelMap.put("errors", e.getMessage());
+		}catch(MaxUploadSizeExceededException e){
+			modelMap.put("errors", getMessage("error.upload.maxSize"));
 		}catch (Exception e) {
 			modelMap.put("errors", getMessage("error.upload.failed"));
 		}

@@ -1,28 +1,15 @@
 $(function() {
+	var FILE_MAPPING_PREFIX = 'f/',
+		IMAGE_MAPPING_PREFIX = 'image/n/';
 	
 	$(document).on('click', '.delete', onRemoveFile );
-	
 
 	$(document).on('click', '.image', function(){
-		var docUrl = $(this).attr('data-url'),
-			$selector = $('#selector'),
-			fileDownloadUrl = getBasePath() + 'image/n/' + docUrl,
-			$hrefInputWrapp = $(window.opener.document).find("#"+$selector.text());
-			$hrefInputWrapp.find("#"+$selector.text()+"-inp").val(fileDownloadUrl);
-			$hrefInputWrapp.parent().parent().next().find("input").val(getFileName(docUrl));
-			window.close();
-			window.opener.focus();
+			procesSelect(IMAGE_MAPPING_PREFIX, $(this).attr('data-url'));
 	});
 	
 	$(document).on('click', '.document', function(){
-		var docUrl = $(this).attr('data-url'),
-			$selector = $('#selector'),
-			fileDownloadUrl = getBasePath() + 'f/' + docUrl,
-			$hrefInputWrapp = $(window.opener.document).find("#"+$selector.text());
-			$hrefInputWrapp.find("#"+$selector.text()+"-inp").val(fileDownloadUrl);
-			$hrefInputWrapp.parent().parent().next().find("input").val(getFileName(docUrl));
-			window.close();
-			window.opener.focus();
+			procesSelect(FILE_MAPPING_PREFIX, $(this).attr('data-url'));
 	});
 	
 	$(document).on('click', 'ul li a', function(){
@@ -34,9 +21,23 @@ $(function() {
 		return false;
 	});
 	
+	function procesSelect(mappingPrefix, fileLocation){
+		var $selector = $('#selector'),
+		fileDownloadUrl = getBasePath() + mappingPrefix + fileLocation,
+		$hrefInputWrapp = $(window.opener.document).find("#"+$selector.text());
+		$hrefInputWrapp.find("#"+$selector.text()+"-inp").val(fileDownloadUrl);
+		if(mappingPrefix === FILE_MAPPING_PREFIX){
+			$hrefInputWrapp.parent().parent().next().find("input").val(getFileName(fileLocation));
+		}
+		window.close();
+		window.opener.focus();
+	}
+	
 	$("table").stupidtable();
 	$("[data-sort]").eq(0).click();
 });
+
+
 
 function onRemoveFile(){
 	if(!confirm('Skutečně chcete odstranit soubor?')){
