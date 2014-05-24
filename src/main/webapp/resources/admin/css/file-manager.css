@@ -93,5 +93,9 @@ table .pj-sel a{color:#2F8C0F;}
 
 #newDir{padding:8px 5px;border:1px solid #333;border-radius}
 
-.image{padding:5px 0 5px 45px;display:inline-block;background-position:0 -2px;width:100%;line-height:30px;;position:relative;}
-.image img{position:absolute;left:0px;top:2px;}
+.fancy{padding:5px 0 5px 45px;display:inline-block;background-position:0 -2px;width:100%;line-height:30px;;position:relative;}
+.fancy img{position:absolute;left:0px;top:2px;border:1px solid #fff}
+.fancy{color:#333}
+.fancy:hover{color:#333;text-decoration:none;}
+.fancy:hover img{border:1px solid #00B7FF}
+.c{text-align:center !important;}

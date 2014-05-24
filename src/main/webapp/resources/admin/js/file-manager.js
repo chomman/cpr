@@ -35,6 +35,7 @@ $(function() {
 	
 	$("table").stupidtable();
 	$("[data-sort]").eq(0).click();
+	$(".fancy").fancybox();
 });
 
 

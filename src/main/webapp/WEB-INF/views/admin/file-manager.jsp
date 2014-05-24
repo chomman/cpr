@@ -8,8 +8,10 @@
 	<meta charset="utf-8" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 	<link rel="stylesheet"	href="<c:url value="/resources/admin/css/file-manager.css" />" />
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.fancybox.css" />" />
 	<script src="<c:url value="/resources/admin/js/stupidtable.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/file-manager.js" />"></script>
+	<script	src="<c:url value="/resources/admin/js/jquery.fancybox.pack.js" />"></script>
 	
 </head>
 <body class="${uploadType == 2 ? 'docs-upload' : ''}">
@@ -89,9 +91,11 @@
 					
 					<c:if test="${not i.isDir and uploadType == 1}">
 						<td class="pj-file l" data-sort-value="1${i.name}">
-							<a class="image ${i.extension}" data-url="${i.dir}/${i.name}">
-							<img src="<c:url value="/image/s/35/${i.dir}/${i.name}" /> " alt="" />
-							${i.name}</a>
+							<a title="Zobrazit náhled"
+							 class="fancy ${i.extension}" data-url="${i.dir}/${i.name}" href="<c:url value="/image/r/500/${i.dir}/${i.name}" />">
+								<img src="<c:url value="/image/s/35/${i.dir}/${i.name}" />" alt="" />
+								${i.name}
+							</a>
 						</td>
 						<td class="pj-size c">${i.size}</td>
 						<td class="pj-sel c"><a class="image" data-url="${i.dir}/${i.name}" href="#">Vybrat</a></td>
