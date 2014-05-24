@@ -85,8 +85,10 @@ public class FileManagerController extends AdminSupportController {
 		try{
 			if(form.getFileData() != null){
 				uploadFile(form, isImageUpload(request));
+				modelMap.put("fileUpload", true);
 			}else{
 				createNewDir(request, form);
+				modelMap.put("newDir", true);
 			}
 		}catch(IllegalArgumentException e){
 			modelMap.put("errors", e.getMessage());

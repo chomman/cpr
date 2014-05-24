@@ -2,28 +2,16 @@ $(function() {
 	
 	$(document).on('click', '.delete', onRemoveFile );
 	
-	var image = $(".imgBox div");
-	
-	image.hover(
-		function () {
-			$(this).removeClass("h"); 
-		},
-		function () {
-			$(this).addClass("h");
-		}
-	);
-	
-	image.on("click", function(){
-		var imageName = $(this).find('img').attr("alt");
-		if(imageName.length > 0){
-			var imageSRC =  getBasePath()  + 'image/n/' + imageName,
-				selector = $('#selector');
-			if(selector.text().length > 0){
-				$(window.opener.document).find("#"+selector.text()+"-inp").val(imageSRC);
-				window.close();
-				window.opener.focus();
-			}
-		}
+
+	$(document).on('click', '.image', function(){
+		var docUrl = $(this).attr('data-url'),
+			$selector = $('#selector'),
+			fileDownloadUrl = getBasePath() + 'image/n/' + docUrl,
+			$hrefInputWrapp = $(window.opener.document).find("#"+$selector.text());
+			$hrefInputWrapp.find("#"+$selector.text()+"-inp").val(fileDownloadUrl);
+			$hrefInputWrapp.parent().parent().next().find("input").val(getFileName(docUrl));
+			window.close();
+			window.opener.focus();
 	});
 	
 	$(document).on('click', '.document', function(){

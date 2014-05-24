@@ -18,24 +18,27 @@
 			<li><a class="add-folder" data-class="form-dir" href="#" title="Vytvořit složku"></a></li>
 			<li><a class="add-file" data-class="form-file" href="#" title="Přidat soubor"></a></li>
 		</ul>
-		<form:form method="POST" enctype="multipart/form-data" modelAttribute="command" cssClass="form-file" >
+		<form:form method="POST" enctype="multipart/form-data" modelAttribute="command" cssClass="form-file ${not empty errors and fileUpload ? '' : 'hidden' }" >
 			<label>
 				<spring:message code="form.file.select" />:
 			</label>
 			<input type="file" name="fileData" />
 			<input type="submit" class="button radius" value="<spring:message code="form.file.upload"  /> &raquo;" />
+			<c:if test="${not empty errors}">
+			<span class="error">${errors}</span>
+		</c:if>
 		</form:form>
 		
-		<form:form method="POST" modelAttribute="command" cssClass="form-dir ${empty errors and empty command.newDir ? 'hidden' : '' }" >
+		<form:form method="POST" modelAttribute="command" cssClass="form-dir ${not empty errors and newDir ? '' : 'hidden' }" >
 			<label>
 				Název složky:
 			</label>
 			<form:input path="newDir" />
 			<input type="submit" class="button radius" value="Vytvořit"  />
-		</form:form>
-		<c:if test="${not empty errors}">
+			<c:if test="${not empty errors}">
 			<span class="error">${errors}</span>
 		</c:if>
+		</form:form>
 	</div>
 	<div id="wrapper" >
 
@@ -52,14 +55,16 @@
 		
 			 <tbody>
 			 	<c:if test="${not empty currentDir}"> 
-						<td class="pj-file l">
-							<a class="up" 
-							href="${fmUrl}${parentUrl}"><b>...</b></a>
-						</td>
-						<td class="pj-size c">&lt;Složka&gt;</td>
-						<td class="pj-sel c">&nbsp;</td>
-						<td class="pj-del c">&nbsp;</td>
-					</c:if>
+					<tr>
+					<td class="pj-file l">
+					<a class="up" 
+					href="${fmUrl}${parentUrl}"><b>...</b></a>
+				</td>
+				<td class="pj-size c">&lt;Složka&gt;</td>
+				<td class="pj-sel c">&nbsp;</td>
+				<td class="pj-del c">&nbsp;</td>
+					</tr>	
+				</c:if>
 					
 			 
 			 	<c:forEach items="${documets}" var="i">
@@ -84,8 +89,8 @@
 					
 					<c:if test="${not i.isDir and uploadType == 1}">
 						<td class="pj-file l" data-sort-value="1${i.name}">
-							<a class="document image file ${i.extension}" data-url="${i.dir}/${i.name}">
-							<img src="<c:url value="/image/s/35/${i.name}" /> " alt="${i}" />
+							<a class="image ${i.extension}" data-url="${i.dir}/${i.name}">
+							<img src="<c:url value="/image/s/35/${i.dir}/${i.name}" /> " alt="" />
 							${i.name}</a>
 						</td>
 						<td class="pj-size c">${i.size}</td>

@@ -92,3 +92,6 @@ table .pj-sel a{color:#2F8C0F;}
 .add-folder{background-position:0 -35px;}
 
 #newDir{padding:8px 5px;border:1px solid #333;border-radius}
+
+.image{padding:5px 0 5px 45px;display:inline-block;background-position:0 -2px;width:100%;line-height:30px;;position:relative;}
+.image img{position:absolute;left:0px;top:2px;}
