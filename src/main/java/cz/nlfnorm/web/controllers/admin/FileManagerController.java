@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -17,9 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MaxUploadSizeExceededException;
 import org.springframework.web.multipart.MultipartFile;
 
+import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dto.FileUploadItemDto;
 import cz.nlfnorm.services.FileService;
 import cz.nlfnorm.services.impl.FileServiceImpl;
@@ -41,9 +42,11 @@ public class FileManagerController extends AdminSupportController {
 
 	@Autowired
 	private FileService fileService;
-	
 	@Autowired
 	private ImageValidator imageValidator;
+	@Autowired
+	private MessageSource messageSource;
+	
 	
 	private static final String COMMAND = "command";
 
@@ -78,55 +81,23 @@ public class FileManagerController extends AdminSupportController {
 	
 	@RequestMapping(value = "/admin/file-manager.htm", method = RequestMethod.POST)
 	public String save(@ModelAttribute(COMMAND) FileUploadItemDto form, BindingResult result,  ModelMap modelMap, HttpServletRequest request) {
-		form.setSaveDir(determineDir(request));
-		final String tinyMceSelector = request.getParameter("selector");
-		final int uploadType = getUploadType(request);
-		if(StringUtils.isNotBlank(tinyMceSelector)){
-			MultipartFile file = form.getFileData();
-			if (null != file) {
-				String fileName = file.getOriginalFilename();
-				if(StringUtils.isBlank(fileName) || (uploadType == IMAGE_UPLOAD && !imageValidator.validate(fileName))){
-					modelMap.put("hasErrors", true );
-				}else{
-					InputStream content = null;
-					try {
-						content = file.getInputStream();
-						fileService.saveFile(fileName, content, form.getSaveDir());
-					} catch (IOException e) {
-						logger.warn("Nahravany obrazok: "+ fileName+ " sa neodarilo ulozit: "
-								+ e.getMessage());
-						modelMap.put("hasErrors", true );
-					}catch(MaxUploadSizeExceededException e){
-						logger.warn("Nahravany obrazok: "+ fileName+ " sa neodarilo ulozit: " + e.getMessage());
-						modelMap.put("hasErrors", true );
-					}finally {
-					    try {
-					    	if(content != null){
-					    		content.close();
-					    	}
-					    } catch (IOException e) {
-					    	logger.warn("Nastala chyba pri zatvaratni streamu subor: "+ fileName+ " - " + e.getMessage());
-					    }
-					}
-				}
-				
-			}else if(StringUtils.isNotBlank(form.getNewDir())){
-				String newDirLocation = determineDir(request) + "/" + CodeUtils.generateProperFilename(form.getNewDir());
-				File dir = new File(fileService.getFileSaveDir() + newDirLocation);
-				if(dir.exists() && dir.isDirectory()){
-					modelMap.put("dirExists", true);
-				}else{
-					fileService.createDirectory(newDirLocation);
-					form.setNewDir(null);
-				}
+		form.setSaveDir(determineDir(request));	
+		try{
+			if(form.getFileData() != null){
+				uploadFile(form, isImageUpload(request));
+			}else{
+				createNewDir(request, form);
 			}
-		}else{
-			logger.warn("Opener window selector is not set: " + request.getQueryString());
+		}catch(IllegalArgumentException e){
+			modelMap.put("errors", e.getMessage());
+		}catch (Exception e) {
+			modelMap.put("errors", getMessage("error.upload.failed"));
 		}
 		prepareModel(form, modelMap, request);
 		return getViewName();
 	}
 
+	
 	private void prepareModel(FileUploadItemDto form, ModelMap modelMap, HttpServletRequest request) {
 		final int uploadType =  getUploadType(request);
 		modelMap.addAttribute(COMMAND, form );
@@ -142,6 +113,45 @@ public class FileManagerController extends AdminSupportController {
 		modelMap.put("url", buildCurrentDirUrl(request) );
 		modelMap.put("parentUrl", buildParentDirUrl(request) );
 	}
+
+	
+	private void createNewDir(HttpServletRequest request, final FileUploadItemDto form){
+		if(StringUtils.isBlank(form.getNewDir())){
+			throw new IllegalArgumentException(getMessage("error.newDir.blank"));
+		}
+		String newDirLocation = determineDir(request) + "/" + CodeUtils.generateProperFilename(form.getNewDir());
+		File dir = new File(fileService.getFileSaveDir() + newDirLocation);
+		if(dir.exists() && dir.isDirectory()){
+			throw new IllegalArgumentException(getMessage("error.newDir.exists"));
+		}else{
+			fileService.createDirectory(newDirLocation);
+			form.setNewDir(null);
+		}
+	}
+	
+	private void uploadFile(final FileUploadItemDto form, final boolean isImage) throws IOException{
+			validate(form, isImage);
+			InputStream content = null;
+			String fileName = form.getFileData().getOriginalFilename();
+			try {
+				content = form.getFileData().getInputStream();
+				fileService.saveFile(fileName, content, form.getSaveDir());
+			}finally {
+			    	if(content != null){
+			    		content.close();
+			    	}
+			}
+	}
+	
+	private void validate(final FileUploadItemDto form, final boolean isImage){
+		final MultipartFile file = form.getFileData();
+		if(file == null || StringUtils.isBlank(file.getOriginalFilename())){
+			throw new IllegalArgumentException(getMessage("error.upload.emptyFile"));
+		}else if(isImage && !imageValidator.validate(file.getOriginalFilename())){
+			throw new IllegalArgumentException(getMessage("error.upload.notImage"));
+		}
+	}
+		
 
 	
 	private String determineDir(HttpServletRequest request){
@@ -188,5 +198,13 @@ public class FileManagerController extends AdminSupportController {
 	private String buildUrl(HttpServletRequest request, String dir){
 		final String url = RequestUtils.getRequestParams(request, FOLDER_PARAM);
 		return url + "&" + FOLDER_PARAM  + "=" + dir;
+	}
+	
+	private String getMessage(final String code){
+		return messageSource.getMessage(code,  null, ContextHolder.getLocale());
+	}
+	
+	private boolean isImageUpload(HttpServletRequest request){
+		return getUploadType(request) == IMAGE_UPLOAD;
 	}
 }

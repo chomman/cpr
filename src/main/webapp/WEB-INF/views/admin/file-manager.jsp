@@ -18,26 +18,24 @@
 			<li><a class="add-folder" data-class="form-dir" href="#" title="Vytvořit složku"></a></li>
 			<li><a class="add-file" data-class="form-file" href="#" title="Přidat soubor"></a></li>
 		</ul>
-		<form:form method="POST" enctype="multipart/form-data" modelAttribute="command" cssClass="form-file hidden" >
+		<form:form method="POST" enctype="multipart/form-data" modelAttribute="command" cssClass="form-file" >
 			<label>
 				<spring:message code="form.file.select" />:
 			</label>
 			<input type="file" name="fileData" />
-			
-			<c:if test="${not empty hasErrors}">
-				<span class="error"><spring:message code="error.image.extetion" /></span>
-			</c:if>
 			<input type="submit" class="button radius" value="<spring:message code="form.file.upload"  /> &raquo;" />
 		</form:form>
 		
-		<form:form method="POST" modelAttribute="command" cssClass="form-dir ${empty dirExists ? 'hidden' : '' }" >
+		<form:form method="POST" modelAttribute="command" cssClass="form-dir ${empty errors and empty command.newDir ? 'hidden' : '' }" >
 			<label>
 				Název složky:
 			</label>
 			<form:input path="newDir" />
 			<input type="submit" class="button radius" value="Vytvořit"  />
-			<c:if test="${not empty dirExists}"><span class="error">Složka se zadaným názvem existuje.</span></c:if>
 		</form:form>
+		<c:if test="${not empty errors}">
+			<span class="error">${errors}</span>
+		</c:if>
 	</div>
 	<div id="wrapper" >
 

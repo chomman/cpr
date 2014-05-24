@@ -9,25 +9,25 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.HandlerMapping;
 
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.constants.ImageFormat;
 import cz.nlfnorm.image.Image;
 import cz.nlfnorm.image.ImageLoader;
 import cz.nlfnorm.services.FileService;
-import cz.nlfnorm.utils.RequestUtils;
 
 
 @Controller
 public class ImageController {
+	
+	private static final String REPLACE_PATTERN = "^/image/(s|n|r)/(\\d+/)?";
 	
 	private Logger logger = Logger.getLogger(getClass());
 	private static final String CACHE_CONTROL_HEADER = "Cache-Control";
@@ -50,82 +50,73 @@ public class ImageController {
 		if(isNotModified(request, response)){
 			return null;
 		}
-		String location = RequestUtils.getPartOfUrlAfterPattern(request, Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_NORMAL + "/");
-		if(StringUtils.isNotBlank(location)){
-			final String path = getImageAbsolutePath(request, location);
-			File file = new File(path);
-			if(file.exists()){
-				try {
-					byte[] image = getNotModifiedImage(file);
-					setCachingResponseHeaders(response);
-					return image;
-				} catch (IOException e) {
-				  logger.warn("Obrazok " + location +" sa nepodarilo spracovat: " + e.getMessage());
-				}
+
+		final String path = getImageAbsolutePath(request);
+		File file = new File(path);
+		if(file.exists()){
+			try {
+				byte[] image = getNotModifiedImage(file);
+				setCachingResponseHeaders(response);
+				return image;
+			} catch (IOException e) {
+			  logger.warn("Obrazok sa nepodarilo spracovat: " + e.getMessage());
 			}
 		}
+		
 		return null;
 	}
 	
-	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_SQUARE +"/{size}/{dir}/{name:.*}")
+	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_SQUARE +"/{size}/**")
 	public @ResponseBody byte[] showImage(
 			@PathVariable int size,
-			@PathVariable String name, 
-			@PathVariable String dir,
 			HttpServletRequest request, 
 			HttpServletResponse response){
 		
 		if(isNotModified(request, response)){
 			return null;
 		}
-		if(StringUtils.isNotBlank(name)){
-			File file = new File(getImageAbsolutePath(request,dir, name));
-			if(file.exists()){
-				try {
-					byte[] image = getSquareImage(file, size);
-					setCachingResponseHeaders(response);
-					return image;
-				} catch (IOException e) {
-				  logger.warn("Obrazok " + name +" sa nepodarilo spracovat: " + e.getMessage());
-				}
+
+		File file = new File(getImageAbsolutePath(request));
+		if(file.exists()){
+			try {
+				byte[] image = getSquareImage(file, size);
+				setCachingResponseHeaders(response);
+				return image;
+			} catch (IOException e) {
+			  logger.warn("Obrazok sa nepodarilo spracovat: " + e.getMessage());
 			}
 		}
+		
 		return null;
 	}
 	
-	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_RESIZED +"/{size}/{dir}/{name:.*}")
+	@RequestMapping(value = Constants.IMAGE_URL_PREFIX+ImageFormat.IMAGE_RESIZED +"/{size}/**")
 	public @ResponseBody byte[] getResizedImage(
 			@PathVariable int size,
-			@PathVariable String dir,
-			@PathVariable String name, 
 			HttpServletRequest request, 
 			HttpServletResponse response){
 		
 		if(isNotModified(request, response)){
 			return null;
 		}
-		if(StringUtils.isNotBlank(name)){
-			File file = new File(getImageAbsolutePath(request,dir, name));
-			if(file.exists()){
-				try {
-					byte[] image = getResizedImage(file, size);
-					setCachingResponseHeaders(response);
-					return image;
-				} catch (IOException e) {
-				  logger.warn("Obrazok " + name +" sa nepodarilo spracovat: " + e.getMessage());
-				}
+		File file = new File(getImageAbsolutePath(request));
+		if(file.exists()){
+			try {
+				byte[] image = getResizedImage(file, size);
+				setCachingResponseHeaders(response);
+				return image;
+			} catch (IOException e) {
+			  logger.warn("Obrazok sa nepodarilo spracovat: " + e.getMessage());
 			}
 		}
 		return null;
 	}
 	
-
 	
 	private byte[] getNotModifiedImage(File file) throws IOException{
 		FileInputStream in = new FileInputStream(file);
 		return IOUtils.toByteArray(in);
 	}
-	
 	
 	
 	private byte[] getResizedImage(File file, int newWidth) throws IOException{
@@ -140,8 +131,7 @@ public class ImageController {
 		image = image.getResizedToSquare(size,  0.1);
 		return image.getImage();
 	}
-	
-	
+		
 	private void setCachingResponseHeaders(HttpServletResponse response) {
         Calendar date = Calendar.getInstance();
         response.setHeader(CACHE_CONTROL_HEADER, CACHE_CONTROL_VALUE);
@@ -152,16 +142,10 @@ public class ImageController {
     }
 	
 	
-	
-	private String getImageAbsolutePath(HttpServletRequest request, String dir, String name){
-		Validate.notNull(name);
-		return fileService.getFileSaveDir() + File.separatorChar + dir +  File.separatorChar+ name;
+	private String getImageAbsolutePath(HttpServletRequest request){
+		return fileService.getFileSaveDir() + File.separatorChar + getFileLocation(request);
 	}
 	
-	private String getImageAbsolutePath(HttpServletRequest request, String location){
-		Validate.notNull(location);
-		return fileService.getFileSaveDir() + File.separatorChar + location;
-	}
 	
 	private boolean isNotModified(HttpServletRequest request, HttpServletResponse response){
 		 if (request.getHeader(IF_MODIFIED_SINCE_HEADER) != null || request.getHeader(IF_NONE_MATCH_HEADER) != null) {
@@ -169,6 +153,11 @@ public class ImageController {
             return true;
         }
 		 return false;
+	}
+	
+	private String getFileLocation(HttpServletRequest request){
+		String fileLocation = (String) request.getAttribute(HandlerMapping.PATH_WITHIN_HANDLER_MAPPING_ATTRIBUTE);
+		return fileLocation.replaceFirst(REPLACE_PATTERN, "");
 	}
 	
 }
