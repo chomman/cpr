@@ -156,7 +156,6 @@ public class PortalModuleWebpageController extends PortalWebpageControllerSuppor
     public String portalRegistrationForm(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
 		validateRequest(request);
 		Map<String, Object> defaultModel = (Map<String, Object>)request.getAttribute(WEBPAGE_MODEL_KEY);
-		defaultModel.put("termsOfConditions", webpageService.getWebpageByCode(Webpage.TERMS_OF_CONDITIONS_CODE));
 		preparePortalOrderModel(defaultModel, modelMap, request, new PortalUserForm());
         return "/portal/web/" + WebpageType.ARTICLE.getViewName();
     }

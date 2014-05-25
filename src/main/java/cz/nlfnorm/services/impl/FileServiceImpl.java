@@ -251,7 +251,7 @@ public class FileServiceImpl implements FileService {
 		File file = new File(fileSaveDir + "/" + dirName);
 		if(file.exists() && file.isDirectory()){
 			for(File f : file.listFiles()){
-				if(imagesOnly && !imageValidator.validate(f.getName())){
+				if(imagesOnly && !imageValidator.validate(f.getName()) && f.isFile()){
 					continue;
 				}
 				FileDto fileDto = new FileDto();

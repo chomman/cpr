@@ -11,7 +11,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="robots"   content="index,follow"/>
 		
-		<link rel="shortcut icon" href="/img/icon.png" />
+		<link rel="shortcut icon" href="<c:url value="/resources/portal/img/favico.png" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/style.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/common.css" />" />
 		<c:if test="${not empty isPreview and isPreview}">

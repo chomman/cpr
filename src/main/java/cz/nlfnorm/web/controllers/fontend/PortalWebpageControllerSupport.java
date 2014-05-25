@@ -75,6 +75,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 		model.put("portalCountries", PortalCountry.getAll());
 		model.put("portalCurrencies", PortalCurrency.getAll());
 		model.put("isRegistration", (form instanceof PortalUserForm));
+		model.put("termsOfConditions", webpageService.getWebpageByCode(Webpage.TERMS_OF_CONDITIONS_CODE));
 		appendSelectedProduct(model, request);
 		setPortaOrderCurrency(request, form);
 		setPortalOrderSource(request, form);
