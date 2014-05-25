@@ -7,6 +7,7 @@
 		<meta charset="utf-8">
 		<meta name="robots"   content="noindex,follow"/>
 		
+		<link rel="stylesheet" href="<c:url value="/resources/portal/css/common.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/style.css" />" />
 		
 		<!--[if lt IE 9]>
