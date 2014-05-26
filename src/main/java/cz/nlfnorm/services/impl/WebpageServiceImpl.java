@@ -25,6 +25,7 @@ import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.entities.WebpageContent;
 import cz.nlfnorm.enums.SystemLocale;
 import cz.nlfnorm.enums.WebpageModule;
+import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.services.FileService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.services.WebpageService;
@@ -173,6 +174,9 @@ public class WebpageServiceImpl implements WebpageService{
 			final int order = getNextOrderValue(parentWebpage.getId());
 			webpage = new Webpage(parentWebpage);
 			webpage.setOrder(order);
+			if(parentWebpage.getWebpageType().equals(WebpageType.NEWS_CATEGORY)){
+				webpage.setWebpageType(WebpageType.NEWS);
+			}
 		}else{
 			webpage = new Webpage();
 			webpage.setOrder(getNextOrderValue( null ));
