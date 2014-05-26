@@ -18,8 +18,11 @@
 		<c:if test="${not empty isPreview and isPreview}">
 			<link rel="stylesheet" href="<c:url value="/resources/portal/css/preview.css" />" />
 		</c:if>
+		<!--[if lt IE 10]> 
+		<link rel="stylesheet" href="<c:url value="/resources/portal/css/ie.css" />" />	
+		<![endif]-->
 		<!--[if lt IE 9]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/ui/jquery-ui-1.10.4.custom.css" />" />

@@ -27,7 +27,6 @@
 	background: -o-linear-gradient(top, #eee 0%,#ffffff 100%);
 	background: -ms-linear-gradient(top, #eee 0%,#ffffff 100%);
 	background: linear-gradient(to bottom, #eee 0%,#ffffff 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#eee', endColorstr='#ffffff',GradientType=0 );
 }
 
 .pj-radius-bottom-right{
@@ -43,7 +42,7 @@
 
 
 .pj-wrapp{height:100%}
-.pj-inner{max-width: 1000px;width: 100%;margin: auto;}
+.pj-inner{max-width: 1000px;width: 1000px;margin: auto;}
 .placeholder{color: #ddd !important;}
 .clear { clear: both; }
 .hidden{display: none !important;}
@@ -83,7 +82,8 @@
 .pj-mainnav{height: 43px;border-top:1px solid #fff;border-bottom:1px solid #fff}
 .pj-mainnav ul>li{position:relative;border-right:1px solid #ccc;}
 .pj-mainnav ul>li:first-child{border-left:1px solid #ccc;}
-
+.pj-mainnav .pj-inner{position:relative;max-width:1005px;width:auto;;}
+.pj-mainnav .pj-inner .first-child{position:absolute;}
 .pj-mainnav .curr{}
 .pj-mainnav .pj-inner>ul>li{display:block;float:left;}
 .pj-mainnav ul>li>a,
