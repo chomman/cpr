@@ -534,7 +534,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0da192', end
 }
 .w-nav li { display: table-cell;font-size:13px;border-right:1px solid #9BDED6;text-align:center;}
 .w-nav li a{text-decoration:none;color:#fff;font-weight:bold;padding:15px 0;display:inline-block;width:100%}
-.w-nav li a:hover{background:#006569;}
+.w-nav li a:hover,
+.w-nav .active{background:#006569;}
 
 @media (max-width:2000px) and (min-width:651px) {
      .w-nav li a{font-size:15px;}
@@ -545,3 +546,23 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0da192', end
 @media (max-width:560px){
      .w-nav li a{font-size:12px ;}
 }​
+
+.pj-widget-artice{color:#333;font-size:13px;line-height:19px;}
+.pj-widget-artice h1,
+.pj-widget-artice h2,
+.pj-widget-artice h3,
+.pj-widget-artice h4{margin:15px 0 5px 0;}
+.pj-widget-artice h1{font-size:25px;}
+.pj-widget-artice h2{font-size:20px;}
+.pj-widget-artice h3{font-size:20px;}
+.pj-widget-artice a{color:#0A7D70}
+.pj-widget-artice ul,
+.pj-widget-artice ol{padding:10px 20px;}
+.pj-widget-artice ul li{list-style-type:disc;padding:3px;}
+
+.pj-widget-news .pj-item{margin:15px 0;padding-bottom:15px;border-bottom:1px solid #eee;}
+.pj-widget-news .pj-date{display:block;background:#eee;width:80px;text-align:center;padding:3px;font-size:13px;color:#444;margin-bottom:5px;}
+.pj-widget-news strong{display:block;padding-bottom:10px;font-size:14px;}
+.pj-widget-news a{color:#0088c8}
+.pj-widget-news a:hover{color:#333;}
+.pj-widget-news p{font-size:12px;}

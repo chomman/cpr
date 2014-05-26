@@ -28,31 +28,58 @@
 		<jsp:include page="/WEB-INF/views/include/ga.jsp" />
 	</head>
 	<body>
-		
+			
+			<c:if test="${webpageModel.type == 1 or webpageModel.type == 2}">
 				<ul class="w-nav">
 					<li ${webpageModel.type == 1 ? 'class="active"'  : '' }>
-						<a href="">
+						<a href="<a:url href="/widget/registrace" linkOnly="true" />${webpageModel.params}">
 							<webpage:filedVal webpage="${webpageModel.registration}" fieldName="name" />
 						</a>
 					</li>
 					<c:forEach items="${webpageModel.nav}" var="i">
 					<li ${webpageModel.type == 2 and webpageModel.webpage.id eq i.id ? 'class="active"'  : '' }>
-						<a:url href="/widget/${i.id}">
+						<a:url href="/widget/${i.id}${webpageModel.params}">
 							<webpage:filedVal webpage="${i}" fieldName="name" />
 						</a:url>
 					</li>
 					</c:forEach>
 				</ul>
-			
-			<c:if test="${webpageModel.type == 1}">
-				<jsp:include page="../module/registration-form.jsp" />
+				
+				<c:if test="${webpageModel.type == 1}">
+					<jsp:include page="../module/registration-form.jsp" />
+				</c:if>
+				
+				
+				<c:if test="${webpageModel.type == 2}">
+					<article class="pj-widget-artice">
+						<h3 class="pj-widget"><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h3>
+						<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
+					</article> 
+				</c:if>	
 			</c:if>
 			
-			<c:if test="${webpageModel.type == 2}">
-				<h1 class="pj-head"><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
-				<div id="article">
-					<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
-				</div> 
+			<c:if test="${webpageModel.type == 3}">
+					<div class="pj-widget-news">
+						<c:forEach items="${webpageModel.news}" var="i">
+							<div class="pj-item">
+								<span class="pj-radius pj-date"><joda:format value="${i.published}" pattern="dd.MM.yyyy" /></span>
+								<strong><webpage:a webpage="${i}" target="_blank" /></strong>
+								<p>
+								<c:if test="${not empty i.descriptionInLang}">
+									<c:if test="${fn:length(i.descriptionInLang) gt webpageModel.descrLength}">
+										${fn:substring(i.descriptionInLang, 0, webpageModel.descrLength)}...
+									</c:if>
+									<c:if test="${fn:length(i.descriptionInLang) lt webpageModel.descrLength}">
+										${i.descriptionInLang}
+									</c:if>
+								</c:if>
+								<c:if test="${ empty i.descriptionInLang}">
+									${nlf:crop(i.contentInLang, webpageModel.descrLength)} 												
+								</c:if>
+								</p>
+							</div>			
+						</c:forEach>
+					</div>							
 			</c:if>	
 			
 			
