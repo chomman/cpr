@@ -4,7 +4,6 @@
 <sec:authorize access="hasRole('ROLE_ADMIN')"> 
 	<c:set var="editable" value="true" />
 </sec:authorize>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -13,15 +12,7 @@
 		<meta name="keywords" content="${model.standard.standardId}" />
 	</head>
 	<body>
-		
-	<div id="bc">
-		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<a:url href="${model.parentWebpage.code}"><a:localizedValue object="${model.parentWebpage}" fieldName="name" /></a:url> &raquo;
-			<span>${model.standard.standardId}</span>
-	</div> 
-	
-	
+			
 	<div id="main-content">
 		<article>
 			<hgroup>
@@ -29,11 +20,7 @@
 				<h2>${model.standard.name}</h2>
 			</hgroup>
 
-
-			<div class="descr">
-				<a:localizedValue object="${model.webpage}" fieldName="topText" />
-			</div>
-			
+						
 			<table>
 				
 				<c:if test="${not empty model.standard.replacedStandardId}">
@@ -202,29 +189,6 @@
 				</div>
 			</c:if>
 			
-			<!-- Mandary  
-			<c:if test="${not empty model.standard.standardGroups}">
-				<div class="public-box">
-					<h3><spring:message code="cpr.mandates.title" /> </h3>
-					<table class="ehn-as">
-						<c:forEach items="${model.standard.standardGroups}" var="i">
-							
-							<c:forEach items="${j.standardGroupMandates}"  var="j">
-							<tr>
-								<td>
-									<a class="file pdf" href="${j.mandate.mandateFileUrl}">
-										${j.mandate..mandateName}
-									</a>
-								</td>
-							</tr>
-							</c:forEach>
-							 
-						</c:forEach>	
-					</table>
-				</div>
-			</c:if>
-			-->
-			
 			<!-- TEXT   -->
 			<c:if test="${not empty model.standared.text}">
 				<div class="descr">
@@ -234,10 +198,7 @@
 			
 		</article>	
 		
-		<div class="descr">
-			<a:localizedValue object="${model.webpage}" fieldName="bottomText" />
-		</div>
-
+	
 	</div>
 	</body>
 </html>

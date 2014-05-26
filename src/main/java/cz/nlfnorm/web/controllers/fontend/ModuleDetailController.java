@@ -98,9 +98,12 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("standard", standard);
-		model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_EHN_LIST));
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		modelMap.put("model", model);
+		Map<String, Object> webpageModel = new HashMap<String, Object>();
+		webpageModel.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_EHN_LIST));
+		webpageModel.put("mainnav", webpageService.getTopLevelWepages(true));
+		appendModel(modelMap, webpageModel);
 		return getView("ehn-detail");
 	}
 	

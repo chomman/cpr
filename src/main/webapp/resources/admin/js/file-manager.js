@@ -27,7 +27,10 @@ $(function() {
 		$hrefInputWrapp = $(window.opener.document).find("#"+$selector.text());
 		$hrefInputWrapp.find("#"+$selector.text()+"-inp").val(fileDownloadUrl);
 		if(mappingPrefix === FILE_MAPPING_PREFIX){
-			$hrefInputWrapp.parent().parent().next().find("input").val(getFileName(fileLocation));
+			var $titleInput = $hrefInputWrapp.parent().parent().next().find("input");
+			if($.trim($titleInput.val()) === ""){
+				$hrefInputWrapp.parent().parent().next().find("input").val(getFileName(fileLocation));
+			}
 		}
 		window.close();
 		window.opener.focus();
