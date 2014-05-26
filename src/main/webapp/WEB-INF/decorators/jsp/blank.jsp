@@ -6,7 +6,7 @@
 	<title><decorator:title /></title>
 	<decorator:head />
 </head>
-<body>
+<body data-lang="${commonPublic.locale}">
 	<decorator:body />
 </body>
 </html>

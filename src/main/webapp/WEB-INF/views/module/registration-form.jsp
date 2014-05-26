@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
 <script type="text/javascript" src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
 <script type="text/javascript" src="<c:url value="/resources/portal/js/registration-form.js" />"></script>
