@@ -51,4 +51,6 @@ public interface UserService {
 	void sendChangePassowrdEmail(User user, String changePasswordUrl);
 	
 	User getUserByChangePasswordRequestToken(String token);
+	
+	List<User> getPortalUserBeforeExpiration(int weeksBefore);
 }

@@ -34,11 +34,9 @@ import cz.nlfnorm.web.editors.PortalProductPropertyEditor;
 @Controller
 public class PortalOrderController extends AdminSupportController {
 
-		private final static String EDIT_MAPPING_URL = "/admin/portal/order/{orderId}";
+	private final static String EDIT_MAPPING_URL = "/admin/portal/order/{orderId}";
 	private final static String LIST_MAPPING_URL = "/admin/portal/orders";
 	
-	//@Autowired
-	//private PdfXhtmlRendererView pdfView; 
 	@Autowired
 	private PortalOrderService portalOrderService;
 	@Autowired

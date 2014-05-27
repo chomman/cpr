@@ -51,11 +51,8 @@ import cz.nlfnorm.enums.OnlinePublication;
 @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", initialValue = 1, allocationSize =1)
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })
 public class User extends AbstractEntity implements UserDetails{
-	
-
-	
+		
 	private static final long serialVersionUID = 198524L;
-	
 	
 	private Long id;
 	private String firstName;

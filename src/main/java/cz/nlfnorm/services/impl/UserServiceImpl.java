@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -204,5 +205,17 @@ public class UserServiceImpl implements UserService {
 			return null;
 		}
 		return userDao.getUserByChangePasswordRequestToken(token);
+	}
+
+	@Override
+	public List<User> getPortalUserBeforeExpiration(int weeksBefore) {
+		LocalDate threshold = new LocalDate().plusWeeks(weeksBefore);
+		StringBuilder hql = new StringBuilder("from User u");
+		hql.append("	left join u.onlinePublications uop ")
+		   .append("	inner join u.authoritySet authority ")
+		   .append(" where u.enabled=true and authority.code = :authority and ")
+		   .append(" ((u.registrationValidity < :threshold and u.emailAlertSent = false) or")
+		   .append("  (uop.validity < :threshold and uop.emailAlertSent = false ) )");
+		return null;
 	}
 }
