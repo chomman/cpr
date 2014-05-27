@@ -63,7 +63,9 @@
 			
 			<!-- CONTENT -->
 			<div id="content">
-				<webpage:breadcrumb webpage="${webpageModel.webpage}" bcId="bc" />
+				<c:if test="${not empty webpageModel.webpage}">
+					<webpage:breadcrumb webpage="${webpageModel.webpage}" bcId="bc" />
+				</c:if>
 				<decorator:body />
 			</div>
 			<div class="push"></div>	

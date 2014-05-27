@@ -170,6 +170,9 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		 }
 		 ReportDto dto = reportService.getItemsFor(report);
 		 Map<String, Object> model = new HashMap<String, Object>();
+		 Map<String, Object> webpageModel = new HashMap<String, Object>();
+		 webpageModel.put("mainnav", webpageService.getTopLevelWepages(true));
+		 appendModel(map, webpageModel);
 		 model.put("report", report);
 		 model.put("webpage", webpageService.getWebpageByModule(WebpageModule.REPORT_LIST));
 		 model.put("standards", dto.getStandards() );
