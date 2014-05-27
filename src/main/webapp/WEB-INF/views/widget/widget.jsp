@@ -12,6 +12,7 @@
 		
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/common.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/style.css" />" />
+		<link rel="stylesheet" href="<c:url value="/resources/widget/widget.css" />" />
 		
 		<!--[if lt IE 9]>
 			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -81,7 +82,6 @@
 						</c:forEach>
 					</div>							
 			</c:if>	
-			
 			
 		 <div id="base" class="hidden"><c:url value="/" /></div>
 		 <script src="<c:url value="/resources/widget/iframeResizer.contentWindow.min.js" />"></script>

@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import cz.nlfnorm.enums.WebpageModule;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
@@ -23,8 +22,8 @@ public class WidgetController extends PortalWebpageControllerSupport{
 
 	private final static String CSS_PARAM = "css";
 	private final static String COUNT_OF_NEWS_PARAM = "count";
-	private final static int DEFAULT_COUNT_OF_NEWS = 5;
 	private final static String DESCR_LENGHT_PARAM = "descrLength";
+	private final static int DEFAULT_COUNT_OF_NEWS = 5;
 	private final static int DEFAULT_DESCR_LENGTH = 150;
 	
 	private final static int TYPE_REGISTRATION = 1;
