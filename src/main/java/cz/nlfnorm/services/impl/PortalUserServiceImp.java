@@ -158,4 +158,10 @@ public class PortalUserServiceImp implements PortalUserService {
 	}
 
 	
+	@Override
+	public void sendEmailAlerts() {
+		
+	}
+
+	
 }

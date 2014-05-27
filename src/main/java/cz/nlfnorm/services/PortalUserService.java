@@ -15,4 +15,6 @@ public interface PortalUserService {
 	void setSynchronizationFailedFor(Long userId);
 	
 	void changeUserPassword(ResetPassowrdForm form);
+	
+	void sendEmailAlerts();
 }
