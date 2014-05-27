@@ -53,6 +53,29 @@
 						</ul>
 						
 						<c:if test="${not empty webpageModel.loggedUser}">
+							<c:if test="${not empty webpageModel.loggedUser.registrationValidity}">
+								<c:set var="regValidity" value="${nlf:daysLeft(webpageModel.loggedUser.registrationValidity)}" />
+								<c:if test="${regValidity > 0 and regValidity < 21 }">
+									<p class="pj-alert pj-radius"> 
+										<spring:message code="portaluser.leftDays" />: <strong>${regValidity}</strong> <spring:message code="portaluser.day" />
+										
+										<a href="<a:url href="${webpageModel.profileUrl}" linkOnly="true"  />/new-order?pid=554">
+											<spring:message code="portaluser.extendValidity" />
+										</a>
+									</p> 
+								</c:if>
+								<c:if test="${regValidity < 0}">
+									<p class="pj-alert red pj-radius">
+										<spring:message code="portaluser.invalid" />:  <strong><joda:format value="${webpageModel.loggedUser.registrationValidity}" pattern="dd.MM.yyyy"/></strong>
+										
+										<a href="<a:url href="${webpageModel.profileUrl}" linkOnly="true"  />/new-order?pid=554">
+											<spring:message code="portaluser.extendValidity" />
+										</a> 
+									</p> 
+								</c:if>
+								
+							</c:if>
+						
 							<uL class="pj-login">
 								<li><a href="<a:url href="${webpageModel.profileUrl}" linkOnly="true"  />" class="user ico">${webpageModel.loggedUser.firstName} ${webpageModel.loggedUser.lastName}<span class="ic ic-user"></span></a></li>
 								<li><a href="<c:url value="/j_logout?${webpageModel.portalParam}=1" />" class="logout" ><spring:message code="portal.logout" /></a></li>

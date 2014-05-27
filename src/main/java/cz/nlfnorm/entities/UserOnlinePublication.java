@@ -36,10 +36,13 @@ public class UserOnlinePublication implements Serializable {
 	
 	private LocalDateTime changed;
 	
+	private Boolean alertEmailSent;
+	
 	public UserOnlinePublication(){
 		validity = new LocalDate().plusYears(1);
 		created = new LocalDateTime();
 		changed = new LocalDateTime();
+		alertEmailSent = false;
 	}
 		
 	public UserOnlinePublication(User user){
@@ -108,6 +111,16 @@ public class UserOnlinePublication implements Serializable {
 	public void setChanged(LocalDateTime changed) {
 		this.changed = changed;
 	}
+	
+	@Column(name = "alert_email_sent")
+	public Boolean getAlertEmailSent() {
+		return alertEmailSent;
+	}
+
+	public void setAlertEmailSent(Boolean alertEmailSent) {
+		this.alertEmailSent = alertEmailSent;
+	}
+	
 	
 	
 	

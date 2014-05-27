@@ -62,6 +62,11 @@
 .pj-langbox{float:left;}
 .pj-langbox .current{opacity:.5;}
 
+
+.pj-above-header .pj-alert.red{background:#E80000;left:38%;border:2px solid #FF7A7A;}
+.pj-above-header .pj-alert{position:absolute;left:45%;top:2px;background:#E87C00;padding:3px 10px;border:2px solid #FFC787;display:block;color:#fff}
+.pj-above-header .pj-alert a{color:#fff;margin-left:10px;font-weight:bold;text-decoration:none;}
+.pj-above-header .pj-alert a:hover{color:#000;text-decoration:underline;}
 .pj-login{float:right;}
 .pj-login a{color:#fff;}
 
