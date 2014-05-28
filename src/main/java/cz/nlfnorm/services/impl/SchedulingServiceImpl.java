@@ -20,7 +20,6 @@ public class SchedulingServiceImpl {
 	
 	private static final Logger logger = Logger.getLogger(SchedulingServiceImpl.class);
 	
-	@Scheduled(cron = "0 0 5 1/1 * ? *")
 	public void sendEmailAlerts() {
 		logger.info("Starti send emails..");
 		portalUserService.sendEmailAlerts();
