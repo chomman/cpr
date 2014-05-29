@@ -564,10 +564,6 @@ header{position:relative;}
 .changed-csns td{text-align:center;border-left:1px solid #ddd;}
 .changed-csns .standard-change{font-size:12px;}
 
-.tooltip{vertical-align:top;height:100%;min-height:100%;cursor:help;}
-.tooltip-wrapp{position:relative;display:inline-block;height:100%;min-height:55px;padding-top:5px;;}
-.tooltip-ico{background:url(../img/ico_info.png) no-repeat;;position:absolute;width:18px;height:18px;top:-11px;left:41%}
-
 /* new category */
 .pj-category-items{margin: 35px 10px 0 10px;}
 .pj-category-item{margin:20px 0;overflow: hidden;display: inline-block;display:block;}
