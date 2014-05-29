@@ -12,6 +12,7 @@
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/flick/jquery-ui-1.9.2.custom.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/screen.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/common.css" />" />
+		<link rel="stylesheet" href="<c:url value="/resources/public/css/tooltipster.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/chosen.css" />" />
 		<c:if test="${not empty isPreview and isPreview}">
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/preview.css" />" />
@@ -19,13 +20,14 @@
 		<!--[if lt IE 9]>
 		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
-		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
 		<script src="<c:url value="/resources/public/js/common.js" />"></script>
 		<script src="<c:url value="/resources/public/js/jquery.lang.switcher.js" />"></script>
 		<script src="<c:url value="/resources/admin/js/chosen.jquery.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
 		<script src="<c:url value="/resources/public/js/jquery.pagination.js" />"></script>
+		<script src="<c:url value="/resources/public/js/jquery.tooltipster.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<meta name="description" content="<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="description" />" />
 		<decorator:head/>

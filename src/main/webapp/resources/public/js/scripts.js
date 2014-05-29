@@ -114,7 +114,8 @@ $(function() {
 	$('#dop .report input').keyup(function(){
 		renderText();
 	});
-	resizeBorder();
+	resizeBorder(); 
+	$('.tooltip').tooltipster({maxWidth : 300 });
 });
 
 

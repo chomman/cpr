@@ -19,9 +19,21 @@
 				<tr>
 					<th><spring:message code="standard.id" /></th>
 					<th><spring:message code="csn" /></th>
-					<tH><spring:message code="standard.name" /></th>
-					<th><spring:message code="standard.validity" /></th>
-					<th><spring:message code="standard.endofvalidity" /></th>
+					<th><spring:message code="standard.name" /></th>
+					<th class="tooltip" title="<spring:message code="standard.validity.tooltip" />">
+						<span class="tooltip-wrapp">
+							<span class="tooltip-ico"></span>
+							<spring:message code="standard.validity" />
+						</span>
+						
+					</th>
+					<th class="tooltip" title="<spring:message code="standard.validity.tooltip" />">
+						<span class="tooltip-wrapp">
+							<span class="tooltip-ico"></span>
+							<spring:message code="standard.endofvalidity" />
+						</span>
+						
+					</th>
 					<th><spring:message code="standard.noao" /></th>
 					<th><spring:message code="assessment" /></th>
 					<th><spring:message code="standard.standardGroups" /></th>
