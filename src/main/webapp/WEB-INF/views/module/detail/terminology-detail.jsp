@@ -62,8 +62,8 @@
 	<div id="bc">
 		<span class="bc-info"><spring:message code="location" />:</span>  
 			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo; 
-			<c:if test="${not empty model.webpage}">
-				<webpage:a webpage="${model.webpage}" /> &raquo;
+			<c:if test="${not empty webpageModel.webpage}">
+				<webpage:a webpage="${webpageModel.webpage}" /> &raquo;
 			</c:if>
 			<span>${model.terminology.csn.csnId} - ${model.terminology.title}</span>
 	</div> 

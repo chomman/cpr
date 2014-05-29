@@ -14,16 +14,7 @@
 		<script src="<c:url value="/resources/public/js/google.maps.js" />"></script>
 	</head>
 	<body>
-		
-	<div id="bc">
-		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;
-			<c:if test="${not empty model.webpage}">
-				<webpage:a webpage="${model.webpage}" /> &raquo;
-			</c:if>
-			<span>${model.notifiedBody.name}</span>
-	</div> 
-
+	
 		<div id="main-content">
 			<article itemscope itemtype="http://data-vocabulary.org/Organization">
 				<hgroup>

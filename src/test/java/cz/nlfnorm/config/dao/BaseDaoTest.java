@@ -1,8 +1,8 @@
-package cz.nlfnorm.dao;
+package cz.nlfnorm.config.dao;
 
 import org.junit.Test;
 
-import cz.nlfnorm.AbstractTestConfig;
+import cz.nlfnorm.config.AbstractTestConfig;
 
 public class BaseDaoTest extends AbstractTestConfig {
 		

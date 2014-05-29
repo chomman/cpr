@@ -48,11 +48,11 @@ public class WidgetController extends PortalWebpageControllerSupport{
 			ModelMap modelMap, 
 			HttpServletRequest request) {
 		int countOfNews = RequestUtils.getIntParameter(COUNT_OF_NEWS_PARAM, request);
-		if(countOfNews == -1){
+		if(countOfNews < 0 || countOfNews > 20){
 			countOfNews = DEFAULT_COUNT_OF_NEWS;
 		}
 		int descrLength = RequestUtils.getIntParameter(DESCR_LENGHT_PARAM, request);
-		if(descrLength == -1){
+		if(descrLength < 0 || descrLength > 500){
 			descrLength = DEFAULT_DESCR_LENGTH;
 		}
 		Map<String, Object> model = new HashMap<String, Object>();

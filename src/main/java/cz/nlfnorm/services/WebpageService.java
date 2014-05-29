@@ -73,4 +73,8 @@ public interface WebpageService {
 	void updateTsVector(Webpage webpage);
 	
 	List<Webpage> getFooterWebpages();
+	
+	void moveOldNewsToArchive(Webpage node);
+	
+	List<Webpage>getOldNonArchivedNewsInNode(Webpage node);
 }

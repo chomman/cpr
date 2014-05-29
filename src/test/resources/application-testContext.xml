@@ -94,11 +94,46 @@
    <tx:annotation-driven transaction-manager="transactionManagerBean"/>
  -->
 
-   	<context:component-scan base-package="cz.nlfnorm" />
-  
+    <context:component-scan base-package="cz.nlfnorm.dao">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+    
+    <context:component-scan base-package="cz.nlfnorm.services">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>  
+    
+    <context:component-scan base-package="cz.nlfnorm.validators">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+    
+    <context:component-scan base-package="cz.nlfnorm.mail">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>      
+    
+    <context:component-scan base-package="cz.nlfnorm.web">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan> 
+    
+    <context:component-scan base-package="cz.nlfnorm.parser">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan> 
+    
+    <context:component-scan base-package="cz.nlfnorm.csvimport">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+    
+    <context:component-scan base-package="cz.nlfnorm.spring">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan> 
+    <context:component-scan base-package="cz.nlfnorm.export">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan> 
+     
+     
+    <bean id="requestContext" class="org.springframework.mock.web.MockHttpServletRequest" autowire="byName"/>  
     
 
-     <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
+    <bean id="passwordEncoder" class="org.springframework.security.authentication.encoding.ShaPasswordEncoder" />
 		
 	<bean id="passwordSaltSource"	class="org.springframework.security.authentication.dao.SystemWideSaltSource">
 		<property name="systemWideSalt" value="gohaxopu" />

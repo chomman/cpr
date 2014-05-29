@@ -62,4 +62,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	void updatetsVector(Webpage webpage);
 	
 	List<Webpage> getFooterWebpages();
+	
+	List<Webpage> getOldNonArchivedNewsInNode(Webpage node);
 }

@@ -1,4 +1,4 @@
-package cz.nlfnorm.dao;
+package cz.nlfnorm.config.dao;
 
 import junit.framework.Assert;
 
@@ -10,14 +10,15 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import cz.nlfnorm.WebpageDateSet;
+import cz.nlfnorm.config.WebpageDataSet;
+import cz.nlfnorm.dao.WebpageDao;
 import cz.nlfnorm.entities.Webpage;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration("/application-testContext.xml")
 @TransactionConfiguration
 @Transactional
-public class WebpageDaoTest extends WebpageDateSet{
+public class WebpageDaoTest extends WebpageDataSet{
 	
 	@Autowired
 	private WebpageDao webpageDao;

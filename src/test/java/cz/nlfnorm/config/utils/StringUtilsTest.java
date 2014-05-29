@@ -1,4 +1,4 @@
-package cz.nlfnorm.utils;
+package cz.nlfnorm.config.utils;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.junit.Test;

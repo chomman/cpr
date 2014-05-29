@@ -100,29 +100,22 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		model.put("standard", standard);
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		modelMap.put("model", model);
-		Map<String, Object> webpageModel = new HashMap<String, Object>();
-		webpageModel.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_EHN_LIST));
-		webpageModel.put("mainnav", webpageService.getTopLevelWepages(true));
-		appendModel(modelMap, webpageModel);
+		prepareWebpageModel(modelMap, webpageService.getWebpageByModule(WebpageModule.CPR_EHN_LIST));
 		return getView("ehn-detail");
 	}
 	
-	
-	
-	
-	
-	
+		
 	@RequestMapping(value = {STANDARD_GROUP_DETAIL_URL, EN_PREFIX + STANDARD_GROUP_DETAIL_URL})
-	public String showCprGroupDetail(@PathVariable String code, ModelMap modelmap) throws PageNotFoundEception {
+	public String showCprGroupDetail(@PathVariable String code, ModelMap modelMap) throws PageNotFoundEception {
 		final StandardGroup stadnardGroup = standardGroupService.getStandardGroupByCode(code);
 		if(stadnardGroup == null || !stadnardGroup.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("group", stadnardGroup);
-		model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_GROUP_LIST));
+		prepareWebpageModel(modelMap, webpageService.getWebpageByModule(WebpageModule.CPR_GROUP_LIST), true);
 		model.put("standards", standardService.getStandardByStandardGroupForPublic(stadnardGroup));
-		modelmap.put("model", model);
+		modelMap.put("model", model);
 		return getView("standard-group-detail");
 	}
 		
@@ -131,17 +124,17 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	
 	
 	@RequestMapping(value = {"/subjekt/{id}", EN_PREFIX + "subjekt/{id}"})
-	public String showBasicRequirementDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
+	public String showBasicRequirementDetail(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception {
 		final NotifiedBody notifiedBody = notifiedBodyService.getNotifiedBodyById(id);
 		if(notifiedBody == null || !notifiedBody.getEnabled()){
 			throw new PageNotFoundEception();
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", webpageService.getWebpageByModule(WebpageModule.NOAO_LIST));
+		prepareWebpageModel(modelMap, webpageService.getWebpageByModule(WebpageModule.NOAO_LIST));
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		model.put("standards", standardService.getStandardsByNotifiedBody(notifiedBody));
 		model.put("notifiedBody", notifiedBody);
-		modelmap.put("model", model);
+		modelMap.put("model", model);
 		return getView("notifiedbody-detail");
 	}
 	
@@ -212,7 +205,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 			throw new PageNotFoundEception();
 		}
 		model.put("csnOnlineUrl", basicSettingsService.getCsnOnlineUrl());
-		model.put("webpage", webpage );
+		prepareWebpageModel(modelMap, webpage, true);
 		model.put("detailUrl", "/"  + TERMINOLOGY_URL_MAPPING );
 		modelMap.put("model", model);
 		return getView("terminology-detail");
@@ -220,19 +213,30 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	
 		
 	@RequestMapping(value = {"/cpr/as/{id}", EN_PREFIX + "cpr/as/{id}"})
-    public String showAssessmentSystemDetail(@PathVariable Long id, ModelMap modelmap) throws PageNotFoundEception {
+    public String showAssessmentSystemDetail(@PathVariable Long id, ModelMap modelMap) throws PageNotFoundEception {
             final AssessmentSystem assessmentSystem = assessmentSystemService.getAssessmentSystemById(id);
             if(assessmentSystem == null || !assessmentSystem.isEnabled()){
                     throw new PageNotFoundEception();
             }
             Map<String, Object> model = new HashMap<String, Object>();
-            model.put("webpage", webpageService.getWebpageByModule(WebpageModule.CPR_AS_LIST));
+            prepareWebpageModel(modelMap, webpageService.getWebpageByModule(WebpageModule.CPR_AS_LIST), true);
             model.put("assessmentSystem", assessmentSystem);
-            modelmap.put("model", model);
+            modelMap.put("model", model);
             return getView("assessmentsystem-detail");
     }
 	
+	private void prepareWebpageModel(ModelMap modelMap, final Webpage webpage){
+		prepareWebpageModel(modelMap, webpage, false);
+	}
 	
+	private void prepareWebpageModel(ModelMap modelMap, final Webpage webpage, final boolean hideDecoratorBreadcrumb){
+		Map<String, Object> webpageModel = new HashMap<String, Object>();
+		webpageModel.put("webpage", webpage);
+		webpageModel.put("breadcrumbDisabled", hideDecoratorBreadcrumb);
+		webpageModel.put("mainnav", webpageService.getTopLevelWepages(true));
+		appendModel(modelMap, webpageModel);
+	}
+		
 	private String getView(String name){
 		return "/module/detail/" + name;
 	}

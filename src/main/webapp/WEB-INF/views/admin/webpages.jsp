@@ -48,7 +48,7 @@
 					</webpage:a>
 				</div>
 			</div>
-			<div id="jstree" class="hidden"></div>
+			<div id="jstree"></div>
 		</div>	
 	</div>
 	<div class="clear"></div>	

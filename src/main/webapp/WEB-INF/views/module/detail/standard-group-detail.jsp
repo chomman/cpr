@@ -6,20 +6,17 @@
 		<title>${fn:substring(model.group.name, 0, 90)}</title>		
 	</head>
 	<body>
-		
-	<div id="bc">
-		<span class="bc-info"><spring:message code="location" />:</span>  
-			<a:url href="/"><spring:message code="homepage" /></a:url> &raquo;  
-			<c:if test="${not empty model.webpage}">
-				<webpage:a webpage="${model.webpage}" /> &raquo;
+			
+		<div id="bc">
+			<span class="bc-info"><spring:message code="location" />:</span>
+			<c:if test="${not empty webpageModel.webpage.parent}">
+				<webpage:a webpage="${webpageModel.webpage.parent}" /> &raquo;
 			</c:if>
-			<span>${fn:substring(model.group.name, 0, 45)}...</span>
-	</div> 
-		
-		<a class="back"  href="<webpage:link webpage="${model.webpage}" />">
-			&laquo; <spring:message code="backto"/>
-		</a>
-		
+			<c:if test="${not empty webpageModel.webpage}">
+				<webpage:a webpage="${webpageModel.webpage}" /> &raquo;
+			</c:if>
+			<span>${fn:substring(model.group.name, 0, 35)}...</span>
+		</div> 	
 		
 		<div id="main-content">
 			<article>

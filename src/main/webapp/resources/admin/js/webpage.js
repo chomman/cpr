@@ -37,7 +37,8 @@ $(function() {
 	
 	$jsTree = $("#jstree");
 	if($jsTree.length !== 0){
-		loadWebpages($jsTree);
+		//loadWebpages($jsTree);
+		init($jsTree);
 	}
 });
 
@@ -100,6 +101,22 @@ function sendRequest(type, data, action, callBack){
 			callBack
 	);
 }
+function init($jsTree){
+	$jsTree.jstree({
+	    "core" : {
+	      "check_callback" : true,
+	      'data': {
+	    	  'url' :  getBasePath() + "async/webpages",
+	    	  'data' : function(node){
+	    		  return { 'id' : (node.id === '#' ? -1 :  node.id )};
+	    	  },
+	      }
+	    },
+	    "plugins" : [ "dnd", "state"]
+	});
+			
+}
+
 function loadWebpages($jsTree){
 	return executeRequest( 
 		{url :getBasePath() + "async/webpages"},

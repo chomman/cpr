@@ -1,4 +1,4 @@
-package cz.nlfnorm.parser.cpr;
+package cz.nlfnorm.config.parser.cpr;
 
 import java.util.List;
 import java.util.Set;

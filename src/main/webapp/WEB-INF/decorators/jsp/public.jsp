@@ -66,7 +66,9 @@
 			<!-- CONTENT -->
 			<div id="content">
 				<c:if test="${not empty webpageModel.webpage}">
-					<webpage:breadcrumb webpage="${webpageModel.webpage}" bcId="bc" />
+					<c:if test="${(not empty webpageModel.breadcrumbDisabled and not webpageModel.breadcrumbDisabled ) or empty webpageModel.breadcrumbDisabled }">
+						<webpage:breadcrumb webpage="${webpageModel.webpage}" bcId="bc" />
+					</c:if>
 				</c:if>
 				<decorator:body />
 			</div>

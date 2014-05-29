@@ -1,16 +1,20 @@
-package cz.nlfnorm.service;
+package cz.nlfnorm.config.service;
+
+import java.util.List;
 
 import junit.framework.Assert;
 
+import org.joda.time.LocalDateTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import cz.nlfnorm.WebpageDateSet;
+import cz.nlfnorm.config.WebpageDataSet;
 import cz.nlfnorm.entities.Webpage;
+import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.services.WebpageService;
 
-public class WebpageServiceTest extends WebpageDateSet{
+public class WebpageServiceTest extends WebpageDataSet{
 	
 	
 	@Autowired
@@ -43,7 +47,7 @@ public class WebpageServiceTest extends WebpageDateSet{
 		Assert.assertEquals(w12.getParent(), w1);
 	}
 	
-	
+		
 	@Test
 	public void webpageOrderTest(){
 		Assert.assertEquals(0, webpageService.getWebpageByCode("w1").getOrder());
@@ -139,6 +143,27 @@ public class WebpageServiceTest extends WebpageDateSet{
 		
 		Assert.assertEquals(thirdChild.getParent(),  child );
 	}
+	
+	@Test
+	public void moveOldNewsToArchiveTest(){
+		Webpage w1 = webpageService.getWebpageByCode("w1");
+		Webpage w11 = webpageService.getWebpageByCode("w11");
+		
+		w11.setWebpageType(WebpageType.NEWS);
+		w11.setPublishedSince(new LocalDateTime().minusWeeks(50));
+		webpageService.updateWebpage(w11);
+		
+		List<Webpage> list = webpageService.getOldNonArchivedNewsInNode(w1);
+		
+		boolean found = false;
+		for(Webpage w : list){
+			if(w.equals(w11)){
+				found = true;
+			}
+		}
+		Assert.assertTrue(found);
+	}
+	
 	
 	public void getTopLevelWebpageTest(){
 		Webpage w0 = createWebpage(0);

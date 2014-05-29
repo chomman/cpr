@@ -71,7 +71,7 @@
 			 					</span>
 				 					<a:standardUrl standard="${i.replaceStandard}" editable="${editable}" />
 				 					<c:if test="${not empty i.replaceStandard.standardStatus and i.replaceStandard.standardStatus.id == 2}">
-				 						<span class="block">(<spring:message code="${i.replaceStandard.standardStatus.name}" />)</span>
+				 						<span class="block"><spring:message code="${i.replaceStandard.standardStatus.name}" /></span>
 				 					</c:if>
 		 					</c:if>
 		 					
@@ -107,7 +107,7 @@
 						 					<c:set var="prevCsn" value="${csn.replaceStandardCsn}" />
 					 					</c:if>
 					 					<c:if test="${not empty csn.replaceStandardCsn.standardStatus and csn.replaceStandardCsn.standardStatus.id == 2}">
-					 						<span class="block">(<spring:message code="${csn.replaceStandardCsn.standardStatus.name}" />)</span>
+					 						<span class="block"><spring:message code="${csn.replaceStandardCsn.standardStatus.name}" /></span>
 					 					</c:if>
 					 					<c:if test="${empty csn.replaceStandardCsn }">
 					 						<c:set var="prevCsn" value="${null}" />

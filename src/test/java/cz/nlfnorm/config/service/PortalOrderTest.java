@@ -1,4 +1,4 @@
-package cz.nlfnorm.service;
+package cz.nlfnorm.config.service;
 
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
-import cz.nlfnorm.AbstractTestConfig;
+import cz.nlfnorm.config.AbstractTestConfig;
 import cz.nlfnorm.entities.PortalProduct;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.entities.UserOnlinePublication;

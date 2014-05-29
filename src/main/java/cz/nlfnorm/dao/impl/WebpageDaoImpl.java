@@ -6,6 +6,7 @@ import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
 import org.hibernate.type.LongType;
 import org.joda.time.LocalDateTime;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.constants.CacheRegion;
@@ -20,6 +21,9 @@ import cz.nlfnorm.enums.WebpageType;
 @Repository("webpageDao")
 public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements WebpageDao{
 
+	@Value("#{config.moveToArchiveThreshold}")
+	private int moveToArchiveThresholdInWeeks;
+	
 	public WebpageDaoImpl(){
 		super(Webpage.class);
 	}
@@ -336,4 +340,22 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 					.setCacheRegion(CacheRegion.WEBPAGE_CACHE);
 		return query.list();
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getOldNonArchivedNewsInNode(final Webpage node) {
+		Validate.notNull(node);
+		LocalDateTime threshold = new LocalDateTime().minusWeeks(moveToArchiveThresholdInWeeks);
+		StringBuilder hql = new StringBuilder();
+		hql.append("from Webpage w WHERE w.webpageType = :webpageType AND COALESCE(w.publishedSince, w.created) < :threshold ");
+		hql.append(" AND w.parent.id = :parentId");
+		Query query = sessionFactory.getCurrentSession().createQuery(hql.toString());
+		query.setParameter("webpageType", WebpageType.NEWS);
+		query.setTimestamp("threshold", threshold.toDate());
+		query.setLong("parentId", node.getId());
+		return query.list();
+	}
+
+
 }

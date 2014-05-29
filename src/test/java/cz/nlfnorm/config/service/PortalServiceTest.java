@@ -1,4 +1,4 @@
-package cz.nlfnorm.service;
+package cz.nlfnorm.config.service;
 
 import java.math.BigDecimal;
 
@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.test.annotation.Rollback;
 
-import cz.nlfnorm.AbstractTestConfig;
+import cz.nlfnorm.config.AbstractTestConfig;
 import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.entities.PortalOrderItem;

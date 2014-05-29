@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.log4j.Logger;
@@ -174,23 +175,55 @@ public class WebpageServiceImpl implements WebpageService{
 			final int order = getNextOrderValue(parentWebpage.getId());
 			webpage = new Webpage(parentWebpage);
 			webpage.setOrder(order);
-			if(parentWebpage.getWebpageType().equals(WebpageType.NEWS_CATEGORY)){
-				webpage.setWebpageType(WebpageType.NEWS);
-			}
 		}else{
 			webpage = new Webpage();
 			webpage.setOrder(getNextOrderValue( null ));
 		}
-		webpage.setWebpageType(form.getWebpageType());
+		if(isNewsCategory(parentWebpage)){
+			webpage.setWebpageType(WebpageType.NEWS);
+		}else{
+			webpage.setWebpageType(form.getWebpageType());
+		}
 		WebpageContent formContent = form.getDefaultWebpageContent();
 		WebpageContent content = webpage.getDefaultWebpageContent();
 		content.setName(StringUtils.trim(formContent.getName()));
 		content.setTitle(formContent.getName());
 		webpage.setCode( getUniqeCode( formContent.getName() ) );
 		saveOrUpdate(webpage);
+		if(isNewsCategory(parentWebpage)){
+			moveOldNewsToArchive(parentWebpage);
+		}
 		return webpage.getId();
 	}
+	
+	private boolean isNewsCategory(final Webpage webpage){
+		return (webpage == null || !webpage.getWebpageType().equals(WebpageType.NEWS_CATEGORY));
+	}
 
+	@Async
+	@Override
+	public void moveOldNewsToArchive(final Webpage node){
+		List<Webpage> oldNewsList = getOldNonArchivedNewsInNode(node);
+		if(CollectionUtils.isNotEmpty(oldNewsList)){
+			Webpage archive = webpageDao.getWebpageByModule(WebpageModule.NEWS_ARCHIVE);
+			if(archive != null){
+				int order = webpageDao.getMaxOrderInNode(archive.getId());
+				for(Webpage oldNews : oldNewsList){
+					oldNews.setParent(archive);
+					oldNews.setOrder(order);
+					updateWebpage(oldNews);
+					logger.debug("Webpage " +  oldNews.getId() + " is moved int archive.");
+					order++;
+				}
+			}
+		}
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getOldNonArchivedNewsInNode(Webpage node){
+		return webpageDao.getOldNonArchivedNewsInNode(node);
+	}
 	
 	@Override
 	public void createWebpageContent(final Long webpageId, final String langCode) {

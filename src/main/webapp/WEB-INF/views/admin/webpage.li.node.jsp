@@ -2,7 +2,9 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <c:if test="${not node.isHomepage}">
-	<li data-order="${node.order}" data-jstree='{"icon": "pj-enabled-${node.isPublished} pj-type-${node.webpageType.id}"}' id="${node.id}" class="pj-enabled-${node.isPublished} pj-type-${node.webpageType.id}">
+	<li
+	 ${not empty node.childrens ? 'class="jstree-closed" ' : ''}
+	 data-order="${node.order}" data-jstree='{"icon": "pj-enabled-${node.isPublished} pj-type-${node.webpageType.id}"}' id="${node.id}" class="pj-enabled-${node.isPublished} pj-type-${node.webpageType.id}">
 		<c:if test="${fn:length(node.defaultName) gt 50}">
 			${fn:substring(node.defaultName, 0, 50)}...
 		</c:if>
@@ -28,14 +30,5 @@
 						</a:adminurl>			
 					</c:if>
 				</span>
-		<c:if test="${not empty node.childrens}">
-			<ul>
-				<c:forEach var="node" items="${node.childrens}" varStatus="s">
-				    <c:set var="node" value="${node}" scope="request"/>
-				    <c:set var="s" value="${s}" scope="request"/>
-				    <jsp:include page="webpage.li.node.jsp"/>
-				</c:forEach>
-			</ul>
-		</c:if>
 	</li>
 </c:if>

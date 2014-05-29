@@ -1,4 +1,4 @@
-package cz.nlfnorm.mail;
+package cz.nlfnorm.config.mail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +12,9 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 
-import cz.nlfnorm.AbstractTestConfig;
+import cz.nlfnorm.config.AbstractTestConfig;
+import cz.nlfnorm.mail.HtmlMailMessage;
+import cz.nlfnorm.mail.NlfnormMailSender;
 
 public class MailTest extends AbstractTestConfig {
 

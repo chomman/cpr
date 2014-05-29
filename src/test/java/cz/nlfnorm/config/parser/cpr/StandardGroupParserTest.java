@@ -1,4 +1,4 @@
-package cz.nlfnorm.parser.cpr;
+package cz.nlfnorm.config.parser.cpr;
 
 import java.util.List;
 import java.util.Set;
@@ -7,7 +7,7 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import cz.nlfnorm.AbstractTestConfig;
+import cz.nlfnorm.config.AbstractTestConfig;
 import cz.nlfnorm.entities.Mandate;
 import cz.nlfnorm.entities.StandardGroup;
 import cz.nlfnorm.parser.cpr.StandardGroupParser;

@@ -1,4 +1,4 @@
-package cz.nlfnorm.parser;
+package cz.nlfnorm.config.parser;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
-import cz.nlfnorm.AbstractTestConfig;
+import cz.nlfnorm.config.AbstractTestConfig;
 import cz.nlfnorm.parser.NoSectionTerminologyParser;
 import cz.nlfnorm.parser.SingleSectionTerminologyParser;
 import cz.nlfnorm.parser.TerminologyParser;

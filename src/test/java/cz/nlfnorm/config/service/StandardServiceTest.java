@@ -1,4 +1,4 @@
-package cz.nlfnorm.service;
+package cz.nlfnorm.config.service;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
-import cz.nlfnorm.AbstractTestConfig;
+import cz.nlfnorm.config.AbstractTestConfig;
 import cz.nlfnorm.entities.Standard;
 import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.services.StandardService;

@@ -98,9 +98,13 @@ public class WebpageController extends AdminSupportController {
 	}
 	
 	@RequestMapping("/async/webpages")
-	public ModelAndView   standards( ModelMap map ){
+	public ModelAndView   standards( ModelMap map , final @RequestParam(value = "id") Long id ){
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpages",   webpageService.getTopLevelWepages() );
+		if(id == -1){
+			model.put("webpages",   webpageService.getTopLevelWepages() );
+		}else{
+			model.put("webpages",   webpageService.getChildrensOfNode(id, false) );
+		}
 		map.put("model", model);
 		return new ModelAndView("/admin/webpage-list", map );
 	}

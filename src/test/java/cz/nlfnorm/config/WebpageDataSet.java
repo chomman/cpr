@@ -1,11 +1,11 @@
-package cz.nlfnorm;
+package cz.nlfnorm.config;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cz.nlfnorm.entities.Webpage;
 
-public class WebpageDateSet extends AbstractTestConfig {
+public class WebpageDataSet extends AbstractTestConfig {
 	
 	protected List<Webpage> list = new ArrayList<Webpage>();
 	
