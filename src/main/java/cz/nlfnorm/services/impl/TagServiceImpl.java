@@ -42,13 +42,7 @@ public class TagServiceImpl implements TagService {
 	public void createTag(final Tag tag) {
 		tagDao.save(tag);
 	}
-
-	@Override
-	public void removeNotAssociatedTags() {
-		// TODO Auto-generated method stub
-
-	}
-
+	
 	@Override
 	public void setWebpageTags(Webpage webpage, final List<String> tagList) {
 		Validate.notNull(webpage);
@@ -69,5 +63,11 @@ public class TagServiceImpl implements TagService {
 		tag = new Tag(tagName);
 		createTag(tag);
 		return tag;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<String> autocomplete(String term) {
+		return tagDao.autocomplete(term);
 	}
 }

@@ -18,13 +18,8 @@
 	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 	
-	
-	
-	 <script>
+	<script>
 	$(function() {
-		var tags = [
-			<c:forEach items="${webpageContent.tags}" var="i" varStatus="loop">'${i.name}'<c:if test="${!loop.last}">,</c:if></c:forEach>                  
-		];
 		$( "#tabs" ).tabs();
 		$( ".helpTip" ).selectTip();
 		$('.lightbox').fancybox();
@@ -38,18 +33,6 @@
 	    	useDefaultCallBack : true,
 	    	excludeId : ${webpageContent.id}
 		});
-		$('#tags').tagit({
-			availableTags: tags,  
-			allowSpaces: true,
-			beforeTagAdded: function(event, ui) {
-					var s = $.trim(ui.tag.text());			
-					if(s.length > 25){
-						showStatus({err : 1, msg : 'Max. délka je 25 znakú'});
-						return false;
-					}
-			    }
-		});
-		
 	});
 	
 	
@@ -146,14 +129,16 @@
 			                    </span>
 	                		</p>
                 		</c:if>
-                		<p class="pj-content-type  pj-type">
-	                 		<label class="tt" title="Slovo potvrďte stiskem klávesy ENTER">
+                		<div class="input-wrapp pj-content-type  pj-type">
+	                 		<label class="tt" title="Slovo potvrďte stiskem klávesy ENTER, nebo oddělte čárkou">
 	                 			<spring:message code="webpage.webpageContent.tags" />
 							</label>
-		                    <span class="field tags-wrapp">
-		                    	<input type="text" id="tags" placeholder="Vepište slovo a stiskněte ENTER"/>
-		                    </span>
-                		</p>
+		                    <div class="field tags-wrapp">
+		                    	<ul id="tags">
+		                    		<c:forEach items="${webpageContent.tags}" var="i"><li>${i}</li></c:forEach>
+		                    	</ul>
+		                    </div>
+                		</div>
                 		
 						<p>
 							<label>

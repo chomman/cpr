@@ -30,6 +30,7 @@
 		<script src="<c:url value="/resources/public/js/jquery.tooltipster.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
 		<meta name="description" content="<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="description" />" />
+		<meta name="keywords" content="${webpageModel.webpage.jointedTags}" />
 		<decorator:head/>
 		<jsp:include page="/WEB-INF/views/include/ga.jsp" />
 	</head>

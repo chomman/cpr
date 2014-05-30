@@ -43,6 +43,7 @@ import cz.nlfnorm.enums.WebpageModule;
 import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.FileService;
+import cz.nlfnorm.services.TagService;
 import cz.nlfnorm.services.WebpageService;
 import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.utils.WebpageUtils;
@@ -71,6 +72,8 @@ public class WebpageController extends AdminSupportController {
 	private ImageValidator imageValidator;
 	@Autowired
 	private LocalDateTimeEditor dateTimeEditor;
+	@Autowired 
+	private TagService tagService;
 	
 	public WebpageController(){
 		setViewName("webpages-add");
@@ -287,6 +290,7 @@ public class WebpageController extends AdminSupportController {
 		webpage.setRedirectWebpage(form.getRedirectWebpage());
 		webpage.setRedirectUrl(form.getRedirectUrl());
 		webpage.getLocalized().put(form.getLocale(), form.getWebpageContent());
+		tagService.setWebpageTags(webpage, form.getTags());
 		webpageService.saveOrUpdate(webpage);
 		webpageService.updateTsVector(webpage);
 	}

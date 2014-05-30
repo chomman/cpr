@@ -308,9 +308,13 @@ nav, #wrapper,header{min-width: 929px;}
 
 form, .pj-form{border:1px solid #ddd;}
 form p, 
-.pj-form p{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
+.pj-form p,
+.input-wrapp{display:block; border-top: 1px solid #DDDDDD;background:#fafafa;position:relative;}
+
 form p label,
-.pj-form p label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
+.pj-form p label,
+.input-wrapp label{display: inline-block;font-weight: bold;padding:20px;text-align: left;vertical-align: top;width:180px;font-size:12px;color:#555;position:absolute;}
+
 .field{padding:15px 20px;display: block; background:#fff;margin-left:220px;border-left:1px solid #ddd;}
 .field span{font-size:12px;color:#555;margin:0 5px 0 20px;}
 .field em{color:#555;font-size:11px;}

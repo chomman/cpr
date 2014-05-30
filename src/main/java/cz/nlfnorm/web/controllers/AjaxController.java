@@ -29,6 +29,7 @@ import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.StandardCsnService;
 import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
+import cz.nlfnorm.services.TagService;
 
 @Controller
 public class AjaxController {
@@ -53,6 +54,8 @@ public class AjaxController {
 	private MandateService mandateService;
 	@Autowired
 	private CommissionDecisionService commissionDecisionService;
+	@Autowired
+	private TagService tagService;
 		
 	
 	@RequestMapping(value = "/ajax/csn/category/{searchCodeOfParent}", method = RequestMethod.GET)
@@ -97,10 +100,16 @@ public class AjaxController {
 	}
 	
 		
-	
+
 	@RequestMapping(value = "/ajax/standard-csn/autocomplete", method = RequestMethod.GET)
 	public @ResponseBody List<StandardCsn>  searchInStandardCsns(@RequestBody @RequestParam("term") String term){
 		return standardCsnService.autocomplete(term);
+	}
+	
+
+	@RequestMapping(value = "/ajax/tag/autocomplete", method = RequestMethod.GET)
+	public @ResponseBody List<String>  tagAutocomplete(final @RequestBody @RequestParam("term") String term){
+		return tagService.autocomplete(term);
 	}
 	
 	@RequestMapping(value = "/ajax/autocomplete/aono", method = RequestMethod.GET)

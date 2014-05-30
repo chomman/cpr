@@ -7,8 +7,11 @@
 	<head>
 		<title><decorator:title/> - nlfnorm.cz</title>
 		<meta charset="utf-8">
-		<meta name="description" content="" />
-		<meta name="keywords" content="" />
+		
+		<c:if test="${not empty webpageModel.webpage.descriptionInLang}">
+		<meta name="description" content="${ nlf:crop(webpageModel.webpage.descriptionInLang, 200)}" />
+		</c:if>
+		<meta name="keywords" content="${webpageModel.webpage.jointedTags}" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0">
 		<meta name="robots"   content="index,follow"/>
 		

@@ -15,8 +15,7 @@ public interface TagService {
 	
 	void createTag(Tag tag);
 	
-	void removeNotAssociatedTags();
-	
 	void setWebpageTags(Webpage webpage, List<String> tagList);
 	
+	List<String> autocomplete(String term);
 }

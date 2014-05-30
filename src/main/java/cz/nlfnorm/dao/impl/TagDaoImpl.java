@@ -1,5 +1,7 @@
 package cz.nlfnorm.dao.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
@@ -32,6 +34,21 @@ public class TagDaoImpl extends BaseDaoImpl<Tag, Long> implements TagDao{
 		query.setCacheable(false);
 		query.setString("name", name);
 		return (Tag)query.uniqueResult();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<String> autocomplete(final String term) {
+		final String hql = "select tag.name as name " +
+					 "from Tag tag " + 
+					 "WHERE unaccent(lower(tag.name)) like  CONCAT('', unaccent(lower(:term)) , '%'))";
+	
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		query.setCacheable(false);
+		query.setString("term", term);
+		query.setMaxResults(6);
+		return query.list();
 	}
 	
 	

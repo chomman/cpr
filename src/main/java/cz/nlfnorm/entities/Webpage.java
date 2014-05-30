@@ -32,6 +32,7 @@ import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
@@ -437,5 +438,10 @@ public class Webpage extends AbstractEntity {
     	}
     	return tagList;
     }
+    
+    @Transient
+    public String getJointedTags(){
+		return  StringUtils.join(getStringTags().toArray(), ", ");
+	}
     
 }

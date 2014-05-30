@@ -84,6 +84,8 @@ public class WebpageContentDto extends AbstractWebpageDto{
 	public void setTags(List<String> tags) {
 		this.tags = tags;
 	}
+	
+	
 
 	@Override
 	public void setWebpage(Webpage webpage) {
