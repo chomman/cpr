@@ -27,6 +27,7 @@
   	<mapping class="cz.nlfnorm.entities.BasicRequirement"/>
 	<mapping class="cz.nlfnorm.entities.Requirement" />
 	<mapping class="cz.nlfnorm.entities.Webpage" />
+	<mapping class="cz.nlfnorm.entities.Tag" />
 	<mapping class="cz.nlfnorm.entities.BasicSettings"/>
 	<mapping class="cz.nlfnorm.entities.ExceptionLog"/>
 	<mapping class="cz.nlfnorm.entities.Report"/>

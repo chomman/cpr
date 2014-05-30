@@ -37,7 +37,6 @@ $(function() {
 	
 	$jsTree = $("#jstree");
 	if($jsTree.length !== 0){
-		//loadWebpages($jsTree);
 		init($jsTree);
 	}
 });
@@ -115,22 +114,6 @@ function init($jsTree){
 	    "plugins" : [ "dnd", "state"]
 	});
 			
-}
-
-function loadWebpages($jsTree){
-	return executeRequest( 
-		{url :getBasePath() + "async/webpages"},
-		function(html){
-			$jsTree.html(html);
-			$jsTree.jstree({
-			    "core" : {
-			      "check_callback" : true
-			    },
-			    "plugins" : [ "dnd", "state"]
-			});
-			$jsTree.removeClass('hidden');	
-		}
-	);
 }
 
 function executeRequest(opts, callBack){
@@ -224,8 +207,14 @@ function getWebpageSettings(){
 function getContent(){
 	var data = toArray($('form[name=webpageContent]').serializeArray());
 	webpageContent.content = tinyMCE.editors[0].getContent();
+	console.log(data);
+	data.tags = getTags();
 	return data;
 } 
+
+function getTags(){
+	return $('#tags').tagit("assignedTags");
+}
 
 function getCheckVal(s){
 	return $(s).is(':checked');

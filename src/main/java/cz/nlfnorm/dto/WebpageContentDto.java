@@ -1,5 +1,7 @@
 package cz.nlfnorm.dto;
 
+import java.util.List;
+
 import org.apache.commons.lang.Validate;
 import org.hibernate.validator.constraints.Length;
 
@@ -19,6 +21,8 @@ public class WebpageContentDto extends AbstractWebpageDto{
 	private String code;
 	@JsonDeserialize(using = WebpageDeserializer.class)
 	private Webpage redirectWebpage;
+	
+	private List<String> tags;
 	
 	public WebpageContentDto(){}
 	
@@ -72,6 +76,14 @@ public class WebpageContentDto extends AbstractWebpageDto{
 	public void setCode(String code) {
 		this.code = code;
 	}
+	
+	public List<String> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<String> tags) {
+		this.tags = tags;
+	}
 
 	@Override
 	public void setWebpage(Webpage webpage) {
@@ -79,6 +91,7 @@ public class WebpageContentDto extends AbstractWebpageDto{
 		setRedirectUrl(webpage.getRedirectUrl());
 		setRedirectWebpage(webpage.getRedirectWebpage());
 		setCode(webpage.getCode());
+		setTags(webpage.getStringTags());
 	}
 	
 	

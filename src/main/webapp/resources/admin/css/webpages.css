@@ -50,3 +50,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', end
 .root-node{background:url(../img/webpages-icons.png) no-repeat 28px -115px;font-weight:bold;color:#0d1532;margin: 10px -25px;padding:10px 25px 10px 65px;border-bottom:1px solid #ddd;}
 
 #webpage-loader{background: url(../img/ajax-loader.gif) no-repeat 0 center;padding:20px 20px 20px 50px;position:absolute;top:400px;left:45%}
+
+
+.tags-wrapp{padding:10px;}
+.tags-wrapp ul{padding:5px !important;margin:0 !important;max-width:510px;}
+.tags-wrapp ul li .tagit-label{margin-left:2px;font-size:14px;}
+.tags-wrapp .tagit-choice{padding:6px 20px 6px 10px !important;}
+.tags-wrapp .tagit-close{margin-right:-2px;padding:5px 0;top:11px !important;}
+.tagit-new{font-size:14px;padding:6px 0 !important;line-height:20px;}

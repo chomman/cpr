@@ -21,12 +21,15 @@ import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.persistence.UniqueConstraint;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.OrderBy;
@@ -66,7 +69,7 @@ public class Webpage extends AbstractEntity {
 	private Boolean isOnlyForRegistrated;
 	private Boolean fullWidth;
 	private Long hit;
-	
+	private Set<Tag> tags;
 	
 	public Webpage(){
 		this( null );
@@ -84,6 +87,7 @@ public class Webpage extends AbstractEntity {
 		this.isOnlyForRegistrated = Boolean.FALSE;
 		this.fullWidth = Boolean.FALSE;
 		this.hit = 0l;
+		this.tags = new HashSet<Tag>();
 		setEnabled(Boolean.FALSE);
 		if(parent != null){
 			registerInParentsChilds();
@@ -188,6 +192,24 @@ public class Webpage extends AbstractEntity {
 		return hit;
 	}
 	
+	@ManyToMany(targetEntity = Tag.class, cascade = {
+	    CascadeType.ALL
+	})
+	@JoinTable(name = "webpage_has_tag", joinColumns = {
+	    @JoinColumn(name = "webpage_id")
+	}, inverseJoinColumns = {
+	    @JoinColumn(name = "tag_id")
+	}, uniqueConstraints = {
+	    @UniqueConstraint(columnNames = {
+	        "webpage_id",
+	        "tag_id"
+	    })
+	})
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	
     /* SETTER ---------------------
 	 * 
 	 */
@@ -249,10 +271,16 @@ public class Webpage extends AbstractEntity {
 		this.fullWidth = fullWidth;
 	}
 
-
 	public void setHit(Long hit) {
 		this.hit = hit;
 	}
+	
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+	
+	
+	/* Transient */
 
 	@Transient
 	public String getTitleInLang(){
@@ -396,6 +424,18 @@ public class Webpage extends AbstractEntity {
     @Transient
     public void incrementHit(){
     	hit++;
+    }
+    
+    @Transient
+    public List<String> getStringTags(){
+    	List<String> tagList = new ArrayList<String>();
+    	if(tags == null){
+    		return tagList;
+    	}
+    	for(Tag tag : tags){
+    		tagList.add(tag.getName());
+    	}
+    	return tagList;
     }
     
 }
