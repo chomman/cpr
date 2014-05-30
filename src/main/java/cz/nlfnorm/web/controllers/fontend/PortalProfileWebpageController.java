@@ -120,7 +120,9 @@ public class PortalProfileWebpageController extends	PortalWebpageControllerSuppo
 	@RequestMapping( value = { PRIFILE_URL + "/new-order", EN_PREFIX + PRIFILE_URL + "/new-order" })
 	public String handleCreateOrderForm(ModelMap map, HttpServletRequest request){
 		Map<String, Object> model = prepareModel(webpageService.getHomePage());
-		preparePortalOrderModel(model, map, request, new PortalOrderForm());
+		PortalOrderForm form = new PortalOrderForm();
+		form.setUser(UserUtils.getLoggedUser());
+		preparePortalOrderModel(model, map, request, form);
 		map.put(WEBPAGE_MODEL_KEY, model);
 		map.put(TAB_KEY, 5);
 		return getView();

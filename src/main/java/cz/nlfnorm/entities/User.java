@@ -230,10 +230,16 @@ public class User extends AbstractEntity implements UserDetails{
 	}
 	
 	@Transient
-	public UserOnlinePublication getUserOnlinePublication(final PortalProduct onlinePublication){
-		Validate.notNull(onlinePublication);
+	public UserOnlinePublication getUserOnlinePublication(final PortalProduct portalProduct){
+		Validate.notNull(portalProduct);
+		return getUserOnlinePublication(portalProduct.getId());
+	}
+	
+	@Transient
+	public UserOnlinePublication getUserOnlinePublication(final Long portalProductId){
+		Validate.notNull(portalProductId);
 		for(UserOnlinePublication uop : onlinePublications ){
-			if(uop.getPortalProduct().equals(onlinePublication)){
+			if(uop.getPortalProduct().getId().equals(portalProductId)){
 				return uop;
 			}
 		}
@@ -263,7 +269,7 @@ public class User extends AbstractEntity implements UserDetails{
 		return isValid(uop);
 	}
 	
-	
+	@Transient
 	private boolean isValid(final UserOnlinePublication uop){
 		LocalDate today = new LocalDate();
 		if(today.isBefore(uop.getValidity()) || today.isEqual(uop.getValidity())){

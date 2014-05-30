@@ -23,7 +23,7 @@ $(function(){
 		data.portalProductItems = getPortalProductItems();
 		sendRequest("POST", data, $form.attr('action'), function(json){
 			if(json.status === "SUCCESS"){
-				$form.after('<div><p class="status ok"><span class="status-ico"></span>'+getSuccessMessage(data)+
+				$form.after('<div><p class="status reg ok"><span class="status-ico"></span>'+getSuccessMessage(data)+
 							'</p><div><div id="orderWrapp" class="loading"><p>'+ getLoadingMsg()+'</p></div>');
 				$form.remove();
 				sendHtmlReqest("GET", null, getRequestOrederUrl(json.data), function(html){
@@ -42,7 +42,7 @@ $(function(){
 		if(isCzech()){
 			return "Objednávka byla úspěšně odeslána. Informace o objednávce byly odeslány na email: <b>"+data.email+"</b>.";
 		}
-		return "Order was successfully sent. Order information was sent to given e-mail: <b>"+data.email+"</b>.";
+		return "Order was successfully sent. Order information was sent to your e-mail: <b>"+data.email+"</b>.";
 	}
 	
 	function onChangeCurrency(){

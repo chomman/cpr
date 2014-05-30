@@ -472,6 +472,7 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 .status.error .status-ico{background-position:0 -60px;}
 .status.ok{border:5px solid #91FF99;color:#00BF0D;background-color:#F5FFF6;}
 .status.ok.status-ico{background-position: 5px -8px;}
+.status.ok.reg .status-ico{background-position: 0px -12px;}
 .status.alert{border:5px solid #FFD04F;color:#29210A;background-color:#FFF9E8;background-image:url(../img/ico-alert.png);background-repeat:no-repeat;background-position: 10px center;}
 .status a{display:block;margin:20px 0 5px 0;color:#333}
 .status.status-ico.error{background-position:5px -57px;}
@@ -525,3 +526,8 @@ label .miniinfo{position:absolute;top:52px;font-size:12px;left:175px;color:#777}
 .rf-right ul li a.active{background:#eee;border:1px solid #ddd;color:#555;opacity:.7;padding:8px 12px;font-size:14px;box-shadow:0 0 0 0;}
 
 #vat-val{min-width: 40px;text-align: center;}
+
+.pj-valid-alert{position:absolute;top:2px;left:-105px;width:100px;height:100%;background:url(../img/alert-arrow.png) no-repeat right center;text-align:center;}
+.pj-valid-alert p{background:#b5114b;margin:-3px 9px 0 0;padding:7px 5px;font-size:11px;line-height:15px;color:#fff;}
+.pj-valid-alert a{font-size:12px;background:none;display;padding:0;text-decoration:underline;color:#fff;}
+.pj-valid-alert a:hover{text-decoration:none; }

@@ -5,6 +5,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import cz.nlfnorm.entities.User;
+import cz.nlfnorm.entities.UserOnlinePublication;
 
 
 public class UserUtils {
@@ -37,4 +38,17 @@ public class UserUtils {
 		return false;
 	}
 	
+	
+	
+	public static Integer getPortalProductValidityInDays(final Long productId){
+		final User user = UserUtils.getLoggedUser();
+		if(user == null){
+			return null;
+		}
+		final UserOnlinePublication uop = user.getUserOnlinePublication(productId);
+		if(uop == null){
+			return null;
+		}
+		return DateTimeUtils.daysLeft(uop.getValidity());
+	}
 }

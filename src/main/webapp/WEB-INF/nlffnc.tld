@@ -27,4 +27,10 @@
         <function-signature>boolean isOnlyForRegistraged( cz.nlfnorm.entities.Webpage )</function-signature>
     </function>
     
+    <function>
+        <name>getPortalProductValidityInDays</name>
+        <function-class>cz.nlfnorm.utils.UserUtils</function-class>
+        <function-signature>java.lang.Integer getPortalProductValidityInDays( java.lang.Long )</function-signature>
+    </function>
+    
 </taglib>
