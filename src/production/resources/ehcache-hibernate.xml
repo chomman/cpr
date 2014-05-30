@@ -17,7 +17,7 @@
 
 <ehcache>
 	
-	<diskStore path="/var/www/tomcat/cache"/>
+	<diskStore path="/var/html/tomcat/cache"/>
 	
 	
 	<!-- Default cache -->

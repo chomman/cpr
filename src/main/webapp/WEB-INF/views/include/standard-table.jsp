@@ -27,7 +27,7 @@
 						</span>
 						
 					</th>
-					<th class="tooltip" title="<spring:message code="standard.validity.tooltip" />">
+					<th class="tooltip" title="<spring:message code="standard.endofvalidity.tooltip" />">
 						<span class="tooltip-wrapp">
 							<span class="tooltip-ico"></span>
 							<spring:message code="standard.endofvalidity" />

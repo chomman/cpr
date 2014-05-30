@@ -3,7 +3,7 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
  	
     <appender  name="fileAppender" class="org.apache.log4j.RollingFileAppender">
-        <param name="File" value="/var/www/tomcat/logs/cpr.log" />
+        <param name="File" value="/var/html/tomcat/logs/tomcat/cpr.log" />
         <param name="MaxFileSize" value="5000KB" />
         <param name="MaxBackupIndex" value="100" />
         <param name="Threshold" value="INFO" />
