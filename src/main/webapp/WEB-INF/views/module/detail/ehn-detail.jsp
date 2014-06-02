@@ -150,7 +150,7 @@
 					 		</c:forEach>
 						</c:forEach>
 					</table>
-					<p class="msg info"><spring:message code="csnonline.info" /></p>
+					<p class="msg info"><spring:message code="standard.help.csn" /></p>
 				</div>
 			</c:if>
 			
