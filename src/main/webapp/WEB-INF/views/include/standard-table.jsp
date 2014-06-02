@@ -18,23 +18,33 @@
 			<thead>
 				<tr>
 					<th><spring:message code="standard.id" /></th>
-					<th><spring:message code="csn" /></th>
+					<th class="tooltip" title="<spring:message code="standard.help.csn" />">
+						<span class="tooltip-wrapp" style="padding-top:25px">
+							<span class="tooltip-ico"></span>
+							<spring:message code="csn" />
+						</span>
+					</th>
 					<th><spring:message code="standard.name" /></th>
-					<th class="tooltip" title="<spring:message code="standard.validity.tooltip" />">
-						<span class="tooltip-wrapp">
+					<th class="tooltip" title="<spring:message code="standard.help.validity" />">
+						<span class="tooltip-wrapp" style="padding-top:12px"> 
 							<span class="tooltip-ico"></span>
 							<spring:message code="standard.validity" />
 						</span>
 						
 					</th>
-					<th class="tooltip" title="<spring:message code="standard.endofvalidity.tooltip" />">
-						<span class="tooltip-wrapp">
+					<th class="tooltip" title="<spring:message code="standard.help.endofvalidity" />">
+						<span class="tooltip-wrapp" style="padding-top:10px">
 							<span class="tooltip-ico"></span>
 							<spring:message code="standard.endofvalidity" />
 						</span>
 						
 					</th>
-					<th><spring:message code="standard.noao" /></th>
+					<th class="tooltip" title="<spring:message code="standard.help.noao" />">
+						<span class="tooltip-wrapp" style="padding-top:15px">
+							<span class="tooltip-ico"></span>
+							<spring:message code="standard.noao" />
+						</span>
+					</th>
 					<th><spring:message code="assessment" /></th>
 					<th><spring:message code="standard.standardGroups" /></th>
 				</tr>

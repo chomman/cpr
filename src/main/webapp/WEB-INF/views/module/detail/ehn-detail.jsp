@@ -94,12 +94,19 @@
 				
 				
 				<c:if test="${not empty model.standard.startValidity}">
-					<tr>
-						<td class="key"><strong><spring:message code="cpr.standard.validity.from"/>:</strong></td>
-						<td><joda:format value="${model.standard.startValidity}" pattern="dd.MM.yyyy"/>
-							<c:if test="${not empty model.standard.stopValidity}">
-								&nbsp; - &nbsp; <joda:format value="${model.standard.stopValidity}" pattern="dd.MM.yyyy"/>
-							</c:if>
+					<tr class="tooltip" title="<spring:message code="standard.help.validity"/>"> 
+						<td class="key"><strong><spring:message code="standard.validity"/>:</strong></td>
+						<td>
+							<joda:format value="${model.standard.startValidity}" pattern="dd.MM.yyyy"/>
+						</td>
+					</tr>
+				</c:if>
+				
+				<c:if test="${not empty model.standard.stopValidity}">
+					<tr class="tooltip" title="<spring:message code="standard.help.endofvalidity"/>"> 
+						<td class="key"><strong><spring:message code="standard.endofvalidity"/>:</strong></td>
+						<td>
+							<joda:format value="${model.standard.stopValidity}" pattern="dd.MM.yyyy"/>
 						</td>
 					</tr>
 				</c:if>
