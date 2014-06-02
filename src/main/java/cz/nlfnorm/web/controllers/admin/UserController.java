@@ -13,6 +13,7 @@ import org.hibernate.exception.ConstraintViolationException;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -30,9 +31,14 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
+import cz.nlfnorm.entities.EmailTemplate;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.enums.UserOrder;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.mail.HtmlMailMessage;
+import cz.nlfnorm.mail.NlfnormMailSender;
+import cz.nlfnorm.services.BasicSettingsService;
+import cz.nlfnorm.services.EmailTemplateService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.utils.UserUtils;
@@ -50,7 +56,13 @@ public class UserController extends AdminSupportController {
 	private DateTimeEditor dateTimeEditor;
 	@Autowired
 	private UserValidator userValidator;
-		
+	@Autowired
+	private NlfnormMailSender nlfnormMailSender;
+	@Autowired
+	private EmailTemplateService emailTemplateService;
+	@Autowired
+	private BasicSettingsService basicSettingsService;
+	
 	public UserController(){
 		setEditFormView("user-add");
 	}
@@ -332,9 +344,24 @@ public class UserController extends AdminSupportController {
 		userService.mergeUser(user);
 		
 		if(form.getSendEmail() != null && form.getSendEmail()){
-		
+			sendUserCreateAlertEmail(form);
 		}
 		
+	}
+	
+	@Async
+	private void sendUserCreateAlertEmail(final UserForm form){
+		final EmailTemplate emailTemplate = emailTemplateService.getByCode(EmailTemplate.USER_CREATE);
+		HtmlMailMessage message = new HtmlMailMessage(basicSettingsService.getBasicSettings().getSystemEmail(), emailTemplate, createMailContext(form));
+		message.addRecipientTo(form.getUser().getEmail());
+		nlfnormMailSender.send(message);
+	}
+	
+	private Map<String, Object> createMailContext(final UserForm form){
+		Map<String, Object> context  = new HashMap<>();
+		context.put("login", form.getUser().getEmail());
+		context.put("heslo", form.getConfifmPassword());
+		return context;
 	}
 	
 	private void prepareModel(ModelMap modelMap, UserForm form){

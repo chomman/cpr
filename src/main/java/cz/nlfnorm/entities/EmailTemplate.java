@@ -36,6 +36,7 @@ public class EmailTemplate extends AbstractEntity {
 	public final static String PORTAL_MEDIATOR_INFO_CREATE_ORDER = "PORTAL_MEDIATOR_INFO_CREATE_ORDER";
 	
 	public final static String USER_CHANGE_PASSWORD_REQUEST = "USER_CHANGE_PASSWORD_REQUEST";
+	public final static String USER_CREATE = "USER_CREATE";
 	
 	
 	private String name;
