@@ -227,7 +227,7 @@ public class BasicSettings extends AbstractEntity {
 		this.euIban = euIban;
 	}
 
-	@Email(message = "{error.email}")
+
 	@Column(name ="plastic_portal_email", length = 40)
 	public String getPlasticPortalEmail() {
 		return plasticPortalEmail;

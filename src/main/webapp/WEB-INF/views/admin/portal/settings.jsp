@@ -170,7 +170,7 @@
                      </p>
                       <p class="form-head"><spring:message code="admin.portal.settings.head.partners" /></p>
                       <p>
-                       	<label>
+                       		<label class="tt" title="Více e-mailů oddělte čárkou">
                        		PlasticPortal e-mail:
                        	</label>
                         <span class="field">

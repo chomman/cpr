@@ -44,6 +44,7 @@ public class WebpageInterceptor extends HandlerInterceptorAdapter{
 			 
 			 commonModel.put("dateTimeFormat", Constants.DATE_FORMAT);
 			 commonModel.put("locale", ContextHolder.getLang());
+			 commonModel.put("isLocalhost", request.getRemoteAddr().equals("127.0.0.1"));
 			 if(modelAndView != null){
 				 modelAndView.addObject("commonPublic", commonModel);
 			 }

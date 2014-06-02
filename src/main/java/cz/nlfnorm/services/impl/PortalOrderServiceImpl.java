@@ -43,6 +43,7 @@ import cz.nlfnorm.services.PortalOrderService;
 import cz.nlfnorm.services.PortalUserService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.DateTimeUtils;
+import cz.nlfnorm.utils.EmailUtils;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.web.controllers.ExportController;
@@ -291,12 +292,17 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	
 	
 	
-	private void sendEmailToMediator(final String emailTemplateCode,final  Map<String, Object> context, final  String mediatorEmailAddress, final BasicSettings settings){
-			if(StringUtils.isNotBlank(mediatorEmailAddress)){
-				final EmailTemplate mediatorTemplate = emailTemplateService.getByCode(emailTemplateCode);
-				HtmlMailMessage customerMailMessage = new HtmlMailMessage(settings.getSystemEmail(), mediatorTemplate, context);
-				customerMailMessage.addRecipientTo(mediatorEmailAddress);
-				nlfnormMailSender.send(customerMailMessage);
+	private void sendEmailToMediator(final String emailTemplateCode,final  Map<String, Object> context, final  String mediatorEmailAddresses, final BasicSettings settings){
+			if(StringUtils.isNotBlank(mediatorEmailAddresses)){
+				List<String> emails = EmailUtils.sprintEmails(mediatorEmailAddresses);
+				if(emails.size() > 0){
+					final EmailTemplate mediatorTemplate = emailTemplateService.getByCode(emailTemplateCode);
+					HtmlMailMessage customerMailMessage = new HtmlMailMessage(settings.getSystemEmail(), mediatorTemplate, context);
+					customerMailMessage.addRecipientTo(emails.get(0));
+					emails.remove(0);
+					customerMailMessage.addRecipientBcc(emails);
+					nlfnormMailSender.send(customerMailMessage);
+				}
 			}
 	}
 
