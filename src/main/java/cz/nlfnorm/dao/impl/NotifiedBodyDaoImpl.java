@@ -90,9 +90,9 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 	@Override
 	public List<NotifiedBody> autocomplete(final String term, final Boolean enabled) {
 		StringBuilder hql = new StringBuilder("select n.id, n.name, n.aoCode, n.noCode from NotifiedBody n");
-		hql.append(" where (unaccent(lower(n.name)) like unaccent(:query) ");
-		hql.append(" or unaccent(lower(n.aoCode)) like unaccent(:query) ");
-		hql.append(" or unaccent(lower(n.noCode)) like unaccent(:query)) ");
+		hql.append(" where ( unaccent(lower(n.name)) like CONCAT('', unaccent(:query), '%') ");
+		hql.append(" or unaccent(lower(n.aoCode)) like CONCAT('%', unaccent(:query), '%') ");
+		hql.append(" or unaccent(lower(n.noCode)) like CONCAT('%', unaccent(:query), '%') ) ");
 		
 		if(enabled != null){
 			hql.append(" AND n.enabled=:enabled");
@@ -103,7 +103,7 @@ public class NotifiedBodyDaoImpl extends BaseDaoImpl<NotifiedBody, Long> impleme
 		if(enabled != null){
 			hqlQuery.setBoolean("enabled", enabled);
 		}
-		return hqlQuery.setString("query",  term + "%")
+		return hqlQuery.setString("query",  term )
 				.setMaxResults(8)
 				.list();
 	}

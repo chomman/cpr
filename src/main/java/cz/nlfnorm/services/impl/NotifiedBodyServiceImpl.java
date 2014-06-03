@@ -103,10 +103,11 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 	
 	@Override
 	@Transactional(readOnly = true)
-	public List<NotifiedBody> autocomplete(final String term, final Boolean enabled) {
+	public List<NotifiedBody> autocomplete(String term, final Boolean enabled) {
 		if(StringUtils.isBlank(term)){
 			return new ArrayList<NotifiedBody>();
 		}
+		term = term.toLowerCase();
 		return notifiedBodyDao.autocomplete(term.toLowerCase(), enabled);
 	}
 	

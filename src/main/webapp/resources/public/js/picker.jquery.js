@@ -40,7 +40,7 @@
    	         	 response( $.map( data,  function( item) {	         		 	
    	         		 	
    	         		 	if(options.useDefaultCallBack){
-   	         		 	return {label: item[1], value: item[0]};
+   	         		 		return {label: item[1], value: item[0]};
    	         		 	}
    	         		 	
 			    		if(item[1].length > 60){
@@ -48,11 +48,16 @@
    	         		 	}else{
    	         		 		shortText = item[1];
    	         		 	}
-   	         		 	
-   	         		 	if(typeof item[1] == "string" && startsWith(item[2], request.term)){
+   	         		 	if(typeof item[2] == "string" && startsWith(item[2], request.term)){
    	         		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
-   	         		 	}else{
-   	         		 		return {label: item[2] + ' - ' +shortText, value: item[0]};
+   	         		 	}else if(typeof item[3] == "string" && startsWith(item[3], request.term)){
+   	         		 		return {label: item[3] + ' - ' +shortText, value: item[0]};
+   	         	 		}else if(typeof item[3] === 'string' && typeof item[2] == 'string' ){
+   	         		 		return {label: item[3] + ' (' + item[2] + ') - '+ shortText, value: item[0]};
+   	             		}else if(typeof item[3] === 'string' ){
+   	         		 		return {label: item[3] + ' - ' + shortText, value: item[0]};
+   	             		}else if(typeof item[2] === 'string' ){
+   	         		 		return {label: item[2] + ' - ' + shortText, value: item[0]};
    	             		} 
    	             		 
    					} ));
