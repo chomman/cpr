@@ -84,23 +84,51 @@
         	var html = '<div class="pj-wrapp"><span class="'+options.selectedClass+'">'+code+'</span>';
         	html += '<span class="'+options.selectedClass+' '+ options.cancelBtnClass +'">'+options.cancelText+'</span></div>';
         	$this.after(html);
-        	$this.attr("type", "hidden");
+        	//$this[0].type = "hidden";
         	$this.val(id);
+        	$this.hide();
         	if(options.inputNames.hidden !== null ){
         		$this.attr("name", options.inputNames.hidden );
         	}
+        	changeType($this[0], "hidden");
         }
         
         function cancelSelection(){
-        	$this.attr("type", "text");
         	$this.val('');
         	$('.'+options.selectedClass).remove();
         	if(options.inputNames.text !== null ){
         		$this.attr("name", options.inputNames.text );
         	}
+        	$this.show();
+        	changeType($this[0], "text");
         }
 
         $(document).on("click", '.'+options.cancelBtnClass, cancelSelection );
 	};
     	
 }( jQuery ));
+
+function changeType(input,type)
+{
+    try
+    {
+        var input2 = input.cloneNode(false);
+        switch(type)
+        {
+            default:
+            case 'text': {
+                input2.type = 'text';
+                break;
+            }
+            case 'hidden': {
+                input2.type = 'hidden';
+                break;
+            }
+        }
+        input2.id = limput;
+        input.parentNode.replaceChild(input2,input);
+    }
+    catch(e) {
+    	if(console){console.log(e);}
+    }
+}
