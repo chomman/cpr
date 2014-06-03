@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<title>nlfnorm.cz</title>
+		<title>Widget - nlfnorm.cz</title>
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="robots"   content="noindex,follow" />
@@ -30,7 +30,7 @@
 	</head>
 	<body>
 			
-			<c:if test="${webpageModel.type == 1 or webpageModel.type == 2}">
+			<c:if test="${webpageModel.type == 1 or webpageModel.type == 2 or webpageModel.type == 4}">
 				<ul class="w-nav">
 					<li ${webpageModel.type == 1 ? 'class="active"'  : '' }>
 						<a href="<a:url href="/widget/registrace" linkOnly="true" />${webpageModel.params}">
@@ -55,6 +55,24 @@
 					<article class="pj-widget-artice">
 						<h3 class="pj-widget"><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h3>
 						<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
+					</article> 
+				</c:if>	
+				
+				<c:if test="${webpageModel.type == 4}">
+					<article class="pj-widget-artice">
+						<h3 class="pj-widget"><a:localizedValue object="${webpageModel.portalProduct}" fieldName="name" /></h3>
+						<a:localizedValue object="${webpageModel.portalProduct}" fieldName="description" />						
+						<c:if test="${webpageModel.portalProduct.portalProductType.id == 2}">
+							<div class="pub-nav">
+								<a href="${webpageModel.portalProduct.onlinePublication.previewUrl}" target="_blank" class="online-pub-preview pj-radius">
+									<spring:message  code="onlniePublication.preview" />
+								</a>
+								
+								<a href="<a:url href="/widget/registrace" linkOnly="true" />${webpageModel.params}&amp;pid=${webpageModel.portalProduct.id}" class="online-pub-extend pj-radius">
+									<spring:message  code="onlinePublication.orderProduct" />
+								</a>
+							</div>
+						</c:if>
 					</article> 
 				</c:if>	
 			</c:if>

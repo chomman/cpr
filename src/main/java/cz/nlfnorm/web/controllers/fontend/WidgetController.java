@@ -23,12 +23,15 @@ public class WidgetController extends PortalWebpageControllerSupport{
 	private final static String CSS_PARAM = "css";
 	private final static String COUNT_OF_NEWS_PARAM = "count";
 	private final static String DESCR_LENGHT_PARAM = "descrLength";
+	private final static String PORTAL_PRODUCT_DETAIL_URL = "/widget/p/";
+	
 	private final static int DEFAULT_COUNT_OF_NEWS = 5;
 	private final static int DEFAULT_DESCR_LENGTH = 150;
 	
 	private final static int TYPE_REGISTRATION = 1;
 	private final static int TYPE_WEBPAGE = 2;
 	private final static int TYPE_NEWS = 3;
+	private final static int TYPE_PORTAL_PRODUCT = 4;
 	
 	
 	
@@ -76,11 +79,24 @@ public class WidgetController extends PortalWebpageControllerSupport{
 		return getView(); 
 	}
 	
+	@RequestMapping(value = { PORTAL_PRODUCT_DETAIL_URL+"{portalProductId}", "/{lang}"+PORTAL_PRODUCT_DETAIL_URL+"{portalProductId}"} )
+	public String handlePortalProductDetail(
+			@PathVariable Long portalProductId,
+			ModelMap modelMap, 
+			HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException {
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("portalProduct", portalProductService.getById(portalProductId));
+		prepareModel(model, TYPE_PORTAL_PRODUCT, request);
+		appendModel(modelMap, model);
+		return getView(); 
+	}
+	
 	
 	private void prepareModel(Map<String, Object> model, final int type, HttpServletRequest request){
 		model.put("nav",  webpageService.getChildrensOfNode(76l, true));
 		model.put("registration", webpageService.getWebpageByModule(WebpageModule.PORTAL_REGISTRATION));
 		model.put("params", getReigstrationUrl(request));
+		model.put("portalProductDetailUrl", PORTAL_PRODUCT_DETAIL_URL);
 		appendCss(model, request.getParameter(CSS_PARAM));
 		appendType(model, type);
 	}
