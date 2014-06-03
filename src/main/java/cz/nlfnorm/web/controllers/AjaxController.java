@@ -116,7 +116,6 @@ public class AjaxController {
 	public @ResponseBody List<NotifiedBody>  searchInNotifiedBodies(
 			@RequestBody @RequestParam("term") String term,
 			@RequestBody @RequestParam(value = "enabled", required = false) Boolean enabled){
-		
 		return notifiedBodyService.autocomplete(term, enabled);
 	}
 	

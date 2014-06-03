@@ -1,8 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<c:set var="editable" value="false" scope="application"/>
-<sec:authorize access="isAuthenticated()"> 
-	<c:set var="editable" value="true" scope="application" />
+<c:set var="editable" value="false"/>
+<sec:authorize access="hasRole('ROLE_ADMIN')"> 
+	<c:set var="editable" value="true" />
 </sec:authorize>
 
 <!DOCTYPE html>
@@ -32,7 +32,7 @@
 				</c:if>
 				
 				<c:if test="${not empty model.standard.standardGroups}">
-					<tr>
+					<tr class="tooltip" title="<spring:message code="standard.help.standardGroups"/>">
 						<td class="key"><strong><spring:message code="ehn.standardGroups" /></strong>:</td>
 						<td>
 							<c:forEach items="${model.standard.standardGroups}" var="i">
@@ -41,7 +41,7 @@
 						</td>
 					</tr>
 						
-					<tr>
+					<tr> 
 						<td class="key">
 							<strong><spring:message code="commissiondecision" /></strong>
 						</td>
@@ -183,8 +183,8 @@
 			
 			<!-- Systemy PS  -->
 			<c:if test="${not empty model.standard.assessmentSystems}">
-				<div class="public-box">
-					<h3><spring:message code="cpr.as.title" /> </h3>
+				<div class="public-box"> 
+					<h3 class="tooltip" title="<spring:message code="standard.help.assessment"/>"><spring:message code="cpr.as.title" /> </h3>
 					<table class="ehn-as">
 						<c:forEach items="${model.standard.assessmentSystems}" var="as">
 							<tr>
