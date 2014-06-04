@@ -3,8 +3,10 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${model.assessmentSystem.name}</title>
-		<meta name="keywords" content="${model.assessmentSystem.name}, CPR" />
+		<title>
+			<a:localizedValue object="${model.assessmentSystem}" fieldName="name" />
+		</title>
+		<meta name="keywords" content="<a:localizedValue object="${model.assessmentSystem}" fieldName="name" />, CPR" />
 	</head>
 	<body>
 		
@@ -17,13 +19,13 @@
 			<c:if test="${not empty webpageModel.webpage}">
 				<webpage:a webpage="${webpageModel.webpage}" /> &raquo;
 			</c:if>	
-			<span>${model.assessmentSystem.name}</span>
+			<span><a:localizedValue object="${model.assessmentSystem}" fieldName="name" /></span>
 		</div> 
 	
 		<div id="main-content">
 	 		<article class="full-width">
-	 			<h1>${model.assessmentSystem.name}</h1>
-	 			${model.assessmentSystem.description}
+	 			<h1><a:localizedValue object="${model.assessmentSystem}" fieldName="name" /></h1>
+	 			<a:localizedValue object="${model.assessmentSystem}" fieldName="description" />
 	 		</article>
 		</div>
 	</body>

@@ -13,6 +13,7 @@
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.tagit.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/tagit.ui-zendesk.css" />" />
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/wisiwig.init.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/webpage.js" />"></script>
 	<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
 	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>

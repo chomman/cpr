@@ -9,6 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
@@ -29,14 +30,12 @@ public class AssessmentSystem extends AbstractEntity {
 	private static final long serialVersionUID = 9953135441L;
 	
 	private Long id;
-	
-	private String name;
-	
 	private String assessmentSystemCode;
 	
-	private String declarationOfPerformanceText;
-	
+	private String name;
+	private String nameEnglish;
 	private String description;
+	private String descriptionEnglish;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "assessment_system_id_seq")
@@ -67,29 +66,48 @@ public class AssessmentSystem extends AbstractEntity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+		
+	@Column(name = "description_english")
+	@Type(type = "text")
+	public String getDescriptionEnglish() {
+		return descriptionEnglish;
+	}
+
+	public void setDescriptionEnglish(String descriptionEnglish) {
+		this.descriptionEnglish = descriptionEnglish;
+	}
+
 	@NotEmpty(message = "Název systému musí být vyplněn")
 	@Length(max = 75, message = "Název systému může mít max. 75 znaků")
 	@Column(length = 75)
 	public String getName() {
 		return name;
 	}
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	@Column(name = "dop_text")
-	@Type(type = "text")
-	public String getDeclarationOfPerformanceText() {
-		return declarationOfPerformanceText;
+
+	@Length(max = 25, message = "Anglický název systému může mít max. 25 znaků")
+	@Column(length = 25, name = "english_name")
+	public String getNameEnglish() {
+		return nameEnglish;
 	}
 
-	public void setDeclarationOfPerformanceText(String declarationOfPerformanceText) {
-		this.declarationOfPerformanceText = declarationOfPerformanceText;
+	public void setNameEnglish(String nameEnglish) {
+		this.nameEnglish = nameEnglish;
 	}
 	
+	@Transient
+	public String getNameCzech(){
+		return name;
+	}
 	
+	@Transient
+	public String getDescriptionCzech(){
+		return description;
+	}
+		
 	
 
 }

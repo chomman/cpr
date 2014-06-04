@@ -161,9 +161,10 @@ public class AssessmentSystemController extends AdminSupportController {
 		
 		assessmentSystem.setAssessmentSystemCode(form.getAssessmentSystemCode());
 		assessmentSystem.setName(form.getName());
+		assessmentSystem.setNameEnglish(form.getNameEnglish());
 		assessmentSystem.setDescription(form.getDescription());
+		assessmentSystem.setDescriptionEnglish(form.getDescriptionEnglish());
 		assessmentSystem.setEnabled(form.getEnabled());
-		assessmentSystem.setDeclarationOfPerformanceText(form.getDeclarationOfPerformanceText().trim().replaceAll("(\\')*", ""));
 		assessmentSystemService.saveOrUpdateAssessmentSystem(assessmentSystem);
 	}
 	

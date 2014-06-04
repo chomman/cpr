@@ -4,7 +4,23 @@
 <html>
 	<head>
 		<title><spring:message code="cpr.as.edit" /></title>
-		<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+		<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
+		<script src="<c:url value="/resources/admin/js/wisiwig.init.js" />"></script>
+		<script type="text/javascript">
+		 $(function() { 	
+			 $(document).on('click', 'a.lang', function(){
+				var $selected = $('.disabled'),
+					$this = $(this),
+					locale = $this.attr('data-lang'),
+					$boxes = $('.switchable');
+					$boxes.removeClass('hidden');
+					$boxes.not('.' + locale).addClass('hidden');
+					$selected.removeClass('disabled').addClass('lang');
+					$this.addClass('disabled').removeClass('lang');
+					return false;
+			 });
+		 });
+		</script>
 	</head>
 <body>
 	<div id="wrapper">
@@ -51,9 +67,6 @@
 					</c:if>
 				</table>
 			</c:if>
-			<script type="text/javascript"> 
-				$(function() { initWISIWIG("610", "400"); });
-			</script>
 			<c:url value="/admin/cpr/assessmentsystems/edit/${assessmentSystemId}" var="formUrl"/>
 			<form:form commandName="assessmentSystem" method="post" action="${formUrl}"  >
 				
@@ -62,16 +75,7 @@
 					<p class="msg ok"><spring:message code="success.create" /></p>
 				</c:if>
 				
-					<p>
-                      	<label>
-                      		<strong><em class="red">*</em>
-                      			<spring:message code="cpr.as.name" />
-                      		</strong>
-                      	</label>
-                          <span class="field">
-                          	<form:input  htmlEscape="true" path="name" maxlength="45" cssClass="mw500" />
-                          </span>
-                      </p>
+					
                       <p>
                       	<label>
                       		<spring:message code="cpr.as.code" />
@@ -89,37 +93,52 @@
 					     	<form:checkbox path="enabled" />
 					     </span>
 					 </p>
-					  <p class="form-head">Text, zobrazovaný při generovaní prohlášení<p>
-					  <p>
+					<p>
+						<label> 
+							<strong> 
+								<spring:message code="webpage.locale" />:
+							</strong>
+						</label> 
+						<span class="field"> <a href="#" data-lang="cs"
+							class="disabled">Česká</a> <a href="#" data-lang="en"
+							class="lang">Anglická</a>
+						</span>
+					</p>
+					 <p class="switchable cs">
                       	<label>
-                      		Text, který se zobrazí v DOP formuláři
-                      		<small>Text, který se zobrazí v DOP formuláři, po výběru NO/AO a Systému posuzování.</small>
+                      		<strong><em class="red">*</em>
+                      			<spring:message code="cpr.as.name" /> (v češtine)
+                      		</strong>
                       	</label>
-                          <span class="field">  
-                          	<form:textarea path="declarationOfPerformanceText"  cssClass="variable" />
-                          	<span class="variable-info">
-                          		V textu je možné použit naledující promjené:<br /><br />
-                          		
-                          		<strong>${fn:replace(model.varAonoName,'\\','')}</strong> - Výraz bude nahrazen za název vybrané notifikované osoby<br />
-                          		<strong>${fn:replace(model.varId,'\\','')}</strong> - Výraz bude nahrazen za identifikátor vybrané notifikované osoby<br />
-                          		<strong>${fn:replace(model.varReport,'\\','')}</strong> - Výraz bude nahrazen za identifikátor cerfitikátu/testu<br /><br />
-                          		
-                          		Příklad:<br />
-                          		V případě pokud formulář bude obsahovat následující text:<br />
-								<em>Notifikovaná osoba <strong>${fn:replace(model.varAonoName,'\\','')}</strong> s identifikátorem <strong>${fn:replace(model.varId,'\\','')}</strong></em><br />
-								V DOP formuláři bude jako NO / AO zvolená ITC Zlín, tak výsledný tvar textu bude:<br />
-								<em>Notifikovaná osoba <strong>Institut pro testování a certifikaci</strong> s identifikátorem <strong>AO 224 ITC</strong></em>
-                          	</span>
+                          <span class="field">
+                          	<form:input  path="name" maxlength="25" cssClass="mw500" />
+                          </span>
+                     </p>
+                      <p class="switchable en hidden">
+                      	<label>
+                      		<spring:message code="cpr.as.name" /> (Angličtina)
+                      	</label>
+                          <span class="field">
+                          	<form:input path="nameEnglish" maxlength="25" cssClass="mw500" />
                           </span>
                       </p>
-					  <p class="form-head"><spring:message code="cpr.nb.description" /><p>
-					  <p>
+                      
+					  <p class="switchable cs">
                       	<label>
                       		<spring:message code="cpr.nb.description" />
-                      		<small>Podorbný popis systému.</small>
+                      		<small>Popis systému (v češtine):</small>
                       	</label>
                           <span class="field">  
-                          	<form:textarea path="description"  cssClass="mceEditor defaultSize" />
+                          	<form:textarea path="description"  cssClass="wisiwig defaultSize" />
+                          </span>
+                      </p>
+                      <p class="switchable en hidden">
+                      	<label>
+                      		<spring:message code="cpr.nb.description" />
+                      		<small>Popis systému (Angličtina):</small>
+                      	</label>
+                          <span class="field">  
+                          	<form:textarea path="descriptionEnglish"  cssClass="wisiwig defaultSize" />
                           </span>
                       </p>
 					  

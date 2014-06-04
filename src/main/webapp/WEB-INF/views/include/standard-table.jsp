@@ -62,10 +62,7 @@
 			<tbody class="pagi-content">
 	</c:if>
 				 <c:forEach items="${model.standards}" var="i">
-				 	<tr 
-				 	class="<c:if test="${i.hasChanges}">has-change</c:if> s-row-${i.statusClass}" 
-				 	<c:if test="${not empty i.standardStatus and i.standardStatus.id != 1}"> title="<spring:message code='${i.standardStatus.name}' />" </c:if>
-				 	>
+				 	<tr class="<c:if test="${i.hasChanges}">has-change</c:if> s-row-${i.statusClass}" >
 				 	
 				 	
 				 		<!-- EHn --> 
@@ -74,8 +71,8 @@
 				 			<span>
 				 				<a:standardUrl standard="${i}" editable="${editable}"  />
 				 			</span>
-				 			<c:if test="${not empty i.standardStatus and i.standardStatus.id == 3}">
-		 						<spring:message code="${i.standardStatus.name}" />
+				 			<c:if test="${not empty i.standardStatus and i.standardStatus.id != 3}">
+		 						<span class="block"><spring:message code="${i.standardStatus.name}" /></span>
 		 					</c:if>
 				 			<c:if test="${not empty i.replaceStandard}">	
 			 					<span class="block pj-separator">
@@ -90,7 +87,7 @@
 				 					</c:if>
 			 					</span>
 				 					<a:standardUrl standard="${i.replaceStandard}" editable="${editable}" />
-				 					<c:if test="${not empty i.replaceStandard.standardStatus and i.replaceStandard.standardStatus.id == 2}">
+				 					<c:if test="${not empty i.replaceStandard.standardStatus and i.replaceStandard.standardStatus.id != 1}">
 				 						<span class="block"><spring:message code="${i.replaceStandard.standardStatus.name}" /></span>
 				 					</c:if>
 		 					</c:if>
@@ -108,8 +105,8 @@
 							 		<c:forEach items="${csn.standardCsnChanges}" var="j">
 							 			<a:standardCsnUrl object="${j}" editable="${editable}" />
 							 		</c:forEach>
-							 			<c:if test="${not empty csn.standardStatus and csn.standardStatus.id == 3}">
-					 						<spring:message code="${csn.standardStatus.name}" />
+							 			<c:if test="${not empty csn.standardStatus and csn.standardStatus.id != 1}">
+					 						<span class="block"><spring:message code="${csn.standardStatus.name}" /></span>
 					 					</c:if>
 									 	<c:if test="${not empty csn.replaceStandardCsn }">	
 						 					<span class="block pj-separator">
@@ -126,7 +123,7 @@
 						 					<a:standardCsnUrl object="${csn.replaceStandardCsn}" editable="${editable}" />
 						 					<c:set var="prevCsn" value="${csn.replaceStandardCsn}" />
 					 					</c:if>
-					 					<c:if test="${not empty csn.replaceStandardCsn.standardStatus and csn.replaceStandardCsn.standardStatus.id == 2}">
+					 					<c:if test="${not empty csn.replaceStandardCsn.standardStatus and csn.replaceStandardCsn.standardStatus.id != 1}">
 					 						<span class="block"><spring:message code="${csn.replaceStandardCsn.standardStatus.name}" /></span>
 					 					</c:if>
 					 					<c:if test="${empty csn.replaceStandardCsn }">
