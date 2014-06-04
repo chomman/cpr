@@ -17,34 +17,36 @@ $(function() {
 	$(document).on('dnd_stop.vakata', onDragAndDropStop);
 	$(document).on('dnd_start.vakata', onDragAndDropStart);
 	
-	$jsTree = $("#jstree");
+	var $jsTree = $("#jstree"),
+		$tags = $('#tags');
 	if($jsTree.length !== 0){
 		init($jsTree);
 	}
-	
-	$('#tags').tagit({
-		allowSpaces: true,
-		placeholderText : "Vpište slovo",
-		beforeTagAdded: function(event, ui) {
-				var s = $.trim(ui.tag.text());			
-				if(s.length > 25){
-					showStatus({err : 1, msg : 'Max. délka je 25 znakú'});
-					return false;
-				}
-		    },
-		    autocomplete: {     
-		     	source: function(request, response){  
-		    				$.getJSON( getBasePath() +"ajax/tag/autocomplete", request, function(data) {  
-		    						response( data );
-		    	            });  
-		    			},
-		    			minLength: 2,
-		    			select: function( event, ui ) {
-		    				ui.item.value;
-		    			}
-		    }
-	});
-	
+
+	if($tags.length > 0){
+		$tags.tagit({
+			allowSpaces: true,
+			placeholderText : "Vpište slovo",
+			beforeTagAdded: function(event, ui) {
+					var s = $.trim(ui.tag.text());			
+					if(s.length > 25){
+						showStatus({err : 1, msg : 'Max. délka je 25 znakú'});
+						return false;
+					}
+			    },
+			    autocomplete: {     
+			     	source: function(request, response){  
+			    				$.getJSON( getBasePath() +"ajax/tag/autocomplete", request, function(data) {  
+			    						response( data );
+			    	            });  
+			    			},
+			    			minLength: 2,
+			    			select: function( event, ui ) {
+			    				ui.item.value;
+			    			}
+			    }
+		});
+	}
 });
 
 function switchLangs(){

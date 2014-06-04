@@ -1,10 +1,10 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <c:set var="editable" value="false" scope="application"/>
 <sec:authorize access="hasRole('ROLE_ADMIN')"> 
 	<c:set var="editable" value="true" scope="application" />
 </sec:authorize>
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -13,13 +13,11 @@
 		</title>
 	</head>
 	<body>
-
 		<div id="main-content">
-				<article>
-					<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
-					<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
-				</article>
-				
+			<article>
+				<h1><webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" /></h1>
+				<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
+			</article>
 			 <div id="homepage">
 			 		<div class="hompage-left">
 			 			<strong class="head"><spring:message code="lastNews" /></strong>
@@ -50,14 +48,9 @@
 				 				</div>	
 				 			</c:forEach>
 			 			</c:if>
-			 		</div>
-										
+			 		</div>					
 			 		<div class="clear"></div>
 			 </div>
-			 
-			
-				
-			 
 		</div>
 	</body>
 </html>

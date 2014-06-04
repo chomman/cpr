@@ -23,8 +23,6 @@ public class PortalUserForm extends PortalOrderForm{
 	public PortalUserForm(PortalCurrency currency){
 		super(currency);
 	}
-	
-	
 	public String getPassword() {
 		return password;
 	}
@@ -38,7 +36,6 @@ public class PortalUserForm extends PortalOrderForm{
 		this.confirmPassword = confirmPassword;
 	}
 			
-	
 	public User toUser(){
 		User user = new User();
 		user.setPassword(password);
@@ -48,11 +45,5 @@ public class PortalUserForm extends PortalOrderForm{
 		getUserInfo().setUser(user);
 		user.setUserInfo(getUserInfo());
 		return user;
-	}
-	
-	
-
-	
-	
-		
+	}		
 }

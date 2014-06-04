@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ page trimDirectiveWhitespaces="true" %>
 <c:set var="isAuthenticated" value="false"  />
 <sec:authorize access="hasRole('ROLE_ADMIN')"> 
 	<c:set var="isAuthenticated" value="true"  />
@@ -29,7 +30,7 @@
 		<script src="<c:url value="/resources/public/js/jquery.pagination.js" />"></script>
 		<script src="<c:url value="/resources/public/js/jquery.tooltipster.min.js" />"></script>
 		<script src="<c:url value="/resources/public/js/scripts.js" />"></script>
-		<meta name="description" content="<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="description" />" />
+		<meta name="description" content="${webpageModel.webpage.descriptionInLang}" />
 		<meta name="keywords" content="${webpageModel.webpage.jointedTags}" />
 		<decorator:head/>
 		<jsp:include page="/WEB-INF/views/include/ga.jsp" />

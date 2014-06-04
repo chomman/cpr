@@ -114,6 +114,7 @@
 						<p>
 	                 		<label>
 	                 			<spring:message code="webpage.webpageContent.title" />
+	                 			<small>Hlavní nadpis webové sekce</small>
 							</label>
 		                    <span class="field">
 		                     <form:input htmlEscape="true" path="webpageContent.title" id="pj-title" maxlength="250" cssClass="mw500"
@@ -133,6 +134,7 @@
                 		<div class="input-wrapp pj-content-type  pj-type">
 	                 		<label class="tt" title="Slovo potvrďte stiskem klávesy ENTER, nebo oddělte čárkou">
 	                 			<spring:message code="webpage.webpageContent.tags" />
+	                 			<small>Štítky</small>
 							</label>
 		                    <div class="field tags-wrapp">
 		                    	<ul id="tags">
@@ -144,6 +146,7 @@
 						<p>
 							<label>
 								<spring:message code="webpage.webpageContent.description" />
+								<small>Stručný a výstižný popis obsahu webové sekce, z něhož by měl uživatel pochopit co je obsahem stránky</small>
 						   </label>
 							<span class="field">
 								<form:textarea path="webpageContent.description" id="pj-description" cssClass="mw500 mh100" />

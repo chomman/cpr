@@ -32,8 +32,7 @@ public class WebpageUtils {
 		Validate.notNull(webpage.getLocalized());
 		Validate.notEmpty(fieldName);
 		
-		WebpageContent webpageContent = webpage.getWebpageContentInLang(locale.getLanguage());
-		
+		final WebpageContent webpageContent = webpage.getWebpageContentInLang(locale.getLanguage());
 		Method method;
 		Object value = null;
 		try {
@@ -56,7 +55,7 @@ public class WebpageUtils {
 						CodeUtils.firstCharacterUp(fieldName) + " in NOT type of String. Webpage ID: " + 
 						webpage.getId());
 		}
-		return (String) value;
+		return ((String) value).trim();
 	}
 	
 		
@@ -119,7 +118,7 @@ public class WebpageUtils {
 	}
 	
 		
-	private static String getParentWebpageCode(Webpage webpage){
+	private static String getParentWebpageCode(final Webpage webpage){
 		if(webpage.getParent() != null){
 			return getParentWebpageCode(webpage.getParent());
 		}
@@ -133,7 +132,7 @@ public class WebpageUtils {
 		return items;
 	}
 	
-	private static void buildBredcrumb(List<Webpage> breadcrumb, Webpage webpage) {
+	private static void buildBredcrumb(final List<Webpage> breadcrumb, final Webpage webpage) {
 		if(webpage.getIsPublished()){
 			breadcrumb.add(0, webpage);
 		}
