@@ -161,7 +161,6 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 		hqlQuery.setCacheable(false);
 		hqlQuery.setString("query", term);
 		hqlQuery.setString("fullTextQuery", term.replace(" ", "&"));
-		hqlQuery.setLong("nodeId", parentNodeId);
 		PageDto items = new PageDto();
 		items.setCount((Long)hqlQuery.uniqueResult());
 		if(items.getCount() > 0){
@@ -169,8 +168,7 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 						.addEntity(Webpage.class);				
 			hqlQuery.setCacheable(false);
 			hqlQuery.setString("query", term);
-			hqlQuery.setString("fullTextQuery", term.replace(" ", "&"));
-			hqlQuery.setLong("nodeId", parentNodeId);
+			hqlQuery.setString("fullTextQuery", term.toLowerCase().replace(" ", "&"));
 			hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
 			hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
 			items.setItems(hqlQuery.list());
@@ -180,14 +178,7 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	
 	private String buildSearchQuery(final boolean isCountQuery){
 		StringBuilder sql = new StringBuilder();
-		sql.append("with recursive tmp_webpage(id, parent) as ( ")
-		   .append("	values(cast(-1 as bigint), cast(:nodeId as bigint) ) ")
-		   .append(" union all ")
-		   .append(" 	select w.id, w.parent_id ")
-		   .append("    from tmp_webpage as tw, webpage as w ")
-		   .append("    where w.id = parent ")
-		   .append(" ) ")
-		   .append("SELECT "+ (isCountQuery ? " count(w) as count " : "w.* "))	
+		sql.append("SELECT "+ (isCountQuery ? " count(w) as count " : "w.* "))	
 		   .append("FROM webpage w ")
 		   .append("JOIN webpage_content wc ON w.id=wc.webpage_id ")
 		   .append("WHERE w.enabled=true AND (")
@@ -314,14 +305,16 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	public void updatetsVector(final Webpage webpage) {
 		Validate.notNull(webpage);
 		Validate.notNull(webpage.getId());
+		
 		StringBuilder sql = new StringBuilder("UPDATE webpage_content ");
 		sql.append("SET webpage_tsvector = ")
-			.append(" to_tsvector(cast(localized_key as regconfig), concat(title, ' ', content, ' ', unaccent(title), ' ', unaccent(content), ' ', unaccent(description), ' ', unaccent(description) )) ")
+			.append(" to_tsvector(cast(localized_key as regconfig), lower(concat(title, ' ', description, ' ', content, ' ', unaccent(title), ' ', unaccent(content), ' ', unaccent(description), ' ', :tags ))) ")
 			.append("WHERE webpage_id = :webpageId");
 		Query hqlQuery = sessionFactory
 					.getCurrentSession()
 					.createSQLQuery(sql.toString());
 		hqlQuery.setLong("webpageId", webpage.getId());
+		hqlQuery.setString("tags", webpage.getJointedTags());
 		hqlQuery.executeUpdate();
 	}
 
