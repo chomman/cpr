@@ -164,7 +164,7 @@
 			</form:form>
 			
 
-			<span class="note"><spring:message code="form.required" /></span>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span> 
 			
 			<c:if test="${not empty id  and id != 0}">
 			
@@ -194,7 +194,7 @@
 				<!-- CSN TERMINOLOGY -->
 				
 				<div id="terminology">			
-					<p class="form-head"><spring:message code="csn.terminology" arguments="${csn.csnId}" /><p>
+					<p class="form-head"><spring:message code="csn.terminology" arguments="${csn.csnId}" htmlEscape="false" /><p>
 					<div class="csn-edit-nav" >
 						<a class="add radius" title="<spring:message code="csn.terminology.add" />" href="<c:url value="/admin/csn/${id}/terminology/edit/0" />">
 							<spring:message code="csn.terminology.add" />

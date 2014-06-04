@@ -4,7 +4,8 @@
 <html>
 	<head>
 		<title><spring:message code="cpr.nb.edit" /></title>
-		<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+		<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
+		<script src="<c:url value="/resources/admin/js/wisiwig.init.js" />"></script>
 	</head>
 <body>
 	<div id="wrapper">
@@ -192,7 +193,7 @@
                       		<spring:message code="cpr.nb.description" />:
                       	</label>
                           <span class="field">  
-                          	<form:textarea path="description"  cssClass="mceEditor defaultSize" />
+                          	<form:textarea path="description"  cssClass="wisiwig defaultSize" />
                           </span>
                       </p>
 					  
@@ -203,7 +204,7 @@
 			</form:form>
 	</c:if>
 		
-			<span class="note"><spring:message code="form.required" /></span>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</div>	
 	</div>
 	

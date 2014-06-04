@@ -270,7 +270,7 @@
 					 
 				</c:if>
 			</div>
-			<span class="note"><spring:message code="form.required" /></span>	
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>	
 		</div>
 		<div class="clear"></div>	
 	</div>

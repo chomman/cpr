@@ -4,10 +4,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="cpr.report.edit" /></title>
-<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
-<script src="<c:url value="/resources/admin/js/cpr/report.js" />"></script>
-<link rel="stylesheet" 	href="<c:url value="/resources/public/css/common.css" />" />
+	<title><spring:message code="cpr.report.edit" /></title>
+	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/wisiwig.init.js" />"></script>
+	<script src="<c:url value="/resources/admin/js/cpr/report.js" />"></script>
+	<link rel="stylesheet" 	href="<c:url value="/resources/public/css/common.css" />" />
 </head>
 <body>
 	<div id="wrapper">

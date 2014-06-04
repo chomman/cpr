@@ -91,7 +91,7 @@
                         </p>
 						
 					</form:form>
-			<span class="note"><spring:message code="form.required" /></span>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</div>	
 	</div>
 	<div class="clear"></div>	

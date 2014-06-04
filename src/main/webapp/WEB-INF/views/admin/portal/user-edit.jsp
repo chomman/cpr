@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="user.edit"/> ${user.firstName} ${user.lastName}</title>
+	<title><spring:message code="user.edit"/> <c:out value="${user.firstName} ${user.lastName}" /></title>
 	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
 	<script>
 		$(function() {
@@ -21,9 +21,9 @@
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  u&raquo;
 				 <a:adminurl href="/portal/users"><spring:message code="admin.portalUser" /></a:adminurl>  &raquo;
-				 <span><spring:message code="user.edit"/> ${user.firstName} ${user.lastName}</span>
+				 <span><spring:message code="user.edit"/> <c:out value="${user.firstName} ${user.lastName}" /></span>
 			</div>
-			<h1><spring:message code="user.edit"/> ${user.firstName} ${user.lastName}</h1>
+			<h1><spring:message code="user.edit"/> <c:out value="${user.firstName} ${user.lastName}" /></h1>
 	
 			<div id="content">
 				<c:if test="${not empty model.user.userInfo.synced and not model.user.userInfo.synced }">
@@ -56,7 +56,7 @@
 					</div>
 				</div>		
 				
-				<span class="note"><spring:message code="form.required" /></span>	
+				<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>	
 			</div>	
 			
 		</div>

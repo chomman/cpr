@@ -139,7 +139,7 @@
 							<p class="msg alert"><spring:message code="user.rights.own" /></p>
 						</c:if>
 					</form:form>
-			<span class="note"><spring:message code="form.required" /></span>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</div>	
 	</div>
 	<div class="clear"></div>	

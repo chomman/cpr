@@ -55,7 +55,7 @@
 				</ul>
 								
 				<c:if test="${not empty model.standards}">
-					<p class="form-head"><spring:message code="cpr.csn.assignedStandards" arguments="${csn.csnName}" />:</p>
+					<p class="form-head"><spring:message code="cpr.csn.assignedStandards" arguments="${csn.csnName}" htmlEscape="false" />:</p>
 					<p>
 						<ul class="assigned-standards">
 							<c:forEach items="${model.standards}" var="i">
@@ -75,7 +75,7 @@
 				<c:url value="/admin/cpr/standard-csn/edit/${csn.id}" var="formUrl"/>
 				<jsp:include page="include/standard-csn-form.jsp"></jsp:include>
 		
-			<span class="note"><spring:message code="form.required" /></span>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</div>	
 	</div>
 	

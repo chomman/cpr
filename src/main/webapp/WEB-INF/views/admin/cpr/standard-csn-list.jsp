@@ -40,7 +40,7 @@
 			
 			
 			<div class="items-count">
-				<span><spring:message code="items.count" arguments="${model.count}" /></span>
+				<span><spring:message code="items.count" arguments="${model.count}" htmlEscape="false" /></span>
 			</div>
 			
 			<c:if test="${not empty successDelete}">

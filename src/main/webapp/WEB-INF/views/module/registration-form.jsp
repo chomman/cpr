@@ -10,7 +10,7 @@
 <c:if test="${not webpageModel.isRegistration}">
 <c:url value="/ajax/order" var="url"/>
 </c:if>
-<form:form commandName="user" method="post" cssClass="valid form" action="${url}"  >
+<form:form commandName="user" method="post" cssClass="valid form" action="${url}"  htmlEscape="true"  >
 	
 	<!-- SELECT PRODUCTS SECTION  -->	
 	<strong class="form-head"><spring:message code="portaluser.selectProducts" /></strong>

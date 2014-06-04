@@ -1,16 +1,4 @@
 $(function() { 	
-	 tinyMCE.init({
-		 	selector: "textarea.wisiwig",
-			language : "cs",
-			height : 470,
-			width : 630,
-			forced_root_block : "",
-			force_br_newlines : true,
-			force_p_newlines : false,
-			 //content_css : $("#base").text() + 'resources/admin/css/tinymce.css',
-			plugins: "image,link,table",
-			convert_urls: false
-	});
 	 
  $(document).on('click', 'a.lang', function(){
 		var $selected = $('.disabled'),
@@ -34,21 +22,7 @@ $(function() {
 	 }
 	 processSave(true);
  });
- 
-/*
- *  $(".preview").fancybox({
-		maxWidth	: 1100,
-		maxHeight	: 1000,
-		fitToView	: false,
-		width		: '80%',
-		height		: '80%',
-		autoSize	: false,
-		closeClick	: false,
-		openEffect	: 'none',
-		closeEffect	: 'none'
-});
- */
- 
+  
  $(document).on("submit", "form", function(e){
 		e.preventDefault();
 		processSave(false);

@@ -91,10 +91,10 @@
 						 				<c:if test="${not empty i.userInfo.synced and not i.userInfo.synced }">
 						 					<span class="pj-unsync-alert tt" title="<spring:message code="admin.portalUser.unsyncAlert" />"></span>
 						 				</c:if>
-						 			${i.firstName} ${i.lastName}
+						 			<c:out value="${i.firstName} ${i.lastName}" />
 						 			</strong>
 						 			<c:if test="${not empty i.userInfo and not empty i.userInfo.companyName}">
-						 				&nbsp; (${i.userInfo.companyName})
+						 				&nbsp; (<c:out value="${i.userInfo.companyName}" />)
 						 			</c:if>
 						 		</td>
 						 								 		

@@ -4,7 +4,8 @@
 <html>
 	<head>
 		<title><spring:message code="cpr.standard.edit" arguments="${standard.standardId}" /></title>
-		<script src="<c:url value="/resources/admin/tiny_mce/tiny_mce.js" />"></script>
+		<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
+		<script src="<c:url value="/resources/admin/js/wisiwig.init.js" />"></script>
 	</head>
 <body>
 	<div id="wrapper">
@@ -42,7 +43,7 @@
 						
 					<script type="text/javascript"> 
 				    $(function() { 
-				    	initWISIWIG("610", "300");
+				 
 				    	var errMsg = "Nastala neočekávaná chyba, operaci zkuste zopakovat.";
 				        $('form').submit(function(e) {
 				        	e.preventDefault();
@@ -93,7 +94,7 @@
                         		<spring:message code="cpr.standard.text" />
                         	</label>
                             <span class="field">  
-                          	<form:textarea path="text"  cssClass="mceEditor bigEditorSize" />
+                          	<form:textarea path="text"  cssClass="wisiwig bigEditorSize" />
                           </span>
                         </p>
                         <form:hidden path="standardId" />
@@ -110,7 +111,7 @@
 					
 				</div>	<!-- END TABs -->
 		
-			<span class="note"><spring:message code="form.required" /></span>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</div>	
 	</div>
 	

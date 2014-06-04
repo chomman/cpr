@@ -1,5 +1,6 @@
 package cz.nlfnorm.web.forms.portal;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.validator.constraints.Length;
 
 import cz.nlfnorm.entities.PortalCurrency;
@@ -41,8 +42,8 @@ public class PortalUserForm extends PortalOrderForm{
 	public User toUser(){
 		User user = new User();
 		user.setPassword(password);
-		user.setFirstName(getFirstName());
-		user.setLastName(getLastName());
+		user.setFirstName(StringEscapeUtils.unescapeHtml(getFirstName()));
+		user.setLastName(StringEscapeUtils.unescapeHtml(getLastName()));
 		user.setEmail(getEmail());
 		getUserInfo().setUser(user);
 		user.setUserInfo(getUserInfo());

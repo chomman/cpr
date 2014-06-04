@@ -50,7 +50,7 @@
 				V dokumentu musí být vložen oddělovač "<strong>####</strong>", který identifikuje začátek a konec terminologie. Pomocí tohoto oddělovače se odstraní nepotřebná část dokumentu a výrazně se tak redukuje potřebný paměťový prostor.
 			</p>
 			
-			<span class="note"><spring:message code="form.required" /></span>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</div>	
 	</div>
 	<div class="clear"></div>	

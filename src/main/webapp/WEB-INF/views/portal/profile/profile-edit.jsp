@@ -5,7 +5,7 @@
 			$(document).on('submit', '.valid', validate );
 		});
 </script>
-	<form:form commandName="user" method="post" cssClass="valid form"  >
+	<form:form commandName="user" method="post" cssClass="valid form" htmlEscape="true"  >
   		<strong class="form-head"><spring:message code="portaluser.profile.nav.personalInfo" /></strong>
 		<form:errors path="*" delimiter="<br/>" element="p" cssClass="status error status-ico"  />
 		<c:if test="${not empty successCreate}">

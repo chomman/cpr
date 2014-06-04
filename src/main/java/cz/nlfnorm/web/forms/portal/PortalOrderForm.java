@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.StringEscapeUtils;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -102,17 +103,17 @@ public class PortalOrderForm extends BaseUserForm{
 		
 		order.setCurrency(getPortalCurrency());
 		order.setPortalOrderSource(getPortalOrderSource());
-		order.setPhone(getUserInfo().getPhone());
-		order.setFirstName(getFirstName());
-		order.setLastName(getLastName());
-		order.setEmail(getEmail());
-		order.setCity(getUserInfo().getCity());
-		order.setZip(getUserInfo().getZip());
-		order.setStreet(getUserInfo().getStreet());
+		order.setPhone(StringEscapeUtils.unescapeHtml(getUserInfo().getPhone()));
+		order.setFirstName(StringEscapeUtils.unescapeHtml(getFirstName()));
+		order.setLastName(StringEscapeUtils.unescapeHtml(getLastName()));
+		order.setEmail(StringEscapeUtils.unescapeHtml(getEmail()));
+		order.setCity(StringEscapeUtils.unescapeHtml(getUserInfo().getCity()));
+		order.setZip(StringEscapeUtils.unescapeHtml(getUserInfo().getZip()));
+		order.setStreet(StringEscapeUtils.unescapeHtml(getUserInfo().getStreet()));
 		order.setPortalCountry(getUserInfo().getPortalCountry());
-		order.setCompanyName(getUserInfo().getCompanyName());
-		order.setDic(getUserInfo().getDic());
-		order.setIco(getUserInfo().getIco());
+		order.setCompanyName(StringEscapeUtils.unescapeHtml(getUserInfo().getCompanyName()));
+		order.setDic(StringEscapeUtils.unescapeHtml(getUserInfo().getDic()));
+		order.setIco(StringEscapeUtils.unescapeHtml(getUserInfo().getIco()));
 		order.setVat( getVat() );
 		return order;
 	}
