@@ -41,7 +41,7 @@
 							<td class="key">Zákazník</td>
 							<td class="val">
 								<a:adminurl href="/portal/user/${model.order.user.id}">
-									${model.order.user.firstName} ${model.order.user.lastName}
+									<c:out value="${model.order.user.firstName} ${model.order.user.lastName}" />
 								</a:adminurl>
 							</td>
 						</c:if>

@@ -45,15 +45,15 @@
 			 		<td>
 			 			<c:if test="${not empty i.user}">
 			 					<a:adminurl href="/portal/user/${i.user.id}">
-				 				${i.firstName} ${i.lastName}
+				 				<c:out value="${i.firstName} ${i.lastName}" />
 				 				</a:adminurl>
 			 			</c:if>
 			 			<c:if test="${ empty i.user}">
-			 				${i.firstName} ${i.lastName}
+			 				<c:out value="${i.firstName} ${i.lastName}" />
 						</c:if>
 						
 						<c:if test="${not empty i.companyName}">
-							&nbsp; (${i.companyName})
+							&nbsp; (<c:out value="${i.companyName}" />)
 						</c:if>
 			 		</td>	
 			 		<td class="w100 c">

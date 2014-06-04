@@ -68,30 +68,30 @@
 			</h2>
 			<div id="hcard-Hiram-Roth" class="vcard">
 				<a class="url fn" href="http://memory-alpha.org">
-					${webpageModel.portalOrder.firstName} ${webpageModel.portalOrder.lastName}
+					<c:out value="${webpageModel.portalOrder.firstName} ${webpageModel.portalOrder.lastName}" />
 				</a>
 				<div class="tel">${webpageModel.portalOrder.phone}</div>
 				<a class="email" href="mailto:${webpageModel.portalOrder.email}">${webpageModel.portalOrder.email}</a>
 				
 				<div class="adr">
 					
-					<div class="street-address">${webpageModel.portalOrder.street}</div>
-					<span class="locality">${webpageModel.portalOrder.zip}</span>
-					<span class="country-name">${webpageModel.portalOrder.city}</span>
+					<div class="street-address"><c:out value="${webpageModel.portalOrder.street}" /></div>
+					<span class="locality"><c:out value="${webpageModel.portalOrder.zip}" /></span>
+					<span class="country-name"><c:out value="${webpageModel.portalOrder.city}" /></span>
 					<div>
 						<spring:message code="${webpageModel.portalOrder.portalCountry.code}" />
 					</div>
 				</div>
 			<c:if test="${not empty webpageModel.portalOrder.companyName}">
 				<div class="adr">
-						<div class="street-address">${webpageModel.portalOrder.companyName}</div>
+						<div class="street-address"><c:out value="${webpageModel.portalOrder.companyName}" /></div>
 						<div class="ic">
 							<spring:message code="admin.portal.ico" />:
-							${webpageModel.portalOrder.ico}
+							<c:out value="${webpageModel.portalOrder.companyName}" />
 						</div> 
 						<div class="dic">
 							<spring:message code="admin.portal.dic" />:
-							${webpageModel.portalOrder.dic}
+							<c:out value="${webpageModel.portalOrder.dic}" />
 						</div>
 				</div>
 			</c:if>	

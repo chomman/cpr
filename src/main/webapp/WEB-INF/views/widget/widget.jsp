@@ -28,7 +28,7 @@
 		<script src="<c:url value="/resources/portal/js/scripts.js" />"></script>
 		<jsp:include page="/WEB-INF/views/include/ga.jsp" />
 	</head>
-	<body>
+	<body class="pj-widget">
 			
 			<c:if test="${webpageModel.type == 1 or webpageModel.type == 2 or webpageModel.type == 4}">
 				<ul class="w-nav">

@@ -16,11 +16,11 @@
 						
 			<c:if test="${empty webpageModel.items}">
 				<p class="status alert">
-					<spring:message code="portal.noSearchResutls" arguments="${webpageModel.q}" />
+					<spring:message code="portal.noSearchResutls" arguments="${webpageModel.q}" htmlEscape="false"/>
 				</p>
 			</c:if>
 			<c:if test="${not empty webpageModel.items}">
-				<h1><spring:message code="portal.searchResutls" arguments="${webpageModel.q};${webpageModel.count}" argumentSeparator=";" /></h1>
+				<h1><spring:message code="portal.searchResutls" arguments="${webpageModel.q};${webpageModel.count}" argumentSeparator=";" htmlEscape="false" /></h1>
 				
 				<!-- PAGINATION -->
 				<c:if test="${not empty webpageModel.paginationLinks}" >

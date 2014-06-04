@@ -9,6 +9,10 @@
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/spring/applicationContext-*.xml</param-value>
 	</context-param>
+	<context-param>
+	   <param-name>defaultHtmlEscape</param-name>
+	   <param-value>true</param-value>
+	</context-param>
 	
 	<!-- Creates the Spring Container shared by all Servlets and Filters -->
 	<listener>
@@ -84,12 +88,11 @@
 		<filter-name>localeFilter</filter-name>
 		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
 	</filter>
-	
-	
 	<filter>
     	<filter-name>UrlSessionFilter</filter-name>
         <filter-class>cz.nlfnorm.filters.UrlSessionFilter</filter-class>
 	</filter>
+	   
 	<filter-mapping>
        <filter-name>UrlSessionFilter</filter-name>
         <url-pattern>/*</url-pattern>
