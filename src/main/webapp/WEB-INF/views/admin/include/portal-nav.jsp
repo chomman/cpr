@@ -41,4 +41,12 @@
 		</a>
 	</li>
 	
+	<li>
+		<a 
+		<c:if test="${model.tab == 6}">class="active"</c:if>
+		href="<c:url value="/admin/portal/statistics" />" >
+			Statistiky
+		</a>
+	</li>
+	
 </ul>
