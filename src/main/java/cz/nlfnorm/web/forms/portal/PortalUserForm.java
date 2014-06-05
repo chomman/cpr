@@ -42,6 +42,7 @@ public class PortalUserForm extends PortalOrderForm{
 		user.setFirstName(StringEscapeUtils.unescapeHtml(getFirstName()));
 		user.setLastName(StringEscapeUtils.unescapeHtml(getLastName()));
 		user.setEmail(getEmail());
+		user.setEnabled(true);
 		getUserInfo().setUser(user);
 		user.setUserInfo(getUserInfo());
 		return user;

@@ -8,7 +8,7 @@
 		$(function() {
 			showLoader();
 			setTimeout(function(){
-				$( "iframe" ).attr("src", "http://nlfnorm.peterjurkovic.sk/");
+				$( "iframe" ).attr("src", "//nlfnorm.peterjurkovic.sk/");
 				$( "iframe" ).load(function(){
 			        $('#loader').remove();
 			    });
