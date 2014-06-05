@@ -71,7 +71,7 @@
 				 			<span>
 				 				<a:standardUrl standard="${i}" editable="${editable}"  />
 				 			</span>
-				 			<c:if test="${not empty i.standardStatus and i.standardStatus.id != 3}">
+				 			<c:if test="${not empty i.standardStatus and i.standardStatus.id != 1}">
 		 						<span class="block"><spring:message code="${i.standardStatus.name}" /></span>
 		 					</c:if>
 				 			<c:if test="${not empty i.replaceStandard}">	

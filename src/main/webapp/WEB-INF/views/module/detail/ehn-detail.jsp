@@ -33,7 +33,7 @@
 				
 				<c:if test="${not empty model.standard.standardGroups}">
 					<tr class="tooltip" title="<spring:message code="standard.help.standardGroups"/>">
-						<td class="key"><strong><spring:message code="ehn.standardGroups" /></strong>:</td>
+						<td class="key"><strong><spring:message code="standard.standardGroups" /></strong>:</td>
 						<td>
 							<c:forEach items="${model.standard.standardGroups}" var="i">
 								<a:url cssClass="block-item" href="/cpr/skupina/${i.code}">${i.code} - ${i.name}</a:url> 
