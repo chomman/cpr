@@ -11,6 +11,7 @@ import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.validators.AbstractValidator;
+import cz.nlfnorm.validators.PasswordValidator;
 import cz.nlfnorm.web.forms.portal.ChangePasswordForm;
 import cz.nlfnorm.web.forms.portal.ResetPassowrdForm;
 
@@ -25,18 +26,20 @@ public class ChangePassowrdValidator extends AbstractValidator{
 	private PasswordEncoder passwordEncoder;
 	
 	
+	@SuppressWarnings("static-access")
 	@Override
 	protected void addExtraValidation(Object objectForm, Errors errors) {
 		
 			objectForm = (ResetPassowrdForm)objectForm;
-			if(objectForm instanceof ChangePasswordForm){
-				final User user = userService.getUserById(((ChangePasswordForm) objectForm).getUserId());
-				
+			final User user = userService.getUserById(((ResetPassowrdForm) objectForm).getUserId());
+			if(objectForm instanceof ChangePasswordForm){			
 				if(!passwordEncoder.matches(((ChangePasswordForm) objectForm).getCurrentPassword(), user.getPassword())){
 					errors.reject("user.currentPassword", 
 							messageSource.getMessage("error.password.old", null, ContextHolder.getLocale()) );
 				}
 			}
+			
+			
 			final String newPass = ((ResetPassowrdForm) objectForm).getNewPassword();
 			final String confirmPass = ((ResetPassowrdForm) objectForm).getConfirmPassword();
 			
@@ -44,6 +47,17 @@ public class ChangePassowrdValidator extends AbstractValidator{
 			if(StringUtils.isBlank(confirmPass) || StringUtils.isBlank(newPass) || !newPass.equals(confirmPass) ){
 				errors.reject("user.newPassword", 
 						messageSource.getMessage("error.password.notMatch", null, ContextHolder.getLocale()) );
+			}
+			
+			if(user.getEmail().endsWith(newPass)){
+				errors.reject("user.newPassword", 
+						messageSource.getMessage("error.password.sameAsLogin", null, ContextHolder.getLocale()) );
+			}
+			
+			PasswordValidator validator = PasswordValidator.buildValidator(false,false, true, 6, 20);
+			if(!validator.validatePassword(newPass)){
+				errors.reject("user.newPassword", 
+						messageSource.getMessage("error.password.missNumber", null, ContextHolder.getLocale()) );
 			}
 		}
 	

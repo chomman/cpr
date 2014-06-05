@@ -278,13 +278,14 @@ public class WebpageController extends AdminSupportController {
 	private void update(WebpageContentDto form) throws ItemNotFoundException{
 		Validate.notNull(form);
 		Validate.notEmpty(form.getLocale());
+		final User user = UserUtils.getLoggedUser();
 		Webpage webpage = getWebpage(form.getId());
 		if(!webpage.getLocalized().containsKey(form.getLocale())){
 			throw new IllegalArgumentException(String.format("Content of webpage [id=%1$d][lang=%2$s] was not found", form.getId(), form.getLocale()));
 		}
 		if(!webpage.getLockedCode() && form.getLocale().equals(SystemLocale.getDefaultLanguage())){
 			webpage.setCode(webpageService.getUniqeCode(form.getWebpageContent().getName(), webpage.getId()));
-		}else if(webpage.getLockedCode()){
+		}else if(webpage.getLockedCode() && user.isWebmaster() && form.getCode() != null){
 			webpage.setCode( form.getCode() );
 		}
 		webpage.setRedirectWebpage(form.getRedirectWebpage());

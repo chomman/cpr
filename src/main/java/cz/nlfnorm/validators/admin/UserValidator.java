@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.ValidationsUtils;
+import cz.nlfnorm.validators.PasswordValidator;
 import cz.nlfnorm.web.forms.admin.UserForm;
 
 @Component
@@ -16,6 +17,7 @@ public class UserValidator {
 	private UserService userService;
 	
 	
+	@SuppressWarnings("static-access")
 	public void validate(BindingResult result, UserForm form){
 		
 		if(!ValidationsUtils.isEmailValid(form.getUser().getEmail())){
@@ -41,17 +43,24 @@ public class UserValidator {
 				result.rejectValue("confifmPassword", "error.user.confifmPassword");
 			}
 			
-			if(StringUtils.isBlank(form.getPassword().trim()) || form.getPassword().length() < 5){
+			if(StringUtils.isBlank(form.getPassword().trim()) || form.getPassword().length() < 6){
 				result.rejectValue("password", "error.user.password");
 			}
+			
+			if(form.getUser().getEmail().endsWith(form.getPassword())){
+				result.rejectValue("password", "error.password.sameAsLogin");
+			}
+			
+			PasswordValidator validator = PasswordValidator.buildValidator(false,false, true, 6, 20);
+			if(!validator.validatePassword(form.getPassword())){
+				result.rejectValue("password", "error.password.missNumber");
+			}
 		}
-		
+				
 		if(form.getSelectedAuthorities().size() == 0){
 			result.rejectValue("roles", "error.user.role.size");
 		}
-		
-		
-		
+				
 		if(!userService.isUserNameUniqe(form.getUser().getId(), form.getUser().getEmail())){
 			result.rejectValue("user.email", "error.user.email");
 		}
