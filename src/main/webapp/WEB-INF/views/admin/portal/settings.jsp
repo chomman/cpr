@@ -174,7 +174,7 @@
                        		PlasticPortal e-mail:
                        	</label>
                         <span class="field">
-                           	<form:input path="plasticPortalEmail" cssClass="mw300" maxlength="40" />
+                           	<form:input path="plasticPortalEmail" cssClass="mw500" maxlength="80" />
                          </span>
                      </p>
                      

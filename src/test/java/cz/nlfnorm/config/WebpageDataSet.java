@@ -5,7 +5,7 @@ import java.util.List;
 
 import cz.nlfnorm.entities.Webpage;
 
-public class WebpageDataSet extends AbstractTestConfig {
+public class WebpageDataSet extends TestConfig {
 	
 	protected List<Webpage> list = new ArrayList<Webpage>();
 	

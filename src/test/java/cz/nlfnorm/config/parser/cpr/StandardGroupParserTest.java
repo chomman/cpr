@@ -7,12 +7,12 @@ import junit.framework.Assert;
 
 import org.junit.Test;
 
-import cz.nlfnorm.config.AbstractTestConfig;
+import cz.nlfnorm.config.TestConfig;
 import cz.nlfnorm.entities.Mandate;
 import cz.nlfnorm.entities.StandardGroup;
 import cz.nlfnorm.parser.cpr.StandardGroupParser;
 
-public class StandardGroupParserTest extends AbstractTestConfig {
+public class StandardGroupParserTest extends TestConfig {
 
 	private List<StandardGroup> groups;
 	

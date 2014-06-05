@@ -10,13 +10,13 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.annotation.Rollback;
 
-import cz.nlfnorm.config.AbstractTestConfig;
+import cz.nlfnorm.config.TestConfig;
 import cz.nlfnorm.entities.Standard;
 import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.services.StandardService;
 
 
-public class StandardServiceTest extends AbstractTestConfig{
+public class StandardServiceTest extends TestConfig{
 	
 	@Autowired
 	private StandardService standardService;

@@ -26,7 +26,7 @@ import cz.nlfnorm.services.UserService;
 })
 @TransactionConfiguration
 @Transactional
-public class AbstractTestConfig{
+public class TestConfig{
 	
 	 @Autowired
 	 private UserService userService;
