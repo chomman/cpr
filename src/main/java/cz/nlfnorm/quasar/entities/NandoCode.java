@@ -3,7 +3,6 @@ package cz.nlfnorm.quasar.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,8 +21,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.validator.constraints.Length;
 
-import cz.nlfnorm.entities.AbstractEntity;
-
 /**
  * 
  * Entity of Quality system assesmet reporting system, represents NANDO code
@@ -35,8 +32,7 @@ import cz.nlfnorm.entities.AbstractEntity;
 @SequenceGenerator(name = "quasar_nando_code_id_seq", sequenceName = "quasar_nando_code_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "quasar_nando_code")
-@AttributeOverride(name = "nando_code", column = @Column( name = "code", length = 10, nullable = false ) )
-public class NandoCode extends AbstractEntity{
+public class NandoCode extends BaseEntity{
 	
 	private static final long serialVersionUID = 1388976314109073881L;
 	
@@ -44,7 +40,7 @@ public class NandoCode extends AbstractEntity{
 	private String specificationEnglish;
 	private Set<NandoCode> children;
 	private NandoCode parent;
-	private int order;
+	private Integer order;
 	
 	public NandoCode(){
 		this(null);
@@ -54,13 +50,13 @@ public class NandoCode extends AbstractEntity{
 		this.parent = parent;
 		this.children = new HashSet<>();
 		this.order = 0;
-		setEnabled(true);
 		if(parent != null){
 			registerInParentsChilds();
 		}
 	}
 	
 	@Id
+	@Override
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_nando_code_id_seq")
 	public Long getId() {
 		return super.getId();
@@ -106,11 +102,12 @@ public class NandoCode extends AbstractEntity{
 		this.parent = parent;
 	}
 		
-	public int getOrder() {
+	@Column(name = "nando_order")
+	public Integer getOrder() {
 		return order;
 	}
 
-	public void setOrder(int order) {
+	public void setOrder(Integer order) {
 		this.order = order;
 	}
 

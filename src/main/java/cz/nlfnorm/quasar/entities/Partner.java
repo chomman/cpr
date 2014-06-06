@@ -12,31 +12,25 @@ import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
 
-/**
- * Entity of Quality system assesmet reporting system, represents EAC code
- * 
- * @author Peter Jurkovic
- * @date Jun 6, 2014
- */
 @Entity
-@SequenceGenerator(name = "quasar_eac_code_id_seq", sequenceName = "quasar_eac_code_id_seq", initialValue = 1, allocationSize =1)
+@Table(name="partner")
+@SequenceGenerator(name = "quasar_partner_id_seq", sequenceName = "quasar_partner_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "quasar_eac_code")
-public class EacCode extends BaseEntity {
-
-	private static final long serialVersionUID = 1385780507346969333L;
+public class Partner extends BaseEntity {
+	
+	private static final long serialVersionUID = 6895179406391276009L;
 	
 	private String name;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_eac_code_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_partner_id_seq")
 	@Override
 	public Long getId() {
 		return super.getId();
 	}
-	
-	@Length(message = "{error.eacCode.name}", max = 120)
-	@Column(name = "name", length = 120)
+
+	@Length(message = "{error.partner.name}", max = 50)
+	@Column(name = "name", length = 50)
 	public String getName() {
 		return name;
 	}
@@ -44,8 +38,6 @@ public class EacCode extends BaseEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-
 	
 	
 }

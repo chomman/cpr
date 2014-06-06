@@ -48,6 +48,8 @@
 	<!-- QUASAR -->
 	<mapping class="cz.nlfnorm.quasar.entities.NandoCode"/>
 	<mapping class="cz.nlfnorm.quasar.entities.EacCode"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Auditor"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Partner"/>
 	 
  </session-factory>
 </hibernate-configuration>
