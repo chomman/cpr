@@ -23,14 +23,14 @@ public class LoginListener implements ApplicationListener<ApplicationEvent> {
     public void onApplicationEvent(ApplicationEvent evt) {
         if (evt instanceof InteractiveAuthenticationSuccessEvent) {
             InteractiveAuthenticationSuccessEvent authenticationSuccessEvent = (InteractiveAuthenticationSuccessEvent)evt;
-            User user = (User)authenticationSuccessEvent.getAuthentication().getPrincipal();
-            String ipAddress = ((WebAuthenticationDetails)authenticationSuccessEvent.getAuthentication().getDetails()).getRemoteAddress();
-            String sessionId = ((WebAuthenticationDetails)authenticationSuccessEvent.getAuthentication().getDetails()).getSessionId();
+            final User user = (User)authenticationSuccessEvent.getAuthentication().getPrincipal();
+            final String ipAddress = ((WebAuthenticationDetails)authenticationSuccessEvent.getAuthentication().getDetails()).getRemoteAddress();
+            final String sessionId = ((WebAuthenticationDetails)authenticationSuccessEvent.getAuthentication().getDetails()).getSessionId();
             userLogService.saveSuccessLogin(user, ipAddress, authenticationSuccessEvent.getTimestamp(), sessionId);
         } else if (evt instanceof AuthenticationFailureBadCredentialsEvent) {
             AuthenticationFailureBadCredentialsEvent event = (AuthenticationFailureBadCredentialsEvent)evt;
-            String username = (String)event.getAuthentication().getPrincipal();
-            String ipAddress = ((WebAuthenticationDetails)event.getAuthentication().getDetails()).getRemoteAddress();
+            final String username = (String)event.getAuthentication().getPrincipal();
+            final String ipAddress = ((WebAuthenticationDetails)event.getAuthentication().getDetails()).getRemoteAddress();
             userLogService.saveFailureLogin(username, ipAddress, event.getTimestamp());
         }
     }

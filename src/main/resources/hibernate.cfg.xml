@@ -45,7 +45,9 @@
 	<mapping class="cz.nlfnorm.entities.EmailTemplate"/>
 	
 	
-	
+	<!-- QUASAR -->
+	<mapping class="cz.nlfnorm.quasar.entities.NandoCode"/>
+	<mapping class="cz.nlfnorm.quasar.entities.EacCode"/>
 	 
  </session-factory>
 </hibernate-configuration>
