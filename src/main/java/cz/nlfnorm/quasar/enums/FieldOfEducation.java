@@ -12,13 +12,13 @@ public enum FieldOfEducation {
 	NUCLEAR_SCIENCE("fieldOfEducation.physics", true, true),
 	BIOLOGY("fieldOfEducation.biology", false, true),
 	MICROBIOLOGY("fieldOfEducation.microbiology", false, true),
-	CHE("fieldOfEducation.microbiology", false, true),
+	CHEMISTRY("fieldOfEducation.microbiology", false, true);
 	
 	private String code;
 	private boolean activeMedicalDevives;
 	private boolean nonActiveMedicalDevices;
 	
-	private FieldOfEducation(int id, String code, boolean active, boolean nonActive){
+	private FieldOfEducation(String code, boolean active, boolean nonActive){
 		this.code = code;
 		this.activeMedicalDevives = active;
 		this.nonActiveMedicalDevices = nonActive;
