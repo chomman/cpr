@@ -12,6 +12,12 @@ import javax.persistence.ManyToOne;
 
 import cz.nlfnorm.quasar.enums.EductionLevel;
 
+/**
+ * Entity of Quality system assesmet reporting system, represents education of auditor
+ * 
+ * @author Peter Jurkovic
+ * @date Jun 9, 2014
+ */
 @Embeddable
 public class AuditorEducation implements Serializable{
 	

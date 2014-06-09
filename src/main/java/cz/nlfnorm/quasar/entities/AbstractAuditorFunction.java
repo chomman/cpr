@@ -3,18 +3,13 @@ package cz.nlfnorm.quasar.entities;
 import java.io.Serializable;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.SequenceGenerator;
 
 import org.hibernate.validator.constraints.Length;
 
 import cz.nlfnorm.dao.impl.IdentifiableByLong;
 
 @MappedSuperclass
-@SequenceGenerator(name = "quasar_auditor_function_id_seq", sequenceName = "quasar_auditor_function_id_seq", initialValue = 1, allocationSize =1)
 public abstract class AbstractAuditorFunction implements Serializable, IdentifiableByLong{
 	
 	private static final long serialVersionUID = 628057871816576949L;
@@ -36,9 +31,8 @@ public abstract class AbstractAuditorFunction implements Serializable, Identifia
 
 	
 		
-	@Id
+
 	@Override
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_auditor_function_id_seq")
 	public void setId(Long id) {
 		this.id = id;
 	}

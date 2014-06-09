@@ -1,9 +1,7 @@
 package cz.nlfnorm.quasar.entities;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -16,8 +14,8 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
@@ -70,11 +68,14 @@ public class Auditor extends User {
 	
 	private AuditingTraining auditingTraining;
 	
-	private Set<SpecialTraining> specialTrainings;
+	/* Decision on the Specialist’s branch assignation  */
+	private boolean activeMedicalDeviceSpecialist;
+	private boolean nonActiveMedicalDeviceSpecialist;
+	private boolean inVitroDiagnosticSpecialist;
+	
 	
 	public Auditor(){
 		this.education = new HashMap<>();
-		this.specialTrainings = new HashSet<>();
 		this.auditingTraining = new AuditingTraining();
 	}
 	 
@@ -239,17 +240,8 @@ public class Auditor extends User {
 		this.other = other;
 	}
 	
-	
-	@OneToMany(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	public Set<SpecialTraining> getSpecialTrainings() {
-		return specialTrainings;
-	}
-
-	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
-		this.specialTrainings = specialTrainings;
-	}
-	
-	
+		
+	@PrimaryKeyJoinColumn
 	@OneToOne(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public AuditingTraining getAuditingTraining() {
 		return auditingTraining;
@@ -258,7 +250,37 @@ public class Auditor extends User {
 	public void setAuditingTraining(AuditingTraining auditingTraining) {
 		this.auditingTraining = auditingTraining;
 	}
+	
+	@Column(name = "is_specialist_for_active_mdd")
+	public boolean isActiveMedicalDeviceSpecialist() {
+		return activeMedicalDeviceSpecialist;
+	}
 
+	public void setActiveMedicalDeviceSpecialist(
+			boolean activeMedicalDeviceSpecialist) {
+		this.activeMedicalDeviceSpecialist = activeMedicalDeviceSpecialist;
+	}
+	
+	@Column(name = "is_specialist_for_non_active_mdd")
+	public boolean isNonActiveMedicalDeviceSpecialist() {
+		return nonActiveMedicalDeviceSpecialist;
+	}
+
+	public void setNonActiveMedicalDeviceSpecialist(
+			boolean nonActiveMedicalDeviceSpecialist) {
+		this.nonActiveMedicalDeviceSpecialist = nonActiveMedicalDeviceSpecialist;
+	}
+	
+	@Column(name = "is_specialist_for_invitro_diagnostic")
+	public boolean isInVitroDiagnosticSpecialist() {
+		return inVitroDiagnosticSpecialist;
+	}
+
+	public void setInVitroDiagnosticSpecialist(boolean inVitroDiagnosticSpecialist) {
+		this.inVitroDiagnosticSpecialist = inVitroDiagnosticSpecialist;
+	}
+	
+		
 	/**
 	 * Returns education of person for active Medical devices;
 	 * @return education for active MD
@@ -305,6 +327,12 @@ public class Auditor extends User {
 				scienceResearchAuthority;
 	}
 	
+	
+	@Transient
+	public boolean areFormalAndLegalReqiurementValid(){
+		return isEcrCardSigned() && isConfidentialitySigned() && isCvDelivered();
+	}
+
 	
 	
 	
