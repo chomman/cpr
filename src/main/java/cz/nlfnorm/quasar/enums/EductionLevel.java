@@ -20,11 +20,12 @@ import java.util.List;
 public enum EductionLevel {
 	
 	BASIC(1, 0, "educationLevel.basicSchool"), 
-	SECONDARY(2, 0,"educationLevel.secondardySchool"),
-	BACHELORS(3, 0,"educationLevel.bachelorsDegree"),
-	MASTERS(4, 1,"educationLevel.mastersDegree"),
-	POSTGRADUATE(5, 2,"educationLevel.postgraduate"),
-	DOC_PROF(6, 3,"educationLevel.docProf");
+	HIGH(2, 0,"educationLevel.highSchool"),
+	BACHELOR(3, 0,"educationLevel.bachelor"),
+	MASTER(4, 1,"educationLevel.master"),
+	PGS(5, 2,"educationLevel.postgraduate"),
+	PHD(6, 3,"educationLevel.phd"),
+	PROF(7, 3,"educationLevel.prof");
 
 	private int id;
 	private int yeasSubstitution;

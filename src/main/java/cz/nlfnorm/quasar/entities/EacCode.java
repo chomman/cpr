@@ -27,6 +27,7 @@ public class EacCode extends BaseEntity {
 	private static final long serialVersionUID = 1385780507346969333L;
 	
 	private String name;
+	private boolean forQsAuditor;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_eac_code_id_seq")
@@ -44,7 +45,17 @@ public class EacCode extends BaseEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Column(name = "is_for_qs_auditor", length = 120)
+	public boolean isForQsAuditor() {
+		return forQsAuditor;
+	}
 
+	public void setForQsAuditor(boolean forQsAuditor) {
+		this.forQsAuditor = forQsAuditor;
+	}
+
+	
 
 	
 	

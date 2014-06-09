@@ -1,13 +1,25 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
@@ -27,6 +39,9 @@ public class Auditor extends User {
 
 	private static final long serialVersionUID = 895647134385058163L;
 	
+	private static final String EDUCATION_ACTIVE_MD = "1";
+	private static final String EDUCATION_NON_ACTIVE_MD = "2";
+	
 	/* Personal data */
 	private Integer itcId;
 	private Country countery;
@@ -39,10 +54,28 @@ public class Auditor extends User {
 	
 	private LocalDateTime reassessmentDate;
 	
+	private Map<String, AuditorEducation> education;
+	
+	/* Work experience (number of years):  */
+	private int medicalDevicesIndustry;
+	private int pharmeceuticalIndustry;
+	private int relevantTestingLaboratory;
+	private int notifiedBody;
+	private int mscbForIso13485;
+	private int medicalInstitution;
+	private int hospital;
+	private int electronicIt;
+	private int scienceResearchAuthority;
+	private int other;
+	
+	private AuditingTraining auditingTraining;
+	
+	private Set<SpecialTraining> specialTrainings;
+	
 	public Auditor(){
-		ecrCardSigned = false;
-		confidentialitySigned = false;
-		cvDelivered = false;
+		this.education = new HashMap<>();
+		this.specialTrainings = new HashSet<>();
+		this.auditingTraining = new AuditingTraining();
 	}
 	 
 	@Column(name = "personal_itc_id")
@@ -103,6 +136,173 @@ public class Auditor extends User {
 
 	public void setReassessmentDate(LocalDateTime reassessmentDate) {
 		this.reassessmentDate = reassessmentDate;
+	}
+	
+	@ElementCollection
+	@CollectionTable(name = "quasar_auditor_has_education")
+	@MapKeyJoinColumn(name = "type")
+	public Map<String, AuditorEducation> getEducation() {
+		return education;
+	}
+
+	public void setEducation(Map<String, AuditorEducation> education) {
+		this.education = education;
+	}
+	
+	@Column(name = "exp_medical_devices_inndustry")	
+	public int getMedicalDevicesIndustry() {
+		return medicalDevicesIndustry;
+	}
+
+	public void setMedicalDevicesIndustry(int medicalDevicesIndustry) {
+		this.medicalDevicesIndustry = medicalDevicesIndustry;
+	}
+
+	@Column(name = "exp_pharmeceutical_industry")
+	public int getPharmeceuticalIndustry() {
+		return pharmeceuticalIndustry;
+	}
+
+	public void setPharmeceuticalIndustry(int pharmeceuticalIndustry) {
+		this.pharmeceuticalIndustry = pharmeceuticalIndustry;
+	}
+	
+	@Column(name = "exp_relevant_testing_laboratory")
+	public int getRelevantTestingLaboratory() {
+		return relevantTestingLaboratory;
+	}
+
+	public void setRelevantTestingLaboratory(int relevantTestingLaboratory) {
+		this.relevantTestingLaboratory = relevantTestingLaboratory;
+	}
+	
+	@Column(name = "exp_notified_body")
+	public int getNotifiedBody() {
+		return notifiedBody;
+	}
+
+	public void setNotifiedBody(int notifiedBody) {
+		this.notifiedBody = notifiedBody;
+	}
+	
+	@Column(name = "exp_mscb_for_iso13485")
+	public int getMscbForIso13485() {
+		return mscbForIso13485;
+	}
+
+	public void setMscbForIso13485(int mscbForIso13485) {
+		this.mscbForIso13485 = mscbForIso13485;
+	}
+	
+	@Column(name = "exp_medical_institution")
+	public int getMedicalInstitution() {
+		return medicalInstitution;
+	}
+
+	public void setMedicalInstitution(int medicalInstitution) {
+		this.medicalInstitution = medicalInstitution;
+	}
+
+	@Column(name = "exp_hospital")
+	public int getHospital() {
+		return hospital;
+	}
+
+	public void setHospital(int hospital) {
+		this.hospital = hospital;
+	}
+
+	@Column(name = "exp_electronic_it")
+	public int getElectronicIt() {
+		return electronicIt;
+	}
+
+	public void setElectronicIt(int electronicIt) {
+		this.electronicIt = electronicIt;
+	}
+	
+	@Column(name = "exp_science_research_authority")
+	public int getScienceResearchAuthority() {
+		return scienceResearchAuthority;
+	}
+
+	public void setScienceResearchAuthority(int scienceResearchAuthority) {
+		this.scienceResearchAuthority = scienceResearchAuthority;
+	}
+	
+	@Column(name = "exp_other")
+	public int getOther() {
+		return other;
+	}
+
+	public void setOther(int other) {
+		this.other = other;
+	}
+	
+	
+	@OneToMany(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<SpecialTraining> getSpecialTrainings() {
+		return specialTrainings;
+	}
+
+	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
+		this.specialTrainings = specialTrainings;
+	}
+	
+	
+	@OneToOne(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public AuditingTraining getAuditingTraining() {
+		return auditingTraining;
+	}
+
+	public void setAuditingTraining(AuditingTraining auditingTraining) {
+		this.auditingTraining = auditingTraining;
+	}
+
+	/**
+	 * Returns education of person for active Medical devices;
+	 * @return education for active MD
+	 */
+	@Transient
+	public AuditorEducation getForActiveMedicalDevice(){
+		return education.get(EDUCATION_ACTIVE_MD);
+	}
+	
+	
+	/**
+	 * Returns education of person for non-active Medical devices;
+	 * @return education for non-active MD
+	 */
+	@Transient
+	public AuditorEducation getForNonActiveMedicalDevice(){
+		return education.get(EDUCATION_NON_ACTIVE_MD);
+	}
+	
+	/**
+	 * Returs total work experience in years 
+	 * @return total work experience in years
+	 */
+	
+	@Transient
+	public int getTotalWorkExperience(){
+		return getMedicalDevicesWorkExperience() + other;	
+	}
+	
+	/**
+	 * Returs relevant work experience in Medical Device sector 
+	 * @return int MD - relevat experience in years
+	 */
+	@Transient
+	public int getMedicalDevicesWorkExperience(){
+		return medicalDevicesIndustry +
+				pharmeceuticalIndustry +
+				relevantTestingLaboratory +
+				notifiedBody + 
+				mscbForIso13485 +
+				medicalInstitution + 
+				hospital +
+				electronicIt +
+				scienceResearchAuthority;
 	}
 	
 	

@@ -49,7 +49,13 @@
 	<mapping class="cz.nlfnorm.quasar.entities.NandoCode"/>
 	<mapping class="cz.nlfnorm.quasar.entities.EacCode"/>
 	<mapping class="cz.nlfnorm.quasar.entities.Auditor"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorEducation"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditingTraining"/>
 	<mapping class="cz.nlfnorm.quasar.entities.Partner"/>
+	<mapping class="cz.nlfnorm.quasar.entities.FieldOfEducation"/>
+	<mapping class="cz.nlfnorm.quasar.entities.SpecialTraining"/>
+	
+	
 	 
  </session-factory>
 </hibernate-configuration>

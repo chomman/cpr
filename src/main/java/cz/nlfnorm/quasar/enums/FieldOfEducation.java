@@ -12,7 +12,15 @@ public enum FieldOfEducation {
 	NUCLEAR_SCIENCE("fieldOfEducation.physics", true, true),
 	BIOLOGY("fieldOfEducation.biology", false, true),
 	MICROBIOLOGY("fieldOfEducation.microbiology", false, true),
-	CHEMISTRY("fieldOfEducation.microbiology", false, true);
+	CHEMISTRY("fieldOfEducation.chemistry", false, true),
+	BIOCHEMISTRY("fieldOfEducation.biochemistry", false, true),
+	POLY_CHEMISTRY("fieldOfEducation.polychemistry", false, true),
+	TEX_TECHNOLOGY("fieldOfEducation.textileTechnlogy", false, true),
+	MEDICAL_ENG("fieldOfEducation.medicalEng", false, true),
+	BIOMEDICAL_ENG("fieldOfEducation.biomedicalEng", false, true),
+	MECHANICAL_ENG("fieldOfEducation.mechanicalEng", false, true),
+	HUMAN_PHYSIOLOGY("fieldOfEducation.humanPhysilogy", false, true),
+	MEDICINE("fieldOfEducation.medicinye", false, true);
 	
 	private String code;
 	private boolean activeMedicalDevives;
