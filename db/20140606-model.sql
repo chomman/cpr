@@ -18,22 +18,29 @@ begin;
 	CREATE SEQUENCE quasar_partner_id_seq
 	  INCREMENT 1
 	  MINVALUE 1
-	  MAXVALUE 10000
+	  MAXVALUE 9223372036854775807
 	  START 1
 	  CACHE 1;
 	  
 	CREATE SEQUENCE quasar_field_of_education_id_seq
 	  INCREMENT 1
 	  MINVALUE 1
-	  MAXVALUE 1000000
+	  MAXVALUE 9223372036854775807
 	  START 1
 	  CACHE 1;
 	  
-	  CREATE SEQUENCE quasar_special_training_id_seq
+	 CREATE SEQUENCE quasar_special_training_id_seq
 	  INCREMENT 1
 	  MINVALUE 1
-	  MAXVALUE 1000000
+	  MAXVALUE 9223372036854775807
 	  START 1
+	  CACHE 1;
+	  
+	  CREATE SEQUENCE quasar_auditor_function_id_seq
+	  INCREMENT 1
+	  MINVALUE 1
+	  MAXVALUE 9223372036854775807
+	  START 221
 	  CACHE 1;
 
 end;
