@@ -1,7 +1,6 @@
 package cz.nlfnorm.dao.impl;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +13,7 @@ import org.springframework.stereotype.Repository;
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.UserDao;
-import cz.nlfnorm.dto.UserPage;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.enums.UserOrder;
@@ -197,26 +196,25 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public UserPage getUserPage(int currentPage, Map<String, Object> criteria) {
-		StringBuilder hql = new StringBuilder("from User u inner join u.authoritySet a ");
+	public PageDto getUserPage(int currentPage, Map<String, Object> criteria) {
+		StringBuilder hql = new StringBuilder("from User u left join u.authoritySet a ");
 		hql.append(prepareHqlForQuery(criteria));
-		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(u.id) " + hql.toString());
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
-		UserPage items = new UserPage();
+		PageDto items = new PageDto();
 		Long countOfItems = (Long)hqlQuery.uniqueResult();
 		if(countOfItems == null){
 			items.setCount(0l);
 		}else{
 			items.setCount(countOfItems);
 			if(items.getCount() > 0){
-				hql.append(" group by u.id ");
 				appendOrderBy(criteria, hql);
-				hqlQuery = sessionFactory.getCurrentSession().createQuery("select type(u) " + hql.toString());
+				hqlQuery = sessionFactory.getCurrentSession().createQuery("select distinct u " + hql.toString());
 				prepareHqlQueryParams(hqlQuery, criteria); 
 				hqlQuery.setCacheable(false);
 				hqlQuery.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( currentPage -1));
 				hqlQuery.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
-				items.setUsers(Collections.checkedList(hqlQuery.list(), User.class));
+				items.setItems(hqlQuery.list());
 			}
 		}
 		return items;

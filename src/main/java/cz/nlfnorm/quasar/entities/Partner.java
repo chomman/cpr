@@ -13,7 +13,7 @@ import javax.persistence.Table;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
-@Table(name="partner")
+@Table(name="quasar_partner")
 @SequenceGenerator(name = "quasar_partner_id_seq", sequenceName = "quasar_partner_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Partner extends BaseEntity {

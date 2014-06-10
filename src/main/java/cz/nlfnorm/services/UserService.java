@@ -3,7 +3,7 @@ package cz.nlfnorm.services;
 import java.util.List;
 import java.util.Map;
 
-import cz.nlfnorm.dto.UserPage;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 
@@ -41,7 +41,7 @@ public interface UserService {
 	
 	public List<Authority> getAllAuthorities();
 	
-	UserPage getUserPage(int pageNumber, Map<String, Object> criteria);
+	PageDto getUserPage(int pageNumber, Map<String, Object> criteria);
 		
 	void createOrUpdateUser(User user);
 	

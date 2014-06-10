@@ -19,7 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.AuthorityDao;
 import cz.nlfnorm.dao.UserDao;
-import cz.nlfnorm.dto.UserPage;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.entities.EmailTemplate;
@@ -132,7 +132,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public UserPage getUserPage(int pageNumber, Map<String, Object> criteria) {
+	public PageDto getUserPage(int pageNumber, Map<String, Object> criteria) {
 		return userDao.getUserPage(pageNumber, validateCriteria(criteria));
 	}
 

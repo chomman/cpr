@@ -29,7 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import cz.nlfnorm.dto.UserPage;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.EmailTemplate;
 import cz.nlfnorm.entities.User;
@@ -131,7 +131,7 @@ public class UserController extends AdminSupportController {
 		Map<String, Object> model = new HashMap<String, Object>();
 		final int currentPage = RequestUtils.getPageNumber(request);
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		final UserPage page = userService.getUserPage(currentPage, params);
+		final PageDto page = userService.getUserPage(currentPage, params);
 		if(page.getCount() > 0){
 			model.put("paginationLinks", getPaginationItems(request,params, page.getCount(), "/admin/users"));
 			model.put("users", page.getItems());

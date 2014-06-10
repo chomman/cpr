@@ -3,7 +3,7 @@ package cz.nlfnorm.dao;
 import java.util.List;
 import java.util.Map;
 
-import cz.nlfnorm.dto.UserPage;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 
@@ -53,7 +53,7 @@ public interface UserDao extends BaseDao<User, Long>{
 	 * @param int cislo stranky
 	 * @param Map<String, Object> kriteria
 	 */
-	UserPage getUserPage(int pageNumber, Map<String, Object> criteria);
+	PageDto getUserPage(int pageNumber, Map<String, Object> criteria);
 	
 	
 	/**

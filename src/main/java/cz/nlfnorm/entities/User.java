@@ -46,8 +46,8 @@ import cz.nlfnorm.enums.OnlinePublication;
  *
  */
 @Entity
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "users")
+@Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "users_id_seq", sequenceName = "users_id_seq", initialValue = 1, allocationSize =1)
 @TypeDefs( { @TypeDef(name = "jodaDateTime", typeClass = PersistentDateTime.class) })
 public class User extends AbstractEntity implements UserDetails{

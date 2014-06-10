@@ -12,11 +12,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import cz.nlfnorm.dao.impl.IdentifiableByLong;
 
 /**
  *  Entity of Quality system assesmet reporting system, represents audits and training.
@@ -27,10 +30,12 @@ import org.hibernate.annotations.Parameter;
 @Entity
 @GenericGenerator(name = "users_id_seq", strategy = "foreign", parameters = {@Parameter(name= "property", value = "auditor")})
 @Table(name = "quasar_auditor_has_auditing_and_training")
-public class AuditingTraining implements Serializable{
+public class AuditingTraining implements Serializable, IdentifiableByLong{
 	
 	private static final long serialVersionUID = 2164228613780986562L;
 
+	private Long id;
+	
 	private Auditor auditor;
 	
 	/* Training including Auditing experience */
@@ -41,9 +46,7 @@ public class AuditingTraining implements Serializable{
 	/**
 	 * Aproved auditor for ISO 13485?
 	 */
-	private boolean aprovedForIso13485;
-	
-	
+	private boolean aprovedForIso13485;	
 	/**
 	 * Training ISO 9001 (hours)
 	 */
@@ -64,7 +67,6 @@ public class AuditingTraining implements Serializable{
 	 * Training NB 1023 procedures (hours)
 	 */
 	private int nb1023Procedures;
-	
 	/**
 	 * Total count of user audits
 	 */
@@ -76,9 +78,20 @@ public class AuditingTraining implements Serializable{
 	
 	private Set<SpecialTraining> specialTrainings = new HashSet<>();;
 	
+	
 	@Id
-	@OneToOne(fetch = FetchType.LAZY)
 	@GeneratedValue(generator = "users_id_seq")
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	
+	@PrimaryKeyJoinColumn
+	@OneToOne(fetch = FetchType.LAZY)
 	public Auditor getAuditor() {
 		return auditor;
 	}
@@ -186,5 +199,31 @@ public class AuditingTraining implements Serializable{
 	public void incrementTotalAudits(int count){
 		this.totalAudits += count;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AuditingTraining other = (AuditingTraining) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 	
 }
+

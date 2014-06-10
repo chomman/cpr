@@ -10,8 +10,6 @@ import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
@@ -34,7 +32,6 @@ import cz.nlfnorm.entities.User;
  */
 @Entity
 @Table(name = "quasar_auditor")
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Auditor extends User {
 
 	private static final long serialVersionUID = 895647134385058163L;
