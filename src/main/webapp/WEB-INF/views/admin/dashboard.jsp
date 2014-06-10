@@ -16,6 +16,8 @@
 			<h2><spring:message code="menu.dashboard" /></h2>
 		</div>
 		<ul id="speed-nav">
+			<c:set var="portalAdmin" value="${common.user.portalAdmin}" />
+			<c:if test="${portalAdmin}">
 			<li>
 				<a href="<c:url value="/admin/cpr" />" class="ico-cpr tt" title="<spring:message code="dashboard.cpr.title"/>">
 					<spring:message code="dashboard.cpr"/>
@@ -36,6 +38,8 @@
 					<spring:message code="menu.portal"/>
 				</a>
 			</li>
+			</c:if>
+			<c:if test="${common.user.superAdministrator}">
 			<li>
 				<a href="<c:url value="/admin/users" />" class="ico-user tt" title="<spring:message code="menu.users"/>" >
 					<spring:message code="dashboard.users"/>
@@ -46,6 +50,7 @@
 					<spring:message code="dashboard.settings"/>
 				</a>
 			</li>
+			</c:if>
 			<li>
 				<a href="<c:url value="/admin/help" />" class="ico-info tt" title="<spring:message code="dashboard.help.title"/>">
 					<spring:message code="dashboard.help"/>
@@ -62,7 +67,12 @@
 		 			<c:forEach items="${model.standards}" var="standard">
 						<div class="norm">
 			 				<span class="edit"><joda:format value="${standard.changed}" pattern="${common.dateTimeFormat}"/></span>
-			 				<a href="<c:url value="/admin/cpr/standard/edit/${standard.id}" />" class="blue-color link">${standard.standardId}</a>
+			 				<c:if test="${portalAdmin}">
+			 					<a href="<c:url value="/admin/cpr/standard/edit/${standard.id}" />" class="blue-color link">${standard.standardId}</a>
+			 				</c:if>
+			 				<c:if test="${not portalAdmin}">
+			 					<a style="display:inline-block;width:200px;" class="blue-color link">${standard.standardId}</a>
+			 				</c:if>
 			 				<span class="sname">${standard.czechName}</span>
 		 				</div>	
 		 			</c:forEach>

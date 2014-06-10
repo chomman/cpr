@@ -222,7 +222,7 @@ table.info .key{text-align:right;font-weight:bold;}
 
 /* HEADER */
 header{height: 58px;background: url(../img/header-bg.png) repeat-x;border-bottom:1px solid #fff;}
-#logo{color:#fb9340;display:block;width:250px;padding:10px 0 10px 30px;font-size:30px;}
+#logo{color:#fb9340;display:block;max-width:500px; padding:10px 0 10px 30px;font-size:30px;}
 #logo span{font-size:20px;color:#fff;margin-left:5px;}
 
 #logged-user{background:url(../img/header-user.png) repeat-x; height: 17px;position: absolute;right: 100px;padding:9px 20px;top:10px;color:#fff;font-size:12px;}

@@ -25,11 +25,22 @@
 		 	 
 		 	 
 		 	 <security:intercept-url pattern="/admin/login" access="permitAll"/>
-		 	 <security:intercept-url pattern="/admin/**" access="hasAnyRole('ROLE_ADMIN', 'ROLE_WEBMASTER', 'ROLE_SUPERADMIN')"/>
-		 	 <security:intercept-url pattern="/informacni-portal/profile" access="isAuthenticated()" />
-		 	 <security:intercept-url pattern="/informacni-portal/profile/**" access="isAuthenticated()" />
-		 	 <security:intercept-url pattern="/en/informacni-portal/profile" access="isAuthenticated()" />
-		 	 <security:intercept-url pattern="/en/informacni-portal/profile/**" access="isAuthenticated()" />
+		 	 <security:intercept-url pattern="/admin*" access="hasRole('ROLE_ADMIN')"/>
+		 	 <security:intercept-url pattern="/admin/cpr/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_PORTAL_ADMIN')"/>
+		 	 <security:intercept-url pattern="/admin/csn/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_PORTAL_ADMIN')"/>
+		 	 <security:intercept-url pattern="/admin/webpages/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_PORTAL_ADMIN')"/>
+		 	 
+		 	 <security:intercept-url pattern="/admin/user/add" access="hasRole('ROLE_SUPERADMIN')"/>
+		 	 <security:intercept-url pattern="/admin/users" access="hasRole('ROLE_SUPERADMIN')"/>
+		 	 <security:intercept-url pattern="/admin/settings/**" access="hasRole('ROLE_SUPERADMIN')"/>
+		 	 
+		 	 <security:intercept-url pattern="/admin/quasar/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_AUDITOR','ROLE_AUDITOR_ADMIN')"/>
+		 	 <security:intercept-url pattern="/admin/quasar/admin/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_AUDITOR_ADMIN')"/>
+		 	 
+		 	 <security:intercept-url pattern="/informacni-portal/profile" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_PORTAL_ADMIN','ROLE_PORTAL_USER')" />
+		 	 <security:intercept-url pattern="/informacni-portal/profile/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_PORTAL_ADMIN','ROLE_PORTAL_USER')" />
+		 	 <security:intercept-url pattern="/en/informacni-portal/profile" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_PORTAL_ADMIN','ROLE_PORTAL_USER')" />
+		 	 <security:intercept-url pattern="/en/informacni-portal/profile/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_PORTAL_ADMIN','ROLE_PORTAL_USER')" />
 		 	 <security:intercept-url pattern="/auth/**" access="isAuthenticated()" />
 		 	 
 		 	 <security:anonymous />
