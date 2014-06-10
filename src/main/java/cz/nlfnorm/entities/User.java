@@ -164,40 +164,49 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	@Transient
     public boolean isWebmaster() {
-        Authority authority = Authority.getInstance(Authority.ROLE_WEBMASTER);
-        if (getAuthoritySet().contains(authority)) {
-            return true;
-        }
-        return false;
+        return hasRole(Authority.ROLE_WEBMASTER);
     }
-	
 	
 	@Transient
     public boolean isAdministrator() {
-		if(isWebmaster()){
-			return true;
-		}
-        Authority authority = Authority.getInstance(Authority.ROLE_ADMIN);
-        if (getAuthoritySet().contains(authority)) {
-            return true;
-        }
-        return false;
+		return isSuperAdministrator() || hasRole(Authority.ROLE_ADMIN);
     }
 	
+	@Transient
+    public boolean isSuperAdministrator() {
+		return isWebmaster() || hasRole(Authority.ROLE_SUPERADMIN);
+    }
+	
+	@Transient
+    public boolean isQuasarAdmin() {
+		return isSuperAdministrator() || hasRole(Authority.ROLE_QUASAR_ADMIN);
+    }
+	
+	@Transient
+    public boolean isAuditor() {
+		if(isSuperAdministrator() || isQuasarAdmin()){
+			return true;
+		}
+		return hasRole(Authority.ROLE_AUDITOR);
+    }
+	
+	@Transient
+    public boolean isPortalAdmin() {
+		return isSuperAdministrator() || hasRole(Authority.ROLE_PORTAL_ADMIN);
+    }
 	
 	@Transient
     public boolean isPortalUser() {
-		if(isAdministrator() || isWebmaster()){
-			return true;
-		}
-        Authority authority = Authority.getInstance(Authority.ROLE_PORTAL_USER);
+		return isPortalAdmin() || hasRole(Authority.ROLE_PORTAL_USER);
+    }
+	
+	private boolean hasRole(final String code){
+		Authority authority = Authority.getInstance(code);
         if (getAuthoritySet().contains(authority)) {
             return true;
         }
         return false;
-    }
-	
-	
+	}
 	
 	public void clearAuthorities(){
 		authoritySet.clear();

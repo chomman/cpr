@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.entities;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
@@ -14,6 +15,7 @@ import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -67,6 +69,8 @@ public class Auditor extends User {
 	private int other;
 	
 	private AuditingTraining auditingTraining;
+	
+	private Set<QsAuditorScope> qsAuditorScope; 
 	
 	/* Decision on the Specialist’s branch assignation  */
 	private boolean activeMedicalDeviceSpecialist;
@@ -280,7 +284,17 @@ public class Auditor extends User {
 		this.inVitroDiagnosticSpecialist = inVitroDiagnosticSpecialist;
 	}
 	
-		
+	
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)
+	public Set<QsAuditorScope> getQsAuditorScope() {
+		return qsAuditorScope;
+	}
+
+	public void setQsAuditorScope(Set<QsAuditorScope> qsAuditorScope) {
+		this.qsAuditorScope = qsAuditorScope;
+	}
+
 	/**
 	 * Returns education of person for active Medical devices;
 	 * @return education for active MD

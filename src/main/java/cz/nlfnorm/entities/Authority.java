@@ -35,6 +35,11 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
     public static final String ROLE_PORTAL_USER = "ROLE_PORTAL_USER";
     public static final String ROLE_SUPERADMIN = "ROLE_SUPERADMIN";
     
+    public static final String ROLE_PORTAL_ADMIN = "ROLE_PORTAL_ADMIN";
+    
+    public static final String ROLE_AUDITOR = "ROLE_AUDITOR";
+    public static final String ROLE_QUASAR_ADMIN = "ROLE_AUDITOR_ADMIN";
+    
     private String name;
     private String shortDescription;
     private String longDescription;
@@ -148,7 +153,9 @@ public class Authority extends AbstractEntity implements GrantedAuthority {
         roles.add(ROLE_ADMIN);
         roles.add(ROLE_WEBMASTER);
         roles.add(ROLE_PORTAL_USER);
-        roles.add(ROLE_SUPERADMIN);
+        roles.add(ROLE_AUDITOR);
+        roles.add(ROLE_QUASAR_ADMIN);
+        roles.add(ROLE_PORTAL_ADMIN);
         return roles;
     }
 }

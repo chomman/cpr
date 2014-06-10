@@ -42,6 +42,10 @@ public class NandoCode extends BaseEntity{
 	private NandoCode parent;
 	private Integer order;
 	
+	private boolean forProductAssesorA;
+	private boolean forProductAssesorR;
+	private boolean forProductSpecialist;
+	
 	public NandoCode(){
 		this(null);
 	}
@@ -109,6 +113,33 @@ public class NandoCode extends BaseEntity{
 
 	public void setOrder(Integer order) {
 		this.order = order;
+	}
+	
+	@Column(name = "is_for_product_assesor_a")
+	public boolean isForProductAssesorA() {
+		return forProductAssesorA;
+	}
+
+	public void setForProductAssesorA(boolean forProductAssesorA) {
+		this.forProductAssesorA = forProductAssesorA;
+	}
+
+	@Column(name = "is_for_product_assesor_r")
+	public boolean isForProductAssesorR() {
+		return forProductAssesorR;
+	}
+
+	public void setForProductAssesorR(boolean forProductAssesorR) {
+		this.forProductAssesorR = forProductAssesorR;
+	}
+
+	@Column(name = "is_for_product_specialist")
+	public boolean isForProductSpecialist() {
+		return forProductSpecialist;
+	}
+
+	public void setForProductSpecialist(boolean forProductSpecialist) {
+		this.forProductSpecialist = forProductSpecialist;
 	}
 
 	private void registerInParentsChilds() {

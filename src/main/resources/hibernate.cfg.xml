@@ -54,6 +54,11 @@
 	<mapping class="cz.nlfnorm.quasar.entities.Partner"/>
 	<mapping class="cz.nlfnorm.quasar.entities.FieldOfEducation"/>
 	<mapping class="cz.nlfnorm.quasar.entities.SpecialTraining"/>
+	<mapping class="cz.nlfnorm.quasar.entities.QsAuditorScope"/>
+	<mapping class="cz.nlfnorm.quasar.entities.ProductAssesorAScope"/>
+	
+	
+	
 	
 	
 	 

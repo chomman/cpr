@@ -2,21 +2,24 @@ package cz.nlfnorm.quasar.entities;
 
 import java.io.Serializable;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 
 import org.hibernate.validator.constraints.Length;
 
 import cz.nlfnorm.dao.impl.IdentifiableByLong;
+import cz.nlfnorm.entities.NotifiedBody;
 
+@SuppressWarnings("serial")
 @MappedSuperclass
 public abstract class AbstractAuditorFunction implements Serializable, IdentifiableByLong{
 	
-	private static final long serialVersionUID = 628057871816576949L;
-
 	private Long id;
-	
-	@SuppressWarnings("unused")
+
 	private Auditor auditor;
 	
 	/**
@@ -29,7 +32,10 @@ public abstract class AbstractAuditorFunction implements Serializable, Identifia
 	 */
 	private String reasonForApproval;
 
-	
+	/**
+	 * If is NOT NULL, given NB approved for
+	 */
+	private NotifiedBody notifiedBody;
 		
 
 	@Override
@@ -37,13 +43,17 @@ public abstract class AbstractAuditorFunction implements Serializable, Identifia
 		this.id = id;
 	}
 
+	@Transient
 	@Override
 	public Long getId() {
 		return id;
 	}
 	
-	
-	public abstract Auditor getAuditor();
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "auditor_id")
+	public Auditor getAuditor(){
+		return auditor;
+	}
 		
 
 	public void setAuditor(Auditor auditor) {
@@ -67,6 +77,16 @@ public abstract class AbstractAuditorFunction implements Serializable, Identifia
 
 	public void setReasonForApproval(String reasonForApproval) {
 		this.reasonForApproval = reasonForApproval;
+	}
+
+	@ManyToOne(cascade = CascadeType.DETACH)
+	@JoinColumn(name = "notified_body_id")
+	public NotifiedBody getNotifiedBody() {
+		return notifiedBody;
+	}
+
+	public void setNotifiedBody(NotifiedBody notifiedBody) {
+		this.notifiedBody = notifiedBody;
 	}
 
 	@Override
