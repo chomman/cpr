@@ -6,35 +6,44 @@
 			${i.code}
 		</c:if>
 	</td>
-	<td class="pid">
+	<td class="w100 prod c">
 		<c:if test="${not empty i.parent }">
 			${i.code}
 		</c:if>
+	</td>		
+	<td>${i.specification}</td>
+	<td class="w50 c ${i.forProductAssesorA ? 'scope-yes' : 'scope-no'}">
+		${i.forProductAssesorA ? 'Yes' : 'No'}
+	</td>	
+	<td class="w50 c ${i.forProductAssesorR ? 'scope-yes' : 'scope-no'}">
+		${i.forProductAssesorR ? 'Yes' : 'No'}
+	</td>	
+	<td class="w50 c ${i.forProductSpecialist ? 'scope-yes' : 'scope-no'}">
+		${i.forProductSpecialist ? 'Yes' : 'No'}
+	</td>				
+	<td class="last-edit">
+		<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 	</td>
-	<td>
-		<webpage:price price="${i.priceCzk}" /> /
-		<webpage:price price="${i.priceEur}" isEuro="true" />
-	</td>			
 	<td class="w100">
 		<c:if test="${i.enabled}">
 			<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
-				<spring:message code="yes" />
+				Yes
 			</span>
 		</c:if>
 		<c:if test="${not i.enabled}">
 			<span class="published no tt" title="<spring:message code="published.no.title" />" >
-				<spring:message code="no" />
+				No
 			</span>
 		</c:if>
-	</td>				
+	</td>		
 	<td class="edit">
-		<a:adminurl href="/portal/product/${i.id}">
-			<spring:message code="form.edit" />
+		<a:adminurl href="/quasar/manage/nando-code/${i.id}">
+			<spring:message code="quasar.edit" />
 		</a:adminurl>
 	</td>
 	<td class="delete">
 			<a:adminurl href="/portal/product/delete/${i.id}" cssClass="confirm">
-				<spring:message code="form.delete" />
+				<spring:message code="quasar.delete" />
 			</a:adminurl>
 	</td>
 </tr>

@@ -10,12 +10,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.services.NandoCodeService;
+import cz.nlfnorm.quasar.web.editors.NandoCodePropertyEditor;
 
 
 /**
@@ -32,12 +37,18 @@ public class NandoCodeController extends QuasarSupportController {
 	
 	@Autowired
 	private NandoCodeService nandoCodeService;
+	@Autowired
+	private NandoCodePropertyEditor nandoCodePropertyEditor;
 	
 	public NandoCodeController(){
 		setTableItemsView("nando-codes-list");
 		setEditFormView("nando-code-edit");
 	}
 	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(NandoCode.class, this.nandoCodePropertyEditor);
+	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
 	public String showNandoCodes(ModelMap modelMap) {
@@ -49,31 +60,37 @@ public class NandoCodeController extends QuasarSupportController {
 	}
 	
 	@RequestMapping(value = FORM_MAPPING_URL, method = RequestMethod.GET)
-	public String showEditForm(ModelMap modelMap, HttpServletRequest request) {
+	public String showEditForm(ModelMap modelMap, HttpServletRequest request, @PathVariable Long codeId) throws ItemNotFoundException {
 		if(isSucceded(request)){
 			appendSuccessCreateParam(modelMap);
 		}
-		prepareModel(modelMap, new NandoCode());
+		NandoCode form = new NandoCode();
+		if(codeId != null){
+			form = nandoCodeService.getById(codeId);
+			validateNotNull(form, codeId);
+		}
+		prepareModel(modelMap, form);
 		return getEditFormView();
 	}
 	
 	@RequestMapping(value = FORM_MAPPING_URL, method = RequestMethod.POST)
-	public String processSubmit(ModelMap modelMap, @Valid @ModelAttribute("nandoCode") NandoCode form, BindingResult result){
+	public String processSubmit(ModelMap modelMap, @Valid @ModelAttribute("nandoCode") NandoCode form, BindingResult result) throws ItemNotFoundException{
 		
 		if(result.hasErrors()){
 			prepareModel(modelMap, form);
 			return getEditFormView();
 		}
 		final Long id = createOrUpdate(form);
-		return successDeleteRedirect(FORM_MAPPING_URL.replace("{codeId}", id+""));
+		return successUpdateRedirect(FORM_MAPPING_URL.replace("{codeId}", id+""));
 	}
 	
-	private Long createOrUpdate(NandoCode form){
+	private Long createOrUpdate(NandoCode form) throws ItemNotFoundException{
 		NandoCode nandoCode = null;
 		if(form.getId() == null){
 			nandoCode = new NandoCode();
 		}else{
 			nandoCode = nandoCodeService.getById(form.getId());
+			validateNotNull(nandoCode, form.getId());
 		}
 		nandoCode.setCode(form.getCode());
 		nandoCode.setEnabled(form.isEnabled());
@@ -98,5 +115,10 @@ public class NandoCodeController extends QuasarSupportController {
 		model.put("tab", 1);
 	}
 	
+	private void validateNotNull(final NandoCode form, final Long id) throws ItemNotFoundException{
+		if(form == null){
+			throw new ItemNotFoundException("NANDO code ID: " + id + " was not found");
+		}
+	}
 	
 }

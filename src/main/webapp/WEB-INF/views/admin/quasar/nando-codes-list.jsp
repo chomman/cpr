@@ -4,6 +4,7 @@
 <html>
 <head>
 	<title><spring:message code="nandoCodes" /></title>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
 </head>
 <body>
 	<div id="wrapper">
@@ -39,12 +40,15 @@
 								<th><spring:message code="nandoCode.productAssessorAScope" /></th>
 								<th><spring:message code="nandoCode.productAssessorRScope" /></th>
 								<th><spring:message code="nandoCode.productSpecialist" /></th>
+								<th>Changed</th>
+								<th>Activated</th>
 								<th><spring:message code="form.edit" /></th>
 								<th><spring:message code="form.delete" /></th>
 							</tr>
 						</thead>
 						<tbody>
 							<c:forEach items="${model.nandoCodes}" var="i">
+								<c:set var="i" value="${i}" scope="request" />
 							 	<jsp:include page="nando-code-list-item.jsp" />
 							 	<c:if test="${not empty i.children}">
 									<c:forEach items="${i.children}" var="i">

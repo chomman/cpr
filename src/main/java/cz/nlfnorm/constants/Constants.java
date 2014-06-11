@@ -11,6 +11,7 @@ public class Constants {
 	 * Example: http://localhost:8080/cpr/<strong>admin</strong>/
 	 */
 	public static final String ADMIN_PREFIX = "admin";
+	public static final String QUASAR_PREFIX = "quasar";
 	
 	
 	
