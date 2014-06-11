@@ -9,6 +9,7 @@ import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -27,6 +28,7 @@ public class EacCode extends BaseEntity {
 	private static final long serialVersionUID = 1385780507346969333L;
 	
 	private String name;
+	private String naceCode;
 	private boolean forQsAuditor;
 	
 	@Id
@@ -37,6 +39,7 @@ public class EacCode extends BaseEntity {
 	}
 	
 	@Override
+	@Pattern(regexp = "^eac\\s\\d{1,2}$", message = "{error.eacCode.code.invalid}")
 	@Column(length = 6, name = "code")
 	public String getCode() {
 		return super.getCode();
@@ -61,8 +64,16 @@ public class EacCode extends BaseEntity {
 		this.forQsAuditor = forQsAuditor;
 	}
 
-	
+	@Length(max = 100)
+	@Column(name = "nace_code", length = 100)
+	public String getNaceCode() {
+		return naceCode;
+	}
 
+	
+	public void setNaceCode(String naceCode) {
+		this.naceCode = naceCode;
+	}
 	
 	
 }
