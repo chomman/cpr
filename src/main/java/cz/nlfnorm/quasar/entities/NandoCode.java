@@ -17,6 +17,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.validator.constraints.Length;
@@ -36,8 +37,7 @@ public class NandoCode extends BaseEntity{
 	
 	private static final long serialVersionUID = 1388976314109073881L;
 	
-	private String specificationCzech;
-	private String specificationEnglish;
+	private String specification;
 	private Set<NandoCode> children;
 	private NandoCode parent;
 	private Integer order;
@@ -45,7 +45,7 @@ public class NandoCode extends BaseEntity{
 	private boolean forProductAssesorA;
 	private boolean forProductAssesorR;
 	private boolean forProductSpecialist;
-	
+
 	public NandoCode(){
 		this(null);
 	}
@@ -59,6 +59,13 @@ public class NandoCode extends BaseEntity{
 		}
 	}
 	
+	@Override
+	@Pattern(regexp = "^(MD|AIMD|MDS|IVD)\\s\\d{4}$", message = "{error.nandoCode.code.invalid}")
+	@Column(length = 9, name = "code")
+	public String getCode() {
+		return super.getCode();
+	}
+	
 	@Id
 	@Override
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_nando_code_id_seq")
@@ -67,22 +74,16 @@ public class NandoCode extends BaseEntity{
 	}
 	
 	@Length(max = 200, message = "{error.nandoCode.specification}")
-	@Column( name = "specification_czech", length = 200 )
-	public String getSpecificationCzech() {
-		return specificationCzech;
+	@Column( name = "specification", length = 200 )
+	public String getSpecification() {
+		return specification;
 	}
-	public void setSpecificationCzech(String specificationCzech) {
-		this.specificationCzech = specificationCzech;
+
+	public void setSpecification(String specification) {
+		this.specification = specification;
 	}
 	
-	@Length(max = 200, message = "{error.nandoCode.specification}")
-	@Column( name = "specification_english", length = 200 )
-	public String getSpecificationEnglish() {
-		return specificationEnglish;
-	}
-	public void setSpecificationEnglish(String specificationEnglish) {
-		this.specificationEnglish = specificationEnglish;
-	}
+	
 	
 	/**
 	 * Second level NANDO code
@@ -93,6 +94,8 @@ public class NandoCode extends BaseEntity{
 	public Set<NandoCode> getChildren() {
 		return children;
 	}
+	
+
 	public void setChildren(Set<NandoCode> children) {
 		this.children = children;
 	}

@@ -83,6 +83,12 @@
 		<type>java.util.Boolean</type>
 	</attribute>
 	<attribute>
+		<name>activeTab</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+		<type>java.util.Boolean</type>
+	</attribute>
+	<attribute>
 		<name>id</name>
 		<required>false</required>
 		<rtexprvalue>true</rtexprvalue>

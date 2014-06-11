@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.Query;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
@@ -91,4 +92,11 @@ public class BaseDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport
         
     }
 	
+	public Query createQuery(final StringBuilder hql){
+		return createQuery(hql.toString());
+	}
+	
+	public Query createQuery(final String hql){
+		return sessionFactory.getCurrentSession().createQuery(hql);
+	}
 }

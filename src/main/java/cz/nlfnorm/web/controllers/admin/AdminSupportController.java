@@ -26,10 +26,10 @@ public class AdminSupportController {
 	protected static final String SUCCESS_DELETE_PARAM = "successDelete";
     protected Logger logger = Logger.getLogger(getClass());
     
-    private String viewName;
-    private String tableItemsView;
-    private String editFormView;
-    private String successView;
+    protected String viewName;
+    protected String tableItemsView;
+    protected String editFormView;
+    protected String successView;
     
     
     
@@ -43,32 +43,34 @@ public class AdminSupportController {
     	logger.error(" ACCESS DENIED");
 	}
 
-   
-	public String getTableItemsView() {
-		return "/"+ Constants.ADMIN_PREFIX +"/"+ tableItemsView;
+    protected String getTableItemsView() {
+		return getViewDir() + tableItemsView;
 	}
-	public void setTableItemsView(String tableItemsView) {
+	protected void setTableItemsView(String tableItemsView) {
 		this.tableItemsView = tableItemsView;
 	}
-	public String getEditFormView() {
-		return "/"+ Constants.ADMIN_PREFIX +"/"+ editFormView;
+	protected String getEditFormView() {
+		return getViewDir() + editFormView;
 	}
-	public void setEditFormView(String editFormView) {
+	protected void setEditFormView(String editFormView) {
 		this.editFormView = editFormView;
 	}
-	public String getSuccessView() {
-		return "/"+ Constants.ADMIN_PREFIX +"/"+ successView;
+	protected String getSuccessView() {
+		return getViewDir() + successView;
 	}
-	public void setSuccessView(String successView) {
+	protected void setSuccessView(String successView) {
 		this.successView = successView;
 	}
-	public String getViewName() {
-		return "/"+ Constants.ADMIN_PREFIX +"/"+ viewName;
+	protected String getViewName() {
+		return getViewDir() + viewName;
 	}
 	public void setViewName(String viewName) {
 		this.viewName = viewName;
 	}
     
+	protected String getViewDir(){
+		return "/"+ Constants.ADMIN_PREFIX +"/";
+	}
 	
 	protected boolean isDeleted(HttpServletRequest request) {
 		return containsParam(request, SUCCESS_DELETE_PARAM);

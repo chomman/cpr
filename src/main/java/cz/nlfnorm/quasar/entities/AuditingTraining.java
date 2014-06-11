@@ -1,16 +1,12 @@
 package cz.nlfnorm.quasar.entities;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -75,8 +71,6 @@ public class AuditingTraining implements Serializable, IdentifiableByLong{
 	 * Sum of audits in days
 	 */
 	private int totalAuditdays;
-	
-	private Set<SpecialTraining> specialTrainings = new HashSet<>();;
 	
 	
 	@Id
@@ -181,14 +175,6 @@ public class AuditingTraining implements Serializable, IdentifiableByLong{
 		this.totalAuditdays = totalAuditdays;
 	}
 
-	@OneToMany(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	public Set<SpecialTraining> getSpecialTrainings() {
-		return specialTrainings;
-	}
-
-	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
-		this.specialTrainings = specialTrainings;
-	}
 	
 	@Transient
 	public void incrementAuditDays(int days){

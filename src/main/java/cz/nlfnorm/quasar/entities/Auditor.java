@@ -1,6 +1,7 @@
 package cz.nlfnorm.quasar.entities;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -34,6 +35,10 @@ import cz.nlfnorm.entities.User;
 @Table(name = "quasar_auditor")
 public class Auditor extends User {
 
+	public final static int TYPE_PRODUCT_ASSESSOR_A = 1;
+	public final static int TYPE_PRODUCT_ASSESSOR_R = 2;
+	public final static int TYPE_PRODUCT_SPECIALIST = 3;
+	
 	private static final long serialVersionUID = 895647134385058163L;
 	
 	private static final String EDUCATION_ACTIVE_MD = "1";
@@ -66,7 +71,7 @@ public class Auditor extends User {
 	private int other;
 	
 	private AuditingTraining auditingTraining;
-	
+	private Set<SpecialTraining> specialTrainings;
 	private Set<QsAuditorScope> qsAuditorScope; 
 	
 	/* Decision on the Specialist’s branch assignation  */
@@ -78,6 +83,7 @@ public class Auditor extends User {
 	public Auditor(){
 		this.education = new HashMap<>();
 		this.auditingTraining = new AuditingTraining();
+		this.specialTrainings = new HashSet<>();
 	}
 	 
 	@Column(name = "personal_itc_id")
@@ -282,7 +288,6 @@ public class Auditor extends User {
 	}
 	
 	
-	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)
 	public Set<QsAuditorScope> getQsAuditorScope() {
 		return qsAuditorScope;
@@ -291,6 +296,16 @@ public class Auditor extends User {
 	public void setQsAuditorScope(Set<QsAuditorScope> qsAuditorScope) {
 		this.qsAuditorScope = qsAuditorScope;
 	}
+	
+	@OneToMany(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<SpecialTraining> getSpecialTrainings() {
+		return specialTrainings;
+	}
+
+	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
+		this.specialTrainings = specialTrainings;
+	}
+	
 
 	/**
 	 * Returns education of person for active Medical devices;

@@ -36,6 +36,12 @@ public class EacCode extends BaseEntity {
 		return super.getId();
 	}
 	
+	@Override
+	@Column(length = 6, name = "code")
+	public String getCode() {
+		return super.getCode();
+	}
+	
 	@Length(message = "{error.eacCode.name}", max = 120)
 	@Column(name = "name", length = 120)
 	public String getName() {

@@ -46,7 +46,7 @@
 				<li><a href="<c:url value="/admin/portal/orders" />" class="portal"><spring:message code="menu.portal"/></a></li>
 			</c:if>
 			<c:if test="${common.user.auditor}">
-				<li><a href="<c:url value="/admin/quasar" />" class="quasar">QUASAR</a></li>
+				<li><a href="<c:url value="/admin/quasar/dashboard" />" class="quasar">QUASAR</a></li>
 			</c:if>
 			<c:if test="${common.user.superAdministrator}">
 				<li><a href="<c:url value="/admin/users" />" class="user"><spring:message code="menu.users"/></a></li>
