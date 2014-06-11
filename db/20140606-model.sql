@@ -5,7 +5,7 @@ begin;
 	  INCREMENT 1
 	  MINVALUE 1
 	  MAXVALUE 100000
-	  START 1
+	  START 100
 	  CACHE 1;
 	  
 	CREATE SEQUENCE quasar_eac_code_id_seq

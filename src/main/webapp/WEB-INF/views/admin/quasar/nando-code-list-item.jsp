@@ -41,9 +41,4 @@
 			<spring:message code="quasar.edit" />
 		</a:adminurl>
 	</td>
-	<td class="delete">
-			<a:adminurl href="/portal/product/delete/${i.id}" cssClass="confirm">
-				<spring:message code="quasar.delete" />
-			</a:adminurl>
-	</td>
 </tr>

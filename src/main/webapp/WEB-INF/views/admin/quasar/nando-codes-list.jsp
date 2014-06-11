@@ -42,8 +42,7 @@
 								<th><spring:message code="nandoCode.productSpecialist" /></th>
 								<th>Changed</th>
 								<th>Activated</th>
-								<th><spring:message code="form.edit" /></th>
-								<th><spring:message code="form.delete" /></th>
+								<th>&nbsp;</th> 
 							</tr>
 						</thead>
 						<tbody>

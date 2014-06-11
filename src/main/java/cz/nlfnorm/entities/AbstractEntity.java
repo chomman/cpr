@@ -3,6 +3,7 @@ package cz.nlfnorm.entities;
 import java.io.Serializable;
 
 import javax.persistence.Column;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -152,7 +153,7 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     * 
     * @return zakladatel
     */
-   @ManyToOne
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "id_user_created_by")
    public User getCreatedBy() {
        return createdBy;
@@ -173,7 +174,7 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     * 
     * @return autor poslednej zmeny
     */
-   @ManyToOne
+   @ManyToOne(fetch = FetchType.LAZY)
    @JoinColumn(name = "id_user_changed_by")
    public User getChangedBy() {
        return changedBy;
