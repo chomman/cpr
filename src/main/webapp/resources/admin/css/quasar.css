@@ -1,2 +1,7 @@
 .scope-yes{background: #E8FFEA;}
 .scope-no{background: #FFF7F7;}
+
+tr.is-first-level,
+tr.is-first-level.odd{background-color:#E8FAFF;}
+.is-first-level td{padding:4px 8px;}
+.is-first-level td.code{font-weight: bold;}

@@ -52,6 +52,7 @@
 							 	<jsp:include page="nando-code-list-item.jsp" />
 							 	<c:if test="${not empty i.children}">
 									<c:forEach items="${i.children}" var="i">
+										<c:set var="i" value="${i}" scope="request" />
 										<jsp:include page="nando-code-list-item.jsp" />		
 									</c:forEach> 		
 							 	</c:if>

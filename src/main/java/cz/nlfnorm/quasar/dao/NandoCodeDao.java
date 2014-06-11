@@ -23,4 +23,6 @@ public interface NandoCodeDao extends BaseDao<NandoCode, Long>{
 	List<NandoCode> getAllEnabled();
 	
 	NandoCode getByNandoCode(String code);
+	
+	int getNextOrderInNode(Long nodeId);
 }

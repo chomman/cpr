@@ -1,12 +1,12 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<tr ${i.enabled ? '' : 'class="is-disabled"' }>
-	<td class="w100 prod c">
+<tr class="${i.enabled ? '' : 'is-disabled'} ${empty i.parent ? ' is-first-level' : ''}"> 
+	<td class="w100 code c">
 		<c:if test="${empty i.parent }">
 			${i.code}
 		</c:if>
 	</td>
-	<td class="w100 prod c">
+	<td class="w100 code c">
 		<c:if test="${not empty i.parent }">
 			${i.code}
 		</c:if>

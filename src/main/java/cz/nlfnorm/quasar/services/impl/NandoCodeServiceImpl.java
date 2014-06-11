@@ -88,6 +88,9 @@ public class NandoCodeServiceImpl implements NandoCodeService {
 		nandoCode.setChangedBy(user);
 		nandoCode.setChanged(new LocalDateTime());
 		if(nandoCode.getId() == null){
+			final Long nodeId = (nandoCode.getParent() == null ? null : nandoCode.getParent().getId());
+			int order = nandoCodeDao.getNextOrderInNode(nodeId);
+			nandoCode.setOrder(order);
 			create(nandoCode);
 		}else{
 			update(nandoCode);

@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -60,12 +61,12 @@ public class NandoCodeController extends QuasarSupportController {
 	}
 	
 	@RequestMapping(value = FORM_MAPPING_URL, method = RequestMethod.GET)
-	public String showEditForm(ModelMap modelMap, HttpServletRequest request, @PathVariable Long codeId) throws ItemNotFoundException {
+	public String showEditForm(ModelMap modelMap, HttpServletRequest request, @PathVariable long codeId) throws ItemNotFoundException {
 		if(isSucceded(request)){
 			appendSuccessCreateParam(modelMap);
 		}
 		NandoCode form = new NandoCode();
-		if(codeId != null){
+		if(codeId != 0){
 			form = nandoCodeService.getById(codeId);
 			validateNotNull(form, codeId);
 		}
@@ -92,9 +93,9 @@ public class NandoCodeController extends QuasarSupportController {
 			nandoCode = nandoCodeService.getById(form.getId());
 			validateNotNull(nandoCode, form.getId());
 		}
-		nandoCode.setCode(form.getCode());
+		nandoCode.setCode(StringUtils.trim(form.getCode()));
 		nandoCode.setEnabled(form.isEnabled());
-		nandoCode.setSpecification(form.getSpecification());
+		nandoCode.setSpecification(StringUtils.trim(form.getSpecification()));
 		nandoCode.setParent(form.getParent());
 		nandoCode.setForProductAssesorA(form.isForProductAssesorA());
 		nandoCode.setForProductAssesorR(form.isForProductAssesorR());
@@ -108,6 +109,7 @@ public class NandoCodeController extends QuasarSupportController {
 		model.put("firstLevelCodes", nandoCodeService.getFirstLevelCodes());
 		appendTabNo(model);
 		map.addAttribute("nandoCode", form);
+		appendModel(map, model);
 	}
 	
 	

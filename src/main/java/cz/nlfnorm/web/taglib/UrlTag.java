@@ -43,7 +43,8 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 			if(!linkOnly){
 				pageContext.getOut().print("</a>");
 			}
-			return EVAL_PAGE;
+			setCssClass("");
+			return super.doEndTag();
 		} catch (IOException e) {
 			throw new JspException(e.getMessage(), e);
 		}

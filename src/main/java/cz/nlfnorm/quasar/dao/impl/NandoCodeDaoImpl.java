@@ -53,7 +53,7 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 	@Override
 	public List<NandoCode> getFirstLevelCodes() {
 		StringBuilder hql = new StringBuilder("select n from NandoCode n ");
-		hql.append(" where n.parent is NULL order by n.order DESC ");
+		hql.append(" where n.parent is NULL order by n.order ASC ");
 		Query query = createQuery(hql);
 		query.setCacheable(false);
 		return query.list();
@@ -81,7 +81,28 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 		query.setCacheable(false);
 		return (NandoCode) query.uniqueResult();
 	}
-
+	
+	@Override
+	public int getNextOrderInNode(Long nodeId) {
+		StringBuilder hql = new StringBuilder("select max(n.order) from NandoCode n ");
+		if(nodeId == null){
+			hql.append(" where n.parent.id = null ");
+		}else{
+			hql.append(" where n.parent.id = :id");
+		}
+		
+		Query hqlQuery =  createQuery(hql);
+		if(nodeId != null){
+			hqlQuery.setLong("id", nodeId );
+		}
+		
+		Integer maxOrder = (Integer) hqlQuery.setMaxResults(1).uniqueResult();
+		
+		if(maxOrder != null){
+			return maxOrder + 1;
+		}
+		return 1;
+	}
 
 	@Override
 	public List<NandoCode> getAllEnabled() {

@@ -62,7 +62,7 @@
                        		<small>Pattern: SSSS NNNN</small>
                        	</label>
                            <span class="field">
-                           	<form:input path="code" maxlength="8" cssClass="w100 required" />
+                           	<form:input path="code" maxlength="9" cssClass="w100 required" />
                            </span>
                        </p>
                          <p>
@@ -94,9 +94,11 @@
                            	<form:select path="parent">
                            		<option value="">--- <spring:message code="nandoCode.parent" /> ---</option>
                            		<c:forEach items="${model.firstLevelCodes}" var="i">
-                           			<option value="${i.id}" ${i.id == nandoCode.id ? 'selected="selected"' : ''}>
+                           			<c:if test="${i.id != nandoCode.id}">
+                           			<option value="${i.id}" <c:if test="${not empty nandoCode.parent and i.id == nandoCode.parent.id}">selected="selected"</c:if>>
                            				${i.code} - ${nlf:crop(i.specification, 150)}
                            			</option>
+                           			</c:if>
                            		</c:forEach>
                            	</form:select>
                            </span>
