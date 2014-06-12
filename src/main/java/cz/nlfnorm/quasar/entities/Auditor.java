@@ -19,8 +19,10 @@ import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
+import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDateTime;
 
 import cz.nlfnorm.entities.Country;
@@ -45,9 +47,11 @@ public class Auditor extends User {
 	private static final String EDUCATION_NON_ACTIVE_MD = "2";
 	
 	/* Personal data */
+	private String degrees;
 	private Integer itcId;
 	private Country countery;
 	private Partner partner;
+	private boolean inTraining;
 	
 	/* Formal and legal requirements: */
 	private boolean ecrCardSigned;
@@ -86,7 +90,8 @@ public class Auditor extends User {
 		this.specialTrainings = new HashSet<>();
 	}
 	 
-	@Column(name = "personal_itc_id")
+	@NotNull(message = "{error.auditor.itcId.notNull}")
+	@Column(name = "personal_itc_id", nullable = false)
 	public Integer getItcId() {
 		return itcId;
 	}
@@ -305,8 +310,30 @@ public class Auditor extends User {
 	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
 		this.specialTrainings = specialTrainings;
 	}
-	
+	@Column(name = "is_in_training")
+	public boolean isInTraining() {
+		return inTraining;
+	}
 
+	public void setInTraining(boolean inTraining) {
+		this.inTraining = inTraining;
+	}
+		
+	@Length(max = 20, message = "{error.auditor.degree.length}")
+	@Column(name = "degrees", length = 25)
+	public String getDegrees() {
+		return degrees;
+	}
+
+	public void setDegrees(String degrees) {
+		this.degrees = degrees;
+	}
+
+	@Transient
+	public boolean isIntenalAuditor(){
+		return getId() < 1000;
+	}
+	
 	/**
 	 * Returns education of person for active Medical devices;
 	 * @return education for active MD

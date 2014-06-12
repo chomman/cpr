@@ -15,4 +15,10 @@
 		</a:adminurl>
 	</li>
 	
+	<li>
+		<a:adminurl href="/quasar/manage/auditors" activeTab="${model.tab == 3}">
+			<spring:message code="auditors" />
+		</a:adminurl>
+	</li>
+	
 </ul>
