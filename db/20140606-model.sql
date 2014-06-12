@@ -12,7 +12,7 @@ begin;
 	  INCREMENT 1
 	  MINVALUE 1
 	  MAXVALUE 100000
-	  START 1
+	  START 40
 	  CACHE 1;
 	  
 	CREATE SEQUENCE quasar_partner_id_seq

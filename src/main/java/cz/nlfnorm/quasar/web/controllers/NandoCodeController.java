@@ -33,7 +33,7 @@ import cz.nlfnorm.quasar.web.editors.NandoCodePropertyEditor;
 @Controller
 public class NandoCodeController extends QuasarSupportController {
 	
-	private final static int TAB = 2; 
+	private final static int TAB = 1; 
 	private final static String LIST_MAPPING_URL = "/admin/quasar/manage/nando-codes";
 	private final static String FORM_MAPPING_URL = "/admin/quasar/manage/nando-code/{codeId}";
 	

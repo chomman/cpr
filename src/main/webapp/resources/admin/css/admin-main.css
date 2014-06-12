@@ -273,8 +273,9 @@ nav.smallNav ul li a{background-image:none;padding:12px 12px 0 12px;font-weight:
 .ico-portal{background-image: url(../img/ico_zn_large.png)} 
 
 .hbox{border-bottom: 2px solid #FB9337;display: inline-block; margin: 20px 0;padding: 0 0 5px 0;}
-h1{ color:#485B79;font-size:22px;font-weight: normal;background:#fafAfa;border-bottom:1px solid #ddd;padding:15px 35px;}
+h1{ color:#485B79;font-size:19px;font-weight: normal;background:#fafAfa;border-bottom:1px solid #ddd;padding:10px 35px;}
 h2{font-size: 16px;text-transform: uppercase;color:#555}
+h1.pj-smaller{font-size:18px;padding:10px 35px;}
 
 .data{background:#fcfcfc;border-collapse:collapse;background:#f8f8f8;font-size:12px;border:1px solid #ccc;width:100%;color:#333;}
 .data tr.odd{background:#fcfcfc;}
@@ -300,10 +301,11 @@ nav, #wrapper,header{min-width: 929px;}
 #left{width:250px;position:absolute;}
 #left ul{font-size:11px;text-transform:uppercase;letter-spacing:0.5px;font-weight:bold;}
 #left ul li a{display:block;padding:15px 0 15px 30px;border-bottom:1px solid #ddd;background:url(../img/left-nav-ico1.png) no-repeat 10px center;}
-#left ul li a:hover, #left ul li .active{background:#eee url(../img/left-nav-ico.png) no-repeat 10px center;}
+#left ul li a:hover{background:#eee url(../img/left-nav-ico.png) no-repeat 10px center;}
+#left ul li .active{background:#fff url(../img/left-nav-ico.png) no-repeat 10px center;margin-right:-1px;color:#111;}
 #right{min-height:500px;margin-left:250px;border-left:1px solid #ddd;background:#fff;}
 #right .nav-head{display:none;}
-.nav-head{display:block;padding:20px;background:#fff url(../img/nav-head.png) no-repeat right  center;border-bottom:5px solid #ddd;text-transform:uppercase;font-weight:normal;color:#ff8400}
+.nav-head{display:block;padding:30px;background:#fff url(../img/nav-head.png) no-repeat right  center;border-bottom:5px solid #ddd;text-transform:uppercase;font-weight:normal;color:#ff8400}
 
 #content{padding:25px;}
 
@@ -320,7 +322,7 @@ form p label,
 .field span{font-size:12px;color:#555;margin:0 5px 0 20px;}
 .field em{color:#555;font-size:11px;}
 .field .variable{width:600px;min-height:150px;}
-form small{color:#555; display:block;padding-top:3px;font-size:11px;font-weight:normal;font-style:italic;}
+form small{color:#555; display:block;padding-top:2px;font-size:11px;font-weight:normal;line-height:11px;position:absolute;}
 input, textarea,select{background: none repeat scroll 0 0 #FCFCFC;border: 1px solid #CCCCCC; border-radius: 2px 2px 2px 2px;box-shadow: 0 1px 3px #DDDDDD inset;color: #666666;padding: 6px 5px;}
 select{min-width:300px;}
 select option{padding:2px 0px 1px 5px;}

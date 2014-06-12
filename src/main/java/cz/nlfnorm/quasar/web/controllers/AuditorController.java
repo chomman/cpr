@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.forms.AuditorForm;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.validators.CreateAuditorValidator;
 
 /**
  * 
@@ -26,15 +28,19 @@ public class AuditorController extends QuasarSupportController {
 	
 	private final static int TAB = 3; 
 	private final static String LIST_MAPPING_URL = "/admin/quasar/manage/auditors";
-	private final static String FORM_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
+	private final static String ADD_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/add";
+	private final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
 	
+	@Autowired
+	private CreateAuditorValidator createAuditorValidator;
 	
 	@Autowired
 	private AuditorService auditorService;
 	
 	public AuditorController(){
-		setTableItemsView("user-list");
-		setEditFormView("user-edit");
+		setTableItemsView("auditor-list");
+		setEditFormView("auditor-edit");
+		setViewName("auditor-add");
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
@@ -46,7 +52,15 @@ public class AuditorController extends QuasarSupportController {
 		return getTableItemsView();
 	}
 	
-	@RequestMapping(value = FORM_MAPPING_URL, method = RequestMethod.GET)
+	
+	@RequestMapping(value = ADD_AUDITOR_MAPPING_URL, method = RequestMethod.GET)
+	public String createNewAuditor(ModelMap modelMap) {
+		prepareCreateModel(modelMap, new AuditorForm());
+		return getViewName();
+	}
+	
+	
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL, method = RequestMethod.GET)
 	public String showEditForm(ModelMap modelMap, HttpServletRequest request, @PathVariable long auditorId) throws ItemNotFoundException {
 		if(isSucceded(request)){
 			appendSuccessCreateParam(modelMap);
@@ -56,14 +70,16 @@ public class AuditorController extends QuasarSupportController {
 			form = eacCodeService.getById(userId);
 			validateNotNull(form, userId);
 		}*/
-		prepareModel(modelMap, form);
+		
 		return getEditFormView();
 	}
 	
-	private void prepareModel(ModelMap map, Auditor form){
+	
+	
+	private void prepareCreateModel(ModelMap map, AuditorForm form){
 		Map<String, Object> model = new HashMap<>();
+		map.addAttribute("auditorForm", form);
 		appendTabNo(model, TAB);
-		map.addAttribute("auditor", form);
 		appendModel(map, model);
 	}
 }

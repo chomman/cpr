@@ -19,9 +19,9 @@ import cz.nlfnorm.web.forms.portal.ResetPassowrdForm;
 public class ChangePassowrdValidator extends AbstractValidator{
 
 	@Autowired
-	private UserService userService;
+	protected UserService userService;
 	@Autowired
-	private MessageSource messageSource;
+	protected MessageSource messageSource;
 	@Autowired
 	private PasswordEncoder passwordEncoder;
 	
@@ -60,5 +60,7 @@ public class ChangePassowrdValidator extends AbstractValidator{
 						messageSource.getMessage("error.password.missNumber", null, ContextHolder.getLocale()) );
 			}
 		}
+
+
 	
 }
