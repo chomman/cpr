@@ -39,7 +39,7 @@ public class EacCode extends BaseEntity {
 	}
 	
 	@Override
-	@Pattern(regexp = "^eac\\s\\d{1,2}$", message = "{error.eacCode.code.invalid}")
+	@Pattern(regexp = "(?i)eac\\s\\d{1,2}", message = "{error.eacCode.code.invalid}")
 	@Column(length = 6, name = "code")
 	public String getCode() {
 		return super.getCode();

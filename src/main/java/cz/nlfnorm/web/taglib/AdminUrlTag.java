@@ -1,5 +1,7 @@
 package cz.nlfnorm.web.taglib;
 
+import javax.servlet.jsp.JspException;
+
 import cz.nlfnorm.constants.Constants;
 
 
@@ -32,6 +34,11 @@ public class AdminUrlTag extends UrlTag {
 		this.activeTab = activeTab;
 	}
 	
+	@Override
+	public int doEndTag() throws JspException {
+		activeTab = false;
+		return super.doEndTag();
+	}
 	
 	
 }

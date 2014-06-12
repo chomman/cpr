@@ -28,5 +28,5 @@ public interface EacCodeService {
 	
 	void delete(EacCode eacCode);
 	
-	void saveOrUpdate(EacCode eacCode);
+	void createOrUpdate(EacCode eacCode);
 }

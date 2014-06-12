@@ -67,7 +67,7 @@ public class EacCodeServiceImpl implements EacCodeService {
 	}
 
 	@Override
-	public void saveOrUpdate(final EacCode eacCode) {
+	public void createOrUpdate(final EacCode eacCode) {
 		final User user = UserUtils.getLoggedUser();
 		eacCode.setChangedBy(user);
 		eacCode.setChanged(new LocalDateTime());

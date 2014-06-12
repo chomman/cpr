@@ -15,7 +15,7 @@
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 				 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-				 <span><spring:message code="admin.portal.services" /></span>
+				 <span><spring:message code="nandoCodes" /></span>
 			</div>
 			<h1><spring:message code="nandoCodes" /></h1>
 	

@@ -33,6 +33,7 @@ import cz.nlfnorm.quasar.web.editors.NandoCodePropertyEditor;
 @Controller
 public class NandoCodeController extends QuasarSupportController {
 	
+	private final static int TAB = 2; 
 	private final static String LIST_MAPPING_URL = "/admin/quasar/manage/nando-codes";
 	private final static String FORM_MAPPING_URL = "/admin/quasar/manage/nando-code/{codeId}";
 	
@@ -55,7 +56,7 @@ public class NandoCodeController extends QuasarSupportController {
 	public String showNandoCodes(ModelMap modelMap) {
 		Map<String, Object> model = new HashMap<>();
 		model.put("nandoCodes", nandoCodeService.getFirstLevelCodes());
-		appendTabNo(model);
+		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getTableItemsView();
 	}
@@ -107,14 +108,9 @@ public class NandoCodeController extends QuasarSupportController {
 	private void prepareModel(ModelMap map, NandoCode form){
 		Map<String, Object> model = new HashMap<>();
 		model.put("firstLevelCodes", nandoCodeService.getFirstLevelCodes());
-		appendTabNo(model);
+		appendTabNo(model, TAB);
 		map.addAttribute("nandoCode", form);
 		appendModel(map, model);
-	}
-	
-	
-	private void appendTabNo(Map<String, Object> model){
-		model.put("tab", 1);
 	}
 	
 	private void validateNotNull(final NandoCode form, final Long id) throws ItemNotFoundException{

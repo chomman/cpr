@@ -24,4 +24,8 @@ public class QuasarSupportController extends AdminSupportController {
 	protected void appendModel(ModelMap map, Map<String, Object> model) {
 		map.put("model", model);
 	}
+	
+	protected void appendTabNo(Map<String, Object> model, final int tabNo){
+		model.put("tab", tabNo);
+	}
 }
