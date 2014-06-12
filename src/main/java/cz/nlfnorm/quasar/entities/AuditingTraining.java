@@ -72,6 +72,11 @@ public class AuditingTraining implements Serializable, IdentifiableByLong{
 	 */
 	private int totalAuditdays;
 	
+	AuditingTraining(){}
+	
+	AuditingTraining(Auditor auditor){
+		this.auditor = auditor;
+	}
 	
 	@Id
 	@GeneratedValue(generator = "users_id_seq")

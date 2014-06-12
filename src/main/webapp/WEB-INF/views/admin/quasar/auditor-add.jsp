@@ -40,9 +40,9 @@
                       <p>
                       	<label>
                       		<strong><em class="red">*</em>
-                      			<spring:message code="auditor.password" />
+                      			<spring:message code="auditor.password" />:
                       		</strong>
-                      		<small>At least 6 characters and one number</small>
+                      		<small><spring:message code="password.info" /></small>
                       	</label>
                           <span class="field">
                           	<form:password path="newPassword" cssClass="w300 required" maxlength="60" />
@@ -51,7 +51,7 @@
                       <p>
                       	<label>
                       		<strong><em class="red">*</em>
-                      			<spring:message code="auditor.passwordConfirm" />
+                      			<spring:message code="auditor.passwordConfirm" />:
                       		</strong>
                       	</label>
                           <span class="field">
@@ -62,7 +62,17 @@
                      <p class="form-head"><spring:message code="auditor.head.personalInfo" /></p>
                       <p>
                       	<label>
-                      		<spring:message code="auditor.degrees" />
+                      		<strong><em class="red">*</em>
+                      			<spring:message code="auditor.itcId" />:
+                      		</strong>
+                      	</label>
+                          <span class="field">
+                          	<form:input path="auditor.itcId" cssClass="w100 required numeric" maxlength="5" />
+                          </span>
+                      </p> 
+                      <p>
+                      	<label>
+                      		<spring:message code="auditor.degrees" />:
                       	</label>
                           <span class="field">
                           	<form:input path="auditor.degrees" cssClass="mw150 " maxlength="25" />
@@ -71,7 +81,7 @@
                      <p>
                       	<label>
                       		<strong><em class="red">*</em>
-                      			<spring:message code="auditor.firstName" />
+                      			<spring:message code="auditor.firstName" />:
                       		</strong>
                       	</label>
                           <span class="field">
@@ -81,15 +91,16 @@
                       <p>
                       	<label>
                       		<strong><em class="red">*</em>
-                      			<spring:message code="auditor.lastName" />
+                      			<spring:message code="auditor.lastName" />:
                       		</strong>
                       	</label>
                           <span class="field">
                           	<form:input path="auditor.lastName" cssClass="w300 required" maxlength="50" />
                           </span>
                       </p> 
+                     
                       <p class="button-box">
-                      	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+                      	 <input type="submit" class="button" value="<spring:message code="form.save" /> &raquo;" />
                       </p>
 			</form:form>
 		</div>	

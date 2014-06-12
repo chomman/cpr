@@ -10,5 +10,6 @@ import cz.nlfnorm.quasar.entities.Auditor;
  * @date Jun 12, 2014
  */
 public interface AuditorDao extends BaseDao<Auditor, Long>{
-
+	
+	boolean isItcIdUniqe(Integer id, Long auditorId);
 }

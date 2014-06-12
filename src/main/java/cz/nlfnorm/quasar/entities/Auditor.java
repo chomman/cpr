@@ -86,12 +86,12 @@ public class Auditor extends User {
 	
 	public Auditor(){
 		this.education = new HashMap<>();
-		this.auditingTraining = new AuditingTraining();
+		this.auditingTraining = new AuditingTraining(this);
 		this.specialTrainings = new HashSet<>();
 	}
 	 
 	@NotNull(message = "{error.auditor.itcId.notNull}")
-	@Column(name = "personal_itc_id", nullable = false)
+	@Column(name = "personal_itc_id", nullable = false, unique = true)
 	public Integer getItcId() {
 		return itcId;
 	}

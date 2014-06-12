@@ -5,7 +5,7 @@ import cz.nlfnorm.web.forms.portal.ResetPassowrdForm;
 
 public class AuditorForm extends ResetPassowrdForm {
 	
-	private Auditor auditor;
+	private Auditor auditor = new Auditor();
 
 	
 	public Auditor getAuditor() {

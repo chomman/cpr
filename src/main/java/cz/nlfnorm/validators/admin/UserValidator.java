@@ -21,7 +21,7 @@ public class UserValidator {
 	public void validate(BindingResult result, UserForm form){
 		
 		if(!ValidationsUtils.isEmailValid(form.getUser().getEmail())){
-			result.rejectValue("user.email", "error.user.email.invalid");
+			result.rejectValue("user.email", "error.email");
 		}
 		
 		if(StringUtils.isBlank(form.user.getFirstName())){
@@ -40,11 +40,11 @@ public class UserValidator {
 		   StringUtils.isNotBlank(form.getPassword().trim())){
 			
 			if(!form.getPassword().equals(form.getConfifmPassword())){
-				result.rejectValue("confifmPassword", "error.user.confifmPassword");
+				result.rejectValue("confifmPassword", "error.password.notMatch");
 			}
 			
 			if(StringUtils.isBlank(form.getPassword().trim()) || form.getPassword().length() < 6){
-				result.rejectValue("password", "error.user.password");
+				result.rejectValue("password", "error.password");
 			}
 			
 			if(form.getUser().getEmail().endsWith(form.getPassword())){
@@ -62,7 +62,7 @@ public class UserValidator {
 		}
 				
 		if(!userService.isUserNameUniqe(form.getUser().getId(), form.getUser().getEmail())){
-			result.rejectValue("user.email", "error.user.email");
+			result.rejectValue("user.email", "error.email.uniqe");
 		}
 	}
 	

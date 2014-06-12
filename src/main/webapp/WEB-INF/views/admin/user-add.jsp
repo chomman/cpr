@@ -60,6 +60,7 @@
                         			<spring:message code="user.pass" />
                         		</strong>
                         	</label>
+                        	<small><spring:message code="password.info" /></small>
                             <span class="field">
                             	<form:password path="password" cssClass="w300 required" maxlength="60" />
                             </span>

@@ -26,41 +26,63 @@ public class ChangePassowrdValidator extends AbstractValidator{
 	private PasswordEncoder passwordEncoder;
 	
 	
-	@SuppressWarnings("static-access")
+	
 	@Override
 	protected void addExtraValidation(Object objectForm, Errors errors) {
 		
-			objectForm = (ResetPassowrdForm)objectForm;
-			final User user = userService.getUserById(((ResetPassowrdForm) objectForm).getUserId());
-			if(objectForm instanceof ChangePasswordForm){			
-				if(!passwordEncoder.matches(((ChangePasswordForm) objectForm).getCurrentPassword(), user.getPassword())){
-					errors.reject("user.currentPassword", 
-							messageSource.getMessage("error.password.old", null, ContextHolder.getLocale()) );
+			if(objectForm instanceof ChangePasswordForm){		
+				
+				final String newPass = ((ResetPassowrdForm) objectForm).getNewPassword();
+				final String confirmPass = ((ResetPassowrdForm) objectForm).getConfirmPassword();
+				final Long id = ((ResetPassowrdForm) objectForm).getUserId();
+				if(id != null){
+					final User user = userService.getUserById(id);
+					validateOldPasMatches(user.getPassword(), newPass, errors);
+					validateLoginSimularity(user.getEmail(), newPass, errors);
 				}
+				validatePasswordStrength(newPass, errors);
+				validatePasswordsMatches(newPass, confirmPass, errors);
+						
 			}
-			
-			
-			final String newPass = ((ResetPassowrdForm) objectForm).getNewPassword();
-			final String confirmPass = ((ResetPassowrdForm) objectForm).getConfirmPassword();
-			
-			
-			if(StringUtils.isBlank(confirmPass) || StringUtils.isBlank(newPass) || !newPass.equals(confirmPass) ){
-				errors.reject("user.newPassword", 
-						messageSource.getMessage("error.password.notMatch", null, ContextHolder.getLocale()) );
-			}
-			
-			if(user.getEmail().endsWith(newPass)){
-				errors.reject("user.newPassword", 
-						messageSource.getMessage("error.password.sameAsLogin", null, ContextHolder.getLocale()) );
-			}
-			
-			PasswordValidator validator = PasswordValidator.buildValidator(false,false, true, 6, 20);
-			if(!validator.validatePassword(newPass)){
-				errors.reject("user.newPassword", 
-						messageSource.getMessage("error.password.missNumber", null, ContextHolder.getLocale()) );
-			}
+
 		}
-
-
+	
+	
+	
+	protected void validateOldPasMatches(final String currentPass, final String newPass, Errors errors) {
+		if(!passwordEncoder.matches(newPass, currentPass)){
+			errors.reject("user.currentPassword", 
+					messageSource.getMessage("error.password.old", null, ContextHolder.getLocale()) );
+		}
+	}
+	
+	
+	
+	protected void validateLoginSimularity(final String login, final String password, Errors errors) {
+		if(login.endsWith(password)){
+			errors.reject("user.newPassword", 
+					messageSource.getMessage("error.password.sameAsLogin", null, ContextHolder.getLocale()) );
+		}
+	}
+	
+	
+	
+	protected void validatePasswordsMatches(final String newPass, final String confirmPass, Errors errors){
+		if(StringUtils.isBlank(confirmPass) || StringUtils.isBlank(newPass) || !newPass.equals(confirmPass) ){
+			errors.reject("user.newPassword", 
+					messageSource.getMessage("error.password.notMatch", null, ContextHolder.getLocale()) );
+		}
+	}
+	
+	
+	
+	@SuppressWarnings("static-access")
+	protected void validatePasswordStrength(final String password, Errors errors){
+		PasswordValidator validator = PasswordValidator.buildValidator(false,false, true, 6, 20);
+		if(!validator.validatePassword(password)){
+			errors.reject("user.newPassword", 
+					messageSource.getMessage("error.password.missNumber", null, ContextHolder.getLocale()) );
+		}
+	}
 	
 }

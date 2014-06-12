@@ -30,7 +30,11 @@ import cz.nlfnorm.web.json.dto.SgpportalRequest;
 import cz.nlfnorm.web.json.dto.SgpportalResponse;
 import cz.nlfnorm.web.json.dto.SgpportalUser;
 
-
+/**
+ * Portal user service
+ * 
+ * @author Peter Jurkovic
+ */
 @Service("portalUserService")
 @Transactional(propagation = Propagation.REQUIRED)
 public class PortalUserServiceImp implements PortalUserService {
@@ -68,21 +72,48 @@ public class PortalUserServiceImp implements PortalUserService {
 		return user;
 	}
 			
+	/**
+	 * Sync user's credentials with sgpstandard.cz portal.
+	 * Updates user's passoword, activated portal services:
+	 * 	<ul>
+	 * 		<li>Portal registration validity</li>
+	 * 		<li>Activated on-line publications</li>
+	 *  </ul>
+	 *  
+	 *  If synchronization failed, given user will set synced attr. to FALSE.
+	 * @see {@link UserInfo}
+	 * @param User - user to synchronize
+	 * @throws IllegalArgumentException - if given user is NULL 
+	 */
 	@Override
-	public void syncUser(User user){
+	public void syncUser(final User user){
 		Validate.notNull(user);
-		SgpportalRequest req = new SgpportalRequest();
-		req.setUser(new SgpportalUser(user));
-		req.createSqpAccessFor(user);
-		syncUserOnlinePublicaions(user, req);
+		if(user.isPortalUser()){
+			SgpportalRequest req = new SgpportalRequest();
+			req.setUser(new SgpportalUser(user));
+			req.createSqpAccessFor(user);
+			syncUserOnlinePublicaions(user, req);
+		}
 	}
 	
+	/**
+	 * Sync all valid user's online publication with sgpstandard.cz portal
+	 * 
+	 * @param User - user to synchronize
+	 * @throws IllegalArgumentException - if given user is NULL 
+	 */
 	@Override
 	public void syncUserOnlinePublicaions(final User user){
 		syncUserOnlinePublicaions(user, new SgpportalRequest());
 	}
 	
 	
+	/**
+	 * Sets sync failed mark, to user with given ID
+	 * 
+	 * @param Long - Portal user id, who synchronization failed.
+	 * @see {@link UserInfo}
+	 */
 	@Override
 	public void setSynchronizationFailedFor(final Long userId){
 		User user = userService.getUserById(userId);
@@ -150,17 +181,19 @@ public class PortalUserServiceImp implements PortalUserService {
 
 	@Override
 	public void changeUserPassword(final ResetPassowrdForm form) {
-		User user = userService.getUserById(form.getUserId());
+		final User user = userService.getUserById(form.getUserId());
 		Validate.notNull(user);
 		userService.setUserPassword(user, form.getNewPassword());
 		userService.createOrUpdateUser(user);
-		syncUser(user);
+		if(user.isPortalUser()){
+			syncUser(user);
+		}
 	}
 
 	
 	@Override
 	public void sendEmailAlerts() {
-		
+		// TODO 
 	}
 
 	

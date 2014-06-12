@@ -4,10 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,7 +19,8 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.forms.AuditorForm;
 import cz.nlfnorm.quasar.services.AuditorService;
-import cz.nlfnorm.quasar.validators.CreateAuditorValidator;
+import cz.nlfnorm.quasar.validators.AuditorValidator;
+import cz.nlfnorm.services.UserService;
 
 /**
  * 
@@ -32,8 +36,10 @@ public class AuditorController extends QuasarSupportController {
 	private final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
 	
 	@Autowired
-	private CreateAuditorValidator createAuditorValidator;
+	private AuditorValidator createAuditorValidator;
 	
+	@Autowired
+	private UserService userService;
 	@Autowired
 	private AuditorService auditorService;
 	
@@ -59,6 +65,20 @@ public class AuditorController extends QuasarSupportController {
 		return getViewName();
 	}
 	
+	@RequestMapping(value = ADD_AUDITOR_MAPPING_URL, method = RequestMethod.POST)
+	public String processCreateAuditor(ModelMap modelMap, @Valid @ModelAttribute("auditorForm") AuditorForm form, BindingResult request ) {
+		boolean isNotValid = request.hasErrors();
+		if(!isNotValid){
+			createAuditorValidator.validate(form, request);
+		}
+		if(isNotValid || request.hasErrors()){
+			prepareCreateModel(modelMap, form);
+			return getViewName();
+		}
+		final Long id = createNewAuditor(form);
+		return getViewName();
+	}
+	
 	
 	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL, method = RequestMethod.GET)
 	public String showEditForm(ModelMap modelMap, HttpServletRequest request, @PathVariable long auditorId) throws ItemNotFoundException {
@@ -74,7 +94,12 @@ public class AuditorController extends QuasarSupportController {
 		return getEditFormView();
 	}
 	
-	
+	private Long createNewAuditor(final AuditorForm form){
+		final Auditor auditor = form.getAuditor();
+		userService.setUserPassword(auditor, form.getNewPassword());
+		auditorService.createOrUpdate(auditor);
+		return auditor.getId();
+	}
 	
 	private void prepareCreateModel(ModelMap map, AuditorForm form){
 		Map<String, Object> model = new HashMap<>();

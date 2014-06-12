@@ -167,10 +167,15 @@ public class ExceptionLogServiceImpl implements ExceptionLogService {
 	
 	@Async
 	private void sendExceptionEmailAlert(final ExceptionLog ex){
-		HtmlMailMessage message = new HtmlMailMessage("portal@nlfnorm.cz",ex.getType());
-		message.addRecipientTo(sendExceptionsToEmailAddress);
-		message.setHtmlContent(ex.getStackTrace());
-		nlfnormMailSender.send(message);
+		new Thread(){
+			@Override
+			public void run() {
+				HtmlMailMessage message = new HtmlMailMessage("portal@nlfnorm.cz",ex.getType());
+				message.addRecipientTo(sendExceptionsToEmailAddress);
+				message.setHtmlContent(ex.getStackTrace());
+				nlfnormMailSender.send(message);
+			}
+		}.run();
 	}
-
+	
 }

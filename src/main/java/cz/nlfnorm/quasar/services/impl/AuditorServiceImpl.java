@@ -71,4 +71,10 @@ public class AuditorServiceImpl implements AuditorService{
 		}
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isItcIdUniqe(final Integer id, final Long auditorId) {
+		return auditorDao.isItcIdUniqe(id, auditorId);
+	}
+
 }

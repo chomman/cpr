@@ -48,7 +48,7 @@
                         <p>
                         	<label class="tt" title="<spring:message code="user.change.pass.notice" />">
                         		<spring:message code="user.pass" />
-                        		<small><spring:message code="user.change.pass" /></small>
+                        		<small><spring:message code="password.info" /></small>
                         	</label>
                             <span class="field">
                             	<form:password path="password" cssClass="w300" maxlength="60" />

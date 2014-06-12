@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -153,10 +152,12 @@ public class UserServiceImpl implements UserService {
 		return userDao.isUserNameUniqe(id, userName.trim());
 	}
 	
-	public void setUserPassword(User user, final String password){
+	public void setUserPassword(final User user, final String password){
 		Validate.notNull(user);
 		Validate.notEmpty(password);
-		user.setSgpPassword(MD5Crypt.crypt(password));
+		if(user.isPortalUser()){
+			user.setSgpPassword(MD5Crypt.crypt(password));
+		}
 		user.setPassword(passwordEncoder.encode( password ));
 	}
 	
@@ -210,7 +211,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<User> getPortalUserBeforeExpiration(int weeksBefore) {
 		// TODO
-		LocalDate threshold = new LocalDate().plusWeeks(weeksBefore);
+		//LocalDate threshold = new LocalDate().plusWeeks(weeksBefore);
 		StringBuilder hql = new StringBuilder("from User u");
 		hql.append("	left join u.onlinePublications uop ")
 		   .append("	inner join u.authoritySet authority ")

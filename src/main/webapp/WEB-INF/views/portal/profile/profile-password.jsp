@@ -21,7 +21,7 @@
 	<form:label path="currentPassword"  cssClass="with-info">
 		<span class="label"><spring:message code="changeUserPass.currentPassword" />:</span>  
 		<input type="password" class="required w300 more6" maxlength="50" name="currentPassword" /> 
-		<span class="miniinfo"><spring:message code="portal.miniinfo.password" /></span>
+		<span class="miniinfo"><spring:message code="password.info" /></span>
 	</form:label>
 	
 	<form:label path="newPassword"  cssClass="with-info">
