@@ -178,12 +178,19 @@
 										<div class="pj-item">
 											<span class="pj-radius"><joda:format value="${i.published}" pattern="dd.MM.yyyy" /></span>
 											<strong><webpage:a webpage="${i}" cssClass="pj-link" /></strong>
-											<c:if test="${fn:length(i.descriptionInLang) gt 150}">
-												<p>${fn:substring(i.descriptionInLang, 0, 150)}...</p>
+											<p>
+											<c:if test="${not empty i.descriptionInLang}">
+												<c:if test="${fn:length(i.descriptionInLang) gt 150}">
+													${fn:substring(i.descriptionInLang, 0, 150)}...
+												</c:if>
+												<c:if test="${fn:length(i.descriptionInLang) lt 150}">
+													${i.descriptionInLang}
+												</c:if>
 											</c:if>
-											<c:if test="${fn:length(i.descriptionInLang) lt 151}">
-												<p>${i.descriptionInLang}</p>
+											<c:if test="${empty i.descriptionInLang}">
+												${nlf:crop(i.contentInLang, 150)} 												
 											</c:if>
+											</p>
 										</div>
 									</c:forEach>
 								</div>

@@ -285,7 +285,7 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Webpage> getLatestPublishedNews(final int limit) {
-		LocalDateTime now = new LocalDateTime();
+		final LocalDateTime now = new LocalDateTime();
 		StringBuilder hql = new StringBuilder("from ");
 		hql.append(Webpage.class.getName());
 		hql.append(" w");

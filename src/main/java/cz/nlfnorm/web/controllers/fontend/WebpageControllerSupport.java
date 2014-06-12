@@ -50,17 +50,13 @@ public class WebpageControllerSupport {
 	
 	
 	private Webpage test(final Webpage webpage) throws PageNotFoundEception, PortalAccessDeniedException{
-		final boolean isPreview = isPreview();
 		
-		if(webpage == null || (!webpage.isEnabled() && !isPreview)){
+		if(webpage == null || (!webpage.isEnabled() && !isPreview())){
 			throw new PageNotFoundEception();
 		}
 
 		if(!UserUtils.isPortalAuthorized() && WebpageUtils.isOnlyForRegistraged(webpage)){
 			throw new PortalAccessDeniedException("You have not perrmission to acccess webpage: " + webpage.getId());
-		}
-		if(!isPreview){
-			webpageService.incrementHit(webpage);
 		}
 		return webpage;
 	}
@@ -129,7 +125,7 @@ public class WebpageControllerSupport {
 	}
 	
 	private boolean isPreview() {
-		final User user =UserUtils.getLoggedUser();
+		final User user = UserUtils.getLoggedUser();
 		if(user == null || !user.isAdministrator()){
 			return false;
 		}

@@ -24,7 +24,6 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 	@Override
 	protected ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
 		if(ex instanceof PortalAccessDeniedException){
-			logger.warn(ex);
 			return new ModelAndView("redirect:" + PortalWebpageController.ACCESS_DENIED_URL);
 		}
 		if(!(ex instanceof PageNotFoundEception) && !(ex instanceof ItemNotFoundException)){

@@ -28,6 +28,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	public static final String SOURCE_PARAM = "source";
 	public static final String COUNTRY_PARAM = "country";
 	
+	private final static int COUNT_OF_NEWS = 6;
 	private final static Long MAIN_NAV_ID = 75l;
 	private final static Long SUB_NAV_ID = 84l;
 	protected static final String PRIFILE_URL =  Constants.PORTAL_URL + "/profile";
@@ -55,7 +56,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 		model.put("subnav", webpageService.getChildrensOfNode(SUB_NAV_ID, true));
 		model.put("rootwebpage", webpageService.getWebpageByCode(Constants.PORTAL_URL));
 		model.put("footerNav", webpageService.getFooterWebpages());
-		model.put("news", webpageService.getLatestPublishedNews(4) );
+		model.put("news", webpageService.getLatestPublishedNews(COUNT_OF_NEWS) );
 		model.put("portalParam", Constants.PORTAL_ID_PARAM_KEY);
 		model.put("profileUrl", "/" + PRIFILE_URL);
 		final User user = UserUtils.getLoggedUser();
