@@ -13,7 +13,7 @@ function isBlank(v){
 }
 
 function generateOption(selectedId, items){
-	var html = getOption('', 'Nezáleží', false);
+	var html = getOption('', getLocale() === 'cs' ? 'Nezáleží' : 'No matter', false);
 	for(var i in items){
 		html += getOption(items[i].id, items[i].name, (selectedId+"" == items[i].id+""));
 	}
@@ -21,7 +21,8 @@ function generateOption(selectedId, items){
 }
 
 function loadFilterData(){
-	 $.getJSON( getBasePath() +"ajax/standard-filter", function(data) {  
+	 var prefix = getLocale() === 'en' ? 'en/' : '';
+	 $.getJSON( getBasePath() + prefix +"ajax/standard-filter", function(data) {  
 			$('.async').each(function(){
 					var $this = $(this),
 						paramName = $this.attr('name'),

@@ -19,14 +19,14 @@ public class FilterDto {
 	
 	
 	
-	public void setStandardGroups(final List<StandardGroup> standardGroups) {
+	public void setStandardGroups(final List<StandardGroup> standardGroups, final boolean useEnglish) {
 		if(CollectionUtils.isNotEmpty(standardGroups)){
 			for(StandardGroup g : standardGroups){
 				this.standardGroups.add(
 						new StandardGroupDto(
 							g.getId(),
 							g.getCode(),
-							g.getCzechName()
+							useEnglish ? g.getEnglishName() : g.getCzechName()
 								)
 				);
 			}
@@ -60,13 +60,13 @@ public class FilterDto {
 	}
 	
 	
-	public void setAssessmentSystems(final List<AssessmentSystem> assessmentSystems) {
+	public void setAssessmentSystems(final List<AssessmentSystem> assessmentSystems, final boolean useEnglish) {
 		if(CollectionUtils.isNotEmpty(assessmentSystems)){
 			for(AssessmentSystem as : assessmentSystems){
 				this.assessmentSystems.add(
 						new AssessmentSystemDto(
 								as.getId(), 
-								as.getName())
+								useEnglish ? as.getNameEnglish() : as.getNameCzech())
 						);
 			}
 		}

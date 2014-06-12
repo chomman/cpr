@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dto.CsnCategoryJsonDto;
 import cz.nlfnorm.dto.FilterDto;
 import cz.nlfnorm.entities.Csn;
@@ -121,15 +122,16 @@ public class AjaxController {
 	
 
 	
-	@RequestMapping("/ajax/standard-filter")
+	@RequestMapping(value = {"/ajax/standard-filter", "{lang}/ajax/standard-filter"})
 	public @ResponseBody FilterDto  getFilterData(@RequestBody @RequestParam(value = "enabled", required = false) Boolean enabled){
 		FilterDto data = new FilterDto();
+		boolean useEnglish = !ContextHolder.isDefaultLang();
 		if(enabled != null && enabled){
-			data.setAssessmentSystems(assessmentSystemService.getAssessmentSystemsForPublic());
-			data.setStandardGroups(standardGroupService.getStandardGroupsForPublic());
+			data.setAssessmentSystems(assessmentSystemService.getAssessmentSystemsForPublic(), useEnglish);
+			data.setStandardGroups(standardGroupService.getStandardGroupsForPublic(), useEnglish);
 		}else{
-			data.setAssessmentSystems(assessmentSystemService.getAllAssessmentSystems());
-			data.setStandardGroups(standardGroupService.getAllStandardGroups());
+			data.setAssessmentSystems(assessmentSystemService.getAllAssessmentSystems(), useEnglish);
+			data.setStandardGroups(standardGroupService.getAllStandardGroups(), useEnglish);
 		}
 		data.setMandates(mandateService.getAllMandates());
 		data.setCommissionDecisions(commissionDecisionService.getAll());
