@@ -1,12 +1,16 @@
 package cz.nlfnorm.quasar.entities;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
@@ -72,10 +76,13 @@ public class AuditingTraining implements Serializable, IdentifiableByLong{
 	 */
 	private int totalAuditdays;
 	
+	private Set<SpecialTraining> specialTrainings;
+	
 	AuditingTraining(){}
 	
 	AuditingTraining(Auditor auditor){
 		this.auditor = auditor;
+		this.specialTrainings = new HashSet<>();
 	}
 	
 	@Id
@@ -191,6 +198,15 @@ public class AuditingTraining implements Serializable, IdentifiableByLong{
 		this.totalAudits += count;
 	}
 
+	@OneToMany(mappedBy = "auditingTraining", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<SpecialTraining> getSpecialTrainings() {
+		return specialTrainings;
+	}
+
+	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
+		this.specialTrainings = specialTrainings;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

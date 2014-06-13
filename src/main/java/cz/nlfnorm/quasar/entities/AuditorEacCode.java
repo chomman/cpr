@@ -16,23 +16,35 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-
+/**
+ * QUASAR entity
+ * 
+ * Represents QS Auditor scope
+ * 
+ * @author Peter Jurkovic
+ * @date Jun 13, 2014
+ */
 @Entity
-@Table(name = "quasar_qs_auditor_scope", uniqueConstraints = @UniqueConstraint(columnNames = {"eac_code_id", "auditor_id"}) )
+@Table(name = "quasar_auditor_has_eac_code", uniqueConstraints = @UniqueConstraint(columnNames = {"eac_code_id", "auditor_id"}) )
 @Inheritance(strategy = InheritanceType.JOINED)
-@SequenceGenerator(name = "quasar_qs_auditor_id_seq", sequenceName = "quasar_qs_auditor_id_seq", initialValue = 1, allocationSize =1)
-public class QsAuditorScope extends AbstractAuditorFunction {
+@SequenceGenerator(name = "quasar_auditor_has_eac_code_id_seq", sequenceName = "quasar_auditor_has_eac_code_id_seq", initialValue = 1, allocationSize =1)
+public class AuditorEacCode extends AbstractAuditorCode {
 
 	private static final long serialVersionUID = 6370251380332649136L;
 	
 	private EacCode eacCode;
 	
+	/**
+	 * Number of NB 1023 audits in TA
+	 */
 	private int numberOfNbAudits;
-	
+	/**
+	 * Number of ISO 13485 audits in TA
+	 */
 	private int numberOfIso13485Audits;
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_qs_auditor_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_auditor_has_eac_code_id_seq")
 	@Override
 	public Long getId() {
 		return super.getId();

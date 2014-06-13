@@ -19,7 +19,7 @@ import javax.persistence.Transient;
 public class SpecialTraining extends BaseEntity {
 
 	private static final long serialVersionUID = 6961590682550545554L;
-	private Auditor auditor;
+	private AuditingTraining auditingTraining;
 	private int hours;
 	private String name;
 		
@@ -46,16 +46,14 @@ public class SpecialTraining extends BaseEntity {
 	}
 		
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auditor_id")	
-	public Auditor getAuditor() {
-		return auditor;
+    @JoinColumn(name = "auditing_training_id")	
+	public AuditingTraining getAuditingTraining() {
+		return auditingTraining;
 	}
 
-
-	public void setAuditor(Auditor auditor) {
-		this.auditor = auditor;
+	public void setAuditingTraining(AuditingTraining auditingTraining) {
+		this.auditingTraining = auditingTraining;
 	}
-
 
 	@Transient
 	@Override

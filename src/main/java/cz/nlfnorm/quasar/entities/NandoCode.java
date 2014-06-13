@@ -42,10 +42,62 @@ public class NandoCode extends BaseEntity{
 	private NandoCode parent;
 	private Integer order;
 	
+	
 	private boolean forProductAssesorA;
+	/**
+	 * Condition for auditor type: Product Assesor-A
+	 * Category-specific training (hours). Default 8
+	 */
+	private Integer assesorATrainingThreashold = 8;
+	/**
+	 * Condition for auditor type: Product Assesor-A
+	 * Number of NB audits in category. Default 1
+	 */
+	private Integer assesorANbAuditsThreashold = 1;
+	/**
+	 * Condition for auditor type: Product Assesor-A
+	 * Number of ISO 13485 audits in relevant technical area.
+	 */
+	private Integer assesorAIso13485Threashold = 3;
+	
+	
+	
 	private boolean forProductAssesorR;
+	/**
+	 * Condition for auditor type: Product Assesor-R
+	 * Category-specific training (hours). Default 16
+	 */
+	private Integer assesorRTrainingThreashold = 16;
+	/**
+	 * Condition for auditor type: Product Assesor-R
+	 * No. of TF reviews in category. Default 1
+	 */
+	private Integer assesorRTFReviewsThreashold = 1;
+	/**
+	 * Condition for auditor type: Product Assesor-R
+	 * If No. of TF reviews is bigger || equals this val, Training is complied.
+	 */
+	private Integer assesorRTFReviewsThreasholdForTraining = 3;
+	
+	
+	
 	private boolean forProductSpecialist;
-
+	/**
+	 * Condition for auditor type: Product Assesor-R
+	 * Category-specific training (hours). Default 16
+	 */
+	private Integer specialistTrainingThreashold = 16;
+	/**
+	 * Condition for auditor type: Product Assesor-R
+	 * No. of TF reviews in category. Default 1
+	 */
+	private Integer specialistDDReviewsThreashold = 1;
+	/**
+	 * Condition for auditor type: Product Assesor-R
+	 * If No. of TF reviews is bigger || equals this val, Training is complied.
+	 */
+	private Integer specialistDDReviewsThreasholdForTraining = 5;
+	
 	public NandoCode(){
 		this(null);
 	}
@@ -145,8 +197,94 @@ public class NandoCode extends BaseEntity{
 		this.forProductSpecialist = forProductSpecialist;
 	}
 
+	
+	
+	@Column(name = "threashold_assesor_a_training")
+	public Integer getAssesorATrainingThreashold() {
+		return assesorATrainingThreashold;
+	}
+	
+	public void setAssesorATrainingThreashold(Integer assesorATrainingThreashold) {
+		this.assesorATrainingThreashold = assesorATrainingThreashold;
+	}
+	
+	@Column(name = "threashold_assesor_a_nb_adusits")
+	public Integer getAssesorANbAuditsThreashold() {
+		return assesorANbAuditsThreashold;
+	}
+
+	public void setAssesorANbAuditsThreashold(Integer assesorANbAuditsThreashold) {
+		this.assesorANbAuditsThreashold = assesorANbAuditsThreashold;
+	}
+	
+	@Column(name = "threashold_assesor_a_iso_adusits")
+	public Integer getAssesorAIso13485Threashold() {
+		return assesorAIso13485Threashold;
+	}
+
+	public void setAssesorAIso13485Threashold(Integer assesorAIso13485Threashold) {
+		this.assesorAIso13485Threashold = assesorAIso13485Threashold;
+	}
+	
+	@Column(name = "threashold_assesor_r_training")
+	public Integer getAssesorRTrainingThreashold() {
+		return assesorRTrainingThreashold;
+	}
+
+	public void setAssesorRTrainingThreashold(Integer assesorRTrainingThreashold) {
+		this.assesorRTrainingThreashold = assesorRTrainingThreashold;
+	}
+	
+	@Column(name = "threashold_assesor_r_tf_reviews")
+	public Integer getAssesorRTFReviewsThreashold() {
+		return assesorRTFReviewsThreashold;
+	}
+
+	public void setAssesorRTFReviewsThreashold(Integer assesorRTFReviewsThreashold) {
+		this.assesorRTFReviewsThreashold = assesorRTFReviewsThreashold;
+	}
+
+	@Column(name = "threashold_assesor_r_tf_reviews_for_training")
+	public Integer getAssesorRTFReviewsThreasholdForTraining() {
+		return assesorRTFReviewsThreasholdForTraining;
+	}
+
+	public void setAssesorRTFReviewsThreasholdForTraining(
+			Integer assesorRTFReviewsThreasholdForTraining) {
+		this.assesorRTFReviewsThreasholdForTraining = assesorRTFReviewsThreasholdForTraining;
+	}
+	
+	@Column(name = "threashold_specialist_training")
+	public Integer getSpecialistTrainingThreashold() {
+		return specialistTrainingThreashold;
+	}
+
+	public void setSpecialistTrainingThreashold(Integer specialistTrainingThreashold) {
+		this.specialistTrainingThreashold = specialistTrainingThreashold;
+	}
+	
+	@Column(name = "threashold_specialist_dd_reviews")
+	public Integer getSpecialistDDReviewsThreashold() {
+		return specialistDDReviewsThreashold;
+	}
+
+	public void setSpecialistDDReviewsThreashold(
+			Integer specialistDDReviewsThreashold) {
+		this.specialistDDReviewsThreashold = specialistDDReviewsThreashold;
+	}
+	
+	@Column(name = "threashold_specialist_dd_reviews_for_training")
+	public Integer getSpecialistDDReviewsThreasholdForTraining() {
+		return specialistDDReviewsThreasholdForTraining;
+	}
+
+	public void setSpecialistDDReviewsThreasholdForTraining(
+			Integer specialistDDReviewsThreasholdForTraining) {
+		this.specialistDDReviewsThreasholdForTraining = specialistDDReviewsThreasholdForTraining;
+	}
+
+	
 	private void registerInParentsChilds() {
 		this.parent.children.add(this);
 	}
-
 }

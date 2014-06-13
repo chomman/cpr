@@ -17,10 +17,10 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table(name = "quasar_product_assesor_a_scope", uniqueConstraints = @UniqueConstraint(columnNames = {"nando_code_id", "auditor_id"}) )
+@Table(name = "quasar_auditor_has_nando_code", uniqueConstraints = @UniqueConstraint(columnNames = {"nando_code_id", "auditor_id"}) )
 @Inheritance(strategy = InheritanceType.JOINED)
-@SequenceGenerator(name = "quasar_product_assesor_a_id_seq", sequenceName = "quasar_product_assesor_a_id_seq", initialValue = 1, allocationSize =1)
-public class ProductAssesorAScope extends AbstractAuditorFunction {
+@SequenceGenerator(name = "quasar_auditor_has_nando_code_id_seq", sequenceName = "quasar_auditor_has_nando_code_id_seq", initialValue = 1, allocationSize =1)
+public class AuditorNandoCode extends AbstractAuditorCode {
 
 	private static final long serialVersionUID = -4193813519262412701L;
 	
@@ -40,7 +40,7 @@ public class ProductAssesorAScope extends AbstractAuditorFunction {
 	private NandoCode nandoCode;
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_product_assesor_a_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_auditor_has_nando_code_id_seq")
 	@Override
 	public Long getId() {
 		return super.getId();

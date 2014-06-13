@@ -81,7 +81,7 @@
 						</a>
 						<a class="showMore" href="#"><spring:message code="csn.csnonline.info.show" /></a>
 						<span class="info hidden">
-							<spring:message code="csnonline.info" />
+							<spring:message code="standard.help.csn" />
 						</span>	
 					</td>
 				</tr>

@@ -16,7 +16,7 @@ import cz.nlfnorm.entities.NotifiedBody;
 
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class AbstractAuditorFunction implements Serializable, IdentifiableByLong{
+public abstract class AbstractAuditorCode implements Serializable, IdentifiableByLong{
 	
 	private Long id;
 
@@ -105,7 +105,7 @@ public abstract class AbstractAuditorFunction implements Serializable, Identifia
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AbstractAuditorFunction other = (AbstractAuditorFunction) obj;
+		AbstractAuditorCode other = (AbstractAuditorCode) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;

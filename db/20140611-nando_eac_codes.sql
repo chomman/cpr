@@ -137,6 +137,15 @@ INSERT INTO quasar_eac_code (id, changed, enabled, code, is_for_qs_auditor, name
 INSERT INTO quasar_eac_code (id, changed, enabled, code, is_for_qs_auditor, name, id_user_changed_by, nace_code) VALUES (37, '2014-06-12 09:58:23.297', true, 'EAC 37', false, 'Education', 1, '85');
 INSERT INTO quasar_eac_code (id, changed, enabled, code, is_for_qs_auditor, name, id_user_changed_by, nace_code) VALUES (38, '2014-06-12 09:58:37.776', true, 'EAC 38', true, 'Health & Social Work, Veterinary Services', 1, '75, 86, 87, 88');
 INSERT INTO quasar_eac_code (id, changed, enabled, code, is_for_qs_auditor, name, id_user_changed_by, nace_code) VALUES (39, '2014-06-12 09:58:54.692', true, 'EAC 39', false, 'Other Social Work', 1, '38.1, 38.2, 39, 59.1, 60, 63.9, 79, 90, 91, 92, 93, 94, 96');
-
+update quasar_nando_code SET 
+threashold_assesor_a_iso_adusits = 3,
+threashold_assesor_a_nb_adusits = 1,
+threashold_assesor_a_training = 8,
+threashold_assesor_r_tf_reviews = 1,
+threashold_assesor_r_tf_reviews_for_training  = 3,
+threashold_assesor_r_training  = 16,
+threashold_specialist_dd_reviews  = 1,
+threashold_specialist_dd_reviews_for_training = 5,
+threashold_specialist_training  = 16; 
 
 end;

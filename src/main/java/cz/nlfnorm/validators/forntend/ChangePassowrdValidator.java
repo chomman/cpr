@@ -12,7 +12,6 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.validators.AbstractValidator;
 import cz.nlfnorm.validators.PasswordValidator;
-import cz.nlfnorm.web.forms.portal.ChangePasswordForm;
 import cz.nlfnorm.web.forms.portal.ResetPassowrdForm;
 
 @Component
@@ -30,7 +29,7 @@ public class ChangePassowrdValidator extends AbstractValidator{
 	@Override
 	protected void addExtraValidation(Object objectForm, Errors errors) {
 		
-			if(objectForm instanceof ChangePasswordForm){		
+			if(objectForm instanceof ResetPassowrdForm){		
 				
 				final String newPass = ((ResetPassowrdForm) objectForm).getNewPassword();
 				final String confirmPass = ((ResetPassowrdForm) objectForm).getConfirmPassword();

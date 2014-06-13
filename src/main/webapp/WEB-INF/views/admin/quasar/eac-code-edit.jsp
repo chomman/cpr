@@ -11,6 +11,10 @@
 			<spring:message code="eacCode.edit" />
 		</c:if>
 	</title>
+	<script src="<c:url value="/resources/admin/js/jquery.bundledCheckbox.js" />"></script>
+	<script type="text/javascript">
+		$(function(){ $('input.bundled').bundledCheckbox(); });
+	</script>
 </head>
 <body>
 	<div id="wrapper">
@@ -54,7 +58,7 @@
 					</c:if>
 					
 					<p class="form-head"><spring:message code="baseInformations" /></p>
-					<p>
+						<p>
                       		<label>
                       			<strong><em class="red">*</em>
                        			<spring:message code="eacCode.code" />:
@@ -96,10 +100,19 @@
                       			<spring:message code="eacCode.qsAuditor" />:
                        	</label>
                            <span class="field"> 
-                           	<form:checkbox path="forQsAuditor"/>
+                           	<form:checkbox path="forQsAuditor" cssClass="bundled"/>
                            </span>
                        </p>
-                         
+                         <p class="forQsAuditor">
+                      		<label>
+                      			<strong><em class="red">*</em>
+                       			<spring:message code="eacCode.threshold" />:
+                       		</strong> 
+                       	</label>
+                           <span class="field">
+                           	<form:input path="threshold" maxlength="3" cssClass="w50 required" />
+                           </span>
+                       </p>
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

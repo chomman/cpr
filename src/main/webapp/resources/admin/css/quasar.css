@@ -5,3 +5,11 @@ tr.is-first-level,
 tr.is-first-level.odd{background-color:#E8FAFF;}
 .is-first-level td{padding:4px 8px;}
 .is-first-level td.code{font-weight: bold;}
+
+
+.con-filed{display:block;border-top:1px solid #ddd;font-size:12px !important;font-size:11px !important;padding:3px 10px;margin-left:-15px !important;}
+.con-filed input{width: 25px; text-align:center;padding-top:2px;padding-bottom:2px;}
+.con-filed strong{color:#000}
+
+.con-filed .or{padding-left:150px;}
+.second-con{padding-left:35px;}

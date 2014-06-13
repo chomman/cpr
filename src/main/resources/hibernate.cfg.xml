@@ -38,6 +38,8 @@
 	<mapping class="cz.nlfnorm.entities.CsnTerminology"/>
 	<mapping class="cz.nlfnorm.entities.CsnTerminologyLog"/>	
 	
+	
+	<!-- Portal -->
 	<mapping class="cz.nlfnorm.entities.PortalProduct"/>
 	<mapping class="cz.nlfnorm.entities.PortalOrder"/>
 	<mapping class="cz.nlfnorm.entities.PortalOrderItem"/>
@@ -54,8 +56,8 @@
 	<mapping class="cz.nlfnorm.quasar.entities.Partner"/>
 	<mapping class="cz.nlfnorm.quasar.entities.FieldOfEducation"/>
 	<mapping class="cz.nlfnorm.quasar.entities.SpecialTraining"/>
-	<mapping class="cz.nlfnorm.quasar.entities.QsAuditorScope"/>
-	<mapping class="cz.nlfnorm.quasar.entities.ProductAssesorAScope"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorEacCode"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorNandoCode"/>
 	
 	
 	

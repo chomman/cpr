@@ -1,7 +1,6 @@
 package cz.nlfnorm.quasar.entities;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,8 +74,8 @@ public class Auditor extends User {
 	private int other;
 	
 	private AuditingTraining auditingTraining;
-	private Set<SpecialTraining> specialTrainings;
-	private Set<QsAuditorScope> qsAuditorScope; 
+	
+	private Set<AuditorEacCode> qsAuditorScope; 
 	
 	/* Decision on the Specialist’s branch assignation  */
 	private boolean activeMedicalDeviceSpecialist;
@@ -87,7 +86,7 @@ public class Auditor extends User {
 	public Auditor(){
 		this.education = new HashMap<>();
 		this.auditingTraining = new AuditingTraining(this);
-		this.specialTrainings = new HashSet<>();
+		
 	}
 	 
 	@NotNull(message = "{error.auditor.itcId.notNull}")
@@ -294,22 +293,15 @@ public class Auditor extends User {
 	
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)
-	public Set<QsAuditorScope> getQsAuditorScope() {
+	public Set<AuditorEacCode> getQsAuditorScope() {
 		return qsAuditorScope;
 	}
 
-	public void setQsAuditorScope(Set<QsAuditorScope> qsAuditorScope) {
+	public void setQsAuditorScope(Set<AuditorEacCode> qsAuditorScope) {
 		this.qsAuditorScope = qsAuditorScope;
 	}
 	
-	@OneToMany(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	public Set<SpecialTraining> getSpecialTrainings() {
-		return specialTrainings;
-	}
-
-	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
-		this.specialTrainings = specialTrainings;
-	}
+	
 	@Column(name = "is_in_training")
 	public boolean isInTraining() {
 		return inTraining;
