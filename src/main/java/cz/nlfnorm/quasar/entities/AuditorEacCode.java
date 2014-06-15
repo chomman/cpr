@@ -3,6 +3,7 @@ package cz.nlfnorm.quasar.entities;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -16,10 +17,12 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import cz.nlfnorm.entities.NotifiedBody;
+
 /**
  * QUASAR entity
  * 
- * Represents QS Auditor scope
+ * Represents QS Auditor EAC code
  * 
  * @author Peter Jurkovic
  * @date Jun 13, 2014
@@ -42,6 +45,16 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	 * Number of ISO 13485 audits in TA
 	 */
 	private int numberOfIso13485Audits;
+	
+	/**
+	 * Specific reason for the approval (in case of missing review)
+	 */
+	private boolean itcApproval;
+	
+	/**
+	 * If is NOT NULL, given NB approved for
+	 */
+	private NotifiedBody notifiedBody;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_auditor_has_eac_code_id_seq")
@@ -82,4 +95,23 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	}
 	
 	
+	@Column(name = "is_itc_approved")
+	public boolean isItcApproved() {
+		return itcApproval;
+	}
+
+	public void setItcApproved(boolean itcApproved) {
+		this.itcApproval = itcApproved;
+	}
+
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "notified_body_id")
+	public NotifiedBody getNotifiedBody() {
+		return notifiedBody;
+	}
+
+	public void setNotifiedBody(NotifiedBody notifiedBody) {
+		this.notifiedBody = notifiedBody;
+	}
+
 }
