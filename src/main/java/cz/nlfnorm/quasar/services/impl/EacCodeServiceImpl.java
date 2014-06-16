@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.EacCodeDao;
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.EacCode;
 import cz.nlfnorm.quasar.services.EacCodeService;
 import cz.nlfnorm.utils.UserUtils;
@@ -77,5 +78,12 @@ public class EacCodeServiceImpl implements EacCodeService {
 			update(eacCode);
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<EacCode> getAllNonAssociatedAuditorsEacCodes(final Auditor auditor) {
+		return eacCodeDao.getAllNonAssociatedAuditorsEacCodes(auditor);
+	}
+
 
 }

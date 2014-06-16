@@ -4,6 +4,8 @@
 <html>
 	<head>
 		<title>${model.terminology.csn.csnId} - ${model.terminology.title}</title>
+		<meta name="keywords" content="${model.terminology.csn.csnId}, ČSN" />
+		<meta name="description" content="${model.terminology.csn.csnId} - ${model.terminology.title}" />
 		<script src="<c:url value="/resources/public/js/terminology.autocomplete.js" />"></script>
 	</head>
 	<script>

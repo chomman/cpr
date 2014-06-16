@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.services;
 
 import java.util.List;
 
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.EacCode;
 
 /**
@@ -29,4 +30,6 @@ public interface EacCodeService {
 	void delete(EacCode eacCode);
 	
 	void createOrUpdate(EacCode eacCode);
+	
+	List<EacCode> getAllNonAssociatedAuditorsEacCodes(Auditor auditor);
 }

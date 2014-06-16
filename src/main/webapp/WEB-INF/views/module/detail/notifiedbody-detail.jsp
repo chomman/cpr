@@ -10,6 +10,8 @@
 			</c:if> 
 			- ${fn:substring(model.notifiedBody.name, 0, 60)}
 		</title>
+		<meta name="description" content="${model.notifiedBody.name}" />
+		<meta name="keywords" content="${model.notifiedBody.noCode}, ${model.notifiedBody.name}" />
 		<script src="https://maps.googleapis.com/maps/api/js?v=3.5&amp;sensor=false"></script>
 		<script src="<c:url value="/resources/public/js/google.maps.js" />"></script>
 	</head>

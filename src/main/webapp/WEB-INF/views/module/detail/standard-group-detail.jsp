@@ -3,7 +3,9 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>${fn:substring(model.group.name, 0, 90)}</title>		
+		<title>${fn:substring(model.group.name, 0, 90)}</title>
+		<meta name="keywords" content="CPR, ${model.group.name}" />
+		<meta name="description" content="${model.group.name}" />		
 	</head>
 	<body>
 			

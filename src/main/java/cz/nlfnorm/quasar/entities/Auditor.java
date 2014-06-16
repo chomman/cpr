@@ -1,6 +1,7 @@
 package cz.nlfnorm.quasar.entities;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
@@ -75,7 +76,8 @@ public class Auditor extends User {
 	
 	private AuditingTraining auditingTraining;
 	
-	private Set<AuditorEacCode> qsAuditorScope; 
+	private Set<AuditorEacCode> auditorsEacCodes;
+	private Set<AuditorNandoCode> audotorsNandoCodes;
 	
 	/* Decision on the Specialist’s branch assignation  */
 	private boolean activeMedicalDeviceSpecialist;
@@ -85,12 +87,15 @@ public class Auditor extends User {
 	
 	public Auditor(){
 		this.education = new HashMap<>();
+		this.education.put(EDUCATION_ACTIVE_MD, new AuditorEducation());
+		this.education.put(EDUCATION_NON_ACTIVE_MD, new AuditorEducation());
 		this.auditingTraining = new AuditingTraining(this);
-		
+		this.auditorsEacCodes = new HashSet<>();
+		this.audotorsNandoCodes = new HashSet<>();
 	}
 	 
 	@NotNull(message = "{error.auditor.itcId.notNull}")
-	@Column(name = "personal_itc_id", nullable = false, unique = true)
+	@Column(name = "itc_id", nullable = false, unique = true)
 	public Integer getItcId() {
 		return itcId;
 	}
@@ -291,17 +296,24 @@ public class Auditor extends User {
 		this.inVitroDiagnosticSpecialist = inVitroDiagnosticSpecialist;
 	}
 	
-	
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)
-	public Set<AuditorEacCode> getQsAuditorScope() {
-		return qsAuditorScope;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)	
+	public Set<AuditorEacCode> getAuditorsEacCodes() {
+		return auditorsEacCodes;
 	}
 
-	public void setQsAuditorScope(Set<AuditorEacCode> qsAuditorScope) {
-		this.qsAuditorScope = qsAuditorScope;
+	public void setAuditorsEacCodes(Set<AuditorEacCode> auditorsEacCodes) {
+		this.auditorsEacCodes = auditorsEacCodes;
 	}
 	
-	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)
+	public Set<AuditorNandoCode> getAudotorsNandoCodes() {
+		return audotorsNandoCodes;
+	}
+
+	public void setAudotorsNandoCodes(Set<AuditorNandoCode> audotorsNandoCodes) {
+		this.audotorsNandoCodes = audotorsNandoCodes;
+	}
+
 	@Column(name = "is_in_training")
 	public boolean isInTraining() {
 		return inTraining;

@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
@@ -29,6 +30,8 @@ public class AuditorServiceImpl implements AuditorService{
 	private AuditorDao auditorDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AuditorEacCodeService auditorEacCodeService;
 	
 	@Override
 	public void create(final Auditor auditor) {
@@ -66,6 +69,7 @@ public class AuditorServiceImpl implements AuditorService{
 			auditor.setCreated(auditor.getChanged());
 			auditor.setCreatedBy(user);
 			create(auditor);
+			syncCodes(auditor);
 		}else{
 			update(auditor);
 		}
@@ -77,4 +81,7 @@ public class AuditorServiceImpl implements AuditorService{
 		return auditorDao.isItcIdUniqe(id, auditorId);
 	}
 
+	private void syncCodes(final Auditor auditor){
+		auditorEacCodeService.syncAuditorEacCodes(auditor);
+	}
 }

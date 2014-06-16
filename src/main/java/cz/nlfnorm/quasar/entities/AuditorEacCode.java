@@ -56,6 +56,13 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	 */
 	private NotifiedBody notifiedBody;
 
+	public AuditorEacCode(){}
+	
+	public AuditorEacCode(Auditor auditor, EacCode eacCode){
+		setAuditor(auditor);
+		this.eacCode = eacCode;
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_auditor_has_eac_code_id_seq")
 	@Override

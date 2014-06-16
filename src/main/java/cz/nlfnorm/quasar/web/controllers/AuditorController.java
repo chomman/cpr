@@ -75,7 +75,7 @@ public class AuditorController extends QuasarSupportController {
 			prepareCreateModel(modelMap, form);
 			return getViewName();
 		}
-		//final Long id = createNewAuditor(form);
+		final Long id = createNewAuditor(form);
 		return getViewName();
 	}
 	

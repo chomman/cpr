@@ -11,6 +11,8 @@
 		<title>
 			<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="title" />
 		</title>
+		<meta name="description" content="${nlf:crop(webpageModel.webpage.descriptionInLang, 210)}" />
+		<meta name="keywords" content="${webpageModel.webpage.jointedTags}" /> 
 	</head>
 	<body>
 		<div id="main-content">
