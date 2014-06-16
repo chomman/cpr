@@ -108,4 +108,19 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 	public List<NandoCode> getAllEnabled() {
 		return getCodesForAuditorType(ALL_AUDITORS, false);
 	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<NandoCode> getAllNonAssociatedAuditorsNandoCodes(final Auditor auditor) {
+		StringBuilder hql = new StringBuilder("select c from NandoCode c ");
+		hql.append(" where (c.forProductAssesorA=true or c.forProductAssesorR=true or c.forProductSpecialist=true)")
+			.append(" and not EXISTS( ")
+			.append(" select 1 from AuditorNandoCode ac ")
+			.append(" where ac.nandoCode.id = c.id and ac.auditor.id = :id )");
+		return createQuery(hql)
+					.setCacheable(false)
+					.setLong("id", auditor.getId())
+					.list();
+	}
 }

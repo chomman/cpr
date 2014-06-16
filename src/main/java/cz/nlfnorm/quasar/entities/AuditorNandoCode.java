@@ -113,9 +113,13 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 	 */
 	private NotifiedBody productSpecialistApprovedBy;
 	
-	
-	
 	private NandoCode nandoCode;
+	
+	public AuditorNandoCode(){}
+	public AuditorNandoCode(Auditor auditor, NandoCode code){
+		setAuditor(auditor);
+		setNandoCode(code);
+	}
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_auditor_has_nando_code_id_seq")

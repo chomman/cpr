@@ -12,6 +12,7 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
+import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
@@ -32,6 +33,8 @@ public class AuditorServiceImpl implements AuditorService{
 	private UserService userService;
 	@Autowired
 	private AuditorEacCodeService auditorEacCodeService;
+	@Autowired
+	private AuditorNandoCodeService auditorNandoCodeService;
 	
 	@Override
 	public void create(final Auditor auditor) {
@@ -83,5 +86,6 @@ public class AuditorServiceImpl implements AuditorService{
 
 	private void syncCodes(final Auditor auditor){
 		auditorEacCodeService.syncAuditorEacCodes(auditor);
+		auditorNandoCodeService.syncAuditorNandoCodes(auditor);
 	}
 }

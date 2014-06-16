@@ -34,10 +34,8 @@
 					<table class="data">
 						<thead>
 							<tr>
-								<tH><spring:message code="eacCode.code" /></th>
-								<tH><spring:message code="eacCode.name" /></th>
-								<th><spring:message code="eacCode.naceCode" /></th>
-								<th><spring:message code="eacCode.qsAuditor" /></th>
+								<th><spring:message code="auditor.itcId" /></th>
+								<th><spring:message code="auditor.name" /></th>
 								<th>Changed</th>
 								<th>Activated</th>
 								<th>&nbsp;</th> 
@@ -46,12 +44,8 @@
 						<tbody>
 							<c:forEach items="${model.auditors}" var="i">
 								<tr class="${i.enabled ? '' : 'is-disabled'}"> 
-									<td class="w100 code c">${i.code}</td>	
-									<td>${i.name}</td>
-									<td>${i.naceCode}</td>
-									<td class="w50 c ${i.forQsAuditor ? 'scope-yes' : 'scope-no'}">
-										${i.forQsAuditor ? 'Yes' : 'No'}
-									</td>				
+									<td class="w100 code c">${i.itcId}</td>	
+									<td>${i.firstName} ${i.lastName} <c:if test="${not empty i.degrees}">, ${i.degrees}</c:if></td>
 									<td class="last-edit">
 										<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 									</td>
@@ -68,7 +62,7 @@
 										</c:if>
 									</td>		
 									<td class="edit">
-										<a:adminurl href="/quasar/manage/eac-code/${i.id}">
+										<a:adminurl href="/quasar/manage/auditor/${i.id}">
 											<spring:message code="quasar.edit" />
 										</a:adminurl>
 									</td>

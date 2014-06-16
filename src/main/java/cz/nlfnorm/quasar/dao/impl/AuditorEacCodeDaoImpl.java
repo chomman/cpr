@@ -8,7 +8,6 @@ import cz.nlfnorm.dao.impl.BaseDaoImpl;
 import cz.nlfnorm.quasar.dao.AuditorEacCodeDao;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorEacCode;
-import cz.nlfnorm.quasar.entities.EacCode;
 
 /**
  * 
@@ -31,31 +30,16 @@ public class AuditorEacCodeDaoImpl extends BaseDaoImpl<AuditorEacCode, Long> imp
 				.list();
 	}
 	
-	
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<EacCode> getAllNonAssociatedCodesWith(final Auditor auditor) {
-		StringBuilder hql = new StringBuilder("select code from EacCode code ");
-		hql.append(" where code.forQsAuditor = true and not EXISTS( ")
-			.append(" select 1 from AuditorEacCode ac ")
-			.append(" where ac.id = code.id and ec.auditor.id = :id )");
-		return createQuery(hql)
-					.setCacheable(false)
-					.setLong("id", auditor.getId())
-					.list();
-	}
-
-	
+		
 	@Override
 	public AuditorEacCode getByEacCode(final String code, final Long auditorId) {
 		StringBuilder hql = new StringBuilder("from AuditorEacCode auditorCode");
-		hql.append(" join auditorCode.auditor.id = :auditorId and auditorCode.eacCode.code = :code ");
+		hql.append(" where auditorCode.auditor.id = :auditorId and auditorCode.eacCode.code = :code ");
 		return (AuditorEacCode) createQuery(hql)
 			.setLong("auditorId", auditorId)
 			.setString("code", code)
 			.setMaxResults(1)
 			.uniqueResult();
-		
 	}
 	
 }

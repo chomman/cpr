@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.services;
 
 import java.util.List;
 
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.NandoCode;
 
 /**
@@ -35,4 +36,6 @@ public interface NandoCodeService{
 	List<NandoCode> getForProductSpecialist();
 	
 	void createOrUpdate(NandoCode nandoCode);
+	
+	List<NandoCode> getAllNonAssociatedAuditorsNandoCodes(Auditor auditor);
 }

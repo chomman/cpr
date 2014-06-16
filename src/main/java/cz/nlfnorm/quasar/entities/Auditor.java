@@ -77,7 +77,7 @@ public class Auditor extends User {
 	private AuditingTraining auditingTraining;
 	
 	private Set<AuditorEacCode> auditorsEacCodes;
-	private Set<AuditorNandoCode> audotorsNandoCodes;
+	private Set<AuditorNandoCode> auditorsNandoCodes;
 	
 	/* Decision on the Specialist’s branch assignation  */
 	private boolean activeMedicalDeviceSpecialist;
@@ -91,7 +91,7 @@ public class Auditor extends User {
 		this.education.put(EDUCATION_NON_ACTIVE_MD, new AuditorEducation());
 		this.auditingTraining = new AuditingTraining(this);
 		this.auditorsEacCodes = new HashSet<>();
-		this.audotorsNandoCodes = new HashSet<>();
+		this.auditorsNandoCodes = new HashSet<>();
 	}
 	 
 	@NotNull(message = "{error.auditor.itcId.notNull}")
@@ -306,12 +306,12 @@ public class Auditor extends User {
 	}
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)
-	public Set<AuditorNandoCode> getAudotorsNandoCodes() {
-		return audotorsNandoCodes;
+	public Set<AuditorNandoCode> getAuditorsNandoCodes() {
+		return auditorsNandoCodes;
 	}
 
-	public void setAudotorsNandoCodes(Set<AuditorNandoCode> audotorsNandoCodes) {
-		this.audotorsNandoCodes = audotorsNandoCodes;
+	public void setAuditorsNandoCodes(Set<AuditorNandoCode> nandoCodes) {
+		this.auditorsNandoCodes = nandoCodes;
 	}
 
 	@Column(name = "is_in_training")

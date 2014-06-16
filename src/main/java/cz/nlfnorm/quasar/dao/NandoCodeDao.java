@@ -3,6 +3,7 @@ package cz.nlfnorm.quasar.dao;
 import java.util.List;
 
 import cz.nlfnorm.dao.BaseDao;
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.NandoCode;
 
 
@@ -25,4 +26,6 @@ public interface NandoCodeDao extends BaseDao<NandoCode, Long>{
 	NandoCode getByNandoCode(String code);
 	
 	int getNextOrderInNode(Long nodeId);
+	
+	List<NandoCode> getAllNonAssociatedAuditorsNandoCodes(Auditor auditor);
 }

@@ -50,9 +50,9 @@ public class AuditorController extends QuasarSupportController {
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
-	public String showNandoCodes(ModelMap modelMap) {
+	public String showAuditorList(ModelMap modelMap) {
 		Map<String, Object> model = new HashMap<>();
-		model.put("eacCodes", auditorService.getAll());
+		model.put("auditors", auditorService.getAll());
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getTableItemsView();

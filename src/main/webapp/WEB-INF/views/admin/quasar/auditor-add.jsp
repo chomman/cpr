@@ -24,6 +24,9 @@
 		<h1><spring:message code="auditor.add" /></h1>
 
 		<div id="content">
+			
+			<jsp:include page="navs/auditor-code-nav.jsp" />
+			
 			<form:form  commandName="auditorForm" method="post" cssClass="valid" >
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 				<p class="form-head"><spring:message code="auditor.head.login" /></p>

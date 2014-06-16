@@ -40,7 +40,7 @@ public class EacCodeDaoImpl extends BaseDaoImpl<EacCode, Long> implements EacCod
 		StringBuilder hql = new StringBuilder("select code from EacCode code ");
 		hql.append(" where code.forQsAuditor = true and not EXISTS( ")
 			.append(" select 1 from AuditorEacCode ac ")
-			.append(" where ac.id = code.id and ac.auditor.id = :id )");
+			.append(" where ac.eacCode.id = code.id and ac.auditor.id = :id )");
 		return createQuery(hql)
 					.setCacheable(false)
 					.setLong("id", auditor.getId())
