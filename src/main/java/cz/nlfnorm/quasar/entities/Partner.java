@@ -27,7 +27,7 @@ public class Partner extends BaseEntity {
 	
 	private String name;
 	
-	private User manger;
+	private User manager;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_partner_id_seq")
@@ -48,12 +48,12 @@ public class Partner extends BaseEntity {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "id_manager")
-	public User getManger() {
-		return manger;
+	public User getManager() {
+		return manager;
 	}
 
-	public void setManger(User manger) {
-		this.manger = manger;
+	public void setManager(User manger) {
+		this.manager = manger;
 	}
 	
 	

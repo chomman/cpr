@@ -1,9 +1,13 @@
 package cz.nlfnorm.quasar.dao.impl;
 
+import java.util.List;
+
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.dao.impl.BaseDaoImpl;
+import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
 
@@ -30,6 +34,34 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 			.setInteger("itcId", itcId)
 			.setLong("auditorId", auditorId);
 		return (Long)query.uniqueResult() == 0l ;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<AutocompleteDto> autocomplete(String term, Boolean enabledObly, Boolean adminsOnly) {
+		StringBuilder hql = new StringBuilder("select u.id as id, CONCAT(u.firstName, ' ', u.lastName) as name from User u  ");
+		hql.append(" join u.authoritySet authority ")
+			.append(" WHERE ( unaccent(lower(u.firstName)) like CONCAT('%', unaccent(:query) , '%') OR")
+			.append(" unaccent(lower(u.lastName)) like CONCAT('%', unaccent(:query) , '%') )");
+		if(enabledObly != null && enabledObly){
+			hql.append(" and u.enabled = true ");
+		}
+		if(adminsOnly != null){
+			hql.append(" and authority.code = :authority ");
+		}
+		Query query = sessionFactory.getCurrentSession()
+				.createQuery(hql.toString())
+				.setString("query", term.toLowerCase())
+				.setCacheable(false)
+				.setMaxResults(8);
+		if(adminsOnly != null){
+			if(adminsOnly){
+				query.setString("authority", Authority.ROLE_QUASAR_ADMIN);
+			}else{
+				query.setString("authority", Authority.ROLE_AUDITOR);
+			}
+		}
+		return query.list();
 	}
 
 }

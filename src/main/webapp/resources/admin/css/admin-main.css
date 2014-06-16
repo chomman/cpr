@@ -179,6 +179,9 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 .msg.error,.logResult.importFailed,.import.failed{background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
 .msg.info{background:#F5FAFF url(../img/ico_info.png) no-repeat 10px center;border:3px solid  #E3F0FF;color:#2F4A69;}
 .mini-info{background:#F5FAFF url(../img/ico_info_16x16.png) no-repeat 5px center;border:2px solid  #E3F0FF;color:#2F4A69;padding:8px 8px 8px 30px;font-size:12px;margin:8px;}
+.mini-info strong{font-weight: bold;}
+.mini-info a{ text-decoration: underline;}
+.mini-info a:hover{color:#111}
 
 
 .note{font-size:11px;margin:20px 0;display:block;color:#777;font-style:italic;}

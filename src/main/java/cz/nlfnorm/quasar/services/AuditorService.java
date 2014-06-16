@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.services;
 
 import java.util.List;
 
+import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.quasar.entities.Auditor;
 
 public interface AuditorService {
@@ -21,4 +22,6 @@ public interface AuditorService {
 	boolean isItcIdUniqe(Integer id, Long auditorId);
 	
 	Long createAuditor(Auditor auditor, String password);
+	
+	List<AutocompleteDto> autocomplete(String term, Boolean enabledObly, Boolean adminsOnly);
 }

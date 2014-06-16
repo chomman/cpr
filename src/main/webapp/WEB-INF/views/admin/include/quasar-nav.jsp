@@ -4,6 +4,12 @@
 <strong class="nav-head"><spring:message code="menu.nav" /></strong>
 <ul>
 	<li>
+		<a:adminurl href="/quasar/manage/auditors" activeTab="${model.tab == 3}">
+			<spring:message code="auditors" />
+		</a:adminurl>
+	</li>
+	
+	<li>
 		<a:adminurl href="/quasar/manage/nando-codes" activeTab="${model.tab == 1}">
 			<spring:message code="nandoCodes" />
 		</a:adminurl>
@@ -16,9 +22,11 @@
 	</li>
 	
 	<li>
-		<a:adminurl href="/quasar/manage/auditors" activeTab="${model.tab == 3}">
-			<spring:message code="auditors" />
+		<a:adminurl href="/quasar/manage/partners" activeTab="${model.tab == 4}">
+			<spring:message code="partners" />
 		</a:adminurl>
 	</li>
+	
+	
 	
 </ul>

@@ -11,14 +11,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.services.PartnerService;
+import cz.nlfnorm.quasar.web.editors.UserPropertyEditor;
 
 /**
  * QUASAR Component
@@ -37,11 +41,18 @@ public class PartnerController extends QuasarSupportController {
 
 	@Autowired
 	private PartnerService partnerService;
+	@Autowired
+	private UserPropertyEditor userPropertyEditor;
 	
 	public PartnerController(){
 		setTableItemsView("partner-list");
 		setEditFormView("partner-edit");
 	}
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(User.class, this.userPropertyEditor);
+    }
 	
 	
 	@RequestMapping(LIST_MAPPING_URL)
@@ -88,7 +99,7 @@ public class PartnerController extends QuasarSupportController {
 			partner = partnerService.getById(form.getId());
 			validateNotNull(partner, form.getId());
 		}
-		partner.setManger(form.getManger());
+		partner.setManager(form.getManager());
 		partner.setEnabled(form.isEnabled());
 		partner.setName(StringUtils.trim(form.getName()));
 		partnerService.createOrUpdate(partner);

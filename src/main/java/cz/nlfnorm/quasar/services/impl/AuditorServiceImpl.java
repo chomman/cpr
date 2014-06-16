@@ -1,7 +1,9 @@
 package cz.nlfnorm.quasar.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dao.AuthorityDao;
+import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.AuditorDao;
@@ -101,5 +104,14 @@ public class AuditorServiceImpl implements AuditorService{
 	private void syncCodes(final Auditor auditor){
 		auditorEacCodeService.syncAuditorEacCodes(auditor);
 		auditorNandoCodeService.syncAuditorNandoCodes(auditor);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<AutocompleteDto> autocomplete(String term, Boolean enabledObly, Boolean adminsOnly) {
+		if(StringUtils.isBlank(term)){
+			return new ArrayList<>();
+		}
+		return auditorDao.autocomplete(term, enabledObly, adminsOnly);
 	}
 }

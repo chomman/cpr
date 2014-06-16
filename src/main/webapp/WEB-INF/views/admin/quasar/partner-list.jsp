@@ -34,9 +34,8 @@
 					<table class="data">
 						<thead>
 							<tr>
-								<tH><spring:message code="eacCode.name" /></th>
-								<th><spring:message code="eacCode.naceCode" /></th>
-								<th><spring:message code="eacCode.qsAuditor" /></th>
+								<th><spring:message code="partner.name" /></th>
+								<th><spring:message code="partner.manager" /></th>
 								<th>Changed</th>
 								<th>&nbsp;</th> 
 							</tr>
@@ -44,29 +43,21 @@
 						<tbody>
 							<c:forEach items="${model.partners}" var="i">
 								<tr class="${i.enabled ? '' : 'is-disabled'}"> 
-									<td class="w100 code c">${i.code}</td>	
 									<td>${i.name}</td>
-									<td>${i.naceCode}</td>
-									<td class="w50 c ${i.forQsAuditor ? 'scope-yes' : 'scope-no'}">
-										${i.forQsAuditor ? 'Yes' : 'No'}
-									</td>				
+									<td>
+										<c:if test="${empty i.manager}">
+											<spring:message code="partner.nonAssigned" />
+										</c:if>
+										<c:if test="${not empty i.manager}">
+											${i.manager.firstName} ${i.manager.lastName}
+										</c:if>
+									</td>			
 									<td class="last-edit">
-										<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
+										<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/> / 
+										<span>${i.changedBy.firstName} ${i.changedBy.lastName}</span> 
 									</td>
-									<td class="w100">
-										<c:if test="${i.enabled}">
-											<span class="published yes tt" title="<spring:message code="published.yes.title" />" >
-												Yes
-											</span>
-										</c:if>
-										<c:if test="${not i.enabled}">
-											<span class="published no tt" title="<spring:message code="published.no.title" />" >
-												No
-											</span>
-										</c:if>
-									</td>		
 									<td class="edit">
-										<a:adminurl href="/quasar/manage/eac-code/${i.id}">
+										<a:adminurl href="/quasar/manage/partner/${i.id}">
 											<spring:message code="quasar.edit" />
 										</a:adminurl>
 									</td>

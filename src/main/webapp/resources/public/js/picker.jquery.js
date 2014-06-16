@@ -112,7 +112,8 @@ function changeType(input,type)
 {
     try
     {
-        var input2 = input.cloneNode(false);
+        var limput,
+        	input2 = input.cloneNode(false);
         switch(type)
         {
             default:

@@ -1,6 +1,7 @@
 package cz.nlfnorm.quasar.web.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,9 +13,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.forms.AuditorForm;
@@ -96,6 +101,14 @@ public class AuditorController extends QuasarSupportController {
 		final Auditor form = auditorService.getById(auditorId);
 		prepareAuditorModel(modelMap, form, form);
 		return getEditFormView();
+	}
+	
+	@RequestMapping(value = "/admin/quasar/auditors", method = RequestMethod.GET)
+	public @ResponseBody List<AutocompleteDto>  auditorAutocomplete(
+			@RequestBody @RequestParam("term") String term,
+			@RequestBody @RequestParam(value = "enabled", required = false) Boolean enabled,
+			@RequestBody @RequestParam(value = "adminsOnly", required = false) Boolean adminsOnly){
+		return auditorService.autocomplete(term, enabled, adminsOnly);
 	}
 	
 	private void prepareAuditorModel(ModelMap map, Auditor form, Auditor auditor){
