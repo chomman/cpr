@@ -58,11 +58,9 @@
 	<mapping class="cz.nlfnorm.quasar.entities.SpecialTraining"/>
 	<mapping class="cz.nlfnorm.quasar.entities.AuditorEacCode"/>
 	<mapping class="cz.nlfnorm.quasar.entities.AuditorNandoCode"/>
-	
-	
-	
-	
-	
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorExperience"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Experience"/>
+		
 	 
  </session-factory>
 </hibernate-configuration>

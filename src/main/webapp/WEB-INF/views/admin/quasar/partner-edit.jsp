@@ -84,15 +84,14 @@
 							<form:input path="manager" cssClass="mw500" maxlength="100" />
 						</span>
 					</p>       
-					<p>
+					<div>
 						<p class="mini-info inline">Only users with administrator privileges can be assigned as head auditor.
 							<c:if test="${common.user.superAdministrator}">
 								<strong><a:adminurl href="/users">Manage users role</a:adminurl></strong>
-								and set user as "Auditor správce".
+								and add user role "Auditor správce".
 							</c:if>
-						 	
 						 </p>
-					</p>                          
+					</div>                          
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

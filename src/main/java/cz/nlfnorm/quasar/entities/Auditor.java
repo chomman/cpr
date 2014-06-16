@@ -61,37 +61,27 @@ public class Auditor extends User {
 	private LocalDateTime reassessmentDate;
 	
 	private Map<String, AuditorEducation> education;
-	
-	/* Work experience (number of years):  */
-	private int medicalDevicesIndustry;
-	private int pharmeceuticalIndustry;
-	private int relevantTestingLaboratory;
-	private int notifiedBody;
-	private int mscbForIso13485;
-	private int medicalInstitution;
-	private int hospital;
-	private int electronicIt;
-	private int scienceResearchAuthority;
-	private int other;
-	
+	private Map<Integer, AuditorSpecialist> specialist;
+		
 	private AuditingTraining auditingTraining;
 	
+	private Set<AuditorExperience> auditorExperiences;
 	private Set<AuditorEacCode> auditorsEacCodes;
 	private Set<AuditorNandoCode> auditorsNandoCodes;
-	
-	/* Decision on the Specialist’s branch assignation  */
-	private boolean activeMedicalDeviceSpecialist;
-	private boolean nonActiveMedicalDeviceSpecialist;
-	private boolean inVitroDiagnosticSpecialist;
 	
 	
 	public Auditor(){
 		this.education = new HashMap<>();
 		this.education.put(EDUCATION_ACTIVE_MD, new AuditorEducation());
 		this.education.put(EDUCATION_NON_ACTIVE_MD, new AuditorEducation());
+		this.specialist = new HashMap<>();
+		this.specialist.put(TYPE_PRODUCT_ASSESSOR_A, new AuditorSpecialist());
+		this.specialist.put(TYPE_PRODUCT_ASSESSOR_R, new AuditorSpecialist());
+		this.specialist.put(TYPE_PRODUCT_SPECIALIST, new AuditorSpecialist());
 		this.auditingTraining = new AuditingTraining(this);
 		this.auditorsEacCodes = new HashSet<>();
 		this.auditorsNandoCodes = new HashSet<>();
+		this.auditorExperiences = new HashSet<>();
 	}
 	 
 	@NotNull(message = "{error.auditor.itcId.notNull}")
@@ -166,97 +156,17 @@ public class Auditor extends User {
 		this.education = education;
 	}
 	
-	@Column(name = "exp_medical_devices_inndustry")	
-	public int getMedicalDevicesIndustry() {
-		return medicalDevicesIndustry;
+	@ElementCollection
+	@CollectionTable(name = "quasar_auditor_has_specialities")
+	@MapKeyJoinColumn(name = "type")
+	public Map<Integer, AuditorSpecialist> getSpecialist() {
+		return specialist;
 	}
 
-	public void setMedicalDevicesIndustry(int medicalDevicesIndustry) {
-		this.medicalDevicesIndustry = medicalDevicesIndustry;
+	public void setSpecialist(Map<Integer, AuditorSpecialist> specialist) {
+		this.specialist = specialist;
 	}
 
-	@Column(name = "exp_pharmeceutical_industry")
-	public int getPharmeceuticalIndustry() {
-		return pharmeceuticalIndustry;
-	}
-
-	public void setPharmeceuticalIndustry(int pharmeceuticalIndustry) {
-		this.pharmeceuticalIndustry = pharmeceuticalIndustry;
-	}
-	
-	@Column(name = "exp_relevant_testing_laboratory")
-	public int getRelevantTestingLaboratory() {
-		return relevantTestingLaboratory;
-	}
-
-	public void setRelevantTestingLaboratory(int relevantTestingLaboratory) {
-		this.relevantTestingLaboratory = relevantTestingLaboratory;
-	}
-	
-	@Column(name = "exp_notified_body")
-	public int getNotifiedBody() {
-		return notifiedBody;
-	}
-
-	public void setNotifiedBody(int notifiedBody) {
-		this.notifiedBody = notifiedBody;
-	}
-	
-	@Column(name = "exp_mscb_for_iso13485")
-	public int getMscbForIso13485() {
-		return mscbForIso13485;
-	}
-
-	public void setMscbForIso13485(int mscbForIso13485) {
-		this.mscbForIso13485 = mscbForIso13485;
-	}
-	
-	@Column(name = "exp_medical_institution")
-	public int getMedicalInstitution() {
-		return medicalInstitution;
-	}
-
-	public void setMedicalInstitution(int medicalInstitution) {
-		this.medicalInstitution = medicalInstitution;
-	}
-
-	@Column(name = "exp_hospital")
-	public int getHospital() {
-		return hospital;
-	}
-
-	public void setHospital(int hospital) {
-		this.hospital = hospital;
-	}
-
-	@Column(name = "exp_electronic_it")
-	public int getElectronicIt() {
-		return electronicIt;
-	}
-
-	public void setElectronicIt(int electronicIt) {
-		this.electronicIt = electronicIt;
-	}
-	
-	@Column(name = "exp_science_research_authority")
-	public int getScienceResearchAuthority() {
-		return scienceResearchAuthority;
-	}
-
-	public void setScienceResearchAuthority(int scienceResearchAuthority) {
-		this.scienceResearchAuthority = scienceResearchAuthority;
-	}
-	
-	@Column(name = "exp_other")
-	public int getOther() {
-		return other;
-	}
-
-	public void setOther(int other) {
-		this.other = other;
-	}
-	
-		
 	@PrimaryKeyJoinColumn
 	@OneToOne(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public AuditingTraining getAuditingTraining() {
@@ -266,36 +176,7 @@ public class Auditor extends User {
 	public void setAuditingTraining(AuditingTraining auditingTraining) {
 		this.auditingTraining = auditingTraining;
 	}
-	
-	@Column(name = "is_specialist_for_active_mdd")
-	public boolean isActiveMedicalDeviceSpecialist() {
-		return activeMedicalDeviceSpecialist;
-	}
-
-	public void setActiveMedicalDeviceSpecialist(
-			boolean activeMedicalDeviceSpecialist) {
-		this.activeMedicalDeviceSpecialist = activeMedicalDeviceSpecialist;
-	}
-	
-	@Column(name = "is_specialist_for_non_active_mdd")
-	public boolean isNonActiveMedicalDeviceSpecialist() {
-		return nonActiveMedicalDeviceSpecialist;
-	}
-
-	public void setNonActiveMedicalDeviceSpecialist(
-			boolean nonActiveMedicalDeviceSpecialist) {
-		this.nonActiveMedicalDeviceSpecialist = nonActiveMedicalDeviceSpecialist;
-	}
-	
-	@Column(name = "is_specialist_for_invitro_diagnostic")
-	public boolean isInVitroDiagnosticSpecialist() {
-		return inVitroDiagnosticSpecialist;
-	}
-
-	public void setInVitroDiagnosticSpecialist(boolean inVitroDiagnosticSpecialist) {
-		this.inVitroDiagnosticSpecialist = inVitroDiagnosticSpecialist;
-	}
-	
+		
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)	
 	public Set<AuditorEacCode> getAuditorsEacCodes() {
 		return auditorsEacCodes;
@@ -333,6 +214,15 @@ public class Auditor extends User {
 		this.degrees = degrees;
 	}
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)	
+	public Set<AuditorExperience> getAuditorExperiences() {
+		return auditorExperiences;
+	}
+
+	public void setAuditorExperiences(Set<AuditorExperience> auditorExperiences) {
+		this.auditorExperiences = auditorExperiences;
+	}
+
 	@Transient
 	public boolean isIntenalAuditor(){
 		return getId() < 1000;
@@ -355,33 +245,6 @@ public class Auditor extends User {
 	@Transient
 	public AuditorEducation getForNonActiveMedicalDevice(){
 		return education.get(EDUCATION_NON_ACTIVE_MD);
-	}
-	
-	/**
-	 * Returs total work experience in years 
-	 * @return total work experience in years
-	 */
-	
-	@Transient
-	public int getTotalWorkExperience(){
-		return getMedicalDevicesWorkExperience() + other;	
-	}
-	
-	/**
-	 * Returs relevant work experience in Medical Device sector 
-	 * @return int MD - relevat experience in years
-	 */
-	@Transient
-	public int getMedicalDevicesWorkExperience(){
-		return medicalDevicesIndustry +
-				pharmeceuticalIndustry +
-				relevantTestingLaboratory +
-				notifiedBody + 
-				mscbForIso13485 +
-				medicalInstitution + 
-				hospital +
-				electronicIt +
-				scienceResearchAuthority;
 	}
 	
 	
