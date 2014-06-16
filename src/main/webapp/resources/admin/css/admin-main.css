@@ -14,6 +14,8 @@ ul.tagit{width:inherit !important;}
 label.tt{cursor: help;background:url(../img/info_mini.png) no-repeat 195px 5px; }
 a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
+.radius-top,
+.sub-nav li a{-webkit-border-top-left-radius: 7px;-webkit-border-top-right-radius: 7px;-moz-border-radius-topleft: 7px;-moz-border-radius-topright: 7px;border-top-left-radius: 7px;border-top-right-radius: 7px;}
 .radius,.published,#req-nav a,.btn,.cpr-dashboard li,#chars{-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px;}
 
 .file{padding:0 0 0 25px;display:inline-block;background-position: 0 center;background-repeat: no-repeat;}

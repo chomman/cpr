@@ -44,3 +44,6 @@ strong{color:#eee;font-size:12px;font-weight:normal;display:block;margin-bottom:
 
 .error{padding:15px 5px 15px 50px;font-size:13px;margin:10px 0;background:#ffefef url(../img/ico_error.png) no-repeat 10px center;border:3px solid  #ffcfcf;color:#8c0000;}
 
+form{position:relative}
+.fp{position:absolute;bottom:15px;left:32px;color:#ccc;text-decoration:underline;font-size:11px;}
+.fp:hover{color:#fff;}

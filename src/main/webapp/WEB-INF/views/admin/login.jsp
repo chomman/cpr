@@ -37,6 +37,7 @@
               <span class="remeber">
               	<input class="checkbox" type="checkbox" name="_spring_security_remember_me">
               	<label><spring:message code="rememberMe" /></label>
+              	<a  class="fp" target="_blank" href="<c:url value="/informacni-portal/zapomenute-heslo" />">Zapomenuté helso</a> 
               </span>
       		  <input type="submit" value="Přihlásit se" class="submit"/>
       </form>

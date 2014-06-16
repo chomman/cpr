@@ -31,6 +31,13 @@ import cz.nlfnorm.services.UserService;
 public class AuditorController extends QuasarSupportController {
 	
 	private final static int TAB = 3; 
+	
+	private final static int SUB_TAB_PERSONAL_DATA = 1;
+	private final static int SUB_TAB_QS_ADUTITOR = 2;
+	private final static int SUB_TAB_PROUCT_ASSESSOR_A = 3;
+	private final static int SUB_TAB_PROUCT_ASSESSOR_R = 4;
+	private final static int SUB_TAB_PROUCT_SPECIALIST = 5;
+
 	private final static String LIST_MAPPING_URL = "/admin/quasar/manage/auditors";
 	private final static String ADD_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/add";
 	private final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
@@ -42,6 +49,7 @@ public class AuditorController extends QuasarSupportController {
 	private UserService userService;
 	@Autowired
 	private AuditorService auditorService;
+	
 	
 	public AuditorController(){
 		setTableItemsView("auditor-list");
@@ -75,8 +83,8 @@ public class AuditorController extends QuasarSupportController {
 			prepareCreateModel(modelMap, form);
 			return getViewName();
 		}
-		final Long id = createNewAuditor(form);
-		return getViewName();
+		final Long id = auditorService.createAuditor(form.getAuditor(), form.getNewPassword());
+		return successUpdateRedirect(EDIT_AUDITOR_MAPPING_URL.replace("{auditorId}", id + ""));
 	}
 	
 	
@@ -85,26 +93,29 @@ public class AuditorController extends QuasarSupportController {
 		if(isSucceded(request)){
 			appendSuccessCreateParam(modelMap);
 		}
-		Auditor form = new Auditor();
-		/*if(userId != 0){
-			form = eacCodeService.getById(userId);
-			validateNotNull(form, userId);
-		}*/
-		
+		final Auditor form = auditorService.getById(auditorId);
+		prepareAuditorModel(modelMap, form, form);
 		return getEditFormView();
 	}
 	
-	private Long createNewAuditor(final AuditorForm form){
-		final Auditor auditor = form.getAuditor();
-		userService.setUserPassword(auditor, form.getNewPassword());
-		auditorService.createOrUpdate(auditor);
-		return auditor.getId();
+	private void prepareAuditorModel(ModelMap map, Auditor form, Auditor auditor){
+		Map<String, Object> model = new HashMap<>();
+		model.put("auditor", auditor);
+		map.addAttribute("auditor", form);
+		appendSubTab(model, SUB_TAB_PERSONAL_DATA);
+		appendTabNo(model, TAB);
+		appendModel(map, model);
 	}
+
 	
 	private void prepareCreateModel(ModelMap map, AuditorForm form){
 		Map<String, Object> model = new HashMap<>();
 		map.addAttribute("auditorForm", form);
 		appendTabNo(model, TAB);
 		appendModel(map, model);
+	}
+	
+	private void appendSubTab(Map<String, Object> model, final int tab){
+		model.put("subTab", tab);
 	}
 }

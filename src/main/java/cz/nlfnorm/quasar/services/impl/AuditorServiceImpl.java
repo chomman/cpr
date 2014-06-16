@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import cz.nlfnorm.dao.AuthorityDao;
+import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
@@ -31,6 +33,8 @@ public class AuditorServiceImpl implements AuditorService{
 	private AuditorDao auditorDao;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private AuthorityDao authorityDao;
 	@Autowired
 	private AuditorEacCodeService auditorEacCodeService;
 	@Autowired
@@ -61,6 +65,16 @@ public class AuditorServiceImpl implements AuditorService{
 	@Transactional(readOnly = true)
 	public List<Auditor> getAll() {
 		return auditorDao.getAll();
+	}
+	
+	@Override
+	public Long createAuditor(final Auditor auditor,final String password){
+		userService.setUserPassword(auditor, password);
+		createOrUpdate(auditor);
+		auditor.getAuthoritySet().add(authorityDao.getByCode(Authority.ROLE_AUDITOR));
+		auditor.getAuthoritySet().add(authorityDao.getByCode(Authority.ROLE_ADMIN));
+		update(auditor);
+		return auditor.getId();
 	}
 
 	@Override

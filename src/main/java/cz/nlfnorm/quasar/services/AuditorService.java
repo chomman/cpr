@@ -19,4 +19,6 @@ public interface AuditorService {
 	void createOrUpdate(Auditor auditor);
 	
 	boolean isItcIdUniqe(Integer id, Long auditorId);
+	
+	Long createAuditor(Auditor auditor, String password);
 }

@@ -2,15 +2,20 @@ package cz.nlfnorm.quasar.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.validator.constraints.Length;
+
+import cz.nlfnorm.entities.User;
 
 @Entity
 @Table(name="quasar_partner")
@@ -21,6 +26,8 @@ public class Partner extends BaseEntity {
 	private static final long serialVersionUID = 6895179406391276009L;
 	
 	private String name;
+	
+	private User manger;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_partner_id_seq")
@@ -37,6 +44,16 @@ public class Partner extends BaseEntity {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_manager")
+	public User getManger() {
+		return manger;
+	}
+
+	public void setManger(User manger) {
+		this.manger = manger;
 	}
 	
 	

@@ -391,6 +391,11 @@ public class Auditor extends User {
 	}
 
 	
+	@Transient
+	public String getName(){
+		return (getFirstName() != null ? getFirstName() : "") + " " +
+			   (getLastName() != null ? getLastName() : "");
+	}	
 	
 	
 	

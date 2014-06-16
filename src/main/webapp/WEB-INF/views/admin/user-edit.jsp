@@ -25,9 +25,9 @@
 		<div id="breadcrumb">
 			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
 			 <a href="<c:url value="/admin/users" />"><spring:message code="menu.users" /></a> &raquo;
-			 <span><spring:message code="user.edit" >${userForm.user.email}</spring:message></span>
+			 <span><spring:message code="user.edit" />&nbsp; ${userForm.user.email}</span>
 		</div>
-		<h1><spring:message code="user.edit" >${userForm.user.email}</spring:message></h1>
+		<h1><spring:message code="user.edit" />&nbsp; ${userForm.user.email}</h1>
 
 		<div id="content">
 			
@@ -56,7 +56,7 @@
                         <p>
                         	<label class="tt" title="<spring:message code="user.change.pass.notice" />">
                         		<spring:message code="user.pass" />
-                        		<small><spring:message code="user.change.pass" /></small>
+                        		<small><spring:message code="password.info" /></small> 
                         	</label>
                             <span class="field">
                             	<form:password path="password" cssClass="w300" maxlength="60" />
