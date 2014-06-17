@@ -26,6 +26,11 @@
 			<spring:message code="partners" />
 		</a:adminurl>
 	</li>
+	<li>
+		<a:adminurl href="/quasar/manage/educations" activeTab="${model.tab == 5}">
+			<spring:message code="fieldOfEducations" />
+		</a:adminurl>
+	</li>
 	
 	
 	

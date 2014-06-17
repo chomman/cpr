@@ -69,7 +69,7 @@ public class NandoCodeController extends QuasarSupportController {
 		NandoCode form = new NandoCode();
 		if(codeId != 0){
 			form = nandoCodeService.getById(codeId);
-			validateNotNull(form, codeId);
+			validateNotNull(form, "Can not dispaly NANDO code edit form, NANDO code was not found.");
 		}
 		prepareModel(modelMap, form);
 		return getEditFormView();
@@ -92,7 +92,7 @@ public class NandoCodeController extends QuasarSupportController {
 			nandoCode = new NandoCode();
 		}else{
 			nandoCode = nandoCodeService.getById(form.getId());
-			validateNotNull(nandoCode, form.getId());
+			validateNotNull(nandoCode, "Could not create NANDO code. Not found.");
 		}
 		nandoCode.setCode(StringUtils.trim(form.getCode()));
 		nandoCode.setEnabled(form.isEnabled());
@@ -112,11 +112,5 @@ public class NandoCodeController extends QuasarSupportController {
 		map.addAttribute("nandoCode", form);
 		appendModel(map, model);
 	}
-	
-	private void validateNotNull(final NandoCode form, final Long id) throws ItemNotFoundException{
-		if(form == null){
-			throw new ItemNotFoundException("NANDO code ID: " + id + " was not found");
-		}
-	}
-	
+		
 }

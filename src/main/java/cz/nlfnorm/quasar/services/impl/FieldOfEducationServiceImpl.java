@@ -43,4 +43,20 @@ public class FieldOfEducationServiceImpl implements FieldOfEducationService {
 		return fieldOfEducationDao.getForNonActiveMedicalDevices();
 	}
 
+	@Override
+	@Transactional(readOnly = false)
+	public void createOrUpdate(final FieldOfEducation fieldOfEducation) {
+		if(fieldOfEducation.getId() == null){
+			fieldOfEducationDao.save(fieldOfEducation);
+		}else{
+			fieldOfEducationDao.update(fieldOfEducation);
+		}
+	}
+
+	@Override
+	@Transactional(readOnly = false)
+	public void remove(final FieldOfEducation fieldOfEducation) {
+		fieldOfEducationDao.remove(fieldOfEducation);
+	}
+
 }

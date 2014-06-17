@@ -148,4 +148,41 @@ threashold_specialist_dd_reviews  = 1,
 threashold_specialist_dd_reviews_for_training = 5,
 threashold_specialist_training  = 16; 
 
+-- Education level
+INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (1, 'Basic school', 0);
+INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (2, 'High school', 0);
+INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (3, 'Bachelor', 0);
+INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (4, 'Master (MA)', 1);
+INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (5, 'PSG', 2);
+INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (6, 'PhD', 3);
+INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (7, 'Doc./Prof.', 3);
+-- Field of educaation / courses
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (1, true, false, 'Electro-technology', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (2, true, false, 'Electronics', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (3, true, false, 'Software', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (4, true, false, 'IT and communication technology', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (5, true, true, 'Biomedical engineering', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (6, true, false, 'Physics', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (7, true, false, 'Biophysics', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (8, true, true, 'Optics', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (9, true, false, 'Nuclear science', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (10, false, true, 'Biology', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (11, false, true, 'Microbiology', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (12, false, true, 'Chemistry', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (13, false, true, 'Biochemistry', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (14, false, true, 'Polymer chemistry/technology', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (15, false, true, 'Textile technology', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (16, false, true, 'Material engineering', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (17, false, true, 'Mechanical engineering', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (18, false, true, 'Human physiology', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (19, false, true, 'Medicine', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (20, false, true, 'Pharmacy', 1, false);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (22, false, false, 'Software in MD sector', NULL, true);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (23, false, false, 'Sterilization', NULL, true);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (24, false, false, 'Nanomaterials', NULL, true);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (25, false, false, 'Ionising radiation', NULL, true);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (26, false, false, 'Animal tissues/TSE risk', NULL, true);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (27, false, false, 'Statistics - Sampling plans and inspection', NULL, true);
+INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (28, false, false, 'Biocompatibility', NULL, true);
+
 end;

@@ -4,6 +4,7 @@ import java.util.Map;
 
 import org.springframework.ui.ModelMap;
 
+import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 /**
@@ -27,5 +28,12 @@ public class QuasarSupportController extends AdminSupportController {
 	
 	protected void appendTabNo(Map<String, Object> model, final int tabNo){
 		model.put("tab", tabNo);
+	}
+	
+	
+	protected void validateNotNull(final Object form, final String errorMessage) throws ItemNotFoundException{
+		if(form == null){
+			throw new ItemNotFoundException(errorMessage);
+		}
 	}
 }

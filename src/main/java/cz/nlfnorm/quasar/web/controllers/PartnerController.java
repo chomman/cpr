@@ -73,7 +73,7 @@ public class PartnerController extends QuasarSupportController {
 		Partner form = new Partner();
 		if(partnerId != 0){
 			form = partnerService.getById(partnerId);
-			validateNotNull(form, partnerId);
+			validateNotNull(form, "Can not display edit form. Partner [ID"+partnerId+"] was not found.");
 		}
 		prepareModel(modelMap, form);
 		return getEditFormView();
@@ -97,7 +97,7 @@ public class PartnerController extends QuasarSupportController {
 			partner = new Partner();
 		}else{
 			partner = partnerService.getById(form.getId());
-			validateNotNull(partner, form.getId());
+			validateNotNull(partner, "Partner could not be created. Was not found.");
 		}
 		partner.setManager(form.getManager());
 		partner.setEnabled(form.isEnabled());
@@ -114,9 +114,5 @@ public class PartnerController extends QuasarSupportController {
 		appendModel(map, model);
 	}
 	
-	private void validateNotNull(final Partner form, final Long id) throws ItemNotFoundException{
-		if(form == null){
-			throw new ItemNotFoundException("Partner with ID: " + id + " was not found");
-		}
-	}
+	
 }

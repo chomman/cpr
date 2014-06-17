@@ -26,7 +26,7 @@ begin;
 	  INCREMENT 1
 	  MINVALUE 1
 	  MAXVALUE 9223372036854775807
-	  START 1
+	  START 29
 	  CACHE 1;
 	  
 	 CREATE SEQUENCE quasar_special_training_id_seq

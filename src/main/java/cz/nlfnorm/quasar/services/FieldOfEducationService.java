@@ -14,4 +14,8 @@ public interface FieldOfEducationService {
 	
 	List<FieldOfEducation> getForNonActiveMedicalDevices();
 	
+	void createOrUpdate(FieldOfEducation fieldOfEducation);
+	
+	void remove(FieldOfEducation fieldOfEducation);
+	
 }

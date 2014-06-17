@@ -53,7 +53,7 @@ public class EacCodeController extends QuasarSupportController {
 		EacCode form = new EacCode();
 		if(codeId != 0){
 			form = eacCodeService.getById(codeId);
-			validateNotNull(form, codeId);
+			validateNotNull(form, "Can not show EAC code edit form. EAC code not found.");
 		}
 		prepareModel(modelMap, form);
 		return getEditFormView();
@@ -76,7 +76,7 @@ public class EacCodeController extends QuasarSupportController {
 			eacCode = new EacCode();
 		}else{
 			eacCode = eacCodeService.getById(form.getId());
-			validateNotNull(eacCode, form.getId());
+			validateNotNull(eacCode, "Could not update EAC code. Not found.");
 		}
 		eacCode.setCode(StringUtils.trim(form.getCode()));
 		eacCode.setEnabled(form.isEnabled());
@@ -95,9 +95,5 @@ public class EacCodeController extends QuasarSupportController {
 	}
 		
 	
-	private void validateNotNull(final EacCode form, final Long id) throws ItemNotFoundException{
-		if(form == null){
-			throw new ItemNotFoundException("NANDO code ID: " + id + " was not found");
-		}
-	}
+	
 }
