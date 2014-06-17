@@ -60,11 +60,11 @@ public class Auditor extends User {
 	
 	private LocalDateTime reassessmentDate;
 	
-	private Map<String, AuditorEducation> education;
-	private Map<Integer, AuditorSpecialist> specialist;
-		
 	private AuditingTraining auditingTraining;
 	
+	private Map<String, AuditorEducation> education;
+	private Map<Integer, AuditorSpecialist> specialist;
+
 	private Set<AuditorExperience> auditorExperiences;
 	private Set<AuditorEacCode> auditorsEacCodes;
 	private Set<AuditorNandoCode> auditorsNandoCodes;

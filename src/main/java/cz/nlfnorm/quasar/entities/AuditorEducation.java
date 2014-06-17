@@ -2,15 +2,11 @@ package cz.nlfnorm.quasar.entities;
 
 import java.io.Serializable;
 
-import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import cz.nlfnorm.quasar.enums.EductionLevel;
 
 /**
  * Entity of Quality system assesmet reporting system, represents education of auditor
@@ -23,20 +19,19 @@ public class AuditorEducation implements Serializable{
 	
 	private static final long serialVersionUID = -8478865809281357051L;
 	
-	private EductionLevel eductionLevel = EductionLevel.BASIC;
+	private EducationLevel eductionLevel;
 	private FieldOfEducation education1;
 	private FieldOfEducation education2;
 	private FieldOfEducation postgreduateStudy;
 	
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "eduction_level", length = 12)
-	public EductionLevel getEductionLevel() {
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "education_level_id")	
+	public EducationLevel getEductionLevel() {
 		return eductionLevel;
 	}
-	public void setEductionLevel(EductionLevel eductionLevel) {
+	public void setEductionLevel(EducationLevel eductionLevel) {
 		this.eductionLevel = eductionLevel;
 	}
-	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "education1_id")
 	public FieldOfEducation getEducation1() {

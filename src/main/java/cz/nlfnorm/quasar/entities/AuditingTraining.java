@@ -1,6 +1,5 @@
 package cz.nlfnorm.quasar.entities;
 
-import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,8 +18,6 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
-import cz.nlfnorm.dao.impl.IdentifiableByLong;
-
 /**
  *  Entity of Quality system assesmet reporting system, represents audits and training.
  * 
@@ -30,11 +27,9 @@ import cz.nlfnorm.dao.impl.IdentifiableByLong;
 @Entity
 @GenericGenerator(name = "users_id_seq", strategy = "foreign", parameters = {@Parameter(name= "property", value = "auditor")})
 @Table(name = "quasar_auditor_has_auditing_and_training")
-public class AuditingTraining implements Serializable, IdentifiableByLong{
+public class AuditingTraining extends IdentifiableEntity{
 	
 	private static final long serialVersionUID = 2164228613780986562L;
-
-	private Long id;
 	
 	private Auditor auditor;
 	
@@ -88,14 +83,10 @@ public class AuditingTraining implements Serializable, IdentifiableByLong{
 	@Id
 	@GeneratedValue(generator = "users_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
 
-	public void setId(Long id) {
-		this.id = id;
-	}
 
-	
 	@PrimaryKeyJoinColumn
 	@OneToOne(fetch = FetchType.LAZY)
 	public Auditor getAuditor() {
@@ -206,31 +197,5 @@ public class AuditingTraining implements Serializable, IdentifiableByLong{
 	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
 		this.specialTrainings = specialTrainings;
 	}
-	
-	@Override
-	public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		return result;
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		AuditingTraining other = (AuditingTraining) obj;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
-			return false;
-		return true;
-	}
-	
 }
 

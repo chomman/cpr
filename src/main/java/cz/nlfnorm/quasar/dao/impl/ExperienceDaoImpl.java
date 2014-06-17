@@ -24,7 +24,7 @@ public class ExperienceDaoImpl extends BaseDaoImpl<Experience, Long> implements 
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Experience> getAllUnassignetExperiences(final Long auditorId) {
+	public List<Experience> getAllUnassignedExperiences(final Long auditorId) {
 		StringBuilder hql = new StringBuilder("select exp from Experience exp ");
 		hql.append(" where not EXISTS( ")
 			.append(" select 1 from AuditorExperience aexp ")

@@ -60,6 +60,8 @@
 	<mapping class="cz.nlfnorm.quasar.entities.AuditorNandoCode"/>
 	<mapping class="cz.nlfnorm.quasar.entities.AuditorExperience"/>
 	<mapping class="cz.nlfnorm.quasar.entities.Experience"/>
+	<mapping class="cz.nlfnorm.quasar.entities.EducationLevel"/>
+	
 		
 	 
  </session-factory>

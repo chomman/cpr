@@ -5,16 +5,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 @Entity
 @SequenceGenerator(name = "quasar_field_of_education_id_seq", sequenceName = "quasar_field_of_education_id_seq", initialValue = 1, allocationSize =1)
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "quasar_field_of_education")
-public class FieldOfEducation extends BaseEntity {
+public class FieldOfEducation extends IdentifiableEntity {
 	
 	private static final long serialVersionUID = 3239374337036888408L;
 	

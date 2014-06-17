@@ -13,5 +13,5 @@ import cz.nlfnorm.quasar.entities.Experience;
  */
 public interface ExperienceDao extends BaseDao<Experience, Long>{
 
-	List<Experience> getAllUnassignetExperiences(Long auditorId);
+	List<Experience> getAllUnassignedExperiences(Long auditorId);
 }

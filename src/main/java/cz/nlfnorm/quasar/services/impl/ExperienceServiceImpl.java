@@ -32,7 +32,7 @@ public class ExperienceServiceImpl implements ExperienceService {
 	@Override
 	public List<Experience> getAllExcept(final Auditor auditor) {
 		Validate.notNull(auditor);
-		return experienceDao.getAllUnassignetExperiences(auditor.getId());
+		return experienceDao.getAllUnassignedExperiences(auditor.getId());
 	}
 
 }

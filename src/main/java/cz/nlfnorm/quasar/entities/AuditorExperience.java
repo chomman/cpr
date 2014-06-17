@@ -1,7 +1,5 @@
 package cz.nlfnorm.quasar.entities;
 
-import java.io.Serializable;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,11 +17,9 @@ import javax.validation.constraints.Min;
 @Entity
 @SequenceGenerator(name = "quasar_auditor_has_experience_id_seq", sequenceName = "quasar_auditor_has_experience_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "quasar_auditor_has_experience")
-public class AuditorExperience implements Serializable{
+public class AuditorExperience extends IdentifiableEntity{
 
 	private static final long serialVersionUID = -2044107138060217401L;
-
-	private Long id;
 	
 	private Auditor auditor;
 	
@@ -35,11 +31,7 @@ public class AuditorExperience implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_auditor_has_experience_id_seq")
 	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+		return super.getId();
 	}
 
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)

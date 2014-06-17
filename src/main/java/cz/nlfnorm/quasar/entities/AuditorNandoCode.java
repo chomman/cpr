@@ -7,8 +7,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
@@ -30,7 +28,6 @@ import cz.nlfnorm.entities.NotifiedBody;
  */
 @Entity
 @Table(name = "quasar_auditor_has_nando_code", uniqueConstraints = @UniqueConstraint(columnNames = {"nando_code_id", "auditor_id"}) )
-@Inheritance(strategy = InheritanceType.JOINED)
 @SequenceGenerator(name = "quasar_auditor_has_nando_code_id_seq", sequenceName = "quasar_auditor_has_nando_code_id_seq", initialValue = 1, allocationSize =1)
 public class AuditorNandoCode extends AbstractAuditorCode {
 
