@@ -65,7 +65,7 @@ public class CountrySettingsController extends AdminSupportController {
 		Country form = null;
 		if(countryId == 0){
 			form = new Country();
-			form.setId(0);
+			form.setId(0l);
 		}else{
 			form = countryService.getCountryById(countryId);
 			if(form == null){

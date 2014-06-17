@@ -19,7 +19,12 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.FieldOfEducation;
 import cz.nlfnorm.quasar.services.FieldOfEducationService;
 
-
+/**
+ * QUASAR Field of education / courses controller
+ * 
+ * @author Peter Jurkovic
+ * @date Jun 17, 2014
+ */
 @Controller
 public class FieldOfEducationController extends QuasarSupportController {
 	

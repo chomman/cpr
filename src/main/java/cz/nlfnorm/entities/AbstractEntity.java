@@ -16,8 +16,6 @@ import org.joda.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import cz.nlfnorm.dao.impl.IdentifiableByLong;
-
 
 /**
  * Abstraktna entita, obsahujuca vseky spolocne atributy.

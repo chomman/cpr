@@ -10,7 +10,7 @@ import cz.nlfnorm.entities.Country;
  * @author peter.jurkovic
  *
  */
-public interface CountryService {
+public interface CountryService extends IdentifiableByLongService<Country>{
 	
 	
 	/**

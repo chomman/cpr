@@ -5,7 +5,7 @@ import java.io.Serializable;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 
-import cz.nlfnorm.dao.impl.IdentifiableByLong;
+import cz.nlfnorm.entities.IdentifiableByLong;
 
 @SuppressWarnings("serial")
 @MappedSuperclass

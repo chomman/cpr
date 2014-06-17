@@ -73,4 +73,9 @@ public class CountryServiceImpl implements CountryService {
 		}
 	}
 
+	@Override
+	public Country getById(final Long id) {
+		return getCountryById(id);
+	}
+
 }

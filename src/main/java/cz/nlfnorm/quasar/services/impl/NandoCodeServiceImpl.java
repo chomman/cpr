@@ -18,7 +18,7 @@ import cz.nlfnorm.utils.UserUtils;
 
 @Service("nandoCodeService")
 @Transactional(propagation = Propagation.REQUIRED)
-public class NandoCodeServiceImpl implements NandoCodeService {
+public class NandoCodeServiceImpl implements NandoCodeService{
 	
 	@Autowired
 	private NandoCodeDao nandoCodeDao;

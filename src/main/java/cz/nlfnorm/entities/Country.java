@@ -26,20 +26,14 @@ public class Country extends AbstractEntity {
 	
 	private static final long serialVersionUID = 13369L;
 	
-	private Long id;
-	
 	private String countryName;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "country_id_seq")
 	public Long getId() {
-		return id;
+		return super.getId();
 	}
-	
-	public void setId(long id) {
-		this.id = id;
-	}
-	
+		
 	@Length(min = 1, max = 45, message = "Název státu musí být vyplněn")
 	@Column(name = "country_name", length = 45)
 	public String getCountryName() {
@@ -50,10 +44,6 @@ public class Country extends AbstractEntity {
 		this.countryName = countryName;
 	}
 
-	@Override
-	public String toString() {
-		return "Country [id=" + id + ", countryName=" + countryName + "]";
-	}
 	
 	
 	

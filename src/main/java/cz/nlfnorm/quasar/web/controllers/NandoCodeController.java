@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.services.NandoCodeService;
-import cz.nlfnorm.quasar.web.editors.NandoCodePropertyEditor;
+import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 
 
 /**
@@ -39,8 +39,6 @@ public class NandoCodeController extends QuasarSupportController {
 	
 	@Autowired
 	private NandoCodeService nandoCodeService;
-	@Autowired
-	private NandoCodePropertyEditor nandoCodePropertyEditor;
 	
 	public NandoCodeController(){
 		setTableItemsView("nando-codes-list");
@@ -49,7 +47,7 @@ public class NandoCodeController extends QuasarSupportController {
 	
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(NandoCode.class, this.nandoCodePropertyEditor);
+		binder.registerCustomEditor(NandoCode.class, new IdentifiableByLongPropertyEditor<NandoCode>( nandoCodeService ));
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)

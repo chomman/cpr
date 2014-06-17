@@ -44,8 +44,12 @@
 						<tbody>
 							<c:forEach items="${model.auditors}" var="i">
 								<tr class="${i.enabled ? '' : 'is-disabled'}"> 
-									<td class="w100 code c">${i.itcId}</td>	
-									<td>${i.firstName} ${i.lastName} <c:if test="${not empty i.degrees}">, ${i.degrees}</c:if></td>
+									<td class="w50 code c">${i.itcId}</td>	 
+									<td>
+									<a:adminurl href="/quasar/manage/auditor/${i.id}">
+										${i.firstName} ${i.lastName} <c:if test="${not empty i.degrees}">, ${i.degrees}</c:if>
+									</a:adminurl>
+									</td>
 									<td class="last-edit">
 										<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 									</td>

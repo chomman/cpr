@@ -22,7 +22,8 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.services.PartnerService;
-import cz.nlfnorm.quasar.web.editors.UserPropertyEditor;
+import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 
 /**
  * QUASAR Component
@@ -42,8 +43,8 @@ public class PartnerController extends QuasarSupportController {
 	@Autowired
 	private PartnerService partnerService;
 	@Autowired
-	private UserPropertyEditor userPropertyEditor;
-	
+	private UserService userService;
+
 	public PartnerController(){
 		setTableItemsView("partner-list");
 		setEditFormView("partner-edit");
@@ -51,7 +52,7 @@ public class PartnerController extends QuasarSupportController {
 	
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(User.class, this.userPropertyEditor);
+		binder.registerCustomEditor(User.class, new IdentifiableByLongPropertyEditor<User>(userService));
     }
 	
 	

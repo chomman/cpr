@@ -10,7 +10,7 @@ import cz.nlfnorm.entities.User;
 
 
 
-public interface UserService {
+public interface UserService extends IdentifiableByLongService<User>{
 
 	
 	Authority getAuthorityByCode(String code);

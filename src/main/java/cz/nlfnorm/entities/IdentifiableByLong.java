@@ -1,4 +1,4 @@
-package cz.nlfnorm.dao.impl;
+package cz.nlfnorm.entities;
 
 public interface IdentifiableByLong {
 	void setId(Long id);

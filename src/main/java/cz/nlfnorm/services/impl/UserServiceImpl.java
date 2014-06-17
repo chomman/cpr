@@ -27,6 +27,7 @@ import cz.nlfnorm.mail.HtmlMailMessage;
 import cz.nlfnorm.mail.NlfnormMailSender;
 import cz.nlfnorm.services.BasicSettingsService;
 import cz.nlfnorm.services.EmailTemplateService;
+import cz.nlfnorm.services.IdentifiableByLongService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.spring.security.MD5Crypt;
 import cz.nlfnorm.utils.ParseUtils;
@@ -34,7 +35,7 @@ import cz.nlfnorm.utils.UserUtils;
 
 @Service("userService")
 @Transactional(propagation = Propagation.REQUIRED)
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService, IdentifiableByLongService<User> {
 	
 	@Autowired
 	private UserDao userDao;
@@ -219,5 +220,10 @@ public class UserServiceImpl implements UserService {
 		   .append(" ((u.registrationValidity < :threshold and u.emailAlertSent = false) or")
 		   .append("  (uop.validity < :threshold and uop.emailAlertSent = false ) )");
 		return null;
+	}
+
+	@Override
+	public User getById(Long id) {
+		return getUserById(id);
 	}
 }
