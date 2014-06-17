@@ -18,7 +18,7 @@ import cz.nlfnorm.entities.User;
 @Entity
 @Table(name="quasar_partner")
 @SequenceGenerator(name = "quasar_partner_id_seq", sequenceName = "quasar_partner_id_seq", initialValue = 1, allocationSize =1)
-public class Partner extends IdentifiableEntity {
+public class Partner extends BaseEntity {
 	
 	private static final long serialVersionUID = 6895179406391276009L;
 	

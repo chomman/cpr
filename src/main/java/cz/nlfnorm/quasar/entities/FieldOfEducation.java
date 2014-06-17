@@ -8,12 +8,12 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+@SuppressWarnings("serial")
 @Entity
 @SequenceGenerator(name = "quasar_field_of_education_id_seq", sequenceName = "quasar_field_of_education_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "quasar_field_of_education")
 public class FieldOfEducation extends IdentifiableEntity {
 	
-	private static final long serialVersionUID = 3239374337036888408L;
 	
 	private String name;
 	private boolean forActiveMedicalDevices;
