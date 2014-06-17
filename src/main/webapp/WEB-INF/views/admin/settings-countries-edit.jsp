@@ -77,7 +77,15 @@
                         		<spring:message code="form.code" /> <spring:message code="form.code" />
                         	</label>
                             <span class="field">
-                            	<form:input  htmlEscape="true" path="code" maxlength="255" />
+                            	<form:input  htmlEscape="true" path="code" maxlength="2" />
+                            </span>
+                        </p>
+                         <p>
+                        	<label>
+                        		<spring:message code="settings.country.inEu" />
+                        	</label>
+                            <span class="field">
+                            	<form:checkbox path="inEu"/>
                             </span>
                         </p>
                         <form:hidden path="id" />

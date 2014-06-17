@@ -82,7 +82,7 @@ public class FieldOfEducationController extends QuasarSupportController {
 	
 	
 	@RequestMapping(value = FORM_MAPPING_URL, method = RequestMethod.POST)
-	public String handleSubmit(ModelMap modelMap, @Valid @ModelAttribute("command") FieldOfEducation form, BindingResult result) throws ItemNotFoundException{
+	public String handleSubmit(ModelMap modelMap, @Valid @ModelAttribute(COMMAND) FieldOfEducation form, BindingResult result) throws ItemNotFoundException{
 		
 		if(result.hasErrors()){
 			prepareModel(modelMap, form);
@@ -111,7 +111,7 @@ public class FieldOfEducationController extends QuasarSupportController {
 	private void prepareModel(ModelMap map, FieldOfEducation form){
 		Map<String, Object> model = new HashMap<>();
 		appendTabNo(model, TAB);
-		map.addAttribute("command", form);
+		map.addAttribute(COMMAND, form);
 		appendModel(map, model);
 	}
 }

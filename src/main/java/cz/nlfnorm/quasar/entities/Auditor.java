@@ -49,7 +49,7 @@ public class Auditor extends User {
 	/* Personal data */
 	private String degrees;
 	private Integer itcId;
-	private Country countery;
+	private Country country;
 	private Partner partner;
 	private boolean inTraining;
 	
@@ -95,11 +95,11 @@ public class Auditor extends User {
 	
 	@ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "country_id")
-	public Country getCountery() {
-		return countery;
+	public Country getCountry() {
+		return country;
 	}
-	public void setCountery(Country countery) {
-		this.countery = countery;
+	public void setCountry(Country country) {
+		this.country = country;
 	}
 	
 	@ManyToOne(fetch = FetchType.LAZY)

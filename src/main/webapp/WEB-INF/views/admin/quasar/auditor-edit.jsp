@@ -26,8 +26,9 @@
 		<div id="content">
 			
 			<jsp:include page="navs/auditor-nav.jsp" />
+			<jsp:include page="changed.jsp" />
 			
-			<form:form  commandName="auditor" method="post" cssClass="valid" > 
+			<form:form  commandName="command" method="post" cssClass="valid" > 
 				<c:if test="${not empty successCreate}">
 					<p class="msg ok"><spring:message code="success.create" /></p>
 				</c:if>
@@ -89,7 +90,25 @@
 						<spring:message code="auditor.country" />:
 					</label>
 					<div class="field">
-						
+						<form:select path="country" cssClass="chosenSmall">
+							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<c:forEach items="${model.countries}" var="i">
+								<option value="${i.id}" ${i.id eq command.country.id ? 'selected="selected"' : '' }>${i.countryName}</option>
+							</c:forEach>
+						</form:select>
+					</div>
+				</div>
+				<div class="input-wrapp">
+					<label>
+						<spring:message code="auditor.partner" />:
+					</label>
+					<div class="field">
+						<form:select path="country" cssClass="chosenSmall">
+							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<c:forEach items="${model.partners}" var="i">
+								<option value="${i.id}" ${i.id eq command.partner.id ? 'selected="selected"' : '' }>${i.name}</option>
+							</c:forEach>
+						</form:select>
 					</div>
 				</div>
 				

@@ -1,5 +1,7 @@
 package cz.nlfnorm.dao;
 
+import java.util.List;
+
 import cz.nlfnorm.entities.Country;
 
 
@@ -10,6 +12,6 @@ import cz.nlfnorm.entities.Country;
  */
 public interface CountryDao extends BaseDao<Country, Long> {
 	
-
+	List<Country> getAllOrdred();
 	
 }

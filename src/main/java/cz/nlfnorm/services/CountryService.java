@@ -61,5 +61,5 @@ public interface CountryService extends IdentifiableByLongService<Country>{
 	 */
 	Country getCountryByCode(String code);
 	
-	void saveOrUpdateCountry(Country country);
+	void saveOrUpdate(Country country);
 }

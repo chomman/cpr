@@ -143,10 +143,8 @@ public class CountrySettingsController extends AdminSupportController {
 				createItemNotFoundError("Stát s ID: " + form.getId() + " se v systému nenachádzí");
 			}
 		}
-		
-		country.setCode(form.getCode());
-		country.setCountryName(form.getCountryName());
-		countryService.saveOrUpdateCountry(country);
+		country.merge(form);
+		countryService.saveOrUpdate(country);
 		return country;
 	}
 }

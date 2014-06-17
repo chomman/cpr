@@ -32,6 +32,12 @@
 		</a:adminurl>
 	</li>
 	
+	<li>
+		<a:adminurl href="/quasar/manage/countries" activeTab="${model.tab == 6}">
+			<spring:message code="countries" />
+		</a:adminurl>
+	</li>
+	
 	
 	
 </ul>

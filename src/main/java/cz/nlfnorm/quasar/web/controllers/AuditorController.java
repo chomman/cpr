@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,12 +22,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.forms.AuditorForm;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.validators.AuditorValidator;
+import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 
 /**
  * 
@@ -54,12 +60,20 @@ public class AuditorController extends QuasarSupportController {
 	private UserService userService;
 	@Autowired
 	private AuditorService auditorService;
-	
+	@Autowired
+	private CountryService countryService;
+	@Autowired
+	private PartnerService partnerService;
 	
 	public AuditorController(){
 		setTableItemsView("auditor-list");
 		setEditFormView("auditor-edit");
 		setViewName("auditor-add");
+	}
+	
+	@InitBinder
+    public void initBinder(WebDataBinder binder) {
+		binder.registerCustomEditor(Country.class, new IdentifiableByLongPropertyEditor<Country>( countryService ));
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
@@ -114,7 +128,9 @@ public class AuditorController extends QuasarSupportController {
 	private void prepareAuditorModel(ModelMap map, Auditor form, Auditor auditor){
 		Map<String, Object> model = new HashMap<>();
 		model.put("auditor", auditor);
-		map.addAttribute("auditor", form);
+		model.put("countries", countryService.getAllCountries());
+		model.put("partners", partnerService.getAll());
+		map.addAttribute(COMMAND, form);
 		appendSubTab(model, SUB_TAB_PERSONAL_DATA);
 		appendTabNo(model, TAB);
 		appendModel(map, model);

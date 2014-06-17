@@ -49,7 +49,7 @@ public class CountryServiceImpl implements CountryService {
 	@Override
 	@Transactional(readOnly = true)
 	public List<Country> getAllCountries() {
-		return countryDao.getAll();
+		return countryDao.getAllOrdred();
 	}
 
 	@Override
@@ -59,16 +59,15 @@ public class CountryServiceImpl implements CountryService {
 	}
 
 	@Override
-	public void saveOrUpdateCountry(Country country) {
-		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
-		
+	public void saveOrUpdate(final Country country) {
+		final User user = UserUtils.getLoggedUser();
+		country.setChangedBy(user);
+		country.setChanged(new LocalDateTime());
 		if(country.getId() == null){
 			country.setCreatedBy(user);
 			country.setCreated(new LocalDateTime());
 			countryDao.save(country);
 		}else{
-			country.setChangedBy(user);
-			country.setChanged(new LocalDateTime());
 			countryDao.update(country);
 		}
 	}
