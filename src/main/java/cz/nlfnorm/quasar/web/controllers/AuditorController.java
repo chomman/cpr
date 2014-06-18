@@ -7,6 +7,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -25,15 +27,23 @@ import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.AuditorExperience;
+import cz.nlfnorm.quasar.entities.EducationLevel;
+import cz.nlfnorm.quasar.entities.Experience;
+import cz.nlfnorm.quasar.entities.FieldOfEducation;
+import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.forms.AuditorForm;
+import cz.nlfnorm.quasar.services.AuditorExperienceService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.EducationLevelService;
+import cz.nlfnorm.quasar.services.ExperienceService;
 import cz.nlfnorm.quasar.services.FieldOfEducationService;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.validators.AuditorValidator;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
+import cz.nlfnorm.web.editors.LocalDateEditor;
 
 /**
  * 
@@ -44,6 +54,7 @@ import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 public class AuditorController extends QuasarSupportController {
 	
 	private final static int TAB = 3; 
+	
 	
 	private final static int SUB_TAB_PERSONAL_DATA = 1;
 	private final static int SUB_TAB_QS_ADUTITOR = 2;
@@ -56,7 +67,7 @@ public class AuditorController extends QuasarSupportController {
 	private final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
 	
 	@Autowired
-	private AuditorValidator createAuditorValidator;
+	private AuditorValidator auditorValidator;
 	
 	@Autowired
 	private UserService userService;
@@ -70,6 +81,13 @@ public class AuditorController extends QuasarSupportController {
 	private EducationLevelService educationLevelService;
 	@Autowired
 	private FieldOfEducationService fieldOfEducationService;
+	@Autowired
+	private ExperienceService experienceService;
+	@Autowired
+	private AuditorExperienceService auditorExperienceService;
+	
+	@Autowired
+	private LocalDateEditor localDateEditor;
 	
 	public AuditorController(){
 		setTableItemsView("auditor-list");
@@ -80,6 +98,12 @@ public class AuditorController extends QuasarSupportController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Country.class, new IdentifiableByLongPropertyEditor<Country>( countryService ));
+		binder.registerCustomEditor(EducationLevel.class, new IdentifiableByLongPropertyEditor<EducationLevel>( educationLevelService ));
+		binder.registerCustomEditor(FieldOfEducation.class, new IdentifiableByLongPropertyEditor<FieldOfEducation>( fieldOfEducationService ));
+		binder.registerCustomEditor(Partner.class, new IdentifiableByLongPropertyEditor<Partner>( partnerService ));
+		binder.registerCustomEditor(Auditor.class, new IdentifiableByLongPropertyEditor<Auditor>( auditorService ));
+		binder.registerCustomEditor(Experience.class, new IdentifiableByLongPropertyEditor<Experience>( experienceService ));
+		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
@@ -102,15 +126,16 @@ public class AuditorController extends QuasarSupportController {
 	public String processCreateAuditor(ModelMap modelMap, @Valid @ModelAttribute("auditorForm") AuditorForm form, BindingResult request ) {
 		boolean isNotValid = request.hasErrors();
 		if(!isNotValid){
-			createAuditorValidator.validate(form, request);
+			auditorValidator.validate(form, request);
 		}
 		if(isNotValid || request.hasErrors()){
 			prepareCreateModel(modelMap, form);
 			return getViewName();
 		}
 		final Long id = auditorService.createAuditor(form.getAuditor(), form.getNewPassword());
-		return successUpdateRedirect(EDIT_AUDITOR_MAPPING_URL.replace("{auditorId}", id + ""));
+		return successUpdateRedirect(getEditUrl(id));
 	}
+	
 	
 	
 	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL, method = RequestMethod.GET)
@@ -123,6 +148,39 @@ public class AuditorController extends QuasarSupportController {
 		return getEditFormView();
 	}
 	
+	
+	
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL, method = RequestMethod.POST)
+	public String hadnleSubmit(ModelMap modelMap, 
+			@RequestParam("action") int action,
+			@ModelAttribute(COMMAND) Auditor form, 
+			BindingResult result) throws ItemNotFoundException {
+		
+		if(action == AuditorService.PERSONAL_DATA_ACTION){
+			auditorValidator.validate(form, result);
+			if(result.hasErrors()){
+				prepareAuditorModel(modelMap, form, form);
+				return getEditFormView(); 
+			}
+		}
+		auditorService.update(form, action);
+		prepareAuditorModel(modelMap, form, form);
+		appendSuccessCreateParam(modelMap);
+		return getEditFormView();
+	}
+	
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/experience", method = RequestMethod.POST)
+	public String handeExperienceSubmit(@Valid @ModelAttribute AuditorExperience form,	
+			BindingResult result) throws ItemNotFoundException {
+		if(!result.hasErrors()){
+			createOrUpdate(form);
+			return successUpdateRedirect(getEditUrl(form.getAuditor().getId()));
+		}
+		return "redirect:" + getEditUrl(form.getAuditor().getId());
+	}
+	
+	
+	
 	@RequestMapping(value = "/admin/quasar/auditors", method = RequestMethod.GET)
 	public @ResponseBody List<AutocompleteDto>  auditorAutocomplete(
 			@RequestBody @RequestParam("term") String term,
@@ -130,6 +188,7 @@ public class AuditorController extends QuasarSupportController {
 			@RequestBody @RequestParam(value = "adminsOnly", required = false) Boolean adminsOnly){
 		return auditorService.autocomplete(term, enabled, adminsOnly);
 	}
+	
 	
 	private void prepareAuditorModel(ModelMap map, Auditor form, Auditor auditor){
 		Map<String, Object> model = new HashMap<>();
@@ -139,12 +198,29 @@ public class AuditorController extends QuasarSupportController {
 		model.put("educationsLevels", educationLevelService.getAll());
 		model.put("fieldsOfEducationActiveMd", fieldOfEducationService.getForActiveMedicalDevices());
 		model.put("fieldsOfEducationNonActiveMd", fieldOfEducationService.getForNonActiveMedicalDevices());
+		model.put("unassignedExperiences", experienceService.getAllExcept(auditor));
 		map.addAttribute(COMMAND, form);
+		map.addAttribute("auditorExperience", new AuditorExperience(auditor));
 		appendSubTab(model, SUB_TAB_PERSONAL_DATA);
 		appendTabNo(model, TAB);
 		appendModel(map, model);
 	}
 
+	private void createOrUpdate(final AuditorExperience form) throws ItemNotFoundException{
+		Validate.notNull(form);
+		Validate.notNull(form.getExperience());
+		AuditorExperience auditorExperience = null;
+		if(form.getId() == null){
+			final Auditor auditor = auditorService.getById(form.getAuditor().getId());
+			auditorExperience = new AuditorExperience(auditor);
+			auditorExperience.setExperience(form.getExperience());
+		}else{
+			auditorExperience = auditorExperienceService.getById(form.getId());
+			validateNotNull(form, "Auditor's work experience was not found.");
+		}
+		auditorExperience.setYears(form.getYears());
+		auditorExperienceService.createOrUpdate(auditorExperience);
+	}
 	
 	private void prepareCreateModel(ModelMap map, AuditorForm form){
 		Map<String, Object> model = new HashMap<>();
@@ -155,5 +231,9 @@ public class AuditorController extends QuasarSupportController {
 	
 	private void appendSubTab(Map<String, Object> model, final int tab){
 		model.put("subTab", tab);
+	}
+	
+	private String getEditUrl(Long id){
+		return EDIT_AUDITOR_MAPPING_URL.replace("{auditorId}", id.toString());
 	}
 }

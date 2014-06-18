@@ -393,5 +393,10 @@ public class User extends AbstractEntity implements UserDetails{
 		this.sgpPassword = sgpPassword;
 	}
 		
+	@Transient
+	public String getName(){
+		return (getFirstName() != null ? getFirstName() : "") + " " +
+			   (getLastName() != null ? getLastName() : "");
+	}	
 	
 }

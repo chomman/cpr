@@ -184,5 +184,15 @@ INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_m
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (26, false, false, 'Animal tissues/TSE risk', NULL, true);
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (27, false, false, 'Statistics - Sampling plans and inspection', NULL, true);
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (28, false, false, 'Biocompatibility', NULL, true);
-
+-- work experience
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (1, true, 'Medical devices industry');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (2, true, 'Pharmaceutical industry');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (3, true, 'Relevant testing laboratory');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (4, true, 'Notified Body');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (5, true, 'MSCB for ISO 13485');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (6, true, 'Medical institution');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (7, true, 'Hospital');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (8, true, 'Electronics/IT');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (9, true, 'Science/research/authority');
+INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (10, false, 'Other (not MD related)');
 end;

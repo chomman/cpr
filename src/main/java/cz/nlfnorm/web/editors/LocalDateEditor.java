@@ -15,7 +15,7 @@ import cz.nlfnorm.utils.ParseUtils;
 public class LocalDateEditor extends PropertyEditorSupport {
 
 	
-	private DateTimeFormatter formatter = DateTimeFormat.forPattern(Constants.DATE_FORMAT);
+	private final DateTimeFormatter formatter = DateTimeFormat.forPattern(Constants.DATE_FORMAT);
 	
 	
 	@Override

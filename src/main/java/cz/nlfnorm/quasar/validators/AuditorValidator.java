@@ -23,8 +23,13 @@ public class AuditorValidator extends ChangePassowrdValidator {
 			final Auditor auditor = ((AuditorForm)objectForm).getAuditor();
 			processExtraValidation(auditor, errors);
 			validateLoginSimularity(auditor.getEmail(), ((AuditorForm)objectForm).getNewPassword(), errors );
+			super.addExtraValidation(objectForm, errors);
 		}
-		super.addExtraValidation(objectForm, errors);
+		
+		if(objectForm instanceof Auditor){
+			final Auditor auditor = ((Auditor)objectForm);
+			processExtraValidation(auditor, errors);
+		}	
 	}
 	
 	

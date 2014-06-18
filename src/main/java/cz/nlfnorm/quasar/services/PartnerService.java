@@ -3,6 +3,7 @@ package cz.nlfnorm.quasar.services;
 import java.util.List;
 
 import cz.nlfnorm.quasar.entities.Partner;
+import cz.nlfnorm.services.IdentifiableByLongService;
 
 /**
  * QUASAR Component
@@ -10,7 +11,7 @@ import cz.nlfnorm.quasar.entities.Partner;
  * @author Peter Jurkovic
  * @date Jun 16, 2014
  */
-public interface PartnerService {
+public interface PartnerService extends IdentifiableByLongService<Partner>{
 	
 	void update(Partner partner);
 	

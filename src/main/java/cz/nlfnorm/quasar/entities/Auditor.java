@@ -23,7 +23,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
-import org.joda.time.LocalDateTime;
+import org.joda.time.LocalDate;
 
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.User;
@@ -58,7 +58,7 @@ public class Auditor extends User {
 	private boolean confidentialitySigned;
 	private boolean cvDelivered;
 	
-	private LocalDateTime reassessmentDate;
+	private LocalDate reassessmentDate;
 	
 	private AuditingTraining auditingTraining;
 	
@@ -137,11 +137,11 @@ public class Auditor extends User {
 	
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
 	@Column(name = "reassessment_date")
-	public LocalDateTime getReassessmentDate() {
+	public LocalDate getReassessmentDate() {
 		return reassessmentDate;
 	}
 
-	public void setReassessmentDate(LocalDateTime reassessmentDate) {
+	public void setReassessmentDate(LocalDate reassessmentDate) {
 		this.reassessmentDate = reassessmentDate;
 	}
 	
@@ -253,13 +253,20 @@ public class Auditor extends User {
 		return isEcrCardSigned() && isConfidentialitySigned() && isCvDelivered();
 	}
 
-	
-	@Transient
-	public String getName(){
-		return (getFirstName() != null ? getFirstName() : "") + " " +
-			   (getLastName() != null ? getLastName() : "");
-	}	
-	
-	
-	
+		
+	public void mergePersonalData(final Auditor form){
+		setEmail(form.getEmail());
+		setEnabled(form.getEnabled());
+		setDegrees(form.getDegrees());
+		setFirstName(form.getFirstName());
+		setLastName(form.getLastName());
+		setId(form.getId());
+		setReassessmentDate(form.getReassessmentDate());
+		setCountry(form.getCountry());
+		setPartner(form.getPartner());
+		setEcrCardSigned(form.isEcrCardSigned());
+		setConfidentialitySigned(form.isConfidentialitySigned());
+		setCvDelivered(form.isCvDelivered());
+		setEducation(form.getEducation());
+	}
 }

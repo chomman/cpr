@@ -27,8 +27,9 @@
 			
 			<jsp:include page="navs/auditor-nav.jsp" />
 			<jsp:include page="changed.jsp" />
-			
-			<form:form  commandName="command" method="post" cssClass="valid" > 
+			<c:url value="/admin/quasar/manage/auditor/${command.id}" var="url" />
+			<form:form  commandName="command" method="post" cssClass="valid" action="${url}?action=1" > 
+				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 				<c:if test="${not empty successCreate}">
 					<p class="msg ok"><spring:message code="success.create" /></p>
 				</c:if>
@@ -87,6 +88,14 @@
 				</div>
 				<div class="input-wrapp smaller">
 					<label>
+						<spring:message code="auditor.reassessmentDate" />:
+					</label>
+					<div class="field">
+						<form:input path="reassessmentDate" cssClass="date " maxlength="10" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
 						<spring:message code="auditor.country" />:
 					</label>
 					<div class="field">
@@ -141,7 +150,7 @@
                 <p class="form-head"><spring:message code="auditor.head.generalQualification" /></p>
                  <div class="qs-fields-wrapp">
 	                 	<div class="qs-left-bx">
-	                    	<h4>Education in the sector of ACTIVE medical devices</h4>
+	                    	<h4><spring:message code="auditor.head.education.amd" /></h4>
 	                    	<div class="qs-input-wrapp">
 								<label>
 									<spring:message code="auditor.educationLevel" />:
@@ -209,7 +218,7 @@
 							
 		              	</div>
 	                  <div class="qs-right-bx">
-	                  		<h4>Education in the sector of NON-ACTIVE medical devices</h4>
+	                  		<h4><spring:message code="auditor.head.education.nonamd" /></h4>
 	                  		<div class="qs-input-wrapp">
 								<label>
 									<spring:message code="auditor.educationLevel" />:
@@ -276,11 +285,72 @@
 							</div>
 						
 					</div>
+					
 					<div class="clear"></div>
+					
+					<div>
+						<p class="mini-info"><spring:message  code="auditor.info.education"/></p>
+					</div>
                  </div>
                  
-                          
+                 <form:hidden path="id" />
+                    <p class="button-box">
+                    	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
+                    </p>        
 			</form:form>
+			
+			 <p class="form-head"><spring:message code="auditor.head.workExperience" /></p>
+			 
+			<c:if test="${empty model.auditor.auditorExperiences}">
+				<p class="msg alert">
+					<spring:message code="auditor.noExperience" arguments="${model.auditor.name}" />
+				</p>
+			</c:if>
+			<table class="data">
+				<c:forEach items="${model.auditor.auditorExperiences}" var="i">
+					<tr id="e${i.id}">
+						<td class="b gs-exp-name">
+							${i.experience.name}
+						</td>
+						<td class="b gs-exp-changed">
+						<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
+							/ ${i.changedBy.name}
+						</td>
+						<td class="b gs-exp-input">
+							<input type="text" class="w50 c" value="${i.years }" />
+						</td>
+						<td class="b gs-exp-btn">
+							Save
+						</td>
+					</tr>
+				</c:forEach>
+			</table>
+			
+			<c:if test="${not empty model.unassignedExperiences}">
+				<!--  Experience form -->	
+				<form:form modelAttribute="auditorExperience"  cssClass="inline-form valid" action="${url}/experience" method="post"  >
+					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
+				 	<div class="inline-field">
+				 		<span class="inline-label">
+				 			<spring:message code="category" />:
+				 		</span>
+				 		<select class="required chosenSmall" name="experience">
+							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<c:forEach items="${model.unassignedExperiences}" var="i">
+		                              <option value="${i.id}"> ${i.name}</option>
+		                      </c:forEach>
+						</select>
+				 	</div>
+				 	<div class="inline-field">
+				 		<span class="inline-label">
+				 			<spring:message code="noOfYears" />:
+				 		</span>
+				 		<form:input path="years" class="required numeric w40 c" maxlength="2" />
+				 	</div>
+				 	<form:hidden path="auditor"/>
+				 	<input type="submit" class="lang mandate-add-btn" value="<spring:message code="assign" />" />
+				 </form:form>
+			 </c:if>
 		</div>	
 	</div>
 	<div class="clear"></div>	

@@ -70,3 +70,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', end
 .qs-input-wrapp{border-bottom:1px solid #eee;height:100%}
 .qs-input-wrapp label{display:inline-block;font-size:13px;padding:8px;background:#fafafa;float:left;min-height:30px;line-height:26px;border-right:1px solid #ddd;min-width:130px; }
 .qs-input-wrapp .qs-filed{padding:8px;float:left;}
+
+.qs .button-box{text-align:right;}
+.qs .inline-label{font-size:12px;padding-right:10px;}
