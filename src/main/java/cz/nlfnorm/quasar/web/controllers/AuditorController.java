@@ -27,6 +27,8 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.forms.AuditorForm;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.services.EducationLevelService;
+import cz.nlfnorm.quasar.services.FieldOfEducationService;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.validators.AuditorValidator;
 import cz.nlfnorm.services.CountryService;
@@ -64,6 +66,10 @@ public class AuditorController extends QuasarSupportController {
 	private CountryService countryService;
 	@Autowired
 	private PartnerService partnerService;
+	@Autowired
+	private EducationLevelService educationLevelService;
+	@Autowired
+	private FieldOfEducationService fieldOfEducationService;
 	
 	public AuditorController(){
 		setTableItemsView("auditor-list");
@@ -130,6 +136,9 @@ public class AuditorController extends QuasarSupportController {
 		model.put("auditor", auditor);
 		model.put("countries", countryService.getAllCountries());
 		model.put("partners", partnerService.getAll());
+		model.put("educationsLevels", educationLevelService.getAll());
+		model.put("fieldsOfEducationActiveMd", fieldOfEducationService.getForActiveMedicalDevices());
+		model.put("fieldsOfEducationNonActiveMd", fieldOfEducationService.getForNonActiveMedicalDevices());
 		map.addAttribute(COMMAND, form);
 		appendSubTab(model, SUB_TAB_PERSONAL_DATA);
 		appendTabNo(model, TAB);

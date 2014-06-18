@@ -249,7 +249,7 @@ public class Auditor extends User {
 	
 	
 	@Transient
-	public boolean areFormalAndLegalReqiurementValid(){
+	public boolean getAreFormalAndLegalReqiurementValid(){
 		return isEcrCardSigned() && isConfidentialitySigned() && isCvDelivered();
 	}
 
