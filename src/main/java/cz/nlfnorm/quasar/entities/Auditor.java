@@ -15,10 +15,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
@@ -60,15 +59,51 @@ public class Auditor extends User {
 	
 	private LocalDate reassessmentDate;
 	
-	private AuditingTraining auditingTraining;
-	
+	/* Training including Auditing experience */
+	/**
+	 * Aproved auditor for ISO 9001?
+	 */
+	private boolean aprovedForIso9001;
+	/**
+	 * Aproved auditor for ISO 13485?
+	 */
+	private boolean aprovedForIso13485;	
+	/**
+	 * Training ISO 9001 (hours)
+	 */
+	private int iso9001;
+	/**
+	 * Training ISO 13485 (hours)
+	 */
+	private int iso13485;
+	/**
+	 * Training MDD (hours)
+	 */
+	private int mdd;
+	/**
+	 * Training IVD (hours)
+	 */
+	private int ivd;
+	/**
+	 * Training NB 1023 procedures (hours)
+	 */
+	private int nb1023Procedures;
+	/**
+	 * Total count of user audits
+	 */
+	private int totalAudits;
+	/**
+	 * Sum of audits in days
+	 */
+	private int totalAuditdays;
+			
 	private Map<String, AuditorEducation> education;
 	private Map<Integer, AuditorSpecialist> specialist;
 
 	private Set<AuditorExperience> auditorExperiences;
 	private Set<AuditorEacCode> auditorsEacCodes;
 	private Set<AuditorNandoCode> auditorsNandoCodes;
-	
+	private Set<SpecialTraining> specialTrainings;
 	
 	public Auditor(){
 		this.education = new HashMap<>();
@@ -78,10 +113,10 @@ public class Auditor extends User {
 		this.specialist.put(TYPE_PRODUCT_ASSESSOR_A, new AuditorSpecialist());
 		this.specialist.put(TYPE_PRODUCT_ASSESSOR_R, new AuditorSpecialist());
 		this.specialist.put(TYPE_PRODUCT_SPECIALIST, new AuditorSpecialist());
-		this.auditingTraining = new AuditingTraining(this);
 		this.auditorsEacCodes = new HashSet<>();
 		this.auditorsNandoCodes = new HashSet<>();
 		this.auditorExperiences = new HashSet<>();
+		this.specialTrainings = new HashSet<>();
 	}
 	 
 	@NotNull(message = "{error.auditor.itcId.notNull}")
@@ -167,16 +202,6 @@ public class Auditor extends User {
 		this.specialist = specialist;
 	}
 
-	@PrimaryKeyJoinColumn
-	@OneToOne(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	public AuditingTraining getAuditingTraining() {
-		return auditingTraining;
-	}
-
-	public void setAuditingTraining(AuditingTraining auditingTraining) {
-		this.auditingTraining = auditingTraining;
-	}
-		
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "auditor", fetch = FetchType.LAZY)	
 	public Set<AuditorEacCode> getAuditorsEacCodes() {
 		return auditorsEacCodes;
@@ -221,6 +246,114 @@ public class Auditor extends User {
 
 	public void setAuditorExperiences(Set<AuditorExperience> auditorExperiences) {
 		this.auditorExperiences = auditorExperiences;
+	}
+	
+	@Column(name = "is_aproved_for_iso9001")
+	public boolean isAprovedForIso9001() {
+		return aprovedForIso9001;
+	}
+
+	public void setAprovedForIso9001(boolean aprovedForIso9001) {
+		this.aprovedForIso9001 = aprovedForIso9001;
+	}
+	
+	@Column(name = "is_aproved_for_iso13485")
+	public boolean isAprovedForIso13485() {
+		return aprovedForIso13485;
+	}
+
+	public void setAprovedForIso13485(boolean aprovedForIso13485) {
+		this.aprovedForIso13485 = aprovedForIso13485;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "iso9001_hours")
+	public int getIso9001() {
+		return iso9001;
+	}
+	
+	public void setIso9001(int iso9001) {
+		this.iso9001 = iso9001;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "iso13485_hours")
+	public int getIso13485() {
+		return iso13485;
+	}
+
+	public void setIso13485(int iso13485) {
+		this.iso13485 = iso13485;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "mdd_hours")
+	public int getMdd() {
+		return mdd;
+	}
+
+	public void setMdd(int mdd) {
+		this.mdd = mdd;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "ivd_hours")
+	public int getIvd() {
+		return ivd;
+	}
+
+	public void setIvd(int ivd) {
+		this.ivd = ivd;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "nb1023_procedures_hours")
+	public int getNb1023Procedures() {
+		return nb1023Procedures;
+	}
+
+	public void setNb1023Procedures(int nb1023Procedures) {
+		this.nb1023Procedures = nb1023Procedures;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "totoal_of_audits")
+	public int getTotalAudits() {
+		return totalAudits;
+	}
+
+	public void setTotalAudits(int totalAudits) {
+		this.totalAudits = totalAudits;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "totoal_of_auditdayes")
+	public int getTotalAuditdays() {
+		return totalAuditdays;
+	}
+
+	public void setTotalAuditdays(int totalAuditdays) {
+		this.totalAuditdays = totalAuditdays;
+	}
+
+	
+	@Transient
+	public void incrementAuditDays(int days){
+		this.totalAuditdays += days;
+	}
+	
+	@Transient
+	public void incrementTotalAudits(int count){
+		this.totalAudits += count;
+	}
+
+	@OneToMany(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	public Set<SpecialTraining> getSpecialTrainings() {
+		return specialTrainings;
+	}
+
+	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
+		this.specialTrainings = specialTrainings;
 	}
 
 	@Transient
@@ -288,5 +421,14 @@ public class Auditor extends User {
 		setCvDelivered(form.isCvDelivered());
 		setEducation(form.getEducation());
 		setInTraining(form.isInTraining());
+		this.aprovedForIso9001 = form.isAprovedForIso9001();
+		this.aprovedForIso13485 = form.isAprovedForIso13485();
+		this.iso9001 = form.getIso9001();
+		this.iso13485 = form.getIso13485();
+		this.mdd = form.getMdd();
+		this.ivd = form.getIvd();
+		this.nb1023Procedures = form.getNb1023Procedures();
+		this.totalAudits = form.getTotalAudits();
+		this.totalAuditdays = form.getTotalAuditdays();
 	}
 }

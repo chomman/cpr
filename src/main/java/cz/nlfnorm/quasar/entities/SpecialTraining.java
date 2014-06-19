@@ -10,19 +10,32 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
+import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.LocalDateTime;
 
+/**
+ * QUASAR
+ * 
+ * Entity, which represents special auditors tranining 
+ * 
+ * @author Peter Jurkovic
+ * @date Jun 19, 2014
+ */
 @Entity
 @Table(name = "quasar_auditor_has_special_training")
 @SequenceGenerator(name = "quasar_special_training_id_seq", sequenceName = "quasar_special_training_id_seq", initialValue = 1, allocationSize =1)
 public class SpecialTraining extends BaseEntity {
 
 	private static final long serialVersionUID = 6961590682550545554L;
-	private AuditingTraining auditingTraining;
+	private Auditor auditor;
 	private int hours;
 	private String name;
-		
+	
+	public SpecialTraining(){
+		setChanged(new LocalDateTime());
+	}
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_special_training_id_seq")
 	@Override
@@ -37,6 +50,7 @@ public class SpecialTraining extends BaseEntity {
 		this.hours = hours;
 	}
 	
+	@NotEmpty
 	@Column(length = 150)
 	public String getName() {
 		return name;
@@ -46,20 +60,13 @@ public class SpecialTraining extends BaseEntity {
 	}
 		
 	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "auditing_training_id")	
-	public AuditingTraining getAuditingTraining() {
-		return auditingTraining;
+    @JoinColumn(name = "auditor_id")	
+	public Auditor getAuditor() {
+		return auditor;
 	}
 
-	public void setAuditingTraining(AuditingTraining auditingTraining) {
-		this.auditingTraining = auditingTraining;
+	public void setAuditor(Auditor auditor) {
+		this.auditor = auditor;
 	}
-
-	@Transient
-	@Override
-	public String getCode() {
-		return super.getCode();
-	}
-	
 	
 }

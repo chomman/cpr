@@ -308,6 +308,96 @@
                 
                 <!-- TRAINING -->
 			 	<p class="form-head"><spring:message code="auditor.head.training" /></p>
+			 	<div class="input-wrapp smaller">
+					<label>
+						<spring:message code="auditor.aprovedForIso9001" />:
+						
+					</label>
+					<div class="field">
+						<form:checkbox path="aprovedForIso9001" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<spring:message code="auditor.aprovedForIso13485" />:
+						
+					</label>
+					<div class="field">
+						<form:checkbox path="aprovedForIso13485" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<strong><em class="red">*</em>
+                      		<spring:message code="auditor.iso9001" />:
+                      	</strong>
+					</label>
+					<div class="field">
+						<form:input path="iso9001" cssClass="w50 c required numeric" maxlength="4" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<strong><em class="red">*</em>
+                      		<spring:message code="auditor.iso13485" />:
+                      	</strong>
+					</label>
+					<div class="field">
+						<form:input path="iso13485" cssClass="w50 c required numeric" maxlength="4" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<strong><em class="red">*</em>
+                      		<spring:message code="auditor.mdd" />:
+                      	</strong>
+					</label>
+					<div class="field">
+						<form:input path="mdd" cssClass="w50 c required numeric" maxlength="4" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<strong><em class="red">*</em>
+                      		<spring:message code="auditor.ivd" />:
+                      	</strong>
+					</label>
+					<div class="field">
+						<form:input path="ivd" cssClass="w50 c required numeric" maxlength="4" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<strong><em class="red">*</em>
+                      		<spring:message code="auditor.nb1023Procedures" />:
+                      	</strong>
+					</label>
+					<div class="field">
+						<form:input path="nb1023Procedures" cssClass="w50 c required numeric" maxlength="4" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<strong><em class="red">*</em>
+                      		<spring:message code="auditor.totalAudits" />:
+                      	</strong>
+					</label>
+					<div class="field">
+						<form:input path="totalAudits" cssClass="w50 c required numeric" maxlength="4" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<strong><em class="red">*</em>
+                      		<spring:message code="auditor.totalAuditdays" />:
+                      	</strong>
+					</label>
+					<div class="field">
+						<form:input path="totalAuditdays" cssClass="w50 c required numeric" maxlength="4" />
+					</div>
+				</div>
+				
+				
                  
                  <form:hidden path="id" />
                     <p class="button-box">
@@ -315,8 +405,64 @@
                     </p>        
 			</form:form>
 			
+			<!-- SPECIAL TRAINING -->
+			<p class="form-head"><spring:message code="auditor.head.specialTraining" /></p>
+			<c:if test="${empty model.auditor.specialTrainings}">
+				<p class="msg alert">
+					<spring:message code="auditor.noTraining" arguments="${model.auditor.name}" />
+				</p>
+			</c:if>
+			<c:if test="${not empty model.auditor.specialTrainings}">
+				<table class="data">
+					<tr class="gs-head-min">
+						<th><spring:message code="topic" /></th>
+						<th><spring:message code="hours" /></th>
+						<th><spring:message code="changed" /></th>
+						<th>&nbsp;</th>
+					</tr>
+					<c:forEach items="${model.auditor.specialTrainings}" var="i">
+						<tr>
+							<td class="b gs-exp-name">
+								${i.name}
+							</td>
+							<td class="b gs-exp-input c">
+								<strong>${i.hours}</strong>
+							</td>
+							<td class="b gs-exp-changed">
+							<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
+								/ ${i.changedBy.name}
+							</td>
+							<td class="b gs-exp-btn delete">
+								<a class="confirmMessage" href="${url}/specaial-training/${i.id}">		
+									<spring:message code="quasar.delete" />
+								</a>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+			</c:if>
+
+			<!--  Experience form -->	
+			<form class="inline-form valid" action="${url}//special-training" method="post"  >
+			 	<div class="inline-field">
+			 		<span class="inline-label">
+			 			<spring:message code="topic" />:
+			 		</span>
+			 		<input type="text" name="name" class="w300 required" />
+			 	</div>
+			 	<div class="inline-field">
+			 		<span class="inline-label">
+			 			<spring:message code="hours" />:
+			 		</span>
+			 		<input type="text" name="hours" class="required numeric w40 c" maxlength="2" />
+			 	</div>
+			 	<input type="hidden" name="auditor" value="${command.id}" />
+			 	<input type="submit" class="lang mandate-add-btn" value="<spring:message code="assign" />" />
+			 </form>
+
+			<br />
+			
 			<!-- WORK EXPERIENCE -->
-			<div  id="experiences">
 			<p class="form-head"><spring:message code="auditor.head.workExperience" /></p>
 			<c:if test="${empty model.auditor.auditorExperiences}">
 				<p class="msg alert">
@@ -332,7 +478,7 @@
 						<th>&nbsp;</th>
 					</tr>
 					<c:forEach items="${model.auditor.auditorExperiences}" var="i">
-						<tr id="e${i.id}">
+						<tr>
 							<td class="b gs-exp-name">
 								${i.experience.name}
 							</td>
@@ -371,7 +517,6 @@
 			<c:if test="${not empty model.unassignedExperiences}">
 				<!--  Experience form -->	
 				<form:form modelAttribute="auditorExperience"  cssClass="inline-form valid" action="${url}/experience" method="post"  >
-					<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 				 	<div class="inline-field">
 				 		<span class="inline-label">
 				 			<spring:message code="category" />:
@@ -392,9 +537,7 @@
 				 	<form:hidden path="auditor"/>
 				 	<input type="submit" class="lang mandate-add-btn" value="<spring:message code="assign" />" />
 				 </form:form>
-			 </c:if>
-			 </div>
-			
+			 </c:if>			
 			 
 		</div>	
 	</div>

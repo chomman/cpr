@@ -19,6 +19,7 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
+import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
@@ -134,26 +135,37 @@ public class AuditorServiceImpl implements AuditorService{
 	}
 
 	@Override
-	public void creatOrUpdateAuditorExperience(final AuditorExperience form) {
+	public void createOrUpdateAuditorExperience(final AuditorExperience form) {
 		Validate.notNull(form);
 		Validate.notNull(form.getExperience());
 		Validate.notNull(form.getAuditor());
-		AuditorExperience auditorExperience = new AuditorExperience();
 		if(form.getId() != null){
 			Set<AuditorExperience> experiencies = form.getAuditor().getAuditorExperiences();
 			for(AuditorExperience exp : experiencies){
 				if(exp.equals(form)){
-					auditorExperience = exp;
+					exp.setYears(form.getYears());
+					setChanged(exp);
 				}
 			}
 		}else{
-			auditorExperience.setAuditor(form.getAuditor());
-			auditorExperience.setExperience(form.getExperience()); 
+			setChanged(form);
+			form.getAuditor().getAuditorExperiences().add(form);
 		}
-		auditorExperience.setChangedBy(UserUtils.getLoggedUser());
-		auditorExperience.setChanged(new LocalDateTime());
-		
+		createOrUpdate(form.getAuditor());
+	}
+	
+	@Override
+	public void createAuditorSpecialTraining(final SpecialTraining form) {
+		Validate.notNull(form);
+		Validate.notNull(form.getAuditor());
+		form.setChangedBy(UserUtils.getLoggedUser());
+		form.getAuditor().getSpecialTrainings().add(form);
+		createOrUpdate(form.getAuditor());
 	}
 
+	private void setChanged(AuditorExperience experience){
+		experience.setChangedBy(UserUtils.getLoggedUser());
+		experience.setChanged(new LocalDateTime());
+	}
 	
 }

@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -32,8 +31,8 @@ import cz.nlfnorm.quasar.entities.EducationLevel;
 import cz.nlfnorm.quasar.entities.Experience;
 import cz.nlfnorm.quasar.entities.FieldOfEducation;
 import cz.nlfnorm.quasar.entities.Partner;
+import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.forms.AuditorForm;
-import cz.nlfnorm.quasar.services.AuditorExperienceService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.EducationLevelService;
 import cz.nlfnorm.quasar.services.ExperienceService;
@@ -83,9 +82,7 @@ public class AuditorController extends QuasarSupportController {
 	private FieldOfEducationService fieldOfEducationService;
 	@Autowired
 	private ExperienceService experienceService;
-	@Autowired
-	private AuditorExperienceService auditorExperienceService;
-	
+		
 	@Autowired
 	private LocalDateEditor localDateEditor;
 	
@@ -170,10 +167,18 @@ public class AuditorController extends QuasarSupportController {
 	}
 	
 	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/experience", method = RequestMethod.POST)
-	public String handeExperienceSubmit(@Valid @ModelAttribute AuditorExperience form,	
-			BindingResult result) throws ItemNotFoundException {
+	public String handeExperienceSubmit(@Valid @ModelAttribute AuditorExperience form, BindingResult result){
 		if(!result.hasErrors()){
-			createOrUpdate(form);
+			auditorService.createOrUpdateAuditorExperience(form);
+			return successUpdateRedirect(getEditUrl(form.getAuditor().getId()));
+		}
+		return "redirect:" + getEditUrl(form.getAuditor().getId());
+	}
+	
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/special-training", method = RequestMethod.POST)
+	public String handleSpecialTrainingCreate(@Valid @ModelAttribute SpecialTraining form, BindingResult result){
+		if(!result.hasErrors()){
+			auditorService.createAuditorSpecialTraining(form);
 			return successUpdateRedirect(getEditUrl(form.getAuditor().getId()));
 		}
 		return "redirect:" + getEditUrl(form.getAuditor().getId());
@@ -206,21 +211,7 @@ public class AuditorController extends QuasarSupportController {
 		appendModel(map, model);
 	}
 
-	private void createOrUpdate(final AuditorExperience form) throws ItemNotFoundException{
-		Validate.notNull(form);
-		Validate.notNull(form.getExperience());
-		AuditorExperience auditorExperience = null;
-		if(form.getId() == null){
-			final Auditor auditor = auditorService.getById(form.getAuditor().getId());
-			auditorExperience = new AuditorExperience(auditor);
-			auditorExperience.setExperience(form.getExperience());
-		}else{
-			auditorExperience = auditorExperienceService.getById(form.getId());
-			validateNotNull(form, "Auditor's work experience was not found.");
-		}
-		auditorExperience.setYears(form.getYears());
-		auditorExperienceService.createOrUpdate(auditorExperience);
-	}
+	
 	
 	private void prepareCreateModel(ModelMap map, AuditorForm form){
 		Map<String, Object> model = new HashMap<>();

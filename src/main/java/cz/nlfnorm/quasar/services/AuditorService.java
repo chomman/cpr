@@ -5,6 +5,7 @@ import java.util.List;
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
+import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.services.IdentifiableByLongService;
 
 public interface AuditorService extends IdentifiableByLongService<Auditor>{
@@ -31,5 +32,7 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	
 	void update(Auditor auditor, int action);
 	
-	void creatOrUpdateAuditorExperience(AuditorExperience auditorExperience);
+	void createOrUpdateAuditorExperience(AuditorExperience auditorExperience);
+	
+	void createAuditorSpecialTraining(SpecialTraining form);
 }
