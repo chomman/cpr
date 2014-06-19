@@ -73,3 +73,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefcea', end
 
 .qs .button-box{text-align:right;}
 .qs .inline-label{font-size:12px;padding-right:10px;}
+
+.gs-exp-changed{width:210px;text-align:center;}
+.gs-exp-input{width:60px;}
+.gs-exp-btn{width:90px;text-align:center;}
+.gs-head-min th{padding-top:5px;padding-bottom:5px;font-size:11px;}
+
+table a.qs-btn{text-decoration:none;padding:5px 10px;}
+.qs-total-exp{width:100%;text-align: right;padding:5px;border-right:1px solid #ddd;border-left:1px solid #ddd;color:#444;}
+.qs-total-exp .qs-label{font-size:14px;}
+.qs-total-exp .qs-years{width:65px;font-size:20px;margin-right:100px;}
+.qs-total-exp em{font-size:11px;font-style:normal;margin-left:0px;}
+.qs-total-exp span{font-size:16px;color:#000;font-weight:bold;}
+

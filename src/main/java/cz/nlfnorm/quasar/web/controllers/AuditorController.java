@@ -164,7 +164,7 @@ public class AuditorController extends QuasarSupportController {
 			}
 		}
 		auditorService.update(form, action);
-		prepareAuditorModel(modelMap, form, form);
+		prepareAuditorModel(modelMap, form, auditorService.getById(form.getId()));
 		appendSuccessCreateParam(modelMap);
 		return getEditFormView();
 	}

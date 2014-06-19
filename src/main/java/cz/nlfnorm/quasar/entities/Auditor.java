@@ -253,6 +253,25 @@ public class Auditor extends User {
 		return isEcrCardSigned() && isConfidentialitySigned() && isCvDelivered();
 	}
 
+	@Transient
+	public int getTotalWorkExperience(){
+		int totalExperience = 0;
+		for(AuditorExperience exp : auditorExperiences){
+			totalExperience += exp.getYears();
+		}
+		return totalExperience;
+	}
+	
+	@Transient
+	public int getTotalWorkExperienceInMedicalDevices(){
+		int mdExperience = 0;
+		for(AuditorExperience exp : auditorExperiences){
+			if(exp.getExperience().isMedicalDeviceExperience()){
+				mdExperience += exp.getYears();
+			}
+		}
+		return mdExperience;
+	}
 		
 	public void mergePersonalData(final Auditor form){
 		setEmail(form.getEmail());

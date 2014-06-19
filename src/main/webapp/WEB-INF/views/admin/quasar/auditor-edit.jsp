@@ -5,6 +5,16 @@
 	<head>
 		<title><spring:message code="auditor.edit" />: ${model.auditor.name}</title>
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
+		<script type="text/javascript">
+		$(function(){
+			$(document).on("click",".qs-btn", function(){
+				//if(validate($(this))){
+					$(this).parent().prev().find('form').submit();
+				//}
+				return false;
+			});
+		});
+		</script>
 	</head>
 <body>
 	<div id="wrapper">
@@ -23,7 +33,7 @@
 		</div>
 		<h1><spring:message code="auditor.edit" />:&nbsp; <strong>${model.auditor.name}</strong></h1>
 
-		<div id="content" class="qs">
+		<div id="content" class="qs" data-auditor="${command.id}">
 			
 			<jsp:include page="navs/auditor-nav.jsp" />
 			<jsp:include page="changed.jsp" />
@@ -306,25 +316,50 @@
 					<spring:message code="auditor.noExperience" arguments="${model.auditor.name}" />
 				</p>
 			</c:if>
-			<table class="data">
-				<c:forEach items="${model.auditor.auditorExperiences}" var="i">
-					<tr id="e${i.id}">
-						<td class="b gs-exp-name">
-							${i.experience.name}
-						</td>
-						<td class="b gs-exp-changed">
-						<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
-							/ ${i.changedBy.name}
-						</td>
-						<td class="b gs-exp-input">
-							<input type="text" class="w50 c" value="${i.years }" />
-						</td>
-						<td class="b gs-exp-btn">
-							Save
-						</td>
+			<c:if test="${not empty model.auditor.auditorExperiences}">
+				<table class="data">
+					<tr class="gs-head-min">
+						<th><spring:message code="category" /></th>
+						<th><spring:message code="changed" /></th>
+						<th><spring:message code="years" /></th>
+						<th>&nbsp;</th>
 					</tr>
-				</c:forEach>
-			</table>
+					<c:forEach items="${model.auditor.auditorExperiences}" var="i">
+						<tr id="e${i.id}">
+							<td class="b gs-exp-name">
+								${i.experience.name}
+							</td>
+							<td class="b gs-exp-changed">
+							<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
+								/ ${i.changedBy.name}
+							</td>
+							<td class="b gs-exp-input">
+								<form action="${url}/experience" method="post" class="valid">
+									<input type="text" name="years" class="w50 c required numeric" value="${i.years}" />
+									<input type="hidden" name="id" value="${i.id}" />
+									<input type="hidden" name="auditor" value="${model.auditor.id}" />
+									<input type="hidden" name="experience" value="${i.experience.id}" />
+								</form>
+							</td>
+							<td class="b gs-exp-btn">
+								<a class="lang mandate-add-btn qs-btn">
+									<spring:message code="form.save" />
+								</a>
+							</td>
+						</tr>
+					</c:forEach>
+				</table>
+				<table class="qs-total-exp">
+					<tr>
+						<td class="qs-label">Total work experience:</td>
+						<td class="qs-years"><span>${model.auditor.totalWorkExperience}</span> <em><spring:message code="years" /></em></td>
+					</tr>
+					<tr>
+						<td class="qs-label"> Work experience in the MD sector:</td>
+						<td class="qs-years"><span>${model.auditor.totalWorkExperienceInMedicalDevices}</span> <em><spring:message code="years" /></em></td> 
+					</tr>
+				</table>
+			</c:if>
 			
 			<c:if test="${not empty model.unassignedExperiences}">
 				<!--  Experience form -->	
