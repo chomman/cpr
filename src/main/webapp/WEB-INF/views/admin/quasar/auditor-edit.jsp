@@ -79,21 +79,23 @@
 				</div>
 				<div class="input-wrapp smaller">
 					<label>
-						<spring:message code="auditor.degrees" />:
-					</label>
-					<div class="field">
-						<form:input path="degrees" cssClass="w100 " maxlength="25" />
-					</div>
-				</div>
-				<div class="input-wrapp smaller">
-					<label>
 						<strong><em class="red">*</em>
 						<spring:message code="auditor.name" />:
 						</strong>
 					</label>
 					<div class="field">
-						<form:input path="firstName" cssClass="mw150 required" maxlength="50" />
-						<form:input path="lastName" cssClass="mw150 required" maxlength="50" />
+						<form:input path="degrees" cssClass="w100 " maxlength="25" placeholder="Degree"/>&nbsp;
+						<form:input path="firstName" cssClass="w100 required" maxlength="50" placeholder="First name" />
+						<form:input path="lastName" cssClass="w100 required" maxlength="50" placeholder="Last name" />
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label>
+						<spring:message code="auditor.inTraining" />:
+						
+					</label>
+					<div class="field">
+						<form:checkbox path="inTraining" />
 					</div>
 				</div>
 				<div class="input-wrapp smaller">
@@ -302,6 +304,10 @@
 						<p class="mini-info"><spring:message  code="auditor.info.education"/></p>
 					</div>
                  </div>
+                
+                
+                <!-- TRAINING -->
+			 	<p class="form-head"><spring:message code="auditor.head.training" /></p>
                  
                  <form:hidden path="id" />
                     <p class="button-box">
@@ -309,8 +315,9 @@
                     </p>        
 			</form:form>
 			
-			 <p class="form-head"><spring:message code="auditor.head.workExperience" /></p>
-			 
+			<!-- WORK EXPERIENCE -->
+			<div  id="experiences">
+			<p class="form-head"><spring:message code="auditor.head.workExperience" /></p>
 			<c:if test="${empty model.auditor.auditorExperiences}">
 				<p class="msg alert">
 					<spring:message code="auditor.noExperience" arguments="${model.auditor.name}" />
@@ -351,11 +358,11 @@
 				</table>
 				<table class="qs-total-exp">
 					<tr>
-						<td class="qs-label">Total work experience:</td>
+						<td class="qs-label"><spring:message code="auditor.experience.total" />:</td>
 						<td class="qs-years"><span>${model.auditor.totalWorkExperience}</span> <em><spring:message code="years" /></em></td>
 					</tr>
 					<tr>
-						<td class="qs-label"> Work experience in the MD sector:</td>
+						<td class="qs-label"><spring:message code="auditor.experience.totalMd" />:</td>
 						<td class="qs-years"><span>${model.auditor.totalWorkExperienceInMedicalDevices}</span> <em><spring:message code="years" /></em></td> 
 					</tr>
 				</table>
@@ -386,6 +393,9 @@
 				 	<input type="submit" class="lang mandate-add-btn" value="<spring:message code="assign" />" />
 				 </form:form>
 			 </c:if>
+			 </div>
+			
+			 
 		</div>	
 	</div>
 	<div class="clear"></div>	

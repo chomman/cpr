@@ -287,5 +287,6 @@ public class Auditor extends User {
 		setConfidentialitySigned(form.isConfidentialitySigned());
 		setCvDelivered(form.isCvDelivered());
 		setEducation(form.getEducation());
+		setInTraining(form.isInTraining());
 	}
 }
