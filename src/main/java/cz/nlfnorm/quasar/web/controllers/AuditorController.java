@@ -187,7 +187,7 @@ public class AuditorController extends QuasarSupportController {
 	@RequestMapping(EDIT_AUDITOR_MAPPING_URL + "/special-training/{id}")
 	public String handleSpecialTrainingDelete(@PathVariable Long auditorId, @PathVariable Long id) throws ItemNotFoundException{
 			final Auditor auditor = auditorService.getById(auditorId);
-			validateNotNull(auditor, "Auditor not Found");
+			validateNotNull(auditor,String.format("Auditor [id=%s] was not found", auditorId));
 			auditorService.removeAuditorSpecailTraining(auditor, id);
 		return successUpdateRedirect(getEditUrl(auditorId));
 	}

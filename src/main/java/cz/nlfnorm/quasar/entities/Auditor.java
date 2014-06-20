@@ -385,6 +385,8 @@ public class Auditor extends User {
 	public boolean getAreFormalAndLegalReqiurementValid(){
 		return isEcrCardSigned() && isConfidentialitySigned() && isCvDelivered();
 	}
+	
+	
 
 	@Transient
 	public int getTotalWorkExperience(){

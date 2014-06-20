@@ -75,7 +75,7 @@
 		<form:label path="password"  cssClass="with-info">
 			<span class="label"><spring:message code="portalUser.password" />:</span>
 			<form:password path="password" cssClass="required w300 more6" maxlength="50"/>
-			<span class="miniinfo"><spring:message code="portal.miniinfo.password" /></span>
+			<span class="miniinfo"><spring:message code="password.info" /></span>
 		</form:label>
 		<form:label path="confirmPassword">
 			<span class="label"><spring:message code="portalUser.confirmPassword" />:</span>
