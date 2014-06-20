@@ -347,7 +347,7 @@ public class Auditor extends User {
 		this.totalAudits += count;
 	}
 
-	@OneToMany(mappedBy = "auditor", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
+	@OneToMany(mappedBy = "auditor", orphanRemoval = true, fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public Set<SpecialTraining> getSpecialTrainings() {
 		return specialTrainings;
 	}

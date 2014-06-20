@@ -145,6 +145,7 @@ public class AuditorServiceImpl implements AuditorService{
 				if(exp.equals(form)){
 					exp.setYears(form.getYears());
 					setChanged(exp);
+					break;
 				}
 			}
 		}else{
@@ -162,7 +163,19 @@ public class AuditorServiceImpl implements AuditorService{
 		form.getAuditor().getSpecialTrainings().add(form);
 		createOrUpdate(form.getAuditor());
 	}
+	
+	public void removeAuditorSpecailTraining(final Auditor auditor, final Long specialTrainingId){
+		Validate.notNull(auditor);
+		for(final SpecialTraining st : auditor.getSpecialTrainings()){
+			if(st.getId().equals(specialTrainingId)){
+				auditor.getSpecialTrainings().remove(st);
+				break;
+			}
+		}
+	}
 
+	
+	
 	private void setChanged(AuditorExperience experience){
 		experience.setChangedBy(UserUtils.getLoggedUser());
 		experience.setChanged(new LocalDateTime());

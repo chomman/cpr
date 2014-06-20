@@ -432,8 +432,8 @@
 							<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 								/ ${i.changedBy.name}
 							</td>
-							<td class="b gs-exp-btn delete">
-								<a class="confirmMessage" href="${url}/specaial-training/${i.id}">		
+							<td class="b gs-exp-btn delete">		   
+								<a class="confirmMessage" href="${url}/special-training/${i.id}" data-message="<spring:message code="quasar.delete.confirm" />">		
 									<spring:message code="quasar.delete" />
 								</a>
 							</td>
@@ -443,7 +443,7 @@
 			</c:if>
 
 			<!--  Experience form -->	
-			<form class="inline-form valid" action="${url}//special-training" method="post"  >
+			<form class="inline-form valid" action="${url}/experience" method="post"  >
 			 	<div class="inline-field">
 			 		<span class="inline-label">
 			 			<spring:message code="topic" />:

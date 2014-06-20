@@ -35,4 +35,6 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	void createOrUpdateAuditorExperience(AuditorExperience auditorExperience);
 	
 	void createAuditorSpecialTraining(SpecialTraining form);
+	
+	void removeAuditorSpecailTraining(Auditor auditor, Long specialTrainingId);
 }
