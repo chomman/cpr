@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -121,4 +122,8 @@ public class AuditorEacCode extends AbstractAuditorCode {
 		this.notifiedBody = notifiedBody;
 	}
 
+	@Transient
+	public int getTotalNumberOfAudits(){
+		return getNumberOfIso13485Audits() + getNumberOfNbAudits();
+	}
 }

@@ -1,6 +1,6 @@
 package cz.nlfnorm.quasar.dto;
 
-public class AbstractCodeQualification {
+public class EvaluatedAuditorCode {
 	
 	private boolean isGranted;
 	

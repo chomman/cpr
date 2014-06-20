@@ -71,7 +71,7 @@ public class Auditor extends User {
 	/**
 	 * Training ISO 9001 (hours)
 	 */
-	private int iso9001;
+	private int trainingIso9001InHours;
 	/**
 	 * Training ISO 13485 (hours)
 	 */
@@ -268,12 +268,12 @@ public class Auditor extends User {
 	
 	@Min( value = 0 )
 	@Column(name = "iso9001_hours")
-	public int getIso9001() {
-		return iso9001;
+	public int getTrainingIso9001InHours() {
+		return trainingIso9001InHours;
 	}
 	
-	public void setIso9001(int iso9001) {
-		this.iso9001 = iso9001;
+	public void setTrainingIso9001InHours(int iso9001) {
+		this.trainingIso9001InHours = iso9001;
 	}
 	
 	@Min( value = 0 )
@@ -425,7 +425,7 @@ public class Auditor extends User {
 		setInTraining(form.isInTraining());
 		this.aprovedForIso9001 = form.isAprovedForIso9001();
 		this.aprovedForIso13485 = form.isAprovedForIso13485();
-		this.iso9001 = form.getIso9001();
+		this.setTrainingIso9001InHours(form.getTrainingIso9001InHours());
 		this.iso13485 = form.getIso13485();
 		this.mdd = form.getMdd();
 		this.ivd = form.getIvd();
