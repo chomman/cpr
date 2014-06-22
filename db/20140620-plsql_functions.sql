@@ -33,7 +33,7 @@ BEGIN
 	RETURN auditor.nb1023_procedures_hours >= 16 AND
 			-- MD Training
 		   auditor.mdd_hours + 	auditor.ivd_hours >= 32 AND
-		    -- ISO 9001 Training
+		    -- ISO 9001 Trainig
 		   (
 		   	auditor.is_aproved_for_iso13485 OR
 		   	(auditor.is_aproved_for_iso9001 AND auditor.iso13485_hours >= 8) OR
