@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -79,6 +80,19 @@ public class AuditorEacCodeServiceImpl implements AuditorEacCodeService{
 			return null;
 		}
 		return auditorEacCodeDao.getByEacCode(code, auditorId);
+	}
+
+	@Override
+	public void updateAndSetChanged(final AuditorEacCode form) {
+		AuditorEacCode auditorEacCode  = getById(form.getId());
+		Validate.notNull(form);
+		auditorEacCode.setItcApproved(form.isItcApproved());
+		auditorEacCode.setNotifiedBody(form.getNotifiedBody());
+		auditorEacCode.setNumberOfIso13485Audits(form.getNumberOfIso13485Audits());
+		auditorEacCode.setNumberOfNbAudits(form.getNumberOfNbAudits());
+		auditorEacCode.setChanged(new LocalDateTime());
+		auditorEacCode.setChangedBy(UserUtils.getLoggedUser());
+		update(auditorEacCode);
 	}
 
 }

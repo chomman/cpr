@@ -110,6 +110,12 @@ public class NotifiedBodyServiceImpl implements NotifiedBodyService {
 		term = term.toLowerCase();
 		return notifiedBodyDao.autocomplete(term.toLowerCase(), enabled);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public NotifiedBody getById(final Long id) {
+		return getNotifiedBodyById(id);
+	}
 	
 	
 	

@@ -72,6 +72,10 @@
 
 <div class="hbox"><h2><spring:message code="qsAuditor.eacCodes" /></h2></div>
 
+<c:if test="${not empty successCreate}">
+		<p class="msg ok"><spring:message code="success.create" /></p>
+	</c:if>
+
 <c:set value="" var="scope" />
 <c:forEach items="${model.codes}" var="i"> 
 	<c:set value="${model.function.areAllRequirementsValid and i.granted}" var="isGranted" />
@@ -157,9 +161,12 @@
 									
 										<input name="notifiedBody" type="text" class="mw150"
 										<c:if test="${not empty i.notifiedBody}">
-											 data-json="{id:${i.notifiedBody.id},name : i.notifiedBody.noCode }"
+											 data-json="${i.notifiedBody.id}##${i.notifiedBody.noCode}"
 										</c:if>
 										 />
+										 <a class="lang mandate-add-btn">
+											<spring:message code="form.save" />
+										</a>
 									</span>
 								</td>
 							</tr>
@@ -168,6 +175,7 @@
 				</div>
 				<div class="clear"></div>
 				<input type="hidden" name="id" value="${i.id}">
+				<input type="hidden" name="auditor" value="${model.auditor.id}">
 				</form>
 		</div>
 	</div>

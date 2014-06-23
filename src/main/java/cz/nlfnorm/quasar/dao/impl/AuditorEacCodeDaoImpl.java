@@ -24,7 +24,7 @@ public class AuditorEacCodeDaoImpl extends BaseDaoImpl<AuditorEacCode, Long> imp
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<AuditorEacCode> getAllAuditorEacCodes(final Auditor auditor) {
-		String hql = "from AuditorEacCode c where c.eacCode.enabled=true and c.auditor.id=:id order by c.eacCode.code";
+		String hql = "from AuditorEacCode c where c.eacCode.forQsAuditor=true and c.auditor.id=:id order by c.eacCode.id";
 		return createQuery(hql)
 				.setLong("id", auditor.getId())
 				.list();

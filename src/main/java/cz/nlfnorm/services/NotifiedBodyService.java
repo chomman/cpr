@@ -10,7 +10,7 @@ import cz.nlfnorm.entities.NotifiedBody;
  * @author Peter Jurkovic
  *
  */
-public interface NotifiedBodyService {
+public interface NotifiedBodyService extends IdentifiableByLongService<NotifiedBody>{
 	
 	
 	/**

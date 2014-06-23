@@ -24,8 +24,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.entities.Country;
+import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
 import cz.nlfnorm.quasar.entities.EducationLevel;
 import cz.nlfnorm.quasar.entities.Experience;
@@ -41,6 +43,7 @@ import cz.nlfnorm.quasar.services.FieldOfEducationService;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.validators.AuditorValidator;
 import cz.nlfnorm.services.CountryService;
+import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
@@ -87,7 +90,8 @@ public class AuditorController extends QuasarSupportController {
 	private ExperienceService experienceService;
 	@Autowired
 	private AuditorEacCodeService auditorEacCodeService;
-	
+	@Autowired
+	private NotifiedBodyService notifiedBodyService;
 	@Autowired
 	private LocalDateEditor localDateEditor;
 	
@@ -105,6 +109,7 @@ public class AuditorController extends QuasarSupportController {
 		binder.registerCustomEditor(Partner.class, new IdentifiableByLongPropertyEditor<Partner>( partnerService ));
 		binder.registerCustomEditor(Auditor.class, new IdentifiableByLongPropertyEditor<Auditor>( auditorService ));
 		binder.registerCustomEditor(Experience.class, new IdentifiableByLongPropertyEditor<Experience>( experienceService ));
+		binder.registerCustomEditor(NotifiedBody.class, new IdentifiableByLongPropertyEditor<NotifiedBody>( notifiedBodyService ));
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 	}
 	
@@ -209,16 +214,31 @@ public class AuditorController extends QuasarSupportController {
 	
 	
 	
-	@RequestMapping(AUDITOR_FUNCTION_MAPPING_URL)
+	@RequestMapping(value = AUDITOR_FUNCTION_MAPPING_URL, method = RequestMethod.GET)
 	public String handleQsAuditor(
 			ModelMap modelMap, 
+			HttpServletRequest request,
 			@PathVariable Long auditorId, 
 			@PathVariable int functionType) throws ItemNotFoundException {
+		if(isSucceded(request)){
+			appendSuccessCreateParam(modelMap);
+		}
 		final Auditor auditor = auditorService.getById(auditorId);
 		validateNotNull(auditor, "Auditor was not found");
 		prepareModelForFunction(modelMap, auditor, functionType);
 		return getEditFormView();
 	}
+	
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/f/" +SUB_TAB_QS_ADUTITOR, method = RequestMethod.POST)
+	public String handleQsAuditorSubmit(
+			ModelMap modelMap, 
+			@Valid @ModelAttribute AuditorEacCode form,
+			BindingResult result
+			) throws ItemNotFoundException {
+		auditorEacCodeService.updateAndSetChanged(form);
+		return successUpdateRedirect(getEditUrl(form.getAuditor().getId()) + "/f/" +SUB_TAB_QS_ADUTITOR);
+	}
+			
 	
 	private void prepareModelForFunction(ModelMap map, final Auditor auditor, final int functionType){
 		Map<String, Object> model = new HashMap<>();

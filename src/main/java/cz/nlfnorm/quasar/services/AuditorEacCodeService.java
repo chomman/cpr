@@ -26,4 +26,6 @@ public interface AuditorEacCodeService {
 	void syncAuditorEacCodes(Auditor auditor);
 	
 	AuditorEacCode getByEacCode(String code, Long auditorId);
+	
+	void updateAndSetChanged(AuditorEacCode form);
 }

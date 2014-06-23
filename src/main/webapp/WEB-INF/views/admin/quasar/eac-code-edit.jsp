@@ -112,15 +112,7 @@
                            <span class="field">
                            	<form:input path="threshold" maxlength="3" cssClass="w50 required" />
                            </span>
-                       </p>
-                    
-                    <div class="qs-left-bx">
-                    	<h4>Education in the sector of ACTIVE medical devices</h4>
-                    </div>
-                    <div class="qs-right-bx">
-                    	<h4>Education in the sector of NON-ACTIVE medical devices</h4>
-                    </div>
-                       
+                       </p>                                      
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

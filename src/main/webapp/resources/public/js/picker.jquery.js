@@ -8,7 +8,7 @@
         autocompleteCallBack : null,
         enabledOnly : false,
         useDefaultCallBack : false,
-        debug: true,
+        debug: false,
         excludeId :  null,
         inputNames : {
         	hidden : null, text : null
@@ -17,6 +17,7 @@
     
     $.fn.remotePicker = function(newOpts) {
     	options = $.extend( {}, options, newOpts );
+    	$(this).each(function(){
         var $this = $(this);
         if(options.debug){
         	console.log('creating plugin..');
@@ -104,8 +105,11 @@
         }
 
         $(document).on("click", '.'+options.cancelBtnClass, cancelSelection );
-	};
+	
     	
+	});
+    	
+    };
 }( jQuery ));
 
 function changeType(input,type)
