@@ -33,6 +33,7 @@ import cz.nlfnorm.quasar.entities.FieldOfEducation;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.forms.AuditorForm;
+import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.EducationLevelService;
 import cz.nlfnorm.quasar.services.ExperienceService;
@@ -65,6 +66,8 @@ public class AuditorController extends QuasarSupportController {
 	private final static String ADD_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/add";
 	private final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
 	
+	private final static String AUDITOR_FUNCTION_MAPPING_URL =  EDIT_AUDITOR_MAPPING_URL + "/f/{functionType}";
+	
 	@Autowired
 	private AuditorValidator auditorValidator;
 	
@@ -82,7 +85,9 @@ public class AuditorController extends QuasarSupportController {
 	private FieldOfEducationService fieldOfEducationService;
 	@Autowired
 	private ExperienceService experienceService;
-		
+	@Autowired
+	private AuditorEacCodeService auditorEacCodeService;
+	
 	@Autowired
 	private LocalDateEditor localDateEditor;
 	
@@ -201,6 +206,40 @@ public class AuditorController extends QuasarSupportController {
 			@RequestBody @RequestParam(value = "adminsOnly", required = false) Boolean adminsOnly){
 		return auditorService.autocomplete(term, enabled, adminsOnly);
 	}
+	
+	
+	
+	@RequestMapping(AUDITOR_FUNCTION_MAPPING_URL)
+	public String handleQsAuditor(
+			ModelMap modelMap, 
+			@PathVariable Long auditorId, 
+			@PathVariable int functionType) throws ItemNotFoundException {
+		final Auditor auditor = auditorService.getById(auditorId);
+		validateNotNull(auditor, "Auditor was not found");
+		prepareModelForFunction(modelMap, auditor, functionType);
+		return getEditFormView();
+	}
+	
+	private void prepareModelForFunction(ModelMap map, final Auditor auditor, final int functionType){
+		Map<String, Object> model = new HashMap<>();
+		model.put("auditor", auditor);
+		model.put("subTab", functionType);
+		prepareModelForFunction(model, functionType, auditor);
+		appendTabNo(model, TAB);
+		appendModel(map, model);
+	}
+	
+	private void prepareModelForFunction(Map<String, Object> model, final int functionType, final Auditor auditor){
+		switch (functionType) {
+			case SUB_TAB_QS_ADUTITOR:
+				model.put("function", auditorService.getQsAuditorById(auditor.getId()));
+				model.put("codes",  auditorEacCodeService.getAllAuditorEacCodes(auditor));
+			break;
+			default:
+				throw new IllegalArgumentException("Unknown function type: " + functionType);
+		}
+	}
+	
 	
 	
 	private void prepareAuditorModel(ModelMap map, Auditor form, Auditor auditor){

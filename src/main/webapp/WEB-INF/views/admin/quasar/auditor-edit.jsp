@@ -31,12 +31,12 @@
 		</div>
 		<h1><spring:message code="auditor.edit" />:&nbsp; <strong>${model.auditor.name}</strong></h1>
 
-		<div id="content" class="qs" data-auditor="${command.id}">
+		<div id="content" class="qs" data-auditor="${model.auditor.id}">
 			
 			<jsp:include page="navs/auditor-nav.jsp" />
-			<jsp:include page="changed.jsp" />
-				
+			
 			<c:if test="${model.subTab == 1}">
+				<jsp:include page="changed.jsp" />
 				<jsp:include page="auditor-edit-form.jsp" />
 			</c:if>
 			

@@ -3,6 +3,7 @@ package cz.nlfnorm.quasar.dao.impl;
 import java.util.List;
 
 import org.hibernate.Query;
+import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.dao.impl.BaseDaoImpl;
@@ -10,6 +11,7 @@ import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.views.QsAuditor;
 
 /**
  * QUASAR
@@ -64,4 +66,22 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 		return query.list();
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<QsAuditor> getAllQsAuditors(){
+		return getSessionFactory()
+			  .getCurrentSession()
+			  .createSQLQuery("select * from quasar_qs_auditor")
+			  .setResultTransformer(Transformers.aliasToBean(QsAuditor.class))
+			  .setReadOnly(true)
+			  .list();
+	}
+	
+
+	public QsAuditor getQsAuditorById(final Long id){
+		return (QsAuditor)createQuery("from QsAuditor where id=:id")
+				  .setReadOnly(true)
+				  .setLong("id", id)
+				  .setMaxResults(1)
+				  .uniqueResult();
+	}
 }

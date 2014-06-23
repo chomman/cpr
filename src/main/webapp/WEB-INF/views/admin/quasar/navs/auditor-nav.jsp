@@ -9,25 +9,25 @@
 	</li>
 	
 	<li>
-		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/qs-auditor" activeTab="${model.subTab == 2}">
+		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/f/2" activeTab="${model.subTab == 2}">
 			<spring:message code="auditor.qsAuditor" />
 		</a:adminurl>
 	</li>
 	
 	<li>
-		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/product-assessor-a" activeTab="${model.subTab == 3}">
+		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/f/3" activeTab="${model.subTab == 3}">
 			<spring:message code="auditor.productAssessorA" />
 		</a:adminurl>
 	</li>
 	
 	<li>
-		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/product-assessor-r" activeTab="${model.subTab == 4}">
+		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/f/4" activeTab="${model.subTab == 4}">
 			<spring:message code="auditor.productAssessorR" />
 		</a:adminurl>
 	</li>
 	
 	<li>
-		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/product-specialist" activeTab="${model.subTab == 5}">
+		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/f/5" activeTab="${model.subTab == 5}">
 			<spring:message code="auditor.productSpecialist" />
 		</a:adminurl>
 	</li>

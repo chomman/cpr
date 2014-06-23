@@ -61,7 +61,8 @@
 	<mapping class="cz.nlfnorm.quasar.entities.Experience"/>
 	<mapping class="cz.nlfnorm.quasar.entities.EducationLevel"/>
 	
-		
-	 
+	<!-- QUASAR Views -->
+	<mapping class="cz.nlfnorm.quasar.views.QsAuditor"/> 
+	
  </session-factory>
 </hibernate-configuration>

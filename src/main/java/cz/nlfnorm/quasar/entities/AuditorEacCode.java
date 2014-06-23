@@ -126,4 +126,11 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	public int getTotalNumberOfAudits(){
 		return getNumberOfIso13485Audits() + getNumberOfNbAudits();
 	}
+	
+	@Transient 
+	public boolean isGranted(){
+		return getNotifiedBody() != null ||
+			   isItcApproved() ||
+			   getTotalNumberOfAudits() >= getEacCode().getThreshold();
+	}
 }

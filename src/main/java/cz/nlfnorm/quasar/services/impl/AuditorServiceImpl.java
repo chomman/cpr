@@ -23,6 +23,7 @@ import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -179,6 +180,12 @@ public class AuditorServiceImpl implements AuditorService{
 	private void setChanged(AuditorExperience experience){
 		experience.setChangedBy(UserUtils.getLoggedUser());
 		experience.setChanged(new LocalDateTime());
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public QsAuditor getQsAuditorById(Long id) {
+		return auditorDao.getQsAuditorById(id);
 	}
 	
 }

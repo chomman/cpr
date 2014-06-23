@@ -6,6 +6,7 @@ import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
+import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.IdentifiableByLongService;
 
 public interface AuditorService extends IdentifiableByLongService<Auditor>{
@@ -37,4 +38,6 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	void createAuditorSpecialTraining(SpecialTraining form);
 	
 	void removeAuditorSpecailTraining(Auditor auditor, Long specialTrainingId);
+	
+	QsAuditor getQsAuditorById(Long id);
 }

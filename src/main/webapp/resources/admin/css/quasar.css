@@ -41,14 +41,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f85032', end
 
 }
 .qs-valid{
-background: rgba(156,245,54,1);
-background: -moz-linear-gradient(top, rgba(156,245,54,1) 0%, rgba(126,209,48,1) 100%);
-background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(156,245,54,1)), color-stop(100%, rgba(126,209,48,1)));
-background: -webkit-linear-gradient(top, rgba(156,245,54,1) 0%, rgba(126,209,48,1) 100%);
-background: -o-linear-gradient(top, rgba(156,245,54,1) 0%, rgba(126,209,48,1) 100%);
-background: -ms-linear-gradient(top, rgba(156,245,54,1) 0%, rgba(126,209,48,1) 100%);
-background: linear-gradient(to bottom, rgba(156,245,54,1) 0%, rgba(126,209,48,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9cf536', endColorstr='#7ed130', GradientType=0 );
+background: #51bf07;
+background: -moz-linear-gradient(top, #51bf07 0%, #58c911 49%, #80e044 50%, #76e030 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#51bf07), color-stop(49%,#58c911), color-stop(50%,#80e044), color-stop(100%,#76e030));
+background: -webkit-linear-gradient(top, #51bf07 0%,#58c911 49%,#80e044 50%,#76e030 100%);
+background: -o-linear-gradient(top, #51bf07 0%,#58c911 49%,#80e044 50%,#76e030 100%);
+background: -ms-linear-gradient(top, #51bf07 0%,#58c911 49%,#80e044 50%,#76e030 100%);
+background: linear-gradient(to bottom, #51bf07 0%,#58c911 49%,#80e044 50%,#76e030 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#51bf07', endColorstr='#76e030',GradientType=0 );
 }
 
 .qs-left-bx,
@@ -86,3 +86,8 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 .qs-total-exp em{font-size:11px;font-style:normal;margin-left:0px;}
 .qs-total-exp span{font-size:16px;color:#000;font-weight:bold;}
 
+.qs-result-box{padding:2px 10px 5px 10px;}
+.qs-result-box ul{list-style:none;border:1px solid #eee;}
+.qs-result-box ul li {padding:1px;padding-left:10px;}
+.qs-result-box ul li span{display:block;padding:12px;background:#fff;font-size:14px;opacity:.95}
+.qs-result-box .qs-global{color:#fff;font-weight:bold;display:block;padding:8px 5px;}
