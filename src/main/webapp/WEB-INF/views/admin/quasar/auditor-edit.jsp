@@ -5,14 +5,8 @@
 	<head>
 		<title><spring:message code="auditor.edit" />: ${model.auditor.name}</title>
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
-		<script type="text/javascript">
-		$(function(){
-			$(document).on("click",".qs-btn", function(){
-				$(this).parent().prev().find('form').submit();
-				return false;
-			});
-		});
-		</script>
+		<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
+		<script src="<c:url value="/resources/admin/js/scripts.quasar.js" />"></script>
 	</head>
 <body>
 	<div id="wrapper">

@@ -74,6 +74,14 @@ END;
 $$ LANGUAGE plpgsql;
 
 
+
+CREATE OR REPLACE FUNCTION recent_acitivities(aid bigint) RETURNS boolean AS $$
+BEGIN
+	RETURN TRUE;
+END;
+$$ LANGUAGE plpgsql;
+
+
 CREATE VIEW quasar_qs_auditor AS SELECT 
 	u.id,
 	u.first_name,
@@ -85,8 +93,9 @@ CREATE VIEW quasar_qs_auditor AS SELECT
 	a.is_in_training,  
 	formal_legal_requirements(a) AS formal_legal_requirements,
 	experience(a.id, '1') AS general_requirements,
+	recent_acitivities(a.id) as recent_acitivities,
 	qs_auditor_training_auditing(a) AS training_auditing,
-	has_any_eac_code_granted(a.id) AS has_any_eac_code_granted 
+	has_any_eac_code_granted(a.id) AS has_any_eac_code_granted
 FROM quasar_auditor a
 INNER JOIN users u ON u.id = a.id
 ORDER BY a.itc_id;

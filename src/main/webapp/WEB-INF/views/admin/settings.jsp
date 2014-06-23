@@ -14,7 +14,7 @@
 	
 		<jsp:include page="include/settings-nav.jsp" />
 		
-	</div>	
+	</div>
 	<div id="right">
 	
 		<div id="breadcrumb">

@@ -21,7 +21,7 @@ tr.is-first-level.odd{background-color:#E8FAFF;}
 .input-wrapp.smaller .field,
 .input-wrapp.smaller label{padding:11px 20px;}
 .input-wrapp.smaller label{line-height:22px;}
-
+.qs-btn:hover{cursor:pointer;}
 .qs-valid,
 .qs-invalid{padding-left:10px;margin-left:0px;}
 .qs-valid label,
@@ -91,3 +91,30 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 .qs-result-box ul li {padding:1px;padding-left:10px;}
 .qs-result-box ul li span{display:block;padding:12px;background:#fff;font-size:14px;opacity:.95}
 .qs-result-box .qs-global{color:#fff;font-weight:bold;display:block;padding:8px 5px;}
+.qs-result-box strong{text-transform:uppercase;padding-left:10px;}
+
+.qs-inline-edit{position:absolute;right:100px;background:#ddd;padding:10px;font-size:14px;border-radius:5px;top:-2px;display:none;}
+.qs-item{border:3px solid #ddd;margin-bottom:5px;}
+.qs-item:hover .qs-inline-edit{display: block;cursor: pointer;background: #ccc;}
+.qs-item:hover{border-color:#ccc;}
+
+.qs-code-wrapp{background:#fefefe;min-height:100%;height:100%}
+
+.qs-name{position:relative;padding-left:155px;padding-right:100px;}
+.qs-name h3{font-size:16px;padding:5px;}
+.qs-name table{font-size:14px;border-collapse:collapse;margin-left:5px;color:#333}
+.qs-name table tr{border-bottom:1px dotted #eee;}
+.qs-name table .k{width:300px;}
+.qs-name table .v{background:#eee;border-radius:5px;text-align:center;padding:4px 6px;}
+
+.qs-code{width:150px;background:#FAF9D2;position:absolute;left:0;height:100%;border-right: 1px solid #F2F0BD;}
+.qs-code .eac{padding:8px;font-weight:bold;font-size:18px;}
+.qs-code .nace{font-size:11px;color:#555;padding:0 8px;}
+
+.is-granted{position:absolute;right:0;height:100%;vertical-align:middle;font-size:12px;text-align:center;color:#fff;width:70px;line-height:152px;padding-left:0;font-weight:bold;}
+
+.qs-code-scope{display:block;width:100%;height:120px;margin-right:10px;font-size:16px;font-family:Arial}
+
+.qs-field{display: none;}
+.qs-editting .qs-field{display:inline;}
+.qs-editting .val.h{display:none;}

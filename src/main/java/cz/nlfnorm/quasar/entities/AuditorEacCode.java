@@ -50,7 +50,7 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	/**
 	 * Specific reason for the approval (in case of missing review)
 	 */
-	private boolean itcApproval;
+	private boolean itcApproved;
 	
 	/**
 	 * If is NOT NULL, given NB approved for
@@ -105,11 +105,11 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	
 	@Column(name = "is_itc_approved")
 	public boolean isItcApproved() {
-		return itcApproval;
+		return itcApproved;
 	}
 
 	public void setItcApproved(boolean itcApproved) {
-		this.itcApproval = itcApproved;
+		this.itcApproved = itcApproved;
 	}
 
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
