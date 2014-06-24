@@ -195,4 +195,7 @@ INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (7, true, 'Hospital')
 INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (8, true, 'Electronics/IT');
 INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (9, true, 'Science/research/authority');
 INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (10, false, 'Other (not MD related)');
+
+INSERT INTO quasar_settings (id, product_assessor_a_ivd_training, product_assessor_a_md_training, product_assessor_a_nb1023_procedures, product_assessor_r_ivd_training, product_assessor_r_md_training, product_assessor_r_tf_total, product_assessor_r_tf_training_review, product_specialist_ivd_training, product_specialist_md_training, product_specialist_dd_total, product_specialist_dd_training_review, qs_auditor_class_room_training, qs_auditor_iso13485_training, qs_auditor_md_training, qs_auditor_nb1023_procedures) VALUES (1, 8, 32, 8, 16, 32, 3, 16, 16, 32, 4, 16, 40, 8, 32, 16);
+
 end;

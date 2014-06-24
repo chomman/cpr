@@ -26,7 +26,7 @@
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 				 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-				 <a:adminurl href="/quasar/admin/eac-codes"><spring:message code="eacCodes" /></a:adminurl>  &raquo;
+				 <a:adminurl href="/quasar/manage/eac-codes"><spring:message code="eacCodes" /></a:adminurl>  &raquo;
 				 <span>
 				 	<c:if test="${empty eacCode.id}">
 						<spring:message code="eacCode.add" />

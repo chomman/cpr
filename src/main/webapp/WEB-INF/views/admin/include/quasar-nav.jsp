@@ -38,6 +38,12 @@
 		</a:adminurl>
 	</li>
 	
+	<li>
+		<a:adminurl href="/quasar/manage/settings" activeTab="${model.tab == 7}">
+			<spring:message code="quasarSettings" />
+		</a:adminurl>
+	</li>
+	
 	
 	
 </ul>

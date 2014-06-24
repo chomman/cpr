@@ -27,7 +27,7 @@
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 				 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-				 <a:adminurl href="/quasar/admin/nando-codes"><spring:message code="nandoCodes" /></a:adminurl>  &raquo;
+				 <a:adminurl href="/quasar/manage/nando-codes"><spring:message code="nandoCodes" /></a:adminurl>  &raquo;
 				 <span>
 				 	<c:if test="${empty nandoCode.id}">
 						<spring:message code="nandoCode.add" />

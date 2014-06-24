@@ -22,7 +22,7 @@
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 				 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-				 <a:adminurl href="/quasar/admin/educations"><spring:message code="fieldOfEducations" /></a:adminurl>  &raquo;
+				 <a:adminurl href="/quasar/manage/educations"><spring:message code="fieldOfEducations" /></a:adminurl>  &raquo;
 				 <span>
 				 	<c:if test="${empty fieldOfEducation.id}">
 						<spring:message code="quasar.add" />
