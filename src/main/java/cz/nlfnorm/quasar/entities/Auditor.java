@@ -96,6 +96,15 @@ public class Auditor extends User {
 	 * Sum of audits in days
 	 */
 	private int totalAuditdays;
+	
+
+	/* Product Assessor-A */
+	private int tfTrainingInHours;
+	private int totalTfReviews;
+	
+	/* Product Specialist */
+	private int ddTrainingInHours;
+	private int totalDdReviews;
 			
 	private Map<String, AuditorEducation> education;
 	private Map<Integer, AuditorSpecialist> specialist;
@@ -317,7 +326,7 @@ public class Auditor extends User {
 	}
 	
 	@Min( value = 0 )
-	@Column(name = "totoal_of_audits")
+	@Column(name = "total_of_audits")
 	public int getTotalAudits() {
 		return totalAudits;
 	}
@@ -327,7 +336,7 @@ public class Auditor extends User {
 	}
 	
 	@Min( value = 0 )
-	@Column(name = "totoal_of_auditdayes")
+	@Column(name = "total_of_auditdayes")
 	public int getTotalAuditdays() {
 		return totalAuditdays;
 	}
@@ -335,8 +344,45 @@ public class Auditor extends User {
 	public void setTotalAuditdays(int totalAuditdays) {
 		this.totalAuditdays = totalAuditdays;
 	}
-
 	
+	@Min( value = 0 )
+	@Column(name = "tf_training_in_hours")	
+	public int getTfTrainingInHours() {
+		return tfTrainingInHours;
+	}
+
+	public void setTfTrainingInHours(int tfTrainingInHours) {
+		this.tfTrainingInHours = tfTrainingInHours;
+	}
+	@Min( value = 0 )
+	@Column(name = "total_tf_reviews")	
+	public int getTotalTfReviews() {
+		return totalTfReviews;
+	}
+
+	public void setTotalTfReviews(int totalTfReviews) {
+		this.totalTfReviews = totalTfReviews;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "dd_training_in_hours")	
+	public int getDdTrainingInHours() {
+		return ddTrainingInHours;
+	}
+
+	public void setDdTrainingInHours(int ddTrainingInHours) {
+		this.ddTrainingInHours = ddTrainingInHours;
+	}
+	@Min( value = 0 )
+	@Column(name = "total_dd_reviews")	
+	public int getTotalDdReviews() {
+		return totalDdReviews;
+	}
+
+	public void setTotalDdReviews(int totalDdReviews) {
+		this.totalDdReviews = totalDdReviews;
+	}
+
 	@Transient
 	public void incrementAuditDays(int days){
 		this.totalAuditdays += days;

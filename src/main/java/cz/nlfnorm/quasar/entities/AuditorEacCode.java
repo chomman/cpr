@@ -52,6 +52,8 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	 */
 	private boolean itcApproved;
 	
+	private boolean refused;
+	
 	/**
 	 * If is NOT NULL, given NB approved for
 	 */
@@ -111,6 +113,15 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	public void setItcApproved(boolean itcApproved) {
 		this.itcApproved = itcApproved;
 	}
+	
+	@Column(name = "refused")
+	public boolean isRefused() {
+		return refused;
+	}
+
+	public void setRefused(boolean refused) {
+		this.refused = refused;
+	}
 
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "notified_body_id")
@@ -129,7 +140,8 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	
 	@Transient 
 	public boolean isGranted(){
-		return getNotifiedBody() != null ||
+		return !isRefused() &&
+			   getNotifiedBody() != null ||
 			   isItcApproved() ||
 			   getTotalNumberOfAudits() >= getEacCode().getThreshold();
 	}

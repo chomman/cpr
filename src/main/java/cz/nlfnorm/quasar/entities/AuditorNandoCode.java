@@ -52,6 +52,10 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 	 */
 	private boolean productAssessorAApproved;
 	/**
+	 * Rejected for given NANDO CODE
+	 */
+	private boolean productAssessorARefused;
+	/**
 	 * Reason details description
 	 */
 	private String productAssessorAReasonDetails;
@@ -77,6 +81,10 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 	 */
 	private boolean productAssessorRApproved;
 	/**
+	 * Rejected for given NANDO CODE
+	 */
+	private boolean productAssessorRRefused;
+	/**
 	 * Reason details description
 	 */
 	private String productAssessorRReasonDetails;
@@ -90,10 +98,6 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 	
 	/* Product Specialist attirbutes */
 	/**
-	 * Category-specific training (hours)
-	 */
-	private int productSpecialistTraining = 0;
-	/**
 	 * No. of TF reviews in category.
 	 */
 	private int numberOfDdReviews = 0;
@@ -101,6 +105,10 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 	 * Specific reason for the approval (in case of missing audits)
 	 */
 	private boolean productSpecialistApproved;
+	/**
+	 * Rejected for given NANDO CODE
+	 */
+	private boolean productSpecialistRefused;
 	/**
 	 * Reason details description
 	 */
@@ -259,20 +267,6 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 
 
 	/**
-	 * @return Product Specialist category-specific training in hours
-	 */
-	@Min(value = 0)
-	@Column(name = "product_specialist_training")	
-	public int getProductSpecialistTraining() {
-		return productSpecialistTraining;
-	}
-
-
-	public void setProductSpecialistTraining(int productSpecialistTraining) {
-		this.productSpecialistTraining = productSpecialistTraining;
-	}
-
-	/**
 	 * @return No. of design dosire reviews in category
 	 */
 	@Min(value = 0)
@@ -319,8 +313,28 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 	public void setProductSpecialistApprovedBy(NotifiedBody notifiedBody) {
 		this.productSpecialistApprovedBy = notifiedBody;
 	}
-
-
+	
+	@Column( name = "is_product_assessor_a_refused")
+	public boolean isProductAssessorARefused() {
+		return productAssessorARefused;
+	}
+	public void setProductAssessorARefused(boolean productAssessorARefused) {
+		this.productAssessorARefused = productAssessorARefused;
+	}
+	@Column( name = "is_product_assessor_r_refused")
+	public boolean isProductAssessorRRefused() {
+		return productAssessorRRefused;
+	}
+	public void setProductAssessorRRefused(boolean productAssessorRRefused) {
+		this.productAssessorRRefused = productAssessorRRefused;
+	}
+	@Column( name = "is_product_specialist_refused")
+	public boolean isProductSpecialistRefused() {
+		return productSpecialistRefused;
+	}
+	public void setProductSpecialistRefused(boolean productSpecialistRefused) {
+		this.productSpecialistRefused = productSpecialistRefused;
+	}
 	@NotNull
 	@ManyToOne(cascade = CascadeType.DETACH)
 	@JoinColumn(name = "nando_code_id")

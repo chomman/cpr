@@ -8,7 +8,7 @@
         autocompleteCallBack : null,
         enabledOnly : false,
         useDefaultCallBack : false,
-        debug: false,
+        debug: true,
         excludeId :  null,
         inputNames : {
         	hidden : null, text : null
@@ -17,7 +17,6 @@
     
     $.fn.remotePicker = function(newOpts) {
     	options = $.extend( {}, options, newOpts );
-    	$(this).each(function(){
         var $this = $(this);
         if(options.debug){
         	console.log('creating plugin..');
@@ -81,7 +80,9 @@
         		console.log(code, id);
         		console.log($this);
             }
-        	
+        	if($this.parent().find('.pj-wrapp').length > 0){
+        		return false;
+        	}
         	var html = '<div class="pj-wrapp"><span class="'+options.selectedClass+'">'+code+'</span>';
         	html += '<span class="'+options.selectedClass+' '+ options.cancelBtnClass +'">'+options.cancelText+'</span></div>';
         	$this.after(html);
@@ -95,6 +96,10 @@
         }
         
         function cancelSelection(){
+        	if(options.debug){
+        		console.log('cancelSelection() called');
+        		console.log($this);
+        	}
         	$this.val('');
         	$this.parent().find('.'+options.selectedClass).remove();
         	if(options.inputNames.text !== null ){
@@ -104,11 +109,7 @@
         	changeType($this, "text");
         }
 
-        $(document).on("click", '.'+options.cancelBtnClass, cancelSelection );
-	
-    	
-	});
-    	
+        $(document).on("click", '.'+options.cancelBtnClass, cancelSelection );    	
     };
 }( jQuery ));
 
@@ -116,10 +117,7 @@ function changeType(input,type)
 {
     try
     {
-        var //id = input.id;
-        	input2 = input.clone(true, true);
-        console.log(input2);
-        console.log(input);
+        var input2 = input.clone(true, true);
         switch(type)
         {
             default:
@@ -132,10 +130,8 @@ function changeType(input,type)
                 break;
             }
         }
-        //console.log(id);
-        //input2.id = id;
-       // input2.insertAfter(input);
-        // input.remove();
+        input2.insertAfter(input);
+        input.remove();
         //input.parentNode.replaceChild(input2,input);
     }
     catch(e) {

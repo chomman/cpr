@@ -60,6 +60,7 @@
 	<mapping class="cz.nlfnorm.quasar.entities.AuditorExperience"/>
 	<mapping class="cz.nlfnorm.quasar.entities.Experience"/>
 	<mapping class="cz.nlfnorm.quasar.entities.EducationLevel"/>
+	<mapping class="cz.nlfnorm.quasar.entities.QuasarSettings"/>
 	
 	<!-- QUASAR Views -->
 	<mapping class="cz.nlfnorm.quasar.views.QsAuditor"/> 
