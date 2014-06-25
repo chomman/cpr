@@ -28,4 +28,6 @@ void create(AuditorNandoCode AuditorNandoCode);
 	AuditorNandoCode getByNandoCode(String code, Long auditorId);
 
 	void createOrUpdate(final AuditorNandoCode auditorNandoCode);
+	
+	void syncNandoCodes();
 }

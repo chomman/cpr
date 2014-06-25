@@ -39,6 +39,7 @@ public class QuasarSettingController extends QuasarSupportController {
 	public String handleSubmit(ModelMap modelMap, @Valid @ModelAttribute QuasarSettings form, BindingResult result) {
 		if(!result.hasErrors()){
 			quasarSettingsService.update(form);
+			appendSuccessCreateParam(modelMap);
 		}
 		prepareModel(modelMap, form);
 		return getEditFormView();

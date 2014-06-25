@@ -21,10 +21,6 @@ public class QsAuditor extends AbstractFunction {
 	public boolean isAnyEacCodeGranted() {
 		return anyEacCodeGranted;
 	}
-	public void setAnyEacCodeGranted(boolean anyEacCodeGranted) {
-		this.anyEacCodeGranted = anyEacCodeGranted;
-	}
-	
-	
+		
 	
 }

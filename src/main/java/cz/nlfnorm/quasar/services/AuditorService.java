@@ -40,4 +40,5 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	void removeAuditorSpecailTraining(Auditor auditor, Long specialTrainingId);
 	
 	QsAuditor getQsAuditorById(Long id);
+	
 }

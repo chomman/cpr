@@ -17,6 +17,7 @@ import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorNandoCode;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
+import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.NandoCodeService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -33,6 +34,8 @@ public class AuditorNandoCodeServiceImpl implements AuditorNandoCodeService{
 	private AuditorNandoCodeDao auditorNandoCodeDao;
 	@Autowired
 	private NandoCodeService nandoCodeService;
+	@Autowired
+	private AuditorService auditorService;
 	
 	@Override
 	public void create(final AuditorNandoCode AuditorNandoCode) {
@@ -95,6 +98,14 @@ public class AuditorNandoCodeServiceImpl implements AuditorNandoCodeService{
 			create(auditorNandoCode);
 		}else{
 			update(auditorNandoCode);
+		}
+	}
+
+	@Override
+	public void syncNandoCodes() {
+		List<Auditor> auditorList = auditorService.getAll();
+		for(final Auditor auditor : auditorList){
+			syncAuditorNandoCodes(auditor);
 		}
 	}
 

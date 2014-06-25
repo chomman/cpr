@@ -12,6 +12,7 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.EacCodeDao;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.EacCode;
+import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.EacCodeService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -27,6 +28,8 @@ public class EacCodeServiceImpl implements EacCodeService {
 
 	@Autowired
 	private EacCodeDao eacCodeDao;
+	@Autowired
+	private AuditorEacCodeService auditorEacCodeService;
 	
 	@Override
 	@Transactional(readOnly = true)
@@ -74,6 +77,7 @@ public class EacCodeServiceImpl implements EacCodeService {
 		eacCode.setChanged(new LocalDateTime());
 		if(eacCode.getId() == null){
 			create(eacCode);
+			auditorEacCodeService.syncEacCodes();
 		}else{
 			update(eacCode);
 		}

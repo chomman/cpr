@@ -28,4 +28,6 @@ public interface AuditorEacCodeService {
 	AuditorEacCode getByEacCode(String code, Long auditorId);
 	
 	void updateAndSetChanged(AuditorEacCode form);
+	
+	void syncEacCodes();
 }

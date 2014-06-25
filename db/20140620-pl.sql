@@ -28,18 +28,20 @@ $$ LANGUAGE plpgsql;
 
 
 
--- RETURNS TRUE, if has given auditor Training including Auditing experience complained
 CREATE OR REPLACE FUNCTION qs_auditor_training_auditing(auditor quasar_auditor) RETURNS boolean AS $$
+DECLARE
+	settings quasar_settings%ROWTYPE;
 BEGIN
+	SELECT s.* INTO settings FROM quasar_settings s LIMIT 1;
 			-- NB 1023 procedures
-	RETURN auditor.nb1023_procedures_hours >= 16 AND
-			-- MD Training
-		   auditor.mdd_hours + 	auditor.ivd_hours >= 32 AND
+	RETURN auditor.nb1023_procedures_hours >= settings.qs_auditor_nb1023_procedures AND
+		    -- MD Training
+		   auditor.mdd_hours + 	auditor.ivd_hours >= settings.qs_auditor_md_training AND
 		    -- ISO 9001 Trainig
 		   (
 		   	auditor.is_aproved_for_iso13485 OR
-		   	(auditor.is_aproved_for_iso9001 AND auditor.iso13485_hours >= 8) OR
-		   	(auditor.iso13485_hours + auditor.iso9001_hours >= 40)
+		   	(auditor.is_aproved_for_iso9001 AND auditor.iso13485_hours >= settings.qs_auditor_iso13485_training) OR
+		   	(auditor.iso13485_hours + auditor.iso9001_hours >= settings.qs_auditor_class_room_training)
 		   );
 END;
 $$ LANGUAGE plpgsql;
@@ -83,13 +85,8 @@ $$ LANGUAGE plpgsql;
 
 
 CREATE VIEW quasar_qs_auditor AS SELECT 
-	u.id,
-	u.first_name,
-	u.last_name,
-	u.email,
-	u.enabled,
+	a.id,
 	a.itc_id,
-	a.degrees,
 	a.is_in_training,  
 	formal_legal_requirements(a) AS formal_legal_requirements,
 	experience(a.id, '1') AS general_requirements,
@@ -97,7 +94,5 @@ CREATE VIEW quasar_qs_auditor AS SELECT
 	qs_auditor_training_auditing(a) AS training_auditing,
 	has_any_eac_code_granted(a.id) AS has_any_eac_code_granted
 FROM quasar_auditor a
-INNER JOIN users u ON u.id = a.id
 ORDER BY a.itc_id;
-
 end;

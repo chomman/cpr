@@ -13,6 +13,7 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.NandoCodeDao;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.NandoCode;
+import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.NandoCodeService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -22,7 +23,9 @@ public class NandoCodeServiceImpl implements NandoCodeService{
 	
 	@Autowired
 	private NandoCodeDao nandoCodeDao;
-
+	@Autowired
+	private AuditorNandoCodeService auditorNandoCodeService;
+	
 	@Override
 	@Transactional(readOnly = true)
 	public NandoCode getById(final Long id) {
@@ -93,6 +96,7 @@ public class NandoCodeServiceImpl implements NandoCodeService{
 			int order = nandoCodeDao.getNextOrderInNode(nodeId);
 			nandoCode.setOrder(order);
 			create(nandoCode);
+			auditorNandoCodeService.syncNandoCodes();
 		}else{
 			update(nandoCode);
 		}

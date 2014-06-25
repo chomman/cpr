@@ -17,6 +17,7 @@ import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.EacCode;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
+import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.EacCodeService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -28,6 +29,8 @@ public class AuditorEacCodeServiceImpl implements AuditorEacCodeService{
 	private AuditorEacCodeDao auditorEacCodeDao;
 	@Autowired
 	private EacCodeService eacCodeService;
+	@Autowired
+	private AuditorService auditorService;
 	
 	@Override
 	public void create(final AuditorEacCode auditorEacCode) {
@@ -95,4 +98,10 @@ public class AuditorEacCodeServiceImpl implements AuditorEacCodeService{
 		update(auditorEacCode);
 	}
 
+	public void syncEacCodes(){
+		final List<Auditor> auditorList = auditorService.getAll();
+		for(Auditor auditor : auditorList){
+			syncAuditorEacCodes(auditor);
+		}
+	}
 }

@@ -29,27 +29,178 @@
 						<p class="msg ok"><spring:message code="success.create" /></p>
 					</c:if>
 					
-					<p class="form-head"><spring:message code="baseInformations" /></p>
-						<p>
-                      		<label>
-                      			<strong><em class="red">*</em>
-                       			<spring:message code="eacCode.code" />:
-                       		</strong>  
-                       		<small>Pattern: EAC XX</small>
-                       	</label>
-                           <span class="field">
-                           	<form:input path="code" maxlength="6" cssClass="w100 required" />
-                           </span>
-                       </p>
-                         <p>
-                      		<label>
-                      			<spring:message code="isActivated" />:
-                       	</label>
-                           <span class="field"> 
-                           	<form:checkbox path="enabled"/>
-                           </span>
-                       </p>
-                                                 
+					<p class="form-head"><spring:message code="auditor.qsAuditor" /> training</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.classRoom" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="qsAuditorClassRoomTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.Iso13485" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="qsAuditorIso13485Training" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.mdTraining" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="qsAuditorMdTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.nb1023Procedures" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="qsAuditorNb1023Procedures" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>   
+					<p class="form-head"><spring:message code="auditor.productAssessorA" /> training</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.mdTraining" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productAssessorAMdTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.ivd" />:
+							</strong>  
+							<small>For activity in the IVD sector</small>
+						</label>
+						<span class="field">
+							<form:input path="productAssessorAIvdTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.nb1023Procedures" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productAssessorANb1023Procedures" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p class="form-head"><spring:message code="auditor.productAssessorR" /> training</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.mdTraining" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productAssessorRMdTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p> 
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.ivd" />:
+							</strong>  
+							<small>For activity in the IVD sector</small>
+						</label>
+						<span class="field">
+							<form:input path="productAssessorRIvdTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.trainintInReviews" arguments="TF" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productAssessorRTfTrainingReview" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.totalReviews" arguments="TF" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productAssessorRTfTotal" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p class="form-head"><spring:message code="auditor.productSpecialist" /> training</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.mdTraining" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productSpecialistMdTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p> 
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.ivd" />:
+							</strong>  
+							<small>For activity in the IVD sector</small>
+						</label>
+						<span class="field">
+							<form:input path="productSpecialistIvdTraining" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.trainintInReviews" arguments="DD" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productSpecialistDdTrainingReview" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.totalReviews" arguments="DD" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productSpecialistDdTotal" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>                  
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
