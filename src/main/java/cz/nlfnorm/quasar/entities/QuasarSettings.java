@@ -24,16 +24,18 @@ public class QuasarSettings implements Serializable{
 	private int qsAuditorIso13485Training;
 	private int qsAuditorClassRoomTraining;	
 	private int qsAuditorNb1023Procedures;
+	private int qsAuditorNoAudits;
 	
 	/* Training */
 	private int productAssessorAMdTraining;
 	private int productAssessorAIvdTraining;
 	private int productAssessorANb1023Procedures;
+	private int productAssessorANoAudits;
 	
 	/* Training */
 	private int productAssessorRMdTraining;
 	private int productAssessorRIvdTraining;
-	/* Reviews */
+
 	private int productAssessorRTfTrainingReview;
 	private int productAssessorRTfTotal;
 	
@@ -41,7 +43,7 @@ public class QuasarSettings implements Serializable{
 	/* Training */
 	private int productSpecialistMdTraining;
 	private int productSpecialistIvdTraining;
-	/* Reviews */
+	
 	private int productSpecialistDdTrainingReview;
 	private int productSpecialistDdTotal;
 	
@@ -187,6 +189,23 @@ public class QuasarSettings implements Serializable{
 	}
 	public void setProductSpecialistDdTotal(int productSpecialistDdTotal) {
 		this.productSpecialistDdTotal = productSpecialistDdTotal;
+	}
+	
+	@Min(value = 0 )
+	@Column(name = "qs_auditor_no_audits")
+	public int getQsAuditorNoAudits() {
+		return qsAuditorNoAudits;
+	}
+	public void setQsAuditorNoAudits(int qsAuditorNoAudits) {
+		this.qsAuditorNoAudits = qsAuditorNoAudits;
+	}
+	@Min(value = 0 )
+	@Column(name = "product_assessor_a_no_audits")
+	public int getProductAssessorANoAudits() {
+		return productAssessorANoAudits;
+	}
+	public void setProductAssessorANoAudits(int productAssessorANoAudits) {
+		this.productAssessorANoAudits = productAssessorANoAudits;
 	}
 	
 	

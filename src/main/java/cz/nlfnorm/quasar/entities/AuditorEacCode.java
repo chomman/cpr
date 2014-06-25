@@ -18,6 +18,8 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
+
 import cz.nlfnorm.entities.NotifiedBody;
 
 /**
@@ -54,6 +56,8 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	
 	private boolean refused;
 	
+	private String reasonOfRefusal;
+	
 	/**
 	 * If is NOT NULL, given NB approved for
 	 */
@@ -73,9 +77,9 @@ public class AuditorEacCode extends AbstractAuditorCode {
 		return super.getId();
 	}
 	
-	@NotNull
+	
 	@ManyToOne(cascade = CascadeType.DETACH)
-	@JoinColumn(name = "eac_code_id")
+	@JoinColumn(name = "eac_code_id", nullable = false)
 	public EacCode getEacCode() {
 		return eacCode;
 	}
@@ -131,6 +135,16 @@ public class AuditorEacCode extends AbstractAuditorCode {
 
 	public void setNotifiedBody(NotifiedBody notifiedBody) {
 		this.notifiedBody = notifiedBody;
+	}
+
+	@Length(max = 255)
+	@Column(name = "reason_of_refusal")
+	public String getReasonOfRefusal() {
+		return reasonOfRefusal;
+	}
+
+	public void setReasonOfRefusal(String reasonOfRefusal) {
+		this.reasonOfRefusal = reasonOfRefusal;
 	}
 
 	@Transient

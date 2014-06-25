@@ -405,8 +405,8 @@
 	</table>
 </c:if>
 
-<!--  Experience form -->	
-<form class="inline-form valid" action="${url}/experience" method="post"  >
+<!--  Special training form -->	
+<form class="inline-form valid" action="${url}/special-training" method="post"  >
  	<div class="inline-field">
  		<span class="inline-label">
  			<spring:message code="topic" />:

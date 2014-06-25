@@ -86,6 +86,18 @@
 					<div class="qs-inline-edit" data-id="${i.id}">
 						<spring:message code="quasar.edit" />
 					</div>
+					<div class="reason-detail ${empty i.reasonOfRefusal ? 'qs-field' : ''}">
+						<span class="val h">
+							<c:if test="${not empty i.reasonOfRefusal}">
+								<h5>Reason details</h5>
+								<span>${i.reasonOfRefusal}</span>
+							</c:if>
+						</span>
+						<div class="qs-field">
+							<h5>Reason details</h5>
+							<textarea name="reasonOfRefusal" rows="5" cols="5" placeholder="Describe reason...">${i.reasonOfRefusal}</textarea>
+						</div>
+					</div>
 					<div class="qs-code">
 						<div class="eac">${i.eacCode.code}</div>
 						<div class="nace">NACE: ${i.eacCode.naceCode}</div>
@@ -124,52 +136,69 @@
 							<td class="v">${i.totalNumberOfAudits}</td>
 						</tr>
 						
-						<tr>
+						
+						<tr class="${not i.refused ? 'qs-hide' : ''}">
+							<td class="k"><spring:message code="isRefused" />:</td>
+							<td class="v">
+								<span class="val h">
+									<c:if test="${i.refused}">
+										<strong><spring:message code="yes" /></strong>
+									</c:if>
+									<c:if test="${not i.refused}">
+										<spring:message code="no" />
+									</c:if>
+								</span>
+								<span class="qs-field">
+									<input type="checkbox" class="ch-refused" name="refused" ${i.refused ? 'checked="checked"' : ''}  />
+								</span>
+							</td>
+						</tr>
+						
+						<tr class="${not i.itcApproved ? 'qs-hide' : ''}">
 							<td class="k"><spring:message code="qsAuditor.itcApproval" />:</td>
 							<td class="v">
 								<span class="val h">
 									<c:if test="${i.itcApproved}">
-										<spring:message code="yes" />
+										<strong><spring:message code="yes" /></strong>
 									</c:if>
 									<c:if test="${not i.itcApproved}">
 										<spring:message code="no" />
 									</c:if>
 								</span>
 								<span class="qs-field">
-									<input type="checkbox" name="itcApproved" ${i.itcApproved ? 'checked="checked"' : ''}  />
+									<input type="checkbox" class="ch-approved" name="itcApproved" ${i.itcApproved ? 'checked="checked"' : ''}  />
 								</span>
 							</td>
 						</tr>
 						
-						
-							<tr>
-								<td class="k"><spring:message code="qsAuditor.notifiedBody" />:</td>
-								<td class="v h">
-									<span class="val h">
-										<c:if test="${not empty i.notifiedBody}">
-										<a:adminurl href="/cpr/notifiedbodies/edit/${i.notifiedBody.id}">
-											${i.notifiedBody.noCode}	
-										</a:adminurl>
+						<tr class="${empty i.notifiedBody ? 'qs-hide' : ''}">
+							<td class="k"><spring:message code="qsAuditor.notifiedBody" />:</td>
+							<td class="v h">
+								<span class="val h">
+									<c:if test="${not empty i.notifiedBody}">
+									<a:adminurl href="/cpr/notifiedbodies/edit/${i.notifiedBody.id}">
+										<strong>${i.notifiedBody.noCode}</strong>	
+									</a:adminurl>
+									</c:if>
+									<c:if test="${empty i.notifiedBody}">
+										<span class="val">
+											<spring:message code="no" />
+											</span>
 										</c:if>
-										<c:if test="${empty i.notifiedBody}">
-											<span class="val">
-												<spring:message code="no" />
-												</span>
-											</c:if>
-									</span>
-									<span class="qs-field">
-									
-										<input name="notifiedBody" type="text" class="mw150"
-										<c:if test="${not empty i.notifiedBody}">
-											 data-json="${i.notifiedBody.id}##${i.notifiedBody.noCode}"
-										</c:if>
-										 />
-										 <a class="lang mandate-add-btn">
-											<spring:message code="form.save" />
-										</a>
-									</span>
-								</td>
-							</tr>
+								</span>
+								<span class="qs-field">
+								
+									<input name="notifiedBody" type="text" class="mw150"
+									<c:if test="${not empty i.notifiedBody}">
+										 data-json="${i.notifiedBody.id}##${i.notifiedBody.noCode}"
+									</c:if>
+									 />
+									 <a class="lang mandate-add-btn">
+										<spring:message code="form.save" />
+									</a>
+								</span>
+							</td>
+						</tr>
 						
 					</table>
 				</div>

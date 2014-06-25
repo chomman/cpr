@@ -8,7 +8,7 @@
         autocompleteCallBack : null,
         enabledOnly : false,
         useDefaultCallBack : false,
-        debug: true,
+        debug: false,
         excludeId :  null,
         inputNames : {
         	hidden : null, text : null
@@ -86,27 +86,33 @@
         	var html = '<div class="pj-wrapp"><span class="'+options.selectedClass+'">'+code+'</span>';
         	html += '<span class="'+options.selectedClass+' '+ options.cancelBtnClass +'">'+options.cancelText+'</span></div>';
         	$this.after(html);
-        	//$this[0].type = "hidden";
         	$this.val(id);
         	$this.hide();
         	if(options.inputNames.hidden !== null ){
         		$this.attr("name", options.inputNames.hidden );
         	}
-        	changeType($this, "hidden");
+        	try{
+        		$this.prop("type","hidden");
+        	}catch(e){
+        		changeType($this[0], "hidden");
+        	}
         }
         
         function cancelSelection(){
         	if(options.debug){
-        		console.log('cancelSelection() called');
+        		console.log('cancelSelection()..');
         		console.log($this);
-        	}
-        	$this.val('');
-        	$this.parent().find('.'+options.selectedClass).remove();
+        	}        			
+        	$(this).parent().remove();
         	if(options.inputNames.text !== null ){
         		$this.attr("name", options.inputNames.text );
         	}
-        	$this.show();
-        	changeType($this, "text");
+        	$this.val('').show();
+        	try{
+        		$this.prop("type","text");
+        	}catch(e){
+        		changeType($this[0], "text");
+        	}
         }
 
         $(document).on("click", '.'+options.cancelBtnClass, cancelSelection );    	
@@ -117,25 +123,23 @@ function changeType(input,type)
 {
     try
     {
-        var input2 = input.clone(true, true);
+        var input2 = input.cloneNode(false);
         switch(type)
         {
             default:
             case 'text': {
-                input2.get(0).type = 'text';
+                input2.type = 'text';
                 break;
             }
             case 'hidden': {
-                input2.get(0).type = 'hidden';
+                input2.type = 'hidden';
                 break;
             }
         }
-        input2.insertAfter(input);
-        input.remove();
-        //input.parentNode.replaceChild(input2,input);
+        input2.id = limput;
+        input.parentNode.replaceChild(input2,input);
     }
     catch(e) {
     	if(console){console.log(e);}
-    	null;
     }
 }

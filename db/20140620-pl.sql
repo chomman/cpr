@@ -28,25 +28,6 @@ $$ LANGUAGE plpgsql;
 
 
 
-CREATE OR REPLACE FUNCTION qs_auditor_training_auditing(auditor quasar_auditor) RETURNS boolean AS $$
-DECLARE
-	settings quasar_settings%ROWTYPE;
-BEGIN
-	SELECT s.* INTO settings FROM quasar_settings s LIMIT 1;
-			-- NB 1023 procedures
-	RETURN auditor.nb1023_procedures_hours >= settings.qs_auditor_nb1023_procedures AND
-		    -- MD Training
-		   auditor.mdd_hours + 	auditor.ivd_hours >= settings.qs_auditor_md_training AND
-		    -- ISO 9001 Trainig
-		   (
-		   	auditor.is_aproved_for_iso13485 OR
-		   	(auditor.is_aproved_for_iso9001 AND auditor.iso13485_hours >= settings.qs_auditor_iso13485_training) OR
-		   	(auditor.iso13485_hours + auditor.iso9001_hours >= settings.qs_auditor_class_room_training)
-		   );
-END;
-$$ LANGUAGE plpgsql;
-
-
 -- RETURNS TRUE, if has given auditor formal and legal requiremets valid
 CREATE OR REPLACE FUNCTION formal_legal_requirements(auditor quasar_auditor) RETURNS boolean AS $$
 BEGIN
@@ -66,7 +47,7 @@ BEGIN
 	SELECT count(ahc.*) INTO granted_count
 	FROM quasar_auditor_has_eac_code ahc
 		INNER JOIN quasar_eac_code eac ON eac.id = ahc.eac_code_id
-	WHERE eac.enabled = true AND ahc.auditor_id = aid AND
+	WHERE eac.enabled = true AND ahc.auditor_id = aid AND ahc.refused = false AND
 		  (
 		  	ahc.is_itc_approved = true OR ahc.notified_body_id IS NOT NULL OR
 		  	(ahc.number_of_iso13485_audits + ahc.number_of_nb_audits) >= eac.audit_threashold
@@ -91,8 +72,60 @@ CREATE VIEW quasar_qs_auditor AS SELECT
 	formal_legal_requirements(a) AS formal_legal_requirements,
 	experience(a.id, '1') AS general_requirements,
 	recent_acitivities(a.id) as recent_acitivities,
-	qs_auditor_training_auditing(a) AS training_auditing,
-	has_any_eac_code_granted(a.id) AS has_any_eac_code_granted
+	has_any_eac_code_granted(a.id) AS has_any_eac_code_granted,
+	(
+	    a.nb1023_procedures_hours >= s.qs_auditor_nb1023_procedures and
+	    -- md training
+	    a.mdd_hours + a.ivd_hours >= s.qs_auditor_md_training and
+	     -- iso 9001 trainig
+	    (
+		a.is_aproved_for_iso13485 or
+		(
+		    a.is_aproved_for_iso9001 and
+		    a.iso13485_hours >= s.qs_auditor_iso13485_training
+		) or
+		(a.iso13485_hours + a.iso9001_hours >= s.qs_auditor_class_room_training)
+	    )
+   ) and a.total_of_audits >= s.qs_auditor_no_audits as training_auditing
 FROM quasar_auditor a
-ORDER BY a.itc_id;
+	CROSS JOIN
+    quasar_settings s;
+
+
+CREATE VIEW quasar_product_assessor_a AS SELECT 
+	a.id,
+	-- FORMAL AND LEGAL REQUIREMENTS
+	formal_legal_requirements(a) AS formal_legal_requirements,
+	-- Education & Work experience (Active MD)
+	(experience(a.id, '1') and ahs.is_for_active_mdd) AS gen_req_active_md,
+	-- Education & Work experience (NON Active MD)
+	(experience(a.id, '2') and ahs.is_for_non_active_mdd) AS gen_req_non_active_md,
+	-- Education & Work experience (IVD)
+	((experience(a.id, '1') OR experience(a.id, '2')) AND ahs.is_for_invitro_diagnostic) AS gen_req_ivd,
+	 -- Training (Active MD)
+	(
+		a.iso9001_hours + a.mdd_hours >= s.product_assessor_a_md_training AND 
+		a.nb1023_procedures_hours >= s.product_assessor_a_nb1023_procedures
+	) AS training_active_md,
+	-- Training (NON Active MD)
+	(
+		a.iso9001_hours + a.mdd_hours >= s.product_assessor_a_md_training AND 
+		a.nb1023_procedures_hours >= s.product_assessor_a_nb1023_procedures 
+	) AS training_non_active_md,
+	-- Training (NON Active MD)
+	(
+		a.iso9001_hours + a.mdd_hours >= s.product_assessor_a_md_training AND 
+		a.nb1023_procedures_hours >= s.product_assessor_a_nb1023_procedures AND 
+		a.ivd_hours >= s.product_assessor_a_ivd_training
+	) as training_ivd,
+	-- Auditing requirements (Any MD)
+	a.total_of_audits >= s.product_assessor_a_no_audits as min_audits,
+	-- RECENT ACTIVITIES
+	recent_acitivities(a.id) as recent_acitivities
+FROM quasar_auditor a
+	INNER JOIN  quasar_auditor_has_specialities as ahs on ahs.auditor_id=a.id
+	CROSS JOIN
+    quasar_settings s
+WHERE ahs.specialist_key=1;
+
 end;

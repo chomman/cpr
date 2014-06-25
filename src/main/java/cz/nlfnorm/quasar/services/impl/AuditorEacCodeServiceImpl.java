@@ -95,6 +95,8 @@ public class AuditorEacCodeServiceImpl implements AuditorEacCodeService{
 		auditorEacCode.setNumberOfNbAudits(form.getNumberOfNbAudits());
 		auditorEacCode.setChanged(new LocalDateTime());
 		auditorEacCode.setChangedBy(UserUtils.getLoggedUser());
+		auditorEacCode.setRefused(form.isRefused());
+		auditorEacCode.setReasonOfRefusal(form.getReasonOfRefusal());
 		update(auditorEacCode);
 	}
 

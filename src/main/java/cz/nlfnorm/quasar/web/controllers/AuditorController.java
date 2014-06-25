@@ -235,8 +235,11 @@ public class AuditorController extends QuasarSupportController {
 			@Valid @ModelAttribute AuditorEacCode form,
 			BindingResult result
 			) throws ItemNotFoundException {
-		auditorEacCodeService.updateAndSetChanged(form);
-		return successUpdateRedirect(getEditUrl(form.getAuditor().getId()) + "/f/" +SUB_TAB_QS_ADUTITOR);
+		if(!result.hasErrors()){
+			auditorEacCodeService.updateAndSetChanged(form);
+			return successUpdateRedirect(getEditUrl(form.getAuditor().getId()) + "/f/" +SUB_TAB_QS_ADUTITOR);
+		}
+		return "redirect:" + getEditUrl(form.getAuditor().getId()) + "/f/" +SUB_TAB_QS_ADUTITOR;
 	}
 			
 	

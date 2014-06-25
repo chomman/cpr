@@ -73,6 +73,16 @@
 							<form:input path="qsAuditorNb1023Procedures" maxlength="3" cssClass="w40 c required numeric" />
 							<spring:message code="hours" />
 						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.totalAudits" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="qsAuditorNoAudits" maxlength="3" cssClass="w40 c required numeric" />
+						</span>
 					</p>   
 					<p class="form-head"><spring:message code="auditor.productAssessorA" /> training</p>
 					<p>
@@ -109,6 +119,16 @@
 							<spring:message code="hours" />
 						</span>
 					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+							<spring:message code="quasarSettings.totalAudits" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="productAssessorANoAudits" maxlength="3" cssClass="w40 c required numeric" />
+						</span>
+					</p> 
 					<p class="form-head"><spring:message code="auditor.productAssessorR" /> training</p>
 					<p>
 						<label>
