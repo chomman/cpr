@@ -11,6 +11,11 @@ public interface AuditorNandoCodeDao extends BaseDao<AuditorNandoCode, Long>{
 	List<AuditorNandoCode> getAllAuditorNandoCodes(Auditor auditor);
 		
 	AuditorNandoCode getByNandoCode(String code, Long auditorId);
-
+	
+	List<AuditorNandoCode> getForProductAssessorA(Auditor auditor);
+	
+	List<AuditorNandoCode> getForProductAssessorR(Auditor auditor);
+	
+	List<AuditorNandoCode> getForProductSpecialist(Auditor auditor);
 	
 }

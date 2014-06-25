@@ -42,6 +42,7 @@ import cz.nlfnorm.quasar.services.ExperienceService;
 import cz.nlfnorm.quasar.services.FieldOfEducationService;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.validators.AuditorValidator;
+import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
@@ -257,6 +258,11 @@ public class AuditorController extends QuasarSupportController {
 			case SUB_TAB_QS_ADUTITOR:
 				model.put("function", auditorService.getQsAuditorById(auditor.getId()));
 				model.put("codes",  auditorEacCodeService.getAllAuditorEacCodes(auditor));
+			break;
+			case SUB_TAB_PROUCT_ASSESSOR_A :
+				ProductAssessorA function = auditorService.getProductAssessorAById(auditor.getId());
+				model.put("function", function);
+				model.put("codes",  auditorService.evaluate(function, auditor));
 			break;
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);

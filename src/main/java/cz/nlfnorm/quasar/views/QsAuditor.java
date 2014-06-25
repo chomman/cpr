@@ -18,10 +18,9 @@ public class QsAuditor extends AbstractFunction {
 	
 	private Integer itcId;
 	private boolean isInTraining;
-	private boolean formalLegalRequiremets;
+	
 	private boolean generalRequiremets;
 	private boolean trainingAuditing;
-	private boolean recentActivities;
 	private boolean anyEacCodeGranted;
 	
 	@Column(name = "itc_id")
@@ -32,12 +31,7 @@ public class QsAuditor extends AbstractFunction {
 	@Column(name = "is_in_training")
 	public boolean isInTraining() {
 		return isInTraining;
-	}
-	
-	@Column(name = "formal_legal_requirements")
-	public boolean isFormalLegalRequiremets() {
-		return formalLegalRequiremets;
-	}
+	}	
 		
 	@Column(name = "general_requirements")
 	public boolean isGeneralRequiremets() {
@@ -47,12 +41,6 @@ public class QsAuditor extends AbstractFunction {
 	@Column(name = "training_auditing")
 	public boolean isTrainingAuditing() {
 		return trainingAuditing;
-	}
-	
-
-	@Column(name = "recent_acitivities")
-	public boolean isRecentActivities() {
-		return recentActivities;
 	}
 	
 	@Column(name = "has_any_eac_code_granted")
@@ -70,18 +58,14 @@ public class QsAuditor extends AbstractFunction {
 	public void setInTraining(boolean isInTraining) {
 		this.isInTraining = isInTraining;
 	}
-	public void setFormalLegalRequiremets(boolean formalLegalRequiremets) {
-		this.formalLegalRequiremets = formalLegalRequiremets;
-	}
+	
 	public void setGeneralRequiremets(boolean generalRequiremets) {
 		this.generalRequiremets = generalRequiremets;
 	}
 	public void setTrainingAuditing(boolean trainingAuditing) {
 		this.trainingAuditing = trainingAuditing;
 	}
-	public void setRecentActivities(boolean recentActivities) {
-		this.recentActivities = recentActivities;
-	}
+	
 	@Transient
 	public boolean getAreAllRequirementsValid(){
 		return isFormalLegalRequiremets() &&

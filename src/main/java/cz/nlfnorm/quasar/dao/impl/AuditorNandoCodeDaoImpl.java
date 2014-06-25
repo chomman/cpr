@@ -47,5 +47,44 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	private List<AuditorNandoCode> getCodesForType(final int type, Long id) {
+		final String hql =  
+				"select ac from AuditorNandoCode ac" + 
+				"	join ac.nandoCode nandoCode " +
+				"	where ac.auditor.id=:id and nandoCode." + determineAuditorType(type) + "= true " +
+				"	order by coalesce(ac.nandoCode.parent.order, ac.nandoCode.order) ";
+		return createQuery(hql)
+				.setLong("id", id)
+				.list();
+	}
+	
+	@Override
+	public List<AuditorNandoCode> getForProductAssessorA(Auditor auditor) {
+		return getCodesForType(Auditor.TYPE_PRODUCT_ASSESSOR_A, auditor.getId());
+	}
+	
+	@Override
+	public List<AuditorNandoCode> getForProductAssessorR(Auditor auditor) {
+		return getCodesForType(Auditor.TYPE_PRODUCT_ASSESSOR_R, auditor.getId());
+	}
 
+	@Override
+	public List<AuditorNandoCode> getForProductSpecialist(Auditor auditor) {
+		return getCodesForType(Auditor.TYPE_PRODUCT_SPECIALIST, auditor.getId());
+	}
+
+	private String determineAuditorType(final int type){
+		switch(type){
+		case Auditor.TYPE_PRODUCT_ASSESSOR_A :
+			return "forProductAssesorA";
+		case Auditor.TYPE_PRODUCT_ASSESSOR_R :
+			return "forProductAssesorR";
+		case Auditor.TYPE_PRODUCT_SPECIALIST :
+			return "forProductSpecialist";
+		default:
+		throw new IllegalArgumentException("Unknown auditor type: " + type);	
+	}
 }
+	
+}	

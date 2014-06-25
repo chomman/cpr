@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
@@ -18,6 +19,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 
 import cz.nlfnorm.entities.NotifiedBody;
+import cz.nlfnorm.quasar.views.NandoCodeType;
 
 /**
  * QUASAR entity
@@ -29,7 +31,7 @@ import cz.nlfnorm.entities.NotifiedBody;
 @Entity
 @Table(name = "quasar_auditor_has_nando_code", uniqueConstraints = @UniqueConstraint(columnNames = {"nando_code_id", "auditor_id"}) )
 @SequenceGenerator(name = "quasar_auditor_has_nando_code_id_seq", sequenceName = "quasar_auditor_has_nando_code_id_seq", initialValue = 1, allocationSize =1)
-public class AuditorNandoCode extends AbstractAuditorCode {
+public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeType{
 
 	private static final long serialVersionUID = -4193813519262412701L;
 	
@@ -345,5 +347,38 @@ public class AuditorNandoCode extends AbstractAuditorCode {
 		this.nandoCode = nandoCode;
 	}
 	
+	@Transient
+	@Override
+	public boolean isActiveMd() {
+		return getNandoCode() != null && getNandoCode().isActiveMd();
+	}
+	@Transient
+	@Override
+	public boolean isNonActiveMd() {
+		return getNandoCode() != null && isNonActiveMd();
+	}
+	@Transient
+	@Override
+	public boolean isIvd() {
+		return getNandoCode() != null && getNandoCode().isIvd();
+	}
 	
+	@Transient
+	public boolean isGrantedForProductAssessorA(){
+		return !isProductAssessorARefused() && (
+			   isProductAssessorAApproved() ||
+			   getProductAssessorAApprovedBy() != null ||
+			   ( 
+					   getProductAssessorATraining() >= getNandoCode().getAssesorANbAuditsThreashold() &&
+					   (
+							   getNumberOfNbAudits() >= getNandoCode().getAssesorANbAuditsThreashold() ||
+							   getNumberOfIso13485Audits() >= getNandoCode().getAssesorAIso13485Threashold()
+					   )
+			   ));
+	}
+	@Transient
+	@Override
+	public boolean isHorizontal() {
+		return getNandoCode() != null && getNandoCode().isHorizontal();
+	}
 }

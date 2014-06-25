@@ -30,4 +30,10 @@ void create(AuditorNandoCode AuditorNandoCode);
 	void createOrUpdate(final AuditorNandoCode auditorNandoCode);
 	
 	void syncNandoCodes();
+	
+	List<AuditorNandoCode> getForProductAssessorA(Auditor auditor);
+	
+	List<AuditorNandoCode> getForProductAssessorR(Auditor auditor);
+	
+	List<AuditorNandoCode> getForProductSpecialist(Auditor auditor);
 }

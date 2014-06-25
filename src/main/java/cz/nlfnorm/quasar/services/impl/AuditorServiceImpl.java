@@ -17,12 +17,15 @@ import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.AuditorDao;
+import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
+import cz.nlfnorm.quasar.entities.AuditorNandoCode;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
@@ -186,6 +189,41 @@ public class AuditorServiceImpl implements AuditorService{
 	@Transactional(readOnly = true)
 	public QsAuditor getQsAuditorById(Long id) {
 		return auditorDao.getQsAuditorById(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public ProductAssessorA getProductAssessorAById(final Long id) {
+		return auditorDao.getProductAssessorAById(id);
+	}
+
+	/**
+	 * Evaludate, If NANDO codes for function ProductAssessorA are granted.
+	 * @return list of evaluated auditor's NANDO codes.
+	 */
+	@Override
+	public List<EvaluatedAuditorNandoCode> evaluate(final ProductAssessorA function, final Auditor auditor) {
+		List<EvaluatedAuditorNandoCode> result = new ArrayList<>();
+		final List<AuditorNandoCode> auditorNandoCodes = auditorNandoCodeService.getForProductAssessorA(auditor);
+		for(final AuditorNandoCode code : auditorNandoCodes){
+			EvaluatedAuditorNandoCode eCode = new EvaluatedAuditorNandoCode(code);
+			if(code.isGrantedForProductAssessorA()){
+				if(
+						(code.isActiveMd() && function.isGeneralRequirementsActiveMd()) ||
+						(code.isNonActiveMd() && function.isGeneralRequirementsNonActiveMd()) ||
+						(code.isIvd() && function.isGeneralRequirementsIvd()) ||
+						(code.isHorizontal() && (
+										function.isGeneralRequirementsActiveMd() ||
+										function.isGeneralRequirementsNonActiveMd()
+										)
+						)
+				  ){
+					eCode.setGrated(true);
+				}
+			}
+			result.add(eCode);
+		}
+		return result;
 	}
 	
 }

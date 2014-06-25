@@ -17,10 +17,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.validator.constraints.Length;
+
+import cz.nlfnorm.quasar.views.NandoCodeType;
 
 /**
  * 
@@ -33,7 +36,7 @@ import org.hibernate.validator.constraints.Length;
 @SequenceGenerator(name = "quasar_nando_code_id_seq", sequenceName = "quasar_nando_code_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "quasar_nando_code")
-public class NandoCode extends BaseEntity{
+public class NandoCode extends BaseEntity implements NandoCodeType{
 	
 	private static final long serialVersionUID = 1388976314109073881L;
 	
@@ -286,5 +289,41 @@ public class NandoCode extends BaseEntity{
 	
 	private void registerInParentsChilds() {
 		this.parent.children.add(this);
+	}
+	
+	/**
+	 * Returns TRUE, if is this code for active medical device  
+	 * Active MD has code MD 1000 and higher
+	 * 
+	 * @return TRUE, if is active MD
+	 */
+	@Override
+	@Transient
+	public boolean isActiveMd(){
+		return (getCode() != null && getCode().startsWith("MD 1"));
+	}
+	
+	/**
+	 * Returns TRUE, if is this code for NON-Active medical device  
+	 * NON Active MD has code MD up to MD 0999
+	 * 
+	 * @return TRUE, if is NON-Active MD
+	 */
+	@Override
+	@Transient
+	public boolean isNonActiveMd(){
+		return (getCode() != null && getCode().startsWith("MD 0"));
+	}
+	
+	@Override
+	@Transient
+	public boolean isIvd(){
+		return (getCode() != null && (getCode().startsWith("IVD") || getCode().startsWith("MDS 72")));
+	}
+
+	@Override
+	@Transient
+	public boolean isHorizontal() {
+		return (getCode() != null && getCode().startsWith("MDS 70"));
 	}
 }

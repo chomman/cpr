@@ -109,4 +109,23 @@ public class AuditorNandoCodeServiceImpl implements AuditorNandoCodeService{
 		}
 	}
 
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<AuditorNandoCode> getForProductAssessorA(final Auditor auditor) {
+		return auditorNandoCodeDao.getForProductAssessorA(auditor);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<AuditorNandoCode> getForProductAssessorR(final Auditor auditor) {
+		return auditorNandoCodeDao.getForProductAssessorR(auditor);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<AuditorNandoCode> getForProductSpecialist(final Auditor auditor) {
+		return auditorNandoCodeDao.getForProductSpecialist(auditor);
+	}
+
 }

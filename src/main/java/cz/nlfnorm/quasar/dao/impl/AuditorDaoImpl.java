@@ -11,6 +11,7 @@ import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.QsAuditor;
 
 /**
@@ -79,6 +80,15 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 
 	public QsAuditor getQsAuditorById(final Long id){
 		return (QsAuditor)createQuery("from QsAuditor where id=:id")
+				  .setReadOnly(true)
+				  .setLong("id", id)
+				  .setMaxResults(1)
+				  .uniqueResult();
+	}
+
+	@Override
+	public ProductAssessorA getProductAssessorAById(Long id) {
+		return (ProductAssessorA)createQuery("from ProductAssessorA where id=:id")
 				  .setReadOnly(true)
 				  .setLong("id", id)
 				  .setMaxResults(1)

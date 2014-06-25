@@ -3,9 +3,12 @@ package cz.nlfnorm.quasar.services;
 import java.util.List;
 
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
+import cz.nlfnorm.quasar.entities.AuditorNandoCode;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
+import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.IdentifiableByLongService;
 
@@ -41,4 +44,7 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	
 	QsAuditor getQsAuditorById(Long id);
 	
+	ProductAssessorA getProductAssessorAById(Long id);
+	
+	List<EvaluatedAuditorNandoCode> evaluate(ProductAssessorA function, Auditor auditor);
 }
