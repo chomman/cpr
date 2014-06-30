@@ -98,7 +98,7 @@ public class Auditor extends User {
 	private int totalAuditdays;
 	
 
-	/* Product Assessor-A */
+	/* Product Assessor-R */
 	private int tfTrainingInHours;
 	private int totalTfReviews;
 	
@@ -478,5 +478,9 @@ public class Auditor extends User {
 		this.nb1023Procedures = form.getNb1023Procedures();
 		this.totalAudits = form.getTotalAudits();
 		this.totalAuditdays = form.getTotalAuditdays();
+		this.tfTrainingInHours = form.getTfTrainingInHours();
+		this.totalTfReviews = form.getTotalTfReviews();		
+		this.ddTrainingInHours = form.getDdTrainingInHours();
+		this.totalDdReviews = form.getTotalDdReviews();
 	}
 }

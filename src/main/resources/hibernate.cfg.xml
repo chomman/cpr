@@ -65,6 +65,7 @@
 	<!-- QUASAR Views -->
 	<mapping class="cz.nlfnorm.quasar.views.QsAuditor"/>
 	<mapping class="cz.nlfnorm.quasar.views.ProductAssessorA"/>
+	<mapping class="cz.nlfnorm.quasar.views.ProductAssessorR"/>
 	
  </session-factory>
 </hibernate-configuration>

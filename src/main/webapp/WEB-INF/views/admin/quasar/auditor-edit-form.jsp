@@ -121,7 +121,7 @@
 				<form:checkbox path="cvDelivered" />
 			</div>
 		</div>
-             </div>     
+        </div>     
              <p class="form-head"><spring:message code="auditor.head.generalQualification" /></p>
               <div class="qs-fields-wrapp">
                	<div class="qs-left-bx">
@@ -351,21 +351,66 @@
 	</div>
 	<div class="input-wrapp smaller">
 		<label>
-			<strong><em class="red">*</em>
-                   		<spring:message code="auditor.totalAuditdays" />:
-                   	</strong>
+			<strong>
+				<em class="red">*</em>
+                	<spring:message code="auditor.totalAuditdays" />:
+			</strong>
 		</label>
 		<div class="field">
 			<form:input path="totalAuditdays" cssClass="w50 c required numeric" maxlength="4" />
 		</div>
 	</div>
+	<p class="form-head mini"><spring:message code="auditor.productAssessorR" /></p>
+	<div class="input-wrapp smaller">
+		<label>
+			<strong>
+				<em class="red">*</em>
+                	<spring:message code="auditor.tfTrainingInHours" />:
+			</strong>
+		</label>
+		<div class="field">
+			<form:input path="tfTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
+		</div>
+	</div>
+	<div class="input-wrapp smaller">
+		<label>
+			<strong>
+				<em class="red">*</em>
+                	<spring:message code="auditor.totalTfReviews" />:
+			</strong>
+		</label>
+		<div class="field">
+			<form:input path="totalTfReviews" cssClass="w50 c required numeric" maxlength="4" />
+		</div>
+	</div>
+	<p class="form-head mini"><spring:message code="auditor.productSpecialist" /></p>
+	<div class="input-wrapp smaller">
+		<label>
+			<strong>
+				<em class="red">*</em>
+                	<spring:message code="auditor.ddTrainingInHours" />:
+			</strong>
+		</label>
+		<div class="field">
+			<form:input path="ddTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
+		</div>
+	</div>
+	<div class="input-wrapp smaller">
+		<label>
+			<strong>
+				<em class="red">*</em>
+                	<spring:message code="auditor.totalDdReviews" />:
+			</strong>
+		</label>
+		<div class="field">
+			<form:input path="totalDdReviews" cssClass="w50 c required numeric" maxlength="4" />
+		</div>
+	</div>
 	
-	
-              
-              <form:hidden path="id" />
-                 <p class="button-box">
-                 	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
-                 </p>        
+	<form:hidden path="id" />
+	<p class="button-box">
+	<input type="submit" class="button" value="<spring:message code="form.save" />" />
+	</p>        
 </form:form>
 
 <!-- SPECIAL TRAINING -->

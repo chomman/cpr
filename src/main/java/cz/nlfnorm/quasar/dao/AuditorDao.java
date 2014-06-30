@@ -6,6 +6,7 @@ import cz.nlfnorm.dao.BaseDao;
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
+import cz.nlfnorm.quasar.views.ProductAssessorR;
 import cz.nlfnorm.quasar.views.QsAuditor;
 
 /**
@@ -23,4 +24,6 @@ public interface AuditorDao extends BaseDao<Auditor, Long>{
 	QsAuditor getQsAuditorById(Long id);
 	
 	ProductAssessorA getProductAssessorAById(Long id);
+	
+	ProductAssessorR getProductAssessorRById(Long id);
 }

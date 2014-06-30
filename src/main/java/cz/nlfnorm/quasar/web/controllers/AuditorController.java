@@ -46,6 +46,7 @@ import cz.nlfnorm.quasar.services.FieldOfEducationService;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.validators.AuditorValidator;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
+import cz.nlfnorm.quasar.views.ProductAssessorR;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
@@ -303,6 +304,11 @@ public class AuditorController extends QuasarSupportController {
 			 	.put(Auditor.TYPE_PRODUCT_ASSESSOR_A, form.getSpecialist()
 			 	.get(Auditor.TYPE_PRODUCT_ASSESSOR_A));
 			break;
+		case SUB_TAB_PROUCT_ASSESSOR_R:
+			 auditor.getSpecialist()
+			 	.put(Auditor.TYPE_PRODUCT_ASSESSOR_R, form.getSpecialist()
+			 	.get(Auditor.TYPE_PRODUCT_ASSESSOR_R));
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
 		}
@@ -329,10 +335,15 @@ public class AuditorController extends QuasarSupportController {
 				model.put("function", auditorService.getQsAuditorById(auditor.getId()));
 				model.put("codes",  auditorEacCodeService.getAllAuditorEacCodes(auditor));
 			break;
-			case SUB_TAB_PROUCT_ASSESSOR_A :
-				ProductAssessorA function = auditorService.getProductAssessorAById(auditor.getId());
-				model.put("function", function);
-				model.put("codes",  auditorService.evaluate(function, auditor));
+			case SUB_TAB_PROUCT_ASSESSOR_A:
+				final ProductAssessorA productAssessorAFunction = auditorService.getProductAssessorAById(auditor.getId());
+				model.put("function", productAssessorAFunction);
+				model.put("codes",  auditorService.evaluate(productAssessorAFunction, auditor));
+			break;
+			case SUB_TAB_PROUCT_ASSESSOR_R:
+				final ProductAssessorR productAssessorRFunction = auditorService.getProductAssessorRById(auditor.getId());
+				model.put("function", productAssessorRFunction);
+				//model.put("codes",  auditorService.evaluate(function, auditor));
 			break;
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);

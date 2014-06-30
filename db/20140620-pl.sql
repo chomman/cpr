@@ -128,4 +128,51 @@ FROM quasar_auditor a
     quasar_settings s
 WHERE ahs.specialist_key=1;
 
+
+-- RETURNS TRUE, if has given auditor recent activities done
+CREATE OR REPLACE FUNCTION product_assessor_r_recent_activities(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
+BEGIN
+	-- TODO implementation
+	RETURN TRUE;
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE VIEW quasar_product_assessor_r AS SELECT 
+	a.id,
+	-- FORMAL AND LEGAL REQUIREMENTS
+	formal_legal_requirements(a) AS formal_legal_requirements,
+	-- Education & Work experience (Active MD)
+	(experience(a.id, '1') and ahs.is_for_active_mdd) AS gen_req_active_md,
+	-- Education & Work experience (NON Active MD)
+	(experience(a.id, '2') and ahs.is_for_non_active_mdd) AS gen_req_non_active_md,
+	-- Education & Work experience (IVD)
+	((experience(a.id, '1') OR experience(a.id, '2')) AND ahs.is_for_invitro_diagnostic) AS gen_req_ivd,
+	 -- Training (Active MD)
+	(
+		a.iso13485_hours + a.mdd_hours >= s.product_assessor_r_md_training AND
+		a.tf_training_in_hours >= s.product_assessor_r_tf_training_review AND
+		a.total_tf_reviews >= s.product_assessor_r_tf_total
+	) AS training_active_md,
+	-- Training (NON Active MD)
+	(
+		a.iso13485_hours + a.mdd_hours >= s.product_assessor_r_md_training AND
+		a.tf_training_in_hours >= s.product_assessor_r_tf_training_review AND
+		a.total_tf_reviews >= s.product_assessor_r_tf_total
+	) AS training_non_active_md,
+	-- Training (NON Active MD)
+	(
+		a.iso13485_hours + a.mdd_hours >= s.product_assessor_r_md_training AND
+		a.ivd_hours >= s.product_assessor_r_ivd_training AND
+		a.tf_training_in_hours >= s.product_assessor_r_tf_training_review AND
+		a.total_tf_reviews >= s.product_assessor_r_tf_total
+	) as training_ivd,
+	-- RECENT ACTIVITIES
+	product_assessor_r_recent_activities(a, s) as recent_acitivities
+FROM quasar_auditor a
+	INNER JOIN  quasar_auditor_has_specialities as ahs on ahs.auditor_id=a.id
+	CROSS JOIN
+    quasar_settings s
+WHERE ahs.specialist_key=2;
+
 end;

@@ -26,6 +26,7 @@ import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
+import cz.nlfnorm.quasar.views.ProductAssessorR;
 import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
@@ -196,7 +197,13 @@ public class AuditorServiceImpl implements AuditorService{
 	public ProductAssessorA getProductAssessorAById(final Long id) {
 		return auditorDao.getProductAssessorAById(id);
 	}
-
+	
+	@Override
+	@Transactional(readOnly = true)
+	public ProductAssessorR getProductAssessorRById(Long id) {
+		return auditorDao.getProductAssessorRById(id);
+	}
+	
 	/**
 	 * Evaludate, If NANDO codes for function ProductAssessorA are granted.
 	 * @return list of evaluated auditor's NANDO codes.
@@ -225,5 +232,6 @@ public class AuditorServiceImpl implements AuditorService{
 		}
 		return result;
 	}
+
 	
 }

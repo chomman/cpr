@@ -15,72 +15,9 @@ import org.hibernate.annotations.Immutable;
 @Immutable
 @Cache (usage=CacheConcurrencyStrategy.READ_ONLY) 
 @Table(name = "quasar_product_assessor_a")
-public class ProductAssessorA extends AbstractFunction {
+public class ProductAssessorA extends AbstractNandoFunction {
 
-	private boolean generalRequirementsActiveMd;
-	private boolean generalRequirementsNonActiveMd;
-	private boolean generalRequirementsIvd;
-	
-	private boolean trainingActiveMd;
-	private boolean trainingNonActiveMd;
-	private boolean trainingIvd;
-	
 	private boolean minAudits;
-
-	@Column(name="gen_req_active_md")
-	public boolean isGeneralRequirementsActiveMd() {
-		return generalRequirementsActiveMd;
-	}
-
-	public void setGeneralRequirementsActiveMd(boolean generalRequirementsActiveMd) {
-		this.generalRequirementsActiveMd = generalRequirementsActiveMd;
-	}
-	
-	@Column(name="gen_req_non_active_md")
-	public boolean isGeneralRequirementsNonActiveMd() {
-		return generalRequirementsNonActiveMd;
-	}
-
-	public void setGeneralRequirementsNonActiveMd(
-			boolean generalRequirementsNonActiveMd) {
-		this.generalRequirementsNonActiveMd = generalRequirementsNonActiveMd;
-	}
-
-	@Column(name="gen_req_ivd")
-	public boolean isGeneralRequirementsIvd() {
-		return generalRequirementsIvd;
-	}
-
-	public void setGeneralRequirementsIvd(boolean generalRequirementsIvd) {
-		this.generalRequirementsIvd = generalRequirementsIvd;
-	}
-	
-	@Column(name="training_active_md")
-	public boolean isTrainingActiveMd() {
-		return trainingActiveMd;
-	}
-
-	public void setTrainingActiveMd(boolean trainingActiveMd) {
-		this.trainingActiveMd = trainingActiveMd;
-	}
-	
-	@Column(name="training_non_active_md")
-	public boolean isTrainingNonActiveMd() {
-		return trainingNonActiveMd;
-	}
-
-	public void setTrainingNonActiveMd(boolean trainingNonActiveMd) {
-		this.trainingNonActiveMd = trainingNonActiveMd;
-	}
-
-	@Column(name="training_ivd")
-	public boolean isTrainingIvd() {
-		return trainingIvd;
-	}
-
-	public void setTrainingIvd(boolean trainingIvd) {
-		this.trainingIvd = trainingIvd;
-	}
 	
 	@Column(name="min_audits")
 	public boolean isMinAudits() {
@@ -89,56 +26,34 @@ public class ProductAssessorA extends AbstractFunction {
 
 	public void setMinAudits(boolean minAudits) {
 		this.minAudits = minAudits;
-	}
-	
+	}	
+
 	@Transient
 	public boolean getAuditingTrainingActiveMd(){
-		return isMinAudits() && isTrainingActiveMd();
+		return isMinAudits() && super.getAuditingTrainingActiveMd();
 	}
 	
 	@Transient
 	public boolean getAuditingTrainingNonActiveMd(){
-		return isMinAudits() && isTrainingNonActiveMd();
+		return isMinAudits() && super.getAuditingTrainingNonActiveMd();
 	}
 	
 	@Transient
 	public boolean getAuditingTrainingIvd(){
-		return isMinAudits() && isTrainingIvd();
+		return isMinAudits() && super.getAuditingTrainingIvd();
 	}
 	
-	@Transient
-	public boolean getAreRequirementForActiveMdSatisfy(){
-		return isFormalLegalRequiremets() &&
-			   isGeneralRequirementsActiveMd() &&
-			   getAuditingTrainingActiveMd() &&
-			   isRecentActivities();
-	}
-	
+		
 	@Transient
 	public boolean getAreRequirementForNonActiveMdSatisfy(){
-		return isFormalLegalRequiremets() &&
-			   isGeneralRequirementsNonActiveMd() &&
-			   isTrainingNonActiveMd() &&
-			   isMinAudits() &&
-			   isRecentActivities();
+		return super.getAreRequirementForNonActiveMdSatisfy() &&
+			   isMinAudits();
 	}
 	
 	@Transient
 	public boolean getAreRequirementForIvdSatisfy(){
-		return isFormalLegalRequiremets() &&
-			   isGeneralRequirementsIvd() &&
-			   isTrainingIvd() &&
-			   isMinAudits() &&
-			   isRecentActivities();
+		return super.getAreRequirementForIvdSatisfy() &&
+				isMinAudits();
 	}
-	
-	@Transient
-	public boolean getAreAllRequirementsValid() {
-		return getAreRequirementForActiveMdSatisfy() ||
-			   getAreRequirementForNonActiveMdSatisfy() ||
-			   getAreRequirementForIvdSatisfy();
-	}
-	
-	
-	
+		
 }
