@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.joda.time.LocalDate;
+import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -37,6 +38,7 @@ import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.forms.AuditorForm;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
+import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.EducationLevelService;
 import cz.nlfnorm.quasar.services.ExperienceService;
@@ -96,6 +98,8 @@ public class AuditorController extends QuasarSupportController {
 	private NotifiedBodyService notifiedBodyService;
 	@Autowired
 	private LocalDateEditor localDateEditor;
+	@Autowired
+	private AuditorNandoCodeService auditorNandoCodeService;
 	
 	public AuditorController(){
 		setTableItemsView("auditor-list");
@@ -251,14 +255,15 @@ public class AuditorController extends QuasarSupportController {
 	}
 	
 	
-	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/f/" + SUB_TAB_PROUCT_ASSESSOR_A, method = RequestMethod.POST)
-	public String handleDecisionOnTheAssessorsBranchSubmit(
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/f/{functionType}", method = RequestMethod.POST)
+	public String handleNandoCodeSubmit(
+			@PathVariable int functionType, 
 			ModelMap modelMap, 
 			@ModelAttribute AuditorNandoCode form,
 			BindingResult result
 			) throws ItemNotFoundException {
-		
-		return "redirect:" + getEditUrl(form.getId()) + "/f/" +SUB_TAB_PROUCT_ASSESSOR_A;
+		updateNandoCode(form, functionType);	
+		return successUpdateRedirect(getEditUrl(form.getAuditor().getId()) + "/f/" +functionType);
 	}
 	
 	
@@ -270,11 +275,24 @@ public class AuditorController extends QuasarSupportController {
 			BindingResult result
 			) throws ItemNotFoundException {
 			updateDecision(form, functionType);
-		return "redirect:" + getEditUrl(form.getId()) + "/f/" +SUB_TAB_PROUCT_ASSESSOR_A;
+		return successUpdateRedirect( getEditUrl(form.getId()) + "/f/" + functionType);
 	}
 	
 	
 
+	private void updateNandoCode(final AuditorNandoCode form, final int functionType){
+		final AuditorNandoCode code = auditorNandoCodeService.getById(form.getId());
+		Validate.notNull(code);
+		switch (functionType) {
+		case SUB_TAB_PROUCT_ASSESSOR_A:
+			code.mergeProductAssessorA(form);
+			break;
+
+		default:
+			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
+		}
+		auditorNandoCodeService.createOrUpdate(code);
+	}
 			
 	
 	private void updateDecision(final Auditor form, final int functionType) {

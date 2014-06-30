@@ -66,9 +66,7 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	 */
 	private NotifiedBody productAssessorAApprovedBy;
 	
-	
-	
-	
+		
 	/* Product Assessor R attirbutes */
 	/**
 	 * Category-specific training (hours)
@@ -355,7 +353,7 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	@Transient
 	@Override
 	public boolean isNonActiveMd() {
-		return getNandoCode() != null && isNonActiveMd();
+		return getNandoCode() != null && getNandoCode().isNonActiveMd();
 	}
 	@Transient
 	@Override
@@ -369,7 +367,7 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 			   isProductAssessorAApproved() ||
 			   getProductAssessorAApprovedBy() != null ||
 			   ( 
-					   getProductAssessorATraining() >= getNandoCode().getAssesorANbAuditsThreashold() &&
+					   getProductAssessorATraining() >= getNandoCode().getAssesorATrainingThreashold() &&
 					   (
 							   getNumberOfNbAudits() >= getNandoCode().getAssesorANbAuditsThreashold() ||
 							   getNumberOfIso13485Audits() >= getNandoCode().getAssesorAIso13485Threashold()
@@ -380,5 +378,16 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	@Override
 	public boolean isHorizontal() {
 		return getNandoCode() != null && getNandoCode().isHorizontal();
+	}
+	
+	@Transient
+	public void mergeProductAssessorA(AuditorNandoCode code){
+		productAssessorATraining = code.getProductAssessorATraining();
+		numberOfNbAudits	= code.getNumberOfNbAudits();
+		numberOfIso13485Audits = code.getNumberOfIso13485Audits();
+		productAssessorAApproved = code.isProductAssessorAApproved();
+		productAssessorARefused = code.isProductAssessorARefused();
+		productAssessorAReasonDetails = code.getProductAssessorAReasonDetails();
+		productAssessorAApprovedBy = code.getProductAssessorAApprovedBy();
 	}
 }

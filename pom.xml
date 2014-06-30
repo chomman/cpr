@@ -15,7 +15,7 @@
 		<org.springframework-security>3.2.4.RELEASE</org.springframework-security>
 		<org.aspectj-version>1.8.0</org.aspectj-version>
 		<org.slf4j-version>1.7.5</org.slf4j-version>
-		<org.hibernate-version>4.2.13.Final</org.hibernate-version>
+		<org.hibernate-version>4.2.14.Final</org.hibernate-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
    	

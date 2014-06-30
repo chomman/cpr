@@ -10,7 +10,7 @@ $(function(){
 		$('.qs-editting').removeClass('qs-editting');
 		var $this = $(this), 
 			$form = $('#f' + $this.attr('data-id')),
-			$input = $form.find('input[name=notifiedBody]').eq(0),
+			$input = $form.find('input.nb-picker').eq(0),
 			opts = { sourceUrl : getBasePath() +"ajax/autocomplete/aono" };
 		$form.addClass('qs-editting');
 		checkBoxRefresh($form);
@@ -29,7 +29,6 @@ $(function(){
 		}else{
 			opts.item = null;
 		}
-		console.log($form.find('input[name=notifiedBody]'));
 		$input.remotePicker(opts);
 		return false;
 	}

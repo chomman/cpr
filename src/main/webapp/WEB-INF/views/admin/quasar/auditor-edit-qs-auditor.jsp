@@ -1,6 +1,7 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
+<h3 class="qs-function">${model.auditor.name} as <strong><spring:message code="nbCode" /> <spring:message code="auditor.qsAuditor" /></strong></h3>
 
 <div class="qs-result-box ${model.function.areAllRequirementsValid ? 'qs-valid' : 'qs-invalid'}">
 	<span class="qs-global">
@@ -70,8 +71,6 @@
 		</li>
 	</ul>
 </div>
-
-<div class="hbox"><h2><spring:message code="qsAuditor.eacCodes" /></h2></div>
 
 <c:if test="${not empty successCreate}">
 	<p class="msg ok"><spring:message code="success.create" /></p>
@@ -189,7 +188,7 @@
 								</span>
 								<span class="qs-field">
 								
-									<input name="notifiedBody" type="text" class="mw150"
+									<input name="notifiedBody" type="text" class="mw150 nb-picker"
 									<c:if test="${not empty i.notifiedBody}">
 										 data-json="${i.notifiedBody.id}##${i.notifiedBody.noCode}"
 									</c:if>

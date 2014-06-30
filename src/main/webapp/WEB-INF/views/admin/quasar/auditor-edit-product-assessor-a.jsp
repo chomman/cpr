@@ -1,5 +1,12 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+
+<h3 class="qs-function">${model.auditor.name} as <strong><spring:message code="nbCode" /> <spring:message code="auditor.productAssessorA" /></strong></h3>
+
+<c:if test="${not empty successCreate}">
+	<p class="msg ok"><spring:message code="success.create" /></p>
+</c:if>
+
 <c:url value="/admin/quasar/manage/auditor/${auditor.id}" var="url" />
 <form:form  commandName="auditor" method="post" cssClass="submit-on-change" action="${url}/decision/3">
 	<p class="form-head"><spring:message code="decisionOnTheAssessor" /> (<spring:message code="auditor.productAssessorA" />)</p>
@@ -315,7 +322,7 @@
 								</span>
 								<span class="qs-field">
 								
-									<input name="productAssessorAApprovedBy" type="text" class="mw150"
+									<input name="productAssessorAApprovedBy" type="text" class="mw150 nb-picker"
 									<c:if test="${not empty i.auditorNandoCode.productAssessorAApprovedBy}">
 										 data-json="${i.auditorNandoCode.productAssessorAApprovedBy.id}##${i.auditorNandoCode.productAssessorAApprovedBy.noCode}"
 									</c:if>

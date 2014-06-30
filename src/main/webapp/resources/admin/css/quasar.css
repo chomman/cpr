@@ -90,7 +90,7 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 .qs-total-exp em{font-size:11px;font-style:normal;margin-left:0px;}
 .qs-total-exp span{font-size:16px;color:#000;font-weight:bold;}
 
-.qs-result-box{padding:2px 10px 5px 10px;}
+.qs-result-box{padding:2px 10px 5px 10px;margin-bottom:10px;border-radius:5px;}
 .qs-result-box ul{list-style:none;border:1px solid #eee;}
 .qs-result-box ul li {padding:1px;padding-left:10px;}
 .qs-result-box ul li span{display:block;padding:12px;background:#fff;font-size:14px;opacity:.95}
@@ -143,3 +143,5 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 .reason-detail .val span{font-size:11px;padding:2px 5px;display:inline-block;}
 
 .submit-on-change{margin-bottom:15px;}
+
+h3.qs-function{color:#555;margin: -5px 0 15px;font-size:18px;border-bottom:2px dotted #aaa;padding-bottom:5px;font-weight:normal;}

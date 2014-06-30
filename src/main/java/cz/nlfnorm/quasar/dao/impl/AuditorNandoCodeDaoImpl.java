@@ -36,7 +36,7 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 	}
 
 	@Override
-	public AuditorNandoCode getByNandoCode(String code, Long auditorId) {
+	public AuditorNandoCode getByNandoCode(final String code, final Long auditorId) {
 		StringBuilder hql = new StringBuilder("from AuditorNandoCode c");
 		hql.append(" where c.auditor.id = :auditorId and c.nandoCode.code = :code ");
 		return (AuditorNandoCode) createQuery(hql)
@@ -48,14 +48,14 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 	}
 	
 	@SuppressWarnings("unchecked")
-	private List<AuditorNandoCode> getCodesForType(final int type, Long id) {
+	private List<AuditorNandoCode> getCodesForType(final int type, final Long auditorId) {
 		final String hql =  
 				"select ac from AuditorNandoCode ac" + 
-				"	inner join ac.nandoCode nandoCode " +
+				"	join ac.nandoCode nandoCode " +
 				"	where ac.auditor.id=:id and nandoCode." + determineAuditorType(type) + "= true " +
-				"	order by coalesce(ac.nandoCode.parent.order, ac.nandoCode.order) ";
+				"	order by nandoCode.code ";
 		return createQuery(hql)
-				.setLong("id", id)
+				.setLong("id", auditorId)
 				.list();
 	}
 	
