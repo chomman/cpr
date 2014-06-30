@@ -77,10 +77,10 @@ public class EacCodeServiceImpl implements EacCodeService {
 		eacCode.setChanged(new LocalDateTime());
 		if(eacCode.getId() == null){
 			create(eacCode);
-			auditorEacCodeService.syncEacCodes();
 		}else{
 			update(eacCode);
 		}
+		auditorEacCodeService.syncEacCodes();
 	}
 
 	@Override

@@ -96,10 +96,10 @@ public class NandoCodeServiceImpl implements NandoCodeService{
 			int order = nandoCodeDao.getNextOrderInNode(nodeId);
 			nandoCode.setOrder(order);
 			create(nandoCode);
-			auditorNandoCodeService.syncNandoCodes();
 		}else{
 			update(nandoCode);
 		}
+		auditorNandoCodeService.syncNandoCodes();
 	}
 
 	@Override

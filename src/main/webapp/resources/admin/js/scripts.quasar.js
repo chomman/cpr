@@ -48,6 +48,16 @@ $(function(){
 		return false;
 	});
 	
+	$(document).one('click', '.qs-result-box', function(){
+		$(this).find('ul.hidden').removeClass('hidden');
+		$(this).find('a').remove();
+		return false;
+	});
+	
+	$(document).on('change', '.submit-on-change input', function(){
+		$(this).parents('form').submit();	
+	});		
+	
 	function detailBoxRefresh($checkbox, $form){
 		if($checkbox.is(':checked')){
 			showDetailBox($form);

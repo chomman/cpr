@@ -129,6 +129,25 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan> 
      
+    <!-- QUASAR -->
+    
+     <context:component-scan base-package="cz.nlfnorm.quasar.dao">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
+    </context:component-scan>
+    
+    <context:component-scan base-package="cz.nlfnorm.quasar.services">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Service"/>
+    </context:component-scan>  
+    
+    <context:component-scan base-package="cz.nlfnorm.quasar.web.editors">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+    
+    <context:component-scan base-package="cz.nlfnorm.quasar.validators">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
+    </context:component-scan>
+    
+    <!-- END QUASAR -->
      
     <bean id="requestContext" class="org.springframework.mock.web.MockHttpServletRequest" autowire="byName"/>  
     

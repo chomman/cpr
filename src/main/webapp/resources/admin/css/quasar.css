@@ -21,6 +21,10 @@ tr.is-first-level.odd{background-color:#E8FAFF;}
 .input-wrapp.smaller .field,
 .input-wrapp.smaller label{padding:11px 20px;}
 .input-wrapp.smaller label{line-height:22px;}
+.input-wrapp.smallest .field,
+.input-wrapp.smallest label{padding:7px 20px;}
+.input-wrapp.smallest label{line-height:20px;}
+
 .qs-btn:hover{cursor:pointer;}
 .qs-valid,
 .qs-invalid{padding-left:10px;margin-left:0px;}
@@ -91,6 +95,7 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 .qs-result-box ul li {padding:1px;padding-left:10px;}
 .qs-result-box ul li span{display:block;padding:12px;background:#fff;font-size:14px;opacity:.95}
 .qs-result-box .qs-global{color:#fff;font-weight:bold;display:block;padding:8px 5px;}
+.qs-result-box .qs-global a{float:right;color:#fff;text-decoration:underline;font-size:14px !important;}
 .qs-result-box strong{text-transform:uppercase;padding-left:10px;}
 
 .qs-inline-edit{position:absolute;right:100px;background:#ddd;padding:10px;font-size:14px;border-radius:5px;top:-2px;display:none;z-index: 99}
@@ -136,3 +141,5 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 .reason-detail h5{padding:5px;color:#555;font-weight:normal;}
 .reason-detail .val h5{border-bottom:1px dotted #ccc;padding:3px 5px;font-size:10px;}
 .reason-detail .val span{font-size:11px;padding:2px 5px;display:inline-block;}
+
+.submit-on-change{margin-bottom:15px;}

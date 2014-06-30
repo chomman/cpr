@@ -26,6 +26,7 @@
   	<mapping class="cz.nlfnorm.entities.BasicRequirement"/>
 	<mapping class="cz.nlfnorm.entities.Requirement" />
 	<mapping class="cz.nlfnorm.entities.Webpage" />
+	<mapping class="cz.nlfnorm.entities.Tag" />
 	<mapping class="cz.nlfnorm.entities.BasicSettings"/>
 	<mapping class="cz.nlfnorm.entities.ExceptionLog"/>
 	<mapping class="cz.nlfnorm.entities.Report"/>
@@ -36,11 +37,33 @@
 	<mapping class="cz.nlfnorm.entities.CsnTerminology"/>
 	<mapping class="cz.nlfnorm.entities.CsnTerminologyLog"/>	
 	
+	
+	<!-- Portal -->
 	<mapping class="cz.nlfnorm.entities.PortalProduct"/>
 	<mapping class="cz.nlfnorm.entities.PortalOrder"/>
 	<mapping class="cz.nlfnorm.entities.PortalOrderItem"/>
 	<mapping class="cz.nlfnorm.entities.UserOnlinePublication"/>
 	<mapping class="cz.nlfnorm.entities.EmailTemplate"/>
+	
+	
+	<!-- QUASAR -->
+	<mapping class="cz.nlfnorm.quasar.entities.NandoCode"/>
+	<mapping class="cz.nlfnorm.quasar.entities.EacCode"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Auditor"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorEducation"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Partner"/>
+	<mapping class="cz.nlfnorm.quasar.entities.FieldOfEducation"/>
+	<mapping class="cz.nlfnorm.quasar.entities.SpecialTraining"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorEacCode"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorNandoCode"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditorExperience"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Experience"/>
+	<mapping class="cz.nlfnorm.quasar.entities.EducationLevel"/>
+	<mapping class="cz.nlfnorm.quasar.entities.QuasarSettings"/>
+	
+	<!-- QUASAR Views -->
+	<mapping class="cz.nlfnorm.quasar.views.QsAuditor"/>
+	<mapping class="cz.nlfnorm.quasar.views.ProductAssessorA"/>
 	
 	
 	 

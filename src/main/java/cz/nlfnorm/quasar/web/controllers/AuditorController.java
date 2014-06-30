@@ -29,6 +29,7 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
+import cz.nlfnorm.quasar.entities.AuditorNandoCode;
 import cz.nlfnorm.quasar.entities.EducationLevel;
 import cz.nlfnorm.quasar.entities.Experience;
 import cz.nlfnorm.quasar.entities.FieldOfEducation;
@@ -177,6 +178,8 @@ public class AuditorController extends QuasarSupportController {
 		return getEditFormView();
 	}
 	
+	
+	
 	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/experience", method = RequestMethod.POST)
 	public String handeExperienceSubmit(@Valid @ModelAttribute AuditorExperience form, BindingResult result){
 		if(!result.hasErrors()){
@@ -186,6 +189,8 @@ public class AuditorController extends QuasarSupportController {
 		return "redirect:" + getEditUrl(form.getAuditor().getId());
 	}
 	
+	
+	
 	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/special-training", method = RequestMethod.POST)
 	public String handleSpecialTrainingCreate(@Valid @ModelAttribute SpecialTraining form, BindingResult result){
 		if(!result.hasErrors()){
@@ -194,6 +199,8 @@ public class AuditorController extends QuasarSupportController {
 		}
 		return "redirect:" + getEditUrl(form.getAuditor().getId());
 	}
+	
+	
 	
 	@RequestMapping(EDIT_AUDITOR_MAPPING_URL + "/special-training/{id}")
 	public String handleSpecialTrainingDelete(@PathVariable Long auditorId, @PathVariable Long id) throws ItemNotFoundException{
@@ -242,16 +249,61 @@ public class AuditorController extends QuasarSupportController {
 		}
 		return "redirect:" + getEditUrl(form.getAuditor().getId()) + "/f/" +SUB_TAB_QS_ADUTITOR;
 	}
+	
+	
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/f/" + SUB_TAB_PROUCT_ASSESSOR_A, method = RequestMethod.POST)
+	public String handleDecisionOnTheAssessorsBranchSubmit(
+			ModelMap modelMap, 
+			@ModelAttribute AuditorNandoCode form,
+			BindingResult result
+			) throws ItemNotFoundException {
+		
+		return "redirect:" + getEditUrl(form.getId()) + "/f/" +SUB_TAB_PROUCT_ASSESSOR_A;
+	}
+	
+	
+	@RequestMapping(value = EDIT_AUDITOR_MAPPING_URL + "/decision/{functionType}", method = RequestMethod.POST)
+	public String handleDecisionOnTheAssessorsBranchSubmit(
+			@PathVariable int functionType, 
+			ModelMap modelMap, 
+			@ModelAttribute Auditor form,
+			BindingResult result
+			) throws ItemNotFoundException {
+			updateDecision(form, functionType);
+		return "redirect:" + getEditUrl(form.getId()) + "/f/" +SUB_TAB_PROUCT_ASSESSOR_A;
+	}
+	
+	
+
 			
 	
+	private void updateDecision(final Auditor form, final int functionType) {
+		final Auditor auditor = auditorService.getById(form.getId());
+		switch (functionType) {
+		case SUB_TAB_PROUCT_ASSESSOR_A:
+			 auditor.getSpecialist()
+			 	.put(Auditor.TYPE_PRODUCT_ASSESSOR_A, form.getSpecialist()
+			 	.get(Auditor.TYPE_PRODUCT_ASSESSOR_A));
+			break;
+		default:
+			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
+		}
+		auditorService.createOrUpdate(auditor);
+	}
+
 	private void prepareModelForFunction(ModelMap map, final Auditor auditor, final int functionType){
 		Map<String, Object> model = new HashMap<>();
 		model.put("auditor", auditor);
 		model.put("subTab", functionType);
 		prepareModelForFunction(model, functionType, auditor);
+		map.addAttribute("auditor", auditor);
 		appendTabNo(model, TAB);
 		appendModel(map, model);
 	}
+	
+	
+	
+	
 	
 	private void prepareModelForFunction(Map<String, Object> model, final int functionType, final Auditor auditor){
 		switch (functionType) {

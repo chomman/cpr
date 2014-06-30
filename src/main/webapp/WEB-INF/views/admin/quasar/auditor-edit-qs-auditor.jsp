@@ -13,8 +13,9 @@
 				<spring:message code="no" />
 			</c:if>
 		</strong>
+		<a href="#"><spring:message code="showDetails" /></a>
 	</span>
-	<ul>
+	<ul class="hidden">
 		<li class="${model.function.formalLegalRequiremets ? 'qs-valid' : 'qs-invalid'}">
 			<span>
 				1. <spring:message code="auditor.head.formalRequirements" />:  
@@ -73,8 +74,8 @@
 <div class="hbox"><h2><spring:message code="qsAuditor.eacCodes" /></h2></div>
 
 <c:if test="${not empty successCreate}">
-		<p class="msg ok"><spring:message code="success.create" /></p>
-	</c:if>
+	<p class="msg ok"><spring:message code="success.create" /></p>
+</c:if>
 
 <c:set value="" var="scope" />
 <c:forEach items="${model.codes}" var="i"> 

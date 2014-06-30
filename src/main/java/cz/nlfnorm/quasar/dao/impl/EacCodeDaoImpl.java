@@ -28,7 +28,7 @@ public class EacCodeDaoImpl extends BaseDaoImpl<EacCode, Long> implements EacCod
 	@Override
 	@SuppressWarnings("unchecked")
 	public List<EacCode> getAllForQsAuditor() {
-		Query query = createQuery("from EacCode eac where eac.forQsAuditor and eac.enabled=true order by eac.code asc ");
+		Query query = createQuery("from EacCode eac where eac.forQsAuditor=true and eac.enabled=true order by eac.code asc ");
 		query.setCacheable(false);
 		return query.list();
 	}

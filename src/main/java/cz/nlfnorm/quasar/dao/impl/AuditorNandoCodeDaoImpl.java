@@ -51,7 +51,7 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 	private List<AuditorNandoCode> getCodesForType(final int type, Long id) {
 		final String hql =  
 				"select ac from AuditorNandoCode ac" + 
-				"	join ac.nandoCode nandoCode " +
+				"	inner join ac.nandoCode nandoCode " +
 				"	where ac.auditor.id=:id and nandoCode." + determineAuditorType(type) + "= true " +
 				"	order by coalesce(ac.nandoCode.parent.order, ac.nandoCode.order) ";
 		return createQuery(hql)

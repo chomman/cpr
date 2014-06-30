@@ -184,6 +184,10 @@ INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_m
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (26, false, false, 'Animal tissues/TSE risk', NULL, true);
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (27, false, false, 'Statistics - Sampling plans and inspection', NULL, true);
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (28, false, false, 'Biocompatibility', NULL, true);
+
+update quasar_nando_code set is_for_product_assesor_a = true where code like 'MDS 70%';
+update quasar_nando_code set is_for_product_assesor_a = false where code='MDS 7000' OR code='MDS 7010';
+
 -- work experience
 INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (1, true, 'Medical devices industry');
 INSERT INTO quasar_experience (id, is_md_exp, name) VALUES (2, true, 'Pharmaceutical industry');
