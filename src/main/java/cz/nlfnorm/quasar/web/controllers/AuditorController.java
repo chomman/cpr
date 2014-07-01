@@ -28,6 +28,7 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.quasar.dto.EvaludatedQsAuditor;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
@@ -124,6 +125,17 @@ public class AuditorController extends QuasarSupportController {
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 	}
 	
+	@RequestMapping(LIST_MAPPING_URL + "/{functionType}")
+	public String handleFunction(@PathVariable int functionType, ModelMap modelMap, HttpServletRequest request){
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		Map<String, Object> model = new HashMap<>();
+		model.put("html", buildTable(auditorService.evaluateQsAuditors(auditorService.getAuditors(params))));
+		model.put("params", params);
+		appendTabNo(model, TAB);
+		appendModel(modelMap, model);
+		return getViewDir() + "function-output";
+	}
+	
 	@RequestMapping(LIST_MAPPING_URL)
 	public String showAuditorList(ModelMap modelMap, HttpServletRequest request) {
 		Map<String, Object> model = new HashMap<>();
@@ -159,6 +171,16 @@ public class AuditorController extends QuasarSupportController {
 			prepareCreateModel(modelMap, form);
 			return getViewName();
 		}
+		
+		/*for(int i=99; i < 299;i++){
+			Auditor a = new Auditor();
+			a.setFirstName(i + "Auditor firstName");
+			a.setLastName(i + "Auditor lastName");
+			a.setItcId(i  + 8987);
+			a.setEmail(i + "@nlfnorm.cz");
+			auditorService.createAuditor(a, "password" + i);
+		}*/
+		
 		final Long id = auditorService.createAuditor(form.getAuditor(), form.getNewPassword());
 		return successUpdateRedirect(getEditUrl(id));
 	}
@@ -413,4 +435,33 @@ public class AuditorController extends QuasarSupportController {
 	private String getEditUrl(Long id){
 		return EDIT_AUDITOR_MAPPING_URL.replace("{auditorId}", id.toString());
 	}
+	
+	
+	private String buildTable(final List<EvaludatedQsAuditor> list){
+		return "<table>" + buldThead(list) +  buildItems(list) + "</table>";
+	}
+	
+	private String buildItems(final List<EvaludatedQsAuditor> list){
+		String html = "";
+		int size = list.get(0).getCodes().size();
+		for(int j = 0; j < size; j++){
+			html += "<tr>";
+			html += "<td>" + list.get(0).getCodes().get(j).getAuditorEacCode().getEacCode().getName() + "</td>";
+			for(int a = 0; a < list.size(); a++){
+				html += "<td>" + list.get(a).getCodes().get(j).isGrated() + "</td>";
+			}
+			html += "</tr>";
+		}
+		return "<tbody>" + html + "</tbody>";
+	}
+	
+	private String buldThead(final List<EvaludatedQsAuditor> list){
+		String html = "<th>&nbsp</th>";
+		for(EvaludatedQsAuditor a : list){
+			html += "<th>" + a.getAuditor().getName() + "</th>";
+		}
+		return "<thead><tr>" + html + "</tr></thead>";
+	}
+	
+	
 }

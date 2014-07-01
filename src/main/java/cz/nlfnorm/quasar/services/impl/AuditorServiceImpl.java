@@ -22,7 +22,10 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
+import cz.nlfnorm.quasar.dto.EvaluatedEacCode;
+import cz.nlfnorm.quasar.dto.EvaludatedQsAuditor;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
 import cz.nlfnorm.quasar.entities.AuditorNandoCode;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
@@ -217,11 +220,40 @@ public class AuditorServiceImpl implements AuditorService{
 		return auditorDao.getProductSpecialistById(id);
 	}
 	
+	//List<Auditor> getAuditors(final Map<String, Object> criteria);
+	
+	@Transactional(readOnly = true)
+	public List<EvaludatedQsAuditor> evaluateQsAuditors(final List<Auditor> auditorList){
+		final List<EvaludatedQsAuditor> result = new ArrayList<>();
+		for(final Auditor auditor : auditorList){
+			final EvaludatedQsAuditor evaluatedFunction = new EvaludatedQsAuditor(auditor);
+			evaluatedFunction.setCodes(evaluateForQsAuditor(auditor));
+			result.add(evaluatedFunction);
+		}
+		return result;
+	}
+	
+	@Transactional(readOnly = true)
+	public List<EvaluatedEacCode> evaluateForQsAuditor(final Auditor auditor){
+		List<EvaluatedEacCode> result = new ArrayList<>();
+		final QsAuditor qsAuditor = getQsAuditorById(auditor.getId());
+		final List<AuditorEacCode> codeList =  auditorEacCodeService.getAllAuditorEacCodes(auditor);
+		for(final AuditorEacCode code : codeList){
+			EvaluatedEacCode eCode = new EvaluatedEacCode(code);
+			if(qsAuditor.getAreAllRequirementsValid() && code.isGranted()){
+				eCode.setGrated(true);
+			}
+			result.add(eCode);
+		}	
+		return result;
+	}
+	
 	/**
 	 * Evaludate, If NANDO codes for function ProductAssessorA are granted.
 	 * @return list of evaluated auditor's NANDO codes.
 	 */
 	@Override
+	@Transactional(readOnly = true)
 	public List<EvaluatedAuditorNandoCode> evaluate(final AbstractNandoFunction function, final Auditor auditor) {
 		
 		List<EvaluatedAuditorNandoCode> result = new ArrayList<>();
@@ -290,6 +322,12 @@ public class AuditorServiceImpl implements AuditorService{
 			criteria.put(AuditorFilter.DATE_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_TO)));
 		}
 		return criteria;
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Auditor> getAuditors(Map<String, Object> criteria) {
+		return auditorDao.getAuditors(validateCriteria( criteria ));
 	}
 	
 

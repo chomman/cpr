@@ -33,4 +33,6 @@ public interface AuditorDao extends BaseDao<Auditor, Long>{
 	ProductSpecialist getProductSpecialistById(Long id);
 	
 	PageDto getAuditorPage(int pageNumber, Map<String, Object> criteria);
+	
+	List<Auditor> getAuditors(Map<String, Object> criteria);
 }

@@ -163,6 +163,8 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	public int getProductAssessorATraining() {
 		return productAssessorATraining;
 	}
+	
+	
 
 
 	public void setProductAssessorATraining(int productAssessorATraining) {

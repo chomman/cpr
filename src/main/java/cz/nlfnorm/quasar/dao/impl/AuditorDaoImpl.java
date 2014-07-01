@@ -118,7 +118,8 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 		if(criteria.size() > 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" (unaccent(lower(a.firstName)) like unaccent(lower(:query)) OR " +
-						  "  unaccent(lower(a.lastName))  like unaccent(lower(:query)) ) ");
+						  "  unaccent(lower(a.lastName))  like unaccent(lower(:query)) OR "
+						  + "unaccent(lower(CONCAT(a.firstName,' ',a.lastName))) like unaccent(lower(:query))) ");
 			}
 			final Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
 			if(enabled != null){
@@ -216,5 +217,19 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 				  .setLong("id", id)
 				  .setMaxResults(1)
 				  .uniqueResult();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Auditor> getAuditors(final Map<String, Object> criteria) {
+		StringBuilder hql = new StringBuilder("from Auditor a");
+		if((Integer)criteria.get(Filter.ORDER) != null){
+			hql.append(AuditorOrder.getSqlById((Integer)criteria.get(Filter.ORDER) ));
+		}else{
+			hql.append(AuditorOrder.ITC_ID.getSql());
+		}
+		Query query = createQuery(hql.toString());
+		prepareHqlQueryParams(query, criteria);
+		return query.list();
 	}
 }
