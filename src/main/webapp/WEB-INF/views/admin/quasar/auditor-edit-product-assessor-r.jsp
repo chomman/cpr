@@ -205,3 +205,133 @@
 		</li>
 	</ul>
 </div>
+
+<c:set value="" var="scope" />
+<c:forEach items="${model.codes}" var="i"> 
+	<c:set value="${model.function.areAllRequirementsValid and i.grated}" var="isGranted" />
+	<div class="qs-item radius ${isGranted ? 'qs-valid' : 'qs-invalid'}">
+		<div class="qs-code-wrapp">
+				<form method="post" id="f${i.auditorNandoCode.id}">
+				<div class="qs-name">
+					<div class="qs-inline-edit" data-id="${i.auditorNandoCode.id}">
+						<spring:message code="quasar.edit" />
+					</div>
+					<div class="reason-detail ${empty i.auditorNandoCode.productAssessorRReasonDetails ? 'qs-field' : ''}">
+						<span class="val h">
+							<c:if test="${not empty i.auditorNandoCode.productAssessorRReasonDetails}">
+								<h5>Reason details</h5>
+								<span>${i.auditorNandoCode.productAssessorRReasonDetails}</span>
+							</c:if>
+						</span>
+						<div class="qs-field">
+							<h5>Reason details</h5>
+							<textarea name="productAssessorRReasonDetails" rows="5" cols="5" placeholder="Describe reason...">${i.auditorNandoCode.productAssessorAReasonDetails}</textarea>
+						</div>
+					</div>
+					<div class="qs-code">
+						<div class="eac">${i.auditorNandoCode.nandoCode.code}</div>
+					</div>
+					<div class="is-granted ${isGranted ? 'qs-valid' : 'qs-invalid'}">
+						<c:if test="${isGranted}">
+							<spring:message code="granted" />
+							<c:set var="scope" value="${scope}(${i.auditorNandoCode.nandoCode.code}), " />
+						</c:if>
+						<c:if test="${not isGranted}">
+							<spring:message code="refused" />
+						</c:if>
+					</div>
+					<h3>${i.auditorNandoCode.nandoCode.specification}</h3>
+					<table>
+						<tr>
+							<td class="k"><spring:message code="categoryTraining" />:</td>
+							<td class="v">
+								<span class="val h">${i.auditorNandoCode.categorySpecificTraining}</span>
+								<span class="qs-field">
+									<input type="text" value="${i.auditorNandoCode.categorySpecificTraining}" name="categorySpecificTraining" class="w30 c required numeric">
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="k"><spring:message code="noOfTFReviews" />:</td>
+							<td class="v">
+								<span class="val h">${i.auditorNandoCode.numberOfTfReviews}</span>
+								<span class="qs-field">
+									<input type="text" value="${i.auditorNandoCode.numberOfTfReviews}" name="numberOfTfReviews" class="w30 c required numeric">
+								</span>
+							</td>
+						</tr>
+						<tr class="${not i.auditorNandoCode.productAssessorRRefused ? 'qs-hide' : ''}">
+							<td class="k"><spring:message code="isRefused" />:</td>
+							<td class="v">
+								<span class="val h">
+									<c:if test="${i.auditorNandoCode.productAssessorRRefused}">
+										<strong><spring:message code="yes" /></strong>
+									</c:if>
+									<c:if test="${not i.auditorNandoCode.productAssessorRRefused}">
+										<spring:message code="no" />
+									</c:if>
+								</span>
+								<span class="qs-field">
+									<input type="checkbox" class="ch-refused" name="productAssessorRRefused" ${i.auditorNandoCode.productAssessorRRefused ? 'checked="checked"' : ''}  />
+								</span>
+							</td>
+						</tr>
+						
+						<tr class="${not i.auditorNandoCode.productAssessorRApproved ? 'qs-hide' : ''}">
+							<td class="k"><spring:message code="specificReasonForTheApproval" />:</td>
+							<td class="v">
+								<span class="val h">
+									<c:if test="${i.auditorNandoCode.productAssessorRApproved}">
+										<strong><spring:message code="yes" /></strong>
+									</c:if>
+									<c:if test="${not i.auditorNandoCode.productAssessorRApproved}">
+										<spring:message code="no" />
+									</c:if>
+								</span>
+								<span class="qs-field">
+									<input type="checkbox" class="ch-approved" name="productAssessorRApproved" ${i.auditorNandoCode.productAssessorRApproved ? 'checked="checked"' : ''}  />
+								</span>
+							</td>
+						</tr>
+						
+						<tr class="${empty i.auditorNandoCode.productAssessorRApprovedBy ? 'qs-hide' : ''}">
+							<td class="k"><spring:message code="categoryApprovalByAnotherNb" />:</td>
+							<td class="v h">
+								<span class="val h">
+									<c:if test="${not empty i.auditorNandoCode.productAssessorRApprovedBy}">
+									<a:adminurl href="/cpr/notifiedbodies/edit/${i.auditorNandoCode.productAssessorRApprovedBy.id}">
+										<strong>${i.auditorNandoCode.productAssessorRApprovedBy.noCode}</strong>	
+									</a:adminurl>
+									</c:if>
+									<c:if test="${empty i.auditorNandoCode.productAssessorRApprovedBy}">
+										<span class="val">
+											<spring:message code="no" />
+											</span>
+										</c:if>
+								</span>
+								<span class="qs-field">
+								
+									<input name="productAssessorRApprovedBy" type="text" class="mw150 nb-picker"
+									<c:if test="${not empty i.auditorNandoCode.productAssessorRApprovedBy}">
+										 data-json="${i.auditorNandoCode.productAssessorRApprovedBy.id}##${i.auditorNandoCode.productAssessorRApprovedBy.noCode}"
+									</c:if>
+									 />
+									 <a class="lang mandate-add-btn">
+										<spring:message code="form.save" />
+									</a>
+								</span>
+							</td>
+						</tr>
+						
+					</table>
+				</div>
+				<div class="clear"></div>
+				<input type="hidden" name="id" value="${i.auditorNandoCode.id}">
+				<input type="hidden" name="auditor" value="${model.auditor.id}">
+				</form>
+		</div>
+	</div>
+</c:forEach>
+
+<div class="hbox"><h2><spring:message code="productAssessorR.scope" arguments="${model.auditor.name}" /></h2></div>
+<textarea class="qs-code-scope">${scope}</textarea>		

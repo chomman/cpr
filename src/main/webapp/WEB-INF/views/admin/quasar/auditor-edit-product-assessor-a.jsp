@@ -344,5 +344,5 @@
 	</div>
 </c:forEach>
 
-<div class="hbox"><h2><spring:message code="productAssessorA.scope" /></h2></div>
+<div class="hbox"><h2><spring:message code="productAssessorA.scope" arguments="${model.auditor.name}" /></h2></div>
 <textarea class="qs-code-scope">${scope}</textarea>		

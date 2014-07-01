@@ -67,11 +67,14 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	private NotifiedBody productAssessorAApprovedBy;
 	
 		
-	/* Product Assessor R attirbutes */
+	
 	/**
 	 * Category-specific training (hours)
 	 */
-	private int productAssessorRTraining = 0;
+	private int categorySpecificTraining = 0;
+	
+	
+	/* Product Assessor R attirbutes */
 	/**
 	 * No. of TF reviews in category.
 	 */
@@ -206,14 +209,14 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	 * @return Product Assessor-R category-specific training in hours
 	 */
 	@Min(value = 0)
-	@Column(name = "product_assessor_r_training")	
-	public int getProductAssessorRTraining() {
-		return productAssessorRTraining;
+	@Column(name = "category_specific_training")	
+	public int getCategorySpecificTraining() {
+		return categorySpecificTraining;
 	}
 
 
-	public void setProductAssessorRTraining(int productAssessorRTraining) {
-		this.productAssessorRTraining = productAssessorRTraining;
+	public void setCategorySpecificTraining(int categorySpecificTraining) {
+		this.categorySpecificTraining = categorySpecificTraining;
 	}
 
 	/**
@@ -374,6 +377,26 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 					   )
 			   ));
 	}
+	
+	@Transient
+	public boolean isGrantedForProductAssessorR(){
+		return !isProductAssessorRRefused() && (
+			   isProductAssessorRApproved() ||
+			   getProductAssessorRApprovedBy() != null ||
+			   ( 
+					(		
+						getCategorySpecificTraining() >= getNandoCode().getAssesorATrainingThreashold() ||
+						getNumberOfTfReviews() >= getNandoCode().getAssesorRTFReviewsThreasholdForTraining()
+					) 
+					&&
+					(
+						getNumberOfTfReviews() >= getNandoCode().getAssesorRTFReviewsThreashold()
+					)
+					
+			   ));
+	}
+	
+	
 	@Transient
 	@Override
 	public boolean isHorizontal() {
@@ -389,5 +412,15 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		productAssessorARefused = code.isProductAssessorARefused();
 		productAssessorAReasonDetails = code.getProductAssessorAReasonDetails();
 		productAssessorAApprovedBy = code.getProductAssessorAApprovedBy();
+	}
+	
+	@Transient
+	public void mergeProductAssessorR(AuditorNandoCode code){
+		categorySpecificTraining = code.getCategorySpecificTraining();
+		numberOfTfReviews = code.getNumberOfTfReviews();
+		productAssessorRApproved = code.isProductAssessorRApproved();
+		productAssessorRRefused = code.isProductAssessorRRefused();
+		productAssessorRReasonDetails = code.getProductAssessorRReasonDetails();
+		productAssessorRApprovedBy = code.getProductAssessorRApprovedBy();
 	}
 }

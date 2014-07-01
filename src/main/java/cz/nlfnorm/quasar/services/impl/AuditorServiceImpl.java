@@ -25,6 +25,7 @@ import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.views.AbstractNandoFunction;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.ProductAssessorR;
 import cz.nlfnorm.quasar.views.QsAuditor;
@@ -209,12 +210,19 @@ public class AuditorServiceImpl implements AuditorService{
 	 * @return list of evaluated auditor's NANDO codes.
 	 */
 	@Override
-	public List<EvaluatedAuditorNandoCode> evaluate(final ProductAssessorA function, final Auditor auditor) {
+	public List<EvaluatedAuditorNandoCode> evaluate(final AbstractNandoFunction function, final Auditor auditor) {
+		
 		List<EvaluatedAuditorNandoCode> result = new ArrayList<>();
-		final List<AuditorNandoCode> auditorNandoCodes = auditorNandoCodeService.getForProductAssessorA(auditor);
+		final List<AuditorNandoCode> auditorNandoCodes = getAuditorNandoCodesFor(function, auditor);
+		final boolean forProductAssessorA = function instanceof ProductAssessorA;
+		final boolean forProductAssessorR = function instanceof ProductAssessorR;
+		
 		for(final AuditorNandoCode code : auditorNandoCodes){
 			EvaluatedAuditorNandoCode eCode = new EvaluatedAuditorNandoCode(code);
-			if(code.isGrantedForProductAssessorA()){
+			if(
+					(forProductAssessorA && code.isGrantedForProductAssessorA()) ||
+					(forProductAssessorR && code.isGrantedForProductAssessorR()) 
+			){
 				if(
 						(code.isActiveMd() && function.isGeneralRequirementsActiveMd()) ||
 						(code.isNonActiveMd() && function.isGeneralRequirementsNonActiveMd()) ||
@@ -231,6 +239,16 @@ public class AuditorServiceImpl implements AuditorService{
 			result.add(eCode);
 		}
 		return result;
+	}
+	
+	
+	private List<AuditorNandoCode> getAuditorNandoCodesFor(final AbstractNandoFunction function, final Auditor auditor){
+		if(function instanceof ProductAssessorA){
+			return auditorNandoCodeService.getForProductAssessorA(auditor);
+		}else if(function instanceof ProductAssessorR){
+			return auditorNandoCodeService.getForProductAssessorR(auditor);
+		}
+		throw new IllegalArgumentException("Unknown auditor function");
 	}
 
 	

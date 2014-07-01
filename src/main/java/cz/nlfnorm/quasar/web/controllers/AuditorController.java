@@ -288,7 +288,9 @@ public class AuditorController extends QuasarSupportController {
 		case SUB_TAB_PROUCT_ASSESSOR_A:
 			code.mergeProductAssessorA(form);
 			break;
-
+		case SUB_TAB_PROUCT_ASSESSOR_R:
+			code.mergeProductAssessorR(form);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
 		}
@@ -343,7 +345,7 @@ public class AuditorController extends QuasarSupportController {
 			case SUB_TAB_PROUCT_ASSESSOR_R:
 				final ProductAssessorR productAssessorRFunction = auditorService.getProductAssessorRById(auditor.getId());
 				model.put("function", productAssessorRFunction);
-				//model.put("codes",  auditorService.evaluate(function, auditor));
+				model.put("codes",  auditorService.evaluate(productAssessorRFunction, auditor));
 			break;
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);
