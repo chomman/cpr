@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
@@ -36,6 +37,7 @@ import cz.nlfnorm.quasar.entities.Experience;
 import cz.nlfnorm.quasar.entities.FieldOfEducation;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
+import cz.nlfnorm.quasar.enums.AuditorOrder;
 import cz.nlfnorm.quasar.forms.AuditorForm;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
@@ -51,6 +53,7 @@ import cz.nlfnorm.quasar.views.ProductSpecialist;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 
@@ -122,9 +125,18 @@ public class AuditorController extends QuasarSupportController {
 	}
 	
 	@RequestMapping(LIST_MAPPING_URL)
-	public String showAuditorList(ModelMap modelMap) {
+	public String showAuditorList(ModelMap modelMap, HttpServletRequest request) {
 		Map<String, Object> model = new HashMap<>();
-		model.put("auditors", auditorService.getAll());
+		int currentPage = RequestUtils.getPageNumber(request);
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		final PageDto page = auditorService.getAuditorPage(currentPage, params);
+		if(page.getCount() > 0){
+			model.put("paginationLinks", getPaginationItems(request, params, page.getCount(), "/admin/quasar/manage/auditors"));
+			model.put("auditors", page.getItems());
+		}
+		model.put("orders", AuditorOrder.getAll());
+		model.put("partners", partnerService.getAll());
+		model.put("params", params);
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getTableItemsView();

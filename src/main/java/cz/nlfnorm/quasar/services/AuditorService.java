@@ -1,8 +1,10 @@
 package cz.nlfnorm.quasar.services;
 
 import java.util.List;
+import java.util.Map;
 
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
@@ -53,4 +55,6 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	ProductSpecialist getProductSpecialistById(Long id);
 	
 	List<EvaluatedAuditorNandoCode> evaluate(AbstractNandoFunction function, Auditor auditor);
+	
+	PageDto getAuditorPage(int pageNumber, Map<String, Object> criteria);
 }

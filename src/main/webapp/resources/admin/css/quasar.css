@@ -146,3 +146,10 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 
 h3.qs-function{color:#555;margin: -5px 0 15px;font-size:18px;border-bottom:2px dotted #aaa;padding-bottom:5px;font-weight:normal;}
 .form-head.mini{padding:5px 15px;font-size:12px;background:#f2f2f2}
+
+
+.qs-external,
+.gs-inTraining,
+.qs-internal{padding-left:19px;background-image:url(../img/int_ext.png);background-repeat:no-repeat;}
+.qs-external{background-position:0 -40px ;}
+.gs-inTraining{background-position:0 -81px ;padding-left:17px}

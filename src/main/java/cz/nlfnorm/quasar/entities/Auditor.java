@@ -420,7 +420,7 @@ public class Auditor extends User {
 
 	@Transient
 	public boolean isIntenalAuditor(){
-		return getId() < 1000;
+		return getItcId() < 1000;
 	}
 	
 	/**
@@ -495,6 +495,7 @@ public class Auditor extends User {
 		this.iso13485 = form.getIso13485();
 		this.mdd = form.getMdd();
 		this.ivd = form.getIvd();
+		this.itcId = form.getItcId();
 		this.nb1023Procedures = form.getNb1023Procedures();
 		this.totalAudits = form.getTotalAudits();
 		this.totalAuditdays = form.getTotalAuditdays();

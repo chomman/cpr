@@ -75,7 +75,7 @@
 		</label>
 		<div class="field">
 			<form:select path="country" cssClass="chosenSmall">
-				<option> --- <spring:message code="auditor.select" /> ---</option>
+				<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 				<c:forEach items="${model.countries}" var="i">
 					<option value="${i.id}" ${i.id eq command.country.id ? 'selected="selected"' : '' }>${i.countryName}</option>
 				</c:forEach>
@@ -87,8 +87,8 @@
 			<spring:message code="auditor.partner" />:
 		</label>
 		<div class="field">
-			<form:select path="country" cssClass="chosenSmall">
-				<option> --- <spring:message code="auditor.select" /> ---</option>
+			<form:select path="partner" cssClass="chosenSmall">
+				<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 				<c:forEach items="${model.partners}" var="i">
 					<option value="${i.id}" ${i.id eq command.partner.id ? 'selected="selected"' : '' }>${i.name}</option>
 				</c:forEach>
@@ -132,7 +132,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['1'].eductionLevel" id="educationLevel1" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.educationsLevels}" var="i">
 								<option ${command.education['1'].eductionLevel eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>
@@ -148,7 +148,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['1'].education1" id="factiveMd1" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.fieldsOfEducationActiveMd}" var="i">
 								<option ${command.education['1'].education1 eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>
@@ -164,7 +164,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['1'].education2" id="factiveMd2" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.fieldsOfEducationActiveMd}" var="i">
 								<option ${command.education['1'].education2 eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>
@@ -181,7 +181,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['1'].postgreduateStudy" id="psg1" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.fieldsOfEducationActiveMd}" var="i">
 								<option ${command.education['1'].postgreduateStudy eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>
@@ -200,7 +200,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['2'].eductionLevel" id="educationLevel2" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.educationsLevels}" var="i">
 								<option ${command.education['1'].eductionLevel eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>
@@ -216,7 +216,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['2'].education1" id="factiveMd1" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.fieldsOfEducationNonActiveMd}" var="i">
 								<option ${command.education['2'].education1 eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>
@@ -232,7 +232,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['2'].education2" id="factiveMd2" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.fieldsOfEducationNonActiveMd}" var="i">
 								<option ${command.education['2'].education2 eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>
@@ -249,7 +249,7 @@
 					</label>
 					<div class="qs-filed">
 						<form:select path="education['2'].postgreduateStudy" id="psg1" class="chosenSmall">
-							<option> --- <spring:message code="auditor.select" /> ---</option>
+							<option value=""> --- <spring:message code="auditor.select" /> ---</option>
 							<c:forEach items="${model.fieldsOfEducationNonActiveMd}" var="i">
 								<option ${command.education['2'].postgreduateStudy eq i ? 'selected="selected"' :'' }
 								value="${i.id}">${i.name}</option>

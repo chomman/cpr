@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -12,10 +13,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.AuthorityDao;
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
+import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
 import cz.nlfnorm.quasar.entities.Auditor;
@@ -31,6 +35,7 @@ import cz.nlfnorm.quasar.views.ProductAssessorR;
 import cz.nlfnorm.quasar.views.ProductSpecialist;
 import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
 
 /**
@@ -265,6 +270,27 @@ public class AuditorServiceImpl implements AuditorService{
 		throw new IllegalArgumentException("Unknown auditor function");
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public PageDto getAuditorPage(final int pageNumber, Map<String, Object> criteria) {
+		return auditorDao.getAuditorPage(pageNumber, validateCriteria( criteria ));
+	}
+	
+	
+	
+	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
+		if(criteria.size() > 0){
+			criteria.put(Filter.ORDER, ParseUtils.parseIntFromStringObject(criteria.get(Filter.ORDER)));
+			criteria.put(Filter.ENABLED, ParseUtils.parseStringToBoolean(criteria.get(Filter.ENABLED)));
+			criteria.put(AuditorFilter.INTERNAL_ONLY, ParseUtils.parseStringToBoolean(criteria.get(AuditorFilter.INTERNAL_ONLY)));
+			criteria.put(AuditorFilter.IN_TRAINING, ParseUtils.parseStringToBoolean(criteria.get(AuditorFilter.IN_TRAINING)));
+			criteria.put(AuditorFilter.FORMAL_LEG_REQ, ParseUtils.parseStringToBoolean(criteria.get(AuditorFilter.FORMAL_LEG_REQ)));
+			criteria.put(AuditorFilter.PARNTER, ParseUtils.parseLongFromStringObject(criteria.get(AuditorFilter.PARNTER)));
+			criteria.put(AuditorFilter.DATE_FROM, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_FROM)));
+			criteria.put(AuditorFilter.DATE_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_TO)));
+		}
+		return criteria;
+	}
 	
 
 	

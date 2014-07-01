@@ -1,9 +1,11 @@
 package cz.nlfnorm.quasar.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import cz.nlfnorm.dao.BaseDao;
 import cz.nlfnorm.dto.AutocompleteDto;
+import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.ProductAssessorR;
@@ -29,4 +31,6 @@ public interface AuditorDao extends BaseDao<Auditor, Long>{
 	ProductAssessorR getProductAssessorRById(Long id);
 	
 	ProductSpecialist getProductSpecialistById(Long id);
+	
+	PageDto getAuditorPage(int pageNumber, Map<String, Object> criteria);
 }
