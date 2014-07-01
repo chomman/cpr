@@ -38,6 +38,7 @@ public class EducationLevel extends IdentifiableEntity{
 	private static final long serialVersionUID = -6396483476015802928L;
 	private String name;
 	private int yeasSubstitution;
+	private double researchDevelopmentExperienceYearsSubstitution;
 	
 	@Id
 	@Override
@@ -64,4 +65,18 @@ public class EducationLevel extends IdentifiableEntity{
 	public void setYeasSubstitution(int yeasSubstitution) {
 		this.yeasSubstitution = yeasSubstitution;
 	}
+
+	@Min(value = 0)
+	@Column( name = "research_development_years_substitution")
+	public double getResearchDevelopmentExperienceYearsSubstitution() {
+		return researchDevelopmentExperienceYearsSubstitution;
+	}
+
+
+	public void setResearchDevelopmentExperienceYearsSubstitution(
+			double researchDevelopmentExperienceYearsSubstitution) {
+		this.researchDevelopmentExperienceYearsSubstitution = researchDevelopmentExperienceYearsSubstitution;
+	}
+	
+	
 }

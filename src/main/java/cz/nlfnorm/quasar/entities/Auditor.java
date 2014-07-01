@@ -105,6 +105,12 @@ public class Auditor extends User {
 	/* Product Specialist */
 	private int ddTrainingInHours;
 	private int totalDdReviews;
+	
+	/**
+	 * Working experience in research and development, 
+	 * production or quality control with medical devices or drugs
+	 */
+	private double researchDevelopmentExperienceInYears = 0;
 			
 	private Map<String, AuditorEducation> education;
 	private Map<Integer, AuditorSpecialist> specialist;
@@ -382,7 +388,17 @@ public class Auditor extends User {
 	public void setTotalDdReviews(int totalDdReviews) {
 		this.totalDdReviews = totalDdReviews;
 	}
+	
+	@Column(name = "research_development_experience", scale = 1, precision = 2)
+	public double getResearchDevelopmentExperienceInYears() {
+		return researchDevelopmentExperienceInYears;
+	}
 
+	public void setResearchDevelopmentExperienceInYears(
+			double researchDevelopmentExperienceInYears) {
+		this.researchDevelopmentExperienceInYears = researchDevelopmentExperienceInYears;
+	}
+	
 	@Transient
 	public void incrementAuditDays(int days){
 		this.totalAuditdays += days;
@@ -453,7 +469,11 @@ public class Auditor extends User {
 		}
 		return mdExperience;
 	}
+	
+	
 		
+	
+
 	public void mergePersonalData(final Auditor form){
 		setEmail(form.getEmail());
 		setEnabled(form.getEnabled());
