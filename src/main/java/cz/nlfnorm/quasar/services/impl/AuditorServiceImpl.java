@@ -28,6 +28,7 @@ import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.views.AbstractNandoFunction;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.ProductAssessorR;
+import cz.nlfnorm.quasar.views.ProductSpecialist;
 import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.UserUtils;
@@ -205,6 +206,12 @@ public class AuditorServiceImpl implements AuditorService{
 		return auditorDao.getProductAssessorRById(id);
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public ProductSpecialist getProductSpecialistById(Long id) {
+		return auditorDao.getProductSpecialistById(id);
+	}
+	
 	/**
 	 * Evaludate, If NANDO codes for function ProductAssessorA are granted.
 	 * @return list of evaluated auditor's NANDO codes.
@@ -216,23 +223,17 @@ public class AuditorServiceImpl implements AuditorService{
 		final List<AuditorNandoCode> auditorNandoCodes = getAuditorNandoCodesFor(function, auditor);
 		final boolean forProductAssessorA = function instanceof ProductAssessorA;
 		final boolean forProductAssessorR = function instanceof ProductAssessorR;
+		final boolean forProductSpecialist = function instanceof ProductSpecialist;
 		
 		for(final AuditorNandoCode code : auditorNandoCodes){
 			EvaluatedAuditorNandoCode eCode = new EvaluatedAuditorNandoCode(code);
 			if(
 					(forProductAssessorA && code.isGrantedForProductAssessorA()) ||
-					(forProductAssessorR && code.isGrantedForProductAssessorR()) 
+					(forProductAssessorR && code.isGrantedForProductAssessorR()) ||
+					(forProductSpecialist && code.isGrantedForProductSpecialist()) 
+					
 			){
-				if(
-						(code.isActiveMd() && function.isGeneralRequirementsActiveMd()) ||
-						(code.isNonActiveMd() && function.isGeneralRequirementsNonActiveMd()) ||
-						(code.isIvd() && function.isGeneralRequirementsIvd()) ||
-						(code.isHorizontal() && (
-										function.isGeneralRequirementsActiveMd() ||
-										function.isGeneralRequirementsNonActiveMd()
-										)
-						)
-				  ){
+				if(isCodeGrantedToFunction(code, function)){
 					eCode.setGrated(true);
 				}
 			}
@@ -241,15 +242,30 @@ public class AuditorServiceImpl implements AuditorService{
 		return result;
 	}
 	
+	private boolean isCodeGrantedToFunction(final AuditorNandoCode code, final AbstractNandoFunction function){
+		return (code.isActiveMd() && function.isGeneralRequirementsActiveMd()) ||
+				(code.isNonActiveMd() && function.isGeneralRequirementsNonActiveMd()) ||
+				(code.isIvd() && function.isGeneralRequirementsIvd()) ||
+				(code.isHorizontal() && (
+								function.isGeneralRequirementsActiveMd() ||
+								function.isGeneralRequirementsNonActiveMd()
+								)
+				);
+	}
+	
 	
 	private List<AuditorNandoCode> getAuditorNandoCodesFor(final AbstractNandoFunction function, final Auditor auditor){
 		if(function instanceof ProductAssessorA){
 			return auditorNandoCodeService.getForProductAssessorA(auditor);
 		}else if(function instanceof ProductAssessorR){
 			return auditorNandoCodeService.getForProductAssessorR(auditor);
+		}else if(function instanceof ProductSpecialist){
+			return auditorNandoCodeService.getForProductSpecialist(auditor);
 		}
 		throw new IllegalArgumentException("Unknown auditor function");
 	}
+
+	
 
 	
 }

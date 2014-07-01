@@ -47,6 +47,7 @@ import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.validators.AuditorValidator;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.ProductAssessorR;
+import cz.nlfnorm.quasar.views.ProductSpecialist;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
@@ -291,6 +292,9 @@ public class AuditorController extends QuasarSupportController {
 		case SUB_TAB_PROUCT_ASSESSOR_R:
 			code.mergeProductAssessorR(form);
 			break;
+		case SUB_TAB_PROUCT_SPECIALIST:
+			code.mergeProductSpecialist(form);
+			break;
 		default:
 			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
 		}
@@ -310,6 +314,12 @@ public class AuditorController extends QuasarSupportController {
 			 auditor.getSpecialist()
 			 	.put(Auditor.TYPE_PRODUCT_ASSESSOR_R, form.getSpecialist()
 			 	.get(Auditor.TYPE_PRODUCT_ASSESSOR_R));
+			break;
+		case SUB_TAB_PROUCT_SPECIALIST:
+			 auditor.getSpecialist()
+			 	.put(Auditor.TYPE_PRODUCT_SPECIALIST, form.getSpecialist()
+			 	.get(Auditor.TYPE_PRODUCT_SPECIALIST));
+			 auditor.setResearchDevelopmentExperienceInYears(form.getResearchDevelopmentExperienceInYears());
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
@@ -346,6 +356,11 @@ public class AuditorController extends QuasarSupportController {
 				final ProductAssessorR productAssessorRFunction = auditorService.getProductAssessorRById(auditor.getId());
 				model.put("function", productAssessorRFunction);
 				model.put("codes",  auditorService.evaluate(productAssessorRFunction, auditor));
+			break;
+			case SUB_TAB_PROUCT_SPECIALIST:
+				final ProductSpecialist productSpecialist = auditorService.getProductSpecialistById(auditor.getId());
+				model.put("function", productSpecialist);
+				model.put("codes",  auditorService.evaluate(productSpecialist, auditor));
 			break;
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);

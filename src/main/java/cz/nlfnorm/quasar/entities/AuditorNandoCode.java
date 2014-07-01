@@ -396,6 +396,23 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 			   ));
 	}
 	
+	@Transient
+	public boolean isGrantedForProductSpecialist(){
+		return !isProductSpecialistRefused() && (
+			   isProductSpecialistApproved() ||
+			   getProductSpecialistApprovedBy() != null ||
+			   ( 
+					(		
+						getCategorySpecificTraining() >= getNandoCode().getSpecialistTrainingThreashold() ||
+						getNumberOfTfReviews() + getNumberOfDdReviews() >= getNandoCode().getSpecialistDDReviewsThreasholdForTraining()
+					) 
+					&&
+					(
+						getNumberOfDdReviews() >= getNandoCode().getSpecialistDDReviewsThreashold()
+					)
+			   ));
+	}
+	
 	
 	@Transient
 	@Override
@@ -422,5 +439,16 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		productAssessorRRefused = code.isProductAssessorRRefused();
 		productAssessorRReasonDetails = code.getProductAssessorRReasonDetails();
 		productAssessorRApprovedBy = code.getProductAssessorRApprovedBy();
+	}
+	
+	@Transient
+	public void mergeProductSpecialist(AuditorNandoCode code){
+		categorySpecificTraining = code.getCategorySpecificTraining();
+		numberOfDdReviews = code.getNumberOfDdReviews();
+		numberOfTfReviews = code.getNumberOfTfReviews();
+		productSpecialistApproved = code.isProductSpecialistApproved();
+		productSpecialistRefused = code.isProductSpecialistRefused();
+		productSpecialistReasonDetails = code.getProductSpecialistReasonDetails();
+		productSpecialistApprovedBy = code.getProductSpecialistApprovedBy();
 	}
 }

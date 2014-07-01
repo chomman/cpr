@@ -23,7 +23,7 @@ tr.is-first-level.odd{background-color:#E8FAFF;}
 .input-wrapp.smaller label{line-height:22px;}
 .input-wrapp.smallest .field,
 .input-wrapp.smallest label{padding:7px 20px;}
-.input-wrapp.smallest label{line-height:20px;}
+.input-wrapp.smallest label{line-height:15px;}
 
 .qs-btn:hover{cursor:pointer;}
 .qs-valid,

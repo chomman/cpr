@@ -1,22 +1,22 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
-<h3 class="qs-function">${model.auditor.name} as <strong><spring:message code="nbCode" /> <spring:message code="auditor.productAssessorR" /></strong></h3>
+<h3 class="qs-function">${model.auditor.name} as <strong><spring:message code="nbCode" /> <spring:message code="auditor.productSpecialist" /></strong></h3>
 
 <c:if test="${not empty successCreate}">
 	<p class="msg ok"><spring:message code="success.create" /></p>
 </c:if>
 
 <c:url value="/admin/quasar/manage/auditor/${auditor.id}" var="url" />
-<form:form  commandName="auditor" method="post" cssClass="submit-on-change" action="${url}/decision/4">
-	<p class="form-head"><spring:message code="decisionOnTheAssessor" /> (<spring:message code="auditor.productAssessorR" />)</p>
+<form:form  commandName="auditor" method="post" cssClass="submit-on-change valid" action="${url}/decision/5">
+	<p class="form-head"><spring:message code="decisionOnTheAssessor" /> (<spring:message code="auditor.productSpecialist" />)</p>
 	<div class="input-wrapp smallest">
 		<label>
 			<spring:message code="activeMd" />:
 			
 		</label>
 		<div class="field">
-			<form:checkbox path="specialist[2].activeMedicalDeviceSpecialist" />
+			<form:checkbox path="specialist[3].activeMedicalDeviceSpecialist" />
 		</div>
 	</div>
 	<div class="input-wrapp smallest">
@@ -25,7 +25,7 @@
 			
 		</label>
 		<div class="field">
-			<form:checkbox path="specialist[2].nonActiveMedicalDeviceSpecialist" />
+			<form:checkbox path="specialist[3].nonActiveMedicalDeviceSpecialist" />
 		</div>
 	</div>
 	<div class="input-wrapp smallest">
@@ -34,7 +34,16 @@
 			
 		</label>
 		<div class="field">
-			<form:checkbox path="specialist[2].inVitroDiagnosticSpecialist" />
+			<form:checkbox path="specialist[3].inVitroDiagnosticSpecialist" />
+		</div>
+	</div>
+	<div class="input-wrapp smallest">
+		<label>
+			<spring:message code="auditor.researchDevelopmentExperienceInYears" />:
+			
+		</label>
+		<div class="field">
+			<form:input path="researchDevelopmentExperienceInYears" cssClass="required numeric" />
 		</div>
 	</div>
 	<form:hidden path="id"/>
@@ -216,16 +225,16 @@
 					<div class="qs-inline-edit" data-id="${i.auditorNandoCode.id}">
 						<spring:message code="quasar.edit" />
 					</div>
-					<div class="reason-detail ${empty i.auditorNandoCode.productAssessorRReasonDetails ? 'qs-field' : ''}">
+					<div class="reason-detail ${empty i.auditorNandoCode.productSpecialistReasonDetails ? 'qs-field' : ''}">
 						<span class="val h">
-							<c:if test="${not empty i.auditorNandoCode.productAssessorRReasonDetails}">
+							<c:if test="${not empty i.auditorNandoCode.productSpecialistReasonDetails}">
 								<h5>Reason details</h5>
-								<span>${i.auditorNandoCode.productAssessorRReasonDetails}</span>
+								<span>${i.auditorNandoCode.productSpecialistReasonDetails}</span>
 							</c:if>
 						</span>
 						<div class="qs-field">
 							<h5>Reason details</h5>
-							<textarea name="productAssessorRReasonDetails" rows="5" cols="5" placeholder="Describe reason...">${i.auditorNandoCode.productAssessorRReasonDetails}</textarea>
+							<textarea name="productSpecialistReasonDetails" rows="5" cols="5" placeholder="Describe reason...">${i.auditorNandoCode.productSpecialistReasonDetails}</textarea>
 						</div>
 					</div>
 					<div class="qs-code">
@@ -252,6 +261,15 @@
 							</td>
 						</tr>
 						<tr>
+							<td class="k"><spring:message code="noOfDDReviews" />:</td>
+							<td class="v">
+								<span class="val h">${i.auditorNandoCode.numberOfDdReviews}</span>
+								<span class="qs-field">
+									<input type="text" value="${i.auditorNandoCode.numberOfDdReviews}" name="numberOfDdReviews" class="w30 c required numeric">
+								</span>
+							</td>
+						</tr>
+						<tr>
 							<td class="k"><spring:message code="noOfTFReviews" />:</td>
 							<td class="v">
 								<span class="val h">${i.auditorNandoCode.numberOfTfReviews}</span>
@@ -260,50 +278,50 @@
 								</span>
 							</td>
 						</tr>
-						<tr class="${not i.auditorNandoCode.productAssessorRRefused ? 'qs-hide' : ''}">
+						<tr class="${not i.auditorNandoCode.productSpecialistRefused ? 'qs-hide' : ''}">
 							<td class="k"><spring:message code="isRefused" />:</td>
 							<td class="v">
 								<span class="val h">
-									<c:if test="${i.auditorNandoCode.productAssessorRRefused}">
+									<c:if test="${i.auditorNandoCode.productSpecialistRefused}">
 										<strong><spring:message code="yes" /></strong>
 									</c:if>
-									<c:if test="${not i.auditorNandoCode.productAssessorRRefused}">
+									<c:if test="${not i.auditorNandoCode.productSpecialistRefused}">
 										<spring:message code="no" />
 									</c:if>
 								</span>
 								<span class="qs-field">
-									<input type="checkbox" class="ch-refused" name="productAssessorRRefused" ${i.auditorNandoCode.productAssessorRRefused ? 'checked="checked"' : ''}  />
+									<input type="checkbox" class="ch-refused" name="productSpecialistRefused" ${i.auditorNandoCode.productSpecialistRefused ? 'checked="checked"' : ''}  />
 								</span>
 							</td>
 						</tr>
 						
-						<tr class="${not i.auditorNandoCode.productAssessorRApproved ? 'qs-hide' : ''}">
+						<tr class="${not i.auditorNandoCode.productSpecialistApproved ? 'qs-hide' : ''}">
 							<td class="k"><spring:message code="specificReasonForTheApproval" />:</td>
 							<td class="v">
 								<span class="val h">
-									<c:if test="${i.auditorNandoCode.productAssessorRApproved}">
+									<c:if test="${i.auditorNandoCode.productSpecialistApproved}">
 										<strong><spring:message code="yes" /></strong>
 									</c:if>
-									<c:if test="${not i.auditorNandoCode.productAssessorRApproved}">
+									<c:if test="${not i.auditorNandoCode.productSpecialistApproved}">
 										<spring:message code="no" />
 									</c:if>
 								</span>
 								<span class="qs-field">
-									<input type="checkbox" class="ch-approved" name="productAssessorRApproved" ${i.auditorNandoCode.productAssessorRApproved ? 'checked="checked"' : ''}  />
+									<input type="checkbox" class="ch-approved" name="productSpecialistApproved" ${i.auditorNandoCode.productSpecialistApproved ? 'checked="checked"' : ''}  />
 								</span>
 							</td>
 						</tr>
 						
-						<tr class="${empty i.auditorNandoCode.productAssessorRApprovedBy ? 'qs-hide' : ''}">
+						<tr class="${empty i.auditorNandoCode.productSpecialistApprovedBy ? 'qs-hide' : ''}">
 							<td class="k"><spring:message code="categoryApprovalByAnotherNb" />:</td>
 							<td class="v h">
 								<span class="val h">
-									<c:if test="${not empty i.auditorNandoCode.productAssessorRApprovedBy}">
-									<a:adminurl href="/cpr/notifiedbodies/edit/${i.auditorNandoCode.productAssessorRApprovedBy.id}">
-										<strong>${i.auditorNandoCode.productAssessorRApprovedBy.noCode}</strong>	
+									<c:if test="${not empty i.auditorNandoCode.productSpecialistApprovedBy}">
+									<a:adminurl href="/cpr/notifiedbodies/edit/${i.auditorNandoCode.productSpecialistApprovedBy.id}">
+										<strong>${i.auditorNandoCode.productSpecialistApprovedBy.noCode}</strong>	
 									</a:adminurl>
 									</c:if>
-									<c:if test="${empty i.auditorNandoCode.productAssessorRApprovedBy}">
+									<c:if test="${empty i.auditorNandoCode.productSpecialistApprovedBy}">
 										<span class="val">
 											<spring:message code="no" />
 											</span>
@@ -311,9 +329,9 @@
 								</span>
 								<span class="qs-field">
 								
-									<input name="productAssessorRApprovedBy" type="text" class="mw150 nb-picker"
-									<c:if test="${not empty i.auditorNandoCode.productAssessorRApprovedBy}">
-										 data-json="${i.auditorNandoCode.productAssessorRApprovedBy.id}##${i.auditorNandoCode.productAssessorRApprovedBy.noCode}"
+									<input name="productSpecialistApprovedBy" type="text" class="mw150 nb-picker"
+									<c:if test="${not empty i.auditorNandoCode.productSpecialistApprovedBy}">
+										 data-json="${i.auditorNandoCode.productSpecialistApprovedBy.id}##${i.auditorNandoCodeproductSpecialistApprovedBy.noCode}"
 									</c:if>
 									 />
 									 <a class="lang mandate-add-btn">
@@ -333,5 +351,5 @@
 	</div>
 </c:forEach>
 
-<div class="hbox"><h2><spring:message code="productAssessorR.scope" arguments="${model.auditor.name}" /></h2></div>
+<div class="hbox"><h2><spring:message code="productSpecialist.scope" arguments="${model.auditor.name}" /></h2></div>
 <textarea class="qs-code-scope">${scope}</textarea>		

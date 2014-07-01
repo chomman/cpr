@@ -10,6 +10,7 @@ import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.views.AbstractNandoFunction;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.ProductAssessorR;
+import cz.nlfnorm.quasar.views.ProductSpecialist;
 import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.services.IdentifiableByLongService;
 
@@ -48,6 +49,8 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	ProductAssessorA getProductAssessorAById(Long id);
 	
 	ProductAssessorR getProductAssessorRById(Long id);
+	
+	ProductSpecialist getProductSpecialistById(Long id);
 	
 	List<EvaluatedAuditorNandoCode> evaluate(AbstractNandoFunction function, Auditor auditor);
 }

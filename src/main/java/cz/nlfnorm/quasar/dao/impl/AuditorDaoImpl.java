@@ -13,6 +13,7 @@ import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.ProductAssessorR;
+import cz.nlfnorm.quasar.views.ProductSpecialist;
 import cz.nlfnorm.quasar.views.QsAuditor;
 
 /**
@@ -99,6 +100,15 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 	@Override
 	public ProductAssessorR getProductAssessorRById(Long id) {
 		return (ProductAssessorR)createQuery("from ProductAssessorR where id=:id")
+				  .setReadOnly(true)
+				  .setLong("id", id)
+				  .setMaxResults(1)
+				  .uniqueResult();
+	}
+
+	@Override
+	public ProductSpecialist getProductSpecialistById(Long id) {
+		return (ProductSpecialist)createQuery("from ProductSpecialist where id=:id")
 				  .setReadOnly(true)
 				  .setLong("id", id)
 				  .setMaxResults(1)
