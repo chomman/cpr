@@ -28,7 +28,6 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
-import cz.nlfnorm.quasar.dto.EvaludatedQsAuditor;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
@@ -77,7 +76,8 @@ public class AuditorController extends QuasarSupportController {
 
 	private final static String LIST_MAPPING_URL = "/admin/quasar/manage/auditors";
 	private final static String ADD_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/add";
-	private final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
+	public final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
+	public final static String AUDITOR_DETAIL_URL = "/admin/quasar/manage/auditor/";
 	
 	private final static String AUDITOR_FUNCTION_MAPPING_URL =  EDIT_AUDITOR_MAPPING_URL + "/f/{functionType}";
 	
@@ -125,12 +125,16 @@ public class AuditorController extends QuasarSupportController {
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 	}
 	
-	@RequestMapping(LIST_MAPPING_URL + "/{functionType}")
+	@RequestMapping("/admin/quasar/auditors/{functionType}")
 	public String handleFunction(@PathVariable int functionType, ModelMap modelMap, HttpServletRequest request){
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		Map<String, Object> model = new HashMap<>();
-		model.put("html", buildTable(auditorService.evaluateQsAuditors(auditorService.getAuditors(params))));
+		model.put("items", auditorService.evaluateQsAuditors(auditorService.getAuditors(params)));
 		model.put("params", params);
+		model.put("orders", AuditorOrder.getAll());
+		model.put("partners", partnerService.getAll());
+		model.put("functionType", functionType);
+		model.put("disableScripts", true);
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getViewDir() + "function-output";
@@ -433,35 +437,7 @@ public class AuditorController extends QuasarSupportController {
 	}
 	
 	private String getEditUrl(Long id){
-		return EDIT_AUDITOR_MAPPING_URL.replace("{auditorId}", id.toString());
+		return AUDITOR_DETAIL_URL + id;
 	}
-	
-	
-	private String buildTable(final List<EvaludatedQsAuditor> list){
-		return "<table>" + buldThead(list) +  buildItems(list) + "</table>";
-	}
-	
-	private String buildItems(final List<EvaludatedQsAuditor> list){
-		String html = "";
-		int size = list.get(0).getCodes().size();
-		for(int j = 0; j < size; j++){
-			html += "<tr>";
-			html += "<td>" + list.get(0).getCodes().get(j).getAuditorEacCode().getEacCode().getName() + "</td>";
-			for(int a = 0; a < list.size(); a++){
-				html += "<td>" + list.get(a).getCodes().get(j).isGrated() + "</td>";
-			}
-			html += "</tr>";
-		}
-		return "<tbody>" + html + "</tbody>";
-	}
-	
-	private String buldThead(final List<EvaludatedQsAuditor> list){
-		String html = "<th>&nbsp</th>";
-		for(EvaludatedQsAuditor a : list){
-			html += "<th>" + a.getAuditor().getName() + "</th>";
-		}
-		return "<thead><tr>" + html + "</tr></thead>";
-	}
-	
-	
+		
 }

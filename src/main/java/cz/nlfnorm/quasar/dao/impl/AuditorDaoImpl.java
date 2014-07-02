@@ -151,7 +151,7 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 				where.add(" a.reassessmentDate < :"+AuditorFilter.DATE_TO);
 			}
 		}
-		return (where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "");
+		return where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "";
 
 	}
 	
@@ -223,6 +223,7 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 	@Override
 	public List<Auditor> getAuditors(final Map<String, Object> criteria) {
 		StringBuilder hql = new StringBuilder("from Auditor a");
+		hql.append(prepareHqlForQuery(criteria));
 		if((Integer)criteria.get(Filter.ORDER) != null){
 			hql.append(AuditorOrder.getSqlById((Integer)criteria.get(Filter.ORDER) ));
 		}else{
