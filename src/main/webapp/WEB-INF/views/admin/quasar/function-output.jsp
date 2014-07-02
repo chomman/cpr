@@ -12,7 +12,7 @@
 		
 	<script src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.min.js"></script>
 	<script src="//cdn.datatables.net/fixedcolumns/3.0.1/js/dataTables.fixedColumns.min.js"></script>
-	<script src="<c:url value="/resources/admin/quasar/js/main.js" />"></script>
+	<script src="<c:url value="/resources/admin/quasar/js/grid.js" />"></script>
 
 </head>
 <body>
@@ -58,8 +58,8 @@
 			</a:adminurl>
 	</div>
 	<div class="container">
-		<c:if test="${model.functionType == 2}">
-			<quasar:QsAuditorGrid list="${model.items}" />
+		<c:if test="${model.functionType > 1 and model.functionType < 6}">
+			<quasar:auditorsGrid list="${model.items}" />
 		</c:if>
 	</div>
 </body>

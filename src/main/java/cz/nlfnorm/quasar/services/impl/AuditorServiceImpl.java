@@ -22,8 +22,9 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditorDao;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
+import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoFunctionDto;
 import cz.nlfnorm.quasar.dto.EvaluatedEacCode;
-import cz.nlfnorm.quasar.dto.EvaludatedQsAuditor;
+import cz.nlfnorm.quasar.dto.EvaludatedQsAuditorDto;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
@@ -220,13 +221,15 @@ public class AuditorServiceImpl implements AuditorService{
 		return auditorDao.getProductSpecialistById(id);
 	}
 	
-	//List<Auditor> getAuditors(final Map<String, Object> criteria);
+	
+	
+	
 	
 	@Transactional(readOnly = true)
-	public List<EvaludatedQsAuditor> evaluateQsAuditors(final List<Auditor> auditorList){
-		final List<EvaludatedQsAuditor> result = new ArrayList<>();
+	public List<EvaludatedQsAuditorDto> evaluateForQsAuditor(final List<Auditor> auditorList){
+		final List<EvaludatedQsAuditorDto> result = new ArrayList<>();
 		for(final Auditor auditor : auditorList){
-			final EvaludatedQsAuditor evaluatedFunction = new EvaludatedQsAuditor(auditor);
+			final EvaludatedQsAuditorDto evaluatedFunction = new EvaludatedQsAuditorDto(auditor);
 			evaluatedFunction.setCodes(evaluateForQsAuditor(auditor));
 			result.add(evaluatedFunction);
 		}
@@ -248,13 +251,55 @@ public class AuditorServiceImpl implements AuditorService{
 		return result;
 	}
 	
+	@Override
+	@Transactional(readOnly = true)
+	public List<EvaluatedAuditorNandoFunctionDto> evaludateForProductAssessorA(final List<Auditor> auditorList){
+		return evaludateNandoFunction(auditorList, Auditor.TYPE_PRODUCT_ASSESSOR_A);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<EvaluatedAuditorNandoFunctionDto> evaludateForProductAssessorR(final List<Auditor> auditorList){
+		return evaludateNandoFunction(auditorList, Auditor.TYPE_PRODUCT_ASSESSOR_R);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<EvaluatedAuditorNandoFunctionDto> evaludateForProductSpecialist(final List<Auditor> auditorList){
+		return evaludateNandoFunction(auditorList, Auditor.TYPE_PRODUCT_SPECIALIST);
+	}
+	
+	private List<EvaluatedAuditorNandoFunctionDto> evaludateNandoFunction(final List<Auditor> auditorList, final int functionType){
+		final List<EvaluatedAuditorNandoFunctionDto> result = new ArrayList<>();
+			for(final Auditor auditor : auditorList){
+				EvaluatedAuditorNandoFunctionDto eCode = new EvaluatedAuditorNandoFunctionDto(auditor);
+				AbstractNandoFunction function = null;
+				switch (functionType) {
+				case Auditor.TYPE_PRODUCT_ASSESSOR_A:
+					function = getProductAssessorAById(auditor.getId());
+					break;
+				case Auditor.TYPE_PRODUCT_ASSESSOR_R:
+					function = getProductAssessorRById(auditor.getId());
+					break;
+				case Auditor.TYPE_PRODUCT_SPECIALIST:
+					function = getProductSpecialistById(auditor.getId());
+					break;
+				default:
+					throw new IllegalArgumentException(String.format("Unknow function type: %s" , functionType));
+				}
+				eCode.setCodes(evaluateAuditorNandoCodesFor(function, auditor));
+				result.add(eCode);
+			}
+		return result;
+	}
+	
 	/**
 	 * Evaludate, If NANDO codes for function ProductAssessorA are granted.
 	 * @return list of evaluated auditor's NANDO codes.
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public List<EvaluatedAuditorNandoCode> evaluate(final AbstractNandoFunction function, final Auditor auditor) {
+	public List<EvaluatedAuditorNandoCode> evaluateAuditorNandoCodesFor(final AbstractNandoFunction function, final Auditor auditor) {
 		
 		List<EvaluatedAuditorNandoCode> result = new ArrayList<>();
 		final List<AuditorNandoCode> auditorNandoCodes = getAuditorNandoCodesFor(function, auditor);

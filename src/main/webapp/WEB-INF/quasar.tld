@@ -10,8 +10,8 @@
  
     
   <tag>
-    <name>QsAuditorGrid</name>
-    <tag-class>cz.nlfnorm.quasar.web.tags.QsAuditorGridTag</tag-class>
+    <name>auditorsGrid</name>
+    <tag-class>cz.nlfnorm.quasar.web.tags.GridTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
 			<name>list</name>

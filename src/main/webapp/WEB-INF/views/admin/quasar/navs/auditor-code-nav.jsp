@@ -13,4 +13,26 @@
 			<spring:message code="auditor.add" />
 		</a:adminurl>
 	</li>
+	
+	
+	<li>
+		<a:adminurl href="/quasar/auditors/2" cssClass="margin-left qsf">
+			<spring:message code="auditor.qsAuditor" />
+		</a:adminurl>
+	</li>
+	<li>
+		<a:adminurl href="/quasar/auditors/3" cssClass="qsf">
+			<spring:message code="auditor.productAssessorA" />
+		</a:adminurl>
+	</li>
+	<li>
+		<a:adminurl href="/quasar/auditors/4" cssClass="qsf">
+			<spring:message code="auditor.productAssessorR" />
+		</a:adminurl>
+	</li>
+	<li>
+		<a:adminurl href="/quasar/auditors/5" cssClass="qsf">
+			<spring:message code="auditor.productSpecialist" />
+		</a:adminurl>
+	</li>
 </ul>

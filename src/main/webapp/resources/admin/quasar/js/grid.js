@@ -3,7 +3,7 @@ $(function () {
     var dataTable = null;
 
     var tableHeight = function () {
-        return $(window).height() - 0 + "px";
+        return $(window).height() - 170 + "px";
     };
 
     // Change height to match window
@@ -15,20 +15,18 @@ $(function () {
 
     console.log('height:' + tableHeight());
     dataTable = $('.container table').dataTable({
-        "scrollY": tableHeight(),
+    	"scrollY": tableHeight(),
         "scrollX": '100%',
-        "autoWidth": true,
-        "ordering": false,
         "paging": false,
+        "autoWidth": false,
+        "ordering": false,
         "filter": false,
         "searching": false,
         "info": false,
         "scrollCollapse": true
     });
 
-    new $.fn.dataTable.FixedColumns( dataTable, {
-    	heightMatch: 'none'
-    } );
+    new $.fn.dataTable.FixedColumns( dataTable );
     
     var $tBody = $('.dataTables_scrollBody tbody');
     

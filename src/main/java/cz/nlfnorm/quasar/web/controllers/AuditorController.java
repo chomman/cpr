@@ -28,6 +28,7 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.AuditorEacCode;
 import cz.nlfnorm.quasar.entities.AuditorExperience;
@@ -126,11 +127,27 @@ public class AuditorController extends QuasarSupportController {
 	}
 	
 	@RequestMapping("/admin/quasar/auditors/{functionType}")
-	public String handleFunction(@PathVariable int functionType, ModelMap modelMap, HttpServletRequest request){
-		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+	public String handleFunction(@PathVariable int functionType, ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
+		Map<String, Object> criteria = RequestUtils.getRequestParameterMap(request);
 		Map<String, Object> model = new HashMap<>();
-		model.put("items", auditorService.evaluateQsAuditors(auditorService.getAuditors(params)));
-		model.put("params", params);
+		final List<Auditor> auditorList = auditorService.getAuditors(criteria);
+		switch (functionType) {
+		case SUB_TAB_QS_ADUTITOR:
+			model.put("items", auditorService.evaluateForQsAuditor(auditorList));
+			break;
+		case SUB_TAB_PROUCT_ASSESSOR_A:
+			model.put("items", auditorService.evaludateForProductAssessorA(auditorList));
+			break;
+		case SUB_TAB_PROUCT_ASSESSOR_R:
+			model.put("items", auditorService.evaludateForProductAssessorR(auditorList));
+			break;
+		case SUB_TAB_PROUCT_SPECIALIST:
+			model.put("items", auditorService.evaludateForProductSpecialist(auditorList));
+			break;
+		default:
+			throw new PageNotFoundEception();
+		}
+		model.put("params", criteria);
 		model.put("orders", AuditorOrder.getAll());
 		model.put("partners", partnerService.getAll());
 		model.put("functionType", functionType);
@@ -388,17 +405,17 @@ public class AuditorController extends QuasarSupportController {
 			case SUB_TAB_PROUCT_ASSESSOR_A:
 				final ProductAssessorA productAssessorAFunction = auditorService.getProductAssessorAById(auditor.getId());
 				model.put("function", productAssessorAFunction);
-				model.put("codes",  auditorService.evaluate(productAssessorAFunction, auditor));
+				model.put("codes",  auditorService.evaluateAuditorNandoCodesFor(productAssessorAFunction, auditor));
 			break;
 			case SUB_TAB_PROUCT_ASSESSOR_R:
 				final ProductAssessorR productAssessorRFunction = auditorService.getProductAssessorRById(auditor.getId());
 				model.put("function", productAssessorRFunction);
-				model.put("codes",  auditorService.evaluate(productAssessorRFunction, auditor));
+				model.put("codes",  auditorService.evaluateAuditorNandoCodesFor(productAssessorRFunction, auditor));
 			break;
 			case SUB_TAB_PROUCT_SPECIALIST:
 				final ProductSpecialist productSpecialist = auditorService.getProductSpecialistById(auditor.getId());
 				model.put("function", productSpecialist);
-				model.put("codes",  auditorService.evaluate(productSpecialist, auditor));
+				model.put("codes",  auditorService.evaluateAuditorNandoCodesFor(productSpecialist, auditor));
 			break;
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);

@@ -153,3 +153,6 @@ h3.qs-function{color:#555;margin: -5px 0 15px;font-size:18px;border-bottom:2px d
 .qs-internal{padding-left:19px;background-image:url(../img/int_ext.png);background-repeat:no-repeat;}
 .qs-external{background-position:0 -40px ;}
 .gs-inTraining{background-position:0 -81px ;padding-left:17px}
+
+.margin-left.qsf{margin-left:50px;}
+.qsf{background-image:url(../quasar/img/ico_gird.png) !important;background-repeat:no-repeat !important;padding-left:25px !important;background-position:5px center !important;}
