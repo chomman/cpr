@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.joda.time.LocalDate;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.support.RequestContext;
 
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.NotifiedBody;
+import cz.nlfnorm.entities.PortalOrder;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
 import cz.nlfnorm.quasar.entities.Auditor;
@@ -54,6 +57,7 @@ import cz.nlfnorm.quasar.views.ProductSpecialist;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
+import cz.nlfnorm.spring.PdfXhtmlRendererView;
 import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
@@ -325,6 +329,7 @@ public class AuditorController extends QuasarSupportController {
 			updateDecision(form, functionType);
 		return successUpdateRedirect( getEditUrl(form.getId()) + "/f/" + functionType);
 	}
+	
 	
 	
 

@@ -154,7 +154,7 @@ h3.qs-function{color:#555;margin: -5px 0 15px;font-size:18px;border-bottom:2px d
 .qs-external{background-position:0 -40px ;}
 .gs-inTraining{background-position:0 -81px ;padding-left:17px}
 
-.margin-left.qsf{margin-left:50px;}
+.margin-left.qsf{margin-left:30px;}
 .qsf{background-image:url(../quasar/img/ico_gird.png) !important;background-repeat:no-repeat !important;padding-left:25px !important;background-position:5px center !important;}
 
 table.qs-scope,
@@ -162,3 +162,6 @@ div.qs-scope textarea{width:800px;}
 div.qs-scope{margin:20px 0;}
 table.qs-scope{margin:20px 0;padding:10px 0;border-top:2px solid #ccc;border-bottom:5px solid #ccc;background:#fcfcfc;border-collapse:collapse;border-right:1px solid #eee;border-left:1px solid #eee;}
 table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
+
+.qs-summadry{display:block;padding:13px 0 10px 30px;background-position:0  center;font-weight:bold;margin-bottom:15px;text-decoration:underline;}
+.qs-summadry:hover{color:#000;}

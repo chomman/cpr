@@ -28,7 +28,8 @@ $(function () {
 
     new $.fn.dataTable.FixedColumns( dataTable );
     
-    var $tBody = $('.dataTables_scrollBody tbody');
+    var $tBody = $('.dataTables_scrollBody tbody'),
+    	$thead = $('.dataTables_scrollHead thead');
     
     $tBody.on('mouseenter', 'td', function(){
     	clearTable();
@@ -40,12 +41,15 @@ $(function () {
     	}
     	$this.prevAll().addClass("qs-hover");
     	$this.addClass("qs-hover");
+    	
+    	$thead.find('th:eq('+tdIndex+')').addClass("qs-th-hover");
     	return false;
     });
     $tBody.on('mouseleave', clearTable);
     
     function clearTable(){
     	$tBody.find(".qs-hover").removeClass("qs-hover");
+    	$thead.find('.qs-th-hover').removeClass("qs-th-hover");
     }
     
        

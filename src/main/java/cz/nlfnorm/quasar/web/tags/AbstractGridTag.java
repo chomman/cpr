@@ -59,8 +59,13 @@ public abstract class AbstractGridTag extends RequestContextAwareTag {
 		html.append("<th class=\"qs-th qs-fx-width\" ><a class=\"rotate\" target=\"_blank\" href=\"");
 		appendUrl(html);
 		html.append(auditor.getId())
-			.append("\" >")
+			.append("\" ><span class=\"qs-n\">")
 			.append(auditor.getName())
+			.append("</span><span class=\"qs-id\">Personal ID: ")
+			.append(auditor.getItcId())
+			.append("</span><span class=\"qs-e\">Internal auditor: ")
+			.append(auditor.isIntenalAuditor() ? "Yes" : "No")
+			.append("</span>")
 			.append("</a></th>");
 	}
 	

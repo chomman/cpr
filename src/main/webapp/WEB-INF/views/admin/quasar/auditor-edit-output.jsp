@@ -1,8 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-
-<h3 class="qs-function"><strong><spring:message code="summary" /></strong></h3>
-
+<h3 class="qs-function"><strong><spring:message code="qualificationScope" /></strong></h3>
 <table class="qs-scope">
 	<tr>
 		<td><spring:message code="auditor.name" />: </td>
@@ -25,7 +23,6 @@
 	</tr>
 </table>
 
-
 <div class="qs-scope">
 	<h2><spring:message code="qsAuditor.scope" /></h2>
 	<textarea class="mw500 mh100">${model.eFunctions.qsAuditor.grantedCodes}</textarea>
@@ -45,3 +42,6 @@
 	<h2><spring:message code="productSpecialist.scope" /></h2>
 	<textarea class="mw500 mh100">${model.eFunctions.productSpecialist.grantedCodes}</textarea>
 </div>
+<a:adminurl href="/quasar/pdf/1?id=${model.auditor.id}" cssClass="file pdf qs-summadry">
+	<spring:message code="download" />
+</a:adminurl>
