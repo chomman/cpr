@@ -1,6 +1,10 @@
 .scope-yes{background: #E8FFEA;}
 .scope-no{background: #FFF7F7;}
 
+.qs-border-right .input-wrapp,
+.qs-border-right .form-head{border-left:1px solid #ddd;}
+
+
 tr.is-first-level,
 tr.is-first-level.odd{background-color:#E8FAFF;}
 .is-first-level td{padding:4px 8px;}
@@ -20,7 +24,7 @@ tr.is-first-level.odd{background-color:#E8FAFF;}
 .input-wrapp:hover{background:#FFFAF7}
 .input-wrapp.smaller .field,
 .input-wrapp.smaller label{padding:11px 20px;}
-.input-wrapp.smaller label{line-height:22px;}
+.input-wrapp.smaller label{line-height:16px;}
 .input-wrapp.smallest .field,
 .input-wrapp.smallest label{padding:7px 20px;}
 .input-wrapp.smallest label{line-height:15px;}

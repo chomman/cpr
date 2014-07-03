@@ -29,6 +29,7 @@ public class FileServiceImpl implements FileService {
 	public static final String AVATARS_DIR_NAME = "avatars";
 	public static final String IMAGES_DIR_NAME = "images";
 	public static final String DOCUMENTS_DIR_NAME = "documents";
+	public static final String QUASAR_DIR_NAME = "quasar";
 	
 	@Value("#{config.file_save_dir}")
 	private String fileSaveDir;

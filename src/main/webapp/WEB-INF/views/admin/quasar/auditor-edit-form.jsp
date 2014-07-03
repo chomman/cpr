@@ -271,142 +271,182 @@
              
              <!-- TRAINING -->
  	<p class="form-head"><spring:message code="auditor.head.training" /></p>
- 	<div class="input-wrapp smaller">
-		<label>
-			<spring:message code="auditor.aprovedForIso9001" />:
-			
-		</label>
-		<div class="field">
-			<form:checkbox path="aprovedForIso9001" />
+	<div class="qs-fields-wrapp">
+		<div class="qs-left-bx">
+			<div class="input-wrapp smaller">
+				<label>
+					<spring:message code="auditor.aprovedForIso9001" />:
+					
+				</label>
+				<div class="field">
+					<form:checkbox path="aprovedForIso9001" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+		                   		<spring:message code="auditor.iso9001" />:
+		                   	</strong>
+				</label>
+				<div class="field">
+					<form:input path="trainingIso9001InHours" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+		                   		<spring:message code="auditor.mdd" />:
+		                   	</strong>
+				</label>
+				<div class="field">
+					<form:input path="mdd" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+		                   		<spring:message code="auditor.totalAudits" />:
+		                   	</strong>
+				</label>
+				<div class="field">
+					<form:input path="totalAudits" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong>
+						<em class="red">*</em>
+		                	<spring:message code="auditor.totalAuditdays" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="totalAuditdays" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<spring:message code="auditor.aprovedForIso13485" />:
-			
-		</label>
-		<div class="field">
-			<form:checkbox path="aprovedForIso13485" />
+		<div class="qs-right-bx qs-border-right">
+			<div class="input-wrapp smaller">
+				<label>
+					<spring:message code="auditor.aprovedForIso13485" />:
+					
+				</label>
+				<div class="field">
+					<form:checkbox path="aprovedForIso13485" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+		                   		<spring:message code="auditor.iso13485" />:
+		                   	</strong>
+				</label>
+				<div class="field">
+					<form:input path="iso13485" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+		                   		<spring:message code="auditor.ivd" />:
+		                   	</strong>
+				</label>
+				<div class="field">
+					<form:input path="ivd" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+		                   		<spring:message code="auditor.nb1023Procedures" />:
+		                   	</strong>
+				</label>
+				<div class="field">
+					<form:input path="nb1023Procedures" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>&nbsp;</label>
+				<div class="field">&nbsp;</div>
+			</div>
 		</div>
+		<div class="clear"></div>
 	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong><em class="red">*</em>
-                   		<spring:message code="auditor.iso9001" />:
-                   	</strong>
-		</label>
-		<div class="field">
-			<form:input path="trainingIso9001InHours" cssClass="w50 c required numeric" maxlength="4" />
+ 	
+ 	<div class="qs-fields-wrapp">
+		<div class="qs-left-bx">
+		<p class="form-head mini"><spring:message code="auditor.productAssessorR" /></p>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong>
+						<em class="red">*</em>
+		                	<spring:message code="auditor.tfTrainingInHours" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="tfTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong>
+						<em class="red">*</em>
+		                	<spring:message code="auditor.totalTfReviews" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="totalTfReviews" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong>
+						<em class="red">*</em>
+		                	<spring:message code="auditor.noTfReviewsForSterile" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="noTfReviewsForSterileMd" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong><em class="red">*</em>
-                   		<spring:message code="auditor.iso13485" />:
-                   	</strong>
-		</label>
-		<div class="field">
-			<form:input path="iso13485" cssClass="w50 c required numeric" maxlength="4" />
+		<div class="qs-right-bx qs-border-right">
+		<p class="form-head mini"><spring:message code="auditor.productAssessorR" /></p>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong>
+						<em class="red">*</em>
+		                	<spring:message code="auditor.tfTrainingInHours" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="tfTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong>
+						<em class="red">*</em>
+		                	<spring:message code="auditor.totalTfReviews" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="totalTfReviews" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong>
+						<em class="red">*</em>
+		                	<spring:message code="auditor.noTfReviewsForSterile" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="noTfReviewsForSterileMd" cssClass="w50 c required numeric" maxlength="4" />
+				</div>
+			</div>
 		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong><em class="red">*</em>
-                   		<spring:message code="auditor.mdd" />:
-                   	</strong>
-		</label>
-		<div class="field">
-			<form:input path="mdd" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong><em class="red">*</em>
-                   		<spring:message code="auditor.ivd" />:
-                   	</strong>
-		</label>
-		<div class="field">
-			<form:input path="ivd" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong><em class="red">*</em>
-                   		<spring:message code="auditor.nb1023Procedures" />:
-                   	</strong>
-		</label>
-		<div class="field">
-			<form:input path="nb1023Procedures" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong><em class="red">*</em>
-                   		<spring:message code="auditor.totalAudits" />:
-                   	</strong>
-		</label>
-		<div class="field">
-			<form:input path="totalAudits" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong>
-				<em class="red">*</em>
-                	<spring:message code="auditor.totalAuditdays" />:
-			</strong>
-		</label>
-		<div class="field">
-			<form:input path="totalAuditdays" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<p class="form-head mini"><spring:message code="auditor.productAssessorR" /></p>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong>
-				<em class="red">*</em>
-                	<spring:message code="auditor.tfTrainingInHours" />:
-			</strong>
-		</label>
-		<div class="field">
-			<form:input path="tfTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong>
-				<em class="red">*</em>
-                	<spring:message code="auditor.totalTfReviews" />:
-			</strong>
-		</label>
-		<div class="field">
-			<form:input path="totalTfReviews" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<p class="form-head mini"><spring:message code="auditor.productSpecialist" /></p>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong>
-				<em class="red">*</em>
-                	<spring:message code="auditor.ddTrainingInHours" />:
-			</strong>
-		</label>
-		<div class="field">
-			<form:input path="ddTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	<div class="input-wrapp smaller">
-		<label>
-			<strong>
-				<em class="red">*</em>
-                	<spring:message code="auditor.totalDdReviews" />:
-			</strong>
-		</label>
-		<div class="field">
-			<form:input path="totalDdReviews" cssClass="w50 c required numeric" maxlength="4" />
-		</div>
-	</div>
-	
+		<div class="clear"></div>
+	</div>	
 	<form:hidden path="id" />
 	<p class="button-box">
 	<input type="submit" class="button" value="<spring:message code="form.save" />" />
@@ -545,4 +585,10 @@
 	 	<form:hidden path="auditor"/>
 	 	<input type="submit" class="lang mandate-add-btn" value="<spring:message code="assign" />" />
 	 </form:form>
- </c:if>			
+ </c:if>
+<script type="text/javascript">
+$(function(){
+	$('iframe').attr('src', getBasePath() + 'admin/file-manager.htm?uploadType=3&id=${model.auditor.id}');
+})
+</script>
+<iframe width="100%" height="400px"></iframe>

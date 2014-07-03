@@ -101,10 +101,12 @@ public class Auditor extends User {
 	/* Product Assessor-R */
 	private int tfTrainingInHours;
 	private int totalTfReviews;
+	private int noTfReviewsForSterileMd;
 	
 	/* Product Specialist */
 	private int ddTrainingInHours;
 	private int totalDdReviews;
+	private int noDdReviewsForSterileMd;
 	
 	/**
 	 * Working experience in research and development, 
@@ -399,16 +401,6 @@ public class Auditor extends User {
 		this.researchDevelopmentExperienceInYears = researchDevelopmentExperienceInYears;
 	}
 	
-	@Transient
-	public void incrementAuditDays(int days){
-		this.totalAuditdays += days;
-	}
-	
-	@Transient
-	public void incrementTotalAudits(int count){
-		this.totalAudits += count;
-	}
-
 	@OneToMany(mappedBy = "auditor", orphanRemoval = true, fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
 	public Set<SpecialTraining> getSpecialTrainings() {
 		return specialTrainings;
@@ -416,6 +408,26 @@ public class Auditor extends User {
 
 	public void setSpecialTrainings(Set<SpecialTraining> specialTrainings) {
 		this.specialTrainings = specialTrainings;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "no_tf_reviews_for_sterile_md")
+	public int getNoTfReviewsForSterileMd() {
+		return noTfReviewsForSterileMd;
+	}
+
+	public void setNoTfReviewsForSterileMd(int noTfReviewsForSterileMd) {
+		this.noTfReviewsForSterileMd = noTfReviewsForSterileMd;
+	}
+	
+	@Min( value = 0 )
+	@Column(name = "no_dd_reviews_for_sterile_md")
+	public int getNoDdReviewsForSterileMd() {
+		return noDdReviewsForSterileMd;
+	}
+
+	public void setNoDdReviewsForSterileMd(int noDdReviewsForSterileMd) {
+		this.noDdReviewsForSterileMd = noDdReviewsForSterileMd;
 	}
 
 	@Transient
@@ -507,5 +519,7 @@ public class Auditor extends User {
 		this.totalTfReviews = form.getTotalTfReviews();		
 		this.ddTrainingInHours = form.getDdTrainingInHours();
 		this.totalDdReviews = form.getTotalDdReviews();
+		this.noTfReviewsForSterileMd = form.getNoTfReviewsForSterileMd();
+		this.noDdReviewsForSterileMd = form.getNoDdReviewsForSterileMd();
 	}
 }

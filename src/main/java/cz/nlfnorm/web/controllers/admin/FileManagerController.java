@@ -40,6 +40,7 @@ public class FileManagerController extends AdminSupportController {
 	
 	private static final int IMAGE_UPLOAD = 1;
 	private static final int DOCUMET_UPLOAD = 2;
+	private static final int QUASAR_UPLOAD = 3;
 
 	@Autowired
 	private FileService fileService;
@@ -67,13 +68,8 @@ public class FileManagerController extends AdminSupportController {
 	@RequestMapping(value = "/admin/file-manager.htm", method = RequestMethod.GET)
 	public String showManager(ModelMap modelMap, HttpServletRequest request) {
 		final String dir = determineDir(request);
-		final String selector = request.getParameter("selector");
 		FileUploadItemDto form = new FileUploadItemDto();
-		if(StringUtils.isNotBlank(selector)){
-			form.setSaveDir(dir);
-		}else{
-			logger.warn("Opener window selector is not set: " + request.getQueryString());
-		}
+		form.setSaveDir(dir);
 		prepareModel(form, modelMap, request);
 		return getViewName();
 	}
@@ -166,6 +162,9 @@ public class FileManagerController extends AdminSupportController {
 				return FileServiceImpl.DOCUMENTS_DIR_NAME + getCurrentDir(request);
 			case IMAGE_UPLOAD :
 				return FileServiceImpl.IMAGES_DIR_NAME + getCurrentDir(request);
+			case QUASAR_UPLOAD :
+				String id = request.getParameter("id");
+				return FileServiceImpl.QUASAR_DIR_NAME +File.separator + id+ getCurrentDir(request);
 			default :
 				throw new IllegalArgumentException("Unknown dir type " + type );
 		}
