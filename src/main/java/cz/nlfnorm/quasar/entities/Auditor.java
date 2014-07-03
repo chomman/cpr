@@ -470,7 +470,11 @@ public class Auditor extends User {
 		return mdExperience;
 	}
 	
-	
+	@Transient
+	public String getNameWithDegree() {
+		String name = getName();
+		return name += degrees != null ? ", " + degrees : "";
+	};
 		
 	
 

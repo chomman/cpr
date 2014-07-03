@@ -49,6 +49,10 @@
 			<c:if test="${model.subTab == 5}">
 				<jsp:include page="auditor-edit-product-specialist.jsp" />
 			</c:if>
+			
+			<c:if test="${model.subTab == 6}">
+				<jsp:include page="auditor-edit-output.jsp" />
+			</c:if>
 			 
 		</div>	
 	</div>

@@ -31,4 +31,12 @@
 			<spring:message code="auditor.productSpecialist" />
 		</a:adminurl>
 	</li>
+	
+	<li>
+		<a:adminurl href="/quasar/manage/auditor/${model.auditor.id}/f/6" activeTab="${model.subTab == 6}">
+			<spring:message code="summary" />
+		</a:adminurl>
+	</li>
+	
+	
 </ul>

@@ -5,6 +5,7 @@ import java.util.Map;
 
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.dto.PageDto;
+import cz.nlfnorm.quasar.dto.EvaluatedAuditorFunctions;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoFunctionDto;
 import cz.nlfnorm.quasar.dto.EvaluatedEacCode;
@@ -51,7 +52,7 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	
 	QsAuditor getQsAuditorById(Long id);
 	
-	List<EvaluatedEacCode> evaluateForQsAuditor(Auditor auditor);
+	List<EvaluatedEacCode> evaluateCodesForQsAuditor(Auditor auditor);
 	
 	ProductAssessorA getProductAssessorAById(Long id);
 	
@@ -72,5 +73,7 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	PageDto getAuditorPage(int pageNumber, Map<String, Object> criteria);
 	
 	List<Auditor> getAuditors(Map<String, Object> criteria);
+	
+	EvaluatedAuditorFunctions getEvaludatedAuditorFunctions(Auditor auditor);
 	
 }

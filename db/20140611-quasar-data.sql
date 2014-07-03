@@ -161,13 +161,13 @@ threashold_specialist_dd_reviews_for_training = 5,
 threashold_specialist_training  = 16; 
 
 -- Education level
-INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (1, 'Basic school', 0);
-INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (2, 'High school', 0);
-INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (3, 'Bachelor', 0);
-INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (4, 'Master (MA)', 1);
-INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (5, 'PSG', 2);
-INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (6, 'PhD', 3);
-INSERT INTO quasar_education_level (id, name, yeas_substitution) VALUES (7, 'Doc./Prof.', 3);
+INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (1, 'Basic school', 0, 0);
+INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (2, 'High school', 0, 0);
+INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (3, 'Bachelor', 0, 0);
+INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (4, 'Master (MA)', 1, 0.5);
+INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (5, 'PSG', 2, 1);
+INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (6, 'PhD', 3, 1.5);
+INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (7, 'Doc./Prof.', 3, 1.5);
 -- Field of educaation / courses
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (1, true, false, 'Electro-technology', 1, false);
 INSERT INTO quasar_field_of_education (id, is_for_active_md, is_for_non_active_md, name, id_user_changed_by, is_specific_or_course) VALUES (2, true, false, 'Electronics', 1, false);

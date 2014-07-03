@@ -16,6 +16,7 @@ import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.Formula;
 import org.hibernate.validator.constraints.Length;
 
 import cz.nlfnorm.entities.NotifiedBody;
@@ -29,7 +30,7 @@ import cz.nlfnorm.quasar.views.NandoCodeType;
  * @date Jun 15, 2014
  */
 @Entity
-@Table(name = "quasar_auditor_has_nando_code", uniqueConstraints = @UniqueConstraint(columnNames = {"nando_code_id", "auditor_id"}) )
+@Table( name = "quasar_auditor_has_nando_code", uniqueConstraints = @UniqueConstraint(columnNames = {"nando_code_id", "auditor_id"}) )
 @SequenceGenerator(name = "quasar_auditor_has_nando_code_id_seq", sequenceName = "quasar_auditor_has_nando_code_id_seq", initialValue = 1, allocationSize =1)
 public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeType{
 
@@ -37,10 +38,6 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	
 	
 	/* Product Assessor A attirbutes */
-	/**
-	 * Category-specific training (hours)
-	 */
-	private int productAssessorATraining = 0;
 	/**
 	 * Number of NB audits in category
 	 */
@@ -72,6 +69,8 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	 * Category-specific training (hours)
 	 */
 	private int categorySpecificTraining = 0;
+	
+	private int childrenCategorySpecificTraining;
 	
 	
 	/* Product Assessor R attirbutes */
@@ -155,21 +154,6 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		this.numberOfIso13485Audits = numberOfIso13485Audits;
 	}
 	
-	/**
-	 * @return Product Assessor-A category-specific training in hours
-	 */
-	@Min(value = 0)
-	@Column(name = "product_assessor_a_training")	
-	public int getProductAssessorATraining() {
-		return productAssessorATraining;
-	}
-	
-	
-
-
-	public void setProductAssessorATraining(int productAssessorATraining) {
-		this.productAssessorATraining = productAssessorATraining;
-	}
 
 	/**
 	 * @return TRUE if has Product Assessor-A specific approval
@@ -350,6 +334,27 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		this.nandoCode = nandoCode;
 	}
 	
+	/**
+	 * Returns sum of children category-specifict training 
+	 * 
+	 * @return int category specific training
+	 */
+	//@Transient
+	@Formula(value = "(select COALESCE(sum(anc.category_specific_training),0) from quasar_auditor_has_nando_code anc "+
+		            "inner join quasar_nando_code nc ON anc.nando_code_id=nc.id "+
+		            "where nc.parent_id = nando_code_id and anc.auditor_id = auditor_id)")
+	public int getChildrenCategorySpecificTraining() {
+		return childrenCategorySpecificTraining;
+	}
+	public void setChildrenCategorySpecificTraining(int parentCategorySpecificTraining) {
+		this.childrenCategorySpecificTraining = parentCategorySpecificTraining;
+	}
+	
+	@Transient
+	public int getTotalCategorySpecificTraining(){
+		return categorySpecificTraining + getChildrenCategorySpecificTraining();
+	}
+	
 	@Transient
 	@Override
 	public boolean isActiveMd() {
@@ -372,7 +377,7 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 			   isProductAssessorAApproved() ||
 			   getProductAssessorAApprovedBy() != null ||
 			   ( 
-					   getProductAssessorATraining() >= getNandoCode().getAssesorATrainingThreashold() &&
+					   getTotalCategorySpecificTraining() >= getNandoCode().getAssesorATrainingThreashold() &&
 					   (
 							   getNumberOfNbAudits() >= getNandoCode().getAssesorANbAuditsThreashold() ||
 							   getNumberOfIso13485Audits() >= getNandoCode().getAssesorAIso13485Threashold()
@@ -424,7 +429,7 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	
 	@Transient
 	public void mergeProductAssessorA(AuditorNandoCode code){
-		productAssessorATraining = code.getProductAssessorATraining();
+		categorySpecificTraining = code.getCategorySpecificTraining();
 		numberOfNbAudits	= code.getNumberOfNbAudits();
 		numberOfIso13485Audits = code.getNumberOfIso13485Audits();
 		productAssessorAApproved = code.isProductAssessorAApproved();

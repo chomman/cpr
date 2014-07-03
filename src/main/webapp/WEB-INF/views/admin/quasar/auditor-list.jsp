@@ -121,7 +121,7 @@
 									</td>
 									<td class="last-edit">
 										<c:if test="${not empty i.reassessmentDate}">
-											<joda:format value="${i.changed}" pattern="dd.MM.yyyy"/>
+											<joda:format value="${i.reassessmentDate}" pattern="dd.MM.yyyy"/>
 										</c:if>
 										<c:if test="${empty i.reassessmentDate}">
 											-

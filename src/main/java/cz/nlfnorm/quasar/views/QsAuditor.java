@@ -21,7 +21,6 @@ public class QsAuditor extends AbstractFunction {
 	
 	private boolean generalRequiremets;
 	private boolean trainingAuditing;
-	private boolean anyEacCodeGranted;
 	
 	@Column(name = "itc_id")
 	public Integer getItcId() {
@@ -42,16 +41,7 @@ public class QsAuditor extends AbstractFunction {
 	public boolean isTrainingAuditing() {
 		return trainingAuditing;
 	}
-	
-	@Column(name = "has_any_eac_code_granted")
-	public boolean isAnyEacCodeGranted() {
-		return anyEacCodeGranted;
-	}
-
-	public void setAnyEacCodeGranted(boolean anyEacCodeGranted) {
-		this.anyEacCodeGranted = anyEacCodeGranted;
-	}
-	
+		
 	public void setItcId(Integer itcId) {
 		this.itcId = itcId;
 	}

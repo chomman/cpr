@@ -2,9 +2,11 @@ package cz.nlfnorm.quasar.dto;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import cz.nlfnorm.quasar.entities.Auditor;
 
-public class EvaludatedQsAuditorDto implements GridTagItem{
+public class EvaludatedQsAuditorDto implements GridTagItem, EvaluatedAuditorFunction{
 	
 	public EvaludatedQsAuditorDto(final Auditor auditor){
 		this.auditor = auditor;
@@ -52,4 +54,35 @@ public class EvaludatedQsAuditorDto implements GridTagItem{
 		}
 		return false;
 	}
+	@Override
+	public boolean isFunctionGranted() {
+		if(CollectionUtils.isNotEmpty(codes)){
+			for(final EvaluatedEacCode eCode : codes){
+				if(eCode.isGrated()){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	@Override
+	public String getGrantedCodes() {
+		StringBuilder strCodes = new StringBuilder();
+		int i = 0;
+		if( CollectionUtils.isNotEmpty(codes) ){
+			for(final EvaluatedEacCode eCode : codes){
+				if(eCode.isGrated()){
+					if(i != 0){
+						strCodes.append(", ");
+					}
+					strCodes.append(eCode.getAuditorEacCode().getEacCode().getCode());
+					i++;
+				}
+				
+			}
+		}
+		return strCodes.toString();
+	}
+	
 }

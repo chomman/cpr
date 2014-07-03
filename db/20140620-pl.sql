@@ -37,25 +37,6 @@ $$ LANGUAGE plpgsql;
 
 
 
--- RETURNS TRUE, if auditor with given ID has any valid EAC code.
-CREATE OR REPLACE FUNCTION has_any_eac_code_granted(aid bigint) RETURNS boolean AS $$
-DECLARE
-	granted_count int;
-BEGIN
-	SELECT count(ahc.*) INTO granted_count
-	FROM quasar_auditor_has_eac_code ahc
-		INNER JOIN quasar_eac_code eac ON eac.id = ahc.eac_code_id
-	WHERE eac.enabled = true AND ahc.auditor_id = aid AND ahc.refused = false AND
-		  (
-		  	ahc.is_itc_approved = true OR ahc.notified_body_id IS NOT NULL OR
-		  	(ahc.number_of_iso13485_audits + ahc.number_of_nb_audits) >= eac.audit_threashold
-		  );
-	RETURN granted_count > 0;
-END;
-$$ LANGUAGE plpgsql;
-
-
-
 CREATE OR REPLACE FUNCTION recent_acitivities(aid bigint) RETURNS boolean AS $$
 BEGIN
 	RETURN TRUE;
@@ -98,7 +79,6 @@ CREATE VIEW quasar_qs_auditor AS SELECT
 	formal_legal_requirements(a) AS formal_legal_requirements,
 	experience(a.id, '1') AS general_requirements,
 	recent_acitivities(a.id) as recent_acitivities,
-	has_any_eac_code_granted(a.id) AS has_any_eac_code_granted,
 	(
 	    a.nb1023_procedures_hours >= s.qs_auditor_nb1023_procedures and
 	    -- md training

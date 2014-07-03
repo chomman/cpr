@@ -247,9 +247,10 @@
 						<tr>
 							<td class="k"><spring:message code="categoryTraining" />:</td>
 							<td class="v">
-								<span class="val h">${i.auditorNandoCode.productAssessorATraining}</span>
+								<span class="val h tt" title="Include children's category-specifict training">${i.auditorNandoCode.totalCategorySpecificTraining}</span>
 								<span class="qs-field">
-									<input type="text" value="${i.auditorNandoCode.productAssessorATraining}" name="productAssessorATraining" class="w30 c required numeric">
+									<input type="text" value="${i.auditorNandoCode.categorySpecificTraining}" name="categorySpecificTraining" class="w30 c required numeric"> + 
+									<span class="tt" title="Children category-specific training">${i.auditorNandoCode.childrenCategorySpecificTraining} = ${i.auditorNandoCode.totalCategorySpecificTraining}</span>
 								</span>
 							</td>
 						</tr>

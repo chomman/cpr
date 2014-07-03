@@ -74,6 +74,7 @@ public class AuditorController extends QuasarSupportController {
 	private final static int SUB_TAB_PROUCT_ASSESSOR_A = 3;
 	private final static int SUB_TAB_PROUCT_ASSESSOR_R = 4;
 	private final static int SUB_TAB_PROUCT_SPECIALIST = 5;
+	private final static int SUB_TAB_OUTPUT = 6;
 
 	private final static String LIST_MAPPING_URL = "/admin/quasar/manage/auditors";
 	private final static String ADD_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/add";
@@ -192,16 +193,6 @@ public class AuditorController extends QuasarSupportController {
 			prepareCreateModel(modelMap, form);
 			return getViewName();
 		}
-		
-		/*for(int i=99; i < 299;i++){
-			Auditor a = new Auditor();
-			a.setFirstName(i + "Auditor firstName");
-			a.setLastName(i + "Auditor lastName");
-			a.setItcId(i  + 8987);
-			a.setEmail(i + "@nlfnorm.cz");
-			auditorService.createAuditor(a, "password" + i);
-		}*/
-		
 		final Long id = auditorService.createAuditor(form.getAuditor(), form.getNewPassword());
 		return successUpdateRedirect(getEditUrl(id));
 	}
@@ -416,6 +407,9 @@ public class AuditorController extends QuasarSupportController {
 				final ProductSpecialist productSpecialist = auditorService.getProductSpecialistById(auditor.getId());
 				model.put("function", productSpecialist);
 				model.put("codes",  auditorService.evaluateAuditorNandoCodesFor(productSpecialist, auditor));
+			break;
+			case SUB_TAB_OUTPUT:
+				model.put("eFunctions", auditorService.getEvaludatedAuditorFunctions(auditor));
 			break;
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);
