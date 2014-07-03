@@ -14,7 +14,7 @@
 	<script	src="<c:url value="/resources/admin/js/jquery.fancybox.pack.js" />"></script>
 	
 </head>
-<body class="${uploadType == 2 ? 'docs-upload' : ''}">
+<body class="${uploadType > 1 ? 'docs-upload' : ''}">
 	<div class="upload">
 		<ul>
 			<li><a class="add-folder" data-class="form-dir" href="#" title="Vytvořit složku"></a></li>
@@ -80,7 +80,7 @@
 						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#">Odstranit</a></td>
 					</c:if>
 					
-					<c:if test="${not i.isDir and uploadType == 2}">
+					<c:if test="${not i.isDir and uploadType > 1}">
 						<td class="pj-file l" data-sort-value="1${i.name}">
 							<a class="document file ${i.extension}" data-url="${i.dir}/${i.name}">${i.name}</a>
 						</td>
