@@ -99,3 +99,6 @@ table .pj-sel a{color:#2F8C0F;}
 .fancy:hover{color:#333;text-decoration:none;}
 .fancy:hover img{border:1px solid #00B7FF}
 .c{text-align:center !important;}
+
+.quasar .pj-sel{display: none;}
+.quasar .document:hover{cursor: pointer;color: #000;text-decoration: underline;}

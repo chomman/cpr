@@ -35,7 +35,9 @@
 		 	 <security:intercept-url pattern="/admin/settings/**" access="hasRole('ROLE_SUPERADMIN')"/>
 		 	 
 		 	 <security:intercept-url pattern="/admin/quasar/manage/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_AUDITOR_ADMIN')"/>
+		 	 <security:intercept-url pattern="/f/auth/quasar/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_AUDITOR_ADMIN')"/>
 		 	 <security:intercept-url pattern="/admin/quasar/**" access="hasAnyRole('ROLE_SUPERADMIN','ROLE_AUDITOR','ROLE_AUDITOR_ADMIN')"/>
+		 	 
 		 	 
 		 	 
 		 	 <security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')"/>

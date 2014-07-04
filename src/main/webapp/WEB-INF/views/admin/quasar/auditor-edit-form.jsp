@@ -588,7 +588,13 @@
  </c:if>
 <script type="text/javascript">
 $(function(){
-	$('iframe').attr('src', getBasePath() + 'admin/file-manager.htm?uploadType=3&id=${model.auditor.id}');
-})
+	//$('iframe').attr('src', getBasePath() + 'admin/file-manager.htm?uploadType=3&id=${model.auditor.id}');
+	// <iframe width="100%" height="400px"></iframe>
+});
 </script>
-<iframe width="100%" height="400px"></iframe>
+<a href="#" id="loadFileManager" class="lang mandate-add-btn qs-btn"><spring:message code="manageFiles" arguments="${model.auditor.name}" /> &raquo;</a>
+<div class="fileManagment hidden" data-id="${model.auditor.id}">
+	<p class="form-head"><spring:message code="manageFiles" arguments="${model.auditor.name}" /></p>
+	<div></div>
+</div>
+

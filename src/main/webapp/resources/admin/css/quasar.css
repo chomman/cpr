@@ -169,3 +169,8 @@ table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
 
 .qs-summadry{display:block;padding:13px 0 10px 30px;background-position:0  center;font-weight:bold;margin-bottom:15px;text-decoration:underline;}
 .qs-summadry:hover{color:#000;}
+
+.fileManagment{min-height:100px;margin-top:20px;}
+.fileManagment .btn{display:block;padding:15px;background:#ccc;color:#333;font-weight:bold;display:none;}
+.fileManagment{border:1px solid #ccc;border-radius:1px;border-top:none;}
+#loadFileManager{margin:15px 0;font-size:13px;}

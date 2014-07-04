@@ -14,7 +14,7 @@
 	<script	src="<c:url value="/resources/admin/js/jquery.fancybox.pack.js" />"></script>
 	
 </head>
-<body class="${uploadType > 1 ? 'docs-upload' : ''}">
+<body class="${uploadType > 1 ? 'docs-upload' : ''}${uploadType > 2 ? ' quasar' : ''}" data-lang="${commonModel.locale}">
 	<div class="upload">
 		<ul>
 			<li><a class="add-folder" data-class="form-dir" href="#" title="Vytvořit složku"></a></li>
@@ -33,10 +33,10 @@
 		
 		<form:form method="POST" modelAttribute="command" cssClass="form-dir ${not empty errors and newDir ? '' : 'hidden' }" >
 			<label>
-				Název složky:
+				<spring:message code="fileManager.dirName" />:
 			</label>
 			<form:input path="newDir" />
-			<input type="submit" class="button radius" value="Vytvořit"  />
+			<input type="submit" class="button radius" value="<spring:message code="fileManager.create" />"  />
 			<c:if test="${not empty errors}">
 			<span class="error">${errors}</span>
 		</c:if>
@@ -48,10 +48,10 @@
 		<table>
 			 <thead>
 				<tr>
-					<th title="Setřídit podle názvu" class="sort" data-sort="string-ins">Název souboru</th>
-					<th>Velkost</th>
-					<th>Vybrat</th>
-					<th>Odstranit</th>
+					<th title="Setřídit podle názvu" class="sort" data-sort="string-ins"><spring:message code="fileManeger.fileName" /></th>
+					<th><spring:message code="fileManeger.size" /></th>
+				<c:if test="${uploadType < 3}"><th><spring:message code="fileManeger.choose" /></th></c:if>
+					<th><spring:message code="fileManeger.delete" /></th>
 				</tr>
 			 </thead>
 		
@@ -62,7 +62,7 @@
 					<a class="up" 
 					href="${fmUrl}${parentUrl}"><b>...</b></a>
 				</td>
-				<td class="pj-size c">&lt;Složka&gt;</td>
+				<td class="pj-size c">&lt;<spring:message code="fileManeger.dir" />&gt;</td>
 				<td class="pj-sel c">&nbsp;</td>
 				<td class="pj-del c">&nbsp;</td>
 					</tr>	
@@ -75,9 +75,9 @@
 						<td class="pj-file l" data-sort-value="0${i.name}">
 							<a class="dir" href="${fmUrl}${url}/${i.name}">${i.name}</a>
 						</td>
-						<td class="pj-size c">&lt;Složka&gt;</td>
+						<td class="pj-size c">&lt;<spring:message code="fileManeger.dir" />&gt;</td>
 						<td class="pj-sel c">&nbsp;</td>
-						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#">Odstranit</a></td>
+						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#"><spring:message code="fileManeger.delete" /></a></td>
 					</c:if>
 					
 					<c:if test="${not i.isDir and uploadType > 1}">
@@ -85,8 +85,8 @@
 							<a class="document file ${i.extension}" data-url="${i.dir}/${i.name}">${i.name}</a>
 						</td>
 						<td class="pj-size c">${i.size}</td>
-						<td class="pj-sel c"><a class="document" data-url="${i.dir}/${i.name}" href="#">Vybrat</a></td>
-						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#">Odstranit</a></td>
+						<td class="pj-sel c"><a class="document" data-url="${i.dir}/${i.name}" href="#"><spring:message code="fileManeger.choose" /></a></td>
+						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#"><spring:message code="fileManeger.delete" /></a></td>
 					</c:if>
 					
 					<c:if test="${not i.isDir and uploadType == 1}">
@@ -98,8 +98,8 @@
 							</a>
 						</td>
 						<td class="pj-size c">${i.size}</td>
-						<td class="pj-sel c"><a class="image" data-url="${i.dir}/${i.name}" href="#">Vybrat</a></td>
-						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#">Odstranit</a></td>
+						<td class="pj-sel c"><a class="image" data-url="${i.dir}/${i.name}" href="#"><spring:message code="fileManeger.choose" /></a></td>
+						<td class="pj-del c"><a class="delete" data-url="${i.dir}/${i.name}" href="#"><spring:message code="fileManeger.delete" /></a></td>
 					</c:if>
 				</tr>
 				</c:forEach>

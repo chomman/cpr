@@ -9,7 +9,12 @@ $(function() {
 	});
 	
 	$(document).on('click', '.document', function(){
+		var url = $(this).attr('data-url');
+		if(!$('body').hasClass('quasar')){
 			procesSelect(FILE_MAPPING_PREFIX, $(this).attr('data-url'));
+		}else{
+			$(this).attr('href', getBasePath() + FILE_MAPPING_PREFIX + url);
+		}
 	});
 	
 	$(document).on('click', 'ul li a', function(){

@@ -5,6 +5,7 @@ $(function(){
 	});
 	
 	$(document).on("click", '.qs-inline-edit', showForm);
+	$(document).on("click", '#loadFileManager', loadFileManager);
 	
 	function showForm(){
 		$('.qs-editting').removeClass('qs-editting');
@@ -96,4 +97,18 @@ $(function(){
 		}
 	 });
 	
+	 function loadFileManager(){
+		 var $wrapp = $('.fileManagment');
+		 if($wrapp.length === 0){
+			 return false;
+		 }
+		 $('<iframe/>', {
+			 width : "100%",
+			 height : "450px",
+			 src : getBasePath() + 'admin/file-manager.htm?uploadType=3&id=' + $wrapp.attr('data-id')
+		 }).appendTo($wrapp.find('div'));
+		 $wrapp.removeClass('hidden');
+		 $(this).remove();
+	 }
+	 
 });
