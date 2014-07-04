@@ -43,7 +43,17 @@
 			
 		</label>
 		<div class="field">
-			<form:input path="researchDevelopmentExperienceInYears" cssClass="required numeric" />
+			<form:input path="researchDevelopmentExperienceInYears" cssClass="w40 c required numeric" />
+		</div>
+	</div>
+	<div class="input-wrapp smallest">
+		<label>
+			<spring:message code="approvalRecentActivities.tfdd" />:
+			
+		</label>
+		<div class="field">
+			<div class="qs-float-left" ><form:checkbox path="recentActivitiesApprovedForQsAuditor" /></div>
+			<p class="mini-info inline-block">Checking this field, you can get exception to <strong>${model.auditor.name}</strong>, if the recent activities are <strong>NON-COMPLIANT</strong></p>
 		</div>
 	</div>
 	<form:hidden path="id"/>

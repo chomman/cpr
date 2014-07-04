@@ -27,7 +27,8 @@ tr.is-first-level.odd{background-color:#E8FAFF;}
 .input-wrapp.smaller label{line-height:16px;}
 .input-wrapp.smallest .field,
 .input-wrapp.smallest label{padding:7px 20px;}
-.input-wrapp.smallest label{line-height:15px;}
+.input-wrapp.smallest label{line-height:14px;width:300px;}
+.input-wrapp.smallest .field{margin-left:330px;}
 
 .qs-btn:hover{cursor:pointer;}
 .qs-valid,
@@ -175,3 +176,5 @@ table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
 .fileManagment{border:1px solid #ccc;border-radius:1px;border-top:none;}
 #loadFileManager{margin:15px 0;font-size:13px;}
 .remove-padding{padding-left:0}
+.qs-float-left{float:left;margin-right:20px;}
+.inline-block{display:inline-block;margin:0}

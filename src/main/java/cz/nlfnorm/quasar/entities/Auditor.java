@@ -108,6 +108,12 @@ public class Auditor extends User {
 	private int totalDdReviews;
 	private int noDdReviewsForSterileMd;
 	
+	private String otherEmails;
+	private boolean recentActivitiesApprovedForQsAuditor;
+	private boolean recentActivitiesApprovedForProductAssessorA;
+	private boolean recentActivitiesApprovedForProductAssessorR;
+	private boolean recentActivitiesApprovedForProductSpecialist;
+	
 	/**
 	 * Working experience in research and development, 
 	 * production or quality control with medical devices or drugs
@@ -428,6 +434,54 @@ public class Auditor extends User {
 
 	public void setNoDdReviewsForSterileMd(int noDdReviewsForSterileMd) {
 		this.noDdReviewsForSterileMd = noDdReviewsForSterileMd;
+	}
+	
+	@Column(length = 100, name = "other_emails")
+	public String getOtherEmails() {
+		return otherEmails;
+	}
+
+	public void setOtherEmails(String otherEmails) {
+		this.otherEmails = otherEmails;
+	}
+	
+	@Column(name = "ra_approved_for_qs_auditor")
+	public boolean isRecentActivitiesApprovedForQsAuditor() {
+		return recentActivitiesApprovedForQsAuditor;
+	}
+
+	public void setRecentActivitiesApprovedForQsAuditor(
+			boolean recentActivitiesApprovedForQsAuditor) {
+		this.recentActivitiesApprovedForQsAuditor = recentActivitiesApprovedForQsAuditor;
+	}
+
+	@Column(name = "ra_approved_for_product_assessor_a")
+	public boolean isRecentActivitiesApprovedForProductAssessorA() {
+		return recentActivitiesApprovedForProductAssessorA;
+	}
+
+	public void setRecentActivitiesApprovedForProductAssessorA(
+			boolean recentActivitiesApprovedForProductAssessorA) {
+		this.recentActivitiesApprovedForProductAssessorA = recentActivitiesApprovedForProductAssessorA;
+	}
+
+	@Column(name = "ra_approved_for_product_assessor_r")
+	public boolean isRecentActivitiesApprovedForProductAssessorR() {
+		return recentActivitiesApprovedForProductAssessorR;
+	}
+
+	public void setRecentActivitiesApprovedForProductAssessorR(
+			boolean recentActivitiesApprovedForProductAssessorR) {
+		this.recentActivitiesApprovedForProductAssessorR = recentActivitiesApprovedForProductAssessorR;
+	}
+	@Column(name = "ra_approved_for_product_specialist")
+	public boolean isRecentActivitiesApprovedForProductSpecialist() {
+		return recentActivitiesApprovedForProductSpecialist;
+	}
+
+	public void setRecentActivitiesApprovedForProductSpecialist(
+			boolean recentActivitiesApprovedForProductSpecialist) {
+		this.recentActivitiesApprovedForProductSpecialist = recentActivitiesApprovedForProductSpecialist;
 	}
 
 	@Transient
