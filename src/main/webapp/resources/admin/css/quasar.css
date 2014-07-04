@@ -158,8 +158,8 @@ h3.qs-function{color:#555;margin: -5px 0 15px;font-size:18px;border-bottom:2px d
 .qs-external{background-position:0 -40px ;}
 .gs-inTraining{background-position:0 -81px ;padding-left:17px}
 
-.margin-left.qsf{margin-left:30px;}
-.qsf{background-image:url(../quasar/img/ico_gird.png) !important;background-repeat:no-repeat !important;padding-left:25px !important;background-position:5px center !important;}
+.margin-left.qsf{margin-left:20px;}
+.qsf{background-image:url(../quasar/img/ico_gird.png) !important;background-repeat:no-repeat !important;padding:14px 5px 10px 23px !important;background-position:5px center !important;font-size:12px !important;}
 
 table.qs-scope,
 div.qs-scope textarea{width:800px;}
@@ -174,3 +174,4 @@ table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
 .fileManagment .btn{display:block;padding:15px;background:#ccc;color:#333;font-weight:bold;display:none;}
 .fileManagment{border:1px solid #ccc;border-radius:1px;border-top:none;}
 #loadFileManager{margin:15px 0;font-size:13px;}
+.remove-padding{padding-left:0}

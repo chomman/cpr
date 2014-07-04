@@ -149,6 +149,9 @@ public class AuditorController extends QuasarSupportController {
 		case SUB_TAB_PROUCT_SPECIALIST:
 			model.put("items", auditorService.evaludateForProductSpecialist(auditorList));
 			break;
+		case SUB_TAB_OUTPUT :
+			model.put("items", auditorService.getEvaludatedAuditorFunctions(auditorList));
+			break;
 		default:
 			throw new PageNotFoundEception();
 		}

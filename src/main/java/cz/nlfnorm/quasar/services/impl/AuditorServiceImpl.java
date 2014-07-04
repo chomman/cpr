@@ -401,6 +401,18 @@ public class AuditorServiceImpl implements AuditorService{
 		eFunction.setProductSpecialist(evaludateNandoFunction(auditor, Auditor.TYPE_PRODUCT_SPECIALIST));
 		return eFunction;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<EvaluatedAuditorFunctions> getEvaludatedAuditorFunctions(List<Auditor> auditorList) {
+		final List<EvaluatedAuditorFunctions> eAuditorList = new ArrayList<>();
+		if(auditorList != null){
+			for(final Auditor auditor : auditorList){
+				eAuditorList.add(getEvaludatedAuditorFunctions(auditor));
+			}
+		}
+		return eAuditorList;
+	}
 	
 
 	

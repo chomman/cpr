@@ -15,7 +15,7 @@ import cz.nlfnorm.utils.RequestUtils;
 public abstract class AbstractGridTag extends RequestContextAwareTag {
 	
 	@Autowired
-	private MessageSource messageSource;
+	protected MessageSource messageSource;
 	private String grantedText;
 	public AbstractGridTag(){
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);

@@ -1,7 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<ul class="sub-nav">
-	
+<ul class="sub-nav remove-padding">
 	<li>
 		<a:adminurl href="/quasar/manage/auditors">
 			<spring:message code="auditor.view" />
@@ -33,6 +32,11 @@
 	<li>
 		<a:adminurl href="/quasar/auditors/5" cssClass="qsf">
 			<spring:message code="auditor.productSpecialist" />
+		</a:adminurl>
+	</li>
+	<li>
+		<a:adminurl href="/quasar/auditors/6" cssClass="qsf">
+			<spring:message code="matrix" />
 		</a:adminurl>
 	</li>
 </ul>

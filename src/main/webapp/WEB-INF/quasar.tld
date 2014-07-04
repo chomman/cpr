@@ -19,5 +19,15 @@
 			<rtexprvalue>true</rtexprvalue>
 	</attribute>
   </tag>
+   <tag>
+    <name>auditors</name>
+    <tag-class>cz.nlfnorm.quasar.web.tags.FunctionsGridTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+			<name>list</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+	</attribute>
+  </tag>
     
 </taglib>

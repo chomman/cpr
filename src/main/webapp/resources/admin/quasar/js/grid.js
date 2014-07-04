@@ -12,8 +12,6 @@ $(function () {
         oSettings.oScroll.sY = tableHeight(); 
         dataTable.fnDraw();
     };
-
-    console.log('height:' + tableHeight());
     dataTable = $('.container table').dataTable({
     	"scrollY": tableHeight(),
         "scrollX": '100%',
@@ -51,7 +49,5 @@ $(function () {
     	$tBody.find(".qs-hover").removeClass("qs-hover");
     	$thead.find('.qs-th-hover').removeClass("qs-th-hover");
     }
-    
-       
      $(window).resize(onResize);
 });
