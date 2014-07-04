@@ -78,7 +78,7 @@ CREATE VIEW quasar_qs_auditor AS SELECT
 	a.is_in_training,  
 	formal_legal_requirements(a) AS formal_legal_requirements,
 	experience(a.id, '1') AS general_requirements,
-	recent_acitivities(a.id) as recent_acitivities,
+	a.ra_approved_for_qs_auditor or recent_acitivities(a.id) as recent_acitivities,
 	(
 	    a.nb1023_procedures_hours >= s.qs_auditor_nb1023_procedures and
 	    -- md training
@@ -127,7 +127,7 @@ CREATE VIEW quasar_product_assessor_a AS SELECT
 	-- Auditing requirements (Any MD)
 	a.total_of_audits >= s.product_assessor_a_no_audits as min_audits,
 	-- RECENT ACTIVITIES
-	recent_acitivities(a.id) as recent_acitivities
+	a.ra_approved_for_product_assessor_a or recent_acitivities(a.id) as recent_acitivities
 FROM quasar_auditor a
 	INNER JOIN  quasar_auditor_has_specialities as ahs on ahs.auditor_id=a.id
 	CROSS JOIN
@@ -181,7 +181,7 @@ CREATE VIEW quasar_product_assessor_r AS SELECT
 		a.total_tf_reviews >= s.product_assessor_r_tf_total
 	) as training_ivd,
 	-- RECENT ACTIVITIES
-	product_assessor_r_recent_activities(a, s) as recent_acitivities
+	a.ra_approved_for_product_assessor_r or product_assessor_r_recent_activities(a, s) as recent_acitivities
 FROM quasar_auditor a
 	INNER JOIN  quasar_auditor_has_specialities as ahs on ahs.auditor_id=a.id
 	CROSS JOIN
@@ -221,7 +221,7 @@ CREATE VIEW quasar_product_specialist AS SELECT
 		a.total_tf_reviews >= s.product_specialist_dd_total
 	) as training_ivd,
 	-- RECENT ACTIVITIES
-	product_specliast_recent_activities(a, s) as recent_acitivities
+	a.ra_approved_for_product_specialist or product_specliast_recent_activities(a, s) as recent_acitivities
 FROM quasar_auditor a
 	INNER JOIN  quasar_auditor_has_specialities as ahs on ahs.auditor_id=a.id
 	CROSS JOIN

@@ -37,6 +37,16 @@
 			<form:checkbox path="specialist[2].inVitroDiagnosticSpecialist" />
 		</div>
 	</div>
+	<div class="input-wrapp smallest">
+		<label>
+			<spring:message code="approvalRecentActivities.tfdd" />:
+			
+		</label>
+		<div class="field">
+			<div class="qs-float-left" ><form:checkbox path="recentActivitiesApprovedForProductAssessorR" /></div>
+			<p class="mini-info inline-block"><spring:message code="approvalRecentActivities.info" arguments="${model.auditor.name}" /></p>
+		</div>
+	</div>
 	<form:hidden path="id"/>
 </form:form>
 

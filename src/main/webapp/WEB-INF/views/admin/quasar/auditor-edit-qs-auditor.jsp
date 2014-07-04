@@ -3,6 +3,20 @@
 
 <h3 class="qs-function">${model.auditor.name} as <strong><spring:message code="nbCode" /> <spring:message code="auditor.qsAuditor" /></strong></h3>
 
+<c:url value="/admin/quasar/manage/auditor/${auditor.id}" var="url" />
+<form:form  commandName="auditor" method="post" cssClass="submit-on-change" action="${url}/decision/2">
+	<div class="input-wrapp smallest">
+		<label>
+			<spring:message code="approvalRecentActivities.audits" />:
+			
+		</label>
+		<div class="field">
+			<div class="qs-float-left" ><form:checkbox path="recentActivitiesApprovedForQsAuditor" /></div>
+			<p class="mini-info inline-block"><spring:message code="approvalRecentActivities.info" arguments="${model.auditor.name}" /></p>
+		</div>
+	</div>
+	<form:hidden path="id"/>
+</form:form>
 <div class="qs-result-box ${model.function.areAllRequirementsValid ? 'qs-valid' : 'qs-invalid'}">
 	<span class="qs-global">
 		<spring:message code="auditor.function" />:

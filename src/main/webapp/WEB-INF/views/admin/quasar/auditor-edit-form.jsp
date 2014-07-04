@@ -95,6 +95,15 @@
 			</form:select>
 		</div>
 	</div>
+		<div class="input-wrapp">
+		<label>
+			<spring:message code="auditor.secondEmail" />:
+			<small>For email forwarding</small>
+		</label>
+		<div class="field">
+			<form:input path="secondEmail" maxlength="50" cssClass="w300 email" />
+		</div>
+	</div>
 	<p class="form-head"><spring:message code="auditor.head.formalRequirements" /></p>
              <div class="${model.auditor.areFormalAndLegalReqiurementValid ? 'qs-valid' : 'qs-invalid'}">
              	<div class="input-wrapp smaller">
