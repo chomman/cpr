@@ -22,7 +22,7 @@ public abstract class AbstractAuditorCode extends IdentifiableEntity{
 	
 	private User changedBy;
 	
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "auditor_id")
 	public Auditor getAuditor(){
 		return auditor;
