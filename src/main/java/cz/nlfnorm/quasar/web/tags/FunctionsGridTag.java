@@ -69,7 +69,9 @@ public class FunctionsGridTag extends AbstractGridTag {
 			.append("<a target=\"blank\" class=\"")
 			.append(auditor.isIntenalAuditor() ? "qs-internal" : "qs-external")
 			.append("\" href=\"")
+			.append(getRequestContext().getContextPath()).append("/")
 			.append(RequestUtils.buildUrl(AuditorController.AUDITOR_DETAIL_URL, LocaleResolver.CODE_CZ))
+			.append(auditor.getId())
 			.append("\">")
 			.append( auditor.getNameWithDegree() )
 			.append("</a></td>");
