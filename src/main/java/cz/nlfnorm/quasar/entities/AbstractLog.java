@@ -1,24 +1,34 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 
+import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.enums.AuditLogStatus;
 
+@Entity
 @SuppressWarnings("serial")
-@MappedSuperclass
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+@SequenceGenerator(name = "quasar_log_id_seq", sequenceName = "quasar_log_id_seq", initialValue = 1, allocationSize =1)
 public abstract class AbstractLog extends IdentifiableEntity{
 	
 	private AuditLogStatus status;
@@ -28,6 +38,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	private LocalDateTime created;
 	private User changedBy;
 	
+	private Set<Comment> comments;
 	
 	@Id
 	@Override
@@ -35,6 +46,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	public Long getId() {
 		return super.getId();
 	}
+	
 	
 	@Column(name = "changed")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
@@ -92,5 +104,17 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	public void setRevision(int revision) {
 		this.revision = revision;
 	}
+	
+	@OrderBy(clause = "created")
+	@OneToMany(mappedBy = "abstractLog", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	public Set<Comment> getComments() {
+		return comments;
+	}
+
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
+	}
+	
+	
 		
 }

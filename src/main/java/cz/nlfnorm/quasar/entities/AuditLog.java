@@ -6,7 +6,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.OrderBy;
@@ -19,13 +18,12 @@ import org.hibernate.annotations.OrderBy;
  */
 @Entity
 @Table(name = "quasar_audit_log")
-@SequenceGenerator(name = "quasar_log_id_seq", sequenceName = "quasar_log_id_seq", initialValue = 1, allocationSize =1)
 public class AuditLog extends AbstractLog {
 	
 	private static final long serialVersionUID = -5586903173779695020L;
 
 	private Set<AuditLogItem> items;
-
+	
 	@OrderBy(clause = "date")
 	@OneToMany(mappedBy = "auditLog", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<AuditLogItem> getItems() {
@@ -35,7 +33,5 @@ public class AuditLog extends AbstractLog {
 	public void setItems(Set<AuditLogItem> items) {
 		this.items = items;
 	}
-	
-	
-	
+
 }

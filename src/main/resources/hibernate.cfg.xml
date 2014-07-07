@@ -64,6 +64,8 @@
 	<mapping class="cz.nlfnorm.quasar.entities.Company"/>
 	<mapping class="cz.nlfnorm.quasar.entities.AuditLog"/>
 	<mapping class="cz.nlfnorm.quasar.entities.AuditLogItem"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Comment"/>
+	
 	
 	<!-- QUASAR Views -->
 	<mapping class="cz.nlfnorm.quasar.views.QsAuditor"/>

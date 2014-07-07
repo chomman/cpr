@@ -1,5 +1,7 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +12,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -24,7 +28,7 @@ import org.joda.time.LocalDate;
 import cz.nlfnorm.quasar.enums.AuditLogItemType;
 
 @Entity
-@SequenceGenerator(name = "quasar_audit_log_item_id_seq", sequenceName = "quasar_audit_log_item_id_seq", initialValue = 1, allocationSize =1)
+@SequenceGenerator(name = "quasar_log_item_id_seq", sequenceName = "quasar_log_item_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "quasar_audit_log_has_item")
 public class AuditLogItem extends IdentifiableEntity{
 
@@ -39,9 +43,12 @@ public class AuditLogItem extends IdentifiableEntity{
 	private String orderNo;
 	private AuditLogItemType type;
 	
+	private Set<NandoCode> nandoCodes;
+	private Set<EacCode> eacCodes;
+	
 	@Id
 	@Override
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_audit_log_item_id_seq")
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_log_item_id_seq")
 	public Long getId() {
 		return super.getId();
 	}
@@ -126,8 +133,25 @@ public class AuditLogItem extends IdentifiableEntity{
 	public void setType(AuditLogItemType type) {
 		this.type = type;
 	}
+
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "quasar_audit_log_item_has_nando_code", joinColumns = @JoinColumn(name = "audit_log_item_id"), inverseJoinColumns = @JoinColumn(name = "nando_code_id"))
+	public Set<NandoCode> getNandoCodes() {
+		return nandoCodes;
+	}
+
+	public void setNandoCodes(Set<NandoCode> nandoCodes) {
+		this.nandoCodes = nandoCodes;
+	}
 	
-	
-	
+	@ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "quasar_audit_log_item_has_eac_code", joinColumns = @JoinColumn(name = "audit_log_item_id"), inverseJoinColumns = @JoinColumn(name = "eac_code_id"))
+	public Set<EacCode> getEacCodes() {
+		return eacCodes;
+	}
+
+	public void setEacCodes(Set<EacCode> eacCodes) {
+		this.eacCodes = eacCodes;
+	}
 
 }
