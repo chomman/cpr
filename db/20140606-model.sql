@@ -57,7 +57,22 @@ begin;
 	  START 1
 	  CACHE 1;
 	  
-	  CREATE SEQUENCE quasar_audit_log_id_seq
+	  CREATE SEQUENCE quasar_log_id_seq
+	  INCREMENT 1
+	  MINVALUE 1
+	  MAXVALUE 9223372036854775807
+	  START 1
+	  CACHE 1;
+	  
+	  CREATE SEQUENCE quasar_company_id_seq
+	  INCREMENT 1
+	  MINVALUE 1
+	  MAXVALUE 9223372036854775807
+	  START 1
+	  CACHE 1;
+	  
+	  
+	  CREATE SEQUENCE quasar_audit_log_item_id_seq
 	  INCREMENT 1
 	  MINVALUE 1
 	  MAXVALUE 9223372036854775807

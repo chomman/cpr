@@ -4,6 +4,9 @@ import javax.persistence.Column;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
@@ -26,6 +29,12 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	private User changedBy;
 	
 	
+	@Id
+	@Override
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_log_id_seq")
+	public Long getId() {
+		return super.getId();
+	}
 	
 	@Column(name = "changed")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
@@ -36,7 +45,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	public void setChanged(LocalDateTime changed) {
 		this.changed = changed;
 	}	
-	@Column(name = "changed")
+	@Column(name = "created")
 	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDateTime")
 	public LocalDateTime getCreated() {
 		return created;
