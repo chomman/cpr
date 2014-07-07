@@ -33,12 +33,23 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	
 	private AuditLogStatus status;
 	private Auditor auditor;
-	private int revision = 0;
+	private int revision;
 	private LocalDateTime changed;
 	private LocalDateTime created;
 	private User changedBy;
 	
 	private Set<Comment> comments;
+	
+	public AbstractLog(){
+		created = new LocalDateTime();
+		status = AuditLogStatus.DRAFT;
+		revision = 0;
+	}
+	
+	public AbstractLog(Auditor auditor){
+		super();
+		this.auditor = auditor;
+	}
 	
 	@Id
 	@Override
@@ -115,6 +126,8 @@ public abstract class AbstractLog extends IdentifiableEntity{
 		this.comments = comments;
 	}
 	
-	
+	public void newRevision(){
+		revision++;
+	}
 		
 }

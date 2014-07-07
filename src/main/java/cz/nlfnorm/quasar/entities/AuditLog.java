@@ -21,8 +21,15 @@ import org.hibernate.annotations.OrderBy;
 public class AuditLog extends AbstractLog {
 	
 	private static final long serialVersionUID = -5586903173779695020L;
-
 	private Set<AuditLogItem> items;
+	
+	
+	public AuditLog(){}
+	
+	
+	public AuditLog(Auditor auditor){
+		super(auditor);
+	}
 	
 	@OrderBy(clause = "date")
 	@OneToMany(mappedBy = "auditLog", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
