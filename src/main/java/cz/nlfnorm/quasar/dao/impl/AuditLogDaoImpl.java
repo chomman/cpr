@@ -71,26 +71,26 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 
 	}
 	
-	private void prepareHqlQueryParams(final Query hqlQuery,final Map<String, Object> criteria){
+	private void prepareHqlQueryParams(final Query query,final Map<String, Object> criteria){
 		if(criteria.size() != 0){
 			Long auditorId = (Long)criteria.get(AuditorFilter.AUDITOR);
 			if(auditorId != null && auditorId != 0l){
-				hqlQuery.setLong(AuditorFilter.AUDITOR, auditorId);
+				query.setLong(AuditorFilter.AUDITOR, auditorId);
 			}
 			Long partnerId = (Long)criteria.get(AuditorFilter.PARNTER);
 			if(partnerId != null && partnerId != 0l){
-				hqlQuery.setLong(AuditorFilter.PARNTER, partnerId);
+				query.setLong(AuditorFilter.PARNTER, partnerId);
 			}
 			DateTime dateFrom = (DateTime)criteria.get(AuditorFilter.DATE_FROM);
 			if(dateFrom != null){
-				hqlQuery.setTimestamp(AuditorFilter.DATE_FROM, dateFrom.toDate());
+				query.setTimestamp(AuditorFilter.DATE_FROM, dateFrom.toDate());
 			}
 			DateTime dateTo = (DateTime)criteria.get(Filter.CREATED_TO);
 			if(dateTo != null){
-				hqlQuery.setTimestamp(Filter.CREATED_TO, dateTo.plusDays(1).toDate());
+				query.setTimestamp(Filter.CREATED_TO, dateTo.plusDays(1).toDate());
 			}
 			if((Integer)criteria.get(AuditorFilter.STATUS) != null){
-				hqlQuery.setInteger(AuditorFilter.STATUS, (Integer)criteria.get(AuditorFilter.STATUS));
+				query.setInteger(AuditorFilter.STATUS, (Integer)criteria.get(AuditorFilter.STATUS));
 			}
 		}
 	}

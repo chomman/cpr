@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
 <h3 class="qs-function">${model.auditor.name} as <strong><spring:message code="nbCode" /> <spring:message code="auditor.qsAuditor" /></strong></h3>
-
+<c:if test="${model.isEditable}">
 <c:url value="/admin/quasar/manage/auditor/${auditor.id}" var="url" />
 <form:form  commandName="auditor" method="post" cssClass="submit-on-change" action="${url}/decision/2">
 	<div class="input-wrapp smallest">
@@ -85,6 +85,7 @@
 		</li>
 	</ul>
 </div>
+</c:if>
 
 <c:if test="${not empty successCreate}">
 	<p class="msg ok"><spring:message code="success.create" /></p>
@@ -97,9 +98,11 @@
 		<div class="qs-code-wrapp">
 				<form method="post" id="f${i.id}">
 				<div class="qs-name">
+					<c:if test="${model.isEditable}">
 					<div class="qs-inline-edit" data-id="${i.id}">
 						<spring:message code="quasar.edit" />
 					</div>
+					</c:if>
 					<div class="reason-detail ${empty i.reasonOfRefusal ? 'qs-field' : ''}">
 						<span class="val h">
 							<c:if test="${not empty i.reasonOfRefusal}">

@@ -55,6 +55,7 @@ import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.RequestUtils;
+import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 
@@ -80,6 +81,7 @@ public class AuditorController extends QuasarSupportController {
 	private final static String ADD_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/add";
 	public final static String EDIT_AUDITOR_MAPPING_URL = "/admin/quasar/manage/auditor/{auditorId}";
 	public final static String AUDITOR_DETAIL_URL = "/admin/quasar/manage/auditor/";
+	public final static String AUDITOR_PROFILE_URL = "/admin/quasar/profile/{functionType}";
 	
 	private final static String AUDITOR_FUNCTION_MAPPING_URL =  EDIT_AUDITOR_MAPPING_URL + "/f/{functionType}";
 	
@@ -231,6 +233,19 @@ public class AuditorController extends QuasarSupportController {
 		prepareAuditorModel(modelMap, form, auditorService.getById(form.getId()));
 		appendSuccessCreateParam(modelMap);
 		return getEditFormView();
+	}
+	
+	@RequestMapping(value = AUDITOR_PROFILE_URL, method = RequestMethod.GET)
+	public String handleAuditorProfile(ModelMap modelMap, HttpServletRequest request, @PathVariable int	functionType) throws ItemNotFoundException {
+		final Auditor auditor = auditorService.getById(UserUtils.getLoggedUser().getId());
+		Map<String, Object> model = new HashMap<>();
+		model.put("auditor", auditor);
+		if(functionType != SUB_TAB_PERSONAL_DATA){
+			prepareModelForFunction(model, functionType, auditor, false);
+		}
+		appendSubTab(model, functionType);
+		appendModel(modelMap, model);
+		return getViewDir() + "auditor-profile";
 	}
 	
 	
@@ -387,7 +402,7 @@ public class AuditorController extends QuasarSupportController {
 		Map<String, Object> model = new HashMap<>();
 		model.put("auditor", auditor);
 		model.put("subTab", functionType);
-		prepareModelForFunction(model, functionType, auditor);
+		prepareModelForFunction(model, functionType, auditor, true);
 		map.addAttribute("auditor", auditor);
 		appendTabNo(model, TAB);
 		appendModel(map, model);
@@ -397,7 +412,7 @@ public class AuditorController extends QuasarSupportController {
 	
 	
 	
-	private void prepareModelForFunction(Map<String, Object> model, final int functionType, final Auditor auditor){
+	private void prepareModelForFunction(Map<String, Object> model, final int functionType, final Auditor auditor, final boolean isEditable){
 		switch (functionType) {
 			case SUB_TAB_QS_ADUTITOR:
 				model.put("function", auditorService.getQsAuditorById(auditor.getId()));
@@ -424,6 +439,7 @@ public class AuditorController extends QuasarSupportController {
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);
 		}
+		model.put("editable", isEditable);
 	}
 	
 	

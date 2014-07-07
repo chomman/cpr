@@ -24,11 +24,11 @@
 <body>
 	<!-- HEADER  -->
 	<header>
-		
-		<c:if test="${not common.user.portalAdmin}">
+		<c:set value="${common.user.auditor and not common.user.quasarAdmin}" var="auditorView" />
+		<c:if test="${auditorView}">
 			<a href="<c:url value="/admin/" />" id="logo"> ADMIN <span><spring:message code="quasar.long" /></span></a> 
 		</c:if>
-		<c:if test="${common.user.portalAdmin}">
+		<c:if test="${not auditorView}">
 			<a href="<c:url value="/admin/" />" id="logo">NLF <span>ADMIN</span></a>
 		</c:if>
 		
@@ -39,20 +39,26 @@
 	
 	<!-- MAIN NAV  -->
 	<nav>
-		<ul>
-			<li><a href="<c:url value="/admin/" />" class="home"><spring:message code="menu.dashboard"/></a></li>
-			<c:if test="${common.user.portalAdmin}">
-				<li><a href="<c:url value="/admin/cpr" />" class="doc"><spring:message code="menu.cpr"/></a></li>
-				<li><a href="<c:url value="/admin/csn" />" class="csn"><spring:message code="menu.csn"/></a></li>
-				<li><a href="<c:url value="/admin/webpages" />" class="web"><spring:message code="menu.webpages"/></a></li>
-				<li><a href="<c:url value="/admin/portal/orders" />" class="portal"><spring:message code="menu.portal"/></a></li>
+		<ul>			
+			<c:if test="${auditorView}">
+				<li><a href="<c:url value="/admin/quasar/dashboard" />" class="home"><spring:message code="menu.dashboard"/></a></li>
+				<li><a href="<c:url value="/admin/quasar/profile/1" />" class="user"><spring:message code="auditor.profile"/></a></li>
 			</c:if>
-			<c:if test="${common.user.auditor}">
-				<li><a href="<c:url value="/admin/quasar/dashboard" />" class="quasar">QUASAR</a></li>
-			</c:if>
-			<c:if test="${common.user.superAdministrator}">
-				<li><a href="<c:url value="/admin/users" />" class="user"><spring:message code="menu.users"/></a></li>
-				<li><a href="<c:url value="/admin/settings/basic" />" class="sett"><spring:message code="menu.settings"/></a></li>
+			<c:if test="${not auditorView}">
+				<li><a href="<c:url value="/admin/" />" class="home"><spring:message code="menu.dashboard"/></a></li>
+				<c:if test="${common.user.portalAdmin}">
+					<li><a href="<c:url value="/admin/cpr" />" class="doc"><spring:message code="menu.cpr"/></a></li>
+					<li><a href="<c:url value="/admin/csn" />" class="csn"><spring:message code="menu.csn"/></a></li>
+					<li><a href="<c:url value="/admin/webpages" />" class="web"><spring:message code="menu.webpages"/></a></li>
+					<li><a href="<c:url value="/admin/portal/orders" />" class="portal"><spring:message code="menu.portal"/></a></li>
+				</c:if>
+				<c:if test="${common.user.quasarAdmin}">
+					<li><a href="<c:url value="/admin/quasar/dashboard" />" class="quasar">QUASAR</a></li>
+				</c:if>
+				<c:if test="${common.user.superAdministrator}">
+					<li><a href="<c:url value="/admin/users" />" class="user"><spring:message code="menu.users"/></a></li>
+					<li><a href="<c:url value="/admin/settings/basic" />" class="sett"><spring:message code="menu.settings"/></a></li>
+				</c:if>
 			</c:if>
 		</ul>
 	</nav>

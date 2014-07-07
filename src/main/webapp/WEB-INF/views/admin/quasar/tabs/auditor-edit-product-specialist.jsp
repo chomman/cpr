@@ -6,7 +6,7 @@
 <c:if test="${not empty successCreate}">
 	<p class="msg ok"><spring:message code="success.create" /></p>
 </c:if>
-
+<c:if test="${model.isEditable}">
 <c:url value="/admin/quasar/manage/auditor/${auditor.id}" var="url" />
 <form:form  commandName="auditor" method="post" cssClass="submit-on-change valid" action="${url}/decision/5">
 	<p class="form-head"><spring:message code="decisionOnTheAssessor" /> (<spring:message code="auditor.productSpecialist" />)</p>
@@ -58,7 +58,7 @@
 	</div>
 	<form:hidden path="id"/>
 </form:form>
-
+</c:if>
 <div class="qs-result-box ${model.function.areAllRequirementsValid ? 'qs-valid' : 'qs-invalid'}">
 	<span class="qs-global">
 		<spring:message code="auditor.function" /> (<spring:message code="auditor.productAssessorR" />):
@@ -232,9 +232,11 @@
 		<div class="qs-code-wrapp">
 				<form method="post" id="f${i.auditorNandoCode.id}">
 				<div class="qs-name">
+					<c:if test="${model.isEditable}">
 					<div class="qs-inline-edit" data-id="${i.auditorNandoCode.id}">
 						<spring:message code="quasar.edit" />
 					</div>
+					</c:if>
 					<div class="reason-detail ${empty i.auditorNandoCode.productSpecialistReasonDetails ? 'qs-field' : ''}">
 						<span class="val h">
 							<c:if test="${not empty i.auditorNandoCode.productSpecialistReasonDetails}">

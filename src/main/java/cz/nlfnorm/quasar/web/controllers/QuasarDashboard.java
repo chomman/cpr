@@ -7,13 +7,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class QuasarDashboard extends QuasarSupportController {
 	
+	public static final String QUASAR_DASHBOARD_URL = "/admin/quasar/dashboard";
+	
 	public QuasarDashboard(){
 		setViewName("dashboard");
 	}
 	
-	@RequestMapping("/admin/quasar/dashboard")
+	@RequestMapping(QUASAR_DASHBOARD_URL)
 	public String showDashboard(ModelMap modelMap){
-		
 		return getViewName();
 	}
 }

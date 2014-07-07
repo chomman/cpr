@@ -179,15 +179,12 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	@Transient
     public boolean isQuasarAdmin() {
-		return isSuperAdministrator() || hasRole(Authority.ROLE_QUASAR_ADMIN);
+		return hasRole(Authority.ROLE_QUASAR_ADMIN);
     }
 	
 	@Transient
     public boolean isAuditor() {
-		if(isSuperAdministrator() || isQuasarAdmin()){
-			return true;
-		}
-		return hasRole(Authority.ROLE_AUDITOR);
+		return isQuasarAdmin() || hasRole(Authority.ROLE_AUDITOR);
     }
 	
 	@Transient

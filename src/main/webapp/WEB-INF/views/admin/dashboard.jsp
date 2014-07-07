@@ -11,7 +11,6 @@
 	<h1><spring:message code="dashboard.h1"/></h1>
 	
 	<div id="dashboard">
-		
 		<div class="hbox">
 			<h2><spring:message code="menu.dashboard" /></h2>
 		</div>

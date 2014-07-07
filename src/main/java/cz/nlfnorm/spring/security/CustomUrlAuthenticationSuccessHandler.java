@@ -15,6 +15,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.User;
+import cz.nlfnorm.quasar.web.controllers.QuasarDashboard;
 
 
 /**
@@ -48,7 +49,9 @@ public class CustomUrlAuthenticationSuccessHandler implements AuthenticationSucc
 			return "/" + Constants.PORTAL_URL;
 		}
 		
-		if(user.isAdministrator()){
+		if(user.isAuditor()){
+			return QuasarDashboard.QUASAR_DASHBOARD_URL;
+		}else if(user.isAdministrator()){
 			return Constants.SUCCESS_ROLE_ADMIN_URL;
 		}
 		

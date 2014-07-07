@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.services.impl;
 
 import java.util.Map;
 
+import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,11 +25,13 @@ public class AuditLogServiceImpl implements AuditLogService {
 	
 	@Override
 	public void create(final AuditLog auditLog) {
+		Validate.notNull(auditLog);
 		auditLogDao.save(auditLog);
 	}
 
 	@Override
 	public void update(final AuditLog auditLog) {
+		Validate.notNull(auditLog);
 		auditLog.setChangedBy(UserUtils.getLoggedUser());
 		auditLog.setChanged(new LocalDateTime());
 		auditLogDao.update(auditLog);
@@ -52,6 +55,7 @@ public class AuditLogServiceImpl implements AuditLogService {
 			criteria.put(AuditorFilter.PARNTER, ParseUtils.parseLongFromStringObject(criteria.get(AuditorFilter.PARNTER)));
 			criteria.put(AuditorFilter.DATE_FROM, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_FROM)));
 			criteria.put(AuditorFilter.DATE_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_TO)));
+			criteria.put(AuditorFilter.STATUS, ParseUtils.parseIntFromStringObject(criteria.get(AuditorFilter.STATUS)));
 		}
 		return criteria;
 	}

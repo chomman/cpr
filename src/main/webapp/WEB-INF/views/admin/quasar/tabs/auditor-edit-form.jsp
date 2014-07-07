@@ -419,38 +419,38 @@
 			</div>
 		</div>
 		<div class="qs-right-bx qs-border-right">
-		<p class="form-head mini"><spring:message code="auditor.productAssessorR" /></p>
+		<p class="form-head mini"><spring:message code="auditor.productSpecialist" /></p>
 			<div class="input-wrapp smaller">
 				<label>
 					<strong>
 						<em class="red">*</em>
-		                	<spring:message code="auditor.tfTrainingInHours" />:
+		                	<spring:message code="auditor.ddTrainingInHours" />:
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="tfTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
+					<form:input path="ddTrainingInHours" cssClass="w50 c required numeric" maxlength="4" />
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
 				<label>
 					<strong>
 						<em class="red">*</em>
-		                	<spring:message code="auditor.totalTfReviews" />:
+		                	<spring:message code="auditor.totalDdReviews" />:
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="totalTfReviews" cssClass="w50 c required numeric" maxlength="4" />
+					<form:input path="totalDdReviews" cssClass="w50 c required numeric" maxlength="4" />
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
 				<label>
 					<strong>
 						<em class="red">*</em>
-		                	<spring:message code="auditor.noTfReviewsForSterile" />:
+		                	<spring:message code="auditor.noDdReviewsForSterile" />:
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="noTfReviewsForSterileMd" cssClass="w50 c required numeric" maxlength="4" />
+					<form:input path="noDdReviewsForSterileMd" cssClass="w50 c required numeric" maxlength="4" />
 				</div>
 			</div>
 		</div>
