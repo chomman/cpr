@@ -2,7 +2,14 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 
 <strong class="nav-head"><spring:message code="menu.nav" /></strong>
+
 <ul>
+	<li>
+		<a:adminurl href="/quasar/manage/audit-logs" activeTab="${model.tab == 8}">
+			<spring:message code="auditLogs" />
+		</a:adminurl>
+	</li>
+	
 	<li>
 		<a:adminurl href="/quasar/manage/auditors" activeTab="${model.tab == 3}">
 			<spring:message code="auditors" />

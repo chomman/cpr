@@ -9,6 +9,8 @@ public class AuditorFilter {
 	public static final String DATE_TO = "dateTo";
 	public static final String DATE_FROM = "dateFrom";
 	public static final String FORMAL_LEG_REQ = "formalLegal";
+	public static final String STATUS = "status";
+	
 	
 	
 }

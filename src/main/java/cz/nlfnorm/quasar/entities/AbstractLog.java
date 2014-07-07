@@ -5,8 +5,6 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -23,7 +21,7 @@ import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
 import cz.nlfnorm.entities.User;
-import cz.nlfnorm.quasar.enums.AuditLogStatus;
+import cz.nlfnorm.quasar.enums.LogStatus;
 
 @Entity
 @SuppressWarnings("serial")
@@ -31,7 +29,7 @@ import cz.nlfnorm.quasar.enums.AuditLogStatus;
 @SequenceGenerator(name = "quasar_log_id_seq", sequenceName = "quasar_log_id_seq", initialValue = 1, allocationSize =1)
 public abstract class AbstractLog extends IdentifiableEntity{
 	
-	private AuditLogStatus status;
+	private LogStatus status;
 	private Auditor auditor;
 	private int revision;
 	private LocalDateTime changed;
@@ -42,7 +40,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	
 	public AbstractLog(){
 		created = new LocalDateTime();
-		status = AuditLogStatus.DRAFT;
+		status = LogStatus.DRAFT;
 		revision = 0;
 	}
 	
@@ -88,13 +86,13 @@ public abstract class AbstractLog extends IdentifiableEntity{
 		this.changedBy = changedBy;
 	}
 	
-	@Enumerated(value = EnumType.STRING)
-	@Column(name = "status", length = 8)
-	public AuditLogStatus getStatus() {
+	@Type(type="cz.nlfnorm.quasar.hibernate.LogStatusUserType")
+	@Column(name = "status")
+	public LogStatus getStatus() {
 		return status;
 	}
 
-	public void setStatus(AuditLogStatus status) {
+	public void setStatus(LogStatus status) {
 		this.status = status;
 	}
 	

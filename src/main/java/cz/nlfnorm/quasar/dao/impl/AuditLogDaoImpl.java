@@ -28,7 +28,7 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 	@Override
 	public PageDto getPage(Map<String, Object> criteria, final int pageNumber) {
 		StringBuilder hql = new StringBuilder("from AuditLog al join al.auditor auditor");
-		hql.append(" left join auditor.parnter partner ");
+		hql.append(" left join auditor.partner partner ");
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlCountQuery = createQuery("select count(*) " + hql.toString());
 		prepareHqlQueryParams(hqlCountQuery, criteria);
@@ -36,7 +36,7 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 		hqlCountQuery.setMaxResults(1);
 		items.setCount((Long)hqlCountQuery.uniqueResult());
 		if(items.getCount() > 0){
-			hql.append(" order by al.id DESC ");
+			hql.append(" order by al.stats, al.created DESC ");
 			Query query = createQuery(hql.toString());
 			prepareHqlQueryParams(query, criteria);
 			query.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
@@ -63,6 +63,9 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 			if((DateTime)criteria.get(AuditorFilter.DATE_TO) != null){
 				where.add(" al.created < :"+AuditorFilter.DATE_TO);
 			}
+			if((Integer)criteria.get(AuditorFilter.STATUS) != null){
+				where.add(" al.status = :"+AuditorFilter.STATUS);
+			}
 		}
 		return where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "";
 
@@ -85,6 +88,9 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 			DateTime dateTo = (DateTime)criteria.get(Filter.CREATED_TO);
 			if(dateTo != null){
 				hqlQuery.setTimestamp(Filter.CREATED_TO, dateTo.plusDays(1).toDate());
+			}
+			if((Integer)criteria.get(AuditorFilter.STATUS) != null){
+				hqlQuery.setInteger(AuditorFilter.STATUS, (Integer)criteria.get(AuditorFilter.STATUS));
 			}
 		}
 	}
