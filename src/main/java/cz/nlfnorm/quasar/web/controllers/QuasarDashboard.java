@@ -10,7 +10,7 @@ public class QuasarDashboard extends QuasarSupportController {
 	public static final String QUASAR_DASHBOARD_URL = "/admin/quasar/dashboard";
 	
 	public QuasarDashboard(){
-		setViewName("dashboard");
+		setViewName("profile/dashboard");
 	}
 	
 	@RequestMapping(QUASAR_DASHBOARD_URL)

@@ -178,3 +178,20 @@ table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
 .remove-padding{padding-left:0}
 .qs-float-left{float:left;margin-right:20px;}
 .inline-block{display:inline-block;margin:0}
+
+
+.loader{background: url(../img/ajax-loader.gif) no-repeat 0 center;padding:20px 20px 20px 50px;position:absolute;top:400px;left:45%}
+/* LOGS */
+
+.qs-bx-wrapp{border-left:1px solid #ddd;border-right:1px solid #ddd;border-bottom:1px solid #ddd;background:#fff}
+.qs-log-status{background-image:url(../quasar/img/ico_statues.png);display:inline-block;padding:2px 0 2px 30px;background-repeat:no-repeat;text-transform:uppercase;font-weight:bold;}
+
+.qs-log-status-3 .qs-status{background-color:#ffedd8;}
+.qs-log-status-1 .qs-status{background-color:#d5eeff;}
+.qs-log-status-4 .qs-status{background-color:#d9ffe8;}
+.qs-log-status-2 .qs-status{background-color:#ffd6d6;}
+
+.qs-log-status-4 .qs-log-status{background-position:0 -2px;}
+.qs-log-status-3 .qs-log-status{background-position:0 -52px;}
+.qs-log-status-2 .qs-log-status{background-position:0 -27px;}
+.qs-log-status-1 .qs-log-status{background-position:0 -77px;}

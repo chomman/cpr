@@ -40,12 +40,13 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	
 	public AbstractLog(){
 		created = new LocalDateTime();
+		changed = new LocalDateTime();
 		status = LogStatus.DRAFT;
-		revision = 0;
+		revision = 1;
 	}
 	
 	public AbstractLog(Auditor auditor){
-		super();
+		this();
 		this.auditor = auditor;
 	}
 	
@@ -127,5 +128,6 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	public void newRevision(){
 		revision++;
 	}
-		
+	
+	
 }

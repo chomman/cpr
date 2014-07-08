@@ -31,4 +31,8 @@ public enum LogStatus implements PersistentEnum {
 	public static List<LogStatus> getAll() {
         return Arrays.asList(values());
     }
+	
+	public boolean isLocked(){
+		return getId() == 1 || getId() ==  4;
+	}
 }

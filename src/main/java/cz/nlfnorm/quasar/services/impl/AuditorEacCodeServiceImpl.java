@@ -19,6 +19,7 @@ import cz.nlfnorm.quasar.entities.EacCode;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.EacCodeService;
+import cz.nlfnorm.quasar.views.QsAuditor;
 import cz.nlfnorm.utils.UserUtils;
 
 @Service("auditorEacCodeService")
@@ -105,5 +106,20 @@ public class AuditorEacCodeServiceImpl implements AuditorEacCodeService{
 		for(Auditor auditor : auditorList){
 			syncAuditorEacCodes(auditor);
 		}
+	}
+
+	@Override
+	public boolean isAuthorizedToEacCode(final String code, final Long auditorId) {
+		final AuditorEacCode eacCode = getByEacCode(code, auditorId);
+		if(eacCode == null){
+			return false;
+		}
+		if(eacCode.isGranted()){
+			final QsAuditor qsAuditor = auditorService.getQsAuditorById(auditorId);
+			if(qsAuditor != null && qsAuditor.getAreAllRequirementsValid()){
+				return true;
+			}
+		}
+		return false;
 	}
 }

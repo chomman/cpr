@@ -21,12 +21,6 @@ public class CompanyServiceImpl implements CompanyService{
 	
 	@Override
 	@Transactional(readOnly = true)
-	public Company getById(final long id) {
-		return companyDao.getByID(id);
-	}
-
-	@Override
-	@Transactional(readOnly = true)
 	public List<Company> autocomplete(final String term) {
 		if(StringUtils.isBlank(term)){
 			return new ArrayList<>();
@@ -37,6 +31,19 @@ public class CompanyServiceImpl implements CompanyService{
 	@Override
 	public void create(final Company company) {
 		companyDao.save(company);	
+	}
+
+
+	@Override
+	@Transactional(readOnly = true)
+	public Company getById(Long id) {
+		return companyDao.getByID(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Company> getAll() {
+		return companyDao.getAll();
 	}
 
 }

@@ -3,6 +3,7 @@ package cz.nlfnorm.web.controllers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +21,8 @@ import cz.nlfnorm.entities.CsnCategory;
 import cz.nlfnorm.entities.CsnTerminology;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.entities.StandardCsn;
+import cz.nlfnorm.quasar.entities.Company;
+import cz.nlfnorm.quasar.services.CompanyService;
 import cz.nlfnorm.services.AssessmentSystemService;
 import cz.nlfnorm.services.CommissionDecisionService;
 import cz.nlfnorm.services.CsnCategoryService;
@@ -57,6 +60,8 @@ public class AjaxController {
 	private CommissionDecisionService commissionDecisionService;
 	@Autowired
 	private TagService tagService;
+	@Autowired
+	private CompanyService companyService;
 		
 	
 	@RequestMapping(value = "/ajax/csn/category/{searchCodeOfParent}", method = RequestMethod.GET)
@@ -120,6 +125,13 @@ public class AjaxController {
 		return notifiedBodyService.autocomplete(term, enabled);
 	}
 	
+	@RequestMapping(value = "/auth/companies", method = RequestMethod.GET)
+	public @ResponseBody List<Company>  getCompanies(@RequestBody @RequestParam(required = false, value = "term") String query){
+		if(StringUtils.isBlank(query)){
+			return companyService.getAll();
+		}
+		return companyService.autocomplete(query);
+	}
 
 	
 	@RequestMapping(value = {"/ajax/standard-filter", "{lang}/ajax/standard-filter"})

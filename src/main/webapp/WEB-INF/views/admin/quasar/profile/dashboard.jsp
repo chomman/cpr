@@ -7,7 +7,7 @@
 </head>
 <body>
 <div id="wrapper">
-	<h1><spring:message code="dashboard.h1"/></h1>
+	<h1><spring:message code="menu.dashboard"/></h1>
 	
 </div>
 </body>

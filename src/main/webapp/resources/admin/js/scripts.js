@@ -125,7 +125,7 @@ function createSelects(){
 
 function updateNav(){
 	var o = $('nav');
-	if($(document).width() < 1170){
+	if($(document).width() < 1100){
 		o.addClass("smallNav");
 	}else{
 		o.removeClass("smallNav");

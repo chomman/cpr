@@ -13,11 +13,23 @@ function isBlank(v){
 }
 
 function generateOption(selectedId, items){
-	var html = getOption('', getLocale() === 'cs' ? 'Nezáleží' : 'No matter', false);
-	for(var i in items){
+	console.log(arguments);
+	var html = getOption('', getOptionInitLable(arguments[2]), false);
+	for(var i in items){1
 		html += getOption(items[i].id, items[i].name, (selectedId+"" == items[i].id+""));
 	}
 	return html;
+}
+
+function getOptionInitLable(variant){
+	switch(variant){
+		case 2:
+			return getLocale() === 'cs' ? '-- Vyberte z možností --' : '-- Select item --';
+		case 1 :
+		default:
+			return getLocale() === 'cs' ? 'Nezáleží' : 'No matter';
+			
+	}
 }
 
 function loadFilterData(){

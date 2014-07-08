@@ -29,4 +29,11 @@ public class CompanyDaoImpl extends BaseDaoImpl<Company, Long> implements Compan
 		
 	}
 	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Company> getAll() {
+		return createQuery("select c from Company c order by c.name")
+				.list();
+	}
+	
 }

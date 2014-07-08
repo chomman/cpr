@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.OrderBy;
 
@@ -21,17 +23,15 @@ import org.hibernate.annotations.OrderBy;
 public class AuditLog extends AbstractLog {
 	
 	private static final long serialVersionUID = -5586903173779695020L;
-	private Set<AuditLogItem> items;
-	
+	private Set<AuditLogItem> items = new HashSet<>();
 	
 	public AuditLog(){}
-	
 	
 	public AuditLog(Auditor auditor){
 		super(auditor);
 	}
 	
-	@OrderBy(clause = "date")
+	@OrderBy(clause = "audit_date")
 	@OneToMany(mappedBy = "auditLog", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<AuditLogItem> getItems() {
 		return items;
@@ -40,5 +40,16 @@ public class AuditLog extends AbstractLog {
 	public void setItems(Set<AuditLogItem> items) {
 		this.items = items;
 	}
+	
 
+	@Transient
+	public int getCountOfItems(){
+		return items.size();
+	}
+	
+	@Override
+	public String toString() {
+		return "AuditLog [id=" + getId() + "]";
+	}
+	
 }

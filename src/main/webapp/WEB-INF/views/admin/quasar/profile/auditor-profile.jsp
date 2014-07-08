@@ -17,24 +17,24 @@
 		<h1><spring:message code="auditor.profile" /> - <strong>${model.auditor.nameWithDegree}</strong></h1>
 		<div id="content" class="qs" data-auditor="${model.auditor.id}">
 			
-			<jsp:include page="navs/profile-nav.jsp" />
+			<jsp:include page="../navs/profile-nav.jsp" />
 			<c:if test="${model.subTab == 1}">
-				<jsp:include page="tabs/auditor-personal-data.jsp" />
+				<jsp:include page="../tabs/auditor-personal-data.jsp" />
 			</c:if>
 			<c:if test="${model.subTab == 2}">
-				<jsp:include page="tabs/auditor-edit-qs-auditor.jsp" />
+				<jsp:include page="../tabs/auditor-edit-qs-auditor.jsp" />
 			</c:if>
 			<c:if test="${model.subTab == 3}">
-				<jsp:include page="tabs/auditor-edit-product-assessor-a.jsp" />
+				<jsp:include page="../tabs/auditor-edit-product-assessor-a.jsp" />
 			</c:if>
 			<c:if test="${model.subTab == 4}">
-				<jsp:include page="tabs/auditor-edit-product-assessor-r.jsp" />
+				<jsp:include page="../tabs/auditor-edit-product-assessor-r.jsp" />
 			</c:if>
 			<c:if test="${model.subTab == 5}">
-				<jsp:include page="tabs/auditor-edit-product-specialist.jsp" />
+				<jsp:include page="../tabs/auditor-edit-product-specialist.jsp" />
 			</c:if>
 			<c:if test="${model.subTab == 6}">
-				<jsp:include page="tabs/auditor-edit-output.jsp" />
+				<jsp:include page="../tabs/auditor-edit-output.jsp" />
 			</c:if>
 		</div>	
 	</div>

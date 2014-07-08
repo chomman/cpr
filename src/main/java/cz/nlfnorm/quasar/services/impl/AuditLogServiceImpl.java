@@ -3,6 +3,7 @@ package cz.nlfnorm.quasar.services.impl;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +13,9 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditLogDao;
 import cz.nlfnorm.quasar.entities.AuditLog;
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.services.AuditLogService;
+import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -22,6 +25,8 @@ public class AuditLogServiceImpl implements AuditLogService {
 
 	@Autowired
 	private AuditLogDao auditLogDao;
+	@Autowired
+	private AuditorService auditorService;
 	
 	@Override
 	public void create(final AuditLog auditLog) {
@@ -58,6 +63,22 @@ public class AuditLogServiceImpl implements AuditLogService {
 			criteria.put(AuditorFilter.STATUS, ParseUtils.parseIntFromStringObject(criteria.get(AuditorFilter.STATUS)));
 		}
 		return criteria;
+	}
+
+	@Override
+	public Long createNewToLoginedUser() {
+		final Auditor auditor = auditorService.getById(UserUtils.getLoggedUser().getId());
+		Validate.notNull(auditor);
+		AuditLog auditLog = new AuditLog(auditor);
+		auditLog.setChangedBy(auditor);
+		create(auditLog);
+		return auditLog.getId();
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public LocalDate getEarliestPossibleDateForAuditLog() {
+		return  auditLogDao.getEarliestPossibleDateForAuditLog(UserUtils.getLoggedUser().getId());
 	}
 
 }

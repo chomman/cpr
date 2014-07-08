@@ -245,7 +245,7 @@ public class AuditorController extends QuasarSupportController {
 		}
 		appendSubTab(model, functionType);
 		appendModel(modelMap, model);
-		return getViewDir() + "auditor-profile";
+		return getViewDir() + "profile/auditor-profile";
 	}
 	
 	

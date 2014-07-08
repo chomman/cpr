@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.constants.Constants;
@@ -16,6 +17,7 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditLogDao;
 import cz.nlfnorm.quasar.entities.AuditLog;
+import cz.nlfnorm.quasar.enums.LogStatus;
 
 @Repository("auditLogDao")
 public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements AuditLogDao{
@@ -36,8 +38,8 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 		hqlCountQuery.setMaxResults(1);
 		items.setCount((Long)hqlCountQuery.uniqueResult());
 		if(items.getCount() > 0){
-			hql.append(" order by al.stats, al.created DESC ");
-			Query query = createQuery(hql.toString());
+			hql.append(" order by al.status, al.created DESC ");
+			Query query = createQuery("select al " + hql.toString());
 			prepareHqlQueryParams(query, criteria);
 			query.setFirstResult(Constants.ADMIN_PAGINATION_PAGE_SIZE * ( pageNumber -1));
 			query.setMaxResults(Constants.ADMIN_PAGINATION_PAGE_SIZE);
@@ -63,7 +65,8 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 			if((DateTime)criteria.get(AuditorFilter.DATE_TO) != null){
 				where.add(" al.created < :"+AuditorFilter.DATE_TO);
 			}
-			if((Integer)criteria.get(AuditorFilter.STATUS) != null){
+			Integer status = (Integer)criteria.get(AuditorFilter.STATUS);
+			if(status != null && status != 0){
 				where.add(" al.status = :"+AuditorFilter.STATUS);
 			}
 		}
@@ -89,10 +92,24 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 			if(dateTo != null){
 				query.setTimestamp(Filter.CREATED_TO, dateTo.plusDays(1).toDate());
 			}
-			if((Integer)criteria.get(AuditorFilter.STATUS) != null){
+			Integer status = (Integer)criteria.get(AuditorFilter.STATUS);
+			if(status != null && status != 0){
 				query.setInteger(AuditorFilter.STATUS, (Integer)criteria.get(AuditorFilter.STATUS));
 			}
 		}
+	}
+
+	@Override
+	public LocalDate getEarliestPossibleDateForAuditLog(final Long auditorId) {
+		final String hql = "select max(ali.auditDate) from AuditLogItem ali " +
+							" join ali.auditLog auditLog " +
+							" join auditLog.auditor auditor " +
+						   " where auditor.id = :auditorId AND aditLog.status = :status ";
+		return (LocalDate) createQuery(hql)
+						.setLong("auditorId", auditorId)
+						.setInteger("status", LogStatus.APPROVED.getId())
+						.setMaxResults(1)
+						.uniqueResult();
 	}
 	
 }

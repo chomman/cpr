@@ -18,4 +18,6 @@ public interface AuditorEacCodeDao extends BaseDao<AuditorEacCode, Long>{
 	List<AuditorEacCode> getAllAuditorEacCodes(Auditor auditor);
 		
 	AuditorEacCode getByEacCode(String code, Long auditorId);
+	
+	
 }

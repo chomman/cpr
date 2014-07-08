@@ -184,7 +184,7 @@ public class User extends AbstractEntity implements UserDetails{
 	
 	@Transient
     public boolean isAuditor() {
-		return isQuasarAdmin() || hasRole(Authority.ROLE_AUDITOR);
+		return hasRole(Authority.ROLE_AUDITOR);
     }
 	
 	@Transient
@@ -333,9 +333,7 @@ public class User extends AbstractEntity implements UserDetails{
 
 	@Override
 	public String toString() {
-		return "User [id=" + id + ", firstName=" + firstName + ", lastName="
-				+ lastName + ", email=" + email + ", password=" + password
-				+ " authoritySize: " + getAuthoritySet().size() + "]";
+		return "User [id=" + id + "]";
 	}
 
 	@Transient

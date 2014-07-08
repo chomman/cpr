@@ -30,4 +30,6 @@ public interface AuditorEacCodeService {
 	void updateAndSetChanged(AuditorEacCode form);
 	
 	void syncEacCodes();
+	
+	boolean isAuthorizedToEacCode(String code, Long auditorId);
 }
