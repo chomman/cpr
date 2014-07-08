@@ -19,10 +19,10 @@ public class CompanyDaoImpl extends BaseDaoImpl<Company, Long> implements Compan
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Company> autocomplete(final String term) {
-		final String hql = "select c.id, c.name from Company c " +
-						   "unaccent(lower(c.name)) like CONCAT('%', unaccent(:term)) ";
+		final String hql = "select c from Company c where " +
+						   "unaccent(lower(c.name)) like CONCAT('%', lower(unaccent(:term))) ";
 		return createQuery(hql)
-					  .setString("term", term.toLowerCase().trim())
+					  .setString("term", term.trim())
 					  .setMaxResults(8)
 					  .setCacheable(false)
 					  .list();

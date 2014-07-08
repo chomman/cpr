@@ -6,6 +6,20 @@ $(function(){
 			.trigger("chosen:updated");;
 	}
 	);
+	
+	 $("input[name=companyName]").autocomplete({
+		 source: function(request, response){  
+		 	 $.getJSON( getBasePath() +"auth/companies", request, function(data) {  
+             	 response( $.map( data, function( item ) {
+						return {label: item[1], value: item[1]};
+					}));
+        	});  
+		 },
+		minLength: 1,
+		select: function( event, ui ) {
+			ui.item.value;
+		}
+});
 });
 
 function executeRequest(opts, callBack){
@@ -41,7 +55,7 @@ function showLoader(){
 }
 function hideLoader(){
 	$('#wrapper').css({'opacity' : '1'});
-	$('#loader').hide();
+	//$('#loader').hide();
 }
 
 function showErrors(json){
