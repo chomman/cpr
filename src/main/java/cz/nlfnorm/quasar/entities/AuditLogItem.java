@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -43,8 +44,8 @@ public class AuditLogItem extends IdentifiableEntity{
 	private String orderNo;
 	private AuditLogItemType type;
 	
-	private Set<NandoCode> nandoCodes;
-	private Set<EacCode> eacCodes;
+	private Set<NandoCode> nandoCodes = new HashSet<>();
+	private Set<EacCode> eacCodes  = new HashSet<>();
 	
 	@Id
 	@Override
@@ -113,7 +114,7 @@ public class AuditLogItem extends IdentifiableEntity{
 		this.certificationBody = certificationBody;
 	}
 
-	@Pattern(regexp = "^(8036|8136|8236)\\d{5}$")
+	@Pattern(regexp = "(^(8036|8136|8236)\\d{5}|)$")
 	@Column(name = "order_no", length = 9)
 	public String getOrderNo() {
 		return orderNo;

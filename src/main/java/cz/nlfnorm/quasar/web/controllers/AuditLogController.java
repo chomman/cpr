@@ -149,8 +149,7 @@ public class AuditLogController extends QuasarSupportController {
 		auditLogItem.setDurationInDays(form.getItem().getDurationInDays());
 		auditLogItem.setCertifiedProduct(form.getItem().getCertifiedProduct());
 		auditLogItem.setType(form.getItem().getType());
-		auditLogItemService.createOrUpdate(auditLogItem);
-		
+		auditLogItemService.createOrUpdate(auditLogItem);		
 	}
 	
 	private void setEacCodes(final AuditLogItemForm form, final AuditLogItem item){
@@ -189,7 +188,7 @@ public class AuditLogController extends QuasarSupportController {
 			}else{
 				company = new Company(StringUtils.trim(form.getCompanyName()));
 				companyService.create(company);
-				item.setCompany(company);
+				item.setCompany(companyService.findByName(form.getCompanyName()));
 			}
 		}
 	}
@@ -206,7 +205,7 @@ public class AuditLogController extends QuasarSupportController {
 			}else{
 				certificationBody = new CertificationBody(StringUtils.trim(form.getCertificationBodyName()));
 				certificationBodyService.create(certificationBody);
-				item.setCertificationBody(certificationBody);
+				item.setCertificationBody(certificationBodyService.findByName(form.getCertificationBodyName()));
 			}
 		}
 	}

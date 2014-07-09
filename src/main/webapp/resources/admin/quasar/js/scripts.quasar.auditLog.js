@@ -16,7 +16,7 @@ $(function() {
 		});
 	};
 
-	refreshOrderNoField();
+
 
 	sendRequest("GET", false, "ajax/companies", function(json) {
 		$companySelect.html(generateOption($companySelect.attr('data-id'), json, 2)).trigger("chosen:updated");
@@ -46,7 +46,6 @@ $(function() {
 		select : function(event, ui) {
 			$cBodySelect.val(ui.item.value).trigger("chosen:updated");
 			onChooseExistingCertificationBodies();
-			refreshOrderNoField();
 		}
 	});
 
@@ -62,18 +61,10 @@ $(function() {
 	$cBodySelect.on('change', refreshOrderNoField);
 	$("textarea.limit").limiter(255, $("#chars"));
 
-	function refreshOrderNoField() {
-		var $field = $('.order-no');
-		if ($cBodySelect.val() === '1') {
-			$field.show().find('input').addClass('required');
-		} else {
-			$field.hide().find('input').removeClass('required');
-		}
-	}
-
 	$('#eacCodes').tagit({
 		allowSpaces : true,
-		placeholderText : "Write EAC code...",
+		placeholderText : $.getMessage("phEacCode"),
+		afterTagAdded : saveCodes,
 		beforeTagAdded : function(event, ui) {
 			console.log(ui);
 			return listContains(eacCodeList, ui.tagLabel);
@@ -89,7 +80,8 @@ $(function() {
 	});
 	$('#nandoCodes').tagit({
 		allowSpaces : true,
-		placeholderText : "Write NANDO code...",
+		placeholderText : $.getMessage("phNandoCode"),
+		afterTagAdded : saveCodes,
 		beforeTagAdded : function(event, ui) {
 			console.log(ui);
 			return listContains(nandoCodeList, ui.tagLabel);
@@ -105,11 +97,13 @@ $(function() {
 	});
 
 	$(document).on('submit', 'form.auditLog', function() {
-		saveCodes();
-		if (!validate($(this)) || !areTagsValid()) {
+		console.log($(this));
+		if (!validate($(this)) ) {
+			showStatus({err : 1, msg: $.getMessage("errForm")});
+			return false;
+		}else if(!areTagsValid()){
 			return false;
 		}
-
 	});
 	
 	
@@ -131,11 +125,10 @@ function saveCodes() {
 }
 
 function areTagsValid() {
-	if ($.trim($('#hEacCodes').val()) === ''
-			&& $.trim($('#hEacCodes').val()) === '') {
+	if ($('#hEacCodes').val().length === 0 && $('#hNandoCodes').length === 0) {
 		showMessage({
 			err : 1,
-			msg : 'At least one EAC or NANDO code must be filled'
+			msg : $.getMessage("errCodes")
 		});
 		return false;
 	}
@@ -150,7 +143,7 @@ function listContains(list, code) {
 	}
 	showStatus({
 		err : 1,
-		msg : "Code: <b>" + code + "</b> is not allowed."
+		msg : $.getMessage("errCodes", code)
 	});
 	return false;
 }
@@ -189,9 +182,11 @@ function onCreateNewCompany() {
 }
 function onChooseExistingCertificationBodies() {
 	onChooseExisting('certification-bodies');
+	refreshOrderNoField();
 }
 function onCreateNewCertificationBodies() {
 	onCreateNew('certification-bodies');
+	refreshOrderNoField();
 }
 
 function onChooseExisting(postfix) {
@@ -204,7 +199,18 @@ function onCreateNew(postfix) {
 	$('.qs-new-' + postfix).removeClass('hidden').find('input').val('')
 			.addClass('required');
 	$('.qs-existing-' + postfix).addClass('hidden').find('select').val('')
-			.removeClass('required');
+			.removeClass('required').trigger("chosen:updated");
+}
+
+function refreshOrderNoField() {
+	var $field = $('.order-no'),
+		$select = $('#certificationBody');
+	console.log('Refresing order no: ' + ($select.val() === '1' && $select.hasClass('required')));
+	if ($select.val() === '1' && $select.hasClass('required')) {
+		$field.show().find('input').addClass('required');
+	} else {
+		$field.hide().find('input').val('').removeClass('required');
+	}
 }
 
 function executeRequest(opts, callBack) {
@@ -241,7 +247,7 @@ function hideLoader() {
 }
 
 function showErrors(json) {
-	var i = 0, errorInfo = "Some error occurred, try it againg, please.";
+	var i = 0, errorInfo =  $.getMessage("errUnknown");
 	if (typeof json.result !== 'undefined') {
 		for (i; i < json.result.length; i++) {
 			errorInfo += json.result[i] + (i != 0 ? "<br />" : '');

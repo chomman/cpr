@@ -40,7 +40,7 @@ public class CompanyDaoImpl extends BaseDaoImpl<Company, Long> implements Compan
 	@Override
 	public Company findByName(String name) {
 		final String sql = "select * from quasar_company where " + 
-					 "where  regexp_replace(unaccent(lower(name)), '[^a-z]', '', 'g') = " + 
+					 "regexp_replace(unaccent(lower(name)), '[^a-z]', '', 'g') = " + 
 				     "regexp_replace(unaccent(lower(:name)), '[^a-zA-Z]', '', 'g')";
 		return (Company)sessionFactory.getCurrentSession()
 				.createSQLQuery(sql)

@@ -12,6 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.view.RedirectView;
 
 import cz.nlfnorm.constants.Constants;
+import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.utils.UserUtils;
 
 
@@ -37,6 +38,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 			 commonModel.put("time", new DateTime().toString(Constants.DATE_TIME_FORMAT));
 			 commonModel.put("dateTimeFormat", Constants.DATE_TIME_FORMAT);
 			 commonModel.put("dateFormat", Constants.DATE_FORMAT);
+			 commonModel.put("locale", ContextHolder.getLang());
 			 modelAndView.addObject("common", commonModel);
 			 
 		 }

@@ -74,7 +74,7 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 	@Override
 	public NandoCode getByNandoCode(final String code) {
 		StringBuilder hql = new StringBuilder("from NandoCode n ");
-		hql.append(" where n.code = :code ");
+		hql.append(" where lower(n.code) = :code ");
 		Query query = createQuery(hql);
 		query.setString("code", code.toLowerCase());
 		query.setMaxResults(1);

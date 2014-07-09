@@ -4,7 +4,7 @@ begin;
 		  INCREMENT 1
 		  MINVALUE 1
 		  MAXVALUE 9223372036854775807
-		  START 1
+		  START 10
 		  CACHE 1;
 
 	CREATE TABLE quasar_company

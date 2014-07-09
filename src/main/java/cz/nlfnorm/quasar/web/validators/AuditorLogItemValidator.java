@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.web.validators;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -23,6 +24,16 @@ public class AuditorLogItemValidator extends AbstractValidator{
 	protected void addExtraValidation(Object objectForm, Errors errors) {
 		AuditLogItemForm form = (AuditLogItemForm)objectForm;
 		validateAuditLogDate(form.getItem().getAuditDate(), errors);
+		validateOrderNumber(form, errors);
+		validateCodes(form, errors);
+	}
+	
+	private void validateOrderNumber(AuditLogItemForm form, Errors errors){
+		if(form.getItem().getCertificationBody() != null &&
+		   form.getItem().getCertificationBody().getName().equalsIgnoreCase("itc") &&
+		   StringUtils.isBlank(form.getItem().getOrderNo())){
+			errors.reject("error.auditLogItem.orderNo");
+		}
 	}
 	
 	
@@ -34,6 +45,12 @@ public class AuditorLogItemValidator extends AbstractValidator{
 		if(earliestDate != null && earliestDate.isAfter(auditLogItemDate)){
 			errors.reject(messageSource.getMessage("error.auditLogItem.auditDate.range", new Object[]{earliestDate.toString("dd.MM.yyyy")}, ContextHolder.getLocale()), null);
 		}
-		
+	}
+	
+	
+	private void validateCodes(AuditLogItemForm form, Errors errors){
+		if(StringUtils.isBlank(form.getEacCodes()) && StringUtils.isBlank(form.getNandoCodes())){
+			errors.reject("error.auditLogItem.codes");
+		}
 	}
 }

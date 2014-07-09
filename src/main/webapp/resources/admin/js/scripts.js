@@ -4,7 +4,7 @@ $(function() {
 	resize();
 	$('form.valid').submit(function(){
 		if(! validate($(this))){
-			showStatus({err : 1, msg : "Formulář je chybně vyplněn, zkontrolujte zadané data."});
+			showStatus({err : 1, msg : $.getMessage("errForm")});
 			return false;
 		}
 	});
@@ -49,7 +49,7 @@ $(function() {
      });
      
      $('.confirm').on('click', function () {
-         return confirm('Opravdu chcete odstranit tuto položku?');
+         return confirm($.getMessage("confirmDelete"));
      });
      
      $('.confirmUnassignment').on('click', function () {
@@ -191,27 +191,36 @@ function validate(f){
 				var res = vldt[cls[i]](val,input);
 				if(!res.r){
 					input.addClass('formerr');
-					showStatus({err : 1, msg : res.msg});
+					if(res.msg.length > 0){
+						showStatus({err : 1, msg : res.msg});
+					}
 					valid = false;
 				}
 			}
 		}
 	});
 	
-	var s = f.find('select.required :selected');
-	if(f.find('select.required').length  != 0){ 
-		if(s.val() === ''){
+	f.find('select.required').each(function(){
+		var $select = $(this),
+			$chosen = $select.next();
+		console.log($select);
+		if($select.val() === ''){
 			valid = false;
-			s.parent().addClass('formerr');
+			$select.addClass('formerr');
+			if($chosen.hasClass('chosen-container')){
+				$chosen.addClass('formerr');
+			}
 		}else{
-			s.parent().removeClass('formerr');
+			$select.parent().removeClass('formerr');
+			if($chosen.hasClass('chosen-container')){
+				$chosen.removeClass('formerr');
+			}
 		}
-	}
-	
+	});
 	return valid;	
 	
 	function hasMsg(i){
-		return i.attr("data-err-msg") !== 'undefined';
+		return typeof i.attr("data-err-msg") !== 'undefined';
 	}
 	
 	function getMsg(i){

@@ -1,0 +1,13 @@
+var Messages = {
+	
+	errUnknown : 'Some error occurred, try it again, please',
+	errForm : 'Incorrectly filled form, check the entered data',
+	
+	confirmDelete : "Are you sure you want to delete this item",
+	
+	// QUASAR
+	phEacCode : 'Write EAC code...',
+	phNandoCode : 'Write NANDO code...',
+	errCodes : 'At least one EAC or NANDO code must be filled',
+	errCode : 'Code: <b>{0}</b> is not allowed.'
+};

@@ -35,8 +35,7 @@ public class NandoCodeServiceImpl implements NandoCodeService{
 	@Override
 	@Transactional(readOnly = true)
 	public NandoCode getByNandoCode(final String code) {
-		// TODO Auto-generated method stub
-		return null;
+		return nandoCodeDao.getByNandoCode(code);
 	}
 
 	@Override

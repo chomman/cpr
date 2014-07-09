@@ -35,7 +35,7 @@
 			</c:if>
 		</div>
 		
-		<form:form commandName="command" cssClass="auditLog" action="?id=0">
+		<form:form commandName="command" cssClass="auditLog">
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">

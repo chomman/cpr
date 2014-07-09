@@ -3,6 +3,7 @@ package cz.nlfnorm.exceptions;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +28,7 @@ public class CustomMappingExceptionResolver extends SimpleMappingExceptionResolv
 			return new ModelAndView("redirect:" + PortalWebpageController.ACCESS_DENIED_URL);
 		}
 		if(!(ex instanceof PageNotFoundEception) && !(ex instanceof ItemNotFoundException)){
-			logger.error(ex);
+			logger.error(ExceptionUtils.getStackTrace(ex));
 			exceptionLogService.logException(request, ex);
 		}else{
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);

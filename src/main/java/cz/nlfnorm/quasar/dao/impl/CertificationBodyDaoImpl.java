@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import cz.nlfnorm.dao.impl.BaseDaoImpl;
 import cz.nlfnorm.quasar.dao.CertificationBodyDao;
 import cz.nlfnorm.quasar.entities.CertificationBody;
-import cz.nlfnorm.quasar.entities.Company;
 
 @Repository("certificationBodyDao")
 public class CertificationBodyDaoImpl extends BaseDaoImpl<CertificationBody, Long> implements CertificationBodyDao{
@@ -39,11 +38,11 @@ public class CertificationBodyDaoImpl extends BaseDaoImpl<CertificationBody, Lon
 	@Override
 	public CertificationBody findByName(final String name) {
 		final String sql = "select * from quasar_certification_body where " + 
-				 "where  regexp_replace(unaccent(lower(name)), '[^a-z]', '', 'g') = " + 
+				 "regexp_replace(unaccent(lower(name)), '[^a-z]', '', 'g') = " + 
 			     "regexp_replace(unaccent(lower(:name)), '[^a-zA-Z]', '', 'g')";
 		return (CertificationBody)sessionFactory.getCurrentSession()
 				.createSQLQuery(sql)
-				.addEntity(Company.class)
+				.addEntity(CertificationBody.class)
 				.setString("name", name)
 				.setReadOnly(true)
 				.setMaxResults(1)

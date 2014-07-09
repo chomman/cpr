@@ -39,9 +39,9 @@ public class AuditLogItemServiceImpl implements AuditLogItemService {
 	@Override
 	public void createOrUpdate(final AuditLogItem auditLogItem) {
 		if(auditLogItem.getId() == null){
-			update(auditLogItem);
-		}else{
 			create(auditLogItem);
+		}else{
+			update(auditLogItem);
 		}
 	}
 
