@@ -186,6 +186,9 @@ table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
 .qs-bx-wrapp{border-left:1px solid #ddd;border-right:1px solid #ddd;border-bottom:1px solid #ddd;background:#fff}
 .qs-log-status{background-image:url(../quasar/img/ico_statues.png);display:inline-block;padding:2px 0 2px 30px;background-repeat:no-repeat;text-transform:uppercase;font-weight:bold;}
 
+a.toggle{display:inline-block;font-size:13px;margin-left:10px;font-weight:bold;text-decoration:underline;}
+a.toggle:hover{text-decoration:none;color:#000;cursor:pointer;}
+.chars{left:720px;}
 .qs-log-status-3 .qs-status{background-color:#ffedd8;}
 .qs-log-status-1 .qs-status{background-color:#d5eeff;}
 .qs-log-status-4 .qs-status{background-color:#d9ffe8;}
@@ -195,3 +198,10 @@ table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
 .qs-log-status-3 .qs-log-status{background-position:0 -52px;}
 .qs-log-status-2 .qs-log-status{background-position:0 -27px;}
 .qs-log-status-1 .qs-log-status{background-position:0 -77px;}
+
+.tags-wrapp{padding:10px;}
+.tags-wrapp ul{padding:2px 5px!important;margin:0 !important;max-width:510px;}
+.tags-wrapp ul li .tagit-label{margin-left:2px;font-size:14px;}
+.tags-wrapp .tagit-choice{padding:5px 20px 5px 10px !important;}
+.tags-wrapp .tagit-close{margin-right:-2px;padding:5px 0;top:11px !important;}
+.tagit-new{font-size:14px;padding:6px 0 !important;}

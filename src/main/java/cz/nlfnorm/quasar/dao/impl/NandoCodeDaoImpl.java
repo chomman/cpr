@@ -32,13 +32,13 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 		StringBuilder hql = new StringBuilder("select n from NandoCode n where n.enabled=true ");
 		switch(type){
 			case Auditor.TYPE_PRODUCT_ASSESSOR_A :
-				hql.append(" n.forProductAssesorA = true ");
+				hql.append(" and n.forProductAssesorA = true ");
 			break;
 			case Auditor.TYPE_PRODUCT_ASSESSOR_R :
-				hql.append(" n.forProductAssesorR = true ");
+				hql.append(" and n.forProductAssesorR = true ");
 			break;
 			case Auditor.TYPE_PRODUCT_SPECIALIST :
-				hql.append(" n.forProductSpecialist = true ");
+				hql.append(" and n.forProductSpecialist = true ");
 			break;
 		}
 		if(onlyFirstLevel){

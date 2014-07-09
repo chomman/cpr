@@ -1,26 +1,199 @@
 $(function(){
-	sendRequest( "GET", false, "auth/companies",
-	function(json){
-		$('#companySelect')
-			.html(generateOption(0, json, 2))
-			.trigger("chosen:updated");;
-	}
-	);
+	onChooseExistingCompany();
+	onChooseExistingCertificationBodies();
 	
-	 $("input[name=companyName]").autocomplete({
-		 source: function(request, response){  
-		 	 $.getJSON( getBasePath() +"auth/companies", request, function(data) {  
-             	 response( $.map( data, function( item ) {
-						return {label: item[1], value: item[1]};
-					}));
-        	});  
-		 },
+	var eacCodeList = [],
+		nandoCodeList = [],
+		$companySelect = $('#companySelect'),
+		$cBodySelect = $('#certificationBody'),
+		aSourceCallBack = function(request, response){ 
+	 	 $.getJSON( getBasePath() +"/ajax/" + $(this)[0].element.attr('data-url'), request, function(data) {  
+        	 response( $.map( data, function( item ) {
+					return {label: item.name, value: item.id};
+				}));
+	 	 });  
+	 };
+	 
+	refreshOrderNoField();
+	
+	sendRequest( "GET", false, "ajax/companies", function(json){
+				$companySelect.html(generateOption($companySelect.attr('data-id'), json, 2)).trigger("chosen:updated");
+			}
+	);
+	sendRequest( "GET", false, "/ajax/certification-bodies", function(json){
+				$cBodySelect.html(generateOption($cBodySelect.attr('data-id'), json, 2)).trigger("chosen:updated");
+			}
+	);
+	sendRequest( "GET", false, "/ajax/eac-codes", function(json){
+		eacCodeList = toArray(json);
+		}
+	);
+	sendRequest( "GET", false, "/ajax/nando-codes", function(json){
+		nandoCodeList = toArray(json);
+	}
+);
+	
+	$("input[name=companyName]").autocomplete({
+		 source: aSourceCallBack ,
 		minLength: 1,
 		select: function( event, ui ) {
-			ui.item.value;
+			$companySelect.val(ui.item.value).trigger("chosen:updated");
+			onChooseExistingCompany();
 		}
+	 });
+	
+	$("input[name=certificationBodyName]").autocomplete({
+		source: aSourceCallBack,
+		minLength: 1,
+		select: function( event, ui ) {
+			$cBodySelect.val(ui.item.value).trigger("chosen:updated");
+			onChooseExistingCertificationBodies();
+			refreshOrderNoField();
+		}
+	 });
+	 
+	 
+	$(document).on('click', '.qs-new-company a.toggle', onChooseExistingCompany);
+	$(document).on('click', '.qs-existing-company a.toggle', onCreateNewCompany);
+	$(document).on('click', '.qs-new-certification-bodies a.toggle', onChooseExistingCertificationBodies);
+	$(document).on('click', '.qs-existing-certification-bodies a.toggle', onCreateNewCertificationBodies);
+	
+	$cBodySelect.on('change', refreshOrderNoField );
+	$("textarea.limit").limiter(255, $("#chars"));
+	 
+	function refreshOrderNoField(){
+		var $field = $('.order-no');
+		if($cBodySelect.val() === '1'){
+			$field.show().find('input').addClass('required');
+		}else{
+			$field.hide().find('input').removeClass('required');
+		}
+	}
+	
+
+	
+	$('#eacCodes').tagit({
+		allowSpaces: true,
+		placeholderText : "Write EAC code...",
+		beforeTagAdded: function(event, ui) {
+				console.log(ui);
+				return listContains(eacCodeList, ui.tagLabel);
+		},
+		autocomplete: {     
+		     	source: function(req, res){
+		     		res(searchInList(req.term, eacCodeList, true ));
+		     	},
+		     	select: function( event, ui ) {
+    				ui.item.value;
+    			}
+		    }
+	});
+	$('#nandoCodes').tagit({
+		allowSpaces: true,
+		placeholderText : "Write NANDO code...",
+		beforeTagAdded: function(event, ui) {
+				console.log(ui);
+				return listContains(nandoCodeList, ui.tagLabel);
+		},
+		autocomplete: {     
+		     	source: function(req, res){
+		     		res(searchInList(req.term, nandoCodeList, false ));
+		     	},
+		     	select: function( event, ui ) {
+    				ui.item.value;
+    			}
+		    }
+	});
+	
+	$(document).on('submit','form.auditLog', function(){
+		saveCodes();
+		if(!validate($(this) || !areTagsValid())){
+			return false;
+		}
+		
+		
+	});
 });
-});
+
+function saveCodes(){
+	$('#hEacCodes').val($('#eacCodes').tagit("assignedTags"));
+	$('#hNandoCodes').val($('#nandoCodes').tagit("assignedTags"));
+}
+
+function areTagsValid(){
+	if($.trim($('#hEacCodes').val()) === '' &&)
+		$.trim($('#hEacCodes').val()) === ''){
+			showMessage({err : 1, msg : 'At least one EAC or NANDO code must be filled'});
+			return false;
+		}
+	return true;
+}
+
+
+function listContains(list, code){
+	for(var i in list){
+		if(list[i].value === code){
+			return true;
+		}
+	}
+	showStatus({err :1, msg : "Code: <b>" + code + "</b> is not allowed."});
+	return false;
+}
+
+
+function searchInList(term, list, isEacCodeReq){
+	if(isEacCodeReq && /^\d+$/.test(term)){
+		term = "EAC " + term;
+	}
+	var rList = [];
+	for(var i in list){
+		if(startsWith(list[i].value, term)){
+			rList.push(list[i]);
+			if(rList.length > 5){
+				console.log(rList);
+				return rList;
+			}
+		}
+	}
+	return rList;
+}
+function toArray(json, isEacCode){
+	var list = [];
+	for(var i in json){
+		list.push({
+			label : json[i].code + ' - ' +  (isEacCode ? json[i].name : json[i].specification), 
+			value : json[i].code
+		});
+	}
+	console.log(list);
+	return list.sort(sortByName);
+}
+
+function onChooseExistingCompany(){
+	onChooseExisting('company');
+}
+function onCreateNewCompany(){
+	onCreateNew('company');
+}
+function onChooseExistingCertificationBodies(){
+	onChooseExisting('certification-bodies');
+}
+function onCreateNewCertificationBodies(){
+	onCreateNew('certification-bodies');
+}
+
+function onChooseExisting(postfix){
+	$('.qs-new-'+ postfix).addClass('hidden')
+		.find('input').removeClass('required');
+	$('.qs-existing-'+postfix).removeClass('hidden')
+		.find('select').addClass('required');
+}
+function onCreateNew(postfix){
+	$('.qs-new-'+postfix).removeClass('hidden')
+		.find('input').val('').addClass('required');
+	$('.qs-existing-'+postfix).addClass('hidden')
+		.find('select').val('').removeClass('required');
+}
 
 function executeRequest(opts, callBack){
 	try{
@@ -55,7 +228,7 @@ function showLoader(){
 }
 function hideLoader(){
 	$('#wrapper').css({'opacity' : '1'});
-	//$('#loader').hide();
+	$('#loader').hide();
 }
 
 function showErrors(json){
@@ -69,4 +242,10 @@ function showErrors(json){
 	showStatus({err: 1, msg: errorInfo});
 	console.warn(arguments);
 	return false;
+}
+
+function sortByName(a, b){
+	var textA = a.value.toUpperCase();
+    var textB = b.value.toUpperCase();
+    return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
 }

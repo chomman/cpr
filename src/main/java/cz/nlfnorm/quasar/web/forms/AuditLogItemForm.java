@@ -6,13 +6,13 @@ public class AuditLogItemForm {
 	
 	private AuditLogItem item;
 	private String companyName;
+	private String certificationBodyName;
 	private String eacCodes;
 	private String nandoCodes;
 	
 	public AuditLogItemForm(){
 		item = new AuditLogItem();
 	}
-	
 	public AuditLogItemForm(AuditLogItem item){
 		this.item = item;
 	}
@@ -40,6 +40,14 @@ public class AuditLogItemForm {
 	}
 	public void setNandoCodes(String nandoCodes) {
 		this.nandoCodes = nandoCodes;
+	}
+
+	public String getCertificationBodyName() {
+		return certificationBodyName;
+	}
+
+	public void setCertificationBodyName(String certificationBodyName) {
+		this.certificationBodyName = certificationBodyName;
 	}
 	
 	

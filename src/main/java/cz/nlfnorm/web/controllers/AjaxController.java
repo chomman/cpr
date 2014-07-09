@@ -21,7 +21,9 @@ import cz.nlfnorm.entities.CsnCategory;
 import cz.nlfnorm.entities.CsnTerminology;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.entities.StandardCsn;
+import cz.nlfnorm.quasar.entities.CertificationBody;
 import cz.nlfnorm.quasar.entities.Company;
+import cz.nlfnorm.quasar.services.CertificationBodyService;
 import cz.nlfnorm.quasar.services.CompanyService;
 import cz.nlfnorm.services.AssessmentSystemService;
 import cz.nlfnorm.services.CommissionDecisionService;
@@ -62,6 +64,8 @@ public class AjaxController {
 	private TagService tagService;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private CertificationBodyService certificationBodyService;
 		
 	
 	@RequestMapping(value = "/ajax/csn/category/{searchCodeOfParent}", method = RequestMethod.GET)
@@ -125,12 +129,20 @@ public class AjaxController {
 		return notifiedBodyService.autocomplete(term, enabled);
 	}
 	
-	@RequestMapping(value = "/auth/companies", method = RequestMethod.GET)
+	@RequestMapping(value = "/ajax/companies", method = RequestMethod.GET)
 	public @ResponseBody List<Company>  getCompanies(@RequestBody @RequestParam(required = false, value = "term") String query){
 		if(StringUtils.isBlank(query)){
 			return companyService.getAll();
 		}
 		return companyService.autocomplete(query);
+	}
+	
+	@RequestMapping(value = "/ajax/certification-bodies", method = RequestMethod.GET)
+	public @ResponseBody List<CertificationBody>  getCertificationBodies(@RequestBody @RequestParam(required = false, value = "term") String query){
+		if(StringUtils.isBlank(query)){
+			return certificationBodyService.getAll();
+		}
+		return certificationBodyService.autocomplete(query);
 	}
 
 	

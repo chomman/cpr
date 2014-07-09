@@ -13,9 +13,8 @@ function isBlank(v){
 }
 
 function generateOption(selectedId, items){
-	console.log(arguments);
 	var html = getOption('', getOptionInitLable(arguments[2]), false);
-	for(var i in items){1
+	for(var i in items){
 		html += getOption(items[i].id, items[i].name, (selectedId+"" == items[i].id+""));
 	}
 	return html;

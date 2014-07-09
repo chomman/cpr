@@ -37,7 +37,7 @@ public class AuditLogItem extends IdentifiableEntity{
 	private AuditLog auditLog;
 	private Company company;
 	private LocalDate auditDate;
-	private int durationInDays;
+	private int durationInDays = 1;
 	private String certifiedProduct;
 	private String certificationBody;
 	private String orderNo;
@@ -104,7 +104,7 @@ public class AuditLogItem extends IdentifiableEntity{
 		this.certifiedProduct = certifiedProduct;
 	}
 	
-	@Length(min = 1, max = 15, message = "{error.auditLogItem.certificationBody}")
+	@Length(min = 1, max = 20, message = "{error.auditLogItem.certificationBody}")
 	@Column(name = "certification_body", length = 15, nullable = false)
 	public String getCertificationBody() {
 		return certificationBody;

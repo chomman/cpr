@@ -15,6 +15,9 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * Entity of Quality system assesmet reporting system, represents EAC code
  * 
@@ -22,6 +25,7 @@ import org.hibernate.validator.constraints.Length;
  * @date Jun 6, 2014
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SequenceGenerator(name = "quasar_eac_code_id_seq", sequenceName = "quasar_eac_code_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "quasar_eac_code")
@@ -32,7 +36,9 @@ public class EacCode extends BaseEntity {
 	private String name;
 	private String naceCode;
 	
+	@JsonIgnore
 	private boolean forQsAuditor;
+	@JsonIgnore
 	private Integer threshold = 1;
 	
 	@Id

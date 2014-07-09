@@ -10,6 +10,8 @@ import javax.persistence.Transient;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import cz.nlfnorm.entities.User;
 
 @SuppressWarnings("serial")
@@ -17,8 +19,11 @@ import cz.nlfnorm.entities.User;
 public abstract class BaseEntity extends IdentifiableEntity{
 	
 	private String code;
+	@JsonIgnore
 	private boolean enabled = true;
+	@JsonIgnore
 	private LocalDateTime changed;
+	@JsonIgnore
 	private User changedBy;
 	
 

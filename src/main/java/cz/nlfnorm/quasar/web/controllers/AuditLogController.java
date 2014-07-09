@@ -24,14 +24,17 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.CertificationBody;
 import cz.nlfnorm.quasar.entities.Company;
 import cz.nlfnorm.quasar.entities.EducationLevel;
 import cz.nlfnorm.quasar.entities.Experience;
 import cz.nlfnorm.quasar.entities.FieldOfEducation;
 import cz.nlfnorm.quasar.entities.Partner;
+import cz.nlfnorm.quasar.enums.AuditLogItemType;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.services.AuditLogItemService;
 import cz.nlfnorm.quasar.services.AuditLogService;
+import cz.nlfnorm.quasar.services.CertificationBodyService;
 import cz.nlfnorm.quasar.services.CompanyService;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.web.forms.AuditLogItemForm;
@@ -57,6 +60,8 @@ public class AuditLogController extends QuasarSupportController {
 	@Autowired
 	private AuditLogItemService auditLogItemService;
 	@Autowired
+	private CertificationBodyService certificationBodyService;
+	@Autowired
 	private CompanyService companyService;
 	@Autowired
 	private LocalDateEditor localDateEditor;
@@ -69,6 +74,7 @@ public class AuditLogController extends QuasarSupportController {
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
 		binder.registerCustomEditor(Company.class, new IdentifiableByLongPropertyEditor<Company>( companyService ));
+		binder.registerCustomEditor(CertificationBody.class, new IdentifiableByLongPropertyEditor<CertificationBody>( certificationBodyService ));
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 	}
 	
@@ -111,6 +117,7 @@ public class AuditLogController extends QuasarSupportController {
 	private void prepareModelFor(final long id, ModelMap modelMap, AuditLogItemForm form) throws ItemNotFoundException{
 		final Map<String, Object> model = new HashMap<>();
 		model.put("auditLog", getAuditLog(id));
+		model.put("auditLogItemTypes", AuditLogItemType.getAll());
 		modelMap.addAttribute(COMMAND, form);
 		appendModel(modelMap, model);
 	}

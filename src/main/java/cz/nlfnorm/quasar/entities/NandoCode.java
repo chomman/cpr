@@ -23,6 +23,9 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.validator.constraints.Length;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import cz.nlfnorm.quasar.views.NandoCodeType;
 
 /**
@@ -33,6 +36,7 @@ import cz.nlfnorm.quasar.views.NandoCodeType;
  * @date Jun 6, 2014
  */
 @Entity
+@JsonIgnoreProperties(ignoreUnknown = true)
 @SequenceGenerator(name = "quasar_nando_code_id_seq", sequenceName = "quasar_nando_code_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "quasar_nando_code")
@@ -41,64 +45,75 @@ public class NandoCode extends BaseEntity implements NandoCodeType{
 	private static final long serialVersionUID = 1388976314109073881L;
 	
 	private String specification;
+	@JsonIgnore
 	private Set<NandoCode> children;
+	@JsonIgnore
 	private NandoCode parent;
 	private Integer order;
 	
-	
+	@JsonIgnore
 	private boolean forProductAssesorA;
 	/**
 	 * Condition for auditor type: Product Assesor-A
 	 * Category-specific training (hours). Default 8
 	 */
+	@JsonIgnore
 	private Integer assesorATrainingThreashold = 8;
 	/**
 	 * Condition for auditor type: Product Assesor-A
 	 * Number of NB audits in category. Default 1
 	 */
+	@JsonIgnore
 	private Integer assesorANbAuditsThreashold = 1;
 	/**
 	 * Condition for auditor type: Product Assesor-A
 	 * Number of ISO 13485 audits in relevant technical area.
 	 */
+	@JsonIgnore
 	private Integer assesorAIso13485Threashold = 3;
 	
 	
-	
+	@JsonIgnore
 	private boolean forProductAssesorR;
 	/**
 	 * Condition for auditor type: Product Assesor-R
 	 * Category-specific training (hours). Default 16
 	 */
+	@JsonIgnore
 	private Integer assesorRTrainingThreashold = 16;
 	/**
 	 * Condition for auditor type: Product Assesor-R
 	 * No. of TF reviews in category. Default 1
 	 */
+	@JsonIgnore
 	private Integer assesorRTFReviewsThreashold = 1;
 	/**
 	 * Condition for auditor type: Product Assesor-R
 	 * If No. of TF reviews is bigger || equals this val, Training is complied.
 	 */
+	@JsonIgnore
 	private Integer assesorRTFReviewsThreasholdForTraining = 3;
 	
 	
-	
+	@JsonIgnore
 	private boolean forProductSpecialist;
 	/**
 	 * Condition for auditor type: Product Assesor-R
 	 * Category-specific training (hours). Default 16
 	 */
+	@JsonIgnore
 	private Integer specialistTrainingThreashold = 16;
 	/**
 	 * Condition for auditor type: Product Assesor-R
 	 * No. of TF reviews in category. Default 1
 	 */
+	@JsonIgnore
 	private Integer specialistDDReviewsThreashold = 1;
 	/**
 	 * Condition for auditor type: Product Assesor-R
 	 * If No. of TF reviews is bigger || equals this val, Training is complied.
 	 */
+	@JsonIgnore
 	private Integer specialistDDReviewsThreasholdForTraining = 5;
 	
 	public NandoCode(){

@@ -20,9 +20,9 @@ public class CompanyDaoImpl extends BaseDaoImpl<Company, Long> implements Compan
 	@Override
 	public List<Company> autocomplete(final String term) {
 		final String hql = "select c from Company c where " +
-						   "unaccent(lower(c.name)) like CONCAT('%', lower(unaccent(:term))) ";
+						   "unaccent(lower(c.name)) like CONCAT(lower(unaccent(:term)),'%') ";
 		return createQuery(hql)
-					  .setString("term", term.trim())
+					  .setString("term", term.toLowerCase().trim())
 					  .setMaxResults(8)
 					  .setCacheable(false)
 					  .list();

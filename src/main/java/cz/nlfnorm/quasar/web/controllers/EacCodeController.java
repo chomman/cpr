@@ -1,6 +1,7 @@
 package cz.nlfnorm.quasar.web.controllers;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,8 +14,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.EacCode;
@@ -68,6 +72,11 @@ public class EacCodeController extends QuasarSupportController {
 		}
 		final Long id = createOrUpdate(form);
 		return successUpdateRedirect(FORM_MAPPING_URL.replace("{codeId}", id+""));
+	}
+	
+	@RequestMapping(value = "/ajax/eac-codes", method = RequestMethod.GET)
+	public @ResponseBody List<EacCode>  getEacCodes(@RequestBody @RequestParam(required = false, value = "term") String query){
+		return eacCodeService.getAllForQsAuditor();
 	}
 	
 	private Long createOrUpdate(final EacCode form) throws ItemNotFoundException{

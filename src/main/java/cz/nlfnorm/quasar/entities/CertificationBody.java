@@ -10,17 +10,11 @@ import javax.persistence.Table;
 
 @Entity
 @SequenceGenerator(name = "quasar_company_id_seq", sequenceName = "quasar_company_id_seq", initialValue = 1, allocationSize =1)
-@Table(name = "quasar_company")
-public class Company extends IdentifiableEntity {
+@Table(name = "quasar_certification_body")
+public class CertificationBody extends IdentifiableEntity {
 	
-	private static final long serialVersionUID = 5747739313803863314L;
+	private static final long serialVersionUID = 7172242080658460324L;
 	private String name;
-	
-	public Company(){}
-	
-	public Company(String name){
-		this.name = name;
-	}
 	
 	@Id
 	@Override
@@ -28,8 +22,8 @@ public class Company extends IdentifiableEntity {
 	public Long getId() {
 		return super.getId();
 	}
-
-	@Column(name = "name", length = 60, nullable = false, unique = true)
+	
+	@Column(name = "name", nullable = false, length = 60, unique = true)
 	public String getName() {
 		return name;
 	}
@@ -37,5 +31,6 @@ public class Company extends IdentifiableEntity {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
 	
 }
