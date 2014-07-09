@@ -39,7 +39,7 @@ public class AuditLogItem extends IdentifiableEntity{
 	private LocalDate auditDate;
 	private int durationInDays = 1;
 	private String certifiedProduct;
-	private String certificationBody;
+	private CertificationBody certificationBody;
 	private String orderNo;
 	private AuditLogItemType type;
 	
@@ -63,7 +63,7 @@ public class AuditLogItem extends IdentifiableEntity{
 		this.auditLog = auditLog;
 	}
 
-	@ManyToOne(cascade = CascadeType.DETACH)
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
 	public Company getCompany() {
 		return company;
@@ -103,14 +103,13 @@ public class AuditLogItem extends IdentifiableEntity{
 	public void setCertifiedProduct(String certifiedProduct) {
 		this.certifiedProduct = certifiedProduct;
 	}
-	
-	@Length(min = 1, max = 20, message = "{error.auditLogItem.certificationBody}")
-	@Column(name = "certification_body", length = 15, nullable = false)
-	public String getCertificationBody() {
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "certification_body_id")	
+	public CertificationBody getCertificationBody() {
 		return certificationBody;
 	}
 
-	public void setCertificationBody(String certificationBody) {
+	public void setCertificationBody(CertificationBody certificationBody) {
 		this.certificationBody = certificationBody;
 	}
 

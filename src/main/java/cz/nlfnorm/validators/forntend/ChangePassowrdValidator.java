@@ -2,7 +2,6 @@ package cz.nlfnorm.validators.forntend;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
@@ -20,12 +19,8 @@ public class ChangePassowrdValidator extends AbstractValidator{
 	@Autowired
 	protected UserService userService;
 	@Autowired
-	protected MessageSource messageSource;
-	@Autowired
 	private PasswordEncoder passwordEncoder;
-	
-	
-	
+		
 	@Override
 	protected void addExtraValidation(Object objectForm, Errors errors) {
 		

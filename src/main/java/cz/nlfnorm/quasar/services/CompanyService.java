@@ -12,4 +12,6 @@ public interface CompanyService extends IdentifiableByLongService<Company>{
 	List<Company> getAll();
 	
 	void create(Company company);
+	
+	Company findByName(String name);
 }

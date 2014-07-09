@@ -16,6 +16,11 @@ public class CertificationBody extends IdentifiableEntity {
 	private static final long serialVersionUID = 7172242080658460324L;
 	private String name;
 	
+	public CertificationBody(){}
+	public CertificationBody(String name){
+		this.name = name;
+	}
+	
 	@Id
 	@Override
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_company_id_seq")

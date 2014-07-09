@@ -40,4 +40,10 @@ public class CertificationBodyServiceImpl implements CertificationBodyService {
 		certificationBodyDao.save(certificationBody);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public CertificationBody findByName(final String name) {
+		return certificationBodyDao.findByName(name);
+	}
+
 }

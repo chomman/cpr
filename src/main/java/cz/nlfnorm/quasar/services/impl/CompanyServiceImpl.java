@@ -46,4 +46,10 @@ public class CompanyServiceImpl implements CompanyService{
 		return companyDao.getAll();
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Company findByName(final String name) {
+		return companyDao.findByName(name);
+	}
+
 }

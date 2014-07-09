@@ -12,4 +12,6 @@ public interface CertificationBodyDao extends BaseDao<CertificationBody, Long>{
 	
 	List<CertificationBody> getAll();
 	
+	CertificationBody findByName(String name);
+	
 }

@@ -25,7 +25,7 @@ ConstraintValidatorFactory {
 	@Autowired
 	private Validator validator;
 	@Autowired
-	private MessageSource messageSource;
+	protected MessageSource messageSource;
 	
 	private ApplicationContext applicationContext;
 	

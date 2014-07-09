@@ -36,4 +36,14 @@ public class AuditLogItemServiceImpl implements AuditLogItemService {
 		return auditLogItemDao.getByID(id);
 	}
 
+	@Override
+	public void createOrUpdate(final AuditLogItem auditLogItem) {
+		if(auditLogItem.getId() == null){
+			update(auditLogItem);
+		}else{
+			create(auditLogItem);
+		}
+	}
+
+	
 }

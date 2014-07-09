@@ -344,7 +344,8 @@ textarea#header, .dscrbox{width:600px;height:100px;}
 #title{width:600px;}
 #ui-datepicker-div{font-size:14px;}
 .date-month{width:70px;background:#FCFCFC url(../img/ico_calendar_input.png) no-repeat 85px center;} 	 	
-.date{width:120px;background:#FCFCFC url(../img/ico_calendar_input.png) no-repeat 135px center;} 	 	
+.date,
+.qs-date{width:120px;background:#FCFCFC url(../img/ico_calendar_input.png) no-repeat 108px center;} 	 	
 .date, 	 	
 .date-month{text-align:right;font-size:14px;padding:8px 40px 8px 0;} 	 	
 

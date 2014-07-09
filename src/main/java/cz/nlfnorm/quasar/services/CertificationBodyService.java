@@ -13,4 +13,5 @@ public interface CertificationBodyService extends IdentifiableByLongService<Cert
 	
 	void create(CertificationBody certificationBody);
 	
+	CertificationBody findByName(String name);
 }

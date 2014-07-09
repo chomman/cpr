@@ -8,5 +8,6 @@ import cz.nlfnorm.quasar.entities.Company;
 public interface CompanyDao extends BaseDao<Company, Long>{
 	
 	List<Company> autocomplete(String term);
-		
+
+	Company findByName(String name);
 }

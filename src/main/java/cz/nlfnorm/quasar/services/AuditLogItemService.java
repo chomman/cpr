@@ -12,6 +12,6 @@ public interface AuditLogItemService {
 	
 	AuditLogItem getById(long id);
 	
-	
+	void createOrUpdate(AuditLogItem auditLogItem);
 	
 }

@@ -22,7 +22,7 @@
 		<strong><joda:format value="${model.auditLog.created}" pattern="dd.MM.yyyy"/></strong>
 	</h1>
 
-	<div id="content">
+	<div id="content"> 
 									
 		<c:if test="${not empty successCreate}">
 			<p class="msg ok"><spring:message code="success.create" /></p>
@@ -35,7 +35,7 @@
 			</c:if>
 		</div>
 		
-		<form:form commandName="command" cssClass="auditLog">
+		<form:form commandName="command" cssClass="auditLog" action="?id=0">
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
@@ -45,7 +45,7 @@
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="item.auditDate" maxlength="10" cssClass="date required" />
+					<form:input path="item.auditDate" maxlength="10" cssClass="qs-date required" />
 				</div>
 			</div>
 			
@@ -184,6 +184,7 @@
 	
 	</div>	
 </div>
+<div id="minDate" class="hidden"><c:if test="${not empty model.dateThreshold}"><joda:format value="${model.dateThreshold}" pattern="dd.MM.yyyy"/></c:if></div>
 <div id="loader" class="loader"></div>
 </body>
 </html>

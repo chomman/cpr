@@ -1,4 +1,4 @@
-package cz.nlfnorm.quasar.validators;
+package cz.nlfnorm.quasar.web.validators;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

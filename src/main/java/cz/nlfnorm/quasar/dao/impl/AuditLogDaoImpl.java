@@ -104,7 +104,7 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 		final String hql = "select max(ali.auditDate) from AuditLogItem ali " +
 							" join ali.auditLog auditLog " +
 							" join auditLog.auditor auditor " +
-						   " where auditor.id = :auditorId AND aditLog.status = :status ";
+						   " where auditor.id=:auditorId AND auditLog.status = :status ";
 		return (LocalDate) createQuery(hql)
 						.setLong("auditorId", auditorId)
 						.setInteger("status", LogStatus.APPROVED.getId())

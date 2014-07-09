@@ -131,6 +131,15 @@ function getDatepickerOptions(type){
 	
 	if(typeof type === 'undefined' || type === 'default'){
 		return datepickerOpts;
+	}else if(type === 'minDate'){
+		if(console){
+			console.log('Setting min date: ' + arguments[1]);
+		}
+		var d = arguments[1].split('.');
+		datepickerOpts = $.extend({}, datepickerOpts, { 
+			minDate : new Date( parseInt(d[2]), parseInt(d[1], 10) - 1,  parseInt(d[0])) 
+		});
+		return datepickerOpts;
 	}
 	var selectOnlyMonth = $.extend({}, datepickerOpts, {
 		changeMonth: true,

@@ -1,9 +1,12 @@
 package cz.nlfnorm.quasar.web.forms;
 
+import javax.validation.Valid;
+
 import cz.nlfnorm.quasar.entities.AuditLogItem;
 
 public class AuditLogItemForm {
 	
+	@Valid
 	private AuditLogItem item;
 	private String companyName;
 	private String certificationBodyName;

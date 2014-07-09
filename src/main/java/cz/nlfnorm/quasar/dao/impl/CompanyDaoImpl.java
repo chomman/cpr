@@ -35,5 +35,21 @@ public class CompanyDaoImpl extends BaseDaoImpl<Company, Long> implements Compan
 		return createQuery("select c from Company c order by c.name")
 				.list();
 	}
+
+
+	@Override
+	public Company findByName(String name) {
+		final String sql = "select * from quasar_company where " + 
+					 "where  regexp_replace(unaccent(lower(name)), '[^a-z]', '', 'g') = " + 
+				     "regexp_replace(unaccent(lower(:name)), '[^a-zA-Z]', '', 'g')";
+		return (Company)sessionFactory.getCurrentSession()
+				.createSQLQuery(sql)
+				.addEntity(Company.class)
+				.setString("name", name)
+				.setReadOnly(true)
+				.setMaxResults(1)
+				.uniqueResult();
+
+	}
 	
 }
