@@ -95,7 +95,11 @@ $(function() {
 			}
 		});
 	}
-
+	$(document).on('click', '.qs-show-comments', function(){
+		$(this).hide().next().removeClass('hidden');
+		return false;
+	});
+	
 	$(document).on('submit', 'form.auditLog', function() {
 		if (!validate($(this)) ) {
 			showStatus({err : 1, msg: $.getMessage("errForm")});

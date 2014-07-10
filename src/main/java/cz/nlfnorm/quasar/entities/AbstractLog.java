@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
@@ -36,7 +38,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	private LocalDateTime created;
 	private User changedBy;
 	
-	private Set<Comment> comments;
+	private Set<Comment> comments = new HashSet<>();
 	
 	public AbstractLog(){
 		created = new LocalDateTime();
@@ -129,5 +131,9 @@ public abstract class AbstractLog extends IdentifiableEntity{
 		revision++;
 	}
 	
+	@Transient
+	public int getCountOfComments(){
+		return comments.size();
+	}
 	
 }

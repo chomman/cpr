@@ -32,6 +32,21 @@
 			<p class="msg ok"><spring:message code="success.delete" /></p>
 		</c:if>
 		
+		<c:if test="${not empty model.auditLog.comments}">
+			<a class="qs-show-comments">Show users comments <strong>(${model.auditLog.countOfComments})</strong> </a>
+			<div class="qs-comments hidden">
+					<c:forEach items="${model.auditLog.comments}" var="i">
+						<div>
+							${i.comment}
+							<span class="qs-meta">
+								<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>, 
+								${i.user.name}
+							</span>
+						</div>
+					</c:forEach>
+			</div>
+		</c:if>
+		
 		<div class="qs-bx-wrapp qs-log-items">
 			<p class="form-head"><spring:message code="auditLog.auditLog.items" /></p>
 			<c:if test="${empty model.auditLog.items}">
@@ -93,9 +108,16 @@
 			 </div>
 		</div>
 		
+		<div class="qs-log-nav">
+			<span>
+				<strong><spring:message code="options" />:</strong>
+			</span>
+				<a class="qs-btn qs-new" href="?iid=0">
+					<spring:message code="auditLog.item.create" />
+				</a>
+		</div>
 		
-		
-		<form:form commandName="command" cssClass="auditLog">
+		<form:form commandName="command" cssClass="auditLog ${model.showForm ? '' : 'hidden'}">
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
@@ -223,7 +245,7 @@
 					<ul id="eacCodes"><c:forEach items="${command.item.eacCodes}" var="i"><li>${i.code}</li></c:forEach></ul>
 				</div>
 			</div>
-			<div class="input-wrapp smaller  pj-type">
+			<div class="input-wrapp smaller pj-type">
 				<label>
 					<spring:message code="auditLog.item.nandoCodes" />:
 					<small>Press ENTER to insert code</small>
@@ -232,13 +254,14 @@
 					<ul id="nandoCodes"><c:forEach items="${command.item.nandoCodes}" var="i"><li>${i.code}</li></c:forEach></ul>
 				</div>
 			</div>
-			
-			
 			<form:hidden path="eacCodes" id="hEacCodes"/>
 			<form:hidden path="nandoCodes" id="hNandoCodes"/>
 			<form:hidden path="item.id" />
 			<p class="button-box">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />
+			<a:adminurl href="/quasar/audit-log/${model.auditLog.id}" cssClass="cancel qs-btn">
+				<spring:message code="cancel" />
+			</a:adminurl>
 			</p>    
 			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>	    
 		</form:form>

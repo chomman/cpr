@@ -62,7 +62,8 @@ public class Comment extends IdentifiableEntity {
 		this.created = created;
 	}
 
-	@Column(name = "comment", length = 300)
+	@Type(type = "text")
+	@Column(name = "comment")
 	public String getComment() {
 		return comment;
 	}
