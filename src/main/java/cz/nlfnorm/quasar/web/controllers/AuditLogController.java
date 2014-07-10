@@ -51,10 +51,11 @@ import cz.nlfnorm.web.editors.LocalDateEditor;
 public class AuditLogController extends QuasarSupportController {
 	
 	private final static int TAB = 8;
-	private final static String ID_PARAM_NAME = "iid";
+	private final static String ITEM_ID_PARAM_NAME = "iid";
 	private final static String ADMIN_LIST_MAPPING_URL = "/admin/quasar/manage/audit-logs";
 	private final static String PROFILE_LIST_MAPPING_URL = "/admin/quasar/audit-logs";
 	private final static String PROFILE_EDIT_MAPPING_URL = "/admin/quasar/audit-log/{id}";
+	private final static String AUDIT_LOG_ITEM_DELETE_URL = "/admin/quasar/audit-log-item/delete/{id}";
 	private final static String FORM_MAPPING_URL = "/admin/quasar/manage/audit-log/{id}";
 
 	@Autowired
@@ -102,11 +103,15 @@ public class AuditLogController extends QuasarSupportController {
 		return getViewDir() + "profile/auditor-audit-logs";
 	}
 	
+	
 	@RequestMapping(value = PROFILE_EDIT_MAPPING_URL, method = RequestMethod.GET)
 	public String handleAuditLogEdit(ModelMap modelMap, @PathVariable long id, HttpServletRequest request) throws ItemNotFoundException{
 		if(id == 0){
 			id = auditLogService.createNewToLoginedUser();
 			return successUpdateRedirect(PROFILE_EDIT_MAPPING_URL.replace("{id}", id+""));
+		}
+		if(isDeleted(request)){
+			appendSuccessCreateParam(modelMap);
 		}
 		if(isSucceded(request)){
 			appendSuccessCreateParam(modelMap);
@@ -114,6 +119,18 @@ public class AuditLogController extends QuasarSupportController {
 		prepareModelFor(getAuditLog(id), modelMap, getItem(request));
 		return getViewDir() + "profile/auditor-audit-log-edit";
 	}
+	
+	
+	
+	@RequestMapping(value = AUDIT_LOG_ITEM_DELETE_URL)
+	public String handleAuditLogEdit(final @PathVariable long id) throws ItemNotFoundException{
+		final AuditLogItem auditLogItem = getAuditLogItem(id);
+		final Long auditLogId = auditLogItem.getAuditLog().getId();
+		auditLogService.updateAndSetChanged(auditLogItem.getAuditLog());
+		auditLogItemService.delete(auditLogItem);
+		return successDeleteRedirect(PROFILE_EDIT_MAPPING_URL.replace("{id}", auditLogId+""));
+	}
+	
 	
 	@RequestMapping(value = PROFILE_EDIT_MAPPING_URL, method = RequestMethod.POST)
 	public String processSubmitAuditLogItem(
@@ -127,6 +144,7 @@ public class AuditLogController extends QuasarSupportController {
 			auditorLogItemValidator.validate(form, result);
 			if(!result.hasErrors()){
 				createOrUpdate(auditLog, form);
+				appendSuccessCreateParam(modelMap);
 			}
 		}
 		prepareModelFor(auditLog, modelMap, form);
@@ -210,10 +228,9 @@ public class AuditLogController extends QuasarSupportController {
 		}
 	}
 	
-
 	
 	private AuditLogItemForm getItem(HttpServletRequest request){
-		final String val = request.getParameter(ID_PARAM_NAME);
+		final String val = request.getParameter(ITEM_ID_PARAM_NAME);
 		if(StringUtils.isBlank(val)){
 			return new AuditLogItemForm();
 		}

@@ -21,4 +21,6 @@ public interface AuditLogService {
 	
 	LocalDate getEarliestPossibleDateForAuditLog();
 	
+	void updateAndSetChanged(AuditLog auditLog);
+	
 }

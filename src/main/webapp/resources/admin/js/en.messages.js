@@ -6,8 +6,7 @@ var Messages = {
 	confirmDelete : "Are you sure you want to delete this item",
 	
 	// QUASAR
-	phEacCode : 'Write EAC code...',
-	phNandoCode : 'Write NANDO code...',
+	placeholderCodes : 'Write code...',
 	errCodes : 'At least one EAC or NANDO code must be filled',
 	errCode : 'Code: <b>{0}</b> is not allowed.'
 };

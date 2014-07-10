@@ -70,7 +70,8 @@
 						<tr>
 							<th><spring:message code="logStatus" /></th>
 							<th><spring:message code="auditLog.auditLog" /> date</th>
-							<th><spring:message code="auditLog.auditLog.items.count" /></th>
+							<th><spring:message code="auditLog.auditDays" /></th>
+							<th><spring:message code="auditLog.audits" /></th>
 							<th><spring:message code="auditLog.auditLog.revision" /></th>
 							<th>Changed</th>
 							<th>&nbsp;</th> 
@@ -95,7 +96,10 @@
 									</c:if>
 								</td>
 								<td class="w40 c">
-								<strong>${i.countOfItems}</strong>
+								<strong>${i.sumOfAuditDays}</strong>
+								</td>
+								<td class="w40 c">
+								<strong>${i.countOfAudits}</strong>
 								</td>
 								<td class="w40 c">
 								<strong>${i.revision}</strong>

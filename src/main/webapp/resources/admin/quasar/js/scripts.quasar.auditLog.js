@@ -26,9 +26,11 @@ $(function() {
 	});
 	sendRequest("GET", false, "ajax/eac-codes", function(json) {
 		eacCodeList = toArray(json, true);
+		initTags("#eacCodes", eacCodeList, true);
 	});
 	sendRequest("GET", false, "ajax/nando-codes", function(json) {
 		nandoCodeList = toArray(json, false);
+		initTags("#nandoCodes", nandoCodeList, false);
 	});
 
 	$("input[name=companyName]").autocomplete({
@@ -49,55 +51,52 @@ $(function() {
 		}
 	});
 
-	$(document)
-			.on('click', '.qs-new-company a.toggle', onChooseExistingCompany);
-	$(document)
-			.on('click', '.qs-existing-company a.toggle', onCreateNewCompany);
-	$(document).on('click', '.qs-new-certification-bodies a.toggle',
-			onChooseExistingCertificationBodies);
-	$(document).on('click', '.qs-existing-certification-bodies a.toggle',
-			onCreateNewCertificationBodies);
+	$(document).on('click', '.qs-new-company a.toggle', onChooseExistingCompany);
+	$(document).on('click', '.qs-existing-company a.toggle', onCreateNewCompany);
+	$(document).on('click', '.qs-new-certification-bodies a.toggle',onChooseExistingCertificationBodies);
+	$(document).on('click', '.qs-existing-certification-bodies a.toggle', onCreateNewCertificationBodies);
 
 	$cBodySelect.on('change', refreshOrderNoField);
 	$("textarea.limit").limiter(255, $("#chars"));
 
-	$('#eacCodes').tagit({
-		allowSpaces : true,
-		placeholderText : $.getMessage("phEacCode"),
-		afterTagAdded : saveCodes,
-		beforeTagAdded : function(event, ui) {
-			console.log(ui);
-			return listContains(eacCodeList, ui.tagLabel);
-		},
-		autocomplete : {
-			source : function(req, res) {
-				res(searchInList(req.term, eacCodeList, true));
+	
+	function initEacCodes(){
+		$('#eacCodes').tagit({
+			allowSpaces : true,
+			placeholderText : $.getMessage("phEacCode"),
+			beforeTagAdded : function(event, ui) {
+				return listContains(eacCodeList, ui.tagLabel);
 			},
-			select : function(event, ui) {
-				ui.item.value;
+			autocomplete : {
+				source : function(req, res) {
+					res(searchInList(req.term, eacCodeList, true));
+				},
+				select : function(event, ui) {
+					ui.item.value;
+				}
 			}
-		}
-	});
-	$('#nandoCodes').tagit({
-		allowSpaces : true,
-		placeholderText : $.getMessage("phNandoCode"),
-		afterTagAdded : saveCodes,
-		beforeTagAdded : function(event, ui) {
-			console.log(ui);
-			return listContains(nandoCodeList, ui.tagLabel);
-		},
-		autocomplete : {
-			source : function(req, res) {
-				res(searchInList(req.term, nandoCodeList, false));
+		});
+	}
+	function initNandoCodes(){
+		$('#nandoCodes').tagit({
+			allowSpaces : true,
+			placeholderText : $.getMessage("phNandoCode"),
+			beforeTagAdded : function(event, ui) {
+				console.log(ui);
+				return listContains(nandoCodeList, ui.tagLabel);
 			},
-			select : function(event, ui) {
-				ui.item.value;
+			autocomplete : {
+				source : function(req, res) {
+					res(searchInList(req.term, nandoCodeList, false));
+				},
+				select : function(event, ui) {
+					ui.item.value;
+				}
 			}
-		}
-	});
+		});
+	}
 
 	$(document).on('submit', 'form.auditLog', function() {
-		console.log($(this));
 		if (!validate($(this)) ) {
 			showStatus({err : 1, msg: $.getMessage("errForm")});
 			return false;
@@ -105,10 +104,25 @@ $(function() {
 			return false;
 		}
 	});
-	
-	
-	
 });
+
+function initTags(sel, list, isEac){
+	$(sel).tagit({
+		allowSpaces : true,
+		placeholderText : $.getMessage("placeholderCodes"),
+		beforeTagAdded : function(event, ui) {
+			return listContains(list, ui.tagLabel);
+		},
+		autocomplete : {
+			source : function(req, res) {
+				res(searchInList(req.term, list, isEac));
+			},
+			select : function(event, ui) {
+				ui.item.value;
+			}
+		}
+	});
+}
 
 function initDatepicker(){
 	var date = $('#minDate').text();
@@ -120,13 +134,14 @@ function initDatepicker(){
 }
 
 function saveCodes() {
+	console.log('saving codes..');
 	$('#hEacCodes').val($('#eacCodes').tagit("assignedTags"));
 	$('#hNandoCodes').val($('#nandoCodes').tagit("assignedTags"));
 }
 
 function areTagsValid() {
-	if ($('#hEacCodes').val().length === 0 && $('#hNandoCodes').length === 0) {
-		showMessage({
+	if (!areTagSet('#eacCodes') && !areTagSet('#nandoCodes')) {
+		showStatus({
 			err : 1,
 			msg : $.getMessage("errCodes")
 		});
@@ -134,6 +149,11 @@ function areTagsValid() {
 	}
 	return true;
 }
+
+function areTagSet(selector){
+	return $(selector).tagit("assignedTags").length > 0;
+}
+
 
 function listContains(list, code) {
 	for ( var i in list) {

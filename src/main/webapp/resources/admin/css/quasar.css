@@ -205,3 +205,12 @@ a.toggle:hover{text-decoration:none;color:#000;cursor:pointer;}
 .tags-wrapp .tagit-choice{padding:5px 20px 5px 10px !important;}
 .tags-wrapp .tagit-close{margin-right:-2px;padding:5px 0;top:11px !important;}
 .tagit-new{font-size:14px;padding:6px 0 !important;}
+
+.qs-log-items {margin-bottom:20px;}
+.qs-log-items th{padding:5px;font-size:11px;}
+.qs-log-items .qsc{display:inline-block;background:#dee7f8;border-radius:5px;padding:0 3px;font-size:11px;color:#000;margin-bottom:1px}
+.qs-log-items .qs-duration{width:40px;font-weight:bold;}
+.qs-log-items .qsd{width:55px;}
+
+.qs-totals{text-align:right;padding:8px 10px;font-size:12px;color:#333}
+.qs-totals strong{margin-right:10px;margin-left:5px;color:#000;}

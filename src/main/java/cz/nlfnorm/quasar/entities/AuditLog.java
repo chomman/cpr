@@ -43,8 +43,17 @@ public class AuditLog extends AbstractLog {
 	
 
 	@Transient
-	public int getCountOfItems(){
+	public int getCountOfAudits(){
 		return items.size();
+	}
+	
+	@Transient
+	public int getSumOfAuditDays(){
+		int days = 0;
+		for(final AuditLogItem item : items){
+			days += item.getDurationInDays();
+		}
+		return days;
 	}
 	
 	@Override

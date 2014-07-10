@@ -81,4 +81,12 @@ public class AuditLogServiceImpl implements AuditLogService {
 		return  auditLogDao.getEarliestPossibleDateForAuditLog(UserUtils.getLoggedUser().getId());
 	}
 
+	@Override
+	public void updateAndSetChanged(final AuditLog auditLog) {
+		Validate.notNull(auditLog);
+		auditLog.setChangedBy(UserUtils.getLoggedUser());
+		auditLog.setChanged(new LocalDateTime());
+		update(auditLog);
+	}
+
 }

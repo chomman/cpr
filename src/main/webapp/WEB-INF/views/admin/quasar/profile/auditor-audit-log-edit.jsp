@@ -28,12 +28,72 @@
 			<p class="msg ok"><spring:message code="success.create" /></p>
 		</c:if>
 		
-		<div class="qs-bx-wrapp">
+		<c:if test="${not empty successDelete}">
+			<p class="msg ok"><spring:message code="success.delete" /></p>
+		</c:if>
+		
+		<div class="qs-bx-wrapp qs-log-items">
 			<p class="form-head"><spring:message code="auditLog.auditLog.items" /></p>
 			<c:if test="${empty model.auditLog.items}">
 				<p class="msg alert"><spring:message code="log.empty" /></p>
 			</c:if>
+			<table class="data">
+				<thead>
+				<tr>
+					<th>No.</th>
+					<th><spring:message code="auditLog.item.date" /></th>
+					<th><spring:message code="auditLog.item.company" /></th>
+					<th><spring:message code="auditLog.item.certifiedProduct" /></th>
+					<th><spring:message code="auditLog.item.eacCodes" /></th>
+					<th><spring:message code="auditLog.item.nandoCodes" /></th>
+					<th><spring:message code="auditLog.item.duration" /></th>
+					<th><spring:message code="auditLog.item.certificationBody" /></th>
+					<th><spring:message code="auditLog.item.orderNo" /></th>
+					<th>&nbsp;</th>
+					<th>&nbsp;</th>
+				</tr>
+				</thead>
+				<tbody>
+					<c:forEach items="${model.auditLog.items}" var="i" varStatus="s">
+						<tr>
+							<td class="c">${s.index + 1}</td>
+							<td class="c qsd"><joda:format value="${i.auditDate}" pattern="dd.MM.yyyy" /></td>
+							<td>${i.company.name}</td>
+							<td>${i.certifiedProduct}</td>
+							<td class="c">
+								<c:forEach items="${i.eacCodes}" var="j">
+									<span class="qsc">${j.code}</span>
+								</c:forEach>
+							</td>
+							<td class="c">
+								<c:forEach items="${i.nandoCodes}" var="j">
+									<span class="qsc">${j.code}</span>
+								</c:forEach>
+							</td>
+							<td class="c qs-duration">${i.durationInDays}</td>
+							<td>${i.certificationBody.name}</td>
+							<td class="c">${i.orderNo}</td>
+							<td class="edit">
+								<a href="?iid=${i.id}">
+									<spring:message code="quasar.edit" />
+								</a>
+							</td>
+							<td class="delete">
+								<a:adminurl href="/quasar/audit-log-item/delete/${i.id}" cssClass="confirm">
+									<spring:message code="quasar.delete" />
+								</a:adminurl>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+			 <div class="qs-totals">
+			 	<spring:message code="auditLog.auditDays" />: <strong>${model.auditLog.sumOfAuditDays }</strong>
+			 	<spring:message code="auditLog.audits" />: <strong>${model.auditLog.countOfAudits }</strong>
+			 </div>
 		</div>
+		
+		
 		
 		<form:form commandName="command" cssClass="auditLog">
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
@@ -157,19 +217,19 @@
 			<div class="input-wrapp smaller  pj-type">
 				<label>
 					<spring:message code="auditLog.item.eacCodes" />:
-					<small>Press ENTER to insert</small>
+					<small>Press ENTER to insert code</small>
 				</label>
 				<div class="field tags-wrapp">
-					<ul id="eacCodes"></ul>
+					<ul id="eacCodes"><c:forEach items="${command.item.eacCodes}" var="i"><li>${i.code}</li></c:forEach></ul>
 				</div>
 			</div>
 			<div class="input-wrapp smaller  pj-type">
 				<label>
 					<spring:message code="auditLog.item.nandoCodes" />:
-					<small>Press ENTER to insert</small>
+					<small>Press ENTER to insert code</small>
 				</label>
 				<div class="field tags-wrapp">
-					<ul id="nandoCodes"></ul>
+					<ul id="nandoCodes"><c:forEach items="${command.item.nandoCodes}" var="i"><li>${i.code}</li></c:forEach></ul>
 				</div>
 			</div>
 			
@@ -179,12 +239,14 @@
 			<form:hidden path="item.id" />
 			<p class="button-box">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />
-			</p>        
+			</p>    
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>	    
 		</form:form>
-	
+		
 	</div>	
 </div>
 <div id="minDate" class="hidden"><c:if test="${not empty model.dateThreshold}"><joda:format value="${model.dateThreshold}" pattern="dd.MM.yyyy"/></c:if></div>
 <div id="loader" class="loader"></div>
+
 </body>
 </html>
