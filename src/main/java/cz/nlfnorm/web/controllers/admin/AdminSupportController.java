@@ -32,17 +32,11 @@ public class AdminSupportController {
     protected String successView;
     
     
-    
-    
     protected void createItemNotFoundError(String message) throws ItemNotFoundException{
     	logger.error("Item not found: " + message);
     	throw new ItemNotFoundException(message);
     }
-    
-    protected void createAccessDenied() {
-    	logger.error(" ACCESS DENIED");
-	}
-
+ 
     protected String getTableItemsView() {
 		return getViewDir() + tableItemsView;
 	}

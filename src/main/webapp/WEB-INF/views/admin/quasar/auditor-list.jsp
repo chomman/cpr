@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ taglib prefix="quasar"  uri="http://nlfnorm.cz/quasar"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -111,13 +112,7 @@
 								<tr class="${i.enabled ? '' : 'is-disabled'}"> 
 									<td class="w50 code c">${i.itcId}</td>	 
 									<td>
-									<c:if test="${i.inTraining}">
-										<span class="gs-inTraining" class="tt"  title="In training"></span>
-									</c:if>
-									<a:adminurl href="/quasar/manage/auditor/${i.id}" cssClass="${i.intenalAuditor ? 'qs-internal' : 'qs-external'}"
-									title="${i.intenalAuditor ? 'Internal auditor' : 'External auditor'}"  >
-										${i.firstName} ${i.lastName} <c:if test="${not empty i.degrees}">, ${i.degrees}</c:if>
-									</a:adminurl>
+									<quasar:auditor auditor="${i}" />
 									</td>
 									<td class="last-edit">
 										<c:if test="${not empty i.reassessmentDate}">

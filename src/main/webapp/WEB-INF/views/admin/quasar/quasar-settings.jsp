@@ -220,7 +220,18 @@
 							<form:input path="productSpecialistDdTotal" maxlength="3" cssClass="w40 c required numeric" />
 							<spring:message code="hours" />
 						</span>
-					</p>                  
+					</p>            
+					<p class="form-head">Other settings</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								E-mail for notification:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="notificationEmail" maxlength="50" cssClass="mw300 required email" />
+						</span>
+					</p>    
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

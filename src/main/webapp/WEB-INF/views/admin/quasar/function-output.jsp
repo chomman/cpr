@@ -65,15 +65,18 @@
 				<spring:message  code="close"/>
 			</a:adminurl>
 	</div>
-	<div class="container">
-		<c:if test="${model.functionType > 1 and model.functionType < 6}">
-			<quasar:auditorsGrid list="${model.items}" />
-		</c:if>
-	</div>
-	<div class="functions">
-	<c:if test="${model.functionType == 6}">
-		<quasar:auditors list="${model.items}"  />
+	
+	<c:if test="${model.functionType > 1 and model.functionType < 6}">
+		<div class="container">
+		<quasar:auditorsGrid list="${model.items}" />
+		</div>
 	</c:if>
-	</div>
+	
+	<c:if test="${model.functionType == 6}">
+		<div class="functions">
+			<quasar:auditors list="${model.items}"  />
+		</div>
+	</c:if>
+	
 </body>
 </html>

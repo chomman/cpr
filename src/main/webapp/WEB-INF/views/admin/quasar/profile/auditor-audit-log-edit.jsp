@@ -52,6 +52,7 @@
 			<c:if test="${empty model.auditLog.items}">
 				<p class="msg alert"><spring:message code="log.empty" /></p>
 			</c:if>
+			<c:if test="${not empty model.auditLog.items}">
 			<table class="data">
 				<thead>
 				<tr>
@@ -64,8 +65,10 @@
 					<th><spring:message code="auditLog.item.duration" /></th>
 					<th><spring:message code="auditLog.item.certificationBody" /></th>
 					<th><spring:message code="auditLog.item.orderNo" /></th>
+					<c:if test="${model.auditLog.editable}">
 					<th>&nbsp;</th>
 					<th>&nbsp;</th>
+					</c:if>
 				</tr>
 				</thead>
 				<tbody>
@@ -77,17 +80,18 @@
 							<td>${i.certifiedProduct}</td>
 							<td class="c">
 								<c:forEach items="${i.eacCodes}" var="j">
-									<span class="qsc">${j.code}</span>
+									<span class="qsc tt" title="${j.name}">${j.code}</span>
 								</c:forEach>
 							</td>
 							<td class="c">
 								<c:forEach items="${i.nandoCodes}" var="j">
-									<span class="qsc">${j.code}</span>
+									<span class="qsc tt" title="${j.specification}">${j.code}</span>
 								</c:forEach>
 							</td>
 							<td class="c qs-duration">${i.durationInDays}</td>
 							<td>${i.certificationBody.name}</td>
 							<td class="c">${i.orderNo}</td>
+							<c:if test="${model.auditLog.editable}">
 							<td class="edit">
 								<a href="?iid=${i.id}">
 									<spring:message code="quasar.edit" />
@@ -98,25 +102,51 @@
 									<spring:message code="quasar.delete" />
 								</a:adminurl>
 							</td>
+							</c:if>
 						</tr>
 					</c:forEach>
 				</tbody>
 			</table>
-			 <div class="qs-totals">
+			<div class="qs-totals">
 			 	<spring:message code="auditLog.auditDays" />: <strong>${model.auditLog.sumOfAuditDays }</strong>
 			 	<spring:message code="auditLog.audits" />: <strong>${model.auditLog.countOfAudits }</strong>
-			 </div>
+			</div>
+			</c:if>
 		</div>
 		
 		<div class="qs-log-nav">
 			<span>
 				<strong><spring:message code="options" />:</strong>
 			</span>
-				<a class="qs-btn qs-new" href="?iid=0">
-					<spring:message code="auditLog.item.create" />
-				</a>
+				<c:if test="${model.auditLog.editable}">
+					<a class="qs-btn qs-new" href="?iid=0">
+						<spring:message code="auditLog.item.create" /> <strong>+</strong>
+					</a>
+					<c:if test="${not model.showForm and model.auditLog.countOfAudits > 1}">
+					<a href="#change-status" class="qs-btn qs-change-status-btn qs-submit-for-approval" data-status="PENDING" data-note="<spring:message code="auditLog.note" />">
+						<spring:message code="submitForApproval" /> &raquo;
+					</a>
+					</c:if>
+				</c:if>
 		</div>
 		
+		<!-- Change status form  -->
+		<c:if test="${model.auditLog.countOfAudits > 1}">
+			<c:url var="sUrl" value="/admin/quasar/change-log-status" />
+			<form id="change-status" class="qs-change-status hidden" action="${sUrl}" method="post">
+				<h4></h4>
+				<textarea name="comment" class="mw500" rows="5" cols="5" placeholder="<spring:message code="writeComment" />"></textarea>
+				<a class="cancel qs-btn"><spring:message code="cancel" /></a>
+				<input type="submit" value="<spring:message code="form.submit" />" class="qs-btn qs-submit-for-approval" />
+				<input type="hidden" name="status" value="" />
+				<input type="hidden" name="action" value="1" /> 
+				<input type="hidden" name="logId" value="${model.auditLog.id}" />
+			</form>
+		</c:if>
+		
+		
+		<!--ADD CHANGE ITEM  -->
+		<c:if test="${model.auditLog.editable}">
 		<form:form commandName="command" cssClass="auditLog ${model.showForm ? '' : 'hidden'}">
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
@@ -265,7 +295,7 @@
 			</p>    
 			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>	    
 		</form:form>
-		
+		</c:if>
 	</div>	
 </div>
 <div id="minDate" class="hidden"><c:if test="${not empty model.dateThreshold}"><joda:format value="${model.dateThreshold}" pattern="dd.MM.yyyy"/></c:if></div>

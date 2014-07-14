@@ -38,6 +38,7 @@ public class EmailTemplate extends AbstractEntity {
 	public final static String USER_CHANGE_PASSWORD_REQUEST = "USER_CHANGE_PASSWORD_REQUEST";
 	public final static String USER_CREATE = "USER_CREATE";
 	
+	public final static String QUASAR_APPROVAL_REQUEST = "QUASAR_APPROVAL_REQUEST";
 	
 	private String name;
 	private String subject;

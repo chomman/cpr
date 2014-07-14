@@ -6,8 +6,9 @@ import org.joda.time.LocalDate;
 
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.entities.AuditLog;
+import cz.nlfnorm.quasar.enums.LogStatus;
 
-public interface AuditLogService {
+public interface AuditLogService extends LogService{
 	
 	void create(AuditLog auditLog);
 	
@@ -22,5 +23,7 @@ public interface AuditLogService {
 	LocalDate getEarliestPossibleDateForAuditLog();
 	
 	void updateAndSetChanged(AuditLog auditLog);
+	
+	void changeStatus(AuditLog auditLog, LogStatus newStatus, String comment);
 	
 }

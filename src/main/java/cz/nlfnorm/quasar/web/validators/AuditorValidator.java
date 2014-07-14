@@ -6,8 +6,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 import cz.nlfnorm.quasar.entities.Auditor;
-import cz.nlfnorm.quasar.forms.AuditorForm;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.web.forms.AuditorForm;
 import cz.nlfnorm.utils.ValidationsUtils;
 import cz.nlfnorm.validators.forntend.ChangePassowrdValidator;
 

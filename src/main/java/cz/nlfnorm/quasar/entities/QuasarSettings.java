@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.Min;
 
+import org.hibernate.validator.constraints.Email;
+
 
 @Entity
 @Table(name = "quasar_settings")
@@ -46,6 +48,8 @@ public class QuasarSettings implements Serializable{
 	
 	private int productSpecialistDdTrainingReview;
 	private int productSpecialistDdTotal;
+	
+	private String notificationEmail;
 	
 	@Id
 	public Long getId() {
@@ -208,7 +212,13 @@ public class QuasarSettings implements Serializable{
 		this.productAssessorANoAudits = productAssessorANoAudits;
 	}
 	
-	
-	
+	@Email
+	@Column(name = "notification_email", length = 50)
+	public String getNotificationEmail() {
+		return notificationEmail;
+	}
+	public void setNotificationEmail(String notificationEmail) {
+		this.notificationEmail = notificationEmail;
+	}
 	
 }

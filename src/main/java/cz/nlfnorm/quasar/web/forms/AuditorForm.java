@@ -1,4 +1,4 @@
-package cz.nlfnorm.quasar.forms;
+package cz.nlfnorm.quasar.web.forms;
 
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.web.forms.portal.ResetPassowrdForm;

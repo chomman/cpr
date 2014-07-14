@@ -136,4 +136,21 @@ public abstract class AbstractLog extends IdentifiableEntity{
 		return comments.size();
 	}
 	
+	/**
+	 * Return TRUE if log status is DRAFT or REFUSED.
+	 * @see {@link LogStatus}
+	 * @return
+	 */
+	@Transient
+	public boolean isEditable(){
+		if( 
+			status != null && 
+			status.equals(LogStatus.DRAFT) || 
+			status.equals(LogStatus.REFUSED)
+		){
+			return true;
+		}
+		return false;
+	}
+	
 }

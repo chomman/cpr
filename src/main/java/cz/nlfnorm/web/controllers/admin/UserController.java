@@ -328,7 +328,6 @@ public class UserController extends AdminSupportController {
 		
 		User loggedUser = UserUtils.getLoggedUser();
 		if(!loggedUser.isAdministrator() && !loggedUser.equals(user)){
-			createAccessDenied();
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}
 			
@@ -388,7 +387,6 @@ public class UserController extends AdminSupportController {
 		}
 		User loggedUser = UserUtils.getLoggedUser();
 		if(!loggedUser.isAdministrator() && !loggedUser.equals(user)){
-			createAccessDenied();
 			throw new AccessDeniedException("PŘÍSTUP ODMÍTNUT.");
 		}
 		form.setUser(user);

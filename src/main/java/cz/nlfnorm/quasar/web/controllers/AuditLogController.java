@@ -1,3 +1,4 @@
+
 package cz.nlfnorm.quasar.web.controllers;
 
 import java.util.HashMap;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.dto.PageDto;
-import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.AuditLog;
@@ -33,6 +33,7 @@ import cz.nlfnorm.quasar.entities.EacCode;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.enums.AuditLogItemType;
 import cz.nlfnorm.quasar.enums.LogStatus;
+import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.AuditLogItemService;
 import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.services.CertificationBodyService;
@@ -54,9 +55,9 @@ public class AuditLogController extends QuasarSupportController {
 	private final static String ITEM_ID_PARAM_NAME = "iid";
 	private final static String ADMIN_LIST_MAPPING_URL = "/admin/quasar/manage/audit-logs";
 	private final static String PROFILE_LIST_MAPPING_URL = "/admin/quasar/audit-logs";
-	private final static String PROFILE_EDIT_MAPPING_URL = "/admin/quasar/audit-log/{id}";
+	public final static String PROFILE_EDIT_MAPPING_URL = "/admin/quasar/audit-log/{id}";
 	private final static String AUDIT_LOG_ITEM_DELETE_URL = "/admin/quasar/audit-log-item/delete/{id}";
-
+	
 	@Autowired
 	private AuditLogService auditLogService;
 	@Autowired
@@ -129,7 +130,7 @@ public class AuditLogController extends QuasarSupportController {
 		auditLogItemService.delete(auditLogItem);
 		return successDeleteRedirect(PROFILE_EDIT_MAPPING_URL.replace("{id}", auditLogId+""));
 	}
-	
+		
 	
 	@RequestMapping(value = PROFILE_EDIT_MAPPING_URL, method = RequestMethod.POST)
 	public String processSubmitAuditLogItem(
@@ -154,6 +155,9 @@ public class AuditLogController extends QuasarSupportController {
 	}
 	
 	private void createOrUpdate(final AuditLog auditLog, final AuditLogItemForm form) throws ItemNotFoundException{
+		if(!auditLog.isEditable()){
+			throw new AccessDeniedException("Auditlog is not editable." + auditLog + UserUtils.getLoggedUser());
+		}
 		AuditLogItem auditLogItem = null; 
 		if(form.getItem().getId() == null){
 			auditLogItem = form.getItem();
@@ -275,7 +279,7 @@ public class AuditLogController extends QuasarSupportController {
 		if(auditLog == null){
 			throw new ItemNotFoundException();
 		}
-		checkAuthorization(auditLog);
+		AccessUtils.validateAuthorizationFor(auditLog);
 		return auditLog;
 	}
 	
@@ -285,22 +289,12 @@ public class AuditLogController extends QuasarSupportController {
 		if(item == null){
 			throw new ItemNotFoundException("AuditLogItem [id="+id+"] not found");
 		}
-		checkAuthorization(item.getAuditLog());
+		AccessUtils.validateAuthorizationFor(item.getAuditLog());
 		return item;
 	}
 	
-	private void checkAuthorization(final AuditLog log){
-		if(!isLoggedUserAuthorizedTo(log)){
-			throw new AccessDeniedException(UserUtils.getLoggedUser() +  " tried to access " + log);
-		}
-	}
 	
-	private boolean isLoggedUserAuthorizedTo(final AuditLog auditLog){
-		final User user = UserUtils.getLoggedUser();
-		if(user.isQuasarAdmin() || user.getId().equals(auditLog.getAuditor().getId())){
-			return true;
-		}
-		return false;
-	}
+	
+	
 	
 }

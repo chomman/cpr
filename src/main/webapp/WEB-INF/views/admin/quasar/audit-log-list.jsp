@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ taglib prefix="quasar"  uri="http://nlfnorm.cz/quasar"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -53,61 +54,81 @@
 						
 							
 				<c:if test="${not empty model.logs}">
-					<!-- STRANKOVANIE -->
-					<c:if test="${not empty model.paginationLinks}" >
-						<div class="pagination">
-						<c:forEach items="${model.paginationLinks}" var="i">
-							<c:if test="${not empty i.url}">
-								<a title="Stánka č. ${i.anchor}"  class="tt"  href="<c:url value="${i.url}"  />">${i.anchor}</a>
-							</c:if>
-							<c:if test="${empty i.url}">
-								<span>${i.anchor}</span>
-							</c:if>
-						</c:forEach>
-						</div>
-					</c:if>
-															
-					<table class="data">
-						<thead>
-							<tr>
-								<th><spring:message code="logStatus" /></th>
-								<th><spring:message code="auditor.name" /></th>					
-								<th>Created</th>
-								<th>&nbsp;</th> 
-							</tr>
-						</thead>
-						<tbody>
-							<c:forEach items="${model.logs}" var="i">
-								<tr class="qs-log-status-${model.status.id}"> 
-									<td class="w100 status">
-										<spring:message code="${model.status.code}" />
-									</td>	 
-									<td>
-									<a:adminurl href="/quasar/manage/auditor/${i.adutior.name}" cssClass="${i.intenalAuditor ? 'qs-internal' : 'qs-external'}"
-									title="${i.intenalAuditor ? 'Internal auditor' : 'External auditor'}"  >
-										${i.nameWithDegree}
-									</a:adminurl>
-									</td>				
-									<td class="last-edit">
-										<joda:format value="${i.created}" pattern="${common.created}"/>
-									</td>
-									<td class="edit">
-										<a:adminurl href="/quasar/manage/audit-log/${i.id}">
+				<!-- STRANKOVANIE -->
+				<c:if test="${not empty model.paginationLinks}" >
+					<div class="pagination">
+					<c:forEach items="${model.paginationLinks}" var="i">
+						<c:if test="${not empty i.url}">
+							<a title="Stánka č. ${i.anchor}"  class="tt"  href="<c:url value="${i.url}"  />">${i.anchor}</a>
+						</c:if>
+						<c:if test="${empty i.url}">
+							<span>${i.anchor}</span>
+						</c:if>
+					</c:forEach>
+					</div>
+				</c:if>
+														
+				<table class="data">
+					<thead>
+						<tr>
+							<th><spring:message code="logStatus" /></th>
+							<th><spring:message code="auditor.edit" /></th>
+							<th><spring:message code="auditLog.auditLog" /> date</th>
+							<th><spring:message code="auditLog.auditDays" /></th>
+							<th><spring:message code="auditLog.audits" /></th>
+							<th>Changed</th>
+							<th>&nbsp;</th> 
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${model.logs}" var="i">
+							<tr class="qs-log-status-${i.status.id}">  
+								<td class="w100 qs-status">
+									<span class="qs-log-status"><spring:message code="${i.status.code}" /></span>
+								</td>	
+								<td>
+								<quasar:auditor auditor="${i.auditor}" />
+								</td> 
+								<td>
+									<c:if test="${not i.status.locked}">
+										<a:adminurl href="/quasar/audit-log/${i.id}">
+											<spring:message code="auditLog.auditLog" /> - 
+											<strong><joda:format value="${i.created}" pattern="dd.MM.yyyy"/></strong>
+										</a:adminurl>
+									</c:if>
+									<c:if test="${i.status.locked}">
+										<spring:message code="auditLog.auditLog" /> - 
+										<strong><joda:format value="${i.created}" pattern="dd.MM.yyyy"/></strong>
+									</c:if>
+									<c:if test="${i.revision > 1}">
+										(<spring:message code="auditLog.auditLog.revision" /> ${i.revision})
+									</c:if>
+								</td>
+								<td class="w40 c">
+								<strong>${i.sumOfAuditDays}</strong>
+								</td>
+								<td class="w40 c">
+								<strong>${i.countOfAudits}</strong>
+								</td>
+								<td class="last-edit">
+									<joda:format value="${i.changed}" pattern="dd.MM.yyyy HH:mm"/> / ${i.changedBy.name} 
+								</td>
+								<td class="edit">
+									<c:if test="${not i.status.locked}">
+										<a:adminurl href="/quasar/audit-log/${i.id}">
 											<spring:message code="quasar.edit" />
 										</a:adminurl>
-									</td>
-								</tr>
-							
-							</c:forEach>
-						</tbody>
-					</table>
-				</c:if>
-				
-				<c:if test="${empty model.logs}">
-					<p class="msg alert">
-						<spring:message code="alert.empty" />
-					</p>
-				</c:if>
+									</c:if>
+									<c:if test="${i.status.locked}">
+										<strong>(<spring:message code="locked" />)</strong>
+									</c:if>
+								</td>
+							</tr>
+						
+						</c:forEach>
+					</tbody>
+				</table>
+			</c:if>
 	
 			</div>	
 		</div>

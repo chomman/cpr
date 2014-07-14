@@ -15,7 +15,20 @@ $(function() {
 			}));
 		});
 	};
-
+	
+	$('[placeholder]').focus(function() {
+	  var input = $(this);
+	  if (input.val() == input.attr('placeholder')) {
+	    input.val('');
+	    input.removeClass('placeholder');
+	  }
+	}).blur(function() {
+	  var input = $(this);
+	  if (input.val() == "" || input.val() == input.attr('placeholder')) {
+	    input.addClass('placeholder');
+	    input.val(input.attr('placeholder'));
+	  } 
+	}).blur();
 
 
 	sendRequest("GET", false, "ajax/companies", function(json) {
@@ -55,10 +68,32 @@ $(function() {
 	$(document).on('click', '.qs-existing-company a.toggle', onCreateNewCompany);
 	$(document).on('click', '.qs-new-certification-bodies a.toggle',onChooseExistingCertificationBodies);
 	$(document).on('click', '.qs-existing-certification-bodies a.toggle', onCreateNewCertificationBodies);
-
+	$(document).on('click', '.qs-change-status-btn', onChangeStatus);
+	$(document).on('click', '#change-status a', onCancelChangeStatus);
+	
+	function onCancelChangeStatus(){
+		$("#change-status").addClass('hidden');
+		$('.qs-log-nav').show(500);
+		return false;
+	}
+	
+	function onChangeStatus(){
+		$this = $(this),
+		note = $this.attr("data-note"),
+		$form = $('#change-status');
+		$form.find('input[name=status]').val($this.attr('data-status'));
+		if(typeof note !== 'undefined' && note.length > 0){
+			$form.find('p').remove();
+			$form.append('<p>' + note + '</p>');
+		}
+		$form.find('h4').text($.trim($this.text().replace("»","")));
+		$form.removeClass('hidden');
+		$this.parent().hide(500);
+	}
+	
 	$cBodySelect.on('change', refreshOrderNoField);
 	$("textarea.limit").limiter(255, $("#chars"));
-
+	
 	
 	function initEacCodes(){
 		$('#eacCodes').tagit({
@@ -101,6 +136,7 @@ $(function() {
 	});
 	
 	$(document).on('submit', 'form.auditLog', function() {
+		saveCodes();
 		if (!validate($(this)) ) {
 			showStatus({err : 1, msg: $.getMessage("errForm")});
 			return false;

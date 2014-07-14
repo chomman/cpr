@@ -14,6 +14,7 @@ import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditLogDao;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.utils.ParseUtils;
@@ -21,7 +22,7 @@ import cz.nlfnorm.utils.UserUtils;
 
 @Transactional
 @Service("auditLogService")
-public class AuditLogServiceImpl implements AuditLogService {
+public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogService {
 
 	@Autowired
 	private AuditLogDao auditLogDao;
@@ -89,4 +90,16 @@ public class AuditLogServiceImpl implements AuditLogService {
 		update(auditLog);
 	}
 
+	
+	@Override
+	public void changeStatus(final AuditLog auditLog, final LogStatus newStatus,final String comment) {
+		Validate.notNull(auditLog);
+		Validate.notNull(newStatus);
+		if(!newStatus.equals(auditLog.getStatus())){
+			
+		}
+	}
+	
+	
+	
 }

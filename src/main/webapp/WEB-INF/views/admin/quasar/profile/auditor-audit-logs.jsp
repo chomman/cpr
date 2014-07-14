@@ -72,7 +72,7 @@
 							<th><spring:message code="auditLog.auditLog" /> date</th>
 							<th><spring:message code="auditLog.auditDays" /></th>
 							<th><spring:message code="auditLog.audits" /></th>
-							<th><spring:message code="auditLog.auditLog.revision" /></th>
+						
 							<th>Changed</th>
 							<th>&nbsp;</th> 
 						</tr>
@@ -94,15 +94,15 @@
 										<spring:message code="auditLog.auditLog" /> - 
 										<strong><joda:format value="${i.created}" pattern="dd.MM.yyyy"/></strong>
 									</c:if>
+									<c:if test="${i.revision > 1}">
+										(<spring:message code="auditLog.auditLog.revision" /> ${i.revision})
+									</c:if>
 								</td>
 								<td class="w40 c">
 								<strong>${i.sumOfAuditDays}</strong>
 								</td>
 								<td class="w40 c">
 								<strong>${i.countOfAudits}</strong>
-								</td>
-								<td class="w40 c">
-								<strong>${i.revision}</strong>
 								</td>
 								<td class="last-edit">
 									<joda:format value="${i.changed}" pattern="dd.MM.yyyy HH:mm"/> / ${i.changedBy.name} 

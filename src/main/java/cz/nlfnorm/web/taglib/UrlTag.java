@@ -86,8 +86,8 @@ public class UrlTag extends RequestContextAwareTag implements BodyTag{
 	}
 	
 	public void appendCssStyles(StringBuilder url){
-		if(StringUtils.isNotBlank(cssClass)){
-			url.append(" class=\"").append(cssClass).append("\" ");
+		if(StringUtils.isNotBlank(getCssClass())){
+			url.append(" class=\"").append(getCssClass()).append("\" ");
 			
 		}
 	}

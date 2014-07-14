@@ -29,5 +29,26 @@
 			<rtexprvalue>true</rtexprvalue>
 	</attribute>
   </tag>
+  
+   <tag>
+    <name>auditor</name>
+    <tag-class>cz.nlfnorm.quasar.web.tags.AuditorTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+		<name>auditor</name>
+		<required>true</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>cssClass</name>
+		<required>false</required>
+		<rtexprvalue>true</rtexprvalue>
+	</attribute>
+	<attribute>
+		<name>withDegree</name>
+		<required>false</required>
+		<type>java.util.Boolean</type>
+	</attribute>
+  </tag>
     
 </taglib>
