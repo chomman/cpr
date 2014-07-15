@@ -28,7 +28,7 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 	
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<NandoCode> getCodesForAuditorType(final int type, final boolean onlyFirstLevel) {
+	public List<NandoCode> getCodesForAuditorType(final int type, final boolean enabledOnly) {
 		StringBuilder hql = new StringBuilder("select n from NandoCode n where n.enabled=true ");
 		switch(type){
 			case Auditor.TYPE_PRODUCT_ASSESSOR_A :
@@ -41,10 +41,10 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 				hql.append(" and n.forProductSpecialist = true ");
 			break;
 		}
-		if(onlyFirstLevel){
-			hql.append(" and n.parent IS NOT NULL ");
+		if(enabledOnly){
+			hql.append(" and n.enabled = true ");
 		}
-		hql.append(" order by coalesce (n.parent.order, n.order) ");
+		hql.append(" order by n.code ");
 		return createQuery(hql).setCacheable(false).list();
 	}
 

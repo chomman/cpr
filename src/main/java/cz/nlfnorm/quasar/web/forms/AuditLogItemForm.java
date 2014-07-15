@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.web.forms;
 
 import javax.validation.Valid;
 
+import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.AuditLogItem;
 
 public class AuditLogItemForm {
@@ -12,12 +13,18 @@ public class AuditLogItemForm {
 	private String certificationBodyName;
 	private String eacCodes;
 	private String nandoCodes;
+	private long auditLogId;
 	
-	public AuditLogItemForm(){
-		item = new AuditLogItem();
+	public AuditLogItemForm(){}
+	
+	public AuditLogItemForm(final AuditLog auditLog){
+		item = new AuditLogItem(auditLog);
+		auditLogId = auditLog.getId();
 	}
-	public AuditLogItemForm(AuditLogItem item){
+	
+	public AuditLogItemForm(final AuditLog auditLog, final AuditLogItem item){
 		this.item = item;
+		auditLogId = auditLog.getId();
 	}
 	
 	public AuditLogItem getItem() {
@@ -52,7 +59,13 @@ public class AuditLogItemForm {
 	public void setCertificationBodyName(String certificationBodyName) {
 		this.certificationBodyName = certificationBodyName;
 	}
-	
-	
+
+	public long getAuditLogId() {
+		return auditLogId;
+	}
+
+	public void setAuditLogId(long auditLogId) {
+		this.auditLogId = auditLogId;
+	}	
 	
 }

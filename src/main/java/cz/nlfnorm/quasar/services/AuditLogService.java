@@ -6,9 +6,11 @@ import org.joda.time.LocalDate;
 
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.entities.AuditLog;
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.enums.LogStatus;
+import cz.nlfnorm.services.IdentifiableByLongService;
 
-public interface AuditLogService{
+public interface AuditLogService extends IdentifiableByLongService<AuditLog>{
 	
 	void create(AuditLog auditLog);
 	
@@ -16,11 +18,13 @@ public interface AuditLogService{
 	
 	AuditLog getById(Long id);
 	
+	AuditLog getByAuditLogItemId(Long id);
+	
 	PageDto getPage(Map<String, Object> criteria, int pageNumber);
 	
 	Long createNewToLoginedUser();
 	
-	LocalDate getEarliestPossibleDateForAuditLog();
+	LocalDate getEarliestPossibleDateForAuditLog(Auditor auditor);
 	
 	void updateAndSetChanged(AuditLog auditLog);
 	
@@ -31,4 +35,6 @@ public interface AuditLogService{
 	void setRfusedStatus(AuditLog log, String withComment);
 	
 	void setApprovedStatus(AuditLog log, String withComment);
+	
+
 }

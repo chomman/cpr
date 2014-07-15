@@ -15,7 +15,7 @@ import cz.nlfnorm.quasar.entities.NandoCode;
  */
 public interface NandoCodeDao extends BaseDao<NandoCode, Long>{
 	
-	List<NandoCode> getCodesForAuditorType(int type, boolean onlyFirstLevel);
+	List<NandoCode> getCodesForAuditorType(int type, boolean enabledOnly);
 	
 	List<NandoCode> getFirstLevelCodes();
 	

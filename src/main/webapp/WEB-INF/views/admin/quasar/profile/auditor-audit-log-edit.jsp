@@ -311,6 +311,7 @@
 			<form:hidden path="eacCodes" id="hEacCodes"/>
 			<form:hidden path="nandoCodes" id="hNandoCodes"/>
 			<form:hidden path="item.id" />
+			<form:hidden path="auditLogId" />
 			<p class="button-box">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />
 			<a:adminurl href="/quasar/audit-log/${model.auditLog.id}" cssClass="cancel qs-btn">

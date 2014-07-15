@@ -38,11 +38,9 @@ ConstraintValidatorFactory {
 		if (beansByNames.isEmpty()) {
 		    try {
 		        return key.newInstance();
-		    } catch (InstantiationException e) {
+		    } catch (InstantiationException | IllegalAccessException e) {
 		        throw new RuntimeException("Could not instantiate constraint validator class '" + key.getName() + "'", e);
-		    } catch (IllegalAccessException e) {
-		        throw new RuntimeException("Could not instantiate constraint validator class '" + key.getName() + "'", e);
-		    }
+		    } 
 		}
 		if (beansByNames.size() > 1) {
 		    throw new RuntimeException("Only one bean of type '" + key.getName() + "' is allowed in the application context");

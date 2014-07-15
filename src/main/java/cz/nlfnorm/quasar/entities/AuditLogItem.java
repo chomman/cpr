@@ -47,6 +47,12 @@ public class AuditLogItem extends IdentifiableEntity{
 	private Set<NandoCode> nandoCodes = new HashSet<>();
 	private Set<EacCode> eacCodes  = new HashSet<>();
 	
+	public AuditLogItem(){}
+	
+	public AuditLogItem(AuditLog log){
+		auditLog = log;
+	}
+	
 	@Id
 	@Override
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_log_item_id_seq")
@@ -114,7 +120,7 @@ public class AuditLogItem extends IdentifiableEntity{
 		this.certificationBody = certificationBody;
 	}
 
-	@Pattern(regexp = "(^(8036|8136|8236)\\d{5}|)$")
+	@Pattern(regexp = "(^(8036|8136|8236)\\d{5}|)$", message = "{error.auditLogItem.orderNo}")
 	@Column(name = "order_no", length = 9)
 	public String getOrderNo() {
 		return orderNo;

@@ -87,6 +87,7 @@ public class AuditLogController extends QuasarSupportController {
 		binder.registerCustomEditor(Company.class, new IdentifiableByLongPropertyEditor<Company>( companyService ));
 		binder.registerCustomEditor(CertificationBody.class, new IdentifiableByLongPropertyEditor<CertificationBody>( certificationBodyService ));
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
+		binder.registerCustomEditor(AuditLog.class, new IdentifiableByLongPropertyEditor<AuditLog>( auditLogService ));
 	}
 	
 	@RequestMapping(ADMIN_LIST_MAPPING_URL)
@@ -116,7 +117,8 @@ public class AuditLogController extends QuasarSupportController {
 		if(isSucceded(request)){
 			appendSuccessCreateParam(modelMap);
 		}
-		prepareModelFor(getAuditLog(id), modelMap, getItem(request), isAuditLogItemIdSet(request));
+		final AuditLog log = getAuditLog(id);
+		prepareModelFor(log, modelMap, getItem(request, log), isAuditLogItemIdSet(request));
 		return getViewDir() + "profile/auditor-audit-log-edit";
 	}
 	
@@ -141,14 +143,20 @@ public class AuditLogController extends QuasarSupportController {
 			HttpServletRequest request) throws ItemNotFoundException{
 		final AuditLog auditLog = getAuditLog(id);
 		boolean showForm = true;
-		if(!result.hasErrors()){
+		boolean hasErrors = result.hasErrors();
+		if(!hasErrors){
 			auditorLogItemValidator.validate(form, result);
-			if(!result.hasErrors()){
+			hasErrors = result.hasErrors();
+			if(!hasErrors){
 				createOrUpdate(auditLog, form);
 				appendSuccessCreateParam(modelMap);
 				showForm = false;
-				form = new AuditLogItemForm();
+				form = getItem(request, auditLog);
 			}
+		}
+		if(hasErrors){
+			setEacCodes(form, form.getItem());
+			setNandoCodes(form, form.getItem());
 		}
 		prepareModelFor(auditLog, modelMap, form, showForm);
 		return getViewDir() + "profile/auditor-audit-log-edit";
@@ -239,12 +247,12 @@ public class AuditLogController extends QuasarSupportController {
 	}
 	
 	
-	private AuditLogItemForm getItem(HttpServletRequest request){
+	private AuditLogItemForm getItem(HttpServletRequest request, final AuditLog auditLog){
 		final String val = request.getParameter(ITEM_ID_PARAM_NAME);
 		if(StringUtils.isBlank(val)){
-			return new AuditLogItemForm();
+			return new AuditLogItemForm(auditLog);
 		}
-		return new AuditLogItemForm( auditLogItemService.getById(Long.valueOf(val)) );
+		return new AuditLogItemForm(auditLog, auditLogItemService.getById( Long.valueOf(val)) );
 	}
 	
 	private void prepareModelFor(final AuditLog log, ModelMap modelMap,final AuditLogItemForm form, final boolean showForm) throws ItemNotFoundException{
@@ -252,7 +260,7 @@ public class AuditLogController extends QuasarSupportController {
 		model.put("auditLog", log);
 		model.put("showForm", showForm);
 		model.put("auditLogItemTypes", AuditLogItemType.getAll());
-		model.put("dateThreshold", auditLogService.getEarliestPossibleDateForAuditLog());
+		model.put("dateThreshold", auditLogService.getEarliestPossibleDateForAuditLog(log.getAuditor()));
 		modelMap.addAttribute(COMMAND, form);
 		appendModel(modelMap, model);
 	}

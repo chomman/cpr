@@ -8,9 +8,7 @@ $(function() {
 		$companySelect = $('#companySelect'), 
 		$cBodySelect = $('#certificationBody'),
 		aSourceCallBack = function(
-			request, response) {
-		$.getJSON(getBasePath() + "/ajax/"
-				+ $(this)[0].element.attr('data-url'), request, function(data) {
+			request, response) {$.getJSON(getBasePath() + "/ajax/"+ $(this)[0].element.attr('data-url'), request, function(data) {
 			response($.map(data, function(item) {
 				return {
 					label : item.name,
@@ -99,7 +97,7 @@ $(function() {
 		$('.qs-log-items').stop().animate({"opacity": 0.6});
 	}
 	
-	$cBodySelect.on('change', refreshOrderNoField);
+	$cBodySelect.on('change, chosen:updated', refreshOrderNoField);
 	$("textarea.limit").limiter(255, $("#chars"));
 	
 	

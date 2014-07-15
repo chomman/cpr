@@ -78,9 +78,9 @@ public class QuasarPdfController {
 		model.put("springMacroRequestContext", new RequestContext(request));
 		model.put("eFunctions", auditorService.getEvaludatedAuditorFunctions(auditor));
 		model.put("reassessmentDate", auditor.getReassessmentDate() == null ? "-" : auditor.getReassessmentDate().toString("dd.MM.yyyy"));
-		String fileName = auditor.getReassessmentDate() == null ? "" : auditor.getReassessmentDate().toString("yyyy-MM-dd");
+		String fileName = auditor.getReassessmentDate() == null ? "" :  auditor.getReassessmentDate().toString("yyyy-MM-dd") + "_";
 		fileName += CodeUtils.generateProperFilename(auditor.getName());
-		model.put(FILE_NAME_KEY, fileName);
+		model.put(FILE_NAME_KEY, fileName + ".pdf");
 		return model;
 	}
 	

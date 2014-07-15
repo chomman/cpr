@@ -111,5 +111,13 @@ public class AuditLogDaoImpl extends BaseDaoImpl<AuditLog, Long> implements Audi
 						.setMaxResults(1)
 						.uniqueResult();
 	}
+
+	@Override
+	public AuditLog getByAuditLogItemId(final Long id) {
+		return (AuditLog)createQuery("select log form AuditLog log join log.items item where item.id = :id")
+				.setMaxResults(1)
+				.setLong("id", id)
+				.uniqueResult();
+	}
 	
 }

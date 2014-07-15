@@ -3,11 +3,11 @@ package cz.nlfnorm.quasar.web.validators;
 import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 
 import cz.nlfnorm.context.ContextHolder;
+import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.web.forms.AuditLogItemForm;
 import cz.nlfnorm.validators.AbstractValidator;
@@ -17,13 +17,11 @@ public class AuditorLogItemValidator extends AbstractValidator{
 
 	@Autowired
 	private AuditLogService auditLogService;
-	@Autowired
-	protected MessageSource messageSource;
 	
 	@Override
 	protected void addExtraValidation(Object objectForm, Errors errors) {
 		AuditLogItemForm form = (AuditLogItemForm)objectForm;
-		validateAuditLogDate(form.getItem().getAuditDate(), errors);
+		validateAuditLogDate(form, errors);
 		validateOrderNumber(form, errors);
 		validateCodes(form, errors);
 	}
@@ -37,13 +35,16 @@ public class AuditorLogItemValidator extends AbstractValidator{
 	}
 	
 	
-	private void validateAuditLogDate(LocalDate auditLogItemDate, Errors errors){
-		if(auditLogItemDate == null){
-			errors.reject(messageSource.getMessage("error.auditLogItem.auditDate", null, ContextHolder.getLocale()), null);
+	private void validateAuditLogDate(AuditLogItemForm form, Errors errors){
+		if(form.getItem().getAuditDate() == null){
+			errors.reject("error.auditLogItem.auditDate", null, null);
 		}
-		final LocalDate earliestDate = auditLogService.getEarliestPossibleDateForAuditLog();
-		if(earliestDate != null && earliestDate.isAfter(auditLogItemDate)){
-			errors.reject(messageSource.getMessage("error.auditLogItem.auditDate.range", new Object[]{earliestDate.toString("dd.MM.yyyy")}, ContextHolder.getLocale()), null);
+		final AuditLog log = auditLogService.getById(form.getAuditLogId());
+		final LocalDate earliestDate = auditLogService.getEarliestPossibleDateForAuditLog(log.getAuditor());
+		if(earliestDate != null && earliestDate.isAfter(form.getItem().getAuditDate())){
+			final String date = earliestDate.toString("dd.MM.yyyy");
+			final String message =  messageSource.getMessage("error.auditLogItem.auditDate.range", null , ContextHolder.getLocale());
+			errors.reject( null, null , message.replace("{0}", date));
 		}
 	}
 	

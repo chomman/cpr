@@ -124,8 +124,9 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 */
 	@Override
 	@Transactional(readOnly = true)
-	public LocalDate getEarliestPossibleDateForAuditLog() {
-		return  auditLogDao.getEarliestPossibleDateForAuditLog(UserUtils.getLoggedUser().getId());
+	public LocalDate getEarliestPossibleDateForAuditLog(final Auditor auditor) {
+		Validate.notNull(auditor);
+		return  auditLogDao.getEarliestPossibleDateForAuditLog(auditor.getId());
 	}
 	
 
@@ -217,6 +218,23 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	public void setApprovedStatus(final AuditLog log, final String withComment) {
 		setApprovedStatus(log, withComment);
 		updateAndSetChanged(log);
+	}
+
+	
+	/**
+	 * Return Audit log by Audit Log item.
+	 * 
+	 * @param id =  Audit log item ID
+	 * @see {@link AuditLogItem}
+	 * @return AuditLog by Audit log item ID, or NULL if not exists
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public AuditLog getByAuditLogItemId(final Long id) {
+		if(id == null){
+			return null;
+		}
+		return auditLogDao.getByAuditLogItemId(id);
 	}
 
 	
