@@ -458,4 +458,15 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		productSpecialistReasonDetails = code.getProductSpecialistReasonDetails();
 		productSpecialistApprovedBy = code.getProductSpecialistApprovedBy();
 	}
+	
+	@Transient
+	public void incrementNumberOfNbAudits(int val){
+		numberOfNbAudits += val;
+	}
+	
+	@Transient
+	public void incrementNumberOfIso13485Audits(int val){
+		numberOfIso13485Audits += val;
+	}
+	
 }

@@ -72,7 +72,6 @@
 							<th><spring:message code="auditLog.auditLog" /> date</th>
 							<th><spring:message code="auditLog.auditDays" /></th>
 							<th><spring:message code="auditLog.audits" /></th>
-						
 							<th>Changed</th>
 							<th>&nbsp;</th> 
 						</tr>
@@ -84,18 +83,15 @@
 									<span class="qs-log-status"><spring:message code="${i.status.code}" /></span>
 								</td>	 
 								<td>
-									<c:if test="${not i.status.locked}">
-										<a:adminurl href="/quasar/audit-log/${i.id}">
+									<a:adminurl href="/quasar/audit-log/${i.id}">
 											<spring:message code="auditLog.auditLog" /> - 
 											<strong><joda:format value="${i.created}" pattern="dd.MM.yyyy"/></strong>
-										</a:adminurl>
-									</c:if>
-									<c:if test="${i.status.locked}">
-										<spring:message code="auditLog.auditLog" /> - 
-										<strong><joda:format value="${i.created}" pattern="dd.MM.yyyy"/></strong>
-									</c:if>
+									</a:adminurl>
 									<c:if test="${i.revision > 1}">
 										(<spring:message code="auditLog.auditLog.revision" /> ${i.revision})
+									</c:if>
+									<c:if test="${i.status.locked}">
+										<strong>&nbsp; (<spring:message code="locked" />)</strong>
 									</c:if>
 								</td>
 								<td class="w40 c">
@@ -114,7 +110,9 @@
 										</a:adminurl>
 									</c:if>
 									<c:if test="${i.status.locked}">
-										<strong>(<spring:message code="locked" />)</strong>
+										<a:adminurl href="/quasar/audit-log/${i.id}">
+											<spring:message code="form.view" />
+										</a:adminurl>
 									</c:if>
 								</td>
 							</tr>

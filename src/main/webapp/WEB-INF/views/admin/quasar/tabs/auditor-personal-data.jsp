@@ -31,7 +31,7 @@
 		</label>
 		<div class="field">
 			<c:if test="${not empty model.auditor.reassessmentDate}">
-				<joda:format value="model.auditor.reassessmentDate" pattern="dd.MM.yyyy"/>
+				<joda:format value="${model.auditor.reassessmentDate}" pattern="dd.MM.yyyy"/>
 			</c:if>
 			<c:if test="${empty model.auditor.reassessmentDate}">
 				-
@@ -60,8 +60,8 @@
 		</label>
 		<div class="field">
 			<strong>${model.auditor.email}</strong>
-			<c:if test="${not empty model.auditor.secondEmail}">
-				, ${model.auditor.secondEmail}
+			<c:if test="${not empty model.auditor.otherEmails}">
+				, ${model.auditor.otherEmails}
 			</c:if>
 		</div>
 	</div>

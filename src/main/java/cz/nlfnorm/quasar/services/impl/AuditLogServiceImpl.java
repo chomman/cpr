@@ -13,12 +13,21 @@ import org.springframework.transaction.annotation.Transactional;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditLogDao;
+import cz.nlfnorm.quasar.dto.AuditLogCodeSumDto;
+import cz.nlfnorm.quasar.dto.AuditLogTotalsDto;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.AuditLogItem;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.AuditorEacCode;
+import cz.nlfnorm.quasar.entities.AuditorNandoCode;
+import cz.nlfnorm.quasar.entities.EacCode;
+import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
+import cz.nlfnorm.quasar.enums.AuditLogItemType;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.services.AuditLogService;
+import cz.nlfnorm.quasar.services.AuditorEacCodeService;
+import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
@@ -38,6 +47,10 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	private AuditLogDao auditLogDao;
 	@Autowired
 	private AuditorService auditorService;
+	@Autowired
+	private AuditorEacCodeService auditorEacCodeService;
+	@Autowired
+	private AuditorNandoCodeService auditorNandoCodeService;
 	
 	
 	/**
@@ -237,8 +250,101 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 		return auditLogDao.getByAuditLogItemId(id);
 	}
 
+	/**
+	 * Updates Auditors Qs Auditor and Product Assessor-A of given audit log. 
+	 * 
+	 * Compute totals of all EAC codes and NANDO code, which contains given audit log 
+	 * and increments totals to corresponding Auditors codes. Simultaneously also increments
+	 * number or audit days and audits to Auditor.
+	 * 
+	 * @param auditLog
+	 * @throws IllegalArgumentException - If is given audit log null, or audit log is not approved
+	 * 
+	 * @see {@link AuditorNandoCode}
+	 * @see {@link AuditorEacCode}
+	 */
+	public void updateQualification(final AuditLog auditLog){
+		Validate.notNull(auditLog);
+		Validate.notNull(auditLog.getAuditor());
+		if(auditLog.getStatus() == null || !auditLog.getStatus().equals(LogStatus.APPROVED)){
+			throw new IllegalArgumentException("Given audit log is not Approved, " + auditLog);
+		}
+		final Auditor auditor = auditLog.getAuditor();
+		final AuditLogTotalsDto totals = computeTotalsFor(auditLog);
+		updateQsAuditorQualification(auditor, totals);
+		updateProductAssessorAQualification(auditor, totals);
+		auditor.incrementAuditDays(totals.getAuditDays());
+		auditor.incrementAudits(totals.getAudits());
+		auditorService.createOrUpdate(auditor);
+	}
 	
+	private void updateQsAuditorQualification(final Auditor auditor, final AuditLogTotalsDto totals){
+		for(Map.Entry<EacCode, AuditLogCodeSumDto> entry : totals.getEacCodes().entrySet()){
+			final AuditLogCodeSumDto sum = entry.getValue();
+			final AuditorEacCode code = auditorEacCodeService.getByEacCode(entry.getKey().getCode(), auditor.getId());
+			Validate.notNull(code);
+			code.incrementNumberOfIso13485Audits(sum.getNumberOfIso13485Audits());
+			code.incrementNumberOfNbAudits(sum.getNumberOfNbAudits());
+			auditorEacCodeService.updateAndSetChanged(code);
+		}
+	}
 	
+	private void updateProductAssessorAQualification(final Auditor auditor, final AuditLogTotalsDto totals){
+		for(Map.Entry<NandoCode, AuditLogCodeSumDto> entry : totals.getNandoCodes().entrySet()){
+			final AuditLogCodeSumDto sum = entry.getValue();
+			final AuditorNandoCode code = auditorNandoCodeService.getByNandoCode(entry.getKey().getCode(), auditor.getId());
+			Validate.notNull(code);
+			code.incrementNumberOfIso13485Audits(sum.getNumberOfIso13485Audits());
+			code.incrementNumberOfNbAudits(sum.getNumberOfNbAudits());
+			auditorNandoCodeService.createOrUpdate(code);
+		}
+	}
+	
+		
+	private AuditLogTotalsDto computeTotalsFor(final AuditLog auditLog){
+		final AuditLogTotalsDto totals = new AuditLogTotalsDto();
+		for(final AuditLogItem item: auditLog.getItems()){
+			incrementEacCodes(totals.getEacCodes(), item);
+			incrementNandoCodes(totals.getNandoCodes(), item);
+			totals.incrementAudits();
+			totals.incrementAuditDays(item.getDurationInDays());
+		}
+		return totals;
+	}
+	
+	private void incrementNandoCodes(final Map<NandoCode, AuditLogCodeSumDto> nandoCodes, final AuditLogItem item){
+		for(final NandoCode code : item.getNandoCodes()){
+			if(nandoCodes.containsKey(code)){
+				final AuditLogCodeSumDto totals = nandoCodes.get(code);
+				incrementValues(item, totals);
+			}else{
+				AuditLogCodeSumDto totals = new AuditLogCodeSumDto();
+				incrementValues(item, totals);
+				nandoCodes.put(code, totals);
+			}
+		}
+	}
+	
+	private void incrementEacCodes(final Map<EacCode, AuditLogCodeSumDto> eacCodes, final AuditLogItem item){
+		for(final EacCode code : item.getEacCodes()){
+			if(eacCodes.containsKey(code)){
+				final AuditLogCodeSumDto totals = eacCodes.get(code);
+				incrementValues(item, totals);
+			}else{
+				AuditLogCodeSumDto totals = new AuditLogCodeSumDto();
+				incrementValues(item, totals);
+				eacCodes.put(code, totals);
+			}
+		}
+	}
+	
+	private void incrementValues(final AuditLogItem item, final AuditLogCodeSumDto totals){
+		if(item.getType().equals(AuditLogItemType.ISO13485)){
+			totals.incrementIso13484Audits();
+		}else{
+			totals.incrementNbAudits();
+		}
+	}
 	
 	
 }

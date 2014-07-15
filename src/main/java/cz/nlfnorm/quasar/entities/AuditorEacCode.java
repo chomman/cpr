@@ -16,7 +16,6 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
 
@@ -158,5 +157,15 @@ public class AuditorEacCode extends AbstractAuditorCode {
 			   getNotifiedBody() != null ||
 			   isItcApproved() ||
 			   getTotalNumberOfAudits() >= getEacCode().getThreshold();
+	}
+	
+	@Transient 
+	public void incrementNumberOfNbAudits(int val){
+		numberOfNbAudits += val;
+	}
+	
+	@Transient
+	public void incrementNumberOfIso13485Audits(int val){
+		numberOfIso13485Audits += val;
 	}
 }

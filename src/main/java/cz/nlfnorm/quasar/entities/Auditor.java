@@ -545,6 +545,15 @@ public class Auditor extends User {
 	};
 		
 	
+	@Transient
+	public void incrementAuditDays(int plusDays){
+		totalAuditdays += plusDays;
+	}
+	
+	@Transient
+	public void incrementAudits(int plusAudits){
+		totalAudits += plusAudits;
+	}
 
 	public void mergePersonalData(final Auditor form){
 		setEmail(form.getEmail());

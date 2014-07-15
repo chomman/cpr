@@ -134,7 +134,7 @@
 					<a class="qs-btn qs-new" href="?iid=0">
 						<spring:message code="auditLog.item.create" /> <strong>+</strong>
 					</a>
-					<c:if test="${not model.showForm and model.auditLog.countOfAudits > 1}">
+					<c:if test="${not model.showForm and model.auditLog.countOfAudits > 0}">
 					<a href="#change-status" class="qs-btn qs-change-status-btn qs-submit-for-approval"  data-cls="qs-submit-for-approval" 
 						data-status="PENDING" data-note="<spring:message code="log.penging.note" />">
 						<spring:message code="log.penging" /> &raquo;
@@ -155,7 +155,7 @@
 		</c:if>
 		
 		<!-- Change status form  -->
-		<c:if test="${model.auditLog.countOfAudits > 1}">
+		<c:if test="${model.auditLog.countOfAudits > 0}">
 			<c:url var="sUrl" value="/admin/quasar/change-log-status" />
 			<form id="change-status" class="qs-change-status hidden" action="${sUrl}" method="post">
 				<h4></h4>
@@ -168,10 +168,9 @@
 			</form>
 		</c:if>
 		
-		
 		<!--ADD CHANGE ITEM  -->
-		<c:if test="${model.auditLog.editable}">
-		<form:form commandName="command" cssClass="auditLog ${model.showForm ? '' : 'hidden'}">
+		<c:if test="${model.auditLog.editable and model.showForm}">
+		<form:form commandName="command" cssClass="auditLog">
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
