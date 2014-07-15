@@ -21,7 +21,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Type;
-import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDate;
 
@@ -109,7 +108,7 @@ public class Auditor extends User {
 	private int totalDdReviews;
 	private int noDdReviewsForSterileMd;
 	
-	private String secondEmail;
+	private String otherEmails;
 	private boolean recentActivitiesApprovedForQsAuditor;
 	private boolean recentActivitiesApprovedForProductAssessorA;
 	private boolean recentActivitiesApprovedForProductAssessorR;
@@ -437,14 +436,15 @@ public class Auditor extends User {
 		this.noDdReviewsForSterileMd = noDdReviewsForSterileMd;
 	}
 	
-	@Email
-	@Column(length = 50, name = "second_email")
-	public String getSecondEmail() {
-		return secondEmail;
+	
+	@Length(max = 100, message = "{error.auditor.otherEmails}" )	
+	@Column(length = 100, name = "other_emails")
+	public String getOtherEmails() {
+		return otherEmails;
 	}
 
-	public void setSecondEmail(String secondEmail) {
-		this.secondEmail = secondEmail;
+	public void setOtherEmails(String otherEmails) {
+		this.otherEmails = otherEmails;
 	}
 
 	@Column(name = "ra_approved_for_qs_auditor")
@@ -577,6 +577,6 @@ public class Auditor extends User {
 		this.totalDdReviews = form.getTotalDdReviews();
 		this.noTfReviewsForSterileMd = form.getNoTfReviewsForSterileMd();
 		this.noDdReviewsForSterileMd = form.getNoDdReviewsForSterileMd();
-		this.secondEmail = form.getSecondEmail();
+		this.otherEmails = form.getOtherEmails();
 	}
 }

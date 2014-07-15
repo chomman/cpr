@@ -192,6 +192,14 @@ public abstract class MimeMessagePreparatorImpl implements MimeMessagePreparator
 		addEmail(to, emailAddress);
 	}
 	
+	public void addRecipientTo(final List<String> emailAddresses){
+		if(emailAddresses != null){
+			for(String email : emailAddresses){
+				addEmail(to, email);
+			}
+		}
+	}
+	
 	public void addRecipientCc(final String emailAddress){
 		addEmail(cc, emailAddress);
 	}

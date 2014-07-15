@@ -439,7 +439,7 @@ public class AuditorController extends QuasarSupportController {
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);
 		}
-		model.put("editable", isEditable);
+		model.put("isEditable", isEditable);
 	}
 	
 	

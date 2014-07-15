@@ -1,9 +1,10 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<c:set  var="isQuasarAdmin" value="${common.user.quasarAdmin}"/>
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="auditLog.edit" /></title>
+	<title><spring:message code="auditLog.edit" arguments="${model.auditLog.auditor.name}" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.tagit.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/tagit.ui-zendesk.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" /> 
@@ -14,16 +15,24 @@
 <div id="wrapper">
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-		 <a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
-		 <span><spring:message code="auditLog.edit" /></span>
+		 <c:if test="${isQuasarAdmin}">
+		 	<a:adminurl href="/quasar/manage/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
+		 </c:if>
+		 <c:if test="${not isQuasarAdmin}">
+		 	<a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
+		 </c:if>
+		 <span><spring:message code="auditLog.edit" arguments="${model.auditLog.auditor.name}" /></span>
 	</div>
-	<h1>
-		<spring:message code="auditLog.edit" />: 
-		<strong><joda:format value="${model.auditLog.created}" pattern="dd.MM.yyyy"/></strong>
+	<h1 class="qs-log-status-${model.auditLog.status.id}">
+		<spring:message code="auditLog.edit" arguments="${model.auditLog.auditor.name}" />: 
+		<strong><joda:format value="${model.auditLog.created}" pattern="dd.MM.yyyy"/></strong> 
+		<c:if test="${model.auditLog.revision > 1}">
+		(<spring:message code="auditLog.auditLog.revision" /> ${model.auditLog.revision})
+		</c:if>
+		&nbsp; | &nbsp; Status: <strong class="qs-status qs-log-status">${model.auditLog.status}</strong>
 	</h1>
 
 	<div id="content"> 
-									
 		<c:if test="${not empty successCreate}">
 			<p class="msg ok"><spring:message code="success.create" /></p>
 		</c:if>
@@ -114,6 +123,9 @@
 			</c:if>
 		</div>
 		
+		<!-- NAVIGATION  -->
+		
+		<c:if test="${model.auditLog.editable or isQuasarAdmin and model.auditLog.status != 'APPROVED'}">
 		<div class="qs-log-nav">
 			<span>
 				<strong><spring:message code="options" />:</strong>
@@ -123,12 +135,24 @@
 						<spring:message code="auditLog.item.create" /> <strong>+</strong>
 					</a>
 					<c:if test="${not model.showForm and model.auditLog.countOfAudits > 1}">
-					<a href="#change-status" class="qs-btn qs-change-status-btn qs-submit-for-approval" data-status="PENDING" data-note="<spring:message code="auditLog.note" />">
-						<spring:message code="submitForApproval" /> &raquo;
+					<a href="#change-status" class="qs-btn qs-change-status-btn qs-submit-for-approval"  data-cls="qs-submit-for-approval" 
+						data-status="PENDING" data-note="<spring:message code="log.penging.note" />">
+						<spring:message code="log.penging" /> &raquo;
 					</a>
 					</c:if>
 				</c:if>
+				<c:if test="${not model.auditLog.editable and isQuasarAdmin}">
+					<a href="#change-status" class="qs-btn qs-change-status-btn qs-approve" data-cls="qs-approve" 
+					data-status="APPROVED" data-note="<spring:message code="log.approve.note" />">
+						<spring:message code="log.approve" /> 
+					</a>
+					<a href="#change-status" class="qs-btn qs-change-status-btn qs-reject" data-cls="qs-reject" 
+					data-status="REFUSED" data-note="<spring:message code="log.refuse.note" arguments="${model.auditLog.auditor.name}" />">
+						<spring:message code="log.refuse" /> 
+					</a>
+				</c:if>
 		</div>
+		</c:if>
 		
 		<!-- Change status form  -->
 		<c:if test="${model.auditLog.countOfAudits > 1}">
@@ -137,7 +161,7 @@
 				<h4></h4>
 				<textarea name="comment" class="mw500" rows="5" cols="5" placeholder="<spring:message code="writeComment" />"></textarea>
 				<a class="cancel qs-btn"><spring:message code="cancel" /></a>
-				<input type="submit" value="<spring:message code="form.submit" />" class="qs-btn qs-submit-for-approval" />
+				<input type="submit" value="<spring:message code="form.submit" />" class="qs-btn" />
 				<input type="hidden" name="status" value="" />
 				<input type="hidden" name="action" value="1" /> 
 				<input type="hidden" name="logId" value="${model.auditLog.id}" />

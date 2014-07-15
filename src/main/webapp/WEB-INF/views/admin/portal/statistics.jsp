@@ -24,7 +24,7 @@
 		<div id="right">
 		
 			<div id="breadcrumb">
-				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  u&raquo;
+				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 				 <span>Google Analytics statistiky</span> 
 			</div>
 			<h1>Google Analytics statistiky</h1>

@@ -5,7 +5,7 @@ import cz.nlfnorm.quasar.enums.LogStatus;
 public class ChangeLogStatusForm {
 	
 	private String comment;
-	private int status;
+	private LogStatus status;
 	private int action;
 	private Long logId;
 	
@@ -14,9 +14,6 @@ public class ChangeLogStatusForm {
 	}
 	public void setComment(String comment) {
 		this.comment = comment;
-	}
-	public LogStatus getLogStatus() {
-		return LogStatus.getById(status);
 	}	
 	public int getAction() {
 		return action;
@@ -29,6 +26,12 @@ public class ChangeLogStatusForm {
 	}
 	public void setLogId(Long logId) {
 		this.logId = logId;
+	}
+	public LogStatus getStatus() {
+		return status;
+	}
+	public void setStatus(LogStatus status) {
+		this.status = status;
 	}
 	
 	

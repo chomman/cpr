@@ -200,6 +200,12 @@ a.toggle:hover{text-decoration:none;color:#000;cursor:pointer;}
 .qs-log-status-2 .qs-log-status{background-position:0 -27px;}
 .qs-log-status-1 .qs-log-status{background-position:0 -77px;}
 
+strong.qs-log-status{border-radius:5px;padding-right:5px;}
+.qs-log-status-4 strong.qs-log-status{background-position:0 1px;}
+.qs-log-status-3 strong.qs-log-status{background-position:0 -49px;}
+.qs-log-status-2 strong.qs-log-status{background-position:0 -24px;}
+.qs-log-status-1 strong.qs-log-status{background-position:0 -74px;}
+
 .tags-wrapp{padding:10px;}
 .tags-wrapp ul{padding:2px 5px!important;margin:0 !important;max-width:510px;}
 .tags-wrapp ul li .tagit-label{margin-left:2px;font-size:14px;}
@@ -222,7 +228,9 @@ a.toggle:hover{text-decoration:none;color:#000;cursor:pointer;}
 .qs-log-nav a,
 .qs-change-status input{display:inline-block;border-radius:5px;padding:8px 20px;margin:5px ;color:#fff;font-size:13px;font-weight:bold;}
 .qs-log-nav .qs-new{background-color:#10AEE3;border:2px solid #089BCC;}
-.qs-submit-for-approval{background-color:#28BF76;border:2px solid #1BA864;}
+.qs-submit-for-approval,
+.qs-approve{background-color:#28BF76;border:2px solid #1BA864;}
+.qs-reject{background-color:#D9384E;border:2px solid #BD2035;}
 .qs-log-nav a:hover{background-color:#555;border:2px solid #333;}
 
 .qs-change-status h4{font-size:15px;padding:5px;color:#555;background:#fafafa;border-bottom:1px solid #ddd;;}
@@ -236,4 +244,5 @@ a.toggle:hover{text-decoration:none;color:#000;cursor:pointer;}
 
 .qs-show-comments{display:block;margin-bottom:10px;background:url(../quasar/img/ico_comment.png) no-repeat 0 center;padding:10px 0 10px 60px;}
 .qs-show-comments:hover{text-decoration:underline;color:#000;cursor:pointer;opacity:.8}
+
 

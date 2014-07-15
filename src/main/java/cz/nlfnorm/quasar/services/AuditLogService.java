@@ -8,7 +8,7 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.enums.LogStatus;
 
-public interface AuditLogService extends LogService{
+public interface AuditLogService{
 	
 	void create(AuditLog auditLog);
 	
@@ -25,5 +25,10 @@ public interface AuditLogService extends LogService{
 	void updateAndSetChanged(AuditLog auditLog);
 	
 	void changeStatus(AuditLog auditLog, LogStatus newStatus, String comment);
+		
+	void setPendingStatus(AuditLog log, String withComment);
 	
+	void setRfusedStatus(AuditLog log, String withComment);
+	
+	void setApprovedStatus(AuditLog log, String withComment);
 }

@@ -3,7 +3,6 @@ package cz.nlfnorm.quasar.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -18,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Transient;
 
+import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.OrderBy;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
@@ -118,7 +118,8 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	}
 	
 	@OrderBy(clause = "created")
-	@OneToMany(mappedBy = "abstractLog", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	@Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
+	@OneToMany(mappedBy = "abstractLog", fetch = FetchType.LAZY, orphanRemoval = true)
 	public Set<Comment> getComments() {
 		return comments;
 	}
