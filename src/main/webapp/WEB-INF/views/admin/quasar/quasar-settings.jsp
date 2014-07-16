@@ -225,8 +225,9 @@
 					<p>
 						<label>
 							<strong><em class="red">*</em>
-								E-mail for notification:
+								Administrator's e-mail:
 							</strong>  
+							<small>For notifications about (re)approval requests</small>
 						</label>
 						<span class="field">
 							<form:input path="notificationEmail" maxlength="50" cssClass="mw300 required email" />

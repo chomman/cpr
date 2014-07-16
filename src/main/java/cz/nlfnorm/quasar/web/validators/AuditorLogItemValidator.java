@@ -30,14 +30,14 @@ public class AuditorLogItemValidator extends AbstractValidator{
 		if(form.getItem().getCertificationBody() != null &&
 		   form.getItem().getCertificationBody().getName().equalsIgnoreCase("itc") &&
 		   StringUtils.isBlank(form.getItem().getOrderNo())){
-			errors.reject("error.auditLogItem.orderNo");
+			errors.reject("error.orderNo");
 		}
 	}
 	
 	
 	private void validateAuditLogDate(AuditLogItemForm form, Errors errors){
 		if(form.getItem().getAuditDate() == null){
-			errors.reject("error.auditLogItem.auditDate", null, null);
+			errors.reject("error.auditDate", null, null);
 		}
 		final AuditLog log = auditLogService.getById(form.getAuditLogId());
 		final LocalDate earliestDate = auditLogService.getEarliestPossibleDateForAuditLog(log.getAuditor());
