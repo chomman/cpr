@@ -56,7 +56,7 @@ public class ChangeLogStatusController extends QuasarSupportController {
 	}
 	
 	private String getAuditLogUrl(final long id){
-		return successUpdateRedirect(AuditLogController.PROFILE_EDIT_MAPPING_URL.replace("{id}", id+""));
+		return successUpdateRedirect(AuditLogController.EDIT_MAPPING_URL.replace("{id}", id+""));
 	}
 
 }

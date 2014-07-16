@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.dao.impl;
 
 import java.util.List;
 
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.dao.impl.BaseDaoImpl;
@@ -40,6 +41,23 @@ public class AuditorEacCodeDaoImpl extends BaseDaoImpl<AuditorEacCode, Long> imp
 			.setString("code", code)
 			.setMaxResults(1)
 			.uniqueResult();
+	}
+	
+	
+	@Override
+	public void incrementAuditorEacCodeTotals(final Long eacCodeId, final Long auditorId, final int plusNbAudits, final int plusIso13485Audits) {
+		StringBuilder hql = new StringBuilder("update AuditorEacCode code set ")
+		.append(" 	code.numberOfNbAudits = code.numberOfNbAudits + :plusNbAudits, ")
+		.append(" 	code.numberOfIso13485Audits = code.numberOfIso13485Audits + :plusIso13485Audits, ")
+		.append("   code.changed = :changed ")
+		.append(" where code.auditor.id = :auditorId and code.eacCode.id = :eacCodeId ");
+		createQuery(hql)
+			.setLong("auditorId", auditorId)
+			.setLong("eacCodeId", eacCodeId)
+			.setInteger("plusNbAudits", plusNbAudits)
+			.setInteger("plusIso13485Audits", plusIso13485Audits)
+			.setTimestamp("changed", new LocalDateTime().toDate())
+			.executeUpdate();
 	}
 	
 }

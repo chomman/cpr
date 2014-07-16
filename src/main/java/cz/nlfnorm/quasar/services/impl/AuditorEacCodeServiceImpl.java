@@ -122,4 +122,11 @@ public class AuditorEacCodeServiceImpl implements AuditorEacCodeService{
 		}
 		return false;
 	}
+
+	@Override
+	public void incrementAuditorEacCodeTotals(Long eacCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits) {
+		auditorEacCodeDao.incrementAuditorEacCodeTotals(eacCodeId, auditorId, plusNbAudits, plusIso13485Audits);
+	}
+	
+	
 }

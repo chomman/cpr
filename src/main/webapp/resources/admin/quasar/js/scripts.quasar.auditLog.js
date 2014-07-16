@@ -73,6 +73,12 @@ $(function() {
 	$(document).on('click', '.qs-existing-certification-bodies a.toggle', onCreateNewCertificationBodies);
 	$(document).on('click', '.qs-change-status-btn', onChangeStatus);
 	$(document).on('click', '#change-status a', onCancelChangeStatus);
+	$(document).on('click', '#change-status input[type=submit]', onChangeStatusSubmit);
+	
+	function onChangeStatusSubmit(){
+		$(this).val($.getMessage("submiting"));
+		showLoader();
+	}
 	
 	function onCancelChangeStatus(){
 		$("#change-status").addClass('hidden');

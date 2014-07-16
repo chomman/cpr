@@ -18,4 +18,5 @@ public interface AuditorNandoCodeDao extends BaseDao<AuditorNandoCode, Long>{
 	
 	List<AuditorNandoCode> getForProductSpecialist(Auditor auditor);
 	
+	void incrementAuditorNandoCodeTotals(Long nandoCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits);
 }

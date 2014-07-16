@@ -5,6 +5,7 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 
 import cz.nlfnorm.dto.PageDto;
+import cz.nlfnorm.quasar.dto.AuditLogTotalsDto;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.enums.LogStatus;
@@ -36,5 +37,7 @@ public interface AuditLogService extends IdentifiableByLongService<AuditLog>{
 	
 	void setApprovedStatus(AuditLog log, String withComment);
 	
-
+	AuditLogTotalsDto getTotalsFor(AuditLog auditLog);
+	
+	void updateQualification(AuditLog auditLog);
 }

@@ -154,6 +154,46 @@
 		</div>
 		</c:if>
 		
+		<c:if test="${not empty model.totals}">
+			<div class="qs-log-totals qs-bx-wrapp">
+				<p class="form-head">Totals of EAC and NANDO code occurrences</p>
+				<c:if test="${not empty model.totals.eacCodes}">
+					<div class="qs-left-bx">
+					<table class="data">
+						<tr>
+							<th><spring:message code="eacCode.code" /></th>
+							<th>SUM of <spring:message code="auditLogItemType.iso13485" /> + <spring:message code="auditLogItemType.iso9001" /> </th>
+						</tr>
+						<c:forEach items="${model.totals.eacCodes}" var="entry">
+							<tr>
+								<td>${entry.key.code}</td>
+								<td><strong>${entry.value.total}</strong> = ${entry.value.numberOfIso13485Audits} + ${entry.value.numberOfNbAudits}</td>
+							</tr>
+						</c:forEach>
+					</table>
+					</div>
+				</c:if>
+				<c:if test="${not empty model.totals.nandoCodes}">
+					<div class="qs-right-bx">
+						<table class="data">
+							<tr>
+								<th><spring:message code="nandoCode.code" /></th>
+								<th>SUM of <spring:message code="auditLogItemType.iso13485" /> + <spring:message code="auditLogItemType.iso9001" /> </th>
+							</tr>
+							<c:forEach items="${model.totals.nandoCodes}" var="entry">
+								<tr>
+									<td>${entry.key.code}</td>
+									<td><strong>${entry.value.total}</strong> = ${entry.value.numberOfIso13485Audits} + ${entry.value.numberOfNbAudits}</td>
+								</tr>
+							</c:forEach>
+						</table>
+					</div>
+				</c:if>
+				<div class="clear"></div>
+			</div>
+		</c:if>
+		
+		
 		<!-- Change status form  -->
 		<c:if test="${model.auditLog.countOfAudits > 0}">
 			<c:url var="sUrl" value="/admin/quasar/change-log-status" />
@@ -208,8 +248,6 @@
 					<a class="toggle">Company not found? Create new</a>
 				</div>
 			</div>
-			
-			
 			<div class="input-wrapp smaller">
 				<label>
 					<strong><em class="red">*</em>

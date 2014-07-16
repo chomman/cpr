@@ -128,4 +128,10 @@ public class AuditorNandoCodeServiceImpl implements AuditorNandoCodeService{
 		return auditorNandoCodeDao.getForProductSpecialist(auditor);
 	}
 
+	@Override
+	public void incrementAuditorNandoCodeTotals(Long nandoCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits) {
+		auditorNandoCodeDao.incrementAuditorNandoCodeTotals(nandoCodeId, auditorId, plusNbAudits, plusIso13485Audits);
+	}
+
 }
+

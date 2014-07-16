@@ -108,36 +108,7 @@ public abstract class LogServiceImpl{
 		sendStatusChangedEmail(log, withComment);
 	}
 	
-	
-	/**
-	 * Sets to given log new status, if is given user authorized. 
-	 * 
-	 * @param newStatus - new status of given log
-	 * @param log - Auditor's log, which status should be changed to APPROVED
-	 * @param withComment - user's comment (can be empty) 
-	 * 
-	 * @see {@link QuasarSettings}
-	 * @see {@link LogStatus}
-	 * @throws AccessDeniedException - if the logged hasn't rights to approval
-	 * @throws IllegalArgumentException - if given new status is not implemented, or given log and new status are NULL
-	 */
-	public void setLogStatus(final LogStatus newStatus, final AbstractLog log, final String withComment) {
-		Validate.notNull(log);
-		Validate.notNull(newStatus);
-		if(!newStatus.equals(log.getStatus())){
-			if(newStatus.equals(LogStatus.PENDING)){
-				setPendingStatus(log, withComment);
-			}else if(newStatus.equals(LogStatus.REFUSED)){
-				setRfusedStatus(log, withComment);
-			}else if(newStatus.equals(LogStatus.APPROVED)){
-				setApprovedStatus(log, withComment);
-			}else{
-				throw new IllegalArgumentException("Unknown log status: " + newStatus);
-			}
-		}
-	}
-	
-	
+		
 	private void setComment(AbstractLog log, final String message){
 		if(StringUtils.isNotBlank(message)){
 			Comment comment = new Comment(UserUtils.getLoggedUser());
@@ -191,7 +162,7 @@ public abstract class LogServiceImpl{
 	
 	private String determineLogUrl(final AbstractLog log){
 		if(log instanceof AuditLog){
-			return host + AuditLogController.PROFILE_EDIT_MAPPING_URL.replace("{id}", log.getId()+"") ;
+			return host + AuditLogController.EDIT_MAPPING_URL.replace("{id}", log.getId()+"") ;
 		}
 		throw new IllegalArgumentException("Unknown log instance");
 		

@@ -36,15 +36,11 @@ public class AuditLogTotalsDto {
 	}
 	public void setAudits(int audits) {
 		this.audits = audits;
-	}
-	
-	
+	}	
 	public void incrementAudits(){
 		audits++;
 	}
-	
 	public void incrementAuditDays(int val){
 		auditDays += val;
 	}
-	
 }

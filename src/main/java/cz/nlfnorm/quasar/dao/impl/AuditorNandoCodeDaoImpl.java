@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.dao.impl;
 
 import java.util.List;
 
+import org.joda.time.LocalDateTime;
 import org.springframework.stereotype.Repository;
 
 import cz.nlfnorm.dao.impl.BaseDaoImpl;
@@ -73,18 +74,38 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 	public List<AuditorNandoCode> getForProductSpecialist(Auditor auditor) {
 		return getCodesForType(Auditor.TYPE_PRODUCT_SPECIALIST, auditor.getId());
 	}
-
+	
+	
+	@Override
+	public void incrementAuditorNandoCodeTotals(final Long nandoCodeId, final Long auditorId, final int plusNbAudits, final int plusIso13485Audits) {
+		StringBuilder hql = new StringBuilder("update AuditorNandoCode code set ")
+		.append(" 	code.numberOfNbAudits = code.numberOfNbAudits + :plusNbAudits, ")
+		.append(" 	code.numberOfIso13485Audits = code.numberOfIso13485Audits + :plusIso13485Audits, ")
+		.append("   code.changed = :changed ")
+		.append(" where code.auditor.id = :auditorId and code.nandoCode.id = :nandoCodeId ");
+		createQuery(hql)
+			.setLong("auditorId", auditorId)
+			.setLong("nandoCodeId", nandoCodeId)
+			.setInteger("plusNbAudits", plusNbAudits)
+			.setInteger("plusIso13485Audits", plusIso13485Audits)
+			.setTimestamp("changed", new LocalDateTime().toDate())
+			.executeUpdate();
+	}
+	
+	
 	private String determineAuditorType(final int type){
 		switch(type){
-		case Auditor.TYPE_PRODUCT_ASSESSOR_A :
-			return "forProductAssesorA";
-		case Auditor.TYPE_PRODUCT_ASSESSOR_R :
-			return "forProductAssesorR";
-		case Auditor.TYPE_PRODUCT_SPECIALIST :
-			return "forProductSpecialist";
-		default:
-		throw new IllegalArgumentException("Unknown auditor type: " + type);	
+			case Auditor.TYPE_PRODUCT_ASSESSOR_A :
+				return "forProductAssesorA";
+			case Auditor.TYPE_PRODUCT_ASSESSOR_R :
+				return "forProductAssesorR";
+			case Auditor.TYPE_PRODUCT_SPECIALIST :
+				return "forProductSpecialist";
+			default:
+			throw new IllegalArgumentException("Unknown auditor type: " + type);	
+		}
 	}
-}
+	
+	
 	
 }	

@@ -26,5 +26,7 @@ public class AuditLogCodeSumDto {
 		this.numberOfIso13485Audits = numberOfIso13485Audits;
 	}
 	
-	
+	public int getTotal(){
+		return numberOfIso13485Audits + numberOfNbAudits;
+	}
 }

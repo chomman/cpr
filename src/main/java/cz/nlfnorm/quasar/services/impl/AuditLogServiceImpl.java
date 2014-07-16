@@ -172,7 +172,19 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 */
 	@Override
 	public void changeStatus(final AuditLog auditLog, final LogStatus newStatus, final String comment) {
-		super.setLogStatus(newStatus, auditLog, comment);
+		Validate.notNull(auditLog);
+		Validate.notNull(newStatus);
+		if(!newStatus.equals(auditLog.getStatus())){
+			if(newStatus.equals(LogStatus.PENDING)){
+				setPendingStatus(auditLog, comment);
+			}else if(newStatus.equals(LogStatus.REFUSED)){
+				setRfusedStatus(auditLog, comment);
+			}else if(newStatus.equals(LogStatus.APPROVED)){
+				setApprovedStatus(auditLog, comment);
+			}else{
+				throw new IllegalArgumentException("Unknown Audit log status: " + newStatus);
+			}
+		}
 	}
 	
 	/**
@@ -188,8 +200,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 */
 	@Override
 	public void setPendingStatus(final AuditLog log, final String withComment) {
-		// TODO implementation 
-		setPendingStatus(log, withComment);
+		super.setPendingStatus(log, withComment);
 		updateAndSetChanged(log);
 	}
 
@@ -209,7 +220,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 */
 	@Override
 	public void setRfusedStatus(final AuditLog log, final String withComment) {
-		setRfusedStatus(log, withComment);
+		super.setRfusedStatus(log, withComment);
 		updateAndSetChanged(log);
 	}
 	
@@ -229,7 +240,8 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 */
 	@Override
 	public void setApprovedStatus(final AuditLog log, final String withComment) {
-		setApprovedStatus(log, withComment);
+		super.setApprovedStatus(log, withComment);
+		updateQualification(log);
 		updateAndSetChanged(log);
 	}
 
@@ -250,6 +262,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 		return auditLogDao.getByAuditLogItemId(id);
 	}
 
+	
 	/**
 	 * Updates Auditors Qs Auditor and Product Assessor-A of given audit log. 
 	 * 
@@ -263,14 +276,15 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 * @see {@link AuditorNandoCode}
 	 * @see {@link AuditorEacCode}
 	 */
+	@Override
 	public void updateQualification(final AuditLog auditLog){
 		Validate.notNull(auditLog);
 		Validate.notNull(auditLog.getAuditor());
 		if(auditLog.getStatus() == null || !auditLog.getStatus().equals(LogStatus.APPROVED)){
-			throw new IllegalArgumentException("Given audit log is not Approved, " + auditLog);
+			throw new IllegalArgumentException("Audit log status is not Approved, " + auditLog);
 		}
 		final Auditor auditor = auditLog.getAuditor();
-		final AuditLogTotalsDto totals = computeTotalsFor(auditLog);
+		final AuditLogTotalsDto totals = getTotalsFor(auditLog);
 		updateQsAuditorQualification(auditor, totals);
 		updateProductAssessorAQualification(auditor, totals);
 		auditor.incrementAuditDays(totals.getAuditDays());
@@ -278,30 +292,26 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 		auditorService.createOrUpdate(auditor);
 	}
 	
-	private void updateQsAuditorQualification(final Auditor auditor, final AuditLogTotalsDto totals){
-		for(Map.Entry<EacCode, AuditLogCodeSumDto> entry : totals.getEacCodes().entrySet()){
-			final AuditLogCodeSumDto sum = entry.getValue();
-			final AuditorEacCode code = auditorEacCodeService.getByEacCode(entry.getKey().getCode(), auditor.getId());
-			Validate.notNull(code);
-			code.incrementNumberOfIso13485Audits(sum.getNumberOfIso13485Audits());
-			code.incrementNumberOfNbAudits(sum.getNumberOfNbAudits());
-			auditorEacCodeService.updateAndSetChanged(code);
-		}
-	}
 	
-	private void updateProductAssessorAQualification(final Auditor auditor, final AuditLogTotalsDto totals){
-		for(Map.Entry<NandoCode, AuditLogCodeSumDto> entry : totals.getNandoCodes().entrySet()){
-			final AuditLogCodeSumDto sum = entry.getValue();
-			final AuditorNandoCode code = auditorNandoCodeService.getByNandoCode(entry.getKey().getCode(), auditor.getId());
-			Validate.notNull(code);
-			code.incrementNumberOfIso13485Audits(sum.getNumberOfIso13485Audits());
-			code.incrementNumberOfNbAudits(sum.getNumberOfNbAudits());
-			auditorNandoCodeService.createOrUpdate(code);
-		}
-	}
-	
-		
-	private AuditLogTotalsDto computeTotalsFor(final AuditLog auditLog){
+	/**
+	 * Calculate EAC and NANDOCO occurrences and merge them into DTO object. Calculate sum of 
+	 * audit days a audits too. Items are summed into two categories:
+	 *  
+	 * <ul>
+	 *  <li>ISO 13485 - a voluntary classification</li>
+	 *  <li>MDD/AIMD/IVD - NB audits</li>
+	 * </ul>   
+	 *  
+	 * @see {@link AuditLogCodeSumDto}
+	 * @see {@link AuditLogTotalsDto}
+	 * 
+	 * @param auditLog - audit log 
+	 * @return totals - DTO which contains counted totals of NANDO, EAC code occurrences, audit days and audits
+	 * @throws IllegalArgumentException - If given audit log is NULL
+	 */
+	@Override
+	public AuditLogTotalsDto getTotalsFor(final AuditLog auditLog){
+		Validate.notNull(auditLog);
 		final AuditLogTotalsDto totals = new AuditLogTotalsDto();
 		for(final AuditLogItem item: auditLog.getItems()){
 			incrementEacCodes(totals.getEacCodes(), item);
@@ -312,6 +322,29 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 		return totals;
 	}
 	
+	private void updateQsAuditorQualification(final Auditor auditor, final AuditLogTotalsDto totals){
+		for(Map.Entry<EacCode, AuditLogCodeSumDto> entry : totals.getEacCodes().entrySet()){
+			auditorEacCodeService.incrementAuditorEacCodeTotals(
+					entry.getKey().getId(), 
+					auditor.getId(), 
+					entry.getValue().getNumberOfNbAudits(), 
+					entry.getValue().getNumberOfIso13485Audits()
+					);
+		}
+	}
+	
+	private void updateProductAssessorAQualification(final Auditor auditor, final AuditLogTotalsDto totals){
+		for(Map.Entry<NandoCode, AuditLogCodeSumDto> entry : totals.getNandoCodes().entrySet()){
+			auditorNandoCodeService.incrementAuditorNandoCodeTotals(
+					entry.getKey().getId(), 
+					auditor.getId(),
+					entry.getValue().getNumberOfNbAudits(), 
+					entry.getValue().getNumberOfIso13485Audits()
+				);
+		}
+	}
+	
+			
 	private void incrementNandoCodes(final Map<NandoCode, AuditLogCodeSumDto> nandoCodes, final AuditLogItem item){
 		for(final NandoCode code : item.getNandoCodes()){
 			if(nandoCodes.containsKey(code)){

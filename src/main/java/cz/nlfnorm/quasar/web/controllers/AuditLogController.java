@@ -55,7 +55,7 @@ public class AuditLogController extends QuasarSupportController {
 	private final static String ITEM_ID_PARAM_NAME = "iid";
 	private final static String ADMIN_LIST_MAPPING_URL = "/admin/quasar/manage/audit-logs";
 	private final static String PROFILE_LIST_MAPPING_URL = "/admin/quasar/audit-logs";
-	public final static String PROFILE_EDIT_MAPPING_URL = "/admin/quasar/audit-log/{id}";
+	public  final static String EDIT_MAPPING_URL = "/admin/quasar/audit-log/{id}";
 	private final static String AUDIT_LOG_ITEM_DELETE_URL = "/admin/quasar/audit-log-item/delete/{id}";
 	
 	@Autowired
@@ -105,11 +105,11 @@ public class AuditLogController extends QuasarSupportController {
 	}
 	
 	
-	@RequestMapping(value = PROFILE_EDIT_MAPPING_URL, method = RequestMethod.GET)
+	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
 	public String handleAuditLogEdit(ModelMap modelMap, @PathVariable long id, HttpServletRequest request) throws ItemNotFoundException{
 		if(id == 0){
 			id = auditLogService.createNewToLoginedUser();
-			return successUpdateRedirect(PROFILE_EDIT_MAPPING_URL.replace("{id}", id+""));
+			return successUpdateRedirect(EDIT_MAPPING_URL.replace("{id}", id+""));
 		}
 		if(isDeleted(request)){
 			appendSuccessCreateParam(modelMap);
@@ -130,11 +130,11 @@ public class AuditLogController extends QuasarSupportController {
 		final Long auditLogId = auditLogItem.getAuditLog().getId();
 		auditLogService.updateAndSetChanged(auditLogItem.getAuditLog());
 		auditLogItemService.delete(auditLogItem);
-		return successDeleteRedirect(PROFILE_EDIT_MAPPING_URL.replace("{id}", auditLogId+""));
+		return successDeleteRedirect(EDIT_MAPPING_URL.replace("{id}", auditLogId+""));
 	}
 		
 	
-	@RequestMapping(value = PROFILE_EDIT_MAPPING_URL, method = RequestMethod.POST)
+	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)
 	public String processSubmitAuditLogItem(
 			ModelMap modelMap, 
 			@Valid @ModelAttribute(COMMAND) AuditLogItemForm form,
@@ -261,6 +261,9 @@ public class AuditLogController extends QuasarSupportController {
 		model.put("showForm", showForm);
 		model.put("auditLogItemTypes", AuditLogItemType.getAll());
 		model.put("dateThreshold", auditLogService.getEarliestPossibleDateForAuditLog(log.getAuditor()));
+		if(log.getStatus().equals(LogStatus.APPROVED)){
+			model.put("totals", auditLogService.getTotalsFor(log));
+		}
 		modelMap.addAttribute(COMMAND, form);
 		appendModel(modelMap, model);
 	}

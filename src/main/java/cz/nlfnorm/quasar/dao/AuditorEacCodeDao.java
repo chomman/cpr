@@ -19,5 +19,5 @@ public interface AuditorEacCodeDao extends BaseDao<AuditorEacCode, Long>{
 		
 	AuditorEacCode getByEacCode(String code, Long auditorId);
 	
-	
+	void incrementAuditorEacCodeTotals(Long eacCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits);
 }
