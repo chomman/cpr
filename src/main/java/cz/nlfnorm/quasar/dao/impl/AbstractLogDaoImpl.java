@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.poi.ss.formula.functions.T;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
 
@@ -14,8 +13,9 @@ import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.impl.BaseDaoImpl;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
+import cz.nlfnorm.quasar.entities.AbstractLog;
 
-public abstract class AbstractLogDaoImpl extends BaseDaoImpl<T, Long>{
+public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoImpl<T, Long>{
 
 	public AbstractLogDaoImpl(Class<T> persistentClass){
 		super(persistentClass);

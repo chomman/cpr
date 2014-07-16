@@ -39,20 +39,25 @@
 <body>
 	<div id="wrapper">
 		<div id="left">
-			<jsp:include page="../include/portal-nav.jsp" />
+			<c:if test="${empty quasar or not quasar}">
+				<jsp:include page="../include/portal-nav.jsp" />
+			</c:if>
+			<c:if test="${quasar}">
+				<jsp:include page="../include/quasar-nav.jsp" />	
+			</c:if>
 		</div>	
 		<div id="right">
 		
 			<div id="breadcrumb">
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  u&raquo;
-				 <a:adminurl href="/portal/email-templates"><spring:message code="admin.emailTemplate" /></a:adminurl>  &raquo;
+				 <a:adminurl href="/email-templates${quasar ? '?quasar=1' : ''}"><spring:message code="admin.emailTemplate" /></a:adminurl>  &raquo;
 				 <span><spring:message code="admin.emailTemplate.edit"/></span> 
 			</div>
 			<h1><spring:message code="admin.emailTemplate.edit"/></h1>
 	
 			<div id="content">
 				
-				<c:url value="/admin/portal/email-template/${empty emailTemplate.id ? 0 : emailTemplate.id }" var="formUrl"/>
+				<c:url value="/admin/email-template/${empty emailTemplate.id ? 0 : emailTemplate.id }" var="formUrl"/>
 				
 				<form:form commandName="emailTemplate" method="post" cssClass="valid" action="${formUrl}" >
 								

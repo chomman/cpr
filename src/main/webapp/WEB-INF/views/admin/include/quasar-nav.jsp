@@ -51,6 +51,15 @@
 		</a:adminurl>
 	</li>
 	
+	<li>
+		<a:adminurl href="/quasar/manage/settings" activeTab="${model.tab == 7}">
+			<spring:message code="quasarSettings" />
+		</a:adminurl>
+	</li>
 	
-	
+	<li>
+		<a:adminurl href="/email-templates?quasar=true" activeTab="${model.tab == 9}">
+			<spring:message code="admin.emailTemplate" />
+		</a:adminurl>
+	</li>	
 </ul>

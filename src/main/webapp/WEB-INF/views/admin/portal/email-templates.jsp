@@ -13,7 +13,12 @@
 <body>
 	<div id="wrapper">
 		<div id="left">
-			<jsp:include page="../include/portal-nav.jsp" />
+			<c:if test="${empty quasar or not quasar}">
+				<jsp:include page="../include/portal-nav.jsp" />
+			</c:if>
+			<c:if test="${quasar}">
+				<jsp:include page="../include/quasar-nav.jsp" />	
+			</c:if>
 		</div>	
 		<div id="right">
 			<div id="breadcrumb">
@@ -27,7 +32,7 @@
 				<sec:authorize access="hasAnyRole('ROLE_WEBMASTER')">
 					<ul class="sub-nav">
 						<li>
-							<a:adminurl href="/portal/email-template/0">
+							<a:adminurl href="/email-template/0">
 								Přidat novou šablonu
 							</a:adminurl>
 						</li>
@@ -35,6 +40,7 @@
 				</sec:authorize>
 				
 				<c:if test="${not empty model.emailTemplates}">
+					<c:if test="${empty quasar or not quasar}">
 					<div class="hbox">
 						<h2>Štablóny emailů odesílány zákazníkům</h2>
 					</div>									
@@ -62,7 +68,7 @@
 								 			</c:if>
 								 		</td>
 								 		<td class="edit">
-								 			<a:adminurl href="/portal/email-template/${i.id}">
+								 			<a:adminurl href="/email-template/${i.id}">
 								 				<spring:message code="form.edit" />
 								 			</a:adminurl>
 								 		</td>
@@ -99,7 +105,7 @@
 								 			</c:if>
 								 		</td>
 								 		<td class="edit">
-								 			<a:adminurl href="/portal/email-template/${i.id}">
+								 			<a:adminurl href="/email-template/${i.id}">
 								 				<spring:message code="form.edit" />
 								 			</a:adminurl>
 								 		</td>
@@ -136,7 +142,7 @@
 								 			</c:if>
 								 		</td>
 								 		<td class="edit">
-								 			<a:adminurl href="/portal/email-template/${i.id}">
+								 			<a:adminurl href="/email-template/${i.id}">
 								 				<spring:message code="form.edit" />
 								 			</a:adminurl>
 								 		</td>
@@ -147,7 +153,8 @@
 					</table>
 				
 				
-				
+				</c:if>
+				<c:if test="${quasar}">
 				<div class="hbox">
 						<h2>QUASAR E-mail templtes</h2>
 					</div>									
@@ -175,7 +182,7 @@
 								 			</c:if>
 								 		</td>
 								 		<td class="edit">
-								 			<a:adminurl href="/portal/email-template/${i.id}">
+								 			<a:adminurl href="/email-template/${i.id}">
 								 				<spring:message code="form.edit" />
 								 			</a:adminurl>
 								 		</td>
@@ -185,7 +192,7 @@
 						</tbody>
 					</table>
 				</c:if>
-				
+				</c:if>
 				
 				
 				<c:if test="${empty model.emailTemplates}">

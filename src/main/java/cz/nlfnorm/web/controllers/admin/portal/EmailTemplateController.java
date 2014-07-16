@@ -26,27 +26,31 @@ import cz.nlfnorm.utils.ValidationsUtils;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 
 @Controller
-public class PortalEmailTemplateController extends AdminSupportController {
+public class EmailTemplateController extends AdminSupportController {
 	
-	private final static String EDIT_MAPPING_URL = "/admin/portal/email-template/{templateId}";
-	private final static String LIST_MAPPING_URL = "/admin/portal/email-templates";
+	private final int TAB = 9;
+	private final static String EDIT_MAPPING_URL = "/admin/email-template/{templateId}";
+	private final static String LIST_MAPPING_URL = "/admin/email-templates";
 	private final static String EMAIL_PARAM = "email";
 	private final static String TEMPLATE_PARAM = "templateId";
+	private final static String QUASAR_PARAM = "quasar";
+	
 	@Autowired
 	private EmailTemplateService emailTemplateService;
 	
-	public PortalEmailTemplateController(){
+	public EmailTemplateController(){
 		setTableItemsView("portal/email-templates");
 		setEditFormView("portal/email-template-edit");
 	}
 	
 	
 	@RequestMapping(LIST_MAPPING_URL)
-	public String handleOrderList(ModelMap map){
+	public String handleOrderList(ModelMap map, HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("emailTemplates", emailTemplateService.getAll());
-		model.put("tab", 5);
+		model.put("tab", TAB);
 		map.put("model", model);
+		appendQuasarParam(request, map);
 		return getTableItemsView();
 	}
 	
@@ -61,7 +65,12 @@ public class PortalEmailTemplateController extends AdminSupportController {
 	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)
-	public String handleProcessSubmit(@Valid @ModelAttribute("emailTemplate") EmailTemplate template, BindingResult result, ModelMap map) throws ItemNotFoundException{
+	public String handleProcessSubmit(
+			@Valid @ModelAttribute("emailTemplate") EmailTemplate template, 
+			BindingResult result, 
+			ModelMap map, 
+			HttpServletRequest request) throws ItemNotFoundException{
+		
 		validateEmailTemplate(template, result);
 		if(result.hasErrors()){
 			prepareModel(map, template);
@@ -71,6 +80,8 @@ public class PortalEmailTemplateController extends AdminSupportController {
 		if(template.getId() == null){
 			return successUpdateRedirect(EDIT_MAPPING_URL.replace("{templateId}", id.toString()));
 		}
+		prepareModel(map, template);
+		appendQuasarParam(request, map);
 		map.put(SUCCESS_CREATE_PARAM, true);
 		return getEditFormView();
 	}
@@ -123,7 +134,10 @@ public class PortalEmailTemplateController extends AdminSupportController {
 	private void prepareModel(ModelMap map, final EmailTemplate emailTemplate){
 		map.addAttribute("emailTemplate", emailTemplate);
 		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("tab", 5);
+		model.put("tab", TAB);
+		if(emailTemplate.getCode().startsWith("QUASAR")){
+			map.put(QUASAR_PARAM, true);
+		}
 		map.put("model", model);
 	}
 	
@@ -146,5 +160,11 @@ public class PortalEmailTemplateController extends AdminSupportController {
 			return true;
 		}
 		return false;
+	}
+	
+	private void appendQuasarParam(HttpServletRequest req, ModelMap map){
+		if(req.getParameter(QUASAR_PARAM) != null){
+			map.put(QUASAR_PARAM, true);
+		}
 	}
 }
