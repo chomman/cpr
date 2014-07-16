@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dto.PageDto;
-import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.dao.AuditLogDao;
 import cz.nlfnorm.quasar.dto.AuditLogCodeSumDto;
 import cz.nlfnorm.quasar.dto.AuditLogTotalsDto;
@@ -29,7 +28,6 @@ import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
-import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
 
 /**
@@ -95,16 +93,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 		return auditLogDao.getPage(validateCriteria(criteria), pageNumber);
 	}
 	
-	private Map<String, Object> validateCriteria(final Map<String, Object> criteria){
-		if(criteria.size() > 0){
-			criteria.put(AuditorFilter.AUDITOR, ParseUtils.parseLongFromStringObject(criteria.get(AuditorFilter.AUDITOR)));
-			criteria.put(AuditorFilter.PARNTER, ParseUtils.parseLongFromStringObject(criteria.get(AuditorFilter.PARNTER)));
-			criteria.put(AuditorFilter.DATE_FROM, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_FROM)));
-			criteria.put(AuditorFilter.DATE_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_TO)));
-			criteria.put(AuditorFilter.STATUS, ParseUtils.parseIntFromStringObject(criteria.get(AuditorFilter.STATUS)));
-		}
-		return criteria;
-	}
+	
 	
 	/**
 	 * Create new audit log to logged user, who invoked request.
@@ -147,7 +136,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 * Update given auditor's audit log and set changed to current time.
 	 * 
 	 * @param auditLog - auditor's audit log which should be updated
-	 * @throws IllegalArgumentException - if is given audit log NULL
+	 * @throws IllegalArgumentException - if is given audit log is NULL
 	 */
 	@Override
 	public void updateAndSetChanged(final AuditLog auditLog) {
@@ -162,7 +151,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 * Change to given audit log status, if is given user authorized and statuses are different. 
 	 * 
 	 * @param newStatus - new status of given log
-	 * @param log - Auditor's log, which status should be changed to APPROVED
+	 * @param log - Auditor's log
 	 * @param withComment - user's comment (can be empty) 
 	 * 
 	 * @see {@link QuasarSettings}
@@ -226,9 +215,9 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	
 	
 	/**
-	 * Sets Audti log status to "APPROVED" and send notification email to given auditor.
+	 * Sets Audit log status to "APPROVED" and send notification email to given auditor.
 	 * (if has given auditor defined other e-mail addresses, the copy of this e-mail will
-	 * be forwarded to this addresses too.) 
+	 * be forwarded to this addresses too.)  Update auditor's qualification based on given Log.
 	 * 
 	 * @param log - Auditor's log, which status should be changed to APPROVED
 	 * @param withComment - user's comment (can be empty) 

@@ -9,7 +9,11 @@
 			<spring:message code="auditLogs" />
 		</a:adminurl>
 	</li>
-	
+	<li>
+		<a:adminurl href="/quasar/dossier-reports" activeTab="${model.tab == 10}">
+			<spring:message code="documentationLogs" />
+		</a:adminurl>
+	</li>
 	<li>
 		<a:adminurl href="/quasar/manage/auditors" activeTab="${model.tab == 3}">
 			<spring:message code="auditors" />

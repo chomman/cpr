@@ -12,6 +12,7 @@ import org.springframework.security.access.AccessDeniedException;
 import cz.nlfnorm.entities.EmailTemplate;
 import cz.nlfnorm.mail.HtmlMailMessage;
 import cz.nlfnorm.mail.NlfnormMailSender;
+import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.AbstractLog;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Comment;
@@ -22,6 +23,7 @@ import cz.nlfnorm.quasar.services.QuasarSettingsService;
 import cz.nlfnorm.quasar.web.controllers.AuditLogController;
 import cz.nlfnorm.services.EmailTemplateService;
 import cz.nlfnorm.utils.EmailUtils;
+import cz.nlfnorm.utils.ParseUtils;
 import cz.nlfnorm.utils.UserUtils;
 
 /**
@@ -42,6 +44,7 @@ public abstract class LogServiceImpl{
 	protected QuasarSettingsService quasarSettingsService;
 	@Autowired
 	protected NlfnormMailSender nlfnormMailSender;
+	
 	
 	/**
 	 * Sets log status to "PENDING" and send notification email to main QUASAR admin
@@ -166,6 +169,17 @@ public abstract class LogServiceImpl{
 		}
 		throw new IllegalArgumentException("Unknown log instance");
 		
+	}
+	
+	protected Map<String, Object> validateCriteria(final Map<String, Object> criteria){
+		if(criteria.size() > 0){
+			criteria.put(AuditorFilter.AUDITOR, ParseUtils.parseLongFromStringObject(criteria.get(AuditorFilter.AUDITOR)));
+			criteria.put(AuditorFilter.PARNTER, ParseUtils.parseLongFromStringObject(criteria.get(AuditorFilter.PARNTER)));
+			criteria.put(AuditorFilter.DATE_FROM, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_FROM)));
+			criteria.put(AuditorFilter.DATE_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(AuditorFilter.DATE_TO)));
+			criteria.put(AuditorFilter.STATUS, ParseUtils.parseIntFromStringObject(criteria.get(AuditorFilter.STATUS)));
+		}
+		return criteria;
 	}
 
 }

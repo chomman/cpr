@@ -87,7 +87,6 @@ public class AuditLogController extends QuasarSupportController {
 		binder.registerCustomEditor(Company.class, new IdentifiableByLongPropertyEditor<Company>( companyService ));
 		binder.registerCustomEditor(CertificationBody.class, new IdentifiableByLongPropertyEditor<CertificationBody>( certificationBodyService ));
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
-		binder.registerCustomEditor(AuditLog.class, new IdentifiableByLongPropertyEditor<AuditLog>( auditLogService ));
 	}
 	
 	@RequestMapping(ADMIN_LIST_MAPPING_URL)

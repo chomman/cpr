@@ -46,7 +46,7 @@
 				<li><a href="<c:url value="/admin/quasar/dashboard" />" class="home"><spring:message code="menu.dashboard"/></a></li>
 				<li><a href="<c:url value="/admin/quasar/profile/1" />" class="user"><spring:message code="auditor.profile"/></a></li>
 				<li><a href="<c:url value="/admin/quasar/audit-logs" />" class="doc"><spring:message code="auditLogs"/></a></li>
-				<li><a href="<c:url value="/admin/quasar/documentation-logs" />" class="doc"><spring:message code="documentationLogs"/></a></li>
+				<li><a href="<c:url value="/admin/quasar/dossier-reports" />" class="doc"><spring:message code="documentationLogs"/></a></li>
 				<li><a href="<c:url value="/admin/quasar/training-logs" />" class="doc"><spring:message code="trainingLogs"/></a></li>
 				
 			</c:if>
