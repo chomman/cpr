@@ -332,6 +332,9 @@
 									 <a class="lang mandate-add-btn">
 										<spring:message code="form.save" />
 									</a>
+									<a target="_blank" class="qs-nb-new" href="<c:url value="${model.nbUrl}0" />">
+										<spring:message code="new" />
+									</a>
 								</span>
 							</td>
 						</tr>

@@ -7,18 +7,16 @@
 <sec:authorize access="hasRole('ROLE_ADMIN')">	
 	<c:set var="isLoggedAdmin" value="true"/>
 </sec:authorize>							
-							
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="user.edit" >${userForm.user.email}</spring:message></title>
+	<title><spring:message code="user.edit" >${userForm.user.email}</spring:message></title>
+	<script src="<c:url value="/resources/admin/js/users.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
 	<div id="left">
-	
 		<jsp:include page="include/user-nav.jsp" />
-		
 	</div>	
 	<div id="right">
 		
@@ -104,14 +102,14 @@
 						<p class="form-head"><spring:message code="user.roles" /></p>
 						
 						
-						<c:if test="${not sameUser and isLoggedWebmaster}">
+						<c:if test="${not sameUser or isLoggedWebmaster}">
 							<p class="msg info"><spring:message code="user.role.notice" /></p>
 	                       	<table class="roles">
 								
 								<c:if test="${isLoggedWebmaster}">
 									<c:forEach items="${userForm.roles}" var="item" varStatus="i">
-											<tr>
-												<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+											<tr id="${item.authority.code}">
+												<td class="check"><form:checkbox path="roles[${i.index}].selected" data-role="${item.authority.code}" /></td>
 												<td class="name"><c:out value="${item.authority.name}" /></td>
 												<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
 											</tr>
@@ -121,8 +119,8 @@
 								<c:if test="${isLoggedAdmin and not isLoggedWebmaster}">
 									<c:forEach items="${userForm.roles}" var="item" varStatus="i">
 											<c:if test="${not item.authority.code == 'ROLE_WEBMASTER'}">
-												<tr>
-													<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+												<tr id="${item.authority.code}">
+													<td class="check"><form:checkbox path="roles[${i.index}].selected" data-role="${item.authority.code}" /></td>
 													<td class="name"><c:out value="${item.authority.name}" /></td>
 													<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
 												</tr>
@@ -135,7 +133,7 @@
 	                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
 	                        </p>
 						</c:if>
-						<c:if test="${sameUser}">
+						<c:if test="${sameUser and not isLoggedWebmaster}">
 							<p class="msg alert"><spring:message code="user.rights.own" /></p>
 						</c:if>
 					</form:form>

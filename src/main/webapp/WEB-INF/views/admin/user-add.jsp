@@ -6,18 +6,16 @@
 <sec:authorize access="hasRole('ROLE_ADMIN')">	
 	<c:set var="isLoggedAdmin" value="true"/>
 </sec:authorize>	
-
 <!DOCTYPE html>
 <html>
 <head>
-<title><spring:message code="user.add" /></title>
+	<title><spring:message code="user.add" /></title>
+	<script src="<c:url value="/resources/admin/js/users.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
 	<div id="left">
-	
 		<jsp:include page="include/user-nav.jsp" />
-		
 	</div>	
 	<div id="right">
 		
@@ -120,7 +118,7 @@
 							<c:if test="${isLoggedWebmaster}">
 									<c:forEach items="${userForm.roles}" var="item" varStatus="i">
 											<tr>
-												<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+												<td class="check"><form:checkbox path="roles[${i.index}].selected" data-role="${item.authority.code}" /></td>
 												<td class="name"><c:out value="${item.authority.name}" /></td>
 												<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
 											</tr>
@@ -131,7 +129,7 @@
 									<c:forEach items="${userForm.roles}" var="item" varStatus="i">
 											<c:if test="${item.authority.code != 'ROLE_WEBMASTER'}">
 												<tr>
-													<td class="check"><form:checkbox path="roles[${i.index}].selected" /></td>
+													<td class="check"><form:checkbox path="roles[${i.index}].selected" data-role="${item.authority.code}" /></td>
 													<td class="name"><c:out value="${item.authority.name}" /></td>
 													<td class="descr"><c:out value="${item.authority.shortDescription}" /></td>
 												</tr>

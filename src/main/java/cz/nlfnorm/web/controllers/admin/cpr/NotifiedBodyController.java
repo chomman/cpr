@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.utils.CodeUtils;
+import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.validators.admin.NotifiedBodyValidator;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.CountryEditor;
@@ -32,7 +34,14 @@ import cz.nlfnorm.web.editors.CountryEditor;
 @SessionAttributes("notifiedBody")
 public class NotifiedBodyController extends AdminSupportController {
 	
-	public static final int CPR_TAB_INDEX = 3;
+	public static final int CPR_TAB_INDEX = 11;
+	
+	private final static String CPR_NB_LIST_URL = "/admin/cpr/notifiedbodies";
+	private final static String QUASAR_NB_LIST_URL = "/admin/quasar/manage/notifiedbodies";
+	private final static String CPR_NB_EIDT_URL = "/admin/cpr/notifiedbodies/edit/";
+	public  final static String QUASAR_NB_EIDT_URL = "/admin/quasar/manage/notifiedbody/";
+	private final static String CPR_NB_DELETE_URL = "/admin/cpr/notifiedbodies/delete/";
+	private final static String QUASAR_NB_DELETE_URL = "/admin/quasar/manage/notifiedbody/delete/";
 	
 	@Autowired
 	private NotifiedBodyService notifiedBodyService;
@@ -42,11 +51,8 @@ public class NotifiedBodyController extends AdminSupportController {
 	private CountryEditor countryEditor;
 	@Autowired
 	private NotifiedBodyValidator notifiedBodyValidator;
-	
-	
-	
-	
-	
+		
+
 	public NotifiedBodyController(){
 		setEditFormView("cpr/notifiedbodies-edit");
 		setTableItemsView("cpr/notifiedbodies");
@@ -64,14 +70,14 @@ public class NotifiedBodyController extends AdminSupportController {
 	 * @param modelMap
 	 * @return String view
 	 */
-	@RequestMapping("/admin/cpr/notifiedbodies")
-    public String showNotifiedBodiesPage(ModelMap modelMap) {
-		
+	@RequestMapping({CPR_NB_LIST_URL, QUASAR_NB_LIST_URL})
+    public String showNotifiedBodiesPage(ModelMap modelMap, HttpServletRequest request) {
 		Map<String, Object> model = new HashMap<String, Object>();
 		List<NotifiedBody> groups = notifiedBodyService.getAllNotifiedBodies();
 		model.put("notifiedBodies", groups);
 		model.put("tab", CPR_TAB_INDEX);
 		modelMap.put("model", model);
+		setUrls(request, modelMap);
         return getTableItemsView();
         
     }
@@ -87,24 +93,24 @@ public class NotifiedBodyController extends AdminSupportController {
 	 * @param Model model
 	 * @return String view
 	 */
-	@RequestMapping( value = "/admin/cpr/notifiedbodies/edit/{notifiedBodyId}", method = RequestMethod.GET)
-	public String showForm(@PathVariable Long notifiedBodyId,  ModelMap model) {
-						
+	@RequestMapping( value = {CPR_NB_EIDT_URL+"{nbID}",	QUASAR_NB_EIDT_URL +"{nbID}"}, 
+			method = RequestMethod.GET)
+	public String showForm(@PathVariable Long nbID,  ModelMap map, HttpServletRequest request) {
 		NotifiedBody form = null;
-	
 		// vytvorenie novej polozky
-		if(notifiedBodyId == 0){
+		if(nbID == 0){
 			form = new NotifiedBody();
 			form.setId(0L);
 		}else{
 			// editacia polozky
-			form = notifiedBodyService.getNotifiedBodyById(notifiedBodyId);
+			form = notifiedBodyService.getNotifiedBodyById(nbID);
 			if(form == null){
-				model.put("notFoundError", true);
+				map.put("notFoundError", true);
 				return getEditFormView();
 			}
 		}
-		prepareModel(form, model, notifiedBodyId);
+		setUrls(request, map);
+		prepareModel(form, map, nbID);
         return getEditFormView();
 	}
 	
@@ -112,24 +118,25 @@ public class NotifiedBodyController extends AdminSupportController {
 	/**
 	 * Ulozi odostalny zvalidovany formular (Notifikovanu osobu)
 	 * 
-	 * @param notifiedBodyId
+	 * @param nbID
 	 * @param form NotifiedBody notifikovana osoba
 	 * @param result
-	 * @param model
+	 * @param map
 	 * @return String view
 	 * @throws ItemNotFoundException 
 	 */
-	@RequestMapping( value = "/admin/cpr/notifiedbodies/edit/{notifiedBodyId}", method = RequestMethod.POST)
-	public String processSubmit(@PathVariable Long notifiedBodyId,  @Valid  NotifiedBody form, BindingResult result, ModelMap model) throws ItemNotFoundException {
-		
+	@RequestMapping( value = {CPR_NB_EIDT_URL+"{nbID}",	QUASAR_NB_EIDT_URL +"{nbID}"}, 
+			method = RequestMethod.POST)
+	public String processSubmit(@PathVariable Long nbID,  @Valid  NotifiedBody form, BindingResult result, ModelMap map, HttpServletRequest request) throws ItemNotFoundException {
+		setUrls(request, map);
 		if (!result.hasErrors()) {
         	notifiedBodyValidator.validate(result, form);
 			if(!result.hasErrors()){
 				createOrUpdate(form);
-	        	model.put("successCreate", true);
+	        	map.put("successCreate", true);
 			}
         }
-		prepareModel(form, model, notifiedBodyId);
+		prepareModel(form, map, nbID);
         return getEditFormView();
 	}
 	
@@ -137,27 +144,25 @@ public class NotifiedBodyController extends AdminSupportController {
 	/**
 	 * Odstraní notifikovanú osobu ak nie je nikde použitá.
 	 * 
-	 * @param notifiedBodyId
+	 * @param ndID
 	 * @param modelMap
 	 * @return
 	 */
-	@RequestMapping( value = "/admin/cpr/notifiedbodies/delete/{notifiedBodyId}", method = RequestMethod.GET)
-	public String deleteGroup(@PathVariable Long notifiedBodyId,  ModelMap modelMap) {
-						
-		NotifiedBody notifiedBody = notifiedBodyService.getNotifiedBodyById(notifiedBodyId);
+	@RequestMapping( value =  {CPR_NB_DELETE_URL + "{ndID}", QUASAR_NB_DELETE_URL + "{ndID}"}, method = RequestMethod.GET)
+	public String deleteGroup(@PathVariable Long ndID,  ModelMap modelMap, HttpServletRequest request) {
+		NotifiedBody notifiedBody = notifiedBodyService.getNotifiedBodyById(ndID);
+		setUrls(request, modelMap);
 		if(notifiedBody == null){
 			modelMap.put("notFoundError", true);
 			return getTableItemsView();
 		}
-		
 		if(notifiedBodyService.canBeDeleted(notifiedBody)){
 			notifiedBodyService.deleteNotifiedBody(notifiedBody);
 			modelMap.put("successDelete", true);
 		}else{
 			modelMap.put("isNotEmptyError", true);
 		}
-		
-        return showNotifiedBodiesPage(modelMap);
+        return showNotifiedBodiesPage(modelMap, request);
 	}
 	
 	
@@ -204,6 +209,18 @@ public class NotifiedBodyController extends AdminSupportController {
 		map.put("model", model); 
 	}
 	
-	
+	private void setUrls(HttpServletRequest request, ModelMap map){
+		final String url = RequestUtils.getPartOfURLOnPosition(request, 2);
+		if(url.equals("quasar")){
+			map.put("listUrl", QUASAR_NB_LIST_URL);
+			map.put("deleteUrl", QUASAR_NB_DELETE_URL);
+			map.put("editUrl", QUASAR_NB_EIDT_URL);
+		}else{
+			map.put("listUrl", CPR_NB_LIST_URL);
+			map.put("deleteUrl", CPR_NB_DELETE_URL);
+			map.put("editUrl", CPR_NB_EIDT_URL);
+		}
+		map.put("quasarView",url.equals("quasar"));
+	}
 	
 }

@@ -57,13 +57,13 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	@Override
 	public List<User> autocomplateSearch(final String query) {
 		StringBuilder hql = new StringBuilder("select u.id, u.firstName, u.lastName, u.email from User u WHERE ");
-		hql.append(" u.firstName like CONCAT('%', :query , '%') OR");
-		hql.append(" u.lastName like CONCAT('%', :query , '%') OR");
+		hql.append("  unaccent(lower(u.firstName)) like unaccent(CONCAT('%', :query , '%')) OR");
+		hql.append("  unaccent(lower(u.lastName)) like unaccent(CONCAT('%', :query , '%')) OR");
 		hql.append(" u.email like CONCAT('%', :query , '%') ");
 		List<User> users = new ArrayList<User>();
 		users = sessionFactory.getCurrentSession()
 				.createQuery(hql.toString())
-				.setString("query", query)
+				.setString("query", query.toLowerCase())
 				.setMaxResults(8)
 				.list();
 		return users;
@@ -117,9 +117,9 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" (u.firstName like CONCAT('%', :query , '%') OR " +
-						  " u.lastName like CONCAT('%', :query , '%') OR " +
-						  " u.email like CONCAT('%', :query , '%')) ");
+				where.add(" (unaccent(lower(u.firstName)) like unaccent(lower(:query)) OR " +
+						  "  unaccent(lower(u.lastName))  like unaccent(lower(:query)) OR "
+						  + "unaccent(lower(CONCAT(u.firstName,' ',u.lastName))) like unaccent(lower(:query))) ");
 			}
 			if((DateTime)criteria.get(Filter.CREATED_FROM) != null){
 				where.add(" u.created >= :"+Filter.CREATED_FROM);

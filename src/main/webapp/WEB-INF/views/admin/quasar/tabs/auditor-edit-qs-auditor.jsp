@@ -17,6 +17,7 @@
 	</div>
 	<form:hidden path="id"/>
 </form:form>
+</c:if>
 <div class="qs-result-box ${model.function.areAllRequirementsValid ? 'qs-valid' : 'qs-invalid'}">
 	<span class="qs-global">
 		<spring:message code="auditor.function" />:
@@ -85,7 +86,7 @@
 		</li>
 	</ul>
 </div>
-</c:if>
+
 
 <c:if test="${not empty successCreate}">
 	<p class="msg ok"><spring:message code="success.create" /></p>
@@ -212,6 +213,9 @@
 									 />
 									 <a class="lang mandate-add-btn">
 										<spring:message code="form.save" />
+									</a>
+									<a target="_blank" class="qs-nb-new" href="<c:url value="${model.nbUrl}0" />">
+										<spring:message code="new" />
 									</a>
 								</span>
 							</td>

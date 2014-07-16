@@ -34,9 +34,8 @@ $(function(){
 		return false;
 	}
 	
-	$(document).on('click','.qs-item .qs-field a', function(){
+	$(document).on('click','.qs-item .qs-field a.mandate-add-btn', function(){
 		$(this).parents('form').submit();
-		console.log($(this).parents('form'));
 		return false;
 	});
 	

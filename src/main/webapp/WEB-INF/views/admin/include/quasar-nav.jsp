@@ -19,7 +19,11 @@
 			<spring:message code="auditors" />
 		</a:adminurl>
 	</li>
-	
+	<li>
+		<a:adminurl href="/quasar/manage/notifiedbodies" activeTab="${model.tab == 11}">
+			<spring:message code="notifiedBodies" />
+		</a:adminurl>
+	</li>
 	<li>
 		<a:adminurl href="/quasar/manage/nando-codes" activeTab="${model.tab == 1}">
 			<spring:message code="nandoCodes" />
@@ -54,13 +58,6 @@
 			<spring:message code="quasarSettings" />
 		</a:adminurl>
 	</li>
-	
-	<li>
-		<a:adminurl href="/quasar/manage/settings" activeTab="${model.tab == 7}">
-			<spring:message code="quasarSettings" />
-		</a:adminurl>
-	</li>
-	
 	<li>
 		<a:adminurl href="/email-templates?quasar=true" activeTab="${model.tab == 9}">
 			<spring:message code="admin.emailTemplate" />

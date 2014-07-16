@@ -11,15 +11,22 @@
 	<div id="wrapper">
 	<div id="left">
 	
-		<jsp:include page="include/cpr-nav.jsp" />
+		<c:if test="${not quasarView }">
+			<jsp:include page="include/cpr-nav.jsp" />
+		</c:if>
+		<c:if test="${quasarView }">
+			<jsp:include page="../include/quasar-nav.jsp" />
+		</c:if>
 		
 	</div>	
 	<div id="right">
 		<div id="breadcrumb">
-			 <a href="<c:url value="/admin/" />"><spring:message code="menu.home" /></a> &raquo;
-			 <a href="<c:url value="/admin/cpr" />"><spring:message code="menu.cpr" /></a> &raquo;
-			 <a href="<c:url value="/admin/cpr/notifiebodies" />"><spring:message code="cpr.nb" /></a> &raquo;
-			 <span><spring:message code="cpr.nb.edit" /></span>
+			<a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl> &raquo;
+			<c:if test="${not quasarView }">
+				<a:adminurl href="/cpr"><spring:message code="menu.cpr" /></a:adminurl> &raquo;
+			</c:if>
+			<a:adminurl href="${listUrl}"><spring:message code="cpr.nb" /></a:adminurl> &raquo;
+			<span><spring:message code="cpr.nb.edit" /></span>
 		</div>
 		<h1><spring:message code="cpr.nb.edit" /></h1>
 
@@ -34,8 +41,8 @@
 		<c:if test="${empty notFoundError}">
 					
 			<ul class="sub-nav">
-				<li><a href="<c:url value="/admin/cpr/notifiedbodies"  />"><spring:message code="cpr.nb.view" /></a></li>
-				<li><a class="active" href="<c:url value="/admin/cpr/notifiedbodies/edit/0"  />"><spring:message code="cpr.nb.add" /></a></li>
+				<li><a href="<c:url value="${listUrl}"  />"><spring:message code="cpr.nb.view" /></a></li>
+				<li><a class="active" href="<c:url value="${editUrl}0"  />"><spring:message code="cpr.nb.add" /></a></li>
 			</ul>
 				
 			<c:if test="${not empty notifiedBody.createdBy}">
@@ -58,8 +65,7 @@
 			<script type="text/javascript"> 
 				$(function() { initWISIWIG("580", "250"); });
 			</script>
-			<c:url value="/admin/cpr/notifiedbodies/edit/${notifiedBodyId}" var="formUrl"/>
-			<form:form commandName="notifiedBody" method="post" action="${formUrl}" cssClass="valid"  >
+			<form:form commandName="notifiedBody" method="post" cssClass="valid"  >
 				
 				<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 				<c:if test="${not empty successCreate}">

@@ -56,6 +56,7 @@ import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.UserService;
 import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.utils.UserUtils;
+import cz.nlfnorm.web.controllers.admin.cpr.NotifiedBodyController;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 
@@ -439,6 +440,7 @@ public class AuditorController extends QuasarSupportController {
 			default:
 				throw new IllegalArgumentException("Unknown function type: " + functionType);
 		}
+		model.put("nbUrl", NotifiedBodyController.QUASAR_NB_EIDT_URL);
 		model.put("isEditable", isEditable);
 	}
 	
