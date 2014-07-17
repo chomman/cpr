@@ -7,14 +7,17 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 	<title><spring:message code="auditors" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/styles.css" />" />
-	<c:if test="${model.functionType > 1 and model.functionType < 6}">
+	<c:if test="${model.printable}">
+		<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/style.print.css" />" />
+	</c:if>
+	<c:if test="${not model.printable and model.functionType > 1 and model.functionType < 6}">
 		<link rel="stylesheet" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css" />		
 		<script src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.min.js"></script>
 		<link rel="stylesheet" href="//cdn.datatables.net/fixedcolumns/3.0.1/css/dataTables.fixedColumns.css" />
 		<script src="//cdn.datatables.net/fixedcolumns/3.0.1/js/dataTables.fixedColumns.min.js"></script>
 		<script src="<c:url value="/resources/admin/quasar/js/grid.js" />"></script>
 	</c:if>
-	<c:if test="${model.functionType > 1 and model.functionType == 6}">
+	<c:if test="${not model.printable and model.functionType > 1 and model.functionType == 6}">
 		<script src="<c:url value="/resources/admin/quasar/js/jquery.stickytableheaders.min.js" />"></script>
 		<script src="<c:url value="/resources/admin/quasar/js/function.grid.js" />"></script>
 	</c:if>

@@ -159,6 +159,7 @@ public class AuditorController extends QuasarSupportController {
 		model.put("partners", partnerService.getAll());
 		model.put("functionType", functionType);
 		model.put("disableScripts", true);
+		model.put("printable", request.getParameter("printable") != null);
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getViewDir() + "function-output";

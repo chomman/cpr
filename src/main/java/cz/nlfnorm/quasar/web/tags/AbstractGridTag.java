@@ -17,6 +17,7 @@ public abstract class AbstractGridTag extends RequestContextAwareTag {
 	@Autowired
 	protected MessageSource messageSource;
 	private String grantedText;
+	
 	public AbstractGridTag(){
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
 	}

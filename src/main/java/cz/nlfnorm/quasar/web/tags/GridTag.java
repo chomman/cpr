@@ -11,6 +11,7 @@ public class GridTag extends AbstractGridTag{
 
 	private List<GridTagItem> list;
 	
+	
 	public GridTag(){
 		super();
 	}
