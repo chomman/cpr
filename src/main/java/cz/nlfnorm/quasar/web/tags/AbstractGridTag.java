@@ -16,7 +16,7 @@ public abstract class AbstractGridTag extends RequestContextAwareTag {
 	
 	@Autowired
 	protected MessageSource messageSource;
-	private String grantedText;
+	protected String grantedText;
 	
 	public AbstractGridTag(){
 		SpringBeanAutowiringSupport.processInjectionBasedOnCurrentContext(this);
@@ -49,11 +49,15 @@ public abstract class AbstractGridTag extends RequestContextAwareTag {
 	}
 	
 	protected void appendCodeValueColumn(final StringBuilder html, final boolean isGranted) {
-		html.append("<td class=\"qs-fx-width qs-granted-")
+		html.append("<td class=\""+getColumnClass()+" qs-granted-")
 		.append(isGranted)
 		.append(" \">")
 		.append(isGranted ? grantedText : "")
 		.append("</td>");
+	}
+	
+	protected String getColumnClass() {
+		return "qs-fx-width";
 	}
 	
 	protected void appendAuditorTh(final StringBuilder html, final Auditor auditor) {

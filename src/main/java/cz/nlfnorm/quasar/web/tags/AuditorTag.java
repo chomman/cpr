@@ -6,7 +6,6 @@ import javax.servlet.jsp.JspException;
 
 import org.apache.commons.lang.StringUtils;
 
-import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.web.controllers.AuditorController;
 import cz.nlfnorm.web.taglib.UrlTag;

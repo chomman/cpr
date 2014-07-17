@@ -8,7 +8,7 @@
 	<title><spring:message code="auditors" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/styles.css" />" />
 	<c:if test="${model.printable}">
-		<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/style.print.css" />" />
+	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/style.print.css" />" />
 	</c:if>
 	<c:if test="${not model.printable and model.functionType > 1 and model.functionType < 6}">
 		<link rel="stylesheet" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css" />		
@@ -70,9 +70,12 @@
 	</div>
 	
 	<c:if test="${model.functionType > 1 and model.functionType < 6}">
-		<div class="container">
-		<quasar:auditorsGrid list="${model.items}" />
-		</div>
+		<c:if test="${not model.printable}">
+			<div class="container"><quasar:auditorsGrid list="${model.items}" /></div>
+		</c:if>
+		<c:if test="${model.printable}">
+			<quasar:printableAuditorsGrid list="${model.items}" />
+		</c:if>
 	</c:if>
 	
 	<c:if test="${model.functionType == 6}">

@@ -6,12 +6,20 @@
     version="2.0">
   <tlib-version>1.2</tlib-version>
   <short-name>quasar</short-name>
-  <uri>http://nlfnorm.cz/quasar</uri>       
- 
-    
+  <uri>http://nlfnorm.cz/quasar</uri>    
   <tag>
     <name>auditorsGrid</name>
     <tag-class>cz.nlfnorm.quasar.web.tags.GridTag</tag-class>
+    <body-content>JSP</body-content>
+    <attribute>
+			<name>list</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+	</attribute>
+  </tag>
+   <tag>
+    <name>printableAuditorsGrid</name>
+    <tag-class>cz.nlfnorm.quasar.web.tags.PrintableGirdTag</tag-class>
     <body-content>JSP</body-content>
     <attribute>
 			<name>list</name>

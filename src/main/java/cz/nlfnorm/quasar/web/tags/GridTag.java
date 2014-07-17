@@ -9,13 +9,12 @@ import cz.nlfnorm.quasar.dto.GridTagItem;
 @SuppressWarnings("serial")
 public class GridTag extends AbstractGridTag{
 
-	private List<GridTagItem> list;
-	
+	protected List<GridTagItem> list;
 	
 	public GridTag(){
 		super();
 	}
-	
+
 	protected void buildItems(final StringBuilder html){
 		html.append("<tbody>");
 		if(CollectionUtils.isNotEmpty(list)){
@@ -31,7 +30,6 @@ public class GridTag extends AbstractGridTag{
 		html.append("</tbody>");
 	}
 	
-	
 	protected void buildHead(final StringBuilder html){
 		if(CollectionUtils.isNotEmpty(list)){
 			html.append("<thead><tr><th>&nbsp</th>");
@@ -42,15 +40,11 @@ public class GridTag extends AbstractGridTag{
 		}
 	}
 
-
 	public List<GridTagItem> getList() {
 		return list;
 	}
 
 	public void setList(List<GridTagItem> list) {
 		this.list = list;
-	}
-
-
-	
+	}	
 }
