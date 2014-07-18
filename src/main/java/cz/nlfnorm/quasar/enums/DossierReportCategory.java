@@ -19,8 +19,8 @@ public enum DossierReportCategory implements PersistentEnum{
 	IIB(4,"IIb"),
 	III(5,"III"),
 	UVID(6,"UIVD"),
-	LIST_A(7,"Seznam A"),
-	LIST_B(8,"Seznam B");
+	LIST_A(7,"List A"),
+	LIST_B(8,"List B");
 	
 	private int id;
 	private String name;

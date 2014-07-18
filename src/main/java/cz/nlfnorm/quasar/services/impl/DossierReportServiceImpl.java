@@ -3,6 +3,7 @@ package cz.nlfnorm.quasar.services.impl;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
+import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -11,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.dao.DossierReportDao;
+import cz.nlfnorm.quasar.entities.AuditLogItem;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
@@ -184,5 +186,23 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 		updateAndSetChanged(log);
 	}
 
-
+	
+	/**
+	 * Retrieves latest logged auditor's date of approved dossier report item.
+	 * If logged user is not Auditor, or has not any approved audit log, will be returned NULL. 
+	 * 
+	 * <em>NOTE: Auditor can create Audit log item only with date which is equal or after this returned value.</em>  
+	 * 
+	 * @see {@link AuditLogItem}
+	 * @see {@link Auditor}
+	 * 
+	 * @return Auditor's earliest possible date, which can be used for new Audit log item 
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public LocalDate getEarliestPossibleDateForLog(final Auditor auditor) {
+		Validate.notNull(auditor);
+		return  documentationLogDao.getEarliestPossibleDateForLog(auditor.getId());
+	}
+	
 }

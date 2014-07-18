@@ -17,7 +17,7 @@ import cz.nlfnorm.quasar.web.forms.ChangeLogStatusForm;
 public class ChangeLogStatusController extends QuasarSupportController {
 	
 	public static final int ACTION_AUDIT_LOG = 1;
-	public static final int ACTION_DOCUMENTATION_LOG = 2;
+	public static final int ACTION_DOSSIER_REPORT = 2;
 	public static final int ACTION_TRAINING_LOG = 3;
 	
 	@Autowired
@@ -37,7 +37,7 @@ public class ChangeLogStatusController extends QuasarSupportController {
 					    form.getStatus(),
 					    form.getComment());
 				return getAuditLogUrl(form.getLogId());
-			case ACTION_DOCUMENTATION_LOG:
+			case ACTION_DOSSIER_REPORT:
 						
 				// TODO
 			case ACTION_TRAINING_LOG:

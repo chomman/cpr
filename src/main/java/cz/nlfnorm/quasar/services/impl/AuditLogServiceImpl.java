@@ -128,7 +128,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	@Transactional(readOnly = true)
 	public LocalDate getEarliestPossibleDateForAuditLog(final Auditor auditor) {
 		Validate.notNull(auditor);
-		return  auditLogDao.getEarliestPossibleDateForAuditLog(auditor.getId());
+		return  auditLogDao.getEarliestPossibleDateForLog(auditor.getId());
 	}
 	
 

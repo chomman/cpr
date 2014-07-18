@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -30,9 +31,14 @@ public class DossierReportItem extends AbstractLogItem
 
 	private static final long serialVersionUID = 2097701233043566320L;
 	
+	private DossierReport dossierReport;
 	private String certificationNo;
 	private String certificationSufix;
 	private DossierReportCategory category;
+	
+	public DossierReportItem(DossierReport report){
+		dossierReport = report;
+	}
 	
 	@Id
 	@Override
@@ -41,7 +47,7 @@ public class DossierReportItem extends AbstractLogItem
 		return super.getId();
 	}
 	
-	@Pattern(regexp = "(\\d{6}$", message = "{error.dossierReportItem.certificationNo}")
+	@Pattern(regexp = "(14\\s\\d{4}$", message = "{error.dossierReportItem.certificationNo}")
 	@Column(name = "certification_no", length = 6)	
 	public String getCertificationNo() {
 		return certificationNo;
@@ -60,6 +66,11 @@ public class DossierReportItem extends AbstractLogItem
 	public void setCertificationSufix(String certificationSufix) {
 		this.certificationSufix = certificationSufix;
 	}
+	
+	@Transient
+	public String getCerfication(){
+		return certificationNo + " " + certificationSufix;
+	}
 
 	@Type(type="cz.nlfnorm.quasar.hibernate.LogStatusUserType")
 	@Column(name = "category_id")
@@ -77,12 +88,23 @@ public class DossierReportItem extends AbstractLogItem
 	public Set<NandoCode> getNandoCodes() {
 		return super.getNandoCodes();
 	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "dossier_report_id", nullable = false)
+	public DossierReport getDossierReport() {
+		return dossierReport;
+	}
+
+	public void setDossierReport(DossierReport dossierReport) {
+		this.dossierReport = dossierReport;
+	}
 
 	@Transient
 	@Override
 	public void clearEacCodes() {
 		throw new UnsupportedOperationException();
 	}
+	
 	@Transient
 	@Override
 	public void addEacCode(EacCode eacCode) {

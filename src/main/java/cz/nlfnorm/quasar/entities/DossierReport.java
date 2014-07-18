@@ -1,7 +1,15 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.OrderBy;
 
 /**
  * QUASAR entity. Represent Auditor documentation log (TF and DD reviews)
@@ -14,6 +22,7 @@ import javax.persistence.Table;
 public class DossierReport extends AbstractLog {
 
 	private static final long serialVersionUID = -5150040899742422009L;
+	private Set<DossierReportItem> items = new HashSet<>(); 
 
 	public DossierReport(){}
 	
@@ -21,6 +30,16 @@ public class DossierReport extends AbstractLog {
 		super(auditor);
 	}
 	
+	@OrderBy(clause = "audit_date")
+	@OneToMany(mappedBy = "dossierReport", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
+	public Set<DossierReportItem> getItems() {
+		return items;
+	}
+
+	public void setItems(Set<DossierReportItem> items) {
+		this.items = items;
+	}
+
 	@Override
 	public String toString() {
 		return "DossierReport [getId()=" + getId() + "]";

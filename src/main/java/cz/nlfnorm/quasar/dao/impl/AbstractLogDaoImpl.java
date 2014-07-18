@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.hibernate.Query;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 
 import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.constants.Filter;
@@ -14,12 +15,30 @@ import cz.nlfnorm.dao.impl.BaseDaoImpl;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.AbstractLog;
+import cz.nlfnorm.quasar.enums.LogStatus;
+import cz.nlfnorm.utils.NlfStringUtils;
 
-public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoImpl<T, Long>{
-
+public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoImpl<T, Long> {
+	
+	
 	public AbstractLogDaoImpl(Class<T> persistentClass){
 		super(persistentClass);
 	}
+	
+
+	public LocalDate getEarliestPossibleDateForLog(final Long auditorId) {
+		final String hql = "select max(item.auditDate) from "+persistentClass.getName()+"Item item " +
+							" join item."+NlfStringUtils.firstCharacterDown(persistentClass.getSimpleName())+" log " +
+							" join log.auditor auditor " +
+						   " where auditor.id=:auditorId AND log.status = :status ";
+		return (LocalDate) createQuery(hql)
+						.setLong("auditorId", auditorId)
+						.setInteger("status", LogStatus.APPROVED.getId())
+						.setMaxResults(1)
+						.uniqueResult();
+		
+	}
+
 	
 	@SuppressWarnings("unchecked")
 	public PageDto getPage(Map<String, Object> criteria, final int pageNumber) {

@@ -15,11 +15,11 @@
 <div id="wrapper">
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-		 <a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
+		 <a:adminurl href="/quasar/dossier-reports"><spring:message code="dossierReports" /></a:adminurl>  &raquo;
 		 <span><spring:message code="auditLog.edit" arguments="${model.log.auditor.name}" /></span>
 	</div>
 	<h1 class="qs-log-status-${model.log.status.id}">
-		<spring:message code="auditLog.edit" arguments="${model.log.auditor.name}" />: 
+		<spring:message code="dossierReport.edit" arguments="${model.log.auditor.name}" />: 
 		<strong><joda:format value="${model.log.created}" pattern="dd.MM.yyyy"/></strong> 
 		<c:if test="${model.log.revision > 1}">
 		(<spring:message code="auditLog.auditLog.revision" /> ${model.log.revision})
@@ -66,15 +66,14 @@
 			<table class="data">
 				<thead>
 				<tr>
-					<th>No.</th>
-					<th><spring:message code="auditLog.item.date" /></th>
-					<th><spring:message code="auditLog.item.company" /></th>
-					<th><spring:message code="auditLog.item.certifiedProduct" /></th>
-					<th><spring:message code="auditLog.item.eacCodes" /></th>
-					<th><spring:message code="auditLog.item.nandoCodes" /></th>
-					<th><spring:message code="auditLog.item.duration" /></th>
-					<th><spring:message code="auditLog.item.certificationBody" /></th>
 					<th><spring:message code="auditLog.item.orderNo" /></th>
+					<th><spring:message code="dossierReport.item.certificateNo" /></th>
+					<th><spring:message code="dossierReport.item.date" /></th>
+					<th><spring:message code="dossierReport.item.applicant" /></th>
+					<th><spring:message code="auditLog.item.certifiedProduct" /></th>
+					<th><spring:message code="dossierReport.item.category" /></th>
+					<th><spring:message code="dossierReport.item.suffix" /></th>
+					<th><spring:message code="auditLog.item.nandoCodes" /></th>
 					<c:if test="${model.log.editable}">
 					<th>&nbsp;</th>
 					<th>&nbsp;</th>
@@ -84,23 +83,18 @@
 				<tbody>
 					<c:forEach items="${model.log.items}" var="i" varStatus="s">
 						<tr>
-							<td class="c">${s.index + 1}</td>
+							<td class="c">${i.orderNo}</td>
+							<td class="c">${i.cerfication}</td>
 							<td class="c qsd"><joda:format value="${i.auditDate}" pattern="dd.MM.yyyy" /></td>
 							<td>${i.company.name}</td>
 							<td>${i.certifiedProduct}</td>
-							<td class="c">
-								<c:forEach items="${i.eacCodes}" var="j">
-									<span class="qsc tt" title="${j.name}">${j.code}</span>
-								</c:forEach>
-							</td>
+							<td>${i.catogory.name}</td>
+							<td>${i.certificationSufix}</td>
 							<td class="c">
 								<c:forEach items="${i.nandoCodes}" var="j">
 									<span class="qsc tt" title="${j.specification}">${j.code}</span>
 								</c:forEach>
 							</td>
-							<td class="c qs-duration">${i.durationInDays}</td>
-							<td>${i.certificationBody.name}</td>
-							<td class="c">${i.orderNo}</td>
 							<c:if test="${model.log.editable}">
 							<td class="edit">
 								<a href="?iid=${i.id}">
@@ -108,7 +102,7 @@
 								</a>
 							</td>
 							<td class="delete">
-								<a:adminurl href="/quasar/audit-log-item/delete/${i.id}" cssClass="confirm">
+								<a:adminurl href="/quasar/dossier-report-item/delete/${i.id}" cssClass="confirm">
 									<spring:message code="quasar.delete" />
 								</a:adminurl>
 							</td>
@@ -118,67 +112,76 @@
 				</tbody>
 			</table>
 			<div class="qs-totals">
-			 	<spring:message code="auditLog.auditDays" />: <strong>${model.log.sumOfAuditDays }</strong>
-			 	<spring:message code="auditLog.audits" />: <strong>${model.log.countOfAudits }</strong>
+			 
 			</div>
 			</c:if>
 		</div>
 	
 		<jsp:include page="log-nav.jsp" />
 				
-		<c:if test="${not empty model.totals}">
-			<div class="qs-log-totals qs-bx-wrapp">
-				<p class="form-head">Totals of EAC and NANDO code occurrences</p>
-				<c:if test="${not empty model.totals.eacCodes}">
-					<div class="qs-left-bx">
-					<table class="data">
-						<tr>
-							<th><spring:message code="eacCode.code" /></th>
-							<th>SUM of <spring:message code="auditLogItemType.iso13485" /> + <spring:message code="auditLogItemType.iso9001" /> </th>
-						</tr>
-						<c:forEach items="${model.totals.eacCodes}" var="entry">
-							<tr>
-								<td>${entry.key.code}</td>
-								<td><strong>${entry.value.total}</strong> = ${entry.value.numberOfIso13485Audits} + ${entry.value.numberOfNbAudits}</td>
-							</tr>
-						</c:forEach>
-					</table>
-					</div>
-				</c:if>
-				<c:if test="${not empty model.totals.nandoCodes}">
-					<div class="qs-right-bx">
-						<table class="data">
-							<tr>
-								<th><spring:message code="nandoCode.code" /></th>
-								<th>SUM of <spring:message code="auditLogItemType.iso13485" /> + <spring:message code="auditLogItemType.iso9001" /> </th>
-							</tr>
-							<c:forEach items="${model.totals.nandoCodes}" var="entry">
-								<tr>
-									<td>${entry.key.code}</td>
-									<td><strong>${entry.value.total}</strong> = ${entry.value.numberOfIso13485Audits} + ${entry.value.numberOfNbAudits}</td>
-								</tr>
-							</c:forEach>
-						</table>
-					</div>
-				</c:if>
-				<div class="clear"></div>
-			</div>
-		</c:if>
-		
-		
 		<!--ADD CHANGE ITEM  -->
 		<c:if test="${model.log.editable and model.showForm}">
 		<form:form commandName="command" cssClass="auditLog">
-			<p class="form-head"><spring:message code="auditLog.item" /></p>
+			<p class="form-head"><spring:message code="dossierReport.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
 				<label>
 					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.date" />:
+					<spring:message code="dossierReport.item.date" />:
 					</strong>
 				</label>
 				<div class="field">
 					<form:input path="item.auditDate" maxlength="10" cssClass="qs-date required" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+					<spring:message code="dossierReport.item.certificateNo" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="item.certificationNo" maxlength="7" cssClass="qs-cert-no required w100 c" placeholder="Cert. number" />
+					<form:input path="item.certificationSufix" maxlength="5" cssClass="qs-cert-no required w50 c"  placeholder="Suffix" />
+				</div>
+			</div>
+			
+			<div class="input-wrapp smaller order-no">
+				<label>
+					<strong><em class="red">*</em>
+					<spring:message code="auditLog.item.orderNo" />:
+					</strong>
+				</label>
+				<div class="field">
+					<form:input path="item.orderNo" maxlength="9" cssClass="mw150 numeric"  />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+					<spring:message code="dossierReport.item.category" />:
+					</strong>
+				</label>
+				<div class="field">
+					<select class="chosenSmall required" name="item.type">
+						<option value=""><spring:message code="form.select" /></option>
+						<c:forEach items="${model.categories}" var="i">
+							<option value="${i}" ${i eq command.item.category ? 'selected="selected"' : ''}>
+								${i.name}
+							</option>
+						</c:forEach>
+					</select>
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label>
+					<strong><em class="red">*</em>
+					<spring:message code="auditLog.item.certifiedProduct" />:
+					</strong>
+				</label>
+				<div class="field">
+					<div id="chars" class="chars"></div>
+					<form:textarea cssClass="required mw500 limit"  path="item.certifiedProduct"/>
 				</div>
 			</div>
 			
@@ -197,7 +200,7 @@
 			<div class="input-wrapp smaller qs-existing-company">
 				<label>
 					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.company.select" />:
+					<spring:message code="dossierReport.item.applicant" />:
 					</strong>
 				</label>
 				<div class="field">
@@ -206,94 +209,8 @@
 					<a class="toggle">Company not found? Create new</a>
 				</div>
 			</div>
-			<div class="input-wrapp smaller">
-				<label>
-					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.certifiedProduct" />:
-					</strong>
-				</label>
-				<div class="field">
-					<div id="chars" class="chars"></div>
-					<form:textarea cssClass="required mw500 limit"  path="item.certifiedProduct"/>
-				</div>
-			</div>
-			<div class="input-wrapp smaller">
-				<label>
-					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.duration" />:
-					</strong>
-				</label>
-				<div class="field">
-					<form:input path="item.durationInDays" maxlength="3" cssClass="numeric w40 c required" />
-				</div>
-			</div>
 			
-			<!-- CLASSIFICATION BODY SELECT -->
-			<div class="input-wrapp smaller qs-new-certification-bodies">
-				<label>
-					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.certificationBody" />:
-					</strong>
-					<small>e.g.: ITC, Loyd, Turkak, ...</small>
-				</label>
-				<div class="field">
-					<form:input path="certificationBodyName" maxlength="60" cssClass="mw150" data-url="certification-bodies" />
-					<a class="toggle ">Choose existing Certification Body</a>
-				</div>
-			</div>
-			<div class="input-wrapp smaller qs-existing-certification-bodies">
-				<label>
-					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.certificationBody.select" />:
-					</strong>
-				</label>
-				<div class="field">
-					<select class="chosenSmall" name="item.certificationBody" id="certificationBody" data-msg="<spring:message code="form.select" />" 
-					data-id="${empty command.item.certificationBody ? '0' : command.item.certificationBody.id}">
-					</select>
-					<a class="toggle">Certification Body not found? Create new</a>
-				</div>
-			</div>
-			
-			
-			<div class="input-wrapp smaller order-no">
-				<label>
-					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.orderNo" />:
-					</strong>
-				</label>
-				<div class="field">
-					<form:input path="item.orderNo" maxlength="9" cssClass="mw150 numeric"  />
-				</div>
-			</div>
-			
-			
-			<div class="input-wrapp smaller">
-				<label>
-					<strong><em class="red">*</em>
-					<spring:message code="auditLog.item.type" />:
-					</strong>
-				</label>
-				<div class="field">
-					<select class="chosenSmall" name="item.type">
-						<c:forEach items="${model.logItemTypes}" var="i">
-							<option value="${i}" ${i eq command.item.type ? 'selected="selected"' : ''}>
-								<spring:message code="${i.code}" />
-							</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<p class="form-head mini">EAC / NANDO Codes</p>
-			<div class="input-wrapp smaller  pj-type">
-				<label>
-					<spring:message code="auditLog.item.eacCodes" />:
-					<small>Press ENTER to insert code</small>
-				</label>
-				<div class="field tags-wrapp">
-					<ul id="eacCodes"><c:forEach items="${command.item.eacCodes}" var="i"><li>${i.code}</li></c:forEach></ul>
-				</div>
-			</div>
+			<p class="form-head mini">NANDO Codes</p>
 			<div class="input-wrapp smaller pj-type">
 				<label>
 					<spring:message code="auditLog.item.nandoCodes" />:
@@ -303,13 +220,12 @@
 					<ul id="nandoCodes"><c:forEach items="${command.item.nandoCodes}" var="i"><li>${i.code}</li></c:forEach></ul>
 				</div>
 			</div>
-			<form:hidden path="eacCodes" id="hEacCodes"/>
 			<form:hidden path="nandoCodes" id="hNandoCodes"/>
 			<form:hidden path="item.id" />
 			<form:hidden path="logId" />
 			<p class="button-box">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />
-			<a:adminurl href="/quasar/audit-log/${model.log.id}" cssClass="cancel qs-btn">
+			<a:adminurl href="/quasar/dossier-report/${model.log.id}" cssClass="cancel qs-btn">
 				<spring:message code="cancel" />
 			</a:adminurl>
 			</p>    

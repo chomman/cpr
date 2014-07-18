@@ -15,19 +15,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
-import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.Company;
 import cz.nlfnorm.quasar.entities.DossierReport;
-import cz.nlfnorm.quasar.enums.LogStatus;
+import cz.nlfnorm.quasar.enums.DossierReportCategory;
 import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.CompanyService;
+import cz.nlfnorm.quasar.services.DossierReportItemService;
 import cz.nlfnorm.quasar.services.DossierReportService;
 import cz.nlfnorm.quasar.services.NandoCodeService;
 import cz.nlfnorm.quasar.services.PartnerService;
-import cz.nlfnorm.utils.RequestUtils;
-import cz.nlfnorm.utils.UserUtils;
+import cz.nlfnorm.quasar.web.forms.DossireReportItemForm;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 
@@ -41,6 +39,8 @@ public class DossierReportController extends LogControllerSupport {
 	@Autowired
 	private DossierReportService dossierReportService;
 	@Autowired
+	private DossierReportItemService dossierReportItemService;
+	@Autowired
 	private PartnerService partnerService;
 	@Autowired
 	private CompanyService companyService;
@@ -50,8 +50,8 @@ public class DossierReportController extends LogControllerSupport {
 	private LocalDateEditor localDateEditor;
 	
 	public DossierReportController(){
-		setTableItemsView("documentation-log-list");
-		setEditFormView("documentation-log-edit");
+		setTableItemsView("dossier-report-list");
+		setEditFormView("dossier-report-edit");
 	}
 	
 	@InitBinder
@@ -63,26 +63,12 @@ public class DossierReportController extends LogControllerSupport {
 	
 	@RequestMapping(LIST_MAPPING_URL)
 	public String handleProfileAuditLogs(ModelMap modelMap, HttpServletRequest request) {
-		final Map<String, Object> criteria = RequestUtils.getRequestParameterMap(request);
-		final boolean isQuasarAdmin = UserUtils.getLoggedUser().isQuasarAdmin();
-		if(!isQuasarAdmin){
-			criteria.put(AuditorFilter.AUDITOR, UserUtils.getLoggedUser().getId());
-		}
-		Map<String, Object> model = new HashMap<>();
-		final int currentPage = RequestUtils.getPageNumber(request);
-		final PageDto page = dossierReportService.getPage(criteria, currentPage);
-		if(page.getCount() > 0){
-			model.put("paginationLinks", getPaginationItems(request, criteria, page.getCount(), "/admin/quasar/manage/auditors"));
-			model.put("logs", page.getItems());
-		}
-		model.put("statuses", LogStatus.getAll());
-		model.put("params", criteria);
-		model.put("isQuasarAdmin", isQuasarAdmin);
-		model.put("partners", partnerService.getAll());
+		Map<String, Object> model = handlePageRequest(request, dossierReportService, LIST_MAPPING_URL);
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getTableItemsView();
 	}
+	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
 	public String handleAuditLogEdit(ModelMap modelMap, @PathVariable long id, HttpServletRequest request) throws ItemNotFoundException{
@@ -97,10 +83,20 @@ public class DossierReportController extends LogControllerSupport {
 			appendSuccessCreateParam(modelMap);
 		}
 		final DossierReport report = getDossierReportById(id);
-	//	prepareModelFor(report, modelMap, getItem(request, report), isAuditLogItemIdSet(request));
-		return getViewDir() + "profile/auditor-audit-log-edit";
+		prepareModelFor(report, modelMap, getForm(request, report), isLogItemIdSet(request));
+		return getEditFormView();
 	}
 	
+	private void prepareModelFor(final DossierReport report, ModelMap modelMap,final DossireReportItemForm form, final boolean showForm) throws ItemNotFoundException{
+		final Map<String, Object> model = new HashMap<>();
+		model.put("log", report);
+		model.put("statusType", ChangeLogStatusController.ACTION_DOSSIER_REPORT);
+		model.put("showForm", showForm);
+		model.put("categories", DossierReportCategory.getAll());
+		model.put("dateThreshold", dossierReportService.getEarliestPossibleDateForLog(report.getAuditor()));
+		modelMap.addAttribute(COMMAND, form);
+		appendModel(modelMap, model);
+	}
 	
 	private DossierReport getDossierReportById(final long id) throws ItemNotFoundException{
 		final DossierReport report = dossierReportService.getById(id);
@@ -109,6 +105,14 @@ public class DossierReportController extends LogControllerSupport {
 		}
 		AccessUtils.validateAuthorizationFor(report);
 		return report;
+	}
+	
+	private DossireReportItemForm getForm(HttpServletRequest request, final DossierReport dossierReport){
+		final Long id = getItemId(request);
+		if(id == null || id == 0){
+			return new DossireReportItemForm(dossierReport);
+		}
+		return new DossireReportItemForm(dossierReport, dossierReportItemService.getById( id ));
 	}
 
 }

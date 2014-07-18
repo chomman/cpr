@@ -68,7 +68,7 @@ public class AuditLogController extends LogControllerSupport {
 	
 	@RequestMapping(LIST_MAPPING_URL)
 	public String handleAdminAuditLogs(ModelMap modelMap, HttpServletRequest request) {
-		Map<String, Object> model = handlePageRequest(request, auditLogService, "/admin/quasar/manage/auditors");
+		Map<String, Object> model = handlePageRequest(request, auditLogService, LIST_MAPPING_URL);
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getTableItemsView();
@@ -181,7 +181,7 @@ public class AuditLogController extends LogControllerSupport {
 	
 	private AuditLogItemForm getItem(HttpServletRequest request, final AuditLog auditLog){
 		final Long id = getItemId(request);
-		if(id == null){
+		if(id == null || id == 0){
 			return new AuditLogItemForm(auditLog);
 		}
 		return new AuditLogItemForm(auditLog, auditLogItemService.getById( id ));
@@ -189,7 +189,8 @@ public class AuditLogController extends LogControllerSupport {
 	
 	private void prepareModelFor(final AuditLog log, ModelMap modelMap,final AuditLogItemForm form, final boolean showForm) throws ItemNotFoundException{
 		final Map<String, Object> model = new HashMap<>();
-		model.put("auditLog", log);
+		model.put("log", log);
+		model.put("statusType", ChangeLogStatusController.ACTION_AUDIT_LOG);
 		model.put("showForm", showForm);
 		model.put("auditLogItemTypes", AuditLogItemType.getAll());
 		model.put("dateThreshold", auditLogService.getEarliestPossibleDateForAuditLog(log.getAuditor()));

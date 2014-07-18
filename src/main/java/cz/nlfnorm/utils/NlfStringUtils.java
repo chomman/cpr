@@ -14,4 +14,11 @@ public class NlfStringUtils {
 		return StringUtils.abbreviate(text, maxLength);
 	}
 	
+	 public static String firstCharacterDown(String value){
+	    	if(StringUtils.isBlank(value)){
+	    		return "";
+	    	}
+	    	return Character.toLowerCase(value.charAt(0)) + value.substring(1); 
+	    }
+	
 }
