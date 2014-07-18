@@ -143,3 +143,6 @@ color:#fff;padding:15px;border-bottom:1px solid #2A5196;border-right:1px solid #
 .qs-internal{padding-left:19px;background-image:url(../../img/int_ext.png);background-repeat:no-repeat;}
 .qs-external{background-position:0 -40px ;}
 .gs-inTraining{background-position:0 -81px ;padding-left:17px}
+
+.file.print{padding:10px 10px 10px 30px;background-color:#fff;margin:5px 15px;color:#000;border-radius:5px;}
+.file.print:hover{background-color:#ccc;}

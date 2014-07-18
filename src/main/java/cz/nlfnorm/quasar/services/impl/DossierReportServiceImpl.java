@@ -10,44 +10,44 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dto.PageDto;
-import cz.nlfnorm.quasar.dao.DocumentationLogDao;
+import cz.nlfnorm.quasar.dao.DossierReportDao;
 import cz.nlfnorm.quasar.entities.Auditor;
-import cz.nlfnorm.quasar.entities.DocumentationLog;
+import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.services.AuditorService;
-import cz.nlfnorm.quasar.services.DocumentatinLogService;
+import cz.nlfnorm.quasar.services.DossierReportService;
 import cz.nlfnorm.utils.UserUtils;
 
 /**
  * QUASAR service. Implementation of Documentation log business logic
  * 
- * @see {@link DocumentationLog}
+ * @see {@link DossierReport}
  * @author Peter Jurkovic
  * @date Jul 17, 2014
  */
 @Transactional
-@Service("documentationLogService")
-public class DocumentationLogServiceImpl extends LogServiceImpl implements DocumentatinLogService{
+@Service("dossierReportService")
+public class DossierReportServiceImpl extends LogServiceImpl implements DossierReportService{
 
 	@Autowired
-	private DocumentationLogDao documentationLogDao;
+	private DossierReportDao documentationLogDao;
 	@Autowired
 	private AuditorService auditorService;
 	
 	@Override
-	public void create(final DocumentationLog log) {
+	public void create(final DossierReport log) {
 		documentationLogDao.save(log);
 	}
 
 	@Override
-	public void update(final DocumentationLog log) {
+	public void update(final DossierReport log) {
 		documentationLogDao.update(log);	
 	}
 
 	@Override
 	@Transactional(readOnly = true)
-	public DocumentationLog getById(final Long id) {
+	public DossierReport getById(final Long id) {
 		return documentationLogDao.getByID(id);
 	}
 	
@@ -77,7 +77,7 @@ public class DocumentationLogServiceImpl extends LogServiceImpl implements Docum
 	public Long createNewToLoginedUser() {
 		final Auditor auditor = auditorService.getById(UserUtils.getLoggedUser().getId());
 		Validate.notNull(auditor);
-		DocumentationLog log = new DocumentationLog(auditor);
+		DossierReport log = new DossierReport(auditor);
 		log.setChangedBy(auditor);
 		create(log);
 		return log.getId();
@@ -90,7 +90,7 @@ public class DocumentationLogServiceImpl extends LogServiceImpl implements Docum
 	 * @throws IllegalArgumentException - if is given log is NULL
 	 */
 	@Override
-	public void updateAndSetChanged(DocumentationLog log) {
+	public void updateAndSetChanged(DossierReport log) {
 		Validate.notNull(log);
 		log.setChangedBy(UserUtils.getLoggedUser());
 		log.setChanged(new LocalDateTime());
@@ -111,7 +111,7 @@ public class DocumentationLogServiceImpl extends LogServiceImpl implements Docum
 	 * @throws IllegalArgumentException - if given new status is not implemented, or given log and new status are NULL
 	 */
 	@Override
-	public void changeStatus(DocumentationLog auditLog, LogStatus newStatus, String comment) {
+	public void changeStatus(DossierReport auditLog, LogStatus newStatus, String comment) {
 		Validate.notNull(auditLog);
 		Validate.notNull(newStatus);
 		if(!newStatus.equals(auditLog.getStatus())){
@@ -139,7 +139,7 @@ public class DocumentationLogServiceImpl extends LogServiceImpl implements Docum
 	 * @throws IllegalArgumentException - if given log is NULL
 	 */
 	@Override
-	public void setPendingStatus(DocumentationLog log, String withComment) {
+	public void setPendingStatus(DossierReport log, String withComment) {
 		super.setPendingStatus(log, withComment);
 		updateAndSetChanged(log);
 	}
@@ -158,7 +158,7 @@ public class DocumentationLogServiceImpl extends LogServiceImpl implements Docum
 	 * @throws IllegalArgumentException - if given log is NULL
 	 */
 	@Override
-	public void setRfusedStatus(DocumentationLog log, String withComment) {
+	public void setRfusedStatus(DossierReport log, String withComment) {
 		super.setRfusedStatus(log, withComment);
 		updateAndSetChanged(log);
 	}
@@ -178,10 +178,11 @@ public class DocumentationLogServiceImpl extends LogServiceImpl implements Docum
 	 * @throws IllegalArgumentException - if given log is NULL
 	 */
 	@Override
-	public void setApprovedStatus(DocumentationLog log, String withComment) {
+	public void setApprovedStatus(DossierReport log, String withComment) {
 		super.setApprovedStatus(log, withComment);
 		// TODO Qualification update
 		updateAndSetChanged(log);
 	}
+
 
 }

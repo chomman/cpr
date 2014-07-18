@@ -8,8 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.Validate;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
@@ -22,58 +20,38 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
-import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.AuditLogItem;
 import cz.nlfnorm.quasar.entities.CertificationBody;
-import cz.nlfnorm.quasar.entities.Company;
-import cz.nlfnorm.quasar.entities.EacCode;
-import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.enums.AuditLogItemType;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.AuditLogItemService;
 import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.services.CertificationBodyService;
-import cz.nlfnorm.quasar.services.CompanyService;
-import cz.nlfnorm.quasar.services.EacCodeService;
-import cz.nlfnorm.quasar.services.NandoCodeService;
-import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.web.forms.AuditLogItemForm;
 import cz.nlfnorm.quasar.web.validators.AuditorLogItemValidator;
-import cz.nlfnorm.utils.RequestUtils;
 import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
-import cz.nlfnorm.web.editors.LocalDateEditor;
 
 @Controller
-public class AuditLogController extends QuasarSupportController {
+public class AuditLogController extends LogControllerSupport {
 	
 	private final static int TAB = 8;
-	private final static String ITEM_ID_PARAM_NAME = "iid";
-	private final static String ADMIN_LIST_MAPPING_URL = "/admin/quasar/manage/audit-logs";
-	private final static String PROFILE_LIST_MAPPING_URL = "/admin/quasar/audit-logs";
+
+	private final static String LIST_MAPPING_URL = "/admin/quasar/audit-logs";
 	public  final static String EDIT_MAPPING_URL = "/admin/quasar/audit-log/{id}";
 	private final static String AUDIT_LOG_ITEM_DELETE_URL = "/admin/quasar/audit-log-item/delete/{id}";
 	
 	@Autowired
 	private AuditLogService auditLogService;
 	@Autowired
-	private PartnerService partnerService;
-	@Autowired
 	private AuditLogItemService auditLogItemService;
 	@Autowired
 	private CertificationBodyService certificationBodyService;
-	@Autowired
-	private CompanyService companyService;
-	@Autowired
-	private EacCodeService eacCodeService;
-	@Autowired
-	private NandoCodeService nandoCodeService;
-	@Autowired
-	private LocalDateEditor localDateEditor;
+	
+	
 	@Autowired
 	private AuditorLogItemValidator auditorLogItemValidator;
 	
@@ -84,24 +62,18 @@ public class AuditLogController extends QuasarSupportController {
 	
 	@InitBinder
     public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Company.class, new IdentifiableByLongPropertyEditor<Company>( companyService ));
+		super.initBinder(binder);
 		binder.registerCustomEditor(CertificationBody.class, new IdentifiableByLongPropertyEditor<CertificationBody>( certificationBodyService ));
-		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 	}
 	
-	@RequestMapping(ADMIN_LIST_MAPPING_URL)
+	@RequestMapping(LIST_MAPPING_URL)
 	public String handleAdminAuditLogs(ModelMap modelMap, HttpServletRequest request) {
-		handlePageRequest(modelMap, request, RequestUtils.getRequestParameterMap(request));
+		Map<String, Object> model = handlePageRequest(request, auditLogService, "/admin/quasar/manage/auditors");
+		appendTabNo(model, TAB);
+		appendModel(modelMap, model);
 		return getTableItemsView();
 	}
-	
-	@RequestMapping(PROFILE_LIST_MAPPING_URL)
-	public String handleProfileAuditLogs(ModelMap modelMap, HttpServletRequest request) {
-		final Map<String, Object> citeria = RequestUtils.getRequestParameterMap(request);
-		citeria.put(AuditorFilter.AUDITOR, UserUtils.getLoggedUser().getId());
-		handlePageRequest(modelMap, request, citeria);
-		return getViewDir() + "profile/auditor-audit-logs";
-	}
+		
 	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
@@ -117,8 +89,8 @@ public class AuditLogController extends QuasarSupportController {
 			appendSuccessCreateParam(modelMap);
 		}
 		final AuditLog log = getAuditLog(id);
-		prepareModelFor(log, modelMap, getItem(request, log), isAuditLogItemIdSet(request));
-		return getViewDir() + "profile/auditor-audit-log-edit";
+		prepareModelFor(log, modelMap, getItem(request, log), isLogItemIdSet(request));
+		return getEditFormView();
 	}
 	
 	
@@ -147,7 +119,7 @@ public class AuditLogController extends QuasarSupportController {
 			auditorLogItemValidator.validate(form, result);
 			hasErrors = result.hasErrors();
 			if(!hasErrors){
-				createOrUpdate(auditLog, form);
+				createOrUpdate(auditLog, form, modelMap);
 				appendSuccessCreateParam(modelMap);
 				showForm = false;
 				form = getItem(request, auditLog);
@@ -158,10 +130,10 @@ public class AuditLogController extends QuasarSupportController {
 			setNandoCodes(form, form.getItem());
 		}
 		prepareModelFor(auditLog, modelMap, form, showForm);
-		return getViewDir() + "profile/auditor-audit-log-edit";
+		return getEditFormView();
 	}
 	
-	private void createOrUpdate(final AuditLog auditLog, final AuditLogItemForm form) throws ItemNotFoundException{
+	private void createOrUpdate(final AuditLog auditLog, final AuditLogItemForm form, ModelMap modelMap) throws ItemNotFoundException{
 		if(!auditLog.isEditable()){
 			throw new AccessDeniedException("Auditlog is not editable." + auditLog + UserUtils.getLoggedUser());
 		}
@@ -172,7 +144,10 @@ public class AuditLogController extends QuasarSupportController {
 		}else{
 			auditLogItem = getAuditLogItem(form.getItem().getId());
 		}
-		setAndCreateCompany(form, auditLogItem);
+		if(setAndCreateCompany(form, auditLogItem)){
+			// Some company with given name was found and used.
+			modelMap.put("companyFound", true);
+		}
 		setAndCreateCertificationBody(form, auditLogItem);
 		setEacCodes(form, auditLogItem);
 		setNandoCodes(form, auditLogItem);
@@ -183,50 +158,8 @@ public class AuditLogController extends QuasarSupportController {
 		auditLogItemService.createOrUpdate(auditLogItem);		
 	}
 	
-	private boolean isAuditLogItemIdSet(HttpServletRequest request){
-		return request.getParameter(ITEM_ID_PARAM_NAME) != null;
-	}
 	
-	private void setEacCodes(final AuditLogItemForm form, final AuditLogItem item){
-		item.getEacCodes().clear();
-		if( StringUtils.isNotBlank(form.getEacCodes()) ){
-			final String[] codeList = form.getEacCodes().split(",");
-			for(final String code : codeList){
-				final EacCode eacCode = eacCodeService.getByCode(code);
-				Validate.notNull(eacCode);
-				item.getEacCodes().add(eacCode);
-			}
-		}
-	}
 	
-	private void setNandoCodes(final AuditLogItemForm form, final AuditLogItem item){
-		item.getNandoCodes().clear();
-		if( StringUtils.isNotBlank(form.getNandoCodes()) ){
-			final String[] codeList = form.getNandoCodes().split(",");
-			for(final String code : codeList){
-				final NandoCode nandoCode = nandoCodeService.getByNandoCode(code);
-				Validate.notNull(nandoCode);
-				item.getNandoCodes().add(nandoCode);
-			}
-		}
-	}
-	
-	private void setAndCreateCompany(final AuditLogItemForm form, final AuditLogItem item){
-		if(form.getItem().getCompany() != null){
-			item.setCompany(form.getItem().getCompany());
-			return;
-		}
-		if(StringUtils.isNotBlank(form.getCompanyName())){
-			Company company = companyService.findByName(form.getCompanyName());
-			if(company != null){
-				item.setCompany(company);
-			}else{
-				company = new Company(StringUtils.trim(form.getCompanyName()));
-				companyService.create(company);
-				item.setCompany(companyService.findByName(form.getCompanyName()));
-			}
-		}
-	}
 	
 	private void setAndCreateCertificationBody(final AuditLogItemForm form, final AuditLogItem item){
 		if(form.getItem().getCertificationBody() != null){
@@ -247,11 +180,11 @@ public class AuditLogController extends QuasarSupportController {
 	
 	
 	private AuditLogItemForm getItem(HttpServletRequest request, final AuditLog auditLog){
-		final String val = request.getParameter(ITEM_ID_PARAM_NAME);
-		if(StringUtils.isBlank(val)){
+		final Long id = getItemId(request);
+		if(id == null){
 			return new AuditLogItemForm(auditLog);
 		}
-		return new AuditLogItemForm(auditLog, auditLogItemService.getById( Long.valueOf(val)) );
+		return new AuditLogItemForm(auditLog, auditLogItemService.getById( id ));
 	}
 	
 	private void prepareModelFor(final AuditLog log, ModelMap modelMap,final AuditLogItemForm form, final boolean showForm) throws ItemNotFoundException{
@@ -269,20 +202,7 @@ public class AuditLogController extends QuasarSupportController {
 	
 	
 	
-	private void handlePageRequest(ModelMap modelMap, HttpServletRequest request,final Map<String, Object> citeria){
-		Map<String, Object> model = new HashMap<>();
-		final int currentPage = RequestUtils.getPageNumber(request);
-		final PageDto page = auditLogService.getPage(citeria, currentPage);
-		if(page.getCount() > 0){
-			model.put("paginationLinks", getPaginationItems(request, citeria, page.getCount(), "/admin/quasar/manage/auditors"));
-			model.put("logs", page.getItems());
-		}
-		model.put("statuses", LogStatus.getAll());
-		model.put("params", citeria);
-		model.put("partners", partnerService.getAll());
-		appendTabNo(model, TAB);
-		appendModel(modelMap, model);
-	}
+	
 	
 	private AuditLog getAuditLog(final long id) throws ItemNotFoundException{
 		final AuditLog auditLog = auditLogService.getById(id);

@@ -9,9 +9,8 @@ import cz.nlfnorm.quasar.dto.AuditLogTotalsDto;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.enums.LogStatus;
-import cz.nlfnorm.services.IdentifiableByLongService;
 
-public interface AuditLogService extends IdentifiableByLongService<AuditLog>{
+public interface AuditLogService extends PageableLogService<AuditLog>{
 	
 	void create(AuditLog auditLog);
 	

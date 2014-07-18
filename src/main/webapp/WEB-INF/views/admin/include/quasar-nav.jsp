@@ -5,7 +5,7 @@
 
 <ul>
 	<li>
-		<a:adminurl href="/quasar/manage/audit-logs" activeTab="${model.tab == 8}">
+		<a:adminurl href="/quasar/audit-logs" activeTab="${model.tab == 8}">
 			<spring:message code="auditLogs" />
 		</a:adminurl>
 	</li>

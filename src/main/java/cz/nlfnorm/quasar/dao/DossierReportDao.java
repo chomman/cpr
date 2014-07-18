@@ -4,9 +4,9 @@ import java.util.Map;
 
 import cz.nlfnorm.dao.BaseDao;
 import cz.nlfnorm.dto.PageDto;
-import cz.nlfnorm.quasar.entities.DocumentationLog;
+import cz.nlfnorm.quasar.entities.DossierReport;
 
-public interface DocumentationLogDao extends BaseDao<DocumentationLog, Long>{
+public interface DossierReportDao extends BaseDao<DossierReport, Long>{
 	
 	PageDto getPage(Map<String, Object> criteria, int pageNumber);
 	

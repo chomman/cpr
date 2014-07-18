@@ -31,24 +31,13 @@ $(function() {
 	    input.val(input.attr('placeholder'));
 	  } 
 	}).blur();
-
-	if($companySelect.length > 0){
-		sendRequest("GET", false, "ajax/companies", function(json) {
-			$companySelect.html(generateOption($companySelect.attr('data-id'), json, 2)).trigger("chosen:updated");
-		});
-		sendRequest("GET", false, "ajax/certification-bodies", function(json) {
-			$cBodySelect.html(generateOption($cBodySelect.attr('data-id'), json, 2)).trigger("chosen:updated");
-		});
-		sendRequest("GET", false, "ajax/eac-codes", function(json) {
-			eacCodeList = toArray(json, true);
-			initTags("#eacCodes", eacCodeList, true);
-		});
-		sendRequest("GET", false, "ajax/nando-codes", function(json) {
-			nandoCodeList = toArray(json, false);
-			initTags("#nandoCodes", nandoCodeList, false);
-		});
-	}
-
+	
+	
+	loadCertificationBodies();
+	loadCompanies();
+	loadEacCodes(eacCodeList);
+	loadNandoCodes(nandoCodeList);	
+		
 	$("input[name=companyName]").autocomplete({
 		source : aSourceCallBack,
 		minLength : 1,
@@ -103,9 +92,26 @@ $(function() {
 		$('.qs-log-items').stop().animate({"opacity": 0.6});
 	}
 	
-	$cBodySelect.on('change, chosen:updated', refreshOrderNoField);
+	$cBodySelect.on('change', refreshOrderNoField);
+	$cBodySelect.on('chosen:updated', refreshOrderNoField);
+	
 	$("textarea.limit").limiter(255, $("#chars"));
 	
+	
+	$(document).on('click', '.qs-show-comments', function(){
+		$(this).hide().next().removeClass('hidden');
+		return false;
+	});
+	
+	$(document).on('submit', 'form.auditLog', function() {
+		saveCodes();
+		if (!validate($(this)) ) {
+			showStatus({err : 1, msg: $.getMessage("errForm")});
+			return false;
+		}else if(!areTagsValid()){
+			return false;
+		}
+	});
 	
 	function initEacCodes(){
 		$('#eacCodes').tagit({
@@ -141,21 +147,48 @@ $(function() {
 			}
 		});
 	}
-	$(document).on('click', '.qs-show-comments', function(){
-		$(this).hide().next().removeClass('hidden');
-		return false;
-	});
 	
-	$(document).on('submit', 'form.auditLog', function() {
-		saveCodes();
-		if (!validate($(this)) ) {
-			showStatus({err : 1, msg: $.getMessage("errForm")});
-			return false;
-		}else if(!areTagsValid()){
-			return false;
+	function loadNandoCodes(list){
+		if($("#nandoCodes").length > 0){
+			sendRequest("GET", false, "ajax/nando-codes", function(json) {
+				list = toArray(json, false);
+				initTags("#nandoCodes", list, false);
+			});
 		}
-	});
+	}
+
+
+	function loadEacCodes(list){
+		if($("#eacCodes").length > 0){
+			sendRequest("GET", false, "ajax/eac-codes", function(json) {
+				list = toArray(json, true);
+				initTags("#eacCodes", list, true);
+			});
+		}
+	}
+
+	function loadCompanies(){
+		var $select = $('#companySelect');
+			if($select.length > 0){
+			sendRequest("GET", false, "ajax/companies", function(json) {
+				log('Companies loaded. Size: ' + json.length);
+				$select.html(generateOption($select.attr('data-id'), json, 2)).trigger("chosen:updated");
+			});
+		}
+	}
+
+	function loadCertificationBodies(){
+		var $select = $('#certificationBody');
+		if($select.length > 0){
+			sendRequest("GET", false, "ajax/certification-bodies", function(json) {
+				log('Certification Bodies loaded. Size: ' + json.length);
+				$select.html(generateOption($select.attr('data-id'), json, 2)).trigger("chosen:updated");
+			});
+		}
+	}
+
 });
+
 
 function initTags(sel, list, isEac){
 	$(sel).tagit({
@@ -273,6 +306,7 @@ function onCreateNew(postfix) {
 }
 
 function refreshOrderNoField() {
+	log('Refreshing order no ..');
 	var $field = $('.order-no'),
 		$select = $('#certificationBody');
 	if($select.length === 0) return false;
@@ -336,4 +370,10 @@ function sortByName(a, b) {
 	var textA = a.value.toUpperCase();
 	var textB = b.value.toUpperCase();
 	return (textA < textB) ? -1 : (textA > textB) ? 1 : 0;
+}
+
+function log(msg){
+	if(console){
+		console.log(msg);
+	}
 }

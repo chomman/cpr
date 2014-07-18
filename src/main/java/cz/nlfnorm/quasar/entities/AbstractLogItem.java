@@ -1,11 +1,15 @@
 package cz.nlfnorm.quasar.entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -21,6 +25,7 @@ public class AbstractLogItem extends IdentifiableEntity{
 	private LocalDate auditDate;
 	private String certifiedProduct;
 	private String orderNo;
+	private Set<NandoCode> nandoCodes = new HashSet<>();
 	
 	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
 	@JoinColumn(name = "company_id")
@@ -61,5 +66,27 @@ public class AbstractLogItem extends IdentifiableEntity{
 
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+	
+	@Transient
+	public Set<NandoCode> getNandoCodes() {
+		return nandoCodes;
+	}
+
+	public void setNandoCodes(Set<NandoCode> nandoCodes) {
+		this.nandoCodes = nandoCodes;
+	}
+	
+	@Transient
+	public void clearNandoCodes() {
+		if(nandoCodes != null){
+			nandoCodes.clear();
+		}
+	}
+	@Transient
+	public void addNandoCode(NandoCode nandoCode) {
+		if(nandoCode != null){
+			nandoCodes.add(nandoCode);
+		}
 	}
 }

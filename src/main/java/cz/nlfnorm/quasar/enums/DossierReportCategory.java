@@ -11,7 +11,7 @@ import cz.nlfnorm.quasar.hibernate.PersistentEnum;
  * @author Peter Jurkovic
  * @date Jul 16, 2014
  */
-public enum DocumentationLogCategory implements PersistentEnum{
+public enum DossierReportCategory implements PersistentEnum{
 	
 	IS(1,"IS"),
 	IM(2,"IM"),
@@ -25,7 +25,7 @@ public enum DocumentationLogCategory implements PersistentEnum{
 	private int id;
 	private String name;
 
-	private DocumentationLogCategory(final int id, final String name){
+	private DossierReportCategory(final int id, final String name){
 		this.id = id;
 		this.name = name;
 	}
@@ -39,12 +39,12 @@ public enum DocumentationLogCategory implements PersistentEnum{
 		return name;
 	}
 	
-	public static List<DocumentationLogCategory> getAll() {
+	public static List<DossierReportCategory> getAll() {
         return Arrays.asList(values());
     }
 	
-	public static DocumentationLogCategory getById(final int id){
-		for(final DocumentationLogCategory c : getAll()){
+	public static DossierReportCategory getById(final int id){
+		for(final DossierReportCategory c : getAll()){
 			if(id == c.getId()){
 				return c;
 			}

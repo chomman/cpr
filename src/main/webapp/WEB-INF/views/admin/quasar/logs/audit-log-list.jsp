@@ -1,56 +1,79 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ taglib prefix="quasar"  uri="http://nlfnorm.cz/quasar"%>
 <!DOCTYPE html>
 <html>
 <head>
 	<title><spring:message code="auditLogs" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
 	<script src="<c:url value="/resources/admin/js/scripts.quasar.js" />"></script>
-
 </head>
 <body>
-<div id="wrapper">
-		<div id="breadcrumb">
-			 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-			 <span><spring:message code="auditLogs" /></span>
-		</div>
-		<h1><spring:message code="auditLogs" /></h1>
-
-		<div id="content">
-									
-		<ul class="sub-nav auditor-nav">
-			<li>
-				<a:adminurl href="/quasar/audit-logs">
-					<spring:message code="quasar.show" />
-				</a:adminurl>
-			</li>
-			<li>
-				<a:adminurl href="/quasar/audit-log/0">
-					<spring:message code="quasar.add" />
-				</a:adminurl>
-			</li>
-		</ul>
-		<form class="filter user" method="get">
-			<div>
-				<span class="filter-label"><spring:message code="logStatus" />:</span>
-				<select name="status" class="chosenMini">
-					<option value=""><spring:message code="notmatter" /></option>
-					<c:forEach items="${model.statuses}" var="i">
-						<option value="${i.id}" <c:if test="${i.id == model.params.status}" >selected="selected"</c:if> >
-							<spring:message code="${i.code}" />
-						</option>
-					</c:forEach>
-				</select>
-				<span class="filter-label">Created from:</span>
-				<input type="text" class="date"  name="dateFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
-				<span class="filter-label">to:</span>
-				<input type="text" class="date" name="dateTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
-				<input type="submit" value="Filter" class="btn" />
+	<div id="wrapper">
+		<c:if test="${model.isQuasarAdmin}">
+		<div id="left">
+			<jsp:include page="../../include/quasar-nav.jsp" />
+		</div>	
+		<div id="right">
+		</c:if>
+			<div id="breadcrumb">
+				<c:if test="${model.isQuasarAdmin}">
+					<a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
+				 </c:if>
+				 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
+				 <span><spring:message code="auditLogs" /></span>
 			</div>
-		</form>		
+			<h1><spring:message code="auditLogs" /></h1>
+	
+			<div id="content">
+			
+				<c:if test="${common.user.auditor}">
+				<ul class="sub-nav auditor-nav">
+					<li>
+						<a:adminurl href="/quasar/audit-logs">
+							<spring:message code="quasar.show" />
+						</a:adminurl>
+					</li>
+					<li>
+						<a:adminurl href="/quasar/audit-log/0">
+							<spring:message code="quasar.add" />
+						</a:adminurl>
+					</li>
+				</ul>
+				</c:if>
+													
+				<form class="filter user" method="get">
+				<div>
+					<span class="long filter-label"><spring:message code="logStatus" />:</span>
+					<select name="status" class="chosenMini">
+						<c:forEach items="${model.statuses}" var="i">
+							<option value="${i.id}" <c:if test="${i.id == model.params.status}" >selected="selected"</c:if> >
+								<spring:message code="${i.code}" />
+							</option>
+						</c:forEach>
+					</select>
+					<span class="filter-label">Created from:</span>
+					<input type="text" class="date"  name="dateFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
+					<span class="filter-label">to:</span>
+					<input type="text" class="date" name="dateTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
 					
+				</div>
+				<c:if test="${model.isQuasarAdmin}">
+				<div>
+					<span class="long filter-label"><spring:message code="auditor.partner" />:</span>
+					<select name="partner" class="chosenSmall">
+						<option value=""><spring:message code="notmatter" /></option>
+						<c:forEach items="${model.partners}" var="i">
+							<option value="${i.id}" ${model.params.partner eq i.id ? 'selected="selected"' : ''}>${i.name}</option>
+						</c:forEach>
+					</select>
+					<input type="submit" value="Filter" class="btn" />
+				</div>
+				</c:if>
+			</form>		
 						
-			<c:if test="${not empty model.logs}">
+							
+				<c:if test="${not empty model.logs}">
 				<!-- STRANKOVANIE -->
 				<c:if test="${not empty model.paginationLinks}" >
 					<div class="pagination">
@@ -70,6 +93,9 @@
 						<tr>
 							<th><spring:message code="logStatus" /></th>
 							<th><spring:message code="auditLog.auditLog" /> date</th>
+							<c:if test="${model.isQuasarAdmin}">
+								<th><spring:message code="auditor.edit" /></th>
+							</c:if>
 							<th><spring:message code="auditLog.auditDays" /></th>
 							<th><spring:message code="auditLog.audits" /></th>
 							<th>Changed</th>
@@ -81,7 +107,7 @@
 							<tr class="qs-log-status-${i.status.id}">  
 								<td class="w100 qs-status">
 									<span class="qs-log-status"><spring:message code="${i.status.code}" /></span>
-								</td>	 
+								</td>	
 								<td>
 									<a:adminurl href="/quasar/audit-log/${i.id}">
 											<spring:message code="auditLog.auditLog" /> - 
@@ -94,6 +120,11 @@
 										<strong>&nbsp; (<spring:message code="locked" />)</strong>
 									</c:if>
 								</td>
+								<c:if test="${model.isQuasarAdmin}">
+								<td>
+									<quasar:auditor auditor="${i.auditor}" />
+								</td> 
+								</c:if>
 								<td class="w40 c">
 								<strong>${i.sumOfAuditDays}</strong>
 								</td>
@@ -121,14 +152,12 @@
 					</tbody>
 				</table>
 			</c:if>
-			
-			<c:if test="${empty model.logs}">
-				<p class="msg alert">
-					<spring:message code="alert.empty" />
-				</p>
-			</c:if>
-
-		</div>	
+	
+			</div>	
+		<c:if test="${model.isQuasarAdmin}">
+			</div>
+			<div class="clear"></div>	
+		</c:if>
 	</div>
 </body>
 </html>

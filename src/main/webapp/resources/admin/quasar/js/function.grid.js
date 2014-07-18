@@ -21,4 +21,8 @@ $(function(){
 	    function clearTable(){
 	    	$tBody.find(".qs-hover").removeClass("qs-hover");
 	    }
+	    $(document).on('click', '.file', function(){
+	    	window.print();
+	    	return false;
+	    });
 });

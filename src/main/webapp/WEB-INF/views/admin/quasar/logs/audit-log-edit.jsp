@@ -15,12 +15,7 @@
 <div id="wrapper">
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-		 <c:if test="${isQuasarAdmin}">
-		 	<a:adminurl href="/quasar/manage/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
-		 </c:if>
-		 <c:if test="${not isQuasarAdmin}">
-		 	<a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
-		 </c:if>
+		 <a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
 		 <span><spring:message code="auditLog.edit" arguments="${model.auditLog.auditor.name}" /></span>
 	</div>
 	<h1 class="qs-log-status-${model.auditLog.status.id}">
@@ -39,6 +34,12 @@
 		
 		<c:if test="${not empty successDelete}">
 			<p class="msg ok"><spring:message code="success.delete" /></p>
+		</c:if>
+		
+		<c:if test="${not empty companyFound}">
+			<p class="msg alert">
+				<spring:message code="log.alert.companyFound" arguments="${command.command};${command.item.company.name}"  argumentSeparator=";"/>
+			</p>
 		</c:if>
 		
 		<c:if test="${not empty model.auditLog.comments}">
@@ -348,7 +349,7 @@
 			<form:hidden path="eacCodes" id="hEacCodes"/>
 			<form:hidden path="nandoCodes" id="hNandoCodes"/>
 			<form:hidden path="item.id" />
-			<form:hidden path="auditLogId" />
+			<form:hidden path="logId" />
 			<p class="button-box">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />
 			<a:adminurl href="/quasar/audit-log/${model.auditLog.id}" cssClass="cancel qs-btn">

@@ -7,8 +7,8 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0">
 	<title><spring:message code="auditors" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/styles.css" />" />
-	<c:if test="${model.printable}">
-	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/style.print.css" />" />
+	<c:if test="${model.printable or model.functionType == 6}">
+		<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/style.print.css" />" />
 	</c:if>
 	<c:if test="${not model.printable and model.functionType > 1 and model.functionType < 6}">
 		<link rel="stylesheet" href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css" />		
@@ -17,7 +17,7 @@
 		<script src="//cdn.datatables.net/fixedcolumns/3.0.1/js/dataTables.fixedColumns.min.js"></script>
 		<script src="<c:url value="/resources/admin/quasar/js/grid.js" />"></script>
 	</c:if>
-	<c:if test="${not model.printable and model.functionType > 1 and model.functionType == 6}">
+	<c:if test="${ model.functionType > 1 and model.functionType == 6}">
 		<script src="<c:url value="/resources/admin/quasar/js/jquery.stickytableheaders.min.js" />"></script>
 		<script src="<c:url value="/resources/admin/quasar/js/function.grid.js" />"></script>
 	</c:if>
@@ -63,7 +63,10 @@
 						</c:forEach>
 					</select>
 					<input type="submit" value="Filter" class="btn" />
+					
+					
 			</form>	
+			<a href="?printable=1" class="file print qs-function-${model.functionType}">Print</a>
 			<a:adminurl href="/quasar/manage/auditors" cssClass="close-btn">
 				<spring:message  code="close"/>
 			</a:adminurl>
@@ -74,7 +77,8 @@
 			<div class="container"><quasar:auditorsGrid list="${model.items}" /></div>
 		</c:if>
 		<c:if test="${model.printable}">
-			<quasar:printableAuditorsGrid list="${model.items}" />
+		<script type="text/javascript">$(function(){window.print();});</script>
+			<div class="print-contationer"><quasar:printableAuditorsGrid list="${model.items}" /></div>
 		</c:if>
 	</c:if>
 	

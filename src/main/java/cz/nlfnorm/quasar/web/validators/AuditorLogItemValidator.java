@@ -39,7 +39,7 @@ public class AuditorLogItemValidator extends AbstractValidator{
 		if(form.getItem().getAuditDate() == null){
 			errors.reject("error.auditDate", null, null);
 		}
-		final AuditLog log = auditLogService.getById(form.getAuditLogId());
+		final AuditLog log = auditLogService.getById(form.getLogId());
 		final LocalDate earliestDate = auditLogService.getEarliestPossibleDateForAuditLog(log.getAuditor());
 		if(earliestDate != null && earliestDate.isAfter(form.getItem().getAuditDate())){
 			final String date = earliestDate.toString("dd.MM.yyyy");

@@ -13,7 +13,7 @@
 	<div id="wrapper">
 		<c:if test="${model.isQuasarAdmin}">
 		<div id="left">
-			<jsp:include page="../include/quasar-nav.jsp" />
+			<jsp:include page="../../include/quasar-nav.jsp" />
 		</div>	
 		<div id="right">
 		</c:if>
