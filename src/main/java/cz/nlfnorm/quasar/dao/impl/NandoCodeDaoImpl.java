@@ -20,6 +20,7 @@ import cz.nlfnorm.quasar.entities.NandoCode;
 public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements NandoCodeDao{
 	
 	private final static int ALL_AUDITORS = -1;
+	private final static int PRODUCT_ASSESS_OR_SPECIALIST = 4;
 	
 	public NandoCodeDaoImpl(){
 		super(NandoCode.class);
@@ -39,6 +40,10 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 			break;
 			case Auditor.TYPE_PRODUCT_SPECIALIST :
 				hql.append(" and n.forProductSpecialist = true ");
+			case 4:
+				// TODO zapracovat typ
+				hql.append(" and (n.forProductSpecialist = true or n.forProductAssesorR = true)");
+			
 			break;
 		}
 		if(enabledOnly){
@@ -47,7 +52,10 @@ public class NandoCodeDaoImpl extends BaseDaoImpl<NandoCode, Long> implements Na
 		hql.append(" order by n.code ");
 		return createQuery(hql).setCacheable(false).list();
 	}
-
+	
+	public List<NandoCode> getCodesForProductAssesorOrSpecialist(final boolean enabledOnly){
+		return getCodesForAuditorType(PRODUCT_ASSESS_OR_SPECIALIST, enabledOnly);
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override

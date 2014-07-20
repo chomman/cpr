@@ -28,4 +28,6 @@ public interface NandoCodeDao extends BaseDao<NandoCode, Long>{
 	int getNextOrderInNode(Long nodeId);
 	
 	List<NandoCode> getAllNonAssociatedAuditorsNandoCodes(Auditor auditor);
+	
+	List<NandoCode> getCodesForProductAssesorOrSpecialist(boolean enabledOnly);
 }

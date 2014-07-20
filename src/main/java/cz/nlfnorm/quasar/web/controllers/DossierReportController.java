@@ -4,18 +4,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Company;
 import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.enums.DossierReportCategory;
@@ -25,7 +29,8 @@ import cz.nlfnorm.quasar.services.DossierReportItemService;
 import cz.nlfnorm.quasar.services.DossierReportService;
 import cz.nlfnorm.quasar.services.NandoCodeService;
 import cz.nlfnorm.quasar.services.PartnerService;
-import cz.nlfnorm.quasar.web.forms.DossireReportItemForm;
+import cz.nlfnorm.quasar.web.forms.AuditLogItemForm;
+import cz.nlfnorm.quasar.web.forms.DossierReportItemForm;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 
@@ -87,7 +92,36 @@ public class DossierReportController extends LogControllerSupport {
 		return getEditFormView();
 	}
 	
-	private void prepareModelFor(final DossierReport report, ModelMap modelMap,final DossireReportItemForm form, final boolean showForm) throws ItemNotFoundException{
+	
+	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)
+	public String processSubmitAuditLogItem(
+			ModelMap modelMap, 
+			@Valid @ModelAttribute(COMMAND) DossierReportItemForm form,
+			BindingResult result,
+			@PathVariable long id, 
+			HttpServletRequest request) throws ItemNotFoundException{
+		final DossierReport	 dossierReport = getDossierReportById(id);
+		boolean showForm = true;
+		boolean hasErrors = result.hasErrors();
+		if(!hasErrors){
+			auditorLogItemValidator.validate(form, result);
+			hasErrors = result.hasErrors();
+			if(!hasErrors){
+				createOrUpdate(dossierReport, form, modelMap);
+				appendSuccessCreateParam(modelMap);
+				showForm = false;
+				form = getItem(request, dossierReport);
+			}
+		}
+		if(hasErrors){
+			setEacCodes(form, form.getItem());
+			setNandoCodes(form, form.getItem());
+		}
+		prepareModelFor(dossierReport, modelMap, form, showForm);
+		return getEditFormView();
+	}
+	
+	private void prepareModelFor(final DossierReport report, ModelMap modelMap,final DossierReportItemForm form, final boolean showForm) throws ItemNotFoundException{
 		final Map<String, Object> model = new HashMap<>();
 		model.put("log", report);
 		model.put("statusType", ChangeLogStatusController.ACTION_DOSSIER_REPORT);
@@ -107,12 +141,12 @@ public class DossierReportController extends LogControllerSupport {
 		return report;
 	}
 	
-	private DossireReportItemForm getForm(HttpServletRequest request, final DossierReport dossierReport){
+	private DossierReportItemForm getForm(HttpServletRequest request, final DossierReport dossierReport){
 		final Long id = getItemId(request);
 		if(id == null || id == 0){
-			return new DossireReportItemForm(dossierReport);
+			return new DossierReportItemForm(dossierReport);
 		}
-		return new DossireReportItemForm(dossierReport, dossierReportItemService.getById( id ));
+		return new DossierReportItemForm(dossierReport, dossierReportItemService.getById( id ));
 	}
 
 }

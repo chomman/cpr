@@ -39,4 +39,6 @@ public interface NandoCodeService extends IdentifiableByLongService<NandoCode>{
 	void createOrUpdate(NandoCode nandoCode);
 	
 	List<NandoCode> getAllNonAssociatedAuditorsNandoCodes(Auditor auditor);
+	
+	List<NandoCode> getCodesForProductAssesorOrSpecialist(boolean enabledOnly);
 }

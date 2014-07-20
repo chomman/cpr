@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import cz.nlfnorm.exceptions.ItemNotFoundException;
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.services.NandoCodeService;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
@@ -90,8 +91,16 @@ public class NandoCodeController extends QuasarSupportController {
 	}
 	
 	@RequestMapping(value = "/ajax/nando-codes", method = RequestMethod.GET)
-	public @ResponseBody List<NandoCode>  getEacCodes(@RequestBody @RequestParam(required = false, value = "term") String query){
-		return nandoCodeService.getForProductAssessorA();
+	public @ResponseBody List<NandoCode>  getEacCodes(@RequestBody @RequestParam(required = false, value = "type") int type){
+		switch (type) {
+		case Auditor.TYPE_PRODUCT_ASSESSOR_A:
+			return nandoCodeService.getForProductAssessorA();
+		case Auditor.TYPE_PRODUCT_ASSESSOR_R:
+			return nandoCodeService.getCodesForProductAssesorOrSpecialist(true);
+		default:
+			return nandoCodeService.getAll();
+		}
+		
 	}
 	
 	private Long createOrUpdate(NandoCode form) throws ItemNotFoundException{

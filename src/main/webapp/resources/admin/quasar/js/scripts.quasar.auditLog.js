@@ -150,7 +150,7 @@ $(function() {
 	
 	function loadNandoCodes(list){
 		if($("#nandoCodes").length > 0){
-			sendRequest("GET", false, "ajax/nando-codes", function(json) {
+			sendRequest("GET", false, getNandoCodeUrl(), function(json) {
 				list = toArray(json, false);
 				initTags("#nandoCodes", list, false);
 			});
@@ -269,10 +269,14 @@ function searchInList(term, list, isEacCodeReq) {
 function toArray(json, isEacCode) {
 	var list = [];
 	for ( var i in json) {
-		list.push({
-			label : json[i].code + " - "+ (isEacCode ? json[i].name : json[i].specification),
-			value : json[i].code
-		});
+		var o = {
+				label : json[i].code + " - "+ (isEacCode ? json[i].name : json[i].specification),
+				value : json[i].code
+			};
+		if( json[i].hasOwnProperty("forProductSpecialist")){
+			o.forProductSpecialist =  json[i].forProductSpecialist;
+		}
+		list.push(o);
 	}
 	return list.sort(sortByName);
 }
@@ -376,4 +380,20 @@ function log(msg){
 	if(console){
 		console.log(msg);
 	}
+}
+
+function getLogType(){
+	 return $('body[data-type]').attr('data-type');
+}
+
+function isAuditLog(){
+	 return getLogType() === "audit-log";
+}
+
+function isDossierReport(){
+	 return getLogType() === "dossier-report";
+}
+
+function getNandoCodeUrl(){
+	return "ajax/nando-codes?type=" + ( isAuditLog() ? "1" : "2");
 }

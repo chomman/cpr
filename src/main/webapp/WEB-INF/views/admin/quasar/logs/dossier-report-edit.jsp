@@ -11,7 +11,7 @@
 	<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/quasar/js/scripts.quasar.auditLog.js" />"></script>
 </head>
-<body>
+<body data-type="dossier-report">
 <div id="wrapper">
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
@@ -26,7 +26,6 @@
 		</c:if>
 		&nbsp; | &nbsp; Status: <strong class="qs-status qs-log-status">${model.log.status}</strong>
 	</h1>
-
 	<div id="content"> 
 		<c:if test="${not empty successCreate}">
 			<p class="msg ok"><spring:message code="success.create" /></p>

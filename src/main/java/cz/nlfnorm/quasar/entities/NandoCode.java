@@ -49,6 +49,7 @@ public class NandoCode extends BaseEntity implements NandoCodeType{
 	private Set<NandoCode> children;
 	@JsonIgnore
 	private NandoCode parent;
+	@JsonIgnore
 	private Integer order;
 	
 	@JsonIgnore
@@ -93,7 +94,6 @@ public class NandoCode extends BaseEntity implements NandoCodeType{
 	 */
 	@JsonIgnore
 	private Integer assesorRTFReviewsThreasholdForTraining = 3;
-	
 	
 	@JsonIgnore
 	private boolean forProductSpecialist;

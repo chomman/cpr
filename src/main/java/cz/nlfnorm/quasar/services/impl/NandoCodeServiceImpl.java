@@ -113,6 +113,12 @@ public class NandoCodeServiceImpl implements NandoCodeService{
 		Validate.notNull(auditor);
 		return nandoCodeDao.getAllNonAssociatedAuditorsNandoCodes(auditor);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<NandoCode> getCodesForProductAssesorOrSpecialist(final boolean enabledOnly) {
+		return nandoCodeDao.getCodesForProductAssesorOrSpecialist(enabledOnly);
+	}
 	
 	
 	

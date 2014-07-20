@@ -11,7 +11,7 @@
 	<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/quasar/js/scripts.quasar.auditLog.js" />"></script>
 </head>
-<body>
+<body data-type="audit-log">
 <div id="wrapper">
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
@@ -168,7 +168,7 @@
 		
 		<!--ADD CHANGE ITEM  -->
 		<c:if test="${model.log.editable and model.showForm}">
-		<form:form commandName="command" cssClass="auditLog">
+		<form:form commandName="command" cssClass="auditLog" >
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
