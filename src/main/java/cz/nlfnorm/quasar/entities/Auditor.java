@@ -46,6 +46,7 @@ public class Auditor extends User {
 	private static final String EDUCATION_NON_ACTIVE_MD = "2";
 	
 	/* Personal data */
+	private double rating;
 	private String degrees;
 	private Integer itcId;
 	private Country country;
@@ -127,6 +128,9 @@ public class Auditor extends User {
 	private Set<AuditorEacCode> auditorsEacCodes;
 	private Set<AuditorNandoCode> auditorsNandoCodes;
 	private Set<SpecialTraining> specialTrainings;
+	
+	private int auditsInLastRecentYear;
+	private int auditDaysInLastRecetYear;
 	
 	public Auditor(){
 		this.education = new HashMap<>();
@@ -485,6 +489,35 @@ public class Auditor extends User {
 			boolean recentActivitiesApprovedForProductSpecialist) {
 		this.recentActivitiesApprovedForProductSpecialist = recentActivitiesApprovedForProductSpecialist;
 	}
+	
+	@Column(name = "rating", scale = 1, precision = 1)
+	public double getRating() {
+		return rating;
+	}
+
+	public void setRating(double rating) {
+		this.rating = rating;
+	}
+	
+	@Min(value = 0)
+	@Column(name = "audits_in_last_recent_year")
+	public int getAuditsInLastRecentYear() {
+		return auditsInLastRecentYear;
+	}
+
+	public void setAuditsInLastRecentYear(int auditsInLastRecentYear) {
+		this.auditsInLastRecentYear = auditsInLastRecentYear;
+	}
+
+	@Min(value = 0)
+	@Column(name = "audit_days_in_last_recent_year")
+	public int getAuditDaysInLastRecetYear() {
+		return auditDaysInLastRecetYear;
+	}
+
+	public void setAuditDaysInLastRecetYear(int auditDaysInLastRecetYear) {
+		this.auditDaysInLastRecetYear = auditDaysInLastRecetYear;
+	}
 
 	@Transient
 	public boolean isIntenalAuditor(){
@@ -587,5 +620,6 @@ public class Auditor extends User {
 		this.noTfReviewsForSterileMd = form.getNoTfReviewsForSterileMd();
 		this.noDdReviewsForSterileMd = form.getNoDdReviewsForSterileMd();
 		this.otherEmails = form.getOtherEmails();
+		this.rating = form.getRating();
 	}
 }

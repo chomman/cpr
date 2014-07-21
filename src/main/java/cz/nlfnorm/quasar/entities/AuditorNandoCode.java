@@ -17,7 +17,6 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.annotations.Formula;
-import org.hibernate.validator.constraints.Length;
 
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.quasar.views.NandoCodeType;
@@ -38,14 +37,6 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	
 	
 	/* Product Assessor A attirbutes */
-	/**
-	 * Number of NB audits in category
-	 */
-	private int numberOfNbAudits = 0;
-	/**
-	 * Number of ISO 13485 audits in relevant technical area
-	 */
-	private int numberOfIso13485Audits = 0;
 	/**
 	 * Specific reason for the approval (in case of missing audits)
 	 */
@@ -135,25 +126,6 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		return super.getId();
 	}
 	
-		
-	@Min(value = 0)
-	@Column(name = "number_of_nb_audits")
-	public int getNumberOfNbAudits() {
-		return numberOfNbAudits;
-	}
-	public void setNumberOfNbAudits(int numberOfNbAudits) {
-		this.numberOfNbAudits = numberOfNbAudits;
-	}
-	
-	@Min(value = 0)
-	@Column(name = "number_of_iso13485_audits")
-	public int getNumberOfIso13485Audits() {
-		return numberOfIso13485Audits;
-	}
-	public void setNumberOfIso13485Audits(int numberOfIso13485Audits) {
-		this.numberOfIso13485Audits = numberOfIso13485Audits;
-	}
-	
 
 	/**
 	 * @return TRUE if has Product Assessor-A specific approval
@@ -168,7 +140,6 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		this.productAssessorAApproved = productAssessorAApproved;
 	}
 
-	@Length(max = 255, message = "{error.auditorNandoCode.reason.lenght}")
 	@Column( name = "product_assessor_a_reason", length = 255)
 	public String getProductAssessorAReasonDetails() {
 		return productAssessorAReasonDetails;
@@ -232,7 +203,6 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		this.productAssessorRApproved = productAssessorRApproved;
 	}
 
-	@Length(max = 255, message = "{error.auditorNandoCode.reason.lenght}")
 	@Column( name = "product_assessor_r_reason", length = 255)
 	public String getProductAssessorRReasonDetails() {
 		return productAssessorRReasonDetails;
@@ -282,7 +252,6 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 		this.productSpecialistApproved = productSpecialistApproved;
 	}
 
-	@Length(max = 255, message = "{error.auditorNandoCode.reason.lenght}")
 	@Column( name = "product_specialist_reason", length = 255)
 	public String getProductSpecialistReasonDetails() {
 		return productSpecialistReasonDetails;
@@ -428,45 +397,8 @@ public class AuditorNandoCode extends AbstractAuditorCode implements NandoCodeTy
 	}
 	
 	@Transient
-	public void mergeProductAssessorA(AuditorNandoCode code){
-		categorySpecificTraining = code.getCategorySpecificTraining();
-		numberOfNbAudits	= code.getNumberOfNbAudits();
-		numberOfIso13485Audits = code.getNumberOfIso13485Audits();
-		productAssessorAApproved = code.isProductAssessorAApproved();
-		productAssessorARefused = code.isProductAssessorARefused();
-		productAssessorAReasonDetails = code.getProductAssessorAReasonDetails();
-		productAssessorAApprovedBy = code.getProductAssessorAApprovedBy();
+	public int getNoOfAuditsInTraining(){
+		return getNoOfAuditsInTraining(nandoCode.getAssesorANbAuditsThreashold());
 	}
-	
-	@Transient
-	public void mergeProductAssessorR(AuditorNandoCode code){
-		categorySpecificTraining = code.getCategorySpecificTraining();
-		numberOfTfReviews = code.getNumberOfTfReviews();
-		productAssessorRApproved = code.isProductAssessorRApproved();
-		productAssessorRRefused = code.isProductAssessorRRefused();
-		productAssessorRReasonDetails = code.getProductAssessorRReasonDetails();
-		productAssessorRApprovedBy = code.getProductAssessorRApprovedBy();
-	}
-	
-	@Transient
-	public void mergeProductSpecialist(AuditorNandoCode code){
-		categorySpecificTraining = code.getCategorySpecificTraining();
-		numberOfDdReviews = code.getNumberOfDdReviews();
-		numberOfTfReviews = code.getNumberOfTfReviews();
-		productSpecialistApproved = code.isProductSpecialistApproved();
-		productSpecialistRefused = code.isProductSpecialistRefused();
-		productSpecialistReasonDetails = code.getProductSpecialistReasonDetails();
-		productSpecialistApprovedBy = code.getProductSpecialistApprovedBy();
-	}
-	
-	@Transient
-	public void incrementNumberOfNbAudits(int val){
-		numberOfNbAudits += val;
-	}
-	
-	@Transient
-	public void incrementNumberOfIso13485Audits(int val){
-		numberOfIso13485Audits += val;
-	}
-	
+		
 }

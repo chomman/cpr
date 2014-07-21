@@ -6,7 +6,10 @@
 <head>
 	<title><spring:message code="auditors" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
+	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/jquery.raty.css" />" />
 	<script src="<c:url value="/resources/admin/js/scripts.quasar.js" />"></script>
+	<script src="<c:url value="/resources/admin/quasar/js/auditor.js" />"></script>
+	<script src="<c:url value="/resources/admin/quasar/js/jquery.raty.js" />"></script>
 </head>
 <body>
 	<div id="wrapper">
@@ -100,9 +103,9 @@
 							<tr>
 								<th><spring:message code="auditor.itcId" /></th>
 								<th><spring:message code="auditor.name" /></th>
+								<th><spring:message code="auditor.rating" /></th>
 								<th><spring:message code="auditor.reassessmentDate.short" /></th>
 								<th><spring:message code="auditor.head.formalRequirements" /></th>
-								<th>Changed</th>
 								<th>Activated</th>
 								<th>&nbsp;</th> 
 							</tr>
@@ -113,6 +116,9 @@
 									<td class="w50 code c">${i.itcId}</td>	 
 									<td>
 									<quasar:auditor auditor="${i}" />
+									</td>
+									<td class="last-edit">
+										<div class="rating" data-rating="${i.rating}"></div>
 									</td>
 									<td class="last-edit">
 										<c:if test="${not empty i.reassessmentDate}">
@@ -129,9 +135,6 @@
 										<c:if test="${not i.areFormalAndLegalReqiurementValid}">
 											<spring:message code="nonComplaint" />
 										</c:if>
-									</td>
-									<td class="last-edit">
-										<joda:format value="${i.changed}" pattern="${common.dateTimeFormat}"/>
 									</td>
 									<td class="w100">
 										<c:if test="${i.enabled}">

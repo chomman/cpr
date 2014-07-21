@@ -245,7 +245,7 @@
 							</c:if>
 						</span>
 						<div class="qs-field">
-							<h5>Reason details</h5>
+							<h5>Reason details (max. 255 chars.)</h5>
 							<textarea name="productSpecialistReasonDetails" rows="5" cols="5" placeholder="Describe reason...">${i.auditorNandoCode.productSpecialistReasonDetails}</textarea>
 						</div>
 					</div>

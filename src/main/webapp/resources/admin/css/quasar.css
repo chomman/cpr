@@ -5,7 +5,7 @@
 .qs-border-right .form-head{border-left:1px solid #ddd;}
 
 
-td.in-training .tr{color:#777;font-size:13px;}
+td.in-training .tr{color:#666;}
 
 td .tt:hover{cursor:help}
 tr.is-first-level,
@@ -146,7 +146,7 @@ table a.qs-btn{text-decoration:none;padding:5px 10px;}
 .qs-nb-new{position:absolute;bottom:10px;left:384px;font-size:12px;font-weight:bold;background:yellow;padding:2px}
 
 .qs-editting .reason-detail{bottom:50px;height:145px;left:670px;}
-.reason-detail{position:absolute;border-radius:5px;right:100px;bottom:5px;height:70px;left:540px;}
+.reason-detail{position:absolute;border-radius:5px;right:100px;bottom:5px;height:95px;left:550px;}
 .reason-detail textarea{width:95%;font-size:11px;margin:5px;}
 .reason-detail h5{padding:5px;color:#555;font-weight:normal;}
 .reason-detail .val h5{border-bottom:1px dotted #ccc;padding:3px 5px;font-size:10px;}

@@ -118,7 +118,6 @@ public class NandoCodeController extends QuasarSupportController {
 				
 		/* ProductAssessorA conds */
 		nandoCode.setForProductAssesorA(form.isForProductAssesorA());
-		nandoCode.setAuditsInTrainingTreshold(form.getAuditsInTrainingTreshold());
 		nandoCode.setAssesorATrainingThreashold(form.getAssesorATrainingThreashold());
 		nandoCode.setAssesorANbAuditsThreashold(form.getAssesorANbAuditsThreashold());
 		nandoCode.setAssesorAIso13485Threashold(form.getAssesorAIso13485Threashold());

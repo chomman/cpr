@@ -239,7 +239,7 @@
 							</c:if>
 						</span>
 						<div class="qs-field">
-							<h5>Reason details</h5>
+							<h5>Reason details (max. 255 chars.)</h5>
 							<textarea name="productAssessorAReasonDetails" rows="5" cols="5" placeholder="Describe reason...">${i.auditorNandoCode.productAssessorAReasonDetails}</textarea>
 						</div>
 					</div>
@@ -283,6 +283,16 @@
 								<span class="qs-field">
 									<input type="text" value="${i.auditorNandoCode.numberOfIso13485Audits}" name="numberOfIso13485Audits" class="w30 c required numeric">
 								</span>
+							</td>
+						</tr>
+						<tr>
+							<td class="k"><spring:message code="qsAuditor.total" />
+								<spring:message code="inTraining" />:</td>
+							<td class="v in-training">
+									<span class="total">${i.auditorNandoCode.totalNumberOfAudits}</span>
+								<c:if test="${i.auditorNandoCode.noOfAuditsInTraining > 0}">
+									<span title="No. of audits in training" class="tt tr">(${i.auditorNandoCode.noOfAuditsInTraining})</span>
+								</c:if>
 							</td>
 						</tr>
 						<tr class="${not i.auditorNandoCode.productAssessorARefused ? 'qs-hide' : ''}">

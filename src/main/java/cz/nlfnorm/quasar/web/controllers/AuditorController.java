@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.jsoup.helper.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -354,13 +355,13 @@ public class AuditorController extends QuasarSupportController {
 		Validate.notNull(code);
 		switch (functionType) {
 		case SUB_TAB_PROUCT_ASSESSOR_A:
-			code.mergeProductAssessorA(form);
+			mergeProductAssessorA(code, form);
 			break;
 		case SUB_TAB_PROUCT_ASSESSOR_R:
-			code.mergeProductAssessorR(form);
+			mergeProductAssessorR(code, form);
 			break;
 		case SUB_TAB_PROUCT_SPECIALIST:
-			code.mergeProductSpecialist(form);
+			mergeProductSpecialist(code, form);
 			break;
 		default:
 			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
@@ -480,4 +481,37 @@ public class AuditorController extends QuasarSupportController {
 		return AUDITOR_DETAIL_URL + id;
 	}
 		
+	
+	private void mergeProductAssessorA(AuditorNandoCode obj, AuditorNandoCode form){
+		obj.setCategorySpecificTraining(form.getCategorySpecificTraining());;
+		obj.setNumberOfNbAudits(form.getNumberOfNbAudits());
+		obj.setNumberOfIso13485Audits( form.getNumberOfIso13485Audits());
+		obj.setProductAssessorAApproved( form.isProductAssessorAApproved() );
+		obj.setProductAssessorARefused( form.isProductAssessorARefused());
+		obj.setProductAssessorAReasonDetails(StringUtils.substring(form.getProductAssessorAReasonDetails(),0,255));
+		obj.setProductAssessorAApprovedBy(form.getProductAssessorAApprovedBy());
+	}
+	
+	
+	private void mergeProductAssessorR(AuditorNandoCode obj, AuditorNandoCode form){
+		obj.setCategorySpecificTraining(form.getCategorySpecificTraining());
+		obj.setNumberOfTfReviews( form.getNumberOfTfReviews());
+		obj.setProductAssessorRApproved( form.isProductAssessorRApproved());
+		obj.setProductAssessorRRefused( form.isProductAssessorRRefused());
+		obj.setProductAssessorRReasonDetails(StringUtils.substring(form.getProductAssessorRReasonDetails(),0,255));
+		obj.setProductAssessorRApprovedBy( form.getProductAssessorRApprovedBy());
+	}
+	
+	
+	private void mergeProductSpecialist(AuditorNandoCode obj, AuditorNandoCode form){
+		obj.setCategorySpecificTraining( form.getCategorySpecificTraining());
+		obj.setNumberOfDdReviews( form.getNumberOfDdReviews());
+		obj.setNumberOfTfReviews( form.getNumberOfTfReviews());
+		obj.setProductSpecialistApproved( form.isProductSpecialistApproved());
+		obj.setProductSpecialistRefused( form.isProductSpecialistRefused());
+		obj.setProductSpecialistReasonDetails( StringUtils.substring(form.getProductSpecialistReasonDetails(),0,255));
+		obj.setProductSpecialistApprovedBy( form.getProductSpecialistApprovedBy());
+	}
+	
+	
 }

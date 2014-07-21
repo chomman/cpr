@@ -5,8 +5,11 @@
 	<head>
 		<title><spring:message code="auditor.edit" />: ${model.auditor.name}</title>
 		<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
+		<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/jquery.raty.css" />" />
 		<script src="<c:url value="/resources/public/js/picker.jquery.js" />"></script>
 		<script src="<c:url value="/resources/admin/js/scripts.quasar.js" />"></script>
+		<script src="<c:url value="/resources/admin/quasar/js/auditor.js" />"></script>
+		<script src="<c:url value="/resources/admin/quasar/js/jquery.raty.js" />"></script>
 	</head>
 <body>
 	<div id="wrapper">
@@ -17,7 +20,7 @@
 		<div id="breadcrumb">
 			  <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 			  <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-			  <a:adminurl href="/quasar/manage/auditors"><spring:message code="auditors" /></a:adminurl>  &raquo;
+			  <a:adminurl href="/quasar/manage/auditors"><spring:message code="auditors" /></a:adminurl>  &raquo;		  
 			  <span>${model.auditor.name}</span>
 		</div>
 		<h1><spring:message code="auditor.edit" />:&nbsp; <strong>${model.auditor.name}</strong></h1>

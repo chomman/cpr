@@ -39,8 +39,20 @@
 		<spring:message code="auditor.head.personalInfo" />
 	</p>
 	<div class="input-wrapp smaller">
-		<label> <strong><em class="red">*</em> <spring:message
-					code="auditor.itcId" />: </strong>
+		<label> <spring:message code="auditor.rating" />:
+		</label>
+		<div class="field">
+			<div data-rating="${command.rating}" id="rating-wrapp"></div>
+			<div id="rating-text"></div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<div class="input-wrapp smaller">
+		<label> 
+			<strong>
+			<em class="red">*</em>
+			<spring:message code="auditor.itcId" />:
+			</strong>
 		</label>
 		<div class="field">
 			<form:input path="itcId" cssClass="w50 c required numeric"

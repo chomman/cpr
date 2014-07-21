@@ -112,7 +112,7 @@
 							</c:if>
 						</span>
 						<div class="qs-field">
-							<h5>Reason details</h5>
+							<h5>Reason details (max. 255 chars.)</h5>
 							<textarea name="reasonOfRefusal" rows="5" cols="5" placeholder="Describe reason...">${i.reasonOfRefusal}</textarea>
 						</div>
 					</div>
@@ -154,8 +154,8 @@
 								<spring:message code="inTraining" />:</td>
 							<td class="v in-training">
 									<span class="total">${i.totalNumberOfAudits}</span>
-								<c:if test="${i.totalNumberOfAudits > 0}">
-									<span title="No. of audits in training" class="tt tr">(${i.eacCode.threshold})</span>
+								<c:if test="${i.noOfAuditsInTraining > 0}">
+									<span title="No. of audits in training" class="tt tr">(${i.noOfAuditsInTraining})</span>
 								</c:if>
 							</td>
 						</tr>

@@ -15,9 +15,6 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.Length;
 
 import cz.nlfnorm.entities.NotifiedBody;
 
@@ -38,15 +35,6 @@ public class AuditorEacCode extends AbstractAuditorCode {
 	private static final long serialVersionUID = 6370251380332649136L;
 	
 	private EacCode eacCode;
-	
-	/**
-	 * Number of NB 1023 audits in TA
-	 */
-	private int numberOfNbAudits;
-	/**
-	 * Number of ISO 13485 audits in TA
-	 */
-	private int numberOfIso13485Audits;
 	
 	/**
 	 * Specific reason for the approval (in case of missing review)
@@ -87,26 +75,6 @@ public class AuditorEacCode extends AbstractAuditorCode {
 		this.eacCode = eacCode;
 	}
 	
-	@Min(value = 0)
-	@Column(name = "number_of_nb_audits")
-	public int getNumberOfNbAudits() {
-		return numberOfNbAudits;
-	}
-
-	public void setNumberOfNbAudits(int numberOfNBAudits) {
-		this.numberOfNbAudits = numberOfNBAudits;
-	}
-
-	@Min(value = 0)
-	@Column(name = "number_of_iso13485_audits")
-	public int getNumberOfIso13485Audits() {
-		return numberOfIso13485Audits;
-	}
-
-	public void setNumberOfIso13485Audits(int numberOfIso13485Audits) {
-		this.numberOfIso13485Audits = numberOfIso13485Audits;
-	}
-	
 	
 	@Column(name = "is_itc_approved")
 	public boolean isItcApproved() {
@@ -136,7 +104,6 @@ public class AuditorEacCode extends AbstractAuditorCode {
 		this.notifiedBody = notifiedBody;
 	}
 
-	@Length(max = 255)
 	@Column(name = "reason_of_refusal")
 	public String getReasonOfRefusal() {
 		return reasonOfRefusal;
@@ -144,11 +111,6 @@ public class AuditorEacCode extends AbstractAuditorCode {
 
 	public void setReasonOfRefusal(String reasonOfRefusal) {
 		this.reasonOfRefusal = reasonOfRefusal;
-	}
-
-	@Transient
-	public int getTotalNumberOfAudits(){
-		return getNumberOfIso13485Audits() + getNumberOfNbAudits();
 	}
 	
 	@Transient 
@@ -159,13 +121,8 @@ public class AuditorEacCode extends AbstractAuditorCode {
 			   getTotalNumberOfAudits() >= getEacCode().getThreshold();
 	}
 	
-	@Transient 
-	public void incrementNumberOfNbAudits(int val){
-		numberOfNbAudits += val;
-	}
-	
 	@Transient
-	public void incrementNumberOfIso13485Audits(int val){
-		numberOfIso13485Audits += val;
+	public int getNoOfAuditsInTraining(){
+		return getNoOfAuditsInTraining(eacCode.getThreshold());
 	}
 }
