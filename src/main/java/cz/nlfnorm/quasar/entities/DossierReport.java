@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.OrderBy;
 
@@ -43,6 +44,22 @@ public class DossierReport extends AbstractLog {
 	@Override
 	public String toString() {
 		return "DossierReport [getId()=" + getId() + "]";
+	}
+	
+	@Transient
+	public int getCoundOfDesignDossiers(){
+		int count = 0;
+		for(final DossierReportItem item : items){
+			if(item.isDesignDossier()){
+				count++;
+			}
+		}
+		return count;
+	}
+	
+	@Transient
+	public int getCoundOfTechnicalFiles(){
+		return items.size() - getCoundOfDesignDossiers();
 	}
 	
 }

@@ -72,8 +72,8 @@
 					<th><spring:message code="dossierReport.item.date" /></th>
 					<th><spring:message code="dossierReport.item.applicant" /></th>
 					<th><spring:message code="auditLog.item.certifiedProduct" /></th>
+					<th>Type</th>
 					<th><spring:message code="dossierReport.item.category" /></th>
-					<th><spring:message code="dossierReport.item.suffix" /></th>
 					<th><spring:message code="auditLog.item.nandoCodes" /></th>
 					<c:if test="${model.log.editable}">
 					<th>&nbsp;</th>
@@ -95,8 +95,15 @@
 							<td class="c qsd"><joda:format value="${i.auditDate}" pattern="dd.MM.yyyy" /></td>
 							<td>${i.company.name}</td>
 							<td>${i.certifiedProduct}</td>
-							<td class="c">${i.category.name}</td>
-							<td class="c">${i.certificationSufix}</td>
+							<td class="c w40 dd-${i.designDossier}">
+								<c:if test="${i.designDossier}">
+									<span class="tt" title="<spring:message code="designDossier" />">DD</span>
+								</c:if>
+								<c:if test="${not i.designDossier}">
+									<span class="tt" title="<spring:message code="technicalFile" />">TT</span>
+								</c:if>
+							</td>
+							<td class="c w40">${i.category.name}</td>
 							<td class="c">
 								<c:forEach items="${i.nandoCodes}" var="j">
 									<span class="qsc tt" title="${j.specification}">${j.code}</span>
@@ -119,7 +126,8 @@
 				</tbody>
 			</table>
 			<div class="qs-totals">
-			 
+			 	<spring:message code="technicalFile" />s: <strong>${model.log.coundOfTechnicalFiles}</strong>
+			 	<spring:message code="designDossier" />s: <strong>${model.log.coundOfDesignDossiers}</strong>
 			</div>
 			</c:if>
 		</div>
@@ -149,7 +157,14 @@
 				</label>
 				<div class="field">
 					<form:input path="item.certificationNo" id="certificationNo" maxlength="7" cssClass="qs-cert-no numeric required w100 c" placeholder="Cert. number" />
-					<form:input path="item.certificationSufix" maxlength="5" cssClass="qs-cert-no required w50 c"  placeholder="Suffix" />
+					<select class="chosenMini required" name="item.certificationSufix">
+						<option value="">Choose</option>
+						<c:forEach items="${model.suffixies}" var="i">
+							<option value="${i.name}" ${i.name eq command.item.certificationSufix ? 'selected="selected"' : ''}>
+								${i.name}
+							</option>
+						</c:forEach>
+					</select>
 				</div>
 			</div>
 			

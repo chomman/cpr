@@ -23,6 +23,7 @@ import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.Company;
 import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.entities.DossierReportItem;
+import cz.nlfnorm.quasar.enums.CertificationSuffix;
 import cz.nlfnorm.quasar.enums.DossierReportCategory;
 import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.DossierReportItemService;
@@ -37,7 +38,8 @@ public class DossierReportController extends LogControllerSupport {
 	
 	private final static int TAB = 10;
 	private final static String LIST_MAPPING_URL = "/admin/quasar/dossier-reports";
-	private final static String EDIT_MAPPING_URL = "/admin/quasar/dossier-report/{id}";
+	public final static String EDIT_MAPPING_URL = "/admin/quasar/dossier-report/{id}";
+	private final static String DELETE_MAPPING_URL = "/admin/quasar/dossier-report-item/delete/{id}";
 	
 	@Autowired
 	private DossierReportService dossierReportService;
@@ -113,6 +115,15 @@ public class DossierReportController extends LogControllerSupport {
 		return getEditFormView();
 	}
 	
+	@RequestMapping(value = DELETE_MAPPING_URL)
+	public String handleAuditLogEdit(final @PathVariable long id) throws ItemNotFoundException{
+		final DossierReportItem	item = getDossierReportItem(id);
+		final Long reportId = item.getDossierReport().getId();
+		dossierReportService.updateAndSetChanged(item.getDossierReport());
+		dossierReportItemService.delete(item);
+		return successDeleteRedirect(EDIT_MAPPING_URL.replace("{id}", reportId+""));
+	}
+	
 	
 	private void createOrUpdate(final DossierReport	report, final DossierReportItemForm form, ModelMap modelMap) throws ItemNotFoundException{
 		if(!report.isEditable()){
@@ -123,7 +134,7 @@ public class DossierReportController extends LogControllerSupport {
 			reportItem = form.getItem();
 			reportItem.setDossierReport(report);
 		}else{
-			reportItem = getAuditLogItem(form.getItem().getId());
+			reportItem = getDossierReportItem(form.getItem().getId());
 		}
 		if(setAndCreateCompany(form, reportItem)){
 			// Some company with given name was found and used.
@@ -144,6 +155,7 @@ public class DossierReportController extends LogControllerSupport {
 		model.put("statusType", ChangeLogStatusController.ACTION_DOSSIER_REPORT);
 		model.put("showForm", showForm);
 		model.put("categories", DossierReportCategory.getAll());
+		model.put("suffixies", CertificationSuffix.getAll());
 		model.put("dateThreshold", dossierReportService.getEarliestPossibleDateForLog(report.getAuditor()));
 		modelMap.addAttribute(COMMAND, form);
 		appendModel(modelMap, model);
@@ -166,7 +178,7 @@ public class DossierReportController extends LogControllerSupport {
 		return new DossierReportItemForm(dossierReport, dossierReportItemService.getById( id ));
 	}
 	
-	private DossierReportItem getAuditLogItem(final long id) throws ItemNotFoundException{
+	private DossierReportItem getDossierReportItem(final long id) throws ItemNotFoundException{
 		final DossierReportItem item  = dossierReportItemService.getById(id);
 		if(item == null){
 			throw new ItemNotFoundException("AuditLogItem [id="+id+"] not found");

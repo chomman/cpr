@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.quasar.services.AuditLogService;
+import cz.nlfnorm.quasar.services.DossierReportService;
 import cz.nlfnorm.quasar.web.forms.ChangeLogStatusForm;
 
 @Controller
@@ -24,6 +25,8 @@ public class ChangeLogStatusController extends QuasarSupportController {
 	private MessageSource messageSource;
 	@Autowired
 	private AuditLogService auditLogService;
+	@Autowired
+	private DossierReportService dossierReportService;
 	
 	@RequestMapping( value = "/admin/quasar/change-log-status", method = RequestMethod.POST)
 	public String proccessChangeLogStatus(
@@ -38,8 +41,11 @@ public class ChangeLogStatusController extends QuasarSupportController {
 					    form.getComment());
 				return getAuditLogUrl(form.getLogId());
 			case ACTION_DOSSIER_REPORT:
-						
-				// TODO
+				dossierReportService.changeStatus(
+						dossierReportService.getById(form.getLogId()),
+						form.getStatus(),
+						form.getComment());		
+				return getDossierReportUrl(form.getLogId());
 			case ACTION_TRAINING_LOG:
 				
 				// TODO 
@@ -57,6 +63,10 @@ public class ChangeLogStatusController extends QuasarSupportController {
 	
 	private String getAuditLogUrl(final long id){
 		return successUpdateRedirect(AuditLogController.EDIT_MAPPING_URL.replace("{id}", id+""));
+	}
+	
+	private String getDossierReportUrl(final long id){
+		return successUpdateRedirect(DossierReportController.EDIT_MAPPING_URL.replace("{id}", id+""));
 	}
 
 }

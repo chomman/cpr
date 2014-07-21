@@ -22,6 +22,7 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import cz.nlfnorm.quasar.enums.CertificationSuffix;
 import cz.nlfnorm.quasar.enums.DossierReportCategory;
 import cz.nlfnorm.quasar.web.forms.CompanyForm;
 import cz.nlfnorm.utils.NlfStringUtils;
@@ -117,17 +118,27 @@ public class DossierReportItem extends AbstractLogItem
 		throw new UnsupportedOperationException();
 	}
 	
+	/**
+	 * Return TRUE if this dossier report item is <b>Design Dossier</b> type. 
+	 * 
+	 * Design Dossier is if are satisfied following conds.:
+	 * <ul>
+	 * 	<li>Category III  + Cert suffix equals CN/NB</li>
+	 *  <li>Category LIST A  + Cert suffix equals CN/NB</li>
+	 * </ul
+	 * 
+	 * @return TRUE, if this item is Design Dossier, false otherwise
+	 */
 	@Transient
 	public boolean isDesignDossier(){
-		if(certificationSufix != null && category != null){
-			if( 
-				(certificationSufix.equalsIgnoreCase("cn/nb") && category.equals(DossierReportCategory.III)) ||
-				(certificationSufix.equalsIgnoreCase("cn/nb") && category.equals(DossierReportCategory.LIST_A))
-			){
-				return true;
-			} 
-		}
-		return false;
+		return certificationSufix != null && 
+			   category != null &&
+			   CertificationSuffix.CNNB.getName().equals(certificationSufix) &&
+			  (
+					  category.equals(DossierReportCategory.III) || 
+					  category.equals(DossierReportCategory.LIST_A)
+			  );
+			
 	}
 
 }

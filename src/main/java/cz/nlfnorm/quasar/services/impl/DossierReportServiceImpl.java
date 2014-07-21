@@ -124,7 +124,7 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 			}else if(newStatus.equals(LogStatus.APPROVED)){
 				setApprovedStatus(auditLog, comment);
 			}else{
-				throw new IllegalArgumentException("Unknown documentation log status: " + newStatus);
+				throw new IllegalArgumentException("Unknown dossier report status: " + newStatus);
 			}
 		}
 	}
