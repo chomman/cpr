@@ -1,8 +1,22 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+		<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/jquery.raty.css" />" />
+		<script src="<c:url value="/resources/admin/quasar/js/auditor.js" />"></script>
+		<script src="<c:url value="/resources/admin/quasar/js/jquery.raty.js" />"></script>
+		
 	<h3 class="qs-function">${model.auditor.nameWithDegree}</h3>
 	<form>
 	<p class="form-head"><spring:message code="auditor.head.personalInfo" /></p>
+	<div class="input-wrapp smaller">
+		<label> <spring:message code="auditor.rating" />:
+		</label>
+		<div class="field">
+			<div data-rating="${model.auditor.rating}" id="rating-wrapp"></div>
+			<div id="rating-text"></div>
+			<div class="clear"></div>
+		</div>
+	</div>
+	
 		<div class="input-wrapp smaller">
 		<label>
 			<spring:message code="auditor.itcId" />:
