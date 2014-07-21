@@ -92,6 +92,8 @@ public class EacCodeController extends QuasarSupportController {
 		eacCode.setName(StringUtils.trim(form.getName()));
 		eacCode.setNaceCode(StringUtils.trim(form.getNaceCode()));
 		eacCode.setForQsAuditor(form.isForQsAuditor());
+		eacCode.setThreshold(form.getThreshold());
+		eacCode.setAuditsInTrainingTreshold(form.getAuditsInTrainingTreshold());
 		eacCodeService.createOrUpdate(eacCode);
 		return eacCode.getId();
 	}

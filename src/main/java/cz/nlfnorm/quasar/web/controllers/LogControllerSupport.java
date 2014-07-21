@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 
 import cz.nlfnorm.dto.PageDto;
@@ -167,5 +168,9 @@ public abstract class LogControllerSupport extends QuasarSupportController {
 			}
 		}
 		return false;
+	}
+    
+    protected void setCompanyFoundAlertMessage(ModelMap map, String requestedCompany, String foundCoumpeny) {
+		map.put("companyFound", requestedCompany +";" + foundCoumpeny);
 	}
 }

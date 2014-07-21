@@ -108,7 +108,7 @@ INSERT INTO quasar_nando_code (id, changed, enabled, code, is_for_product_asseso
 
 update quasar_nando_code set is_for_product_assesor_a = true where code like 'MDS 70%';
 update quasar_nando_code set is_for_product_assesor_a = false where code='MDS 7000' OR code='MDS 7010';
-
+update quasar_nando_code set audits_in_training_treshold = 1;
 
 INSERT INTO quasar_eac_code (id, changed, enabled, code, is_for_qs_auditor, name, id_user_changed_by, nace_code) VALUES (1, '2014-06-12 09:46:11.514', true, 'EAC 1', false, 'Agriculture & Fishing', 1, '01, 02, 03');
 INSERT INTO quasar_eac_code (id, changed, enabled, code, is_for_qs_auditor, name, id_user_changed_by, nace_code) VALUES (2, '2014-06-12 09:46:35.507', true, 'EAC 2', false, 'Mining & Quarrying', 1, '05, 06, 07, 08, 09');
@@ -159,7 +159,7 @@ threashold_assesor_r_training  = 16,
 threashold_specialist_dd_reviews  = 1,
 threashold_specialist_dd_reviews_for_training = 5,
 threashold_specialist_training  = 16; 
-
+update quasar_eac_code set audits_in_training_treshold = 1;
 -- Education level
 INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (1, 'Basic school', 0, 0);
 INSERT INTO quasar_education_level (id, name, yeas_substitution, research_development_years_substitution) VALUES (2, 'High school', 0, 0);

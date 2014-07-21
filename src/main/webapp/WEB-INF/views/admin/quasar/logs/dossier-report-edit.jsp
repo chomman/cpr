@@ -37,7 +37,7 @@
 		
 		<c:if test="${not empty companyFound}">
 			<p class="msg alert">
-				<spring:message code="log.alert.companyFound" arguments="${command.command};${command.item.company.name}"  argumentSeparator=";"/>
+				<spring:message code="log.alert.companyFound" arguments="${companyFound}"  argumentSeparator=";"/>
 			</p>
 		</c:if>
 		
@@ -65,8 +65,10 @@
 			<table class="data">
 				<thead>
 				<tr>
-					<th><spring:message code="auditLog.item.orderNo" /></th>
-					<th><spring:message code="dossierReport.item.certificateNo" /></th>
+					<th>
+						<spring:message code="dossierReport.item.certificateNo" />
+						<spring:message code="auditLog.item.orderNo" />
+					</th>
 					<th><spring:message code="dossierReport.item.date" /></th>
 					<th><spring:message code="dossierReport.item.applicant" /></th>
 					<th><spring:message code="auditLog.item.certifiedProduct" /></th>
@@ -82,13 +84,19 @@
 				<tbody>
 					<c:forEach items="${model.log.items}" var="i" varStatus="s">
 						<tr>
-							<td class="c">${i.orderNo}</td>
-							<td class="c">${i.cerfication}</td>
+							<td class="nos">
+								<span class="cert-no">
+									${i.cerfication}
+								</span>
+								<span class="order-no">
+									${i.orderNo}
+								</span>
+							</td>
 							<td class="c qsd"><joda:format value="${i.auditDate}" pattern="dd.MM.yyyy" /></td>
 							<td>${i.company.name}</td>
 							<td>${i.certifiedProduct}</td>
-							<td>${i.catogory.name}</td>
-							<td>${i.certificationSufix}</td>
+							<td class="c">${i.category.name}</td>
+							<td class="c">${i.certificationSufix}</td>
 							<td class="c">
 								<c:forEach items="${i.nandoCodes}" var="j">
 									<span class="qsc tt" title="${j.specification}">${j.code}</span>
@@ -120,7 +128,7 @@
 				
 		<!--ADD CHANGE ITEM  -->
 		<c:if test="${model.log.editable and model.showForm}">
-		<form:form commandName="command" cssClass="auditLog">
+		<form:form commandName="command" cssClass="dossierReport">
 			<p class="form-head"><spring:message code="dossierReport.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
@@ -136,11 +144,11 @@
 			<div class="input-wrapp smaller">
 				<label>
 					<strong><em class="red">*</em>
-					<spring:message code="dossierReport.item.certificateNo" />:
+					<spring:message code="dossierReport.item.certificateNo" />+ Suffix:
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="item.certificationNo" maxlength="7" cssClass="qs-cert-no required w100 c" placeholder="Cert. number" />
+					<form:input path="item.certificationNo" id="certificationNo" maxlength="7" cssClass="qs-cert-no numeric required w100 c" placeholder="Cert. number" />
 					<form:input path="item.certificationSufix" maxlength="5" cssClass="qs-cert-no required w50 c"  placeholder="Suffix" />
 				</div>
 			</div>
@@ -152,7 +160,7 @@
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="item.orderNo" maxlength="9" cssClass="mw150 numeric"  />
+					<form:input path="item.orderNo" id="orderNo" maxlength="9" cssClass="mw150 numeric required"  />
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
@@ -162,7 +170,7 @@
 					</strong>
 				</label>
 				<div class="field">
-					<select class="chosenSmall required" name="item.type">
+					<select class="chosenSmall required" name="item.category">
 						<option value=""><spring:message code="form.select" /></option>
 						<c:forEach items="${model.categories}" var="i">
 							<option value="${i}" ${i eq command.item.category ? 'selected="selected"' : ''}>
@@ -227,14 +235,13 @@
 			<a:adminurl href="/quasar/dossier-report/${model.log.id}" cssClass="cancel qs-btn">
 				<spring:message code="cancel" />
 			</a:adminurl>
-			</p>    
-			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>	    
+			</p>    				    
 		</form:form>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</c:if>
 	</div>	
 </div>
 <div id="minDate" class="hidden"><c:if test="${not empty model.dateThreshold}"><joda:format value="${model.dateThreshold}" pattern="dd.MM.yyyy"/></c:if></div>
 <div id="loader" class="loader"></div>
-
 </body>
 </html>

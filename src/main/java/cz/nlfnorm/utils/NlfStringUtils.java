@@ -21,4 +21,10 @@ public class NlfStringUtils {
 	    	return Character.toLowerCase(value.charAt(0)) + value.substring(1); 
 	    }
 	
+	 public static String insertCharatersAt(int pos, String str, String chars){
+		 if(str != null && str.length() > pos && chars != null){
+			 return new StringBuilder(str).insert(pos , chars).toString();
+		 }
+		 return str;
+	 }
 }

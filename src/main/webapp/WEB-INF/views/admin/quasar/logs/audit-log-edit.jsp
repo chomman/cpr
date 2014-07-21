@@ -38,7 +38,7 @@
 		
 		<c:if test="${not empty companyFound}">
 			<p class="msg alert">
-				<spring:message code="log.alert.companyFound" arguments="${command.command};${command.item.company.name}"  argumentSeparator=";"/>
+				<spring:message code="log.alert.companyFound" arguments="${companyFound}"  argumentSeparator=";"/>
 			</p>
 		</c:if>
 		
@@ -313,8 +313,8 @@
 				<spring:message code="cancel" />
 			</a:adminurl>
 			</p>    
-			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>	    
 		</form:form>
+			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</c:if>
 	</div>	
 </div>

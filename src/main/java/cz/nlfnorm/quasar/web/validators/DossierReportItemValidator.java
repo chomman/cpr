@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.web.validators;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +22,8 @@ public class DossierReportItemValidator extends AbstractValidator{
 	protected void addExtraValidation(Object objectForm, Errors errors) {
 		DossierReportItemForm form = (DossierReportItemForm)objectForm;
 		validateAuditLogDate(form, errors);
+		validateCodes(form, errors);
+		validateCertNumber(form, errors);
 	}
 	
 
@@ -36,5 +39,21 @@ public class DossierReportItemValidator extends AbstractValidator{
 			errors.reject( null, null , message.replace("{0}", date));
 		}
 	}
-
+	
+	private void validateCertNumber(DossierReportItemForm form, Errors errors){
+		if(StringUtils.isBlank(form.getItem().getCertificationNo())){
+			errors.reject("error.dossierReportItem.certificationNo.required");
+		}else{
+			final String no = form.getItem().getCertificationNo().replace(" ", "");
+			if(no.length() != 6){
+				errors.reject("error.dossierReportItem.certificationNo");
+			}
+		}
+	}
+	
+	private void validateCodes(DossierReportItemForm form, Errors errors){
+		if(StringUtils.isBlank(form.getNandoCodes())){
+			errors.reject("error.dossierReportItem.codes");
+		}
+	}
 }

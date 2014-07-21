@@ -103,16 +103,24 @@
                            	<form:checkbox path="forQsAuditor" cssClass="bundled"/>
                            </span>
                        </p>
-                         <p class="forQsAuditor">
+                       <p class="forQsAuditor">
                       		<label>
                       			<strong><em class="red">*</em>
                        			<spring:message code="eacCode.threshold" />:
                        		</strong> 
                        	</label>
                            <span class="field">
-                           	<form:input path="threshold" maxlength="3" cssClass="w50 required" />
+                           	<form:input path="threshold" maxlength="3" cssClass="w50 c numeric required" />
                            </span>
-                       </p>                                      
+                       </p> 
+                        <p class="forQsAuditor">
+                      		<label>
+                      		TRUE, if <strong><spring:message code="auditsInTraining" /></strong> equals or is bigger than: 	
+                      		</label>
+                           <span class="field">
+                           	<form:input path="auditsInTrainingTreshold" maxlength="3" cssClass="w50 c numeric required" />
+                           </span>
+                       </p>                         
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

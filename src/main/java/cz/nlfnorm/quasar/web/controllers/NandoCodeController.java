@@ -115,9 +115,26 @@ public class NandoCodeController extends QuasarSupportController {
 		nandoCode.setEnabled(form.isEnabled());
 		nandoCode.setSpecification(StringUtils.trim(form.getSpecification()));
 		nandoCode.setParent(form.getParent());
+				
+		/* ProductAssessorA conds */
 		nandoCode.setForProductAssesorA(form.isForProductAssesorA());
+		nandoCode.setAuditsInTrainingTreshold(form.getAuditsInTrainingTreshold());
+		nandoCode.setAssesorATrainingThreashold(form.getAssesorATrainingThreashold());
+		nandoCode.setAssesorANbAuditsThreashold(form.getAssesorANbAuditsThreashold());
+		nandoCode.setAssesorAIso13485Threashold(form.getAssesorAIso13485Threashold());
+		
+		/* ProductAssessorR conds */
 		nandoCode.setForProductAssesorR(form.isForProductAssesorR());
+		nandoCode.setAssesorRTrainingThreashold(form.getAssesorRTrainingThreashold());
+		nandoCode.setAssesorRTFReviewsThreasholdForTraining(form.getAssesorRTFReviewsThreasholdForTraining());
+		nandoCode.setAssesorRTFReviewsThreashold(form.getAssesorRTFReviewsThreashold());
+		
+		/* ProductSpecialist conds */
 		nandoCode.setForProductSpecialist(form.isForProductSpecialist());
+		nandoCode.setSpecialistTrainingThreashold(form.getSpecialistTrainingThreashold());;
+		nandoCode.setSpecialistDDReviewsThreasholdForTraining(form.getSpecialistDDReviewsThreasholdForTraining());
+		nandoCode.setSpecialistDDReviewsThreashold(form.getSpecialistDDReviewsThreashold());
+		
 		nandoCodeService.createOrUpdate(nandoCode);
 		return nandoCode.getId();
 	}

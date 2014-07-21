@@ -8,6 +8,7 @@ import javax.validation.Valid;
 
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -19,20 +20,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.exceptions.ItemNotFoundException;
-import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Company;
 import cz.nlfnorm.quasar.entities.DossierReport;
+import cz.nlfnorm.quasar.entities.DossierReportItem;
 import cz.nlfnorm.quasar.enums.DossierReportCategory;
 import cz.nlfnorm.quasar.security.AccessUtils;
-import cz.nlfnorm.quasar.services.CompanyService;
 import cz.nlfnorm.quasar.services.DossierReportItemService;
 import cz.nlfnorm.quasar.services.DossierReportService;
-import cz.nlfnorm.quasar.services.NandoCodeService;
-import cz.nlfnorm.quasar.services.PartnerService;
-import cz.nlfnorm.quasar.web.forms.AuditLogItemForm;
 import cz.nlfnorm.quasar.web.forms.DossierReportItemForm;
+import cz.nlfnorm.quasar.web.validators.DossierReportItemValidator;
+import cz.nlfnorm.utils.UserUtils;
 import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
-import cz.nlfnorm.web.editors.LocalDateEditor;
 
 @Controller
 public class DossierReportController extends LogControllerSupport {
@@ -46,13 +44,8 @@ public class DossierReportController extends LogControllerSupport {
 	@Autowired
 	private DossierReportItemService dossierReportItemService;
 	@Autowired
-	private PartnerService partnerService;
-	@Autowired
-	private CompanyService companyService;
-	@Autowired
-	private NandoCodeService nandoCodeService;
-	@Autowired
-	private LocalDateEditor localDateEditor;
+	private DossierReportItemValidator dossierReportItemValidator;
+	
 	
 	public DossierReportController(){
 		setTableItemsView("dossier-report-list");
@@ -104,21 +97,45 @@ public class DossierReportController extends LogControllerSupport {
 		boolean showForm = true;
 		boolean hasErrors = result.hasErrors();
 		if(!hasErrors){
-			auditorLogItemValidator.validate(form, result);
+			dossierReportItemValidator.validate(form, result);
 			hasErrors = result.hasErrors();
 			if(!hasErrors){
 				createOrUpdate(dossierReport, form, modelMap);
 				appendSuccessCreateParam(modelMap);
 				showForm = false;
-				form = getItem(request, dossierReport);
+				form = getForm(request, dossierReport);
 			}
 		}
 		if(hasErrors){
-			setEacCodes(form, form.getItem());
 			setNandoCodes(form, form.getItem());
 		}
 		prepareModelFor(dossierReport, modelMap, form, showForm);
 		return getEditFormView();
+	}
+	
+	
+	private void createOrUpdate(final DossierReport	report, final DossierReportItemForm form, ModelMap modelMap) throws ItemNotFoundException{
+		if(!report.isEditable()){
+			throw new AccessDeniedException("Auditlog is not editable." + report + UserUtils.getLoggedUser());
+		}
+		DossierReportItem reportItem = null; 
+		if(form.getItem().getId() == null){
+			reportItem = form.getItem();
+			reportItem.setDossierReport(report);
+		}else{
+			reportItem = getAuditLogItem(form.getItem().getId());
+		}
+		if(setAndCreateCompany(form, reportItem)){
+			// Some company with given name was found and used.
+			setCompanyFoundAlertMessage(modelMap, form.getCompanyName(), reportItem.getCompany().getName());
+		}
+		setNandoCodes(form, reportItem);
+		reportItem.setAuditDate(form.getItem().getAuditDate());
+		reportItem.setCertifiedProduct(form.getItem().getCertifiedProduct());
+		reportItem.setCategory(form.getItem().getCategory());
+		reportItem.setCertificationNo(form.getItem().getCertificationNo().replaceAll("\\s+",""));
+		reportItem.setCertificationSufix(form.getItem().getCertificationSufix().toUpperCase());
+		dossierReportItemService.createOrUpdate(reportItem);		
 	}
 	
 	private void prepareModelFor(final DossierReport report, ModelMap modelMap,final DossierReportItemForm form, final boolean showForm) throws ItemNotFoundException{
@@ -148,5 +165,14 @@ public class DossierReportController extends LogControllerSupport {
 		}
 		return new DossierReportItemForm(dossierReport, dossierReportItemService.getById( id ));
 	}
-
+	
+	private DossierReportItem getAuditLogItem(final long id) throws ItemNotFoundException{
+		final DossierReportItem item  = dossierReportItemService.getById(id);
+		if(item == null){
+			throw new ItemNotFoundException("AuditLogItem [id="+id+"] not found");
+		}
+		AccessUtils.validateAuthorizationFor(item.getDossierReport());
+		return item;
+	}
+	
 }

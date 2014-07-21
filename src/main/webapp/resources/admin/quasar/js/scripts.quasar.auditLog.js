@@ -17,22 +17,7 @@ $(function() {
 			}));
 		});
 	};
-	
-	$('[placeholder]').focus(function() {
-	  var input = $(this);
-	  if (input.val() == input.attr('placeholder')) {
-	    input.val('');
-	    input.removeClass('placeholder');
-	  }
-	}).blur(function() {
-	  var input = $(this);
-	  if (input.val() == "" || input.val() == input.attr('placeholder')) {
-	    input.addClass('placeholder');
-	    input.val(input.attr('placeholder'));
-	  } 
-	}).blur();
-	
-	
+		
 	loadCertificationBodies();
 	loadCompanies();
 	loadEacCodes(eacCodeList);
@@ -109,6 +94,22 @@ $(function() {
 			showStatus({err : 1, msg: $.getMessage("errForm")});
 			return false;
 		}else if(!areTagsValid()){
+			return false;
+		}else if(!validateOrderNo()){
+			return false;
+		}
+	});
+								  
+	$(document).on('submit', 'form.dossierReport', function() {
+		saveCodes();
+		$('#certificationNo').val($('#certificationNo').val().replace(' ',''));
+		log('subbmitting..');
+		if (!validate($(this)) ) {
+			showStatus({err : 1, msg: $.getMessage("errForm")});
+			return false;
+		}else if(!isAnyNandoCodeSet()){
+			return false;
+		}else if(!validateOrderNo()){
 			return false;
 		}
 	});
@@ -189,6 +190,24 @@ $(function() {
 
 });
 
+function validateOrderNo(){
+	if($('#orderNo.required').length > 0){
+		if(!isOrderNoValid($('#orderNo.required').val())){
+			showStatus({
+				err : 1,
+				msg : $.getMessage("errOrderNo")
+			});
+			return false;
+		}
+	}
+	return true;
+}
+
+function isOrderNoValid(val){
+	return /^((8036|8136|8236)\d{5})$/.test(val);
+}
+
+
 
 function initTags(sel, list, isEac){
 	$(sel).tagit({
@@ -232,6 +251,17 @@ function areTagsValid() {
 	}
 	return true;
 }
+function isAnyNandoCodeSet() {
+	if (!areTagSet('#nandoCodes')) {
+		showStatus({
+			err : 1,
+			msg : $.getMessage("errNandoCodes")
+		});
+		return false;
+	}
+	return true;
+}
+
 
 function areTagSet(selector){
 	return $(selector).tagit("assignedTags").length > 0;

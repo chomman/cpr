@@ -4,6 +4,8 @@ import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -15,13 +17,14 @@ import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
-import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import cz.nlfnorm.quasar.enums.DossierReportCategory;
 import cz.nlfnorm.quasar.web.forms.CompanyForm;
+import cz.nlfnorm.utils.NlfStringUtils;
 
 @Entity
 @SequenceGenerator(name = "quasar_log_item_id_seq", sequenceName = "quasar_log_item_id_seq", initialValue = 1, allocationSize =1)
@@ -36,6 +39,8 @@ public class DossierReportItem extends AbstractLogItem
 	private String certificationSufix;
 	private DossierReportCategory category;
 	
+	public DossierReportItem(){}
+	
 	public DossierReportItem(DossierReport report){
 		dossierReport = report;
 	}
@@ -47,7 +52,8 @@ public class DossierReportItem extends AbstractLogItem
 		return super.getId();
 	}
 	
-	@Pattern(regexp = "(14\\s\\d{4}$", message = "{error.dossierReportItem.certificationNo}")
+	@NotEmpty(message = "{error.dossierReportItem.certificationNo.required}")
+	@Pattern(regexp = "^14\\d{4}$", message = "{error.dossierReportItem.certificationNo}")
 	@Column(name = "certification_no", length = 6)	
 	public String getCertificationNo() {
 		return certificationNo;
@@ -57,8 +63,8 @@ public class DossierReportItem extends AbstractLogItem
 		this.certificationNo = certificationNo;
 	}
 	
-	@Pattern(regexp = "^[a-z]{1,2}\\/(NB|nb)$", message = "{error.dossierReportItem.certificationSufix}")
-	@Column(name = "certification_sufix", length = 5)	
+	@Pattern(regexp = "^[a-zA-Z]{1,2}\\/(NB|nb)$", message = "{error.dossierReportItem.certificationSufix}")
+	@Column(name = "certification_sufix", length = 5, nullable = false)	
 	public String getCertificationSufix() {
 		return certificationSufix;
 	}
@@ -69,11 +75,12 @@ public class DossierReportItem extends AbstractLogItem
 	
 	@Transient
 	public String getCerfication(){
-		return certificationNo + " " + certificationSufix;
+		return NlfStringUtils.insertCharatersAt(2, certificationNo, " ") + " " + certificationSufix;
 	}
 
-	@Type(type="cz.nlfnorm.quasar.hibernate.LogStatusUserType")
-	@Column(name = "category_id")
+	@NotNull(message = "{error.dossierReportItem.category}")
+	@Enumerated(value = EnumType.STRING)
+	@Column(name = "category", nullable = false, length = 6)
 	public DossierReportCategory getCategory() {
 		return category;
 	}
@@ -82,7 +89,6 @@ public class DossierReportItem extends AbstractLogItem
 		this.category = category;
 	}
 
-	@NotEmpty
 	@ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "quasar_dossier_report_item_has_nando_code", joinColumns = @JoinColumn(name = "dossier_report_item_id"), inverseJoinColumns = @JoinColumn(name = "nando_code_id"))
 	public Set<NandoCode> getNandoCodes() {
@@ -110,4 +116,18 @@ public class DossierReportItem extends AbstractLogItem
 	public void addEacCode(EacCode eacCode) {
 		throw new UnsupportedOperationException();
 	}
+	
+	@Transient
+	public boolean isDesignDossier(){
+		if(certificationSufix != null && category != null){
+			if( 
+				(certificationSufix.equalsIgnoreCase("cn/nb") && category.equals(DossierReportCategory.III)) ||
+				(certificationSufix.equalsIgnoreCase("cn/nb") && category.equals(DossierReportCategory.LIST_A))
+			){
+				return true;
+			} 
+		}
+		return false;
+	}
+
 }

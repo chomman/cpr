@@ -146,8 +146,9 @@ public class AuditLogController extends LogControllerSupport {
 		}
 		if(setAndCreateCompany(form, auditLogItem)){
 			// Some company with given name was found and used.
-			modelMap.put("companyFound", true);
+			setCompanyFoundAlertMessage(modelMap, form.getCompanyName(), auditLogItem.getCompany().getName());
 		}
+		form.getItem().setCompany(auditLogItem.getCompany());
 		setAndCreateCertificationBody(form, auditLogItem);
 		setEacCodes(form, auditLogItem);
 		setNandoCodes(form, auditLogItem);

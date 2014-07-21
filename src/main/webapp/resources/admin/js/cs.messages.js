@@ -8,6 +8,7 @@ var Messages = {
 	// QUASAR
 	placeholderCodes : 'Write code...',
 	errCodes : 'At least one EAC or NANDO code must be filled',
+	errNandoCodes : 'At least one NANDO code must be filled',
 	errCode : 'Code: <b>{0}</b> is not allowed.',
 	submiting : "Odesílám.."
 	 
