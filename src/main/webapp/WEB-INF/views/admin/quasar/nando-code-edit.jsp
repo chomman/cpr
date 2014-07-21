@@ -118,11 +118,7 @@
                            		<div>
                            			<form:checkbox path="forProductAssesorA" cssClass="bundled"/>
                            		</div>
-                           		<div class="con-wrapp forProductAssesorA">
-                           			<span class="con-filed">
-                           			TRUE, if <strong><spring:message code="auditsInTraining" /></strong> equals or is bigger than: 
-                           				<form:input path="auditsInTrainingTreshold" cssClass="required numeric"/>
-                           			</span>
+                           		<div class="con-wrapp forProductAssesorA">                        			
                            			<span class="con-filed">
                            			TRUE, if <strong><spring:message code="categoryTraining" /></strong> equals or is bigger than: 
                            				<form:input path="assesorATrainingThreashold" cssClass="required numeric"/> hours

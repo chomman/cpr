@@ -29,7 +29,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @SequenceGenerator(name = "quasar_eac_code_id_seq", sequenceName = "quasar_eac_code_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "quasar_eac_code")
-public class EacCode extends AbstractCode {
+public class EacCode extends BaseEntity {
 
 	private static final long serialVersionUID = 1385780507346969333L;
 	

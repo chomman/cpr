@@ -5,6 +5,9 @@
 .qs-border-right .form-head{border-left:1px solid #ddd;}
 
 
+td.in-training .tr{color:#777;font-size:13px;}
+
+td .tt:hover{cursor:help}
 tr.is-first-level,
 tr.is-first-level.odd{background-color:#E8FAFF;}
 .is-first-level td{padding:4px 8px;}

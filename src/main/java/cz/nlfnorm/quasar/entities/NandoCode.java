@@ -40,7 +40,7 @@ import cz.nlfnorm.quasar.views.NandoCodeType;
 @SequenceGenerator(name = "quasar_nando_code_id_seq", sequenceName = "quasar_nando_code_id_seq", initialValue = 1, allocationSize =1)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "quasar_nando_code")
-public class NandoCode extends AbstractCode implements NandoCodeType{
+public class NandoCode extends BaseEntity implements NandoCodeType{
 	
 	private static final long serialVersionUID = 1388976314109073881L;
 	

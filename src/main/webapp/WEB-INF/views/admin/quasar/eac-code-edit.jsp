@@ -111,16 +111,11 @@
                        	</label>
                            <span class="field">
                            	<form:input path="threshold" maxlength="3" cssClass="w50 c numeric required" />
+                           	<span class="mini-info inline">
+                           		<spring:message code="auditsInTraining" />
+                           	</span>
                            </span>
-                       </p> 
-                        <p class="forQsAuditor">
-                      		<label>
-                      		TRUE, if <strong><spring:message code="auditsInTraining" /></strong> equals or is bigger than: 	
-                      		</label>
-                           <span class="field">
-                           	<form:input path="auditsInTrainingTreshold" maxlength="3" cssClass="w50 c numeric required" />
-                           </span>
-                       </p>                         
+                       </p>            
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

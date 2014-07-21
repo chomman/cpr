@@ -150,8 +150,14 @@
 							</td>
 						</tr>
 						<tr>
-							<td class="k"><spring:message code="qsAuditor.total" />:</td>
-							<td class="v">${i.totalNumberOfAudits}</td>
+							<td class="k"><spring:message code="qsAuditor.total" />
+								<spring:message code="inTraining" />:</td>
+							<td class="v in-training">
+									<span class="total">${i.totalNumberOfAudits}</span>
+								<c:if test="${i.totalNumberOfAudits > 0}">
+									<span title="No. of audits in training" class="tt tr">(${i.eacCode.threshold})</span>
+								</c:if>
+							</td>
 						</tr>
 						
 						
