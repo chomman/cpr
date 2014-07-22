@@ -459,8 +459,7 @@
 				</strong>
 				</label>
 				<div class="field">
-					<form:input path="noTfReviewsForSterileMd"
-						cssClass="w50 c required numeric" maxlength="4" />
+					<span class="like-input">${model.sterileNandoCode.numberOfTfReviews}</span>
 				</div>
 			</div>
 		</div>
@@ -494,8 +493,7 @@
 				</strong>
 				</label>
 				<div class="field">
-					<form:input path="noDdReviewsForSterileMd"
-						cssClass="w50 c required numeric" maxlength="4" />
+					<span class="like-input">${model.sterileNandoCode.numberOfDdReviews}</span>
 				</div>
 			</div>
 		</div>
@@ -517,7 +515,7 @@
 				</label>
 				<div class="field">
 					<form:input path="auditDaysInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
-					<span>Value counted form approved Audit Logs: <strong>${model.auditDaysIntRecentyear}</strong></span>
+					<span>Value, which is calculated from approved Audit logs: <strong class="like-input">${model.auditDaysIntRecentyear}</strong></span>
 				</div>
 			</div>
 		</div>

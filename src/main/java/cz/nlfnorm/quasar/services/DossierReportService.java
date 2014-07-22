@@ -5,8 +5,10 @@ import java.util.Map;
 import org.joda.time.LocalDate;
 
 import cz.nlfnorm.dto.PageDto;
+import cz.nlfnorm.quasar.dto.DossierReportCodeSumDto;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.DossierReport;
+import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.enums.LogStatus;
 
 public interface DossierReportService extends PageableLogService<DossierReport> {
@@ -32,4 +34,6 @@ public interface DossierReportService extends PageableLogService<DossierReport> 
 	void setApprovedStatus(DossierReport dossierReport, String withComment);
 	
 	LocalDate getEarliestPossibleDateForLog(Auditor auditor);
+	
+	Map<NandoCode, DossierReportCodeSumDto> getTotalsFor(DossierReport dossierReport);
 }

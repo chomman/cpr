@@ -2,7 +2,8 @@ $(function() {
 	initDatepicker();
 	onChooseExistingCompany();
 	onChooseExistingCertificationBodies();
-
+	onSelectSufixOrCategory();
+	
 	var eacCodeList = [], 
 		nandoCodeList = [], 
 		$companySelect = $('#companySelect'), 
@@ -48,6 +49,7 @@ $(function() {
 	$(document).on('click', '.qs-change-status-btn', onChangeStatus);
 	$(document).on('click', '#change-status a', onCancelChangeStatus);
 	$(document).on('click', '#change-status input[type=submit]', onChangeStatusSubmit);
+	$(document).on('change', '.bind-change', onSelectSufixOrCategory);
 	
 	function onChangeStatusSubmit(){
 		$(this).val($.getMessage("submiting"));
@@ -103,7 +105,6 @@ $(function() {
 	$(document).on('submit', 'form.dossierReport', function() {
 		saveCodes();
 		$('#certificationNo').val($('#certificationNo').val().replace(' ',''));
-		log('subbmitting..');
 		if (!validate($(this)) ) {
 			showStatus({err : 1, msg: $.getMessage("errForm")});
 			return false;
@@ -112,6 +113,7 @@ $(function() {
 		}else if(!validateOrderNo()){
 			return false;
 		}
+		changeSelectState(false);
 	});
 	
 	function initEacCodes(){
@@ -187,8 +189,18 @@ $(function() {
 			});
 		}
 	}
-
+	setTimeout(initSelects, 1000);
 });
+
+function onSelectSufixOrCategory(){
+	var $els = $('.nando-code-wrapp');
+	if($('#category').val() !== '' &&
+		$('#certificationSufix').val() !== ''){
+		$els.show(200);
+	}else{
+		$els.hide(100);
+	}
+}
 
 function validateOrderNo(){
 	if($('#orderNo.required').length > 0){
@@ -213,8 +225,18 @@ function initTags(sel, list, isEac){
 	$(sel).tagit({
 		allowSpaces : true,
 		placeholderText : $.getMessage("placeholderCodes"),
-		beforeTagAdded : function(event, ui) {
-			return listContains(list, ui.tagLabel);
+		beforeTagAdded : function(e, ui) {
+			e.stopImmediatePropagation();
+			var isOk = listContains(list, ui.tagLabel);
+			if(isOk && isDossierReport()){
+				changeSelectState(true);
+			}
+			return isOk;
+		},
+		afterTagRemoved : function(e, ui){
+			if(isDossierReport() && !areTagSet('#nandoCodes')){
+				changeSelectState(false);
+			}
 		},
 		autocomplete : {
 			source : function(req, res) {
@@ -245,7 +267,7 @@ function areTagsValid() {
 	if (!areTagSet('#eacCodes') && !areTagSet('#nandoCodes')) {
 		showStatus({
 			err : 1,
-			msg : $.getMessage("errCodes")
+			msg : $.getMessage(isAuditLog() ? "errCodes" : "errNandoCodes")
 		});
 		return false;
 	}
@@ -269,6 +291,7 @@ function areTagSet(selector){
 
 
 function listContains(list, code) {
+	filter(list);
 	for ( var i in list) {
 		if (list[i].value === code) {
 			return true;
@@ -276,7 +299,7 @@ function listContains(list, code) {
 	}
 	showStatus({
 		err : 1,
-		msg : $.getMessage("errCodes", code)
+		msg : $.getMessage("errCode", code)
 	});
 	return false;
 }
@@ -284,6 +307,9 @@ function listContains(list, code) {
 function searchInList(term, list, isEacCodeReq) {
 	if (isEacCodeReq && /^\d+$/.test(term)) {
 		term = "EAC " + term;
+	}
+	if(!isEacCodeReq){
+		list = filter(list);
 	}
 	var rList = [];
 	for ( var i in list) {
@@ -296,6 +322,18 @@ function searchInList(term, list, isEacCodeReq) {
 	}
 	return rList;
 }
+
+function filter(list){
+	if(isDossierReport()){
+		var isDD = isDesignDossier();
+		list = $.grep(list, function(code, i){
+			return 	isDD && code.forProductSpecialist ||
+				   !isDD && code.forProductAssesorR;
+		});
+	}
+	return list;
+}
+
 function toArray(json, isEacCode) {
 	var list = [];
 	for ( var i in json) {
@@ -305,6 +343,9 @@ function toArray(json, isEacCode) {
 			};
 		if( json[i].hasOwnProperty("forProductSpecialist")){
 			o.forProductSpecialist =  json[i].forProductSpecialist;
+		}
+		if( json[i].hasOwnProperty("forProductAssesorR")){
+			o.forProductAssesorR =  json[i].forProductAssesorR;
 		}
 		list.push(o);
 	}
@@ -340,7 +381,6 @@ function onCreateNew(postfix) {
 }
 
 function refreshOrderNoField() {
-	log('Refreshing order no ..');
 	var $field = $('.order-no'),
 		$select = $('#certificationBody');
 	if($select.length === 0) return false;
@@ -412,8 +452,27 @@ function log(msg){
 	}
 }
 
+function changeSelectState(disabled){
+	log('changing to: ' + disabled);
+	$('.bind-change').prop("disabled", disabled).trigger("chosen:updated");
+}
+
+
+function isDesignDossier(){
+	var categ  = $('#category').val(),
+		suffix = $('#certificationSufix').val();
+	return (suffix === 'CN/NB' && 
+			(categ === 'III' || categ === 'LIST_A'));
+}
+
+function initSelects(){
+	if(isDossierReport()){
+		changeSelectState(areTagSet('#nandoCodes'));
+	}
+}
+
 function getLogType(){
-	 return $('body[data-type]').attr('data-type');
+	 return $('#wrapper').attr('data-type');
 }
 
 function isAuditLog(){

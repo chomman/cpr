@@ -4,22 +4,22 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="auditLog.edit" arguments="${model.log.auditor.name}" /></title>
+	<title>${model.log.auditor.name}'s <spring:message code="dossierReport" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.tagit.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/tagit.ui-zendesk.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" /> 
 	<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/quasar/js/scripts.quasar.auditLog.js" />"></script>
 </head>
-<body data-type="dossier-report">
-<div id="wrapper">
+<body>
+<div id="wrapper" data-type="dossier-report">
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
 		 <a:adminurl href="/quasar/dossier-reports"><spring:message code="dossierReports" /></a:adminurl>  &raquo;
-		 <span><spring:message code="auditLog.edit" arguments="${model.log.auditor.name}" /></span>
+		 <span><strong>${model.log.auditor.name}'s</strong> <spring:message code="dossierReport" /></span>
 	</div>
 	<h1 class="qs-log-status-${model.log.status.id}">
-		<spring:message code="dossierReport.edit" arguments="${model.log.auditor.name}" />: 
+		<strong>${model.log.auditor.name}'s</strong> <spring:message code="dossierReport" />: 
 		<strong><joda:format value="${model.log.created}" pattern="dd.MM.yyyy"/></strong> 
 		<c:if test="${model.log.revision > 1}">
 		(<spring:message code="auditLog.auditLog.revision" /> ${model.log.revision})
@@ -100,7 +100,7 @@
 									<span class="tt" title="<spring:message code="designDossier" />">DD</span>
 								</c:if>
 								<c:if test="${not i.designDossier}">
-									<span class="tt" title="<spring:message code="technicalFile" />">TT</span>
+									<span class="tt" title="<spring:message code="technicalFile" />">TF</span>
 								</c:if>
 							</td>
 							<td class="c w40">${i.category.name}</td>
@@ -157,7 +157,7 @@
 				</label>
 				<div class="field">
 					<form:input path="item.certificationNo" id="certificationNo" maxlength="7" cssClass="qs-cert-no numeric required w100 c" placeholder="Cert. number" />
-					<select class="chosenMini required" name="item.certificationSufix">
+					<select class="chosenMini required bind-change" name="item.certificationSufix" id="certificationSufix">
 						<option value="">Choose</option>
 						<c:forEach items="${model.suffixies}" var="i">
 							<option value="${i.name}" ${i.name eq command.item.certificationSufix ? 'selected="selected"' : ''}>
@@ -185,7 +185,7 @@
 					</strong>
 				</label>
 				<div class="field">
-					<select class="chosenSmall required" name="item.category">
+					<select class="chosenSmall required bind-change" name="item.category" id="category">
 						<option value=""><spring:message code="form.select" /></option>
 						<c:forEach items="${model.categories}" var="i">
 							<option value="${i}" ${i eq command.item.category ? 'selected="selected"' : ''}>
@@ -232,8 +232,8 @@
 				</div>
 			</div>
 			
-			<p class="form-head mini">NANDO Codes</p>
-			<div class="input-wrapp smaller pj-type">
+			<p class="form-head mini nando-code-wrapp">NANDO Codes</p>
+			<div class="input-wrapp smaller pj-type nando-code-wrapp">
 				<label>
 					<spring:message code="auditLog.item.nandoCodes" />:
 					<small>Press ENTER to insert code</small>
@@ -245,7 +245,7 @@
 			<form:hidden path="nandoCodes" id="hNandoCodes"/>
 			<form:hidden path="item.id" />
 			<form:hidden path="logId" />
-			<p class="button-box">
+			<p class="button-box nando-code-wrapp ">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />
 			<a:adminurl href="/quasar/dossier-report/${model.log.id}" cssClass="cancel qs-btn">
 				<spring:message code="cancel" />

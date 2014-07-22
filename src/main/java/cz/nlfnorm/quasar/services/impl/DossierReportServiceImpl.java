@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.services.impl;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
@@ -12,9 +13,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.dao.DossierReportDao;
+import cz.nlfnorm.quasar.dto.DossierReportCodeSumDto;
 import cz.nlfnorm.quasar.entities.AuditLogItem;
 import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.DossierReport;
+import cz.nlfnorm.quasar.entities.DossierReportItem;
+import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.services.AuditorService;
@@ -205,4 +209,45 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 		return  documentationLogDao.getEarliestPossibleDateForLog(auditor.getId());
 	}
 	
+	
+	/**
+	 * Calculate sums of Design Dossiers (DD) and Technical Files (TF) for NANDO codes, which are contained in given 
+	 * Dossier report. Result is saved into Map, which keys contains NANDO code and value contains 
+	 * {@link DossierReportCodeSumDto} (number of DDs and TFs).
+	 * 
+	 * @param dossierReport - report, which should be calculated
+	 * @return Map<NandoCode, DossierReportCodeSumDto> - sums
+	 * @throws IllegalArgumentException - If given report is NULL
+	 * @see {@link DossierReportCodeSumDto}
+	 */
+	@Override
+	public Map<NandoCode, DossierReportCodeSumDto> getTotalsFor(final DossierReport dossierReport){
+		Validate.notNull(dossierReport);
+		final Map<NandoCode, DossierReportCodeSumDto> nandoCodes = new HashMap<>();
+		for(final DossierReportItem item: dossierReport.getItems()){
+			incrementNandoCodes(nandoCodes, item);
+		}
+		return nandoCodes;
+	}
+	
+	private void incrementNandoCodes(final Map<NandoCode, DossierReportCodeSumDto> nandoCodes, final DossierReportItem item){
+		for(final NandoCode code : item.getNandoCodes()){
+			if(nandoCodes.containsKey(code)){
+				final DossierReportCodeSumDto totals = nandoCodes.get(code);
+				incrementValues(item, totals);
+			}else{
+				DossierReportCodeSumDto totals = new DossierReportCodeSumDto();
+				incrementValues(item, totals);
+				nandoCodes.put(code, totals);
+			}
+		}
+	}
+	
+	private void incrementValues(final DossierReportItem item, final DossierReportCodeSumDto totals){
+		if(item.isDesignDossier()){
+			totals.incrementDdReviews();
+		}else{
+			totals.incrementTfReviews();
+		}
+	}
 }

@@ -102,13 +102,11 @@ public class Auditor extends User {
 	/* Product Assessor-R */
 	private int tfTrainingInHours;
 	private int totalTfReviews;
-	private int noTfReviewsForSterileMd;
 	
 	/* Product Specialist */
 	private int ddTrainingInHours;
 	private int totalDdReviews;
-	private int noDdReviewsForSterileMd;
-	
+
 	private String otherEmails;
 	private boolean recentActivitiesApprovedForQsAuditor;
 	private boolean recentActivitiesApprovedForProductAssessorA;
@@ -420,26 +418,6 @@ public class Auditor extends User {
 		this.specialTrainings = specialTrainings;
 	}
 	
-	@Min( value = 0 )
-	@Column(name = "no_tf_reviews_for_sterile_md")
-	public int getNoTfReviewsForSterileMd() {
-		return noTfReviewsForSterileMd;
-	}
-
-	public void setNoTfReviewsForSterileMd(int noTfReviewsForSterileMd) {
-		this.noTfReviewsForSterileMd = noTfReviewsForSterileMd;
-	}
-	
-	@Min( value = 0 )
-	@Column(name = "no_dd_reviews_for_sterile_md")
-	public int getNoDdReviewsForSterileMd() {
-		return noDdReviewsForSterileMd;
-	}
-
-	public void setNoDdReviewsForSterileMd(int noDdReviewsForSterileMd) {
-		this.noDdReviewsForSterileMd = noDdReviewsForSterileMd;
-	}
-	
 	
 	@Length(max = 100, message = "{error.auditor.otherEmails}" )	
 	@Column(length = 100, name = "other_emails")
@@ -618,8 +596,6 @@ public class Auditor extends User {
 		this.totalTfReviews = form.getTotalTfReviews();		
 		this.ddTrainingInHours = form.getDdTrainingInHours();
 		this.totalDdReviews = form.getTotalDdReviews();
-		this.noTfReviewsForSterileMd = form.getNoTfReviewsForSterileMd();
-		this.noDdReviewsForSterileMd = form.getNoDdReviewsForSterileMd();
 		this.otherEmails = form.getOtherEmails();
 		this.rating = form.getRating();
 	}

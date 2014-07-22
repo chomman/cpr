@@ -109,7 +109,5 @@ $(function(){
 		 $wrapp.removeClass('hidden');
 		 $(this).remove();
 	 }
-	 
-	 
 	
 });

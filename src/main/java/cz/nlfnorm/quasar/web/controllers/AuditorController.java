@@ -37,6 +37,7 @@ import cz.nlfnorm.quasar.entities.AuditorNandoCode;
 import cz.nlfnorm.quasar.entities.EducationLevel;
 import cz.nlfnorm.quasar.entities.Experience;
 import cz.nlfnorm.quasar.entities.FieldOfEducation;
+import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.enums.AuditorOrder;
@@ -460,6 +461,7 @@ public class AuditorController extends QuasarSupportController {
 		model.put("auditDaysIntRecentyear", auditorService.getCountOfAuditDaysInRecentYear(auditor.getId()));
 		model.put("educationsLevels", educationLevelService.getAll());
 		model.put("fieldsOfEducationActiveMd", fieldOfEducationService.getForActiveMedicalDevices());
+		model.put("sterileNandoCode", auditorNandoCodeService.getByNandoCode(NandoCode.STERILE, auditor.getId()));
 		model.put("fieldsOfEducationNonActiveMd", fieldOfEducationService.getForNonActiveMedicalDevices());
 		model.put("unassignedExperiences", experienceService.getAllExcept(auditor));
 		map.addAttribute(COMMAND, form);

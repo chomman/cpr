@@ -42,6 +42,8 @@ import cz.nlfnorm.quasar.views.NandoCodeType;
 @Table(name = "quasar_nando_code")
 public class NandoCode extends BaseEntity implements NandoCodeType{
 	
+	public static final String STERILE = "MDS 7006";
+	
 	private static final long serialVersionUID = 1388976314109073881L;
 	
 	private String specification;
@@ -74,7 +76,6 @@ public class NandoCode extends BaseEntity implements NandoCodeType{
 	private Integer assesorAIso13485Threashold = 3;
 	
 	
-	@JsonIgnore
 	private boolean forProductAssesorR;
 	/**
 	 * Condition for auditor type: Product Assesor-R
@@ -95,7 +96,7 @@ public class NandoCode extends BaseEntity implements NandoCodeType{
 	@JsonIgnore
 	private Integer assesorRTFReviewsThreasholdForTraining = 3;
 	
-	@JsonIgnore
+	
 	private boolean forProductSpecialist;
 	/**
 	 * Condition for auditor type: Product Assesor-R
@@ -313,6 +314,7 @@ public class NandoCode extends BaseEntity implements NandoCodeType{
 	 * @return TRUE, if is active MD
 	 */
 	@Override
+	@JsonIgnore
 	@Transient
 	public boolean isActiveMd(){
 		return (getCode() != null && getCode().startsWith("MD 1"));
@@ -325,20 +327,31 @@ public class NandoCode extends BaseEntity implements NandoCodeType{
 	 * @return TRUE, if is NON-Active MD
 	 */
 	@Override
+	@JsonIgnore
 	@Transient
 	public boolean isNonActiveMd(){
 		return (getCode() != null && getCode().startsWith("MD 0"));
 	}
 	
 	@Override
+	@JsonIgnore
 	@Transient
 	public boolean isIvd(){
 		return (getCode() != null && (getCode().startsWith("IVD") || getCode().startsWith("MDS 72")));
 	}
 
 	@Override
+	@JsonIgnore
 	@Transient
 	public boolean isHorizontal() {
 		return (getCode() != null && getCode().startsWith("MDS 70"));
 	}
+	
+	@JsonIgnore
+	@Transient
+	public boolean isSterile(){
+		return (getCode() != null && getCode().equalsIgnoreCase(STERILE));
+	}
+	
+	
 }
