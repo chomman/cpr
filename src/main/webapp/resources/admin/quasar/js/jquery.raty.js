@@ -171,7 +171,6 @@
         var
           execute = true,
           score   = (that.opt.half || that.opt.precision) ? that.self.data('score') : (this.alt || $(this).data('alt'));
-
         if (that.opt.click) {
           execute = that.opt.click.call(that, +score, evt);
         }
@@ -190,7 +189,7 @@
       var that = this;
 
       that.cancel.on('click.raty', function(evt) {
-        that.score.removeAttr('value');
+        that.score.attr('value', 0);
 
         if (that.opt.click) {
           that.opt.click.call(that, null, evt);
@@ -586,11 +585,9 @@
     cancel: function(click) {
       return this.each(function() {
         var self = $(this);
-
         if (self.data('readonly') !== true) {
           methods[click ? 'click' : 'score'].call(self, null);
-
-          this.score.removeAttr('value');
+          this.score.attr('value', 0);
         }
       });
     },
@@ -599,13 +596,11 @@
       return this.each(function() {
         if ($(this).data('readonly') !== true) {
           score = methods._adjustedScore.call(this, score);
-
           methods._apply.call(this, score);
 
           if (this.opt.click) {
             this.opt.click.call(this, score, $.Event('click'));
           }
-
           methods._target.call(this, score);
         }
       });
@@ -723,35 +718,35 @@
   $.fn.raty.defaults = {
     cancel       : false,
     cancelClass  : 'raty-cancel',
-    cancelHint   : 'Cancel this rating!',
+    cancelHint   : 'Unacceptable',
     cancelOff    : 'cancel-off.png',
     cancelOn     : 'cancel-on.png',
     cancelPlace  : 'left',
     click        : undefined,
-    half         : false,
+    half         : true,
     halfShow     : true,
-    hints        : ['bad', 'poor', 'regular', 'good', 'gorgeous'],
+    hints        : ['Poor', 'Weak', 'Average', 'Good', 'Excellent'],
     iconRange    : undefined,
     mouseout     : undefined,
     mouseover    : undefined,
-    noRatedMsg   : 'Not rated yet!',
+    noRatedMsg   : 'Unacceptable',
     number       : 5,
     numberMax    : 20,
     path         : undefined,
     precision    : false,
     readOnly     : false,
     round        : { down: 0.25, full: 0.6, up: 0.76 },
-    score        : undefined,
-    scoreName    : 'score',
+    score        : 0,
+    scoreName    : 'rating',
     single       : false,
     space        : true,
     starHalf     : 'star-half.png',
     starOff      : 'star-off.png',
     starOn       : 'star-on.png',
-    starType     : 'img',
+    starType     : 'i',
     target       : undefined,
     targetFormat : '{score}',
-    targetKeep   : false,
+    targetKeep   : true,
     targetScore  : undefined,
     targetText   : '',
     targetType   : 'hint'
