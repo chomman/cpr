@@ -1,10 +1,10 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<c:set  var="isQuasarAdmin" value="${common.user.quasarAdmin}"/>
+<c:set  var="isQuasarAdmin" value="${common.user.quasarAdmin}" scope="request"/>
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="auditLog.edit" arguments="${model.log.auditor.name}" /></title>
+	<title>${model.log.auditor.name}'s <spring:message code="auditLog.auditLog"/></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/jquery.tagit.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/tagit.ui-zendesk.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" /> 
@@ -13,13 +13,19 @@
 </head>
 <body>
 <div id="wrapper"  data-type="audit-log">
+	<c:if test="${isQuasarAdmin}">
+		<div id="left">
+			<jsp:include page="../../include/quasar-nav.jsp" />
+		</div>	
+		<div id="right">
+	</c:if>
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
 		 <a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
-		 <span><spring:message code="auditLog.edit" arguments="${model.log.auditor.name}" /></span>
+		 <span>${model.log.auditor.name}'s <spring:message code="auditLog.auditLog"/></span>
 	</div>
 	<h1 class="qs-log-status-${model.log.status.id}">
-		<spring:message code="auditLog.edit" arguments="${model.log.auditor.name}" />: 
+		${model.log.auditor.name}'s <spring:message code="auditLog.auditLog"/>: 
 		<strong><joda:format value="${model.log.created}" pattern="dd.MM.yyyy"/></strong> 
 		<c:if test="${model.log.revision > 1}">
 		(<spring:message code="auditLog.auditLog.revision" /> ${model.log.revision})
@@ -317,6 +323,10 @@
 			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</c:if>
 	</div>	
+	<c:if test="${isQuasarAdmin}">
+			</div>
+			<div class="clear"></div>	
+	</c:if>
 </div>
 <div id="minDate" class="hidden"><c:if test="${not empty model.dateThreshold}"><joda:format value="${model.dateThreshold}" pattern="dd.MM.yyyy"/></c:if></div>
 <div id="loader" class="loader"></div>

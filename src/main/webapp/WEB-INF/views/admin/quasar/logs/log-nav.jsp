@@ -1,6 +1,5 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-
 <!-- NAVIGATION  -->
 <c:if test="${model.log.editable or isQuasarAdmin and model.log.status != 'APPROVED'}">
 <div class="qs-log-nav">

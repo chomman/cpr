@@ -7,8 +7,10 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.MessageSource;
 import org.springframework.security.access.AccessDeniedException;
 
+import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.entities.EmailTemplate;
 import cz.nlfnorm.mail.HtmlMailMessage;
 import cz.nlfnorm.mail.NlfnormMailSender;
@@ -16,11 +18,13 @@ import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.AbstractLog;
 import cz.nlfnorm.quasar.entities.AuditLog;
 import cz.nlfnorm.quasar.entities.Comment;
+import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.QuasarSettingsService;
 import cz.nlfnorm.quasar.web.controllers.AuditLogController;
+import cz.nlfnorm.quasar.web.controllers.DossierReportController;
 import cz.nlfnorm.services.EmailTemplateService;
 import cz.nlfnorm.utils.EmailUtils;
 import cz.nlfnorm.utils.ParseUtils;
@@ -44,6 +48,8 @@ public abstract class LogServiceImpl{
 	protected QuasarSettingsService quasarSettingsService;
 	@Autowired
 	protected NlfnormMailSender nlfnormMailSender;
+	@Autowired
+	protected MessageSource messageSource;
 	
 	
 	/**
@@ -157,7 +163,9 @@ public abstract class LogServiceImpl{
 
 	private String determineLogType(final AbstractLog log){
 		if(log instanceof AuditLog){
-			return "Audit log";
+			return messageSource.getMessage("auditLog.auditLog", null, ContextHolder.getLocale());
+		}else if(log instanceof DossierReport){
+			return messageSource.getMessage("dossierReport", null, ContextHolder.getLocale());
 		}
 		throw new IllegalArgumentException("Unknown log instance");
 		
@@ -166,6 +174,8 @@ public abstract class LogServiceImpl{
 	private String determineLogUrl(final AbstractLog log){
 		if(log instanceof AuditLog){
 			return host + AuditLogController.EDIT_MAPPING_URL.replace("{id}", log.getId()+"") ;
+		}else if(log instanceof DossierReport){
+			return host + DossierReportController.EDIT_MAPPING_URL.replace("{id}", log.getId()+"") ;
 		}
 		throw new IllegalArgumentException("Unknown log instance");
 		

@@ -1,6 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-<c:set  var="isQuasarAdmin" value="${common.user.quasarAdmin}"/>
+<c:set var="isQuasarAdmin" value="${common.user.quasarAdmin}" scope="request" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,6 +13,12 @@
 </head>
 <body>
 <div id="wrapper" data-type="dossier-report">
+		<c:if test="${isQuasarAdmin}">
+			<div id="left">
+				<jsp:include page="../../include/quasar-nav.jsp" />
+			</div>	
+			<div id="right">
+		</c:if>
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
 		 <a:adminurl href="/quasar/dossier-reports"><spring:message code="dossierReports" /></a:adminurl>  &raquo;
@@ -255,6 +261,10 @@
 			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</c:if>
 	</div>	
+	<c:if test="${isQuasarAdmin}">
+			</div>
+			<div class="clear"></div>	
+	</c:if>
 </div>
 <div id="minDate" class="hidden"><c:if test="${not empty model.dateThreshold}"><joda:format value="${model.dateThreshold}" pattern="dd.MM.yyyy"/></c:if></div>
 <div id="loader" class="loader"></div>

@@ -37,5 +37,7 @@ void create(AuditorNandoCode AuditorNandoCode);
 	
 	List<AuditorNandoCode> getForProductSpecialist(Auditor auditor);
 	
-	void incrementAuditorNandoCodeTotals(Long nandoCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits);
+	void incrementProductAssesorATotals(Long nandoCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits);
+	
+	void incrementProductAssessorRAndProductSpecialistTotals(Long nandoCodeId, Long auditorId, int plusTfReviews,int plusDdReviews);
 }

@@ -324,7 +324,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	
 	private void updateProductAssessorAQualification(final Auditor auditor, final AuditLogTotalsDto totals){
 		for(Map.Entry<NandoCode, AuditLogCodeSumDto> entry : totals.getNandoCodes().entrySet()){
-			auditorNandoCodeService.incrementAuditorNandoCodeTotals(
+			auditorNandoCodeService.incrementProductAssesorATotals(
 					entry.getKey().getId(), 
 					auditor.getId(),
 					entry.getValue().getNumberOfNbAudits(), 

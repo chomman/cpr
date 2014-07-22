@@ -21,6 +21,7 @@ import cz.nlfnorm.quasar.entities.DossierReportItem;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.enums.LogStatus;
+import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.DossierReportService;
 import cz.nlfnorm.utils.UserUtils;
@@ -40,6 +41,8 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 	private DossierReportDao documentationLogDao;
 	@Autowired
 	private AuditorService auditorService;
+	@Autowired
+	private AuditorNandoCodeService auditorNandoCodeService;
 	
 	@Override
 	public void create(final DossierReport log) {
@@ -185,8 +188,8 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 	 */
 	@Override
 	public void setApprovedStatus(DossierReport log, String withComment) {
-		super.setApprovedStatus(log, withComment);
-		// TODO Qualification update
+		super.setApprovedStatus(log, withComment);	
+		updateQualification(log);
 		updateAndSetChanged(log);
 	}
 
@@ -209,6 +212,41 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 		return  documentationLogDao.getEarliestPossibleDateForLog(auditor.getId());
 	}
 	
+	
+	
+	/**
+	 * Calculate NANDO codes occurrences and depends on Dossier report item type. If is type of Design Dossier (DD),
+	 * increment count of DD for appropriate code. If is type of Technical File, increment TF. Result is saved in Map, 
+	 * which key of Map si {@link NandoCode}, value of Map is {@link DossierReportCodeSumDto}.
+	 * After calculation updates auditor total TF reviews and DD reviews. 
+	 * 
+	 * @param dossierReport - report
+	 * @throws IllegalArgumentException - If given report is NULL, or report's status is NOT APPROVED
+	 * @see {@link DossierReportCodeSumDto}
+	 * @see {@link LogStatus}
+	 */
+	@Override
+	public void updateQualification(final DossierReport dossierReport){
+		Validate.notNull(dossierReport);
+		Validate.notNull(dossierReport.getAuditor());
+		if(dossierReport.getStatus() == null || !dossierReport.getStatus().equals(LogStatus.APPROVED)){
+			throw new IllegalArgumentException("Dossier report status is not Approved, " + dossierReport);
+		}
+		final Auditor auditor = dossierReport.getAuditor();
+		final Map<NandoCode, DossierReportCodeSumDto> totals = getTotalsFor(dossierReport);
+		for(Map.Entry<NandoCode, DossierReportCodeSumDto> entry : totals.entrySet()){
+			auditor.incrementTfReviews( entry.getValue().getTfReviews());
+			auditor.incrementDdReviews( entry.getValue().getDdReviews());
+			auditorNandoCodeService.incrementProductAssessorRAndProductSpecialistTotals(
+					entry.getKey().getId(), 
+					auditor.getId(),
+					entry.getValue().getTfReviews(), 
+					entry.getValue().getDdReviews()
+				);
+		}
+		auditorService.createOrUpdate(auditor);
+	}
+
 	
 	/**
 	 * Calculate sums of Design Dossiers (DD) and Technical Files (TF) for NANDO codes, which are contained in given 

@@ -77,7 +77,7 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 	
 	
 	@Override
-	public void incrementAuditorNandoCodeTotals(final Long nandoCodeId, final Long auditorId, final int plusNbAudits, final int plusIso13485Audits) {
+	public void incrementProductAssessorATotals(final Long nandoCodeId, final Long auditorId, final int plusNbAudits, final int plusIso13485Audits) {
 		StringBuilder hql = new StringBuilder("update AuditorNandoCode code set ")
 		.append(" 	code.numberOfNbAudits = code.numberOfNbAudits + :plusNbAudits, ")
 		.append(" 	code.numberOfIso13485Audits = code.numberOfIso13485Audits + :plusIso13485Audits, ")
@@ -88,6 +88,27 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 			.setLong("nandoCodeId", nandoCodeId)
 			.setInteger("plusNbAudits", plusNbAudits)
 			.setInteger("plusIso13485Audits", plusIso13485Audits)
+			.setTimestamp("changed", new LocalDateTime().toDate())
+			.executeUpdate();
+	}
+	
+	@Override
+	public void incrementProductAssessorRAndProductSpecialistTotals(
+			final Long nandoCodeId, 
+			final Long auditorId, 
+			final int plusTfReviews, 
+			final int plusDdReviews) {
+		
+		StringBuilder hql = new StringBuilder("update AuditorNandoCode code set ")
+		.append(" 	code.numberOfTfReviews = code.numberOfTfReviews + :plusTfReviews, ")
+		.append(" 	code.numberOfDdReviews = code.numberOfDdReviews + :plusDdReviews, ")
+		.append("   code.changed = :changed ")
+		.append(" where code.auditor.id = :auditorId and code.nandoCode.id = :nandoCodeId ");
+		createQuery(hql)
+			.setLong("auditorId", auditorId)
+			.setLong("nandoCodeId", nandoCodeId)
+			.setInteger("plusTfReviews", plusTfReviews)
+			.setInteger("plusDdReviews", plusDdReviews)
 			.setTimestamp("changed", new LocalDateTime().toDate())
 			.executeUpdate();
 	}

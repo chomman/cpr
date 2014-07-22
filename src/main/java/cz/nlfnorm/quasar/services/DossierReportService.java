@@ -36,4 +36,6 @@ public interface DossierReportService extends PageableLogService<DossierReport> 
 	LocalDate getEarliestPossibleDateForLog(Auditor auditor);
 	
 	Map<NandoCode, DossierReportCodeSumDto> getTotalsFor(DossierReport dossierReport);
+	
+	void updateQualification(DossierReport dossierReport);
 }
