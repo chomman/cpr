@@ -35,13 +35,50 @@ $$ LANGUAGE plpgsql;
 
 
 
-
-
-CREATE OR REPLACE FUNCTION recent_acitivities(aid bigint) RETURNS boolean AS $$
+CREATE OR REPLACE FUNCTION recent_acitivities(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
+DECLARE
+	auditdays_valid boolean DEFAULT false;
+	training_valid boolean DEFAULT false;
 BEGIN
-	RETURN TRUE;
+	IF auditor.audit_days_in_recent_year >= settings.min_audit_days_in_recent_year THEN
+		auditdays_valid := true;
+	END IF;
+	IF auditor.training_hours_in_recent_year >= settings.min_training_hours_in_recent_year THEN
+		training_valid := true;
+	END IF; 
+
+	IF NOT auditdays_valid THEN
+		SELECT audit_days(auditor, settings) >= settings.min_audit_days_in_recent_year INTO auditdays_valid; 
+	END IF;
+
+	RETURN auditdays_valid AND training_valid;
 END;
 $$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION audit_days(auditor quasar_auditor, settings quasar_settings) RETURNS int AS $$
+DECLARE
+	audit_days int;
+BEGIN
+	IF settings.use_365_days_interval THEN 
+		SELECT COALESCE(sum(item.days), 0) INTO audit_days 
+		FROM quasar_audit_log_has_item item
+			INNER JOIN quasar_audit_log l on item.audit_log_id = l.id
+			-- log status with ID 4 equals APPROVED
+		WHERE l.auditor_id = auditor.id AND l.status = 4 AND item.audit_date >= CURRENT_DATE - interval '365 days';
+	ELSE
+		SELECT COALESCE(sum(item.days), 0) INTO audit_days 
+		FROM quasar_audit_log_has_item item
+			INNER JOIN quasar_audit_log l on item.audit_log_id = l.id
+		WHERE l.auditor_id = auditor.id AND l.status = 4 AND item.audit_date >= concat( date_part('year', CURRENT_DATE - interval '365 days'), '-01-01' )::DATE;
+	END IF;
+	return audit_days;
+END;
+$$ LANGUAGE plpgsql;
+
+
+
+
 
 
 -- RETURNS TRUE, IF ARE General requirements COMPLIANT
@@ -78,7 +115,7 @@ CREATE VIEW quasar_qs_auditor AS SELECT
 	a.is_in_training,  
 	formal_legal_requirements(a) AS formal_legal_requirements,
 	experience(a.id, '1') AS general_requirements,
-	a.ra_approved_for_qs_auditor or recent_acitivities(a.id) as recent_acitivities,
+	a.ra_approved_for_qs_auditor or recent_acitivities(a, s) as recent_acitivities,
 	(
 	    a.nb1023_procedures_hours >= s.qs_auditor_nb1023_procedures and
 	    -- md training
@@ -127,7 +164,7 @@ CREATE VIEW quasar_product_assessor_a AS SELECT
 	-- Auditing requirements (Any MD)
 	a.total_of_audits >= s.product_assessor_a_no_audits as min_audits,
 	-- RECENT ACTIVITIES
-	a.ra_approved_for_product_assessor_a or recent_acitivities(a.id) as recent_acitivities
+	a.ra_approved_for_product_assessor_a or recent_acitivities(a, s) as recent_acitivities
 FROM quasar_auditor a
 	INNER JOIN  quasar_auditor_has_specialities as ahs on ahs.auditor_id=a.id
 	CROSS JOIN

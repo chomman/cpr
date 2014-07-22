@@ -35,4 +35,6 @@ public interface AuditorDao extends BaseDao<Auditor, Long>{
 	PageDto getAuditorPage(int pageNumber, Map<String, Object> criteria);
 	
 	List<Auditor> getAuditors(Map<String, Object> criteria);
+	
+	Integer getCountOfAuditDaysInRecentYear(Long auditorId);
 }

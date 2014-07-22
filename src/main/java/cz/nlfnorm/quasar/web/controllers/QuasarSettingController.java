@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.validation.Valid;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -48,6 +49,9 @@ public class QuasarSettingController extends QuasarSupportController {
 	private void prepareModel(ModelMap map, final QuasarSettings form){
 		Map<String, Object> model = new HashMap<>();
 		appendTabNo(model, TAB);
+		model.put("yearAgo", new LocalDate().minusDays(365));
+		model.put("wholeLastYear", new LocalDate().minusYears(1));
+		model.put("today", new LocalDate());
 		map.addAttribute("quasarSettings", form);
 		appendModel(map, model);
 	}

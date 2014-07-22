@@ -236,7 +236,6 @@
 		</div>
 	</div>
 </c:forEach>
-
 <div class="hbox"><h2><spring:message code="qsAuditor.scope" /></h2></div>
 <textarea class="qs-code-scope">${scope}</textarea>
 		

@@ -233,4 +233,19 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 		prepareHqlQueryParams(query, criteria);
 		return query.list();
 	}
+	
+	
+	@Override
+	public Integer getCountOfAuditDaysInRecentYear(final Long auditorId){
+		final String sql = "SELECT audit_days(a, s) as audit_days " + 
+						   "FROM quasar_auditor a " + 
+						   "CROSS JOIN  quasar_settings s " + 
+						   "where a.id = :auditorId";
+		return ((Integer)getSessionFactory().getCurrentSession()
+				.createSQLQuery(sql)
+				.setLong("auditorId", auditorId)
+				.setMaxResults(1)
+				.setReadOnly(true)
+				.uniqueResult()).intValue();
+	}
 }

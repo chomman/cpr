@@ -47,6 +47,7 @@ import cz.nlfnorm.quasar.services.EducationLevelService;
 import cz.nlfnorm.quasar.services.ExperienceService;
 import cz.nlfnorm.quasar.services.FieldOfEducationService;
 import cz.nlfnorm.quasar.services.PartnerService;
+import cz.nlfnorm.quasar.services.QuasarSettingsService;
 import cz.nlfnorm.quasar.views.ProductAssessorA;
 import cz.nlfnorm.quasar.views.ProductAssessorR;
 import cz.nlfnorm.quasar.views.ProductSpecialist;
@@ -112,6 +113,8 @@ public class AuditorController extends QuasarSupportController {
 	private LocalDateEditor localDateEditor;
 	@Autowired
 	private AuditorNandoCodeService auditorNandoCodeService;
+	@Autowired
+	private QuasarSettingsService quasarSettingsService;
 	
 	public AuditorController(){
 		setTableItemsView("auditor-list");
@@ -453,6 +456,8 @@ public class AuditorController extends QuasarSupportController {
 		model.put("auditor", auditor);
 		model.put("countries", countryService.getAllCountries());
 		model.put("partners", partnerService.getAll());
+		model.put("settings", quasarSettingsService.getSettings());
+		model.put("auditDaysIntRecentyear", auditorService.getCountOfAuditDaysInRecentYear(auditor.getId()));
 		model.put("educationsLevels", educationLevelService.getAll());
 		model.put("fieldsOfEducationActiveMd", fieldOfEducationService.getForActiveMedicalDevices());
 		model.put("fieldsOfEducationNonActiveMd", fieldOfEducationService.getForNonActiveMedicalDevices());

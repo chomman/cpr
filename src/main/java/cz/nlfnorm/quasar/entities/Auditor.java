@@ -129,8 +129,8 @@ public class Auditor extends User {
 	private Set<AuditorNandoCode> auditorsNandoCodes;
 	private Set<SpecialTraining> specialTrainings;
 	
-	private int auditsInLastRecentYear;
-	private int auditDaysInLastRecetYear;
+	private int auditDaysInRecentYear;
+	private int trainingHoursInRecentYear;
 	
 	public Auditor(){
 		this.education = new HashMap<>();
@@ -499,24 +499,23 @@ public class Auditor extends User {
 		this.rating = rating;
 	}
 	
-	@Min(value = 0)
-	@Column(name = "audits_in_last_recent_year")
-	public int getAuditsInLastRecentYear() {
-		return auditsInLastRecentYear;
+	@Min(value = 0) 
+	@Column(name = "audit_days_in_recent_year")
+	public int getAuditDaysInRecentYear() {
+		return auditDaysInRecentYear;
 	}
 
-	public void setAuditsInLastRecentYear(int auditsInLastRecentYear) {
-		this.auditsInLastRecentYear = auditsInLastRecentYear;
+	public void setAuditDaysInRecentYear(int auditDaysInRecentYear) {
+		this.auditDaysInRecentYear = auditDaysInRecentYear;
+	}
+	@Min(value = 0) 
+	@Column(name = "training_hours_in_recent_year")
+	public int getTrainingHoursInRecentYear() {
+		return trainingHoursInRecentYear;
 	}
 
-	@Min(value = 0)
-	@Column(name = "audit_days_in_last_recent_year")
-	public int getAuditDaysInLastRecetYear() {
-		return auditDaysInLastRecetYear;
-	}
-
-	public void setAuditDaysInLastRecetYear(int auditDaysInLastRecetYear) {
-		this.auditDaysInLastRecetYear = auditDaysInLastRecetYear;
+	public void setTrainingHoursInRecentYear(int trainingHoursInRecentYear) {
+		this.trainingHoursInRecentYear = trainingHoursInRecentYear;
 	}
 
 	@Transient
@@ -603,6 +602,8 @@ public class Auditor extends User {
 		setCvDelivered(form.isCvDelivered());
 		setEducation(form.getEducation());
 		setInTraining(form.isInTraining());
+		setAuditDaysInRecentYear(form.getAuditDaysInRecentYear());
+		setTrainingHoursInRecentYear(form.getTrainingHoursInRecentYear());
 		this.aprovedForIso9001 = form.isAprovedForIso9001();
 		this.aprovedForIso13485 = form.isAprovedForIso13485();
 		this.setTrainingIso9001InHours(form.getTrainingIso9001InHours());

@@ -500,6 +500,37 @@
 			</div>
 		</div>
 		<div class="clear"></div>
+		<p class="form-head mini">
+			<spring:message code="auditor.qsAuditor" /> &amp; 
+			<spring:message code="auditor.productAssessorA" /> -  
+			<spring:message code="auditor.function.activities" />	
+		</p>
+		
+		<div class="${model.settings.minAuditDaysInRecentYear > command.auditDaysInRecentYear or 
+			 		  model.settings.minAuditDaysInRecentYear > model.auditDaysIntRecentyear
+			  ? 'qs-valid' : 'qs-invalid'}" >
+			<div class="input-wrapp smaller">
+				<label> 
+						<strong> <em class="red">*</em> 
+						<spring:message code="auditor.auditDaysInRecentYear" /> (static value):
+						</strong>
+				</label>
+				<div class="field">
+					<form:input path="auditDaysInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
+					<span>Value counted form approved Audit Logs: <strong>${model.auditDaysIntRecentyear}</strong></span>
+				</div>
+			</div>
+		</div>
+		<div class="input-wrapp smaller">
+			<label> 
+					<strong> <em class="red">*</em> 
+					<spring:message code="auditor.trainingHoursInRecentYear" /> (static value):
+					</strong>
+			</label>
+			<div class="field">
+				<form:input path="trainingHoursInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
+			</div>
+		</div>
 	</div>
 	<form:hidden path="id" />
 	<p class="button-box">

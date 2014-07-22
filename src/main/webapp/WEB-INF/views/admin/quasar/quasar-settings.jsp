@@ -220,7 +220,35 @@
 							<form:input path="productSpecialistDdTotal" maxlength="3" cssClass="w40 c required numeric" />
 							<spring:message code="hours" />
 						</span>
+					</p>
+					<p class="form-head">
+						<spring:message code="auditor.function.activities" />
+						(<spring:message code="auditor.qsAuditor" /> &amp; 
+						 <spring:message code="auditor.productAssessorA" />)
 					</p>            
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minAuditDaysInRecentYear" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minAuditDaysInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minTrainingHoursInRecentYear" />:
+								
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minTrainingHoursInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+						</span>
+					</p>
+					
 					<p class="form-head">Other settings</p>
 					<p>
 						<label>
@@ -232,7 +260,32 @@
 						<span class="field">
 							<form:input path="notificationEmail" maxlength="50" cssClass="mw300 required email" />
 						</span>
-					</p>    
+					</p>  
+					
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								The recent activities interval settings:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:select path="use365DaysInterval">
+								<option ${quasarSettings.use365DaysInterval ? 'selected="selected"' : '' }  
+								value="true">Use current date - 365 days interval (
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.yearAgo}" pattern="dd.MM.yyyy" />
+								)</option>
+								<option ${not quasarSettings.use365DaysInterval ? 'selected="selected"' : '' } 
+								value="false">User whole last year include current (
+									<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+									1.1.<joda:format value="${model.wholeLastYear}" pattern="yyyy" />
+								)</option>
+							</form:select>
+						</span>
+					</p>  
+					
+					
+					  
                     <form:hidden path="id" />
                        <p class="button-box">
                        	 <input type="submit" class="button" value="<spring:message code="form.save" />" />

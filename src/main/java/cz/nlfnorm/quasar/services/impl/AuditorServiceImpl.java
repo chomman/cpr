@@ -413,6 +413,12 @@ public class AuditorServiceImpl implements AuditorService{
 		}
 		return eAuditorList;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Integer getCountOfAuditDaysInRecentYear(Long auditorId) {
+		return auditorDao.getCountOfAuditDaysInRecentYear(auditorId);
+	}
 	
 
 	

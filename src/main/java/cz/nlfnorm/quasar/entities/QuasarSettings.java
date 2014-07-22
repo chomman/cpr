@@ -49,7 +49,24 @@ public class QuasarSettings implements Serializable{
 	private int productSpecialistDdTrainingReview;
 	private int productSpecialistDdTotal;
 	
+	/* Recent activities */
+	private int minAuditDaysInRecentYear;
+	private int minTrainingHoursInRecentYear;
+	
 	private String notificationEmail;
+	
+	/**
+	 * Setting for recent activities query.Consider that today's date is 22.07.2014.
+	 * If the the value is TRUE SQL clause will be following: 
+	 * <code>WHERE log.auditDate >= 22.07.2013</code>
+	 * 
+	 * If the the value is FALSE SQL clause will be following: 
+	 * <code>WHERE log.auditDate >= 01.01.2013</code>
+	 * resp. date to 01.01.yyyy, where yyyy is current year - 1
+	 * 
+	 * @see {@link AbstractLog} - auditDate property
+	 */
+	private boolean use365DaysInterval;
 	
 	@Id
 	public Long getId() {
@@ -220,5 +237,34 @@ public class QuasarSettings implements Serializable{
 	public void setNotificationEmail(String notificationEmail) {
 		this.notificationEmail = notificationEmail;
 	}
+	
+	@Min(value = 0)
+	@Column(name = "min_audit_days_in_recent_year")
+	public int getMinAuditDaysInRecentYear() {
+		return minAuditDaysInRecentYear;
+	}
+	public void setMinAuditDaysInRecentYear(int minAuditsInRecentYear) {
+		this.minAuditDaysInRecentYear = minAuditsInRecentYear;
+	}
+	
+	@Min(value = 0)
+	@Column(name = "min_training_hours_in_recent_year")
+	public int getMinTrainingHoursInRecentYear() {
+		return minTrainingHoursInRecentYear;
+	}
+	public void setMinTrainingHoursInRecentYear(int minTrainingHoursInRecentYear) {
+		this.minTrainingHoursInRecentYear = minTrainingHoursInRecentYear;
+	}
+	
+	@Column(name = "use_365_days_interval")
+	public boolean isUse365DaysInterval() {
+		return use365DaysInterval;
+	}
+	public void setUse365DaysInterval(boolean use365DaysInterval) {
+		this.use365DaysInterval = use365DaysInterval;
+	}
+	
+	
+	
 	
 }
