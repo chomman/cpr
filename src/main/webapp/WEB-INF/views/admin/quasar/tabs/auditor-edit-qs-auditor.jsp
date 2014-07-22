@@ -107,13 +107,13 @@
 					<div class="reason-detail ${empty i.reasonOfRefusal ? 'qs-field' : ''}">
 						<span class="val h">
 							<c:if test="${not empty i.reasonOfRefusal}">
-								<h5>Reason details</h5>
+								<h5><spring:message code="reasonDetails" /></h5>
 								<span>${i.reasonOfRefusal}</span>
 							</c:if>
 						</span>
 						<div class="qs-field">
 							<h5>Reason details (max. 255 chars.)</h5>
-							<textarea name="reasonOfRefusal" rows="5" cols="5" placeholder="Describe reason...">${i.reasonOfRefusal}</textarea>
+							<textarea name="reasonOfRefusal" rows="5" cols="5" placeholder="Write details...">${i.reasonOfRefusal}</textarea>
 						</div>
 					</div>
 					<div class="qs-code">

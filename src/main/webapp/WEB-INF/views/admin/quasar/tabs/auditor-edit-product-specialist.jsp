@@ -240,13 +240,13 @@
 					<div class="reason-detail ${empty i.auditorNandoCode.productSpecialistReasonDetails ? 'qs-field' : ''}">
 						<span class="val h">
 							<c:if test="${not empty i.auditorNandoCode.productSpecialistReasonDetails}">
-								<h5>Reason details</h5>
+								<h5><spring:message code="reasonDetails" /></h5>
 								<span>${i.auditorNandoCode.productSpecialistReasonDetails}</span>
 							</c:if>
 						</span>
 						<div class="qs-field">
 							<h5>Reason details (max. 255 chars.)</h5>
-							<textarea name="productSpecialistReasonDetails" rows="5" cols="5" placeholder="Describe reason...">${i.auditorNandoCode.productSpecialistReasonDetails}</textarea>
+							<textarea name="productSpecialistReasonDetails" rows="5" cols="5" placeholder="Write details...">${i.auditorNandoCode.productSpecialistReasonDetails}</textarea>
 						</div>
 					</div>
 					<div class="qs-code">
