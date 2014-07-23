@@ -58,21 +58,17 @@ $$ LANGUAGE plpgsql;
 
 CREATE OR REPLACE FUNCTION audit_days(auditor quasar_auditor, settings quasar_settings) RETURNS int AS $$
 DECLARE
-	audit_days int;
+	threashold DATE;
 BEGIN
 	IF settings.use_365_days_interval THEN 
-		SELECT COALESCE(sum(item.days), 0) INTO audit_days 
-		FROM quasar_audit_log_has_item item
-			INNER JOIN quasar_audit_log l on item.audit_log_id = l.id
-			-- log status with ID 4 equals APPROVED
-		WHERE l.auditor_id = auditor.id AND l.status = 4 AND item.audit_date >= CURRENT_DATE - interval '365 days';
+		threashold := CURRENT_DATE - interval '365 days';
 	ELSE
-		SELECT COALESCE(sum(item.days), 0) INTO audit_days 
-		FROM quasar_audit_log_has_item item
-			INNER JOIN quasar_audit_log l on item.audit_log_id = l.id
-		WHERE l.auditor_id = auditor.id AND l.status = 4 AND item.audit_date >= concat( date_part('year', CURRENT_DATE - interval '365 days'), '-01-01' )::DATE;
+		threashold := concat( date_part('year', CURRENT_DATE - interval '365 days'), '-01-01' )::DATE;
 	END IF;
-	return audit_days;
+	RETURN (SELECT COALESCE(sum(item.days), 0) 
+			FROM quasar_audit_log_has_item item
+			INNER JOIN quasar_audit_log l on item.audit_log_id = l.id
+			WHERE l.auditor_id = auditor.id AND l.status = 4 AND item.audit_date >= threashold);
 END;
 $$ LANGUAGE plpgsql;
 

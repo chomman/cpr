@@ -109,6 +109,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 		Validate.notNull(auditor);
 		AuditLog auditLog = new AuditLog(auditor);
 		auditLog.setChangedBy(auditor);
+		auditLog.setCreatedBy(auditor);
 		create(auditLog);
 		return auditLog.getId();
 	}

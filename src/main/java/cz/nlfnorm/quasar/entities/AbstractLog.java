@@ -36,6 +36,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 	private int revision;
 	private LocalDateTime changed;
 	private LocalDateTime created;
+	private User createdBy;
 	private User changedBy;
 	
 	private Set<Comment> comments = new HashSet<>();
@@ -89,6 +90,16 @@ public abstract class AbstractLog extends IdentifiableEntity{
 		this.changedBy = changedBy;
 	}
 	
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_user_created_by")
+	public User getCreatedBy() {
+		return createdBy;
+	}
+
+	public void setCreatedBy(User createdBy) {
+		this.createdBy = createdBy;
+	}
+
 	@Type(type="cz.nlfnorm.quasar.hibernate.LogStatusUserType")
 	@Column(name = "status")
 	public LogStatus getStatus() {

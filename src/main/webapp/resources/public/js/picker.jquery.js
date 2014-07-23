@@ -96,6 +96,7 @@
         	}catch(e){
         		changeType($this[0], "hidden");
         	}
+        	$(document).trigger('selected');
         }
         
         function cancelSelection(){
@@ -113,6 +114,7 @@
         	}catch(e){
         		changeType($this[0], "text");
         	}
+        	$(document).trigger('unselected');
         }
 
         $(document).on("click", '.'+options.cancelBtnClass, cancelSelection );    	

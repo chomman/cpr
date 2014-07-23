@@ -12,8 +12,8 @@ import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.enums.LogStatus;
 
 public interface DossierReportService extends PageableLogService<DossierReport> {
-	
-	void create(DossierReport dossierReport);
+		
+	Long createNew(Long auditorId);
 	
 	void update(DossierReport dossierReport);
 	

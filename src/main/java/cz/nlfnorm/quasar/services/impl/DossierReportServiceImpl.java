@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dto.PageDto;
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.DossierReportDao;
 import cz.nlfnorm.quasar.dto.DossierReportCodeSumDto;
 import cz.nlfnorm.quasar.entities.AuditLogItem;
@@ -44,8 +45,8 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 	@Autowired
 	private AuditorNandoCodeService auditorNandoCodeService;
 	
-	@Override
-	public void create(final DossierReport log) {
+	
+	private void create(final DossierReport log) {
 		documentationLogDao.save(log);
 	}
 
@@ -75,7 +76,7 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 	}
 	
 	/**
-	 * Create new documentation log to logged user, who invoked request.
+	 * Create new Dossier report to logged user (who invoked request).
 	 * 
 	 * @see {@link Auditor}
 	 * 
@@ -84,10 +85,26 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 	 */
 	@Override
 	public Long createNewToLoginedUser() {
-		final Auditor auditor = auditorService.getById(UserUtils.getLoggedUser().getId());
+		return createNew(UserUtils.getLoggedUser().getId());
+	}
+	
+	/**
+	 * Create new Dossier report to worker with given ID.
+	 * 
+	 * @return generated ID of created documentation log 
+	 * @throws IllegalArgumentException if logged user is not Auditor user
+	 */
+	@Override
+	public Long createNew(final Long auditorId) {
+		final Auditor auditor = auditorService.getById(auditorId);
 		Validate.notNull(auditor);
+		final User user = UserUtils.getLoggedUser();
+		if(!auditorId.equals(user.getId()) && !user.isQuasarAdmin()){
+			throw new AccessDeniedException(user.toString());
+		}
 		DossierReport log = new DossierReport(auditor);
-		log.setChangedBy(auditor);
+		log.setChangedBy(user);
+		log.setCreatedBy(user);
 		create(log);
 		return log.getId();
 	}

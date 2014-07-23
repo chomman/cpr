@@ -43,6 +43,10 @@
 				</ul>
 				</c:if>
 				
+				<c:if test="${model.isQuasarAdmin}">
+					<jsp:include page="create-dossier-form.jsp" />
+				</c:if>
+				
 				<form class="filter user" method="get">
 				<div>
 					<span class="long filter-label"><spring:message code="logStatus" />:</span>
@@ -116,6 +120,9 @@
 									</c:if>
 									<c:if test="${i.status.locked}">
 										<strong>&nbsp; (<spring:message code="locked" />)</strong>
+									</c:if>
+									<c:if test="${i.auditor.id != i.createdBy.id}">
+										<span class="created-by">Created by: <strong>${i.createdBy.name}</strong></span>
 									</c:if>
 								</td>
 								<c:if test="${model.isQuasarAdmin}">

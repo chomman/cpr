@@ -6,6 +6,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang.StringUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
@@ -36,6 +37,7 @@ import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 @Controller
 public class DossierReportController extends LogControllerSupport {
 	
+	private final static String WORKER_ID_PARAM = "aid";
 	private final static int TAB = 10;
 	private final static String LIST_MAPPING_URL = "/admin/quasar/dossier-reports";
 	public final static String EDIT_MAPPING_URL = "/admin/quasar/dossier-report/{id}";
@@ -73,7 +75,12 @@ public class DossierReportController extends LogControllerSupport {
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
 	public String handleAuditLogEdit(ModelMap modelMap, @PathVariable long id, HttpServletRequest request) throws ItemNotFoundException{
 		if(id == 0){
-			id = dossierReportService.createNewToLoginedUser();
+			String userId = request.getParameter(WORKER_ID_PARAM);
+			if(StringUtils.isBlank(userId)){
+				id = dossierReportService.createNewToLoginedUser();
+			}else{
+				id = dossierReportService.createNew(Long.valueOf(userId));
+			}
 			return successUpdateRedirect(EDIT_MAPPING_URL.replace("{id}", id+""));
 		}
 		if(isDeleted(request)){
