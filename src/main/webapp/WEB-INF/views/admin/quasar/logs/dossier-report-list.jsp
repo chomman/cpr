@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="documentationLogs" /></title>
+	<title><spring:message code="dossierReports" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
 	<script src="<c:url value="/resources/admin/js/scripts.quasar.js" />"></script>
 
@@ -22,9 +22,9 @@
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 				</c:if>
 				 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-				 <span><spring:message code="documentationLogs" /></span>
+				 <span><spring:message code="dossierReports" /></span>
 			</div>
-			<h1><spring:message code="documentationLogs" /></h1>
+			<h1><spring:message code="dossierReports" /></h1>
 	
 			<div id="content">
 				

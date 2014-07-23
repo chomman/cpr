@@ -5,6 +5,7 @@ import java.util.Map;
 
 import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.dto.PageDto;
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorFunctions;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoCode;
 import cz.nlfnorm.quasar.dto.EvaluatedAuditorNandoFunctionDto;
@@ -79,5 +80,6 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	List<EvaluatedAuditorFunctions> getEvaludatedAuditorFunctions(List<Auditor> auditor);
 	
 	Integer getCountOfAuditDaysInRecentYear(final Long auditorId);
-	
+
+	List<Auditor> getAllManagerAuditors(User user);
 }

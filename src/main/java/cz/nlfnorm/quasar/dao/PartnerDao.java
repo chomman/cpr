@@ -17,4 +17,7 @@ import cz.nlfnorm.quasar.entities.Partner;
 public interface PartnerDao  extends BaseDao<Partner, Long>{
 
 	List<Partner> getPartnersByManager(User user);
+	
+	boolean isUserManager(User user);
+	
 }

@@ -5,6 +5,8 @@ import cz.nlfnorm.quasar.enums.LogStatus;
 
 public interface TrainingLogService extends PageableLogService<TrainingLog>{
 	
+	Long createNew();
+	
 	Long createNewToLoginedUser();
 	
 	void update(TrainingLog trainingLog);

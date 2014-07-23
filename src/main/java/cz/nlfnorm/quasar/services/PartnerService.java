@@ -28,4 +28,7 @@ public interface PartnerService extends IdentifiableByLongService<Partner>{
 	
 	List<Partner> getPartnersByManager(User user);
 	
+	boolean isUserPartnerManager(User user);
+	
+	
 }

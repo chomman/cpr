@@ -72,5 +72,15 @@ public class PartnerServiceImpl implements PartnerService{
 	public List<Partner> getPartnersByManager(User user) {
 		return partnerDao.getPartnersByManager(user);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public boolean isUserPartnerManager(User user){
+		return partnerDao.isUserManager(user);
+	}
+
+	
+	
+	
 
 }

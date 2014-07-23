@@ -17,6 +17,7 @@ import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.entities.TrainingLog;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.services.AuditorService;
+import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.quasar.services.TrainingLogService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -28,7 +29,8 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 	private TrainingLogDao trainingLogDao;
 	@Autowired
 	private AuditorService auditorService;
-	
+	@Autowired
+	private PartnerService partnerService;
 
 	/**
 	 * Create new Training log and assign currently logged user (who invoked request).
@@ -45,6 +47,16 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 		Validate.notNull(auditor);
 		TrainingLog log = new TrainingLog();
 		log.addAuditor(auditor);
+		log.setChangedBy(user);
+		log.setCreatedBy(user);
+		trainingLogDao.save(log);
+		return log.getId();
+	}
+	
+	@Override
+	public Long createNew() {
+		final User user = UserUtils.getLoggedUser();
+		TrainingLog log = new TrainingLog();
 		log.setChangedBy(user);
 		log.setCreatedBy(user);
 		trainingLogDao.save(log);
@@ -138,4 +150,5 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 		return trainingLogDao.getByID(id);
 	}
 
+	
 }

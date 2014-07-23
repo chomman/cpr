@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.web.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,11 +12,16 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.entities.User;
+import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.Partner;
+import cz.nlfnorm.quasar.entities.TrainingLog;
+import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.TrainingLogService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -46,6 +52,45 @@ public class TrainingLogController extends LogControllerSupport{
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
 		return getTableItemsView();
+	}
+	
+	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
+	public String handleAuditLogEdit(ModelMap modelMap, @PathVariable long id, HttpServletRequest request) throws ItemNotFoundException{
+		if(id == 0){
+			id = createNewTrainingLog();
+			return successUpdateRedirect(EDIT_MAPPING_URL.replace("{id}", id+""));
+		}
+		if(isSucceded(request)){
+			appendSuccessCreateParam(modelMap);
+		}
+		final TrainingLog log = trainingLogService.getById(id);
+		prepareModelFor(log, modelMap);
+		return getEditFormView();
+	}
+	
+	private void prepareModelFor(final TrainingLog log, ModelMap modelMap) throws ItemNotFoundException{
+		final Map<String, Object> model = new HashMap<>();
+		final boolean isEditable =  isEditable(log);
+		model.put("log", log);
+		model.put("statusType", ChangeLogStatusController.ACTION_TRAINING_LOG);
+		if(isEditable){
+			// TODO load auditors
+			// 
+		}
+		model.put("isEditable", isEditable);
+		modelMap.put(COMMAND, log);
+		appendModel(modelMap, model);
+	}
+	
+	private boolean isEditable(final TrainingLog log){
+		return log.isEditable() && log.getChangedBy().equals(UserUtils.getLoggedUser());
+	}
+	
+	private Long createNewTrainingLog(){
+		if(AccessUtils.isLoggedUserPartnerManager()){
+			return trainingLogService.createNew();
+		}
+		return trainingLogService.createNewToLoginedUser();
 	}
 	
 	@Override

@@ -419,6 +419,17 @@ public class AuditorServiceImpl implements AuditorService{
 	public Integer getCountOfAuditDaysInRecentYear(Long auditorId) {
 		return auditorDao.getCountOfAuditDaysInRecentYear(auditorId);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Auditor> getAllManagerAuditors(final User user) {
+		Validate.notNull(user);
+		if(user.isQuasarAdmin()){
+			return getAll();
+		}
+		// TODO select users auditos
+		return null;
+	}
 	
 
 	

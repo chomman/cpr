@@ -20,7 +20,7 @@ public class TrainingLogDaoImpl extends AbstractLogDaoImpl<TrainingLog> implemen
 
 	@Override
 	protected String getAuditorJoinClouse() {
-		return " al join al.auditors auditor left join auditor.partner partner ";
+		return " al left join al.auditors auditor left join auditor.partner partner ";
 	}
 	
 	protected String prepareHqlForQuery(final Map<String, Object> criteria){

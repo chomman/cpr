@@ -16,12 +16,17 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 
 import org.apache.commons.lang.Validate;
+import org.hibernate.annotations.Type;
+import org.joda.time.LocalDate;
 
 @Entity
 @Table(name = "quasar_training_log")
 public class TrainingLog extends AbstractLog {
 	
 	private static final long serialVersionUID = 7779228785089436679L;
+	
+	private LocalDate date;
+	private String subject;
 	
 	private Set<Auditor> auditors;
 	private int iso9001;
@@ -38,6 +43,22 @@ public class TrainingLog extends AbstractLog {
 		categorySpecificTrainings = new HashSet<>();
 	}
 	
+	@Column(name = "training_date")
+	@Type(type="org.jadira.usertype.dateandtime.joda.PersistentLocalDate")
+	public LocalDate getDate() {
+		return date;
+	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+
+	@Column(length = 200)
+	public String getSubject() {
+		return subject;
+	}
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
 	@ManyToMany
     @JoinTable(name = "quasar_training_log_has_auditors", joinColumns = @JoinColumn(name = "training_log_id"), inverseJoinColumns = @JoinColumn(name = "auditor_id") )
 	public Set<Auditor> getAuditors() {

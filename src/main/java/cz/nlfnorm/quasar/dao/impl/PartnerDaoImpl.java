@@ -32,5 +32,15 @@ public class PartnerDaoImpl extends BaseDaoImpl<Partner, Long> implements Partne
 				.list();
 		
 	}
+
+	@Override
+	public boolean isUserManager(final User user) {
+		final Integer result = ((Integer) 
+				createQuery("select count(*) form Partner p where p.manager.id = :user ")
+				.setLong("user", user.getId())
+				.setMaxResults(1)
+				.uniqueResult());
+		return result > 0;
+	}
 	
 }
