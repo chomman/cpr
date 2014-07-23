@@ -67,4 +67,10 @@ public class PartnerServiceImpl implements PartnerService{
 		}
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public List<Partner> getPartnersByManager(User user) {
+		return partnerDao.getPartnersByManager(user);
+	}
+
 }

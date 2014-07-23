@@ -42,8 +42,8 @@ public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoI
 	
 	@SuppressWarnings("unchecked")
 	public PageDto getPage(Map<String, Object> criteria, final int pageNumber) {
-		StringBuilder hql = new StringBuilder("from "+ persistentClass.getName() +" al join al.auditor auditor");
-		hql.append(" left join auditor.partner partner ");
+		StringBuilder hql = new StringBuilder("from "+ persistentClass.getName());
+		hql.append(getAuditorJoinClouse());
 		hql.append(prepareHqlForQuery(criteria));
 		Query hqlCountQuery = createQuery("select count(*) " + hql.toString());
 		prepareHqlQueryParams(hqlCountQuery, criteria);
@@ -61,33 +61,53 @@ public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoI
 		return items;
 	}
 	
-	private String prepareHqlForQuery(final Map<String, Object> criteria){
+	protected String getAuditorJoinClouse(){
+		return " al join al.auditor auditor left join auditor.partner partner ";
+	}
+	
+	protected String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() > 0){
-			Long auditorId = (Long)criteria.get(AuditorFilter.AUDITOR);
-			if(auditorId != null && auditorId != 0l){
-				where.add(" auditor.id=:"+AuditorFilter.AUDITOR);
-			}
-			Long partnerId = (Long)criteria.get(AuditorFilter.PARNTER);
-			if(partnerId != null && partnerId != 0l){
-				where.add(" partner.id=:"+AuditorFilter.PARNTER);
-			}
-			if((DateTime)criteria.get(AuditorFilter.DATE_FROM) != null){
-				where.add(" al.created >= :"+AuditorFilter.DATE_FROM);
-			}
-			if((DateTime)criteria.get(AuditorFilter.DATE_TO) != null){
-				where.add(" al.created < :"+AuditorFilter.DATE_TO);
-			}
-			Integer status = (Integer)criteria.get(AuditorFilter.STATUS);
-			if(status != null && status != 0){
-				where.add(" al.status = :"+AuditorFilter.STATUS);
-			}
+			prepareAuditor(where, criteria);
+			preparePartner(where, criteria);
+			prepareDateFrom(where, criteria);
+			prepareDateTo(where, criteria);
+			prepareLogStatus(where, criteria);
 		}
 		return where.size() > 0 ? " WHERE " + StringUtils.join(where.toArray(), " AND ") : "";
 
 	}
+	protected void prepareLogStatus(List<String> where, Map<String, Object> criteria) {
+		Integer status = (Integer)criteria.get(AuditorFilter.STATUS);
+		if(status != null && status != 0){
+			where.add(" al.status = :"+AuditorFilter.STATUS);
+		}
+	}
+	protected void prepareDateTo(List<String> where, Map<String, Object> criteria) {
+		if((DateTime)criteria.get(AuditorFilter.DATE_TO) != null){
+			where.add(" al.created < :"+AuditorFilter.DATE_TO);
+		}
+	}
+	protected void prepareDateFrom(List<String> where, Map<String, Object> criteria) {
+		if((DateTime)criteria.get(AuditorFilter.DATE_FROM) != null){
+			where.add(" al.created >= :"+AuditorFilter.DATE_FROM);
+		}
+	}
+	protected void prepareAuditor(List<String> where, Map<String, Object> criteria) {
+		Long auditorId = (Long)criteria.get(AuditorFilter.AUDITOR);
+		if(auditorId != null && auditorId != 0l){
+			where.add(" auditor.id=:"+AuditorFilter.AUDITOR);
+		}
+	}
+	protected void preparePartner(List<String> where, Map<String, Object> criteria) {
+		Long partnerId = (Long)criteria.get(AuditorFilter.PARNTER);
+		if(partnerId != null && partnerId != 0l){
+			where.add(" partner.id=:"+AuditorFilter.PARNTER);
+		}
+	}
 	
-	private void prepareHqlQueryParams(final Query query,final Map<String, Object> criteria){
+	
+	protected void prepareHqlQueryParams(final Query query,final Map<String, Object> criteria){
 		if(criteria.size() != 0){
 			Long auditorId = (Long)criteria.get(AuditorFilter.AUDITOR);
 			if(auditorId != null && auditorId != 0l){

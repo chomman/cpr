@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang.StringUtils;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Controller;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import cz.nlfnorm.exceptions.ItemNotFoundException;
-import cz.nlfnorm.quasar.entities.Company;
 import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.entities.DossierReportItem;
 import cz.nlfnorm.quasar.enums.CertificationSuffix;
@@ -32,7 +30,6 @@ import cz.nlfnorm.quasar.services.DossierReportService;
 import cz.nlfnorm.quasar.web.forms.DossierReportItemForm;
 import cz.nlfnorm.quasar.web.validators.DossierReportItemValidator;
 import cz.nlfnorm.utils.UserUtils;
-import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 
 @Controller
 public class DossierReportController extends LogControllerSupport {
@@ -57,9 +54,9 @@ public class DossierReportController extends LogControllerSupport {
 	}
 	
 	@InitBinder
-    public void initBinder(WebDataBinder binder) {
-		binder.registerCustomEditor(Company.class, new IdentifiableByLongPropertyEditor<Company>( companyService ));
-		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
+	@Override
+	public void initBinder(WebDataBinder binder) {
+		super.initBinder(binder);
 	}
 	
 	

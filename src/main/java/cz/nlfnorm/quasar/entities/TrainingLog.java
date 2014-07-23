@@ -12,7 +12,10 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
+
+import org.apache.commons.lang.Validate;
 
 @Entity
 @Table(name = "quasar_training_log")
@@ -27,6 +30,7 @@ public class TrainingLog extends AbstractLog {
 	private int ivd;
 	private int aimd;
 	private int nb1023Procedures;
+	private String attachment;
 	private Set<CategorySpecificTraining> categorySpecificTrainings;
 	
 	public TrainingLog(){
@@ -34,7 +38,7 @@ public class TrainingLog extends AbstractLog {
 		categorySpecificTrainings = new HashSet<>();
 	}
 	
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany
     @JoinTable(name = "quasar_training_log_has_auditors", joinColumns = @JoinColumn(name = "training_log_id"), inverseJoinColumns = @JoinColumn(name = "auditor_id") )
 	public Set<Auditor> getAuditors() {
 		return auditors;
@@ -97,6 +101,15 @@ public class TrainingLog extends AbstractLog {
 		this.nb1023Procedures = nb1023Procedures;
 	}
 	
+	@Column(length = 32)
+	public String getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(String attachment) {
+		this.attachment = attachment;
+	}
+
 	@OneToMany(mappedBy = "trainingLog", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<CategorySpecificTraining> getCategorySpecificTrainings() {
 		return categorySpecificTrainings;
@@ -105,4 +118,15 @@ public class TrainingLog extends AbstractLog {
 	public void setCategorySpecificTrainings(Set<CategorySpecificTraining> categorySpecificTrainings) {
 		this.categorySpecificTrainings = categorySpecificTrainings;
 	}
+	
+	@Transient
+	public void addAuditor(final Auditor auditor){
+		Validate.notNull(auditor);
+		auditors.add(auditor);
 	}
+	
+	@Transient
+	public int getAuditorsSize(){
+		return  auditors.size();
+	}
+}

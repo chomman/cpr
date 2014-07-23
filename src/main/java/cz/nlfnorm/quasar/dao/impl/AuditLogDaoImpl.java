@@ -20,4 +20,5 @@ public class AuditLogDaoImpl extends AbstractLogDaoImpl<AuditLog> implements Aud
 				.uniqueResult();
 	}
 	
+
 }

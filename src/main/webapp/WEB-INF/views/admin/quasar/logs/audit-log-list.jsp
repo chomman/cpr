@@ -42,52 +42,10 @@
 				</ul>
 				</c:if>
 													
-				<form class="filter user" method="get">
-				<div>
-					<span class="long filter-label"><spring:message code="logStatus" />:</span>
-					<select name="status" class="chosenMini">
-						<c:forEach items="${model.statuses}" var="i">
-							<option value="${i.id}" <c:if test="${i.id == model.params.status}" >selected="selected"</c:if> >
-								<spring:message code="${i.code}" />
-							</option>
-						</c:forEach>
-					</select>
-					<span class="filter-label">Created from:</span>
-					<input type="text" class="date"  name="dateFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
-					<span class="filter-label">to:</span>
-					<input type="text" class="date" name="dateTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
-					
-				</div>
-				<c:if test="${model.isQuasarAdmin}">
-				<div>
-					<span class="long filter-label"><spring:message code="auditor.partner" />:</span>
-					<select name="partner" class="chosenSmall">
-						<option value=""><spring:message code="notmatter" /></option>
-						<c:forEach items="${model.partners}" var="i">
-							<option value="${i.id}" ${model.params.partner eq i.id ? 'selected="selected"' : ''}>${i.name}</option>
-						</c:forEach>
-					</select>
-					<input type="submit" value="Filter" class="btn" />
-				</div>
-				</c:if>
-			</form>		
-						
-							
+				<jsp:include page="log-filter.jsp" />
+				
 				<c:if test="${not empty model.logs}">
-				<!-- STRANKOVANIE -->
-				<c:if test="${not empty model.paginationLinks}" >
-					<div class="pagination">
-					<c:forEach items="${model.paginationLinks}" var="i">
-						<c:if test="${not empty i.url}">
-							<a title="Stánka č. ${i.anchor}"  class="tt"  href="<c:url value="${i.url}"  />">${i.anchor}</a>
-						</c:if>
-						<c:if test="${empty i.url}">
-							<span>${i.anchor}</span>
-						</c:if>
-					</c:forEach>
-					</div>
-				</c:if>
-														
+				<jsp:include page="log-pagination.jsp" />													
 				<table class="data">
 					<thead>
 						<tr>

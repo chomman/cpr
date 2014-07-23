@@ -1,6 +1,9 @@
 package cz.nlfnorm.quasar.dao;
 
+import java.util.List;
+
 import cz.nlfnorm.dao.BaseDao;
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.entities.Partner;
 
 /**
@@ -13,4 +16,5 @@ import cz.nlfnorm.quasar.entities.Partner;
  */
 public interface PartnerDao  extends BaseDao<Partner, Long>{
 
+	List<Partner> getPartnersByManager(User user);
 }

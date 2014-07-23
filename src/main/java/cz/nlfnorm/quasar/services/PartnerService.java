@@ -2,6 +2,7 @@ package cz.nlfnorm.quasar.services;
 
 import java.util.List;
 
+import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.services.IdentifiableByLongService;
 
@@ -24,5 +25,7 @@ public interface PartnerService extends IdentifiableByLongService<Partner>{
 	List<Partner> getAll();
 	
 	void createOrUpdate(Partner partner);
+	
+	List<Partner> getPartnersByManager(User user);
 	
 }

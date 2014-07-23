@@ -45,7 +45,7 @@ public class DossierReport extends AbstractLog {
 	public String toString() {
 		return "DossierReport [getId()=" + getId() + "]";
 	}
-	
+		
 	@Transient
 	public int getCoundOfDesignDossiers(){
 		int count = 0;

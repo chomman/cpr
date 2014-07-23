@@ -57,10 +57,7 @@ public abstract class LogControllerSupport extends QuasarSupportController {
 	public Map<String, Object> handlePageRequest(HttpServletRequest request, PageableLogService service, String url) {
 		Map<String, Object> model = new HashMap<>();
 		Map<String, Object> criteria = RequestUtils.getRequestParameterMap(request);
-		final boolean isQuasarAdmin = UserUtils.getLoggedUser().isQuasarAdmin();
-		if(!isQuasarAdmin){
-			criteria.put(AuditorFilter.AUDITOR, UserUtils.getLoggedUser().getId());
-		}
+		preparePageCriteria(criteria);
 		final int currentPage = RequestUtils.getPageNumber(request);
 		@SuppressWarnings("unchecked")
 		final PageDto page = service.getPage(criteria, currentPage);
@@ -70,7 +67,7 @@ public abstract class LogControllerSupport extends QuasarSupportController {
 		}
 		model.put("statuses", LogStatus.getAll());
 		model.put("params", criteria);
-		model.put("isQuasarAdmin", isQuasarAdmin);
+		model.put("isQuasarAdmin", UserUtils.getLoggedUser().isQuasarAdmin());
 		model.put("partners", partnerService.getAll());
 		return model;
 	}
@@ -79,6 +76,12 @@ public abstract class LogControllerSupport extends QuasarSupportController {
 		binder.registerCustomEditor(Company.class, new IdentifiableByLongPropertyEditor<Company>( companyService ));
 		binder.registerCustomEditor(LocalDate.class, this.localDateEditor);
 	}
+    
+    protected void preparePageCriteria(Map<String, Object> criteria){
+    	if(!UserUtils.getLoggedUser().isQuasarAdmin()){
+			criteria.put(AuditorFilter.AUDITOR, UserUtils.getLoggedUser().getId());
+		}
+    }
     
     protected boolean isLogItemIdSet(HttpServletRequest request){
 		return request.getParameter(ITEM_ID_PARAM_NAME) != null;

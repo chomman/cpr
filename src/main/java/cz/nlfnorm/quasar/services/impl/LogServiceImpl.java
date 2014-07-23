@@ -65,7 +65,7 @@ public abstract class LogServiceImpl{
 	 */
 	public void setPendingStatus(AbstractLog log, String withComment) {
 		Validate.notNull(log);
-		AccessUtils.validateAuthorizationFor(log);
+		checkAuthorization(log);
 		log.setStatus(LogStatus.PENDING);
 		setComment(log, withComment);
 		sendApprovalRequestNotificationEmail(log, withComment);
@@ -86,7 +86,7 @@ public abstract class LogServiceImpl{
 	 */
 	public void setRfusedStatus(AbstractLog log, String withComment) {
 		Validate.notNull(log);
-		AccessUtils.validateAuthorizationFor(log);
+		checkAuthorization(log);
 		log.setStatus(LogStatus.REFUSED);
 		log.newRevision();
 		setComment(log, withComment);
@@ -144,22 +144,27 @@ public abstract class LogServiceImpl{
 			final Map<String, Object> context = prepareContex(log, message);
 			final QuasarSettings settings = quasarSettingsService.getSettings();
 			HtmlMailMessage htmlMessage = new HtmlMailMessage(settings.getNotificationEmail(), emailTemplate,  context);
-			htmlMessage.addRecipientTo(log.getAuditor().getEmail());
-			htmlMessage.addRecipientTo(EmailUtils.sprintEmails(log.getAuditor().getOtherEmails()));
+			htmlMessage.addRecipientTo(log.getCreatedBy().getEmail());
+			if(log.getAuditor() != null){
+				htmlMessage.addRecipientTo(EmailUtils.sprintEmails(log.getAuditor().getOtherEmails()));
+			}
 			nlfnormMailSender.send(htmlMessage);
 		}
 	}
 	
 	private Map<String, Object> prepareContex(final AbstractLog log, final String message){
 		Map<String, Object> context = new HashMap<String, Object>();
-		context.put("auditorName", log.getAuditor().getName());
+		context.put("auditorName",  log.getCreatedBy() != null ? log.getCreatedBy().getName() : "");
 		context.put("logType", determineLogType(log));
 		context.put("logUrl", determineLogUrl(log));
 		context.put("comment", message);
 		context.put("status", log.getStatus());
 		return context;
 	}
-	
+
+	protected void checkAuthorization(AbstractLog log) {
+		AccessUtils.validateAuthorizationFor(log);
+	}
 
 	private String determineLogType(final AbstractLog log){
 		if(log instanceof AuditLog){

@@ -4,10 +4,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title><spring:message code="documentationLogs" /></title>
+	<title><spring:message code="trainingLogs" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
 	<script src="<c:url value="/resources/admin/js/scripts.quasar.js" />"></script>
-
 </head>
 <body>
 	<div id="wrapper">
@@ -22,33 +21,29 @@
 				 <a:adminurl href="/"><spring:message code="menu.home" /></a:adminurl>  &raquo;
 				</c:if>
 				 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-				 <span><spring:message code="documentationLogs" /></span>
+				 <span><spring:message code="trainingLogs" /></span>
 			</div>
-			<h1><spring:message code="documentationLogs" /></h1>
+			<h1><spring:message code="trainingLogs" /></h1>
 	
 			<div id="content">
 				
 				<c:if test="${common.user.auditor}">									
 				<ul class="sub-nav auditor-nav">
 					<li>
-						<a:adminurl href="/quasar/dossier-reports">
+						<a:adminurl href="/quasar/training-logs">
 							<spring:message code="quasar.show" />
 						</a:adminurl>
 					</li>
 					<li>
-						<a:adminurl href="/quasar/dossier-report/0">
+						<a:adminurl href="/quasar/training-log/0">
 							<spring:message code="quasar.add" />
 						</a:adminurl>
 					</li>
 				</ul>
 				</c:if>
-				
-				<c:if test="${model.isQuasarAdmin}">
-					<jsp:include page="create-dossier-form.jsp" />
-				</c:if>
-				
+								
 				<jsp:include page="log-filter.jsp" />
-					
+								
 				<c:if test="${not empty model.logs}">
 				<jsp:include page="log-pagination.jsp" />
 														
@@ -56,10 +51,7 @@
 					<thead>
 						<tr>
 							<th><spring:message code="logStatus" /></th>
-							<th><spring:message code="designDossier" /> date</th>
-							<c:if test="${model.isQuasarAdmin}">
-								<th><spring:message code="auditor.edit" /></th>
-							</c:if>
+							<th><spring:message code="trainingLog" /> date</th>
 							<th>Changed</th>
 							<th>&nbsp;</th> 
 						</tr>
@@ -71,8 +63,8 @@
 									<span class="qs-log-status"><spring:message code="${i.status.code}" /></span>
 								</td>	
 								<td>
-									<a:adminurl href="/quasar/dossier-report/${i.id}">
-											<spring:message code="documentationLog" /> - 
+									<a:adminurl href="/quasar/training-log/${i.id}">
+											<spring:message code="trainingLog" /> - 
 											<strong><joda:format value="${i.created}" pattern="dd.MM.yyyy"/></strong>
 									</a:adminurl>
 									<c:if test="${i.revision > 1}">
@@ -85,20 +77,17 @@
 										<span class="created-by">Created by: <strong>${i.createdBy.name}</strong></span>
 									</c:if>
 								</td>
-								<c:if test="${model.isQuasarAdmin}">
-									<td><quasar:auditor auditor="${i.auditor}" /></td> 
-								</c:if>
 								<td class="last-edit">
 									<joda:format value="${i.changed}" pattern="dd.MM.yyyy HH:mm"/> / ${i.changedBy.name} 
 								</td>
 								<td class="edit">
 									<c:if test="${not i.status.locked}">
-										<a:adminurl href="/quasar/dossier-report/${i.id}">
+										<a:adminurl href="/quasar/training-log/${i.id}">
 											<spring:message code="quasar.edit" />
 										</a:adminurl>
 									</c:if>
 									<c:if test="${i.status.locked}">
-										<a:adminurl href="/quasar/dossier-report/${i.id}">
+										<a:adminurl href="/quasar/training-log/${i.id}">
 											<spring:message code="form.view" />
 										</a:adminurl>
 									</c:if>

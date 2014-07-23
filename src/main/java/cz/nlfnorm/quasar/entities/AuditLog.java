@@ -41,7 +41,6 @@ public class AuditLog extends AbstractLog {
 		this.items = items;
 	}
 	
-
 	@Transient
 	public int getCountOfAudits(){
 		return items.size();
