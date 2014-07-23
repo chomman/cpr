@@ -413,6 +413,15 @@
 			</div>
 			<div class="input-wrapp smaller">
 				<label> <strong><em class="red">*</em> <spring:message
+							code="auditor.aimd" />: </strong>
+				</label>
+				<div class="field">
+					<form:input path="aimd" cssClass="w50 c required numeric"
+						maxlength="4" />
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label> <strong><em class="red">*</em> <spring:message
 							code="auditor.nb1023Procedures" />: </strong>
 				</label>
 				<div class="field">
@@ -420,10 +429,7 @@
 						cssClass="w50 c required numeric" maxlength="4" />
 				</div>
 			</div>
-			<div class="input-wrapp smaller">
-				<label>&nbsp;</label>
-				<div class="field">&nbsp;</div>
-			</div>
+			
 		</div>
 		<div class="clear"></div>
 	</div>

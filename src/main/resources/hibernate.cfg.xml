@@ -68,6 +68,9 @@
 	<mapping class="cz.nlfnorm.quasar.entities.CertificationBody"/>
 	<mapping class="cz.nlfnorm.quasar.entities.DossierReport"/>
 	<mapping class="cz.nlfnorm.quasar.entities.DossierReportItem"/>
+	<mapping class="cz.nlfnorm.quasar.entities.TrainingLog"/>
+ 	<mapping class="cz.nlfnorm.quasar.entities.CategorySpecificTraining"/>
+
 	
 	<!-- QUASAR Views -->
 	<mapping class="cz.nlfnorm.quasar.views.QsAuditor"/>

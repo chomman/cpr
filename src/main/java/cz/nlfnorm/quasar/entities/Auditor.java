@@ -86,6 +86,10 @@ public class Auditor extends User {
 	 */
 	private int ivd;
 	/**
+	 * Training AIMD (hours)
+	 */
+	private int aimd;
+	/**
 	 * Training NB 1023 procedures (hours)
 	 */
 	private int nb1023Procedures;
@@ -331,6 +335,16 @@ public class Auditor extends User {
 		this.ivd = ivd;
 	}
 	
+	@Min( value = 0 )
+	@Column(name = "aimd_hours")	
+	public int getAimd() {
+		return aimd;
+	}
+
+	public void setAimd(int aimd) {
+		this.aimd = aimd;
+	}
+
 	@Min( value = 0 )
 	@Column(name = "nb1023_procedures_hours")
 	public int getNb1023Procedures() {
@@ -598,6 +612,7 @@ public class Auditor extends User {
 		this.iso13485 = form.getIso13485();
 		this.mdd = form.getMdd();
 		this.ivd = form.getIvd();
+		this.setAimd(form.getAimd());
 		this.itcId = form.getItcId();
 		this.nb1023Procedures = form.getNb1023Procedures();
 		this.totalAudits = form.getTotalAudits();
