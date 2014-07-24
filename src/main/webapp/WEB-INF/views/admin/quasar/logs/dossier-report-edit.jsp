@@ -47,20 +47,7 @@
 			</p>
 		</c:if>
 		
-		<c:if test="${not empty model.log.comments}">
-			<a class="qs-show-comments">Show users comments <strong>(${model.log.countOfComments})</strong> </a>
-			<div class="qs-comments hidden">
-					<c:forEach items="${model.log.comments}" var="i">
-						<div>
-							${i.comment}
-							<span class="qs-meta">
-								<joda:format value="${i.created}" pattern="dd.MM.yyyy / HH:mm"/>, 
-								${i.user.name}
-							</span>
-						</div>
-					</c:forEach>
-			</div>
-		</c:if>
+		<jsp:include page="log-comments.jsp" />
 		
 		<div class="qs-bx-wrapp qs-log-items">
 			<p class="form-head"><spring:message code="auditLog.auditLog.items" /></p>

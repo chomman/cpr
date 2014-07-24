@@ -15,6 +15,7 @@ import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.TrainingLogDao;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.entities.TrainingLog;
@@ -156,7 +157,7 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 	
 	
 	/**
-	 * Retrieve non-assigned worker for given audit log. Returned are only workers, for who 
+	 * Retrieve non-assigned worker in given Training log. Returned are only workers, for who 
 	 * has creator of this log rights. So If is given user {@link Partner} manager, 
 	 * returned will be all workers who has this manager under the competence. 
 	 * Is if any user already assigned, will be excluded. If is given User QUASAR admin,
@@ -171,10 +172,49 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 	 * @throw {@link IllegalArgumentException} - If is given training log NULL
 	 */
 	@Override
-	public List<Auditor> getNonAssignedAuditorsForLog(final TrainingLog log) {
+	@Transactional(readOnly = true)
+	public List<Auditor> getUnassignedAuditorsForLog(final TrainingLog log) {
 		Validate.notNull(log);
-		return trainingLogDao.getNonAssignedAuditorsForLog(log.getId(), log.getChangedBy().getId());
+		return trainingLogDao.getAllUnassignedAuditorsToLog(log.getId(), log.getChangedBy().getId());
+	}
+	
+
+	/**
+	 * Retrieve all non-assigned worker in given {@link TrainingLog}. If given log
+	 * does not contains any worker, will be returned all workers.
+	 * 
+	 * @param training log
+	 * @return list of all unassigned worker in given Traning log
+	 * 
+	 * @throw {@link IllegalArgumentException} - If is given training log NULL
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<Auditor> getAllUnassignedAuditorsForLog(final TrainingLog log) {
+		Validate.notNull(log);
+		return trainingLogDao.getAllUnassignedAuditorsToLog(log);
 	}
 
+	
+	/**
+	 * 
+	 * 
+	 */
+	@Override
+	@Transactional(readOnly = true)
+	public List<Auditor> getUnassignedAuditorsFor(final TrainingLog log) {
+		if(UserUtils.getLoggedUser().isQuasarAdmin()){
+			return getAllUnassignedAuditorsForLog(log);
+		}
+		return getAllUnassignedAuditorsForLog(log);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<NandoCode> getAllUnassignedNandoCodesForLog(final TrainingLog log) {
+		return trainingLogDao.getAllUnassignedNandoCodesForLog(log);
+	}
+
+	
 	
 }

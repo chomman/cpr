@@ -20,6 +20,8 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.CategorySpecificTraining;
+import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.TrainingLog;
 import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.AuditorService;
@@ -29,6 +31,8 @@ import cz.nlfnorm.utils.UserUtils;
 @Controller
 public class TrainingLogController extends LogControllerSupport{
 	
+	private final static String ACTION_NANDO_CODE_ADD = "codeAdd";
+	private final static String ACTION_NANDO_CODE_REMOVE = "codeRemove";
 	private final static String ACTION_ASSIGN_WORKER = "assign";
 	private final static String ACTION_UNASSIGN_WORKER = "unassign";
 	
@@ -69,13 +73,12 @@ public class TrainingLogController extends LogControllerSupport{
 			id = createNewTrainingLog();
 			return successUpdateRedirect(EDIT_MAPPING_URL.replace("{id}", id+""));
 		}
-		if(isSucceded(request)){
+		final TrainingLog log = trainingLogService.getById(id);
+		
+		if(isSucceded(request) || processAction(log, action, request)){
 			appendSuccessCreateParam(modelMap);
 		}
-		final TrainingLog log = trainingLogService.getById(id);
-		if(StringUtils.isNotBlank(action)){
-			processAction(log, action,  getItemId(request), modelMap);
-		}
+
 		prepareModelFor(log, modelMap);
 		return getEditFormView();
 	}
@@ -86,11 +89,13 @@ public class TrainingLogController extends LogControllerSupport{
 		model.put("log", log);
 		model.put("statusType", ChangeLogStatusController.ACTION_TRAINING_LOG);
 		if(isEditable){
-			model.put("unassignedAuditors", trainingLogService.getNonAssignedAuditorsForLog(log));
-			// 
-			
+			model.put("unassignedAuditors", trainingLogService.getUnassignedAuditorsFor(log));
+			model.put("unassignedNandoCodes",trainingLogService.getAllUnassignedNandoCodesForLog(log)); 
+			model.put("codeAdd",ACTION_NANDO_CODE_ADD);
+			model.put("codeRemove",ACTION_NANDO_CODE_REMOVE);
 			model.put("assign", ACTION_ASSIGN_WORKER);
 			model.put("unassign", ACTION_UNASSIGN_WORKER);
+			model.put("isManager", AccessUtils.isLoggedUserPartnerManager());
 		}
 		model.put("isEditable", isEditable);
 		modelMap.put(COMMAND, log);
@@ -101,21 +106,55 @@ public class TrainingLogController extends LogControllerSupport{
 		return log.isEditable() && log.getChangedBy().equals(UserUtils.getLoggedUser());
 	}
 	
-	private void processAction(final TrainingLog log, final String action,final  Long id, final ModelMap map){
+	
+	
+	private boolean processAction(final TrainingLog log, final String action,final  HttpServletRequest request){
+		if(StringUtils.isBlank(action)){
+			return false;
+		}
+		final Long id = getItemId(request);
 		if(action.equals(ACTION_UNASSIGN_WORKER)){
-			if(log.removeAuditor(id)){
-				trainingLogService.updateAndSetChanged(log);
-				appendSuccessCreateParam(map);
-			}
+			return removeWorkerFormLog(log, id);
 		}else if(action.equals(ACTION_ASSIGN_WORKER)){
-			final Auditor auditor = auditorService.getById(id);
-			if(auditor != null){
-				log.addAuditor(auditor);
+			return addWorkerToLog(log, id);
+		}else if(action.equals(ACTION_NANDO_CODE_ADD)){
+			return createCategorySpecificTraining(log, id, getHoursParamFormRequest(request));
+		}
+		return false;
+	}
+	
+	
+	
+	private boolean createCategorySpecificTraining(final TrainingLog log, final Long nandoCodeId, int hours){
+		final NandoCode code = nandoCodeService.getById(nandoCodeId);
+		if(code != null && hours > 0){
+			final CategorySpecificTraining cst = new CategorySpecificTraining(log, code, hours);
+			if(log.addCategorySpecificTraining(cst)){
+				// if was successfully added, persists
 				trainingLogService.updateAndSetChanged(log);
-				appendSuccessCreateParam(map);
+				return true;
 			}
 		}
-		
+		// otherwise CST exists with given NANDO code
+		return false;
+	}
+	
+	private boolean addWorkerToLog(final TrainingLog log, final Long userId){
+		final Auditor auditor = auditorService.getById(userId);
+		if(auditor != null){
+			log.addAuditor(auditor);
+			trainingLogService.updateAndSetChanged(log);
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean removeWorkerFormLog(final TrainingLog log, final Long userId){
+		if(log.removeAuditor(userId)){
+			trainingLogService.updateAndSetChanged(log);
+			return true;
+		}
+		return false;
 	}
 	
 	private Long createNewTrainingLog(){
@@ -126,6 +165,11 @@ public class TrainingLogController extends LogControllerSupport{
 	}
 	
 	
+	private int getHoursParamFormRequest(HttpServletRequest request){
+		return Integer.valueOf(request.getParameter("hours"));
+	}
+	
+
 	
 	@Override
 	protected void preparePageCriteria(Map<String, Object> criteria) {

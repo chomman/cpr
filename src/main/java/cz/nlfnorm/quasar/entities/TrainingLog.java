@@ -166,4 +166,34 @@ public class TrainingLog extends AbstractLog {
 	public int getAuditorsSize(){
 		return  auditors.size();
 	}
+	
+	/**
+	 * Add given {@link CategorySpecificTraining} to list of trainings of this object,
+	 * If does not exists Category-specific training with NANDO code, which is assigned
+	 * in given object. 
+	 * 
+	 * @param category-specific training
+	 * @return TRUE, If was successfully added. FALSE If exists any {@link CategorySpecificTraining} Object with NANDO code
+	 * which is assigned in given {@link CategorySpecificTraining} object.
+	 * 
+	 * @see {@link NandoCode}
+	 * @throws IllegalArgumentException if is given object NULL, or NANDO code is not set.
+	 */
+	@Transient
+	public boolean addCategorySpecificTraining(final CategorySpecificTraining cst){
+		Validate.notNull(cst);
+		Validate.notNull(cst.getNandoCode());
+		boolean found = false;
+		for(CategorySpecificTraining perisitedCst : categorySpecificTrainings ){
+			if(perisitedCst.getNandoCode().equals(cst.getNandoCode())){
+				found = true;
+				break;
+			}
+		}
+		if(found){
+			return false;
+		}
+		categorySpecificTrainings.add(cst);
+		return true;
+	}
 }

@@ -268,5 +268,19 @@ strong.qs-log-status{border-radius:5px;padding-right:5px;}
 
 /* TRAINING log */
 .delete.unassign{width: 110px;}
-.inline-field .label{font-size: 14px;color:#333;margin-right:10px;margin-left:-10px;}
+.inline-field .label{font-size: 14px;color:#333;margin-right:10px;}
 .hour{margin-left:5px !important}
+.inline-field{padding:10px;}
+
+#form-wrapp{position:relative;}
+#add-code-form{width:100%;height:62px;display: none;-webkit-box-shadow: 0 0 5px 2px #8C8C8C;box-shadow: 0 0 5px 2px #8C8C8C;margin-top:5px;}
+#add-code-form .inline-form{background:#E8F8FC;}
+
+.cancel.smaller{color:#555;border-radius:8px;float:right;margin:8px;padding:8px;font-size:15px;}
+
+.no-margin{margin: 0;}
+.add-cst{
+ margin:15px;display:inline-block;padding:8px 20px;color:#fff;font-size:13px;border-radius:8px;font-weight:bold;
+ border:2px solid #097C1B;background: #299a0b;
+}
+.add-cst:hover{background:#097C1B;}
