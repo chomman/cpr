@@ -161,7 +161,7 @@
 		
 		<!--ADD CHANGE ITEM  -->
 		<c:if test="${model.log.editable and model.showForm}">
-		<form:form commandName="command" cssClass="auditLog" >
+		<form:form commandName="command" cssClass="auditLog" htmlEscape="true" >
 			<p class="form-head"><spring:message code="auditLog.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
@@ -269,7 +269,7 @@
 				</label>
 				<div class="field">
 					<select class="chosenSmall" name="item.type">
-						<c:forEach items="${model.logItemTypes}" var="i">
+						<c:forEach items="${model.auditLogItemTypes}" var="i">
 							<option value="${i}" ${i eq command.item.type ? 'selected="selected"' : ''}>
 								<spring:message code="${i.code}" />
 							</option>

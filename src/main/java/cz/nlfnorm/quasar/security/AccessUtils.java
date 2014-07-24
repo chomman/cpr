@@ -5,6 +5,7 @@ import org.springframework.security.access.AccessDeniedException;
 
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.entities.AbstractLog;
+import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -41,6 +42,12 @@ public class AccessUtils {
 	}
 	
 	
+	/**
+	 * Return TRUE, If logged user is Manager of some Partner. 
+	 * 
+	 * @see {@link Partner} 
+	 * @return TURE, If is logged user assigned in some Partner as Manager.
+	 */
 	public static boolean isLoggedUserPartnerManager(){
 		return isUserPartnerManager(UserUtils.getLoggedUser());
 	}

@@ -88,7 +88,7 @@ public class TrainingLogDaoImpl extends AbstractLogDaoImpl<TrainingLog> implemen
 	public List<NandoCode> getAllUnassignedNandoCodesForLog(final TrainingLog log){
 		final String hql = 
 					"SELECT code FROM NandoCode code " +
-					"WHERE code.forProductAssesorA=true OR code.forProductAssesorR=true OR code.forProductSpecialist=true " +
+					"WHERE (code.forProductAssesorA=true OR code.forProductAssesorR=true OR code.forProductSpecialist=true) " +
 					"AND code.id NOT IN (SELECT cst.nandoCode.id FROM CategorySpecificTraining cst WHERE cst.trainingLog.id=:id)"; 
 		return createQuery(hql)
 				.setLong("id", log.getId())

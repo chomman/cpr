@@ -228,7 +228,7 @@ strong.qs-log-status{border-radius:5px;padding-right:5px;}
 .qs-totals strong{margin-right:10px;margin-left:5px;color:#000;}
 .cancel.qs-btn{font-size:16px;padding:10px 25px;margin-left:10px;}
 
-.qs-log-nav{padding:2px 10px;background:#fff;border:1px solid #ddd;margin-bottom:15px;}
+.qs-log-nav{padding:2px 10px;background:#fff;border:1px solid #ddd;margin-bottom:15px;position:relative;}
 .qs-log-nav span{font-size:11px;padding:5px;}
 .qs-log-nav a,
 .qs-change-status input{display:inline-block;border-radius:5px;padding:8px 20px;margin:5px ;color:#fff;font-size:13px;font-weight:bold;}
@@ -272,15 +272,14 @@ strong.qs-log-status{border-radius:5px;padding-right:5px;}
 .hour{margin-left:5px !important}
 .inline-field{padding:10px;}
 
-#form-wrapp{position:relative;}
+#form-wrapp .button-box{text-align:right;}
 #add-code-form{width:100%;height:62px;display: none;-webkit-box-shadow: 0 0 5px 2px #8C8C8C;box-shadow: 0 0 5px 2px #8C8C8C;margin-top:5px;}
 #add-code-form .inline-form{background:#E8F8FC;}
 
 .cancel.smaller{color:#555;border-radius:8px;float:right;margin:8px;padding:8px;font-size:15px;}
 
 .no-margin{margin: 0;}
-.add-cst{
- margin:15px;display:inline-block;padding:8px 20px;color:#fff;font-size:13px;border-radius:8px;font-weight:bold;
- border:2px solid #097C1B;background: #299a0b;
-}
+.add-cst{display:block !important;margin:10px auto !important;width:205px;text-align:center;margin:auto;padding:8px 20px;color:#fff;font-size:13px;border-radius:8px;font-weight:bold;border:2px solid #097C1B;background:#299a0b;}
 .add-cst:hover{background:#097C1B;}
+
+.qs-training-log-totals{background:#C9FFFE;padding:5px 10px;border-radius:5px;}

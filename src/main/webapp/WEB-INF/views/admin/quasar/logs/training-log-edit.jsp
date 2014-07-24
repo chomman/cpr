@@ -37,6 +37,9 @@
 		(<spring:message code="trainingLog.revision" /> ${model.log.revision})
 		</c:if>
 		&nbsp; | &nbsp; Status: <strong class="qs-status qs-log-status">${model.log.status}</strong>
+		<c:if test="${model.log.totalHours > 0}">
+		&nbsp; | &nbsp;	<spring:message code="trainingLog.totals" />: <strong class="qs-training-log-totals"> ${model.log.totalHours}</strong>
+		</c:if>
 	</h1>
 
 	<div id="content"> 
@@ -48,12 +51,55 @@
 			<p class="msg ok"><spring:message code="success.delete" /></p>
 		</c:if>
 			
-		<jsp:include page="log-comments.jsp" />
+		<c:if test="${model.isEditable or isQuasarAdmin and model.log.status != 'APPROVED'}">
+		<div class="qs-log-nav">
+			<span>
+				<strong><spring:message code="options" />:</strong>
+			</span>
+				<c:if test="${model.isEditable}">
+					<c:if test="${model.log.totalHours > 0}">
+					<a href="#change-status" class="qs-btn qs-change-status-btn qs-submit-for-approval"  data-cls="qs-submit-for-approval" 
+						data-status="PENDING" data-note="<spring:message code="log.penging.note" />">
+						<spring:message code="log.penging" /> &raquo;
+					</a>
+					</c:if>
+				</c:if>
+				<c:if test="${not model.isEditable and isQuasarAdmin}">
+					<a href="#change-status" class="qs-btn qs-change-status-btn qs-approve" data-cls="qs-approve" 
+					data-status="APPROVED" data-note="<spring:message code="log.approve.note" />">
+						<spring:message code="log.approve" /> 
+					</a>
+					<a href="#change-status" class="qs-btn qs-change-status-btn qs-reject" data-cls="qs-reject" 
+					data-status="REFUSED" data-note="<spring:message code="log.refuse.note" arguments="${model.log.auditor.name}" />">
+						<spring:message code="log.refuse" /> 
+					</a>
+				</c:if>
 				
+		</div>
+		</c:if>
+		
+		<!-- Change status form  -->
+		<c:if test="${model.log.totalHours > 0}">
+			<c:url var="sUrl" value="/admin/quasar/change-log-status" />
+			<form id="change-status" class="qs-change-status hidden" action="${sUrl}" method="post">
+				<h4></h4>
+				<textarea name="comment" class="mw500" rows="5" cols="5" placeholder="<spring:message code="writeComment" />"></textarea>
+				<a class="cancel qs-btn"><spring:message code="cancel" /></a>
+				<input type="submit" value="<spring:message code="form.submit" />" class="qs-btn" />
+				<input type="hidden" name="status" value="" />
+				<input type="hidden" name="action" value="${model.statusType}" /> 
+				<input type="hidden" name="logId" value="${model.log.id}" />
+			</form>
+		</c:if>
+		
+		
+		
+		
+		<jsp:include page="log-comments.jsp" />
 		
 		<c:if test="${model.log.editable}">
 		<div id="form-wrapp">
-		<form:form commandName="command" cssClass="training-log transparent" >
+		<form:form commandName="command" cssClass="training-log valid transparent" htmlEscape="true" >
 			<p class="form-head"><spring:message code="baseInformations" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
@@ -63,7 +109,7 @@
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="subject" maxlength="200" cssClass="mw500 required" />
+					<form:input path="subject" maxlength="255" cssClass="mw500 required" />
 				</div>
 			</div>
 			<div class="input-wrapp smaller">

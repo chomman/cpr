@@ -119,10 +119,20 @@ public class TrainingLogController extends LogControllerSupport{
 			return addWorkerToLog(log, id);
 		}else if(action.equals(ACTION_NANDO_CODE_ADD)){
 			return createCategorySpecificTraining(log, id, getHoursParamFormRequest(request));
+		}else if(action.equals(ACTION_NANDO_CODE_REMOVE)){
+			removeCategoriSpecificTraining(log, id);
 		}
 		return false;
 	}
 	
+	
+	private boolean removeCategoriSpecificTraining(final TrainingLog log, final Long cstId){
+		if(log.removeCategorySpecificTraining(cstId)){
+			trainingLogService.updateAndSetChanged(log);
+			return true;
+		}
+		return false;
+	}
 	
 	
 	private boolean createCategorySpecificTraining(final TrainingLog log, final Long nandoCodeId, int hours){
@@ -174,9 +184,9 @@ public class TrainingLogController extends LogControllerSupport{
 	@Override
 	protected void preparePageCriteria(Map<String, Object> criteria) {
 		final User user = UserUtils.getLoggedUser();
-		//if(!user.isQuasarAdmin()){
+		if(!user.isQuasarAdmin()){
 			criteria.put(AuditorFilter.CREATED_BY, user.getId());
 			criteria.put(AuditorFilter.AUDITOR, user.getId());
-		//}
+		}
 	}
 }

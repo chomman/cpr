@@ -53,7 +53,7 @@ public class TrainingLog extends AbstractLog {
 		this.date = date;
 	}
 
-	@Column(length = 200)
+	@Column
 	public String getSubject() {
 		return subject;
 	}
@@ -195,5 +195,29 @@ public class TrainingLog extends AbstractLog {
 		}
 		categorySpecificTrainings.add(cst);
 		return true;
+	}
+	
+	
+	@Transient
+	public boolean removeCategorySpecificTraining(final Long id){
+		Iterator<CategorySpecificTraining> i = categorySpecificTrainings.iterator();
+		while (i.hasNext()) {
+		   final CategorySpecificTraining cst = i.next();
+		   if(cst.getId().equals(id)){
+			   i.remove();
+			   return true;
+		   }
+		}
+		return false;
+	}
+	
+	@Transient
+	public int getTotalHours(){
+		int hours = 0;
+		for(CategorySpecificTraining cst : categorySpecificTrainings){
+			hours += cst.getHours();
+		}
+		hours += iso13485 + iso13485 +mdd + ivd + aimd + nb1023Procedures;
+		return hours;
 	}
 }

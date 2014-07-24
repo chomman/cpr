@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.services.DossierReportService;
+import cz.nlfnorm.quasar.services.TrainingLogService;
 import cz.nlfnorm.quasar.web.forms.ChangeLogStatusForm;
 
 @Controller
@@ -27,6 +28,8 @@ public class ChangeLogStatusController extends QuasarSupportController {
 	private AuditLogService auditLogService;
 	@Autowired
 	private DossierReportService dossierReportService;
+	@Autowired
+	private TrainingLogService trainingLogService;
 	
 	@RequestMapping( value = "/admin/quasar/change-log-status", method = RequestMethod.POST)
 	public String proccessChangeLogStatus(
@@ -47,8 +50,11 @@ public class ChangeLogStatusController extends QuasarSupportController {
 						form.getComment());		
 				return getDossierReportUrl(form.getLogId());
 			case ACTION_TRAINING_LOG:
-				
-				// TODO 
+				trainingLogService.changeStatus(
+						trainingLogService.getById(form.getLogId()),
+						form.getStatus(),
+						form.getComment());
+				return getTrainingLogUrl(form.getLogId());
 			default:
 			throw new IllegalArgumentException("Unsupported action: " + form.getAction()) ;
 		}
@@ -62,11 +68,18 @@ public class ChangeLogStatusController extends QuasarSupportController {
 	}
 	
 	private String getAuditLogUrl(final long id){
-		return successUpdateRedirect(AuditLogController.EDIT_MAPPING_URL.replace("{id}", id+""));
+		return getUrl(AuditLogController.EDIT_MAPPING_URL, id);
 	}
 	
 	private String getDossierReportUrl(final long id){
-		return successUpdateRedirect(DossierReportController.EDIT_MAPPING_URL.replace("{id}", id+""));
+		return getUrl(DossierReportController.EDIT_MAPPING_URL, id);
+	}
+	
+	private String getTrainingLogUrl(final long id){
+		return getUrl(TrainingLogController.EDIT_MAPPING_URL, id);
 	}
 
+	private String getUrl(final String url, final long id){
+		return successUpdateRedirect(url.replace("{id}", id+""));
+	}
 }

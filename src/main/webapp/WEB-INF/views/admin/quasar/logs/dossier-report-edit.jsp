@@ -129,7 +129,7 @@
 				
 		<!--ADD CHANGE ITEM  -->
 		<c:if test="${model.log.editable and model.showForm}">
-		<form:form commandName="command" cssClass="dossierReport">
+		<form:form commandName="command" cssClass="dossierReport" htmlEscape="true">
 			<p class="form-head"><spring:message code="dossierReport.item" /></p>
 			<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 			<div class="input-wrapp smaller">
