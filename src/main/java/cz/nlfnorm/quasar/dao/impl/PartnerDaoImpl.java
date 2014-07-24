@@ -27,7 +27,7 @@ public class PartnerDaoImpl extends BaseDaoImpl<Partner, Long> implements Partne
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Partner> getPartnersByManager(final User user) {
-		return createQuery("select p form Partner p where p.manager.id = :user ")
+		return createQuery("select p from Partner p where p.manager.id = :user ")
 				.setLong("user", user.getId())
 				.list();
 		

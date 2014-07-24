@@ -10,7 +10,6 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import cz.nlfnorm.constants.Constants;
-import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.impl.BaseDaoImpl;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
@@ -45,6 +44,7 @@ public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoI
 		StringBuilder hql = new StringBuilder("from "+ persistentClass.getName());
 		hql.append(getAuditorJoinClouse());
 		hql.append(prepareHqlForQuery(criteria));
+		hql.append(getAuditorGroupByClouse());
 		Query hqlCountQuery = createQuery("select count(*) " + hql.toString());
 		prepareHqlQueryParams(hqlCountQuery, criteria);
 		PageDto items = new PageDto();
@@ -59,6 +59,10 @@ public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoI
 			items.setItems(query.list());
 		}
 		return items;
+	}
+	
+	protected String getAuditorGroupByClouse() {
+		return "";
 	}
 	
 	protected String getAuditorJoinClouse(){
@@ -121,9 +125,9 @@ public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoI
 			if(dateFrom != null){
 				query.setTimestamp(AuditorFilter.DATE_FROM, dateFrom.toDate());
 			}
-			DateTime dateTo = (DateTime)criteria.get(Filter.CREATED_TO);
+			DateTime dateTo = (DateTime)criteria.get(AuditorFilter.DATE_TO);
 			if(dateTo != null){
-				query.setTimestamp(Filter.CREATED_TO, dateTo.plusDays(1).toDate());
+				query.setTimestamp(AuditorFilter.DATE_TO, dateTo.plusDays(1).toDate());
 			}
 			Integer status = (Integer)criteria.get(AuditorFilter.STATUS);
 			if(status != null && status != 0){

@@ -1,12 +1,10 @@
 package cz.nlfnorm.quasar.web.controllers;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +20,6 @@ import cz.nlfnorm.entities.User;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.Auditor;
-import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.TrainingLog;
 import cz.nlfnorm.quasar.security.AccessUtils;
 import cz.nlfnorm.quasar.services.AuditorService;
@@ -133,13 +130,9 @@ public class TrainingLogController extends LogControllerSupport{
 	@Override
 	protected void preparePageCriteria(Map<String, Object> criteria) {
 		final User user = UserUtils.getLoggedUser();
-		if(!user.isQuasarAdmin()){
-			final List<Partner> partners = partnerService.getPartnersByManager(user);
-			if(CollectionUtils.isNotEmpty(partners)){
-				criteria.put(AuditorFilter.PARTNERS, partners);	
-			}
+		//if(!user.isQuasarAdmin()){
 			criteria.put(AuditorFilter.CREATED_BY, user.getId());
 			criteria.put(AuditorFilter.AUDITOR, user.getId());
-		}
+		//}
 	}
 }

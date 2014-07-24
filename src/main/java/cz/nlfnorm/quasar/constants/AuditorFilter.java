@@ -11,7 +11,6 @@ public class AuditorFilter {
 	public static final String FORMAL_LEG_REQ = "formalLegal";
 	public static final String STATUS = "status";
 	
-	public static final String PARTNERS = "partners";
 	public static final String CREATED_BY = "createdBy";
 	
 }

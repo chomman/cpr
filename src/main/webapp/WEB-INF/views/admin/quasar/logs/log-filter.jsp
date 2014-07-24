@@ -11,9 +11,9 @@
 			</c:forEach>
 		</select>
 		<span class="filter-label">Created from:</span>
-		<input type="text" class="date"  name="dateFrom" value="<joda:format value="${model.params.createdFrom}" pattern="dd.MM.yyyy"/>" />
+		<input type="text" class="date"  name="dateFrom" value="<joda:format value="${model.params.dateFrom}" pattern="dd.MM.yyyy"/>" />
 		<span class="filter-label">to:</span>
-		<input type="text" class="date" name="dateTo"  value="<joda:format value="${model.params.createdTo}" pattern="dd.MM.yyyy"/>" />
+		<input type="text" class="date" name="dateTo"  value="<joda:format value="${model.params.dateTo}" pattern="dd.MM.yyyy"/>" />
 	</div>
 	<c:if test="${model.isQuasarAdmin}">
 		<div>

@@ -144,7 +144,9 @@ public class TrainingLog extends AbstractLog {
 	@Transient
 	public void addAuditor(final Auditor auditor){
 		Validate.notNull(auditor);
-		auditors.add(auditor);
+		if(!auditors.contains(auditor)){
+			auditors.add(auditor);
+		}
 	}
 	
 	@Transient

@@ -72,6 +72,7 @@
 	
  <decorator:body/>
  <div id="status"></div>
+ <div id="locale">${common.locale}</div>
  <div id="base" class="hidden"><c:url value="/" /></div>
 </body>
 </html>

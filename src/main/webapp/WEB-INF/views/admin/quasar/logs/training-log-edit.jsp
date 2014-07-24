@@ -27,7 +27,7 @@
 	</c:if>
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
-		 <a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
+		 <a:adminurl href="/quasar/training-logs"><spring:message code="trainingLogs" /></a:adminurl>  &raquo;
 		 <span>${model.log.createdBy.name}'s <spring:message code="trainingLog"/></span>
 	</div>
 	<h1 class="qs-log-status-${model.log.status.id}">
@@ -89,61 +89,67 @@
 				</div>
 			</div>
 			<p class="form-head"><spring:message code="trainingLog.scope" /></p>
-			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.iso9001" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="iso9001" cssClass="w50 c required numeric" maxlength="4" />
-					<span class="hour"><spring:message code="hours" /></span>
+			<div class="qs-fields-wrapp">
+				<div class="qs-left-bx">
+				<div class="input-wrapp smaller">
+					<label> <strong><em class="red">*</em> <spring:message
+								code="auditor.iso9001" />: </strong>
+					</label>
+					<div class="field">
+						<form:input path="iso9001" cssClass="w50 c required numeric" maxlength="4" />
+						<span class="hour"><spring:message code="hours" /></span>
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label><strong><em class="red">*</em> <spring:message
+								code="auditor.iso13485" />: </strong>
+					</label>
+					<div class="field">
+						<form:input path="iso13485" cssClass="w50 c required numeric" maxlength="4" />
+						<span class="hour"><spring:message code="hours" /></span>
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label> 
+						<strong><em class="red">*</em> <spring:message code="auditor.nb1023Procedures" />: </strong>
+					</label>
+					<div class="field">
+						<form:input path="nb1023Procedures"	cssClass="w50 c required numeric" maxlength="4" />
+						<span class="hour"><spring:message code="hours" /></span>
+					</div>
 				</div>
 			</div>
-			<div class="input-wrapp smaller">
-				<label><strong><em class="red">*</em> <spring:message
-							code="auditor.iso13485" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="iso13485" cssClass="w50 c required numeric" maxlength="4" />
-					<span class="hour"><spring:message code="hours" /></span>
+			<div class="qs-right-bx qs-border-right">
+				<div class="input-wrapp smaller">
+					<label> <strong><em class="red">*</em> <spring:message
+								code="auditor.mdd" />: </strong>
+					</label>
+					<div class="field">
+						<form:input path="mdd" cssClass="w50 c required numeric" maxlength="4" />
+						<span class="hour"><spring:message code="hours" /></span>
+					</div>
+				</div>	
+				<div class="input-wrapp smaller">
+					<label> <strong><em class="red">*</em> <spring:message
+								code="auditor.ivd" />: </strong>
+					</label>
+					<div class="field">
+						<form:input path="ivd" cssClass="w50 c required numeric" maxlength="4" />
+						<span class="hour"><spring:message code="hours" /></span>
+					</div>
 				</div>
+				<div class="input-wrapp smaller">
+					<label> 
+						<strong><em class="red">*</em> <spring:message code="auditor.aimd" />: </strong>
+					</label>
+					<div class="field">
+						<form:input path="aimd" cssClass="w50 c required numeric" maxlength="4" />
+						<span class="hour"><spring:message code="hours" /></span>
+					</div>
+				</div>
+				
 			</div>
-			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.mdd" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="mdd" cssClass="w50 c required numeric" maxlength="4" />
-					<span class="hour"><spring:message code="hours" /></span>
-				</div>
-			</div>	
-			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.ivd" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="ivd" cssClass="w50 c required numeric" maxlength="4" />
-					<span class="hour"><spring:message code="hours" /></span>
-				</div>
-			</div>
-			<div class="input-wrapp smaller">
-				<label> 
-					<strong><em class="red">*</em> <spring:message code="auditor.aimd" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="aimd" cssClass="w50 c required numeric" maxlength="4" />
-					<span class="hour"><spring:message code="hours" /></span>
-				</div>
-			</div>
-			<div class="input-wrapp smaller">
-				<label> 
-					<strong><em class="red">*</em> <spring:message code="auditor.nb1023Procedures" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="nb1023Procedures"	cssClass="w50 c required numeric" maxlength="4" />
-					<span class="hour"><spring:message code="hours" /></span>
-				</div>
-			</div>
-
+			<div class="clear"></div>
 			<form:hidden path="id"/>
 			<p class="button-box">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />

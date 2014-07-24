@@ -126,6 +126,7 @@ function getDatepickerOptions(type){
 			firstDay: 1
 	};
 	if(isBlank(locale) || locale === 'cs'){
+		console.log('current locale: ' + locale);
 		datepickerOpts = $.extend({}, datepickerOpts, names );
 	}
 	
