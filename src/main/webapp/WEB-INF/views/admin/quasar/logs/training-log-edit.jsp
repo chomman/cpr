@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+<%@ taglib prefix="quasar"  uri="http://nlfnorm.cz/quasar"%>
 <c:set  var="isQuasarAdmin" value="${common.user.quasarAdmin}" scope="request"/>
 <!DOCTYPE html>
 <html>
@@ -10,6 +11,11 @@
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" /> 
 	<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
 	<script src="<c:url value="/resources/admin/quasar/js/scripts.quasar.auditLog.js" />"></script>
+	<c:if test="${isQuasarAdmin}">
+	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/jquery.raty.css" />" />
+	<script src="<c:url value="/resources/admin/quasar/js/auditor.js" />"></script>
+	<script src="<c:url value="/resources/admin/quasar/js/jquery.raty.js" />"></script>
+	</c:if>
 </head>
 <body>
 <div id="wrapper"  data-type="audit-log">
@@ -22,10 +28,10 @@
 	<div id="breadcrumb">
 		 <a:adminurl href="/quasar/dashboard"><spring:message code="quasar.long" /></a:adminurl>  &raquo;
 		 <a:adminurl href="/quasar/audit-logs"><spring:message code="auditLogs" /></a:adminurl>  &raquo;
-		 <span>${model.log.auditor.name}'s <spring:message code="trainingLog"/></span>
+		 <span>${model.log.createdBy.name}'s <spring:message code="trainingLog"/></span>
 	</div>
 	<h1 class="qs-log-status-${model.log.status.id}">
-		${model.log.auditor.name}'s <spring:message code="trainingLog"/>: 
+		${model.log.createdBy.name}'s <spring:message code="trainingLog"/>: 
 		<strong><joda:format value="${model.log.created}" pattern="dd.MM.yyyy"/></strong> 
 		<c:if test="${model.log.revision > 1}">
 		(<spring:message code="trainingLog.revision" /> ${model.log.revision})
@@ -79,7 +85,7 @@
 					</strong>
 				</label>
 				<div class="field">
-					<form:input path="date" maxlength="10" cssClass="date required" />
+					<form:input path="date" maxlength="10" cssClass="w100 date required" /> 
 				</div>
 			</div>
 			<p class="form-head"><spring:message code="trainingLog.scope" /></p>
@@ -89,6 +95,7 @@
 				</label>
 				<div class="field">
 					<form:input path="iso9001" cssClass="w50 c required numeric" maxlength="4" />
+					<span class="hour"><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
@@ -97,53 +104,129 @@
 				</label>
 				<div class="field">
 					<form:input path="iso13485" cssClass="w50 c required numeric" maxlength="4" />
+					<span class="hour"><spring:message code="hours" /></span>
 				</div>
 			</div>
-			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.ivd" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="ivd" cssClass="w50 c required numeric"
-						maxlength="4" />
-				</div>
-			</div>
-			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.aimd" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="aimd" cssClass="w50 c required numeric"
-						maxlength="4" />
-				</div>
-			</div>
-			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.nb1023Procedures" />: </strong>
-				</label>
-				<div class="field">
-					<form:input path="nb1023Procedures"
-						cssClass="w50 c required numeric" maxlength="4" />
-				</div>
-			</div>
-			
 			<div class="input-wrapp smaller">
 				<label> <strong><em class="red">*</em> <spring:message
 							code="auditor.mdd" />: </strong>
 				</label>
 				<div class="field">
-					<form:input path="mdd" cssClass="w50 c required numeric"
-						maxlength="4" />
+					<form:input path="mdd" cssClass="w50 c required numeric" maxlength="4" />
+					<span class="hour"><spring:message code="hours" /></span>
 				</div>
 			</div>	
-			
+			<div class="input-wrapp smaller">
+				<label> <strong><em class="red">*</em> <spring:message
+							code="auditor.ivd" />: </strong>
+				</label>
+				<div class="field">
+					<form:input path="ivd" cssClass="w50 c required numeric" maxlength="4" />
+					<span class="hour"><spring:message code="hours" /></span>
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label> 
+					<strong><em class="red">*</em> <spring:message code="auditor.aimd" />: </strong>
+				</label>
+				<div class="field">
+					<form:input path="aimd" cssClass="w50 c required numeric" maxlength="4" />
+					<span class="hour"><spring:message code="hours" /></span>
+				</div>
+			</div>
+			<div class="input-wrapp smaller">
+				<label> 
+					<strong><em class="red">*</em> <spring:message code="auditor.nb1023Procedures" />: </strong>
+				</label>
+				<div class="field">
+					<form:input path="nb1023Procedures"	cssClass="w50 c required numeric" maxlength="4" />
+					<span class="hour"><spring:message code="hours" /></span>
+				</div>
+			</div>
+
 			<form:hidden path="id"/>
 			<p class="button-box">
 			<input type="submit" class="button" value="<spring:message code="form.save" />" />
 			</p>    
 		</form:form>
-			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
+		<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</c:if>
+		
+		
+		<div class="qs-bx-wrapp qs-log-items">
+			<p class="form-head"><spring:message code="trainingLog.attendanceList" /></p>
+			<c:if test="${not empty model.log.auditors}">
+				<table class="data">
+					<thead>
+						<tr>
+							<th><spring:message code="auditor.itcId" /></th>
+							<th><spring:message code="auditor.name" /></th>
+							<th><spring:message code="auditor.partner" /></th>
+							<c:if test="${isQuasarAdmin}">
+							<th><spring:message code="auditor.rating" /></th>
+							</c:if>
+							<c:if test="${model.isEditable}">
+								<th>&nbsp;</th>
+							</c:if>
+						</tr>
+					</thead>
+					<tbody>
+						<c:forEach items="${model.log.auditors}" var="i">
+							<tr>  
+								<td class="w50 code c">${i.itcId}</td>	 
+								<td>
+									<c:if test="${isQuasarAdmin}">
+										<quasar:auditor auditor="${i}" withDegree="true" />
+									</c:if>
+									<c:if test="${not isQuasarAdmin}">
+										${i.nameWithDegree}
+									</c:if>
+									<c:if test="${i.id == common.user.id }">
+										<strong>(YOU)</strong>
+									</c:if>
+								</td>
+								<td>
+									<c:if test="${not empty i.partner}">
+										${i.partner.name}
+									</c:if>
+								</td>
+								<c:if test="${isQuasarAdmin}">
+									<td class="last-edit">
+										<div class="rating" data-rating="${i.rating}"></div>
+									</td>
+								</c:if>
+								<c:if test="${model.isEditable}">
+									<td class="unassign delete">
+										<a class="confirmUnassignment" href="?action=${model.unassign}&amp;iid=${i.id}">
+											<spring:message code="trainingLog.unassign" />
+										</a>
+									</td>
+								</c:if>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+				<c:if test="${model.isEditable and not empty model.unassignedAuditors}">
+					<form class="inline-form">
+						<div class="inline-field">
+							<span class="label">
+								<spring:message code="trainingLog.assign" />:
+							</span>
+							<select name="iid" class="chosenSmall">
+								<c:forEach items="${model.unassignedAuditors}" var="i">
+									<option value="${i.id}">${i.nameWithDegree}</option>
+								</c:forEach>
+							</select>
+						</div>
+						<input type="submit" class="lang mandate-add-btn" value="<spring:message code="form.submit" />" />
+						<input type="hidden" name="action" value="${model.assign}" />
+					</form>
+				</c:if>
+			</c:if>
+		</div>
+		
+		
+			
 	</div>	
 	<c:if test="${isQuasarAdmin}">
 			</div>

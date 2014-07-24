@@ -11,5 +11,7 @@ var Messages = {
 	errNandoCodes : 'At least one NANDO code must be filled',
 	errCode : 'Code: <b>{0}</b> is not allowed.',
 	errOrderNo : 'Invalid order number. Must start with 8036, 8136 or 8236',
-	submiting : "Submitting.."
+	submiting : "Submitting..",
+	 
+	alertUnassign : 'Are you sure you want to remove from list?'	
 };

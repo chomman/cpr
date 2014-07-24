@@ -1,5 +1,9 @@
 package cz.nlfnorm.quasar.services;
 
+import java.util.List;
+
+import cz.nlfnorm.entities.User;
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.TrainingLog;
 import cz.nlfnorm.quasar.enums.LogStatus;
 
@@ -20,5 +24,7 @@ public interface TrainingLogService extends PageableLogService<TrainingLog>{
 	void setRfusedStatus(TrainingLog trainingLog, String withComment);
 	
 	void setApprovedStatus(TrainingLog trainingLog, String withComment);
+	
+	List<Auditor> getNonAssignedAuditorsForLog(TrainingLog log);
 
 }

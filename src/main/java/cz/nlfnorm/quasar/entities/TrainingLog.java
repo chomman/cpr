@@ -1,6 +1,7 @@
 package cz.nlfnorm.quasar.entities;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -144,6 +145,19 @@ public class TrainingLog extends AbstractLog {
 	public void addAuditor(final Auditor auditor){
 		Validate.notNull(auditor);
 		auditors.add(auditor);
+	}
+	
+	@Transient
+	public boolean removeAuditor(final Long id){
+		Iterator<Auditor> i = auditors.iterator();
+		while (i.hasNext()) {
+		   final Auditor auditor = i.next();
+		   if(auditor.getId().equals(id)){
+			   i.remove();
+			   return true;
+		   }
+		}
+		return false;
 	}
 	
 	@Transient

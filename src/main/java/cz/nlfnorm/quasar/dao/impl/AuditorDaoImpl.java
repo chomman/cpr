@@ -248,4 +248,5 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 				.setReadOnly(true)
 				.uniqueResult()).intValue();
 	}
+	
 }

@@ -53,7 +53,7 @@ $(function() {
      });
      
      $('.confirmUnassignment').on('click', function () {
-         return confirm('Opravdu chcete zrušit přiřazení?');
+         return confirm($.getMessage("alertUnassign"));
      });
      
      $('.confirmMessage').on('click', function (e) {

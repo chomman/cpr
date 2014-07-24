@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.services.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
@@ -10,9 +11,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import cz.nlfnorm.dto.PageDto;
+import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.TrainingLogDao;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.entities.TrainingLog;
 import cz.nlfnorm.quasar.enums.LogStatus;
@@ -148,6 +151,29 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 	@Transactional(readOnly = true)
 	public TrainingLog getById(Long id) {
 		return trainingLogDao.getByID(id);
+	}
+
+	
+	
+	/**
+	 * Retrieve non-assigned worker for given audit log. Returned are only workers, for who 
+	 * has creator of this log rights. So If is given user {@link Partner} manager, 
+	 * returned will be all workers who has this manager under the competence. 
+	 * Is if any user already assigned, will be excluded. If is given User QUASAR admin,
+	 * will be returned all workers who are not already assigned in given log.
+	 * 
+	 * @param log - training log for which should be returned non-assigned Auditors
+	 * @return list of non-Assigned auditors
+	 * 
+	 * @see {@link Authority}
+	 * @see {@link Partner}
+	 * 
+	 * @throw {@link IllegalArgumentException} - If is given training log NULL
+	 */
+	@Override
+	public List<Auditor> getNonAssignedAuditorsForLog(final TrainingLog log) {
+		Validate.notNull(log);
+		return trainingLogDao.getNonAssignedAuditorsForLog(log.getId(), log.getChangedBy().getId());
 	}
 
 	
