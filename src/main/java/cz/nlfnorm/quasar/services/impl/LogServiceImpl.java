@@ -23,6 +23,8 @@ import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.entities.TrainingLog;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.security.AccessUtils;
+import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
+import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.QuasarSettingsService;
 import cz.nlfnorm.quasar.web.controllers.AuditLogController;
 import cz.nlfnorm.quasar.web.controllers.DossierReportController;
@@ -52,7 +54,10 @@ public abstract class LogServiceImpl{
 	protected NlfnormMailSender nlfnormMailSender;
 	@Autowired
 	protected MessageSource messageSource;
-	
+	@Autowired
+	protected AuditorNandoCodeService auditorNandoCodeService;
+	@Autowired
+	protected AuditorService auditorService;
 	
 	/**
 	 * Sets log status to "PENDING" and send notification email to main QUASAR admin
@@ -201,6 +206,12 @@ public abstract class LogServiceImpl{
 			criteria.put(AuditorFilter.STATUS, ParseUtils.parseIntFromStringObject(criteria.get(AuditorFilter.STATUS)));
 		}
 		return criteria;
+	}
+	
+	protected void validateApprovance(final AbstractLog log) {
+		if(log.getStatus() == null || !log.getStatus().equals(LogStatus.APPROVED)){
+			throw new IllegalArgumentException("Log status is not Approved, " + log);
+		}
 	}
 
 }

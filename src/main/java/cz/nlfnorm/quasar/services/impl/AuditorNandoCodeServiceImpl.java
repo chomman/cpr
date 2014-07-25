@@ -129,17 +129,25 @@ public class AuditorNandoCodeServiceImpl implements AuditorNandoCodeService{
 	}
 
 	@Override
-	public void incrementProductAssesorATotals(Long nandoCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits) {
+	public void incrementProductAssesorATotals(final Long nandoCodeId, final Long auditorId,final int plusNbAudits, final int plusIso13485Audits) {
 		auditorNandoCodeDao.incrementProductAssessorATotals(nandoCodeId, auditorId, plusNbAudits, plusIso13485Audits);
 	}
 
 	@Override
-	public void incrementProductAssessorRAndProductSpecialistTotals(Long nandoCodeId, Long auditorId, int plusTfReviews,
+	public void incrementProductAssessorRAndProductSpecialistTotals(final Long nandoCodeId,final Long auditorId,final int plusTfReviews,
 			int plusDdReviews) {
 		if(plusDdReviews == 0 && plusTfReviews == 0){
 			return;
 		}
 		auditorNandoCodeDao.incrementProductAssessorRAndProductSpecialistTotals(nandoCodeId, auditorId, plusTfReviews, plusDdReviews);
+	}
+
+	
+	@Override
+	public void incrementCategorySpecificTraining(final Long nandoCodeId,final  Long auditorId, final int plusHours) {
+		if(plusHours > 0){
+			auditorNandoCodeDao.incrementCategorySpecificTraining(nandoCodeId, auditorId, plusHours);
+		}
 	}
 
 }

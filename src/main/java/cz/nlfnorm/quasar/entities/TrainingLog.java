@@ -252,4 +252,16 @@ public class TrainingLog extends AbstractLog {
 		return isAttachmentUploaded() && getBaseDateAreSet() && isAuditorListSet();
 	}
 	
+	@Transient 
+	public String getFormatedWorkers(){
+		if(auditors.size() == 0){
+			return "0";
+		}
+		String firstAuditor = auditors.iterator().next().getName();
+		if(auditors.size() == 1){
+			return firstAuditor;
+		}
+		return firstAuditor +", and " + (auditors.size() - 1) + " other...";
+	}
+	
 }

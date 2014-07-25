@@ -3,6 +3,7 @@ package cz.nlfnorm.quasar.services.impl;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,7 @@ import cz.nlfnorm.entities.Authority;
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.dao.TrainingLogDao;
 import cz.nlfnorm.quasar.entities.Auditor;
+import cz.nlfnorm.quasar.entities.CategorySpecificTraining;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
@@ -35,6 +37,7 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 	private AuditorService auditorService;
 	@Autowired
 	private PartnerService partnerService;
+	
 
 	/**
 	 * Create new Training log and assign currently logged user (who invoked request).
@@ -131,14 +134,14 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 
 	@Override
 	public void setRfusedStatus(TrainingLog trainingLog, String withComment) {
-		super.setApprovedStatus(trainingLog, withComment);
-		// TODO updateQualification(log);
+		super.setRfusedStatus(trainingLog, withComment);
 		updateAndSetChanged(trainingLog);
 	}
 
 	@Override
 	public void setApprovedStatus(TrainingLog trainingLog, String withComment) {
-		super.setRfusedStatus(trainingLog, withComment);
+		super.setApprovedStatus(trainingLog, withComment);
+		updateQualification(trainingLog);
 		updateAndSetChanged(trainingLog);
 	}
 
@@ -216,5 +219,37 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 	}
 
 	
+	@Override
+	public void updateQualification(final TrainingLog log){
+		Validate.notNull(log);
+		Validate.notEmpty(log.getAuditors());
+		validateApprovance(log);
+		for(final Auditor auditor : log.getAuditors()){
+			updateQualification(log, auditor);
+		}
+	}
+	
+	private void updateQualification(final TrainingLog log, final Auditor auditor){
+		icrementAuditorTrainins(log, auditor);
+		if(CollectionUtils.isNotEmpty(log.getCategorySpecificTrainings())){
+			for(final CategorySpecificTraining cst : log.getCategorySpecificTrainings()){
+				auditorNandoCodeService.incrementCategorySpecificTraining(
+						cst.getNandoCode().getId(), 
+						auditor.getId(), 
+						cst.getHours()
+					);
+			}
+		}
+		auditorService.createOrUpdate(auditor);
+	}
+	
+	private void icrementAuditorTrainins(final TrainingLog log, final Auditor auditor){
+		auditor.setAimd(auditor.getAimd() + log.getAimd());
+		auditor.setIvd(auditor.getIvd() + log.getIvd());
+		auditor.setMdd(auditor.getMdd() + log.getMdd());
+		auditor.setIso13485(auditor.getIso13485() + log.getIso13485());
+		auditor.setTrainingIso9001InHours(auditor.getTrainingIso9001InHours() + log.getIso9001());
+		auditor.setNb1023Procedures(auditor.getNb1023Procedures() + log.getNb1023Procedures());
+	}
 	
 }

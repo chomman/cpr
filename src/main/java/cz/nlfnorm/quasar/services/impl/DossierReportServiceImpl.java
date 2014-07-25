@@ -22,8 +22,6 @@ import cz.nlfnorm.quasar.entities.DossierReportItem;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.enums.LogStatus;
-import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
-import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.quasar.services.DossierReportService;
 import cz.nlfnorm.utils.UserUtils;
 
@@ -40,12 +38,7 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 
 	@Autowired
 	private DossierReportDao documentationLogDao;
-	@Autowired
-	private AuditorService auditorService;
-	@Autowired
-	private AuditorNandoCodeService auditorNandoCodeService;
-	
-	
+		
 	private void create(final DossierReport log) {
 		documentationLogDao.save(log);
 	}
@@ -246,9 +239,7 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 	public void updateQualification(final DossierReport dossierReport){
 		Validate.notNull(dossierReport);
 		Validate.notNull(dossierReport.getAuditor());
-		if(dossierReport.getStatus() == null || !dossierReport.getStatus().equals(LogStatus.APPROVED)){
-			throw new IllegalArgumentException("Dossier report status is not Approved, " + dossierReport);
-		}
+		validateApprovance(dossierReport);
 		final Auditor auditor = dossierReport.getAuditor();
 		final Map<NandoCode, DossierReportCodeSumDto> totals = getTotalsFor(dossierReport);
 		for(Map.Entry<NandoCode, DossierReportCodeSumDto> entry : totals.entrySet()){

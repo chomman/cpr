@@ -34,7 +34,7 @@
 		${model.log.createdBy.name}'s <spring:message code="trainingLog"/>: 
 		<strong><joda:format value="${model.log.created}" pattern="dd.MM.yyyy"/></strong> 
 		<c:if test="${model.log.revision > 1}">
-		(<spring:message code="trainingLog.revision" /> ${model.log.revision})
+		(<spring:message code="auditLog.auditLog.revision" /> ${model.log.revision})
 		</c:if>
 		&nbsp; | &nbsp; Status: <strong class="qs-status qs-log-status">${model.log.status}</strong>
 		<c:if test="${model.log.totalHours > 0}">
@@ -100,9 +100,16 @@
 		<jsp:include page="training-log-edit-form-base-informations.jsp" />			 
 		<jsp:include page="training-log-edit-form-auditors.jsp" />
 	</c:if>
+	<c:if test="${not model.isEditable}">
+		<jsp:include page="training-log-edit-base-informations.jsp" />
+		<div class="qs-bx-wrapp qs-log-items">
+			<jsp:include page="training-log-auditors.jsp" />
+		</div>
+	</c:if>
 			
-	<div id="upload" class="${model.log.attachmentUploaded ? 'qs-valid' : 'qs-invalid' }">
-		<div class="qs-bx-wrapp transparent">
+	<div id="upload"  class="${model.isEditable ? '' : 'disable' }${model.log.attachmentUploaded ? 'qs-valid' : 'qs-invalid' }">
+		<div class="qs-bx-wrapp bg-white">
+			<div class="transparent">
 			<p class="form-head"><spring:message code="trainingLog.record" /></p>
 			<c:url value="/admin/quasar/training-log/${model.log.id}/upload" var="fUrl" />
 			<c:if test="${model.log.attachmentUploaded}">
@@ -136,6 +143,7 @@
 				<input type="submit" class="lang mandate-add-btn" value="<spring:message code="form.file.upload"  />" />
 			</form>
 			</c:if>
+			</div>
 		</div>
 	</div>
 	

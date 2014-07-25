@@ -1,7 +1,10 @@
 package cz.nlfnorm.quasar.security;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.stereotype.Component;
 
 import cz.nlfnorm.entities.User;
 import cz.nlfnorm.quasar.entities.AbstractLog;
@@ -9,6 +12,7 @@ import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.services.PartnerService;
 import cz.nlfnorm.utils.UserUtils;
 
+@Component
 public class AccessUtils {
 	
 	private static PartnerService partnerService;
@@ -16,6 +20,7 @@ public class AccessUtils {
 	@Autowired
 	private PartnerService partnerService2;
 	
+	@PostConstruct
 	public void init(){
 		AccessUtils.partnerService = partnerService2;
 	}

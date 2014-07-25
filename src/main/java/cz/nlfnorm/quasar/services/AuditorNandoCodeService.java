@@ -40,4 +40,7 @@ void create(AuditorNandoCode AuditorNandoCode);
 	void incrementProductAssesorATotals(Long nandoCodeId, Long auditorId, int plusNbAudits, int plusIso13485Audits);
 	
 	void incrementProductAssessorRAndProductSpecialistTotals(Long nandoCodeId, Long auditorId, int plusTfReviews,int plusDdReviews);
+	
+	void incrementCategorySpecificTraining(Long nandoCodeId, Long auditorId, int plusHours);
+	
 }

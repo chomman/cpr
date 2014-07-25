@@ -20,6 +20,7 @@ import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.lang.StringUtils;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.LocalDate;
@@ -565,7 +566,7 @@ public class Auditor extends User {
 	@Transient
 	public String getNameWithDegree() {
 		String name = getName();
-		return name += degrees != null ? ", " + degrees : "";
+		return name += StringUtils.isNotBlank(degrees) ? ", " + degrees : "";
 	};
 		
 	

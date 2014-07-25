@@ -32,4 +32,6 @@ public interface TrainingLogService extends PageableLogService<TrainingLog>{
 	List<Auditor> getUnassignedAuditorsFor(TrainingLog log);
 	
 	List<NandoCode> getAllUnassignedNandoCodesForLog(TrainingLog log);
+	
+	void updateQualification(final TrainingLog log);
 }

@@ -274,7 +274,7 @@ strong.qs-log-status{border-radius:5px;padding-right:5px;}
 .inline-field{padding:10px;}
 
 #form-wrapp .button-box{text-align:right;}
-#add-code-form{width:100%;height:62px;display: none;-webkit-box-shadow: 0 0 5px 2px #8C8C8C;box-shadow: 0 0 5px 2px #8C8C8C;margin-top:5px;}
+#add-code-form{width:100%;height:62px;display: none;-webkit-box-shadow: 0 0 5px 2px #8C8C8C;box-shadow: 0 0 5px 2px #8C8C8C;}
 #add-code-form .inline-form{background:#E8F8FC;}
 
 .cancel.smaller{color:#555;border-radius:8px;float:right;margin:8px;padding:8px;font-size:15px;}
@@ -292,3 +292,4 @@ form .error{padding-top:11px;padding-bottom:11px;}
 #upload .file:hover{color:#000;text-decoration:none;}
 #upload .delete{color:red;font-size:14px;text-decoration:underline;}
 
+.bg-white{background: #fff !important;}

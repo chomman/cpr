@@ -1,7 +1,8 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <div id="form-wrapp" class="${model.log.baseDateAreSet ? 'qs-valid' : 'qs-invalid'}">
-<form:form commandName="command" cssClass="training-log valid transparent" htmlEscape="true" >
+<form:form commandName="command" cssClass="training-log valid bg-white" htmlEscape="true" >
+	<div class="transparent">
 	<p class="form-head"><spring:message code="baseInformations" /></p>
 	<form:errors path="*" delimiter="<br/>" element="p" cssClass="msg error"  />
 	<div class="input-wrapp smaller">
@@ -96,7 +97,8 @@
 	<form:hidden path="id"/>
 	<p class="button-box">
 	<input type="submit" class="button" value="<spring:message code="form.save" />" />
-	</p>    
+	</p>   
+	</div>
 </form:form>	
 	<c:if test="${not empty model.unassignedNandoCodes}">
 		<div id="add-code-form">

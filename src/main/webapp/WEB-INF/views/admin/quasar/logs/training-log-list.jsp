@@ -51,6 +51,8 @@
 						<tr>
 							<th><spring:message code="logStatus" /></th>
 							<th><spring:message code="trainingLog" /> date</th>
+							<th><spring:message code="auditors" /></th>
+							<th><spring:message code="trainingLog.totals" /></th>
 							<th>Changed</th>
 							<th>&nbsp;</th> 
 						</tr>
@@ -75,6 +77,13 @@
 									<c:if test="${i.auditor.id != i.createdBy.id}">
 										<span class="created-by">Created by: <strong>${i.createdBy.name}</strong></span>
 									</c:if>
+								</td>
+								<td>
+									${i.formatedWorkers}
+								</td>
+								<td class="w100 c">
+									<strong>${i.totalHours}</strong>
+									 <spring:message code="hours" />
 								</td>
 								<td class="last-edit">
 									<joda:format value="${i.changed}" pattern="dd.MM.yyyy HH:mm"/> / ${i.changedBy.name} 

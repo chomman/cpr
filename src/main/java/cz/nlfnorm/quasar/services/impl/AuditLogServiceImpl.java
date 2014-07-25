@@ -26,8 +26,6 @@ import cz.nlfnorm.quasar.enums.AuditLogItemType;
 import cz.nlfnorm.quasar.enums.LogStatus;
 import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
-import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
-import cz.nlfnorm.quasar.services.AuditorService;
 import cz.nlfnorm.utils.UserUtils;
 
 /**
@@ -44,12 +42,8 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	@Autowired
 	private AuditLogDao auditLogDao;
 	@Autowired
-	private AuditorService auditorService;
-	@Autowired
 	private AuditorEacCodeService auditorEacCodeService;
-	@Autowired
-	private AuditorNandoCodeService auditorNandoCodeService;
-	
+		
 	
 	/**
 	 * Create new auditor's audit log
@@ -270,9 +264,7 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	public void updateQualification(final AuditLog auditLog){
 		Validate.notNull(auditLog);
 		Validate.notNull(auditLog.getAuditor());
-		if(auditLog.getStatus() == null || !auditLog.getStatus().equals(LogStatus.APPROVED)){
-			throw new IllegalArgumentException("Audit log status is not Approved, " + auditLog);
-		}
+		validateApprovance(auditLog);
 		final Auditor auditor = auditLog.getAuditor();
 		final AuditLogTotalsDto totals = getTotalsFor(auditLog);
 		updateQsAuditorQualification(auditor, totals);

@@ -126,6 +126,20 @@ public class AuditorNandoCodeDaoImpl extends BaseDaoImpl<AuditorNandoCode, Long>
 			throw new IllegalArgumentException("Unknown auditor type: " + type);	
 		}
 	}
+
+	@Override
+	public void incrementCategorySpecificTraining(final Long nandoCodeId, final Long auditorId, final int plusHours) {
+		StringBuilder hql = new StringBuilder("update AuditorNandoCode code set ")
+		.append(" 	code.categorySpecificTraining = code.categorySpecificTraining + :plusHours, ")
+		.append("   code.changed = :changed ")
+		.append(" where code.auditor.id = :auditorId and code.nandoCode.id = :nandoCodeId ");
+		createQuery(hql)
+			.setLong("auditorId", auditorId)
+			.setLong("nandoCodeId", nandoCodeId)
+			.setInteger("plusHours", plusHours)
+			.setTimestamp("changed", new LocalDateTime().toDate())
+			.executeUpdate();
+	}
 	
 	
 	
