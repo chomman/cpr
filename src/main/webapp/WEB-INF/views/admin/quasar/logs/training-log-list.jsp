@@ -27,7 +27,7 @@
 	
 			<div id="content">
 				
-				<c:if test="${common.user.auditor}">									
+													
 				<ul class="sub-nav auditor-nav">
 					<li>
 						<a:adminurl href="/quasar/training-logs">
@@ -40,7 +40,6 @@
 						</a:adminurl>
 					</li>
 				</ul>
-				</c:if>
 								
 				<jsp:include page="log-filter.jsp" />
 								

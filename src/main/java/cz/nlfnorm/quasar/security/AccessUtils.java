@@ -22,7 +22,7 @@ public class AccessUtils {
 	
 	public static boolean  isLoggedUserAuthorizedTo(AbstractLog log){
 		final User user = UserUtils.getLoggedUser();
-		if(user.isQuasarAdmin() || user.getId().equals(log.getAuditor().getId())){
+		if(user.isQuasarAdmin() || user.getId().equals(log.getChangedBy().getId())){
 			return true;
 		}
 		return false;
@@ -51,4 +51,5 @@ public class AccessUtils {
 	public static boolean isLoggedUserPartnerManager(){
 		return isUserPartnerManager(UserUtils.getLoggedUser());
 	}
+	
 }

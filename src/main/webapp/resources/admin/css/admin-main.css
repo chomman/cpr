@@ -716,3 +716,4 @@ border-top-left-radius: 6px;border-top-right-radius: 6px;}
 .action-nav a:hover{color: #222;}
 
 .chosen-container.formerr .chosen-single{border:1px solid red !important}
+#locale{display: none;}

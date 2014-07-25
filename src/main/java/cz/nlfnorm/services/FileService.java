@@ -21,6 +21,10 @@ public interface FileService {
 	
 	String saveFile(String originalFilename, byte[] content, String intoDir);
 	
+	String saveFile(String originalFileName, InputStream image, String intoDir, boolean keepOriginalFileName);
+	
+	String saveFile(String originalFilename, byte[] content, String intoDir, boolean keepOriginalFileName);
+	
 	List<FileDto> getImagesFromDirectory(String dirName);
 	
 	List<FileDto> readDirectory(String dirName);

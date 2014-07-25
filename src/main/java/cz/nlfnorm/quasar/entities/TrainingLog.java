@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDate;
@@ -217,7 +218,38 @@ public class TrainingLog extends AbstractLog {
 		for(CategorySpecificTraining cst : categorySpecificTrainings){
 			hours += cst.getHours();
 		}
-		hours += iso13485 + iso13485 +mdd + ivd + aimd + nb1023Procedures;
+		hours += iso13485 + iso9001 +mdd + ivd + aimd + nb1023Procedures;
 		return hours;
 	}
+	
+	@Transient
+	public boolean containsAuditor(final Long auditorId){
+		for(final Auditor a: auditors){
+			if(a.getId().equals(auditorId)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	@Transient
+	public boolean getBaseDateAreSet(){
+		return getTotalHours() > 0 && StringUtils.isNotBlank(getSubject()) && date != null; 
+	}
+	
+	@Transient
+	public boolean isAttachmentUploaded(){
+		return StringUtils.isNotBlank(attachment);
+	}
+	
+	@Transient 
+	public boolean isAuditorListSet(){
+		return auditors.size() > 0; 
+	}
+	
+	@Transient 
+	public boolean isValid(){
+		return isAttachmentUploaded() && getBaseDateAreSet() && isAuditorListSet();
+	}
+	
 }

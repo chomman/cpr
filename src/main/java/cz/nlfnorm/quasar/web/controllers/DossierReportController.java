@@ -61,7 +61,7 @@ public class DossierReportController extends LogControllerSupport {
 	
 	
 	@RequestMapping(LIST_MAPPING_URL)
-	public String handleProfileAuditLogs(ModelMap modelMap, HttpServletRequest request) {
+	public String handleDossierReportList(ModelMap modelMap, HttpServletRequest request) {
 		Map<String, Object> model = handlePageRequest(request, dossierReportService, LIST_MAPPING_URL);
 		appendTabNo(model, TAB);
 		appendModel(modelMap, model);
@@ -70,7 +70,7 @@ public class DossierReportController extends LogControllerSupport {
 	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.GET)
-	public String handleAuditLogEdit(ModelMap modelMap, @PathVariable long id, HttpServletRequest request) throws ItemNotFoundException{
+	public String handleDossierReportEdit(ModelMap modelMap, @PathVariable long id, HttpServletRequest request) throws ItemNotFoundException{
 		if(id == 0){
 			String userId = request.getParameter(WORKER_ID_PARAM);
 			if(StringUtils.isBlank(userId)){
@@ -93,7 +93,7 @@ public class DossierReportController extends LogControllerSupport {
 	
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)
-	public String processSubmitAuditLogItem(
+	public String processItemEdit(
 			ModelMap modelMap, 
 			@Valid @ModelAttribute(COMMAND) DossierReportItemForm form,
 			BindingResult result,

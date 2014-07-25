@@ -105,24 +105,35 @@ public class FileServiceImpl implements FileService {
 	}
 	
 	@Override
-	public String saveFile(final String originalFileName, InputStream image, final String intoDir) {
-	    //Validate.notNull(originalFileName);
-	    //Validate.notNull(image);
+	public String saveFile(String originalFileName, InputStream is, final String intoDir) {
+		return saveFile(originalFileName, is, intoDir, false);
+	}
+	
+	@Override
+	public String saveFile(final String originalFileName, InputStream is, final String intoDir, final boolean keepOriginalFilenName) {
 	    try {
-	        byte[] data = new byte[image.available()];
-	        image.read(data);
-	        image.close();
-	        return saveFile(originalFileName, data, intoDir);
+	        byte[] data = new byte[is.available()];
+	        is.read(data);
+	        is.close();
+	        return saveFile(originalFileName, data, intoDir, keepOriginalFilenName);
 	    } catch (IOException e) {
 	        logger.warn("Obrázek " + originalFileName + " se nepodařilo ulozit.", e);
 	        return null;
 	    }
 	}
 	
+
 	@Override
 	public String saveFile(final String originalFilename, byte[] content,final String intoDir) {
-	    String filename = CodeUtils.generateProperFilename(originalFilename);
-	    String path = fileSaveDir + File.separatorChar + intoDir + File.separatorChar + filename;
+	  return saveFile(originalFilename, content, intoDir, false);
+	}
+	
+	@Override
+	public String saveFile(String originalFilename, byte[] content,final String intoDir, final boolean keepOriginalFileName) {
+		if(!keepOriginalFileName){
+			originalFilename = CodeUtils.generateProperFilename(originalFilename);
+		}
+	    String path = fileSaveDir + File.separatorChar + intoDir + File.separatorChar + originalFilename;
 	    try {
 	    	File dir = new File(fileSaveDir + File.separatorChar + intoDir);
 	    	
@@ -139,7 +150,7 @@ public class FileServiceImpl implements FileService {
 	        logger.info("Soubor se nepodarilo ulozit: " + ioe.getMessage(), ioe);
 	        ioe.printStackTrace();
 	    }
-	    return filename;
+	    return originalFilename;
 	}
 	
 	@Override

@@ -52,6 +52,7 @@ $(function() {
 	$(document).on('change', '.bind-change', onSelectSufixOrCategory);
 	$(document).on('click', '.add-cst', onAddCategorySpecificTraining);
 	$(document).on('click', '#add-code-form .cancel', onCancelCategorySpecificTraining);
+	$(document).on('submit', '#upload form', showLoader);
 	
 	function onChangeStatusSubmit(){
 		$(this).val($.getMessage("submiting"));
@@ -490,14 +491,14 @@ function getNandoCodeUrl(){
 }
 
 function onAddCategorySpecificTraining(){
-	$(this).fadeOut();
+	$('.add-cst').addClass('blind');
 	$('.button-box').fadeOut();
 	$('#add-code-form').fadeIn(1000);
 	$('.transparent').animate({opacity: 0.6}, 1000);
 	return false;
 }
 function onCancelCategorySpecificTraining(){
-	$('.add-cst').fadeIn();
+	$('.add-cst').removeClass('blind');
 	$('.button-box').fadeIn(1000);
 	$('#add-code-form').fadeOut(0);
 	$('.transparent').animate({opacity: 1}, 1000);
