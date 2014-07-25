@@ -62,7 +62,7 @@ $(function() {
 	function onCancelChangeStatus(){
 		$("#change-status").addClass('hidden');
 		$('.qs-log-nav').show(500);
-		$('.qs-log-items').stop().animate({"opacity": 1});
+		changeOpacity(1);
 		return false;
 	}
 	
@@ -79,8 +79,18 @@ $(function() {
 		$form.removeClass('hidden');
 		$form.find('[type=submit]').removeClass().addClass('qs-btn').addClass($this.attr("data-cls"));
 		$this.parent().hide(500);
-		$('.qs-log-items').stop().animate({"opacity": 0.6});
+		changeOpacity(.6);
+		
 	}
+	function changeOpacity(to){
+		var $transparent = $('.transparent');
+		if($transparent.length > 0){
+			$transparent.animate({"opacity": to});
+		}else{
+			$('.qs-log-items').animate({"opacity": to});
+		}
+	}
+	
 	
 	$cBodySelect.on('change', refreshOrderNoField);
 	$cBodySelect.on('chosen:updated', refreshOrderNoField);

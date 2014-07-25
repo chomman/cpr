@@ -102,8 +102,10 @@
 	</c:if>
 	<c:if test="${not model.isEditable}">
 		<jsp:include page="training-log-edit-base-informations.jsp" />
-		<div class="qs-bx-wrapp qs-log-items">
-			<jsp:include page="training-log-auditors.jsp" />
+		<div class="qs-bx-wrapp qs-log-items  bg-white">
+			<div class=" transparent">
+				<jsp:include page="training-log-auditors.jsp" />
+			</div>
 		</div>
 	</c:if>
 			
