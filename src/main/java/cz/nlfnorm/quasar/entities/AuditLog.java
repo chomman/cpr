@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -29,6 +31,14 @@ public class AuditLog extends AbstractLog {
 	
 	public AuditLog(Auditor auditor){
 		super(auditor);
+	}
+	
+	
+	@Override
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "auditor_id")
+	public Auditor getAuditor() {
+		return super.getAuditor();
 	}
 	
 	@OrderBy(clause = "audit_date")

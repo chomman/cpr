@@ -110,8 +110,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 		this.status = status;
 	}
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "auditor_id")
+	@Transient
 	public Auditor getAuditor() {
 		return auditor;
 	}
