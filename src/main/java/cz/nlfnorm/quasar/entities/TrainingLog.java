@@ -257,11 +257,16 @@ public class TrainingLog extends AbstractLog {
 		if(auditors.size() == 0){
 			return "0";
 		}
-		String firstAuditor = auditors.iterator().next().getName();
+		Iterator<Auditor> it = auditors.iterator();
+		final String firstAuditor = it.next().getName();
 		if(auditors.size() == 1){
 			return firstAuditor;
 		}
-		return firstAuditor +", and " + (auditors.size() - 1) + " other...";
+		final String secondAuditor = it.next().getName();
+		if(auditors.size() == 2){
+			return firstAuditor + " and " + secondAuditor;
+		}
+		return firstAuditor +", "+ secondAuditor +" and " + (auditors.size() - 1) + " others ...";
 	}
 	
 }

@@ -74,9 +74,7 @@
 									<c:if test="${i.status.locked}">
 										<strong>&nbsp; (<spring:message code="locked" />)</strong>
 									</c:if>
-									<c:if test="${i.auditor.id != i.createdBy.id}">
-										<span class="created-by">Created by: <strong>${i.createdBy.name}</strong></span>
-									</c:if>
+									<span class="created-by">Created by: <strong>${i.createdBy.name}</strong></span>
 								</td>
 								<td>
 									${i.formatedWorkers}

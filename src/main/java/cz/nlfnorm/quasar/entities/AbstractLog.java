@@ -32,7 +32,7 @@ import cz.nlfnorm.quasar.enums.LogStatus;
 public abstract class AbstractLog extends IdentifiableEntity{
 	
 	private LogStatus status;
-	private Auditor auditor;
+	
 	private int revision;
 	private LocalDateTime changed;
 	private LocalDateTime created;
@@ -47,12 +47,7 @@ public abstract class AbstractLog extends IdentifiableEntity{
 		status = LogStatus.DRAFT;
 		revision = 1;
 	}
-	
-	public AbstractLog(Auditor auditor){
-		this();
-		this.auditor = auditor;
-	}
-	
+		
 	@Id
 	@Override
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quasar_log_id_seq")
@@ -108,15 +103,6 @@ public abstract class AbstractLog extends IdentifiableEntity{
 
 	public void setStatus(LogStatus status) {
 		this.status = status;
-	}
-	
-	@Transient
-	public Auditor getAuditor() {
-		return auditor;
-	}
-
-	public void setAuditor(Auditor auditor) {
-		this.auditor = auditor;
 	}
 
 	public int getRevision() {

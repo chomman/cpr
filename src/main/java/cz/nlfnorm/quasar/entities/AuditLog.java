@@ -26,19 +26,24 @@ public class AuditLog extends AbstractLog {
 	
 	private static final long serialVersionUID = -5586903173779695020L;
 	private Set<AuditLogItem> items = new HashSet<>();
+	private Auditor auditor;
 	
 	public AuditLog(){}
 	
 	public AuditLog(Auditor auditor){
-		super(auditor);
+		super();
+		this.auditor = auditor;
 	}
 	
-	
-	@Override
+
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "auditor_id")
 	public Auditor getAuditor() {
-		return super.getAuditor();
+		return auditor;
+	}
+	
+	public void setAuditor(Auditor auditor) {
+		this.auditor = auditor;
 	}
 	
 	@OrderBy(clause = "audit_date")

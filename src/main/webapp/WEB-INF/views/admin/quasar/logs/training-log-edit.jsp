@@ -70,7 +70,7 @@
 						<spring:message code="log.approve" /> 
 					</a>
 					<a href="#change-status" class="qs-btn qs-change-status-btn qs-reject" data-cls="qs-reject" 
-					data-status="REFUSED" data-note="<spring:message code="log.refuse.note" arguments="${model.log.auditor.name}" />">
+					data-status="REFUSED" data-note="<spring:message code="log.refuse.note" arguments="${model.log.createdBy.name}" />">
 						<spring:message code="log.refuse" /> 
 					</a>
 				</c:if>

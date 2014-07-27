@@ -17,6 +17,7 @@ import cz.nlfnorm.mail.NlfnormMailSender;
 import cz.nlfnorm.quasar.constants.AuditorFilter;
 import cz.nlfnorm.quasar.entities.AbstractLog;
 import cz.nlfnorm.quasar.entities.AuditLog;
+import cz.nlfnorm.quasar.entities.Auditor;
 import cz.nlfnorm.quasar.entities.Comment;
 import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.entities.QuasarSettings;
@@ -148,12 +149,13 @@ public abstract class LogServiceImpl{
 	private void sendStatusChangedEmail(final AbstractLog log, final String message){
 		final EmailTemplate emailTemplate = emailTemplateService.getByCode(EmailTemplate.QUASAR_STATUS_CHANGED);
 		if(emailTemplate != null){
+			final Auditor auditor = auditorService.getById(log.getCreatedBy().getId());
 			final Map<String, Object> context = prepareContex(log, message);
 			final QuasarSettings settings = quasarSettingsService.getSettings();
 			HtmlMailMessage htmlMessage = new HtmlMailMessage(settings.getNotificationEmail(), emailTemplate,  context);
 			htmlMessage.addRecipientTo(log.getCreatedBy().getEmail());
-			if(log.getAuditor() != null){
-				htmlMessage.addRecipientTo(EmailUtils.sprintEmails(log.getAuditor().getOtherEmails()));
+			if(auditor != null){
+				htmlMessage.addRecipientTo(EmailUtils.sprintEmails(auditor.getOtherEmails()));
 			}
 			nlfnormMailSender.send(htmlMessage);
 		}
