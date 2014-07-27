@@ -348,7 +348,7 @@
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.noTfReviewsForSterile" />:</label>
 				<div class="field">
-					${model.auditor.noTfReviewsForSterileMd} 
+					${model.sterileNandoCode.numberOfTfReviews}
 				</div>
 			</div>
 		</div>
@@ -369,11 +369,44 @@
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.noDdReviewsForSterile" />:</label>
 				<div class="field">
-					${model.auditor.noDdReviewsForSterileMd}
+					${model.sterileNandoCode.numberOfDdReviews}
 				</div>
 			</div>			
 		</div>
 		<div class="clear"></div>
+		<p class="form-head mini">
+			<spring:message code="auditor.qsAuditor" /> &amp; 
+			<spring:message code="auditor.productAssessorA" /> -  
+			<spring:message code="auditor.function.activities" />	
+		</p>
+		
+		<div class="${model.settings.minAuditDaysInRecentYear > command.auditDaysInRecentYear or 
+			 		  model.settings.minAuditDaysInRecentYear > model.auditDaysIntRecentyear
+			  ? 'qs-valid' : 'qs-invalid'}" >
+			<div class="input-wrapp">
+				<label> 
+						<strong> <em class="red">*</em> 
+						<spring:message code="auditor.auditDaysInRecentYear" />:
+						</strong>
+				</label>
+				<div class="field">
+					${model.auditDaysIntRecentyear >= model.auditor.auditDaysInRecentYear ? 
+						model.auditDaysIntRecentyear : model.auditor.auditDaysInRecentYear
+					}
+					&nbsp;
+				</div>
+			</div>
+		</div>
+		<div class="input-wrapp smaller">
+			<label> 
+					<strong> <em class="red">*</em> 
+					<spring:message code="auditor.trainingHoursInRecentYear" /> (static value):
+					</strong>
+			</label>
+			<div class="field">
+				${model.auditor.trainingHoursInRecentYear}
+			</div>
+		</div>
 	</div>	
 	
 

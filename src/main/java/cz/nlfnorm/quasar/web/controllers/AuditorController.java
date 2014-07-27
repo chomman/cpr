@@ -160,7 +160,6 @@ public class AuditorController extends QuasarSupportController {
 			throw new PageNotFoundEception();
 		}
 		model.put("params", criteria);
-		model.put("orders", AuditorOrder.getAll());
 		model.put("partners", partnerService.getAll());
 		model.put("functionType", functionType);
 		model.put("disableScripts", true);
@@ -170,6 +169,7 @@ public class AuditorController extends QuasarSupportController {
 		return getViewDir() + "function-output";
 	}
 	
+
 	@RequestMapping(LIST_MAPPING_URL)
 	public String showAuditorList(ModelMap modelMap, HttpServletRequest request) {
 		Map<String, Object> model = new HashMap<>();
@@ -247,6 +247,7 @@ public class AuditorController extends QuasarSupportController {
 		final Auditor auditor = auditorService.getById(UserUtils.getLoggedUser().getId());
 		Map<String, Object> model = new HashMap<>();
 		model.put("auditor", auditor);
+		prepareAuditorProfileModel(model, auditor);
 		if(functionType != SUB_TAB_PERSONAL_DATA){
 			prepareModelForFunction(model, functionType, auditor, false);
 		}
@@ -454,23 +455,26 @@ public class AuditorController extends QuasarSupportController {
 	
 	private void prepareAuditorModel(ModelMap map, Auditor form, Auditor auditor){
 		Map<String, Object> model = new HashMap<>();
-		model.put("auditor", auditor);
 		model.put("countries", countryService.getAllCountries());
 		model.put("partners", partnerService.getAll());
-		model.put("settings", quasarSettingsService.getSettings());
-		model.put("auditDaysIntRecentyear", auditorService.getCountOfAuditDaysInRecentYear(auditor.getId()));
 		model.put("educationsLevels", educationLevelService.getAll());
 		model.put("fieldsOfEducationActiveMd", fieldOfEducationService.getForActiveMedicalDevices());
-		model.put("sterileNandoCode", auditorNandoCodeService.getByNandoCode(NandoCode.STERILE, auditor.getId()));
 		model.put("fieldsOfEducationNonActiveMd", fieldOfEducationService.getForNonActiveMedicalDevices());
 		model.put("unassignedExperiences", experienceService.getAllExcept(auditor));
+		prepareAuditorProfileModel(model, auditor);
 		map.addAttribute(COMMAND, form);
 		map.addAttribute("auditorExperience", new AuditorExperience(auditor));
 		appendSubTab(model, SUB_TAB_PERSONAL_DATA);
 		appendTabNo(model, TAB);
 		appendModel(map, model);
 	}
-
+	
+	private void prepareAuditorProfileModel(final Map<String, Object> model, final Auditor auditor){
+		model.put("auditor", auditor);
+		model.put("settings", quasarSettingsService.getSettings());
+		model.put("sterileNandoCode", auditorNandoCodeService.getByNandoCode(NandoCode.STERILE, auditor.getId()));
+		model.put("auditDaysIntRecentyear", auditorService.getCountOfAuditDaysInRecentYear(auditor.getId()));
+	}
 	
 	
 	private void prepareCreateModel(ModelMap map, AuditorForm form){

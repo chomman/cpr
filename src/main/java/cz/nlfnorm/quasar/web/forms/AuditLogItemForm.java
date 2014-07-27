@@ -58,7 +58,7 @@ public class AuditLogItemForm extends AbstractLogItemForm
 	@Override
 	public Company getCompany() {
 		if(item != null){
-			item.getCompany();
+			return item.getCompany();
 		}
 		return null;
 	}
