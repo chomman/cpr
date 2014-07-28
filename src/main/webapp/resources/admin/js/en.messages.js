@@ -16,5 +16,7 @@ var Messages = {
 	alertUnassign : 'Are you sure you want to remove from list?',
 		
 	jqueryRatyHints : ['Poor', 'Weak', 'Average', 'Good', 'Excellent'],
-	jqueryRatyUnacceptable : 'Unacceptable'
+	jqueryRatyUnacceptable : 'Unacceptable',
+		
+	noItemFound : 'No items found'
 };

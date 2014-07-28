@@ -15,6 +15,8 @@ import cz.nlfnorm.web.controllers.admin.AdminSupportController;
  */
 public class QuasarSupportController extends AdminSupportController {
 	
+	protected final static String LOG_ITEMS_KEY = "logs";
+	
 	protected final static String COMMAND = "command";
 		
 	@Override

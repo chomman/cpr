@@ -13,6 +13,8 @@ public interface AuditLogDao extends BaseDao<AuditLog, Long>{
 	
 	PageDto getPage(Map<String, Object> criteria, int pageNumber);
 	
+	PageDto getPage(Map<String, Object> criteria);
+	
 	AuditLog getByAuditLogItemId(Long id);
 	
 	LocalDate getEarliestPossibleDateForLog(Long auditorId);

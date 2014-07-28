@@ -303,3 +303,12 @@ form .error{padding-top:11px;padding-bottom:11px;}
 #upload .delete{color:red;font-size:14px;text-decoration:underline;}
 
 .bg-white{background: #fff !important;}
+
+
+/* DASHBOARD */
+.widget-bx{background:#fff;margin:15px 0;}
+.widget-bx h5{padding:10px 20px;border-top-left-radius: 8px;border-top-right-radius: 8px;background: #888;color:#fff;}
+.widget-items {border:1px solid #888;min-height:50px;background-color:#fafafa}
+.loading{background-image:url(../img/ajax-loader.gif);background-repeat:no-repeat;background-position:center;}
+#audit-logs.widget-bx{margin-top: 0;}
+.widget .created-by{display:none;}

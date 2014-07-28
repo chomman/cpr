@@ -63,7 +63,7 @@ public abstract class LogControllerSupport extends QuasarSupportController {
 		final PageDto page = service.getPage(criteria, currentPage);
 		if(page.getCount() > 0){
 			model.put("paginationLinks", getPaginationItems(request, criteria, page.getCount(), url));
-			model.put("logs", page.getItems());
+			model.put(LOG_ITEMS_KEY, page.getItems());
 		}
 		model.put("statuses", LogStatus.getAll());
 		model.put("params", criteria);

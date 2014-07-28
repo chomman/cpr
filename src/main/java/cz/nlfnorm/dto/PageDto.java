@@ -9,6 +9,10 @@ public class PageDto {
 	
 	private List<Object> items = new ArrayList<Object>();
 
+	public PageDto(){}
+	public PageDto(List<Object> items){
+		this.items = items;
+	}
 	public int getCount() {
 		return count.intValue();
 	}

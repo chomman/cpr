@@ -13,6 +13,8 @@ public interface TrainingLogDao extends BaseDao<TrainingLog, Long>{
 
 	PageDto getPage(Map<String, Object> criteria, int pageNumber);
 	
+	PageDto getPage(Map<String, Object> criteria);
+	
 	List<Auditor> getAllUnassignedAuditorsToLog(long logId, long userId);
 	
 	List<Auditor> getAllUnassignedAuditorsToLog(TrainingLog log);

@@ -12,5 +12,7 @@ public interface DossierReportDao extends BaseDao<DossierReport, Long>{
 	
 	PageDto getPage(Map<String, Object> criteria, int pageNumber);
 	
+	PageDto getPage(Map<String, Object> criteria);
+	
 	LocalDate getEarliestPossibleDateForLog(Long auditorId);
 }

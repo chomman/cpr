@@ -16,7 +16,9 @@ var Messages = {
 	alertUnassign : 'Opravdu chcete zrušit přiřazení?',
 		
 	jqueryRatyHints : ['Poor', 'Weak', 'Average', 'Good', 'Excellent'],
-	jqueryRatyUnacceptable : 'Unacceptable'	
+	jqueryRatyUnacceptable : 'Unacceptable',
+	
+	noItemFound : 'No item found'
 };
 
 

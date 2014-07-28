@@ -296,4 +296,10 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 			totals.incrementTfReviews();
 		}
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public PageDto getPage(Map<String, Object> criteria) {
+		return documentationLogDao.getPage(criteria);
+	}
 }

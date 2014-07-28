@@ -377,6 +377,14 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	public Double getAvgAuditorsRating(final Auditor auditor) {
 		return auditLogDao.getAvgAuditorsRating(auditor);
 	}
+
+	
+
+	@Override
+	@Transactional(readOnly = true)
+	public PageDto getPage(Map<String, Object> criteria) {
+		return auditLogDao.getPage(criteria);
+	}
 	
 	
 }

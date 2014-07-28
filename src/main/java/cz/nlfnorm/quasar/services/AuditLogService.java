@@ -22,6 +22,8 @@ public interface AuditLogService extends PageableLogService<AuditLog>{
 	
 	PageDto getPage(Map<String, Object> criteria, int pageNumber);
 	
+	PageDto getPage(Map<String, Object> criteria);
+	
 	Long createNewToLoginedUser();
 	
 	LocalDate getEarliestPossibleDateForAuditLog(Auditor auditor);

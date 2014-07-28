@@ -251,5 +251,11 @@ public class TrainingLogServiceImpl extends LogServiceImpl implements TrainingLo
 		auditor.setTrainingIso9001InHours(auditor.getTrainingIso9001InHours() + log.getIso9001());
 		auditor.setNb1023Procedures(auditor.getNb1023Procedures() + log.getNb1023Procedures());
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public PageDto getPage(Map<String, Object> criteria) {
+		return trainingLogDao.getPage(criteria);
+	}
 	
 }

@@ -19,6 +19,7 @@ import cz.nlfnorm.utils.NlfStringUtils;
 
 public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoImpl<T, Long> {
 	
+	private final static int DEFAULT_PAGE_SIZE = 3;
 	
 	public AbstractLogDaoImpl(Class<T> persistentClass){
 		super(persistentClass);
@@ -36,6 +37,19 @@ public abstract class AbstractLogDaoImpl<T extends AbstractLog> extends BaseDaoI
 						.setMaxResults(1)
 						.uniqueResult();
 		
+	}
+	
+	@SuppressWarnings("unchecked")
+	public PageDto getPage(Map<String, Object> criteria){
+		StringBuilder hql = new StringBuilder("select al from "+ persistentClass.getName());
+		hql.append(getAuditorJoinClouse());
+		hql.append(prepareHqlForQuery(criteria));
+		hql.append(getAuditorGroupByClouse());
+		hql.append(" order by al.status, al.created DESC ");
+		Query query = createQuery(hql);
+		prepareHqlQueryParams(query, criteria);
+		query.setMaxResults(DEFAULT_PAGE_SIZE);
+		return new PageDto(query.list());
 	}
 
 	
