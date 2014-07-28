@@ -14,14 +14,16 @@ function loadItems(url, selector){
 			url : getBasePath() + "/admin/quasar/async/widget/" + url
 		}, 
 		function(html){
+			console.log('result: ' + html);
+			console.log('length: ' + html.length);
 			var $items = $wrapp.find('div').eq(0);
-			if(html.length > 1){
+			if($.trim(html).length > 1){
 				 $items.html('<table class="data widget">'+html+'</table>');
 				 if(url === "1") initStars();
 			}else{
-				 $items.html('<p>'+$.getMessage("noItemFound")+'</p>');
+				 $items.html('<p class="msg alert">'+$.getMessage("noItemFound")+'</p>');
 			}
-			$wrapp.removeClass('loading');
+			$items.removeClass('loading');
 		}
 	);
 }
@@ -30,17 +32,18 @@ function loadItems(url, selector){
 
 function getItems(opts, callBack){
 	try{
-		//showWebpageLoader(); 
 		$.ajax(opts)
-		 .done( callBack );
-		// .fail( showErrors )
-		// .always( hideWebpageLoader );
+		 .done( callBack )
+		 .fail( onFail );
 	}catch(e){
 		console.warn(e);
 	}
 	 return false;
 }
 
+function onFail(){
+	showStatus({ err : 1, msg : $.getMessage("errUnknown") });
+}
 
 function initStars(){
 

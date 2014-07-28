@@ -14,20 +14,9 @@
 <div id="wrapper">
 	<h1><spring:message code="menu.dashboard"/></h1>
 	
-		<div class="widget-bx" id="audit-logs" data-url="1">
-			<h5>Latest Audit logs</h5>
-			<div class="widget-items loading"></div>
-		</div>	
-		
-		<div class="widget-bx" id="dossier-reports" data-url="2">
-			<h5>Latest Dossier reports</h5>
-			<div class="widget-items loading"></div>
+		<div class="quasar-dashboard"> 
+			<jsp:include page="../dashboard-boxsies.jsp" />
 		</div>
-		
-		<div class="widget-bx" id="training-logs" data-url="3">
-			<h5>Latest Training logs</h5>
-			<div class="widget-items loading"></div>
-		</div>	
 				
 </div>
 </body>

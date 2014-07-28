@@ -238,9 +238,11 @@ strong.qs-log-status{border-radius:5px;padding-right:5px;}
 .qs-change-status input{display:inline-block;border-radius:5px;padding:8px 20px;margin:5px ;color:#fff;font-size:13px;font-weight:bold;}
 .qs-log-nav .qs-new{background-color:#10AEE3;border:2px solid #089BCC;}
 .qs-submit-for-approval,
+.widget-bx .add-new,
 .qs-approve{background-color:#28BF76;border:2px solid #1BA864;}
 .qs-reject{background-color:#D9384E;border:2px solid #BD2035;}
-.qs-log-nav a:hover{background-color:#555;border:2px solid #333;}
+.qs-log-nav a:hover,
+.widget-bx .add-new:hover{background-color:#555;border:2px solid #333;}
 
 .qs-change-status h4{font-size:15px;padding:5px;color:#555;background:#fafafa;border-bottom:1px solid #ddd;;}
 .qs-change-status{text-align:center;background:#fff}
@@ -306,9 +308,12 @@ form .error{padding-top:11px;padding-bottom:11px;}
 
 
 /* DASHBOARD */
-.widget-bx{background:#fff;margin:15px 0;}
+.quasar-dashboard{padding: 25px;}
+.widget-bx{background:#fff;margin:25px 0;position:relative;-webkit-box-shadow: 0 0 5px 2px #B5B5B5;}
 .widget-bx h5{padding:10px 20px;border-top-left-radius: 8px;border-top-right-radius: 8px;background: #888;color:#fff;}
-.widget-items {border:1px solid #888;min-height:50px;background-color:#fafafa}
+.widget-items {border:1px solid #888;min-height:50px;background-color:#fafafa;box-shadow: 0 0 5px 2px #B5B5B5;}
+.widget-bx .msg{border-radius:5px;padding:12px 10px 12px 60px;margin:15px 25px}
 .loading{background-image:url(../img/ajax-loader.gif);background-repeat:no-repeat;background-position:center;}
+.widget-bx .add-new{position:absolute;top:3px;right:15px;font-size:13px;color:#fff;padding:5px 15px;border-radius:8px;}
 #audit-logs.widget-bx{margin-top: 0;}
 .widget .created-by{display:none;}

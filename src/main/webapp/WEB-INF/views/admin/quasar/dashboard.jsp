@@ -21,23 +21,7 @@
 			</div>
 			<h1><spring:message code="quasar.long" /></h1>
 			<div id="content">
-								
-				<div class="widget-bx" id="audit-logs" data-url="1">
-					<h5>Latest Audit logs</h5>
-					<div class="widget-items loading"></div>
-				</div>	
-				
-				<div class="widget-bx" id="dossier-reports" data-url="2">
-					<h5>Latest Dossier reports</h5>
-					<div class="widget-items loading"></div>
-				</div>
-				
-				<div class="widget-bx" id="training-logs" data-url="3">
-					<h5>Latest Training logs</h5>
-					<div class="widget-items loading"></div>
-				</div>	
-				
-	
+				<jsp:include page="dashboard-boxsies.jsp" />
 			</div>	
 		</div>
 		<div class="clear"></div>	
