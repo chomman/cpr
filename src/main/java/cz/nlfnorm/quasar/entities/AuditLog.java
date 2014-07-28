@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -27,6 +28,7 @@ public class AuditLog extends AbstractLog {
 	private static final long serialVersionUID = -5586903173779695020L;
 	private Set<AuditLogItem> items = new HashSet<>();
 	private Auditor auditor;
+	private Double rating;
 	
 	public AuditLog(){}
 	
@@ -35,6 +37,15 @@ public class AuditLog extends AbstractLog {
 		this.auditor = auditor;
 	}
 	
+	
+	@Column(name = "rating", scale = 1, precision = 1)
+	public Double getRating() {
+		return rating;
+	}
+
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "auditor_id")
@@ -69,7 +80,7 @@ public class AuditLog extends AbstractLog {
 		}
 		return days;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "AuditLog [id=" + getId() + "]";

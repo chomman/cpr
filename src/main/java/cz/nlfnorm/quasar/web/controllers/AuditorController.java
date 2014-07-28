@@ -41,6 +41,7 @@ import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.Partner;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.enums.AuditorOrder;
+import cz.nlfnorm.quasar.services.AuditLogService;
 import cz.nlfnorm.quasar.services.AuditorEacCodeService;
 import cz.nlfnorm.quasar.services.AuditorNandoCodeService;
 import cz.nlfnorm.quasar.services.AuditorService;
@@ -92,6 +93,8 @@ public class AuditorController extends QuasarSupportController {
 	@Autowired
 	private AuditorValidator auditorValidator;
 	
+	@Autowired
+	private AuditLogService auditLogService;
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -457,6 +460,7 @@ public class AuditorController extends QuasarSupportController {
 		Map<String, Object> model = new HashMap<>();
 		model.put("countries", countryService.getAllCountries());
 		model.put("partners", partnerService.getAll());
+		model.put("avgAuditLogRating", auditLogService.getAvgAuditorsRating(auditor));
 		model.put("educationsLevels", educationLevelService.getAll());
 		model.put("fieldsOfEducationActiveMd", fieldOfEducationService.getForActiveMedicalDevices());
 		model.put("fieldsOfEducationNonActiveMd", fieldOfEducationService.getForNonActiveMedicalDevices());

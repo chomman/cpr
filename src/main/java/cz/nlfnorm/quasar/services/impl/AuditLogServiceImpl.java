@@ -143,11 +143,13 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 
 	
 	/**
-	 * Change to given audit log status, if is given user authorized and statuses are different. 
+	 * Change to given audit log status and log's rating, if is given user authorized and statuses are different.
+	 * Rating will be set only only If new status is REFUSED or APPROVED, otherwise will be ignored. 
 	 * 
 	 * @param newStatus - new status of given log
 	 * @param log - Auditor's log
-	 * @param withComment - user's comment (can be empty) 
+	 * @param withComment - user's comment (can be empty)
+	 * @param rating - Audit log rating 
 	 * 
 	 * @see {@link QuasarSettings}
 	 * @see {@link LogStatus}
@@ -155,19 +157,27 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 	 * @throws IllegalArgumentException - if given new status is not implemented, or given log and new status are NULL
 	 */
 	@Override
-	public void changeStatus(final AuditLog auditLog, final LogStatus newStatus, final String comment) {
+	public void changeStatus(final AuditLog auditLog, final LogStatus newStatus, final String comment, final Double rating) {
 		Validate.notNull(auditLog);
 		Validate.notNull(newStatus);
 		if(!newStatus.equals(auditLog.getStatus())){
 			if(newStatus.equals(LogStatus.PENDING)){
 				setPendingStatus(auditLog, comment);
 			}else if(newStatus.equals(LogStatus.REFUSED)){
+				setRating(auditLog, rating);
 				setRfusedStatus(auditLog, comment);
 			}else if(newStatus.equals(LogStatus.APPROVED)){
+				setRating(auditLog, rating);
 				setApprovedStatus(auditLog, comment);
 			}else{
 				throw new IllegalArgumentException("Unknown Audit log status: " + newStatus);
 			}
+		}
+	}
+	
+	private void setRating(AuditLog log, final Double rating){
+		if(rating != null){
+			log.setRating(rating);
 		}
 	}
 	
@@ -359,6 +369,13 @@ public class AuditLogServiceImpl extends LogServiceImpl implements AuditLogServi
 		}else{
 			totals.incrementNbAudits();
 		}
+	}
+	
+
+	@Override
+	@Transactional(readOnly = true)
+	public Double getAvgAuditorsRating(final Auditor auditor) {
+		return auditLogDao.getAvgAuditorsRating(auditor);
 	}
 	
 	

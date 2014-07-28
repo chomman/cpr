@@ -531,10 +531,10 @@
 
     _target: function(score, evt) {
       if (this.opt.target) {
-        var target = $(this.opt.target);
-
-        if (!target.length) {
-          methods._error.call(this, 'Target selector invalid or missing!');
+        var target = $(this).parent().find(this.opt.target);
+        if (!target.length && console) {
+        	console.warn('Target selector invalid or missing!');
+        	//methods._error.call(this, 'Target selector invalid or missing!');
         }
 
         var mouseover = evt && evt.type === 'mouseover';
@@ -549,14 +549,12 @@
           } else if (this.opt.precision) {
             score = parseFloat(score).toFixed(1);
           }
-
           var mousemove = evt && evt.type === 'mousemove';
 
           if (!mouseover && !mousemove && !this.opt.targetKeep) {
             score = this.opt.targetText;
           }
         }
-
         methods._setTarget.call(this, target, score);
       }
     },
@@ -697,7 +695,6 @@
       return this.each(function() {
         if ($(this).data('readonly') !== true) {
           score = methods._adjustedScore.call(this, score);
-
           methods._apply.call(this, score);
           methods._target.call(this, score);
         }
@@ -718,18 +715,18 @@
   $.fn.raty.defaults = {
     cancel       : false,
     cancelClass  : 'raty-cancel',
-    cancelHint   : 'Unacceptable',
+    cancelHint   : Messages.jqueryRatyUnacceptable,
     cancelOff    : 'cancel-off.png',
     cancelOn     : 'cancel-on.png',
     cancelPlace  : 'left',
     click        : undefined,
     half         : true,
     halfShow     : true,
-    hints        : ['Poor', 'Weak', 'Average', 'Good', 'Excellent'],
+    hints        : Messages.jqueryRatyHints,
     iconRange    : undefined,
     mouseout     : undefined,
     mouseover    : undefined,
-    noRatedMsg   : 'Unacceptable',
+    noRatedMsg   : Messages.jqueryRatyUnacceptable,
     number       : 5,
     numberMax    : 20,
     path         : undefined,

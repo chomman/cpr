@@ -31,6 +31,8 @@ public class ChangeLogStatusController extends QuasarSupportController {
 	@Autowired
 	private TrainingLogService trainingLogService;
 	
+	
+	
 	@RequestMapping( value = "/admin/quasar/change-log-status", method = RequestMethod.POST)
 	public String proccessChangeLogStatus(
 			@ModelAttribute("changeLogStatusForm") ChangeLogStatusForm form, 
@@ -41,7 +43,8 @@ public class ChangeLogStatusController extends QuasarSupportController {
 				auditLogService.changeStatus(
 						auditLogService.getById(form.getLogId()),
 					    form.getStatus(),
-					    form.getComment());
+					    form.getComment(),
+					    form.getRating());
 				return getAuditLogUrl(form.getLogId());
 			case ACTION_DOSSIER_REPORT:
 				dossierReportService.changeStatus(
@@ -59,6 +62,7 @@ public class ChangeLogStatusController extends QuasarSupportController {
 			throw new IllegalArgumentException("Unsupported action: " + form.getAction()) ;
 		}
 	}
+	
 	
 	private void cleanComment(final ChangeLogStatusForm form){
 		if(StringUtils.isNotBlank(form.getComment())){

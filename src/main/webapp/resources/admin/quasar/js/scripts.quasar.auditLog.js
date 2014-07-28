@@ -67,10 +67,12 @@ $(function() {
 	}
 	
 	function onChangeStatus(){
-		$this = $(this),
-		note = $this.attr("data-note"),
-		$form = $('#change-status');
-		$form.find('input[name=status]').val($this.attr('data-status'));
+		var $this = $(this),
+			note = $this.attr("data-note"),
+			$form = $('#change-status'),
+			status = $this.attr('data-status');
+		$form.find('input[name=status]').val(status);
+		showOrHideRatingForm(status);
 		if(typeof note !== 'undefined' && note.length > 0){
 			$form.find('p').remove();
 			$form.append('<p>' + note + '</p>');
@@ -80,8 +82,19 @@ $(function() {
 		$form.find('[type=submit]').removeClass().addClass('qs-btn').addClass($this.attr("data-cls"));
 		$this.parent().hide(500);
 		changeOpacity(.6);
-		
 	}
+	
+	function showOrHideRatingForm(status){
+		var $wrapp =  $('.rating-wrapp-form');
+		if($wrapp.length > 0){
+			if(status === 'APPROVED' || status === 'REFUSED'){
+				$wrapp.removeClass('hidden');
+			}else{
+				$wrapp.remove();
+			}
+		}
+	}
+	
 	function changeOpacity(to){
 		var $transparent = $('.transparent');
 		if($transparent.length > 0){

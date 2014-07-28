@@ -28,7 +28,7 @@ public interface AuditLogService extends PageableLogService<AuditLog>{
 	
 	void updateAndSetChanged(AuditLog auditLog);
 	
-	void changeStatus(AuditLog auditLog, LogStatus newStatus, String comment);
+	void changeStatus(AuditLog auditLog, LogStatus newStatus, String comment, Double rating);
 		
 	void setPendingStatus(AuditLog log, String withComment);
 	
@@ -39,4 +39,6 @@ public interface AuditLogService extends PageableLogService<AuditLog>{
 	AuditLogTotalsDto getTotalsFor(AuditLog auditLog);
 	
 	void updateQualification(AuditLog auditLog);
+	
+	Double getAvgAuditorsRating(Auditor auditor);
 }

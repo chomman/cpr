@@ -8,6 +8,7 @@ public class ChangeLogStatusForm {
 	private LogStatus status;
 	private int action;
 	private Long logId;
+	private Double rating;
 	
 	public String getComment() {
 		return comment;
@@ -33,6 +34,10 @@ public class ChangeLogStatusForm {
 	public void setStatus(LogStatus status) {
 		this.status = status;
 	}
-	
-	
+	public Double getRating() {
+		return rating;
+	}
+	public void setRating(Double rating) {
+		this.rating = rating;
+	}	
 }

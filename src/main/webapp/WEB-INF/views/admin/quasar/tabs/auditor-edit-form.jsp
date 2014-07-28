@@ -44,6 +44,18 @@
 		<div class="field">
 			<div data-rating="${command.rating}" id="rating-wrapp"></div>
 			<div id="rating-text"></div>
+			<div class="audit-log-rating">
+				<span>Audit logs rating (avg):</span>
+				<c:if test="${not empty model.avgAuditLogRating}">
+					<strong id="auditLogRating" title="" class="tt like-input">${model.avgAuditLogRating}</strong>
+				</c:if>
+				<c:if test="${empty model.avgAuditLogRating}">
+					<p class="mini-info inline">
+						<spring:message code="auditLog.rating.none" />
+					</p>
+				</c:if>
+							
+			</div>
 			<div class="clear"></div>
 		</div>
 	</div>

@@ -9,6 +9,9 @@
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/tagit.ui-zendesk.css" />" />
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" /> 
 	<script src="<c:url value="/resources/admin/js/tag-it.min.js" />"></script>
+	<script src="<c:url value="/resources/admin/quasar/js/audit-log.js" />"></script>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/jquery.raty.css" />" />
+	<script src="<c:url value="/resources/admin/quasar/js/jquery.raty.js" />"></script>
 	<script src="<c:url value="/resources/admin/quasar/js/scripts.quasar.auditLog.js" />"></script>
 </head>
 <body>
@@ -30,24 +33,17 @@
 		<c:if test="${model.log.revision > 1}">
 		(<spring:message code="auditLog.auditLog.revision" /> ${model.log.revision})
 		</c:if>
-		&nbsp; | &nbsp; Status: <strong class="qs-status qs-log-status">${model.log.status}</strong>
+		| Status: <strong class="qs-status qs-log-status">${model.log.status}</strong>
+		<c:if test="${not empty model.log.rating}">
+		| <spring:message code="auditor.rating" />:
+			 <span class="rating smaller" data-rating="${model.log.rating}"></span>
+			 <span class="rating-descr"></span>
+		</c:if>
 	</h1>
 
 	<div id="content"> 
-		<c:if test="${not empty successCreate}">
-			<p class="msg ok"><spring:message code="success.create" /></p>
-		</c:if>
 		
-		<c:if test="${not empty successDelete}">
-			<p class="msg ok"><spring:message code="success.delete" /></p>
-		</c:if>
-		
-		<c:if test="${not empty companyFound}">
-			<p class="msg alert">
-				<spring:message code="log.alert.companyFound" arguments="${companyFound}"  argumentSeparator=";"/>
-			</p>
-		</c:if>
-		
+		<jsp:include page="log-request-statuses.jsp" />
 		<jsp:include page="log-comments.jsp" />
 		
 		<div class="qs-bx-wrapp qs-log-items">

@@ -43,13 +43,8 @@
 	</h1>
 
 	<div id="content"> 
-		<c:if test="${not empty successCreate}">
-			<p class="msg ok"><spring:message code="success.create" /></p>
-		</c:if>
-		
-		<c:if test="${not empty successDelete}">
-			<p class="msg ok"><spring:message code="success.delete" /></p>
-		</c:if>
+	
+		<jsp:include page="log-request-statuses.jsp" />
 			
 		<c:if test="${(model.isEditable or isQuasarAdmin) and model.log.valid and model.log.status != 'APPROVED'}"> 
 		<div class="qs-log-nav">

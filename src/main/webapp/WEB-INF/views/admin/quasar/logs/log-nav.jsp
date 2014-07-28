@@ -36,6 +36,12 @@
 	<form id="change-status" class="qs-change-status hidden" action="${sUrl}" method="post">
 		<h4></h4>
 		<textarea name="comment" class="mw500" rows="5" cols="5" placeholder="<spring:message code="writeComment" />"></textarea>
+		<div class="rating-wrapp-form hidden">
+			<span class="legend">Rate this Audit log</span>
+			<div <c:if test="${not empty model.log.rating}">data-rating="${model.log.rating}"</c:if> id="rating-wrapp"></div>
+			<div id="rating-text"></div>
+			<div class="clear"></div>
+		</div>
 		<a class="cancel qs-btn"><spring:message code="cancel" /></a>
 		<input type="submit" value="<spring:message code="form.submit" />" class="qs-btn" />
 		<input type="hidden" name="status" value="" />

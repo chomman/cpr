@@ -33,19 +33,8 @@
 		&nbsp; | &nbsp; Status: <strong class="qs-status qs-log-status">${model.log.status}</strong>
 	</h1>
 	<div id="content"> 
-		<c:if test="${not empty successCreate}">
-			<p class="msg ok"><spring:message code="success.create" /></p>
-		</c:if>
-		
-		<c:if test="${not empty successDelete}">
-			<p class="msg ok"><spring:message code="success.delete" /></p>
-		</c:if>
-		
-		<c:if test="${not empty companyFound}">
-			<p class="msg alert">
-				<spring:message code="log.alert.companyFound" arguments="${companyFound}"  argumentSeparator=";"/>
-			</p>
-		</c:if>
+	
+		<jsp:include page="log-request-statuses.jsp" />
 		
 		<jsp:include page="log-comments.jsp" />
 		

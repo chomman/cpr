@@ -1,6 +1,9 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <p class="form-head ${model.isEditable ? 'mini' : ''}"><spring:message code="trainingLog.cst" /></p>
+<c:if test="${not model.isEditable and empty model.log.categorySpecificTrainings  }">
+	<p class="mini-info inline">There is no <spring:message code="trainingLog.cst" /></p>
+</c:if>
 <c:if test="${not empty model.log.categorySpecificTrainings }">
 	<table class="data">
 		<thead>

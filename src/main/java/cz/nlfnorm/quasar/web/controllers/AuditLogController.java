@@ -200,6 +200,7 @@ public class AuditLogController extends LogControllerSupport {
 		}
 		modelMap.addAttribute(COMMAND, form);
 		appendModel(modelMap, model);
+		appendTabNo(model, TAB);
 	}
 	
 	

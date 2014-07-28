@@ -7,6 +7,10 @@
 	<title><spring:message code="auditLogs" /></title>
 	<link rel="stylesheet" href="<c:url value="/resources/admin/css/quasar.css" />" />
 	<script src="<c:url value="/resources/admin/js/scripts.quasar.js" />"></script>
+	<script src="<c:url value="/resources/admin/quasar/js/audit-log.js" />"></script>
+	<link rel="stylesheet" href="<c:url value="/resources/admin/quasar/css/jquery.raty.css" />" />
+	<script src="<c:url value="/resources/admin/quasar/js/jquery.raty.js" />"></script>
+	
 </head>
 <body>
 	<div id="wrapper">
@@ -51,6 +55,7 @@
 						<tr>
 							<th><spring:message code="logStatus" /></th>
 							<th><spring:message code="auditLog.auditLog" /> date</th>
+							<th><spring:message code="auditor.rating" /></th>
 							<c:if test="${model.isQuasarAdmin}">
 								<th><spring:message code="auditor.edit" /></th>
 							</c:if>
@@ -76,6 +81,15 @@
 									</c:if>
 									<c:if test="${i.status.locked}">
 										<strong>&nbsp; (<spring:message code="locked" />)</strong>
+									</c:if>
+								</td>
+								<td class="td-rating c">
+									<c:if test="${not empty i.rating}">
+										<span class="rating" data-rating="${i.rating}"></span>
+										<span class="rating-descr"></span>
+									</c:if>
+									<c:if test="${empty i.rating}">
+										<spring:message code="notRated" />
 									</c:if>
 								</td>
 								<c:if test="${model.isQuasarAdmin}">
