@@ -76,4 +76,8 @@ public class DossierReport extends AbstractLog {
 		return items.size() - getCoundOfDesignDossiers();
 	}
 	
+	@Transient
+	public Double getRating(){
+		return null;
+	}
 }
