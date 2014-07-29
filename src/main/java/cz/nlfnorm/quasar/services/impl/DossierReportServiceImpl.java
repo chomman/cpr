@@ -1,19 +1,21 @@
 package cz.nlfnorm.quasar.services.impl;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.apache.commons.lang.Validate;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Row;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.lowagie.text.pdf.codec.Base64.InputStream;
 
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.User;
@@ -308,13 +310,18 @@ public class DossierReportServiceImpl extends LogServiceImpl implements DossierR
 	}
 	
 	
-	public void processImport(final Long dossierReportId, InputStream is){
+	public void processImport(final Long dossierReportId, InputStream is) throws IOException{
 		final DossierReport dossierReport = getById(dossierReportId);
 		Validate.notNull(dossierReport);
 		//Get the workbook instance for XLS file
 		HSSFWorkbook workbook = new HSSFWorkbook(is);
-		 
 		//Get first sheet from the workbook
 		HSSFSheet sheet = workbook.getSheetAt(0);
+		
+	}
+	
+	private void readSheet(HSSFSheet sheet){
+		//Get iterator to all the rows in current sheet
+		Iterator<Row> rowIterator = sheet.iterator();
 	}
 }

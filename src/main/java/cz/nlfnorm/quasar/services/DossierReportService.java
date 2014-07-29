@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.services;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Map;
 
@@ -40,5 +41,5 @@ public interface DossierReportService extends PageableLogService<DossierReport> 
 	
 	void updateQualification(DossierReport dossierReport);
 	
-	void processImport(Long dossierReportId, InputStream is);
+	void processImport(Long dossierReportId, InputStream is) throws IOException;
 }
