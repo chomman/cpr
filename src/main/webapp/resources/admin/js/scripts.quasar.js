@@ -6,6 +6,7 @@ $(function(){
 	
 	$(document).on("click", '.qs-inline-edit', showForm);
 	$(document).on("click", '#loadFileManager', loadFileManager);
+	$(document).on('change', '.confirm-ra' , onRecentActivitiesChecked);
 	
 	function showForm(){
 		$('.qs-editting').removeClass('qs-editting');
@@ -111,3 +112,11 @@ $(function(){
 	 }
 	
 });
+
+function onRecentActivitiesChecked(e){
+	if($(this).prop('checked') && !confirm($.getMessage("confirmRecentActivities"))){
+		$(this).prop('checked', false);
+		e.stopImmediatePropagation();
+		return false;
+	}
+}

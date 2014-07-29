@@ -246,7 +246,7 @@ public class AuditorController extends QuasarSupportController {
 	}
 	
 	@RequestMapping(value = AUDITOR_PROFILE_URL, method = RequestMethod.GET)
-	public String handleAuditorProfile(ModelMap modelMap, HttpServletRequest request, @PathVariable int	functionType) throws ItemNotFoundException {
+	public String handleAuditorProfile(ModelMap modelMap, HttpServletRequest request, @PathVariable int	functionType) throws ItemNotFoundException, PageNotFoundEception {
 		final Auditor auditor = auditorService.getById(UserUtils.getLoggedUser().getId());
 		Map<String, Object> model = new HashMap<>();
 		model.put("auditor", auditor);
@@ -308,7 +308,7 @@ public class AuditorController extends QuasarSupportController {
 			ModelMap modelMap, 
 			HttpServletRequest request,
 			@PathVariable Long auditorId, 
-			@PathVariable int functionType) throws ItemNotFoundException {
+			@PathVariable int functionType) throws ItemNotFoundException, PageNotFoundEception {
 		if(isSucceded(request)){
 			appendSuccessCreateParam(modelMap);
 		}
@@ -350,7 +350,7 @@ public class AuditorController extends QuasarSupportController {
 			ModelMap modelMap, 
 			@ModelAttribute Auditor form,
 			BindingResult result
-			) throws ItemNotFoundException {
+			) throws ItemNotFoundException, PageNotFoundEception {
 			updateDecision(form, functionType);
 		return successUpdateRedirect( getEditUrl(form.getId()) + "/f/" + functionType);
 	}
@@ -378,7 +378,7 @@ public class AuditorController extends QuasarSupportController {
 	}
 			
 	
-	private void updateDecision(final Auditor form, final int functionType) {
+	private void updateDecision(final Auditor form, final int functionType) throws PageNotFoundEception {
 		final Auditor auditor = auditorService.getById(form.getId());
 		switch (functionType) {
 		case SUB_TAB_QS_ADUTITOR:
@@ -404,12 +404,12 @@ public class AuditorController extends QuasarSupportController {
 			 auditor.setRecentActivitiesApprovedForProductSpecialist(form.isRecentActivitiesApprovedForProductSpecialist());
 			break;
 		default:
-			throw new IllegalArgumentException("Unknown auditor function: " + functionType);
+			throw new PageNotFoundEception("Unknown auditor function: " + functionType);
 		}
 		auditorService.createOrUpdate(auditor);
 	}
 
-	private void prepareModelForFunction(ModelMap map, final Auditor auditor, final int functionType){
+	private void prepareModelForFunction(ModelMap map, final Auditor auditor, final int functionType) throws PageNotFoundEception{
 		Map<String, Object> model = new HashMap<>();
 		model.put("auditor", auditor);
 		model.put("subTab", functionType);
@@ -423,7 +423,7 @@ public class AuditorController extends QuasarSupportController {
 	
 	
 	
-	private void prepareModelForFunction(Map<String, Object> model, final int functionType, final Auditor auditor, final boolean isEditable){
+	private void prepareModelForFunction(Map<String, Object> model, final int functionType, final Auditor auditor, final boolean isEditable) throws PageNotFoundEception{
 		switch (functionType) {
 			case SUB_TAB_QS_ADUTITOR:
 				model.put("function", auditorService.getQsAuditorById(auditor.getId()));
@@ -448,7 +448,7 @@ public class AuditorController extends QuasarSupportController {
 				model.put("eFunctions", auditorService.getEvaludatedAuditorFunctions(auditor));
 			break;
 			default:
-				throw new IllegalArgumentException("Unknown function type: " + functionType);
+				throw new PageNotFoundEception("Unknown function type: " + functionType);
 		}
 		model.put("nbUrl", NotifiedBodyController.QUASAR_NB_EIDT_URL);
 		model.put("isEditable", isEditable);

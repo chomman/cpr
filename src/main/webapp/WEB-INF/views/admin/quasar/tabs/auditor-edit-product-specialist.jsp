@@ -52,7 +52,7 @@
 			
 		</label>
 		<div class="field">
-			<div class="qs-float-left" ><form:checkbox path="recentActivitiesApprovedForProductSpecialist" /></div>
+			<div class="qs-float-left" ><form:checkbox cssClass="confirm-ra" path="recentActivitiesApprovedForProductSpecialist" /></div>
 			<p class="mini-info inline-block"><spring:message code="approvalRecentActivities.info" arguments="${model.auditor.name}" /></p>
 		</div>
 	</div>

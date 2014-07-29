@@ -163,6 +163,7 @@ public class DossierReportController extends LogControllerSupport {
 		model.put("dateThreshold", dossierReportService.getEarliestPossibleDateForLog(report.getAuditor()));
 		modelMap.addAttribute(COMMAND, form);
 		appendModel(modelMap, model);
+		appendTabNo(model, TAB);
 	}
 	
 	private DossierReport getDossierReportById(final long id) throws ItemNotFoundException{

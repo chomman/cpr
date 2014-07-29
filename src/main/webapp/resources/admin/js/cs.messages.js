@@ -6,6 +6,7 @@ var Messages = {
 	confirmDelete : "Opravdu chcete odstranit tuto položku?",
 
 	// QUASAR
+	confirmRecentActivities : 'Checking this field you confirm that Worker has attached document, which contains informations about the record of audit.',
 	placeholderCodes : 'Write code...',
 	errCodes : 'At least one EAC or NANDO code must be filled',
 	errNandoCodes : 'At least one NANDO code must be filled',
