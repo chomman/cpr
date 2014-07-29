@@ -1,5 +1,6 @@
 package cz.nlfnorm.quasar.services;
 
+import java.io.InputStream;
 import java.util.Map;
 
 import org.joda.time.LocalDate;
@@ -38,4 +39,6 @@ public interface DossierReportService extends PageableLogService<DossierReport> 
 	Map<NandoCode, DossierReportCodeSumDto> getTotalsFor(DossierReport dossierReport);
 	
 	void updateQualification(DossierReport dossierReport);
+	
+	void processImport(Long dossierReportId, InputStream is);
 }

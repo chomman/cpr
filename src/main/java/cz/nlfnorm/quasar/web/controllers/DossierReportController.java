@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import cz.nlfnorm.dto.FileUploadItemDto;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
 import cz.nlfnorm.quasar.entities.DossierReport;
 import cz.nlfnorm.quasar.entities.DossierReportItem;
@@ -119,6 +120,24 @@ public class DossierReportController extends LogControllerSupport {
 		return getEditFormView();
 	}
 	
+	
+	@RequestMapping(value = EDIT_MAPPING_URL +"/import", method = RequestMethod.POST)
+	public String proessImport(
+			ModelMap modelMap, 
+			FileUploadItemDto form,
+			BindingResult result,
+			@PathVariable long id, 
+			HttpServletRequest request) throws ItemNotFoundException{
+		try {
+			dossierReportService.processImport(id, form.getFileData().getInputStream());
+			return successUpdateRedirect(getEditUrl(id));
+		} catch (Exception e) {
+			return "redirect:" + getEditUrl(id) +"?upoadError=1#upload";
+		}		
+	}
+	
+	
+	
 	@RequestMapping(value = DELETE_MAPPING_URL)
 	public String handleAuditLogEdit(final @PathVariable long id) throws ItemNotFoundException{
 		final DossierReportItem	item = getDossierReportItem(id);
@@ -192,4 +211,7 @@ public class DossierReportController extends LogControllerSupport {
 		return item;
 	}
 	
+	private String getEditUrl(final long id){
+		return EDIT_MAPPING_URL.replace("{id}", id+"");
+	}
 }
