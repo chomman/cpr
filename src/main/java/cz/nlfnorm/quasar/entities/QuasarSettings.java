@@ -50,7 +50,8 @@ public class QuasarSettings implements Serializable{
 	private int productSpecialistDdTotal;
 	
 	/* Recent activities */
-	private int minAuditDaysInRecentYear;
+	private int minQsAuditorAuditDaysInRecentYear;
+	private int minProductAssessorAAuditDaysInRecentYear;
 	private int minTrainingHoursInRecentYear;
 	
 	private String notificationEmail;
@@ -239,14 +240,23 @@ public class QuasarSettings implements Serializable{
 	}
 	
 	@Min(value = 0)
-	@Column(name = "min_audit_days_in_recent_year")
-	public int getMinAuditDaysInRecentYear() {
-		return minAuditDaysInRecentYear;
+	@Column(name = "min_qs_auditor_audit_days_in_recent_year")
+	public int getMinQsAuditorAuditDaysInRecentYear() {
+		return minQsAuditorAuditDaysInRecentYear;
 	}
-	public void setMinAuditDaysInRecentYear(int minAuditsInRecentYear) {
-		this.minAuditDaysInRecentYear = minAuditsInRecentYear;
+	public void setMinQsAuditorAuditDaysInRecentYear(int minAuditsInRecentYear) {
+		this.minQsAuditorAuditDaysInRecentYear = minAuditsInRecentYear;
 	}
-	
+		
+	@Min(value = 0)
+	@Column(name = "min_product_assessor_a_audit_days_in_recent_year")
+	public int getMinProductAssessorAAuditDaysInRecentYear() {
+		return minProductAssessorAAuditDaysInRecentYear;
+	}
+	public void setMinProductAssessorAAuditDaysInRecentYear(
+			int minProductAssessorAAuditDaysInRecentYear) {
+		this.minProductAssessorAAuditDaysInRecentYear = minProductAssessorAAuditDaysInRecentYear;
+	}
 	@Min(value = 0)
 	@Column(name = "min_training_hours_in_recent_year")
 	public int getMinTrainingHoursInRecentYear() {

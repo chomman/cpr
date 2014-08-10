@@ -522,8 +522,8 @@
 			<spring:message code="auditor.function.activities" />	
 		</p>
 		
-		<div class="${model.settings.minAuditDaysInRecentYear > command.auditDaysInRecentYear or 
-			 		  model.settings.minAuditDaysInRecentYear > model.auditDaysIntRecentyear
+		<div class="${model.settings.minQsAuditorAuditDaysInRecentYear > command.auditDaysInRecentYear or 
+			 		  model.settings.minQsAuditorAuditDaysInRecentYear > model.auditDaysIntRecentyear
 			  ? 'qs-valid' : 'qs-invalid'}" >
 			<div class="input-wrapp smaller">
 				<label> 

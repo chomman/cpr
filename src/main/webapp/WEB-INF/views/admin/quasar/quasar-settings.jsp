@@ -84,6 +84,17 @@
 							<form:input path="qsAuditorNoAudits" maxlength="3" cssClass="w40 c required numeric" />
 						</span>
 					</p>   
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minAuditDaysInRecentYear" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minQsAuditorAuditDaysInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
+							<span><spring:message code="auditor.function.activities" /></span>
+						</span>
+					</p>
 					<p class="form-head"><spring:message code="auditor.productAssessorA" /> training</p>
 					<p>
 						<label>
@@ -128,7 +139,18 @@
 						<span class="field">
 							<form:input path="productAssessorANoAudits" maxlength="3" cssClass="w40 c required numeric" />
 						</span>
-					</p> 
+					</p>
+					 <p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minAuditDaysInRecentYear" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minProductAssessorAAuditDaysInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
+							<span><spring:message code="auditor.function.activities" /></span>
+						</span>
+					</p>
 					<p class="form-head"><spring:message code="auditor.productAssessorR" /> training</p>
 					<p>
 						<label>
@@ -226,16 +248,6 @@
 						(<spring:message code="auditor.qsAuditor" /> &amp; 
 						 <spring:message code="auditor.productAssessorA" />)
 					</p>            
-					<p>
-						<label>
-							<strong><em class="red">*</em>
-								<spring:message code="quasarSettings.minAuditDaysInRecentYear" />:
-							</strong>  
-						</label>
-						<span class="field">
-							<form:input path="minAuditDaysInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
-						</span>
-					</p>
 					<p>
 						<label>
 							<strong><em class="red">*</em>
