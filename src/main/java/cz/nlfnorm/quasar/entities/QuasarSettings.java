@@ -42,11 +42,17 @@ public class QuasarSettings implements Serializable{
 	private int productAssessorRTfTrainingReview;
 	private int productAssessorRTfTotal;
 	
+	private int minTfReviewsInRecentYear;
+	private int minTfReviewsInRecentThreeYears;
+	
 	/* Product Specialist settings */
 	private int productSpecialistMdTraining;
 	private int productSpecialistIvdTraining;
 	private int productSpecialistDdTrainingReview;
 	private int productSpecialistDdTotal;
+	
+	private int minDdReviewsInRecentYear;
+	private int minDdReviewsInRecentThreeYears;
 	
 	/* Recent activities */
 	private int minTrainingHoursInRecentYear;
@@ -270,6 +276,43 @@ public class QuasarSettings implements Serializable{
 	public void setUse365DaysInterval(boolean use365DaysInterval) {
 		this.use365DaysInterval = use365DaysInterval;
 	}
+	
+	@Min(value = 0)
+	@Column(name = "min_tf_reviews_in_recent_year")
+	public int getMinTfReviewsInRecentYear() {
+		return minTfReviewsInRecentYear;
+	}
+	public void setMinTfReviewsInRecentYear(int minTfReviewsInRecentYear) {
+		this.minTfReviewsInRecentYear = minTfReviewsInRecentYear;
+	}
+	
+	@Min(value = 0)
+	@Column(name = "min_tf_reviews_in_recent_tree_years")
+	public int getMinTfReviewsInRecentThreeYears() {
+		return minTfReviewsInRecentThreeYears;
+	}
+	public void setMinTfReviewsInRecentThreeYears(int minTfReviewsInRecentThreeYears) {
+		this.minTfReviewsInRecentThreeYears = minTfReviewsInRecentThreeYears;
+	}
+	
+	@Min(value = 0)
+	@Column(name = "min_dd_reviews_in_recent_year")
+	public int getMinDdReviewsInRecentYear() {
+		return minDdReviewsInRecentYear;
+	}
+	public void setMinDdReviewsInRecentYear(int minDdReviewsInRecentYear) {
+		this.minDdReviewsInRecentYear = minDdReviewsInRecentYear;
+	}
+	
+	@Min(value = 0)
+	@Column(name = "min_dd_reviews_in_recent_tree_years")
+	public int getMinDdReviewsInRecentThreeYears() {
+		return minDdReviewsInRecentThreeYears;
+	}
+	public void setMinDdReviewsInRecentThreeYears(int minDdReviewsInRecentThreeYears) {
+		this.minDdReviewsInRecentThreeYears = minDdReviewsInRecentThreeYears;
+	}
+	
 	
 	
 	
