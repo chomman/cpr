@@ -182,6 +182,7 @@ public class TrainingLogController extends LogControllerSupport{
 		log.setNb1023Procedures(form.getNb1023Procedures());
 		log.setSubject(form.getSubject());
 		log.setDate(form.getDate());
+		log.setDescription(form.getDescription());
 		perists(log);
 	}
 	

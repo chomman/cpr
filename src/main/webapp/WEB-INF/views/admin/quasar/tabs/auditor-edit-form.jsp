@@ -517,8 +517,6 @@
 		</div>
 		<div class="clear"></div>
 		<p class="form-head mini">
-			<spring:message code="auditor.qsAuditor" /> &amp; 
-			<spring:message code="auditor.productAssessorA" /> -  
 			<spring:message code="auditor.function.activities" />	
 		</p>
 		
@@ -528,23 +526,28 @@
 			<div class="input-wrapp smaller">
 				<label> 
 						<strong> <em class="red">*</em> 
-						<spring:message code="auditor.auditDaysInRecentYear" /> (static value):
+						<spring:message code="auditor.auditDaysInRecentYear" /> (initial value):
 						</strong>
 				</label>
 				<div class="field">
 					<form:input path="auditDaysInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
-					<span>Value, which is calculated from approved Audit logs: <strong class="like-input">${model.auditDaysIntRecentyear}</strong></span>
+					<span>The value, which is calculated from approved Audit logs: <strong class="like-input">${model.auditDaysIntRecentyear}</strong></span>
 				</div>
 			</div>
 		</div>
-		<div class="input-wrapp smaller">
-			<label> 
-					<strong> <em class="red">*</em> 
-					<spring:message code="auditor.trainingHoursInRecentYear" /> (static value):
-					</strong>
-			</label>
-			<div class="field">
-				<form:input path="trainingHoursInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
+		<div class="${model.settings.minTrainingHoursInRecentYear > command.trainingHoursInRecentYear or 
+			 		  model.settings.minTrainingHoursInRecentYear > model.trainingHoursInRecentyear
+			  ? 'qs-valid' : 'qs-invalid'}" >
+			<div class="input-wrapp smaller">
+				<label> 
+						<strong> <em class="red">*</em> 
+						<spring:message code="auditor.trainingHoursInRecentYear" /> (initial value):
+						</strong>
+				</label>
+				<div class="field">
+					<form:input path="trainingHoursInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
+					<span>The value, which is calculated from approved Training logs: <strong class="like-input">${model.trainingHoursInRecentyear}</strong></span>
+				</div>
 			</div>
 		</div>
 	</div>

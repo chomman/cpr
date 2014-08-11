@@ -38,6 +38,7 @@ public class TrainingLog extends AbstractLog {
 	private int aimd;
 	private int nb1023Procedures;
 	private String attachment;
+	private String description;
 	private Set<CategorySpecificTraining> categorySpecificTrainings;
 	
 	public TrainingLog(){
@@ -142,6 +143,17 @@ public class TrainingLog extends AbstractLog {
 		this.categorySpecificTrainings = categorySpecificTrainings;
 	}
 	
+	
+	@Type(type = "text")
+	@Column(name = "description")
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
 	@Transient
 	public void addAuditor(final Auditor auditor){
 		Validate.notNull(auditor);

@@ -79,4 +79,6 @@ public interface AuditorService extends IdentifiableByLongService<Auditor>{
 	List<EvaluatedAuditorFunctions> getEvaludatedAuditorFunctions(List<Auditor> auditor);
 	
 	Integer getCountOfAuditDaysInRecentYear(Long auditorId);
+	
+	Integer getCountOfTrainingHoursInRecentYear(Long auditorId);
 }

@@ -1,150 +1,8 @@
 begin;
 
--- RETURNS TRUE, IF ARE General requirements COMPLIANT
--- IF education_type eq '1' - ACTIVE medical devices experience
--- IF education_type eq '2' - NON-ACTIVE medical devices experience
-CREATE OR REPLACE FUNCTION experience(aid bigint, education_type text) RETURNS boolean AS $$
-DECLARE
-	experience int;
-	education_row quasar_education_level%ROWTYPE;
-BEGIN
-	SELECT SUM(ahexp.years) INTO experience
-	FROM quasar_auditor_has_experience ahexp
-		JOIN quasar_experience exp ON exp.id=ahexp.experience_id
-	WHERE exp.is_md_exp=true AND ahexp.auditor_id=aid;
-
-	
-	SELECT el.* INTO education_row
-	FROM quasar_auditor_has_education ahe
-		JOIN quasar_education_level el ON el.id=ahe.education_level_id
-	WHERE ahe.auditor_id=aid and ahe.education_key = education_type
-	LIMIT 1;
-
-    RETURN education_row IS NOT NULL AND education_row.id > 2 AND (experience + education_row.yeas_substitution) > 3;
-END;
-$$ LANGUAGE plpgsql;
-
-
-
--- RETURNS TRUE, if has given auditor formal and legal requiremets valid
-CREATE OR REPLACE FUNCTION formal_legal_requirements(auditor quasar_auditor) RETURNS boolean AS $$
-BEGIN
-	RETURN auditor.is_ecr_card_signed AND auditor.is_confidentiality_signed AND auditor.is_cv_delivered;
-END;
-$$ LANGUAGE plpgsql;
-
-
-
-CREATE OR REPLACE FUNCTION recent_acitivities(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
-DECLARE
-	auditdays_valid boolean DEFAULT false;
-	training_valid boolean DEFAULT false;
-BEGIN
-	IF auditor.audit_days_in_recent_year >= settings.min_audit_days_in_recent_year THEN
-		auditdays_valid := true;
-	END IF;
-	IF auditor.training_hours_in_recent_year >= settings.min_training_hours_in_recent_year THEN
-		training_valid := true;
-	END IF; 
-
-	IF NOT auditdays_valid THEN
-		SELECT audit_days(auditor, settings) >= settings.min_audit_days_in_recent_year INTO auditdays_valid; 
-	END IF;
-
-	RETURN auditdays_valid AND training_valid;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION product_assessor_a_recent_acitivities_valid(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
-DECLARE
-	auditdays_valid boolean DEFAULT false;
-	training_valid boolean DEFAULT false;
-BEGIN
-	IF auditor.audit_days_in_recent_year >= settings.min_product_assessor_a_audit_days_in_recent_year THEN
-		auditdays_valid := true;
-	END IF;
-	IF auditor.training_hours_in_recent_year >= settings.min_training_hours_in_recent_year THEN
-		training_valid := true;
-	END IF; 
-
-	IF NOT auditdays_valid THEN
-		SELECT audit_days(auditor, settings) >= settings.min_product_assessor_a_audit_days_in_recent_year INTO auditdays_valid; 
-	END IF;
-
-	RETURN auditdays_valid AND training_valid;
-END;
-$$ LANGUAGE plpgsql;
-
-CREATE OR REPLACE FUNCTION qs_auditor_recent_acitivities_valid(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
-DECLARE
-	auditdays_valid boolean DEFAULT false;
-	training_valid boolean DEFAULT false;
-BEGIN
-	IF auditor.audit_days_in_recent_year >= settings.min_qs_auditor_audit_days_in_recent_year THEN
-		auditdays_valid := true;
-	END IF;
-	IF auditor.training_hours_in_recent_year >= settings.min_training_hours_in_recent_year THEN
-		training_valid := true;
-	END IF; 
-
-	IF NOT auditdays_valid THEN
-		SELECT audit_days(auditor, settings) >= settings.min_qs_auditor_audit_days_in_recent_year INTO auditdays_valid; 
-	END IF;
-
-	RETURN auditdays_valid AND training_valid;
-END;
-$$ LANGUAGE plpgsql;
-
-
-CREATE OR REPLACE FUNCTION audit_days(auditor quasar_auditor, settings quasar_settings) RETURNS int AS $$
-DECLARE
-	threashold DATE;
-BEGIN
-	IF settings.use_365_days_interval THEN 
-		threashold := CURRENT_DATE - interval '365 days';
-	ELSE
-		threashold := concat( date_part('year', CURRENT_DATE - interval '365 days'), '-01-01' )::DATE;
-	END IF;
-	RETURN (SELECT COALESCE(sum(item.days), 0) 
-			FROM quasar_audit_log_has_item item
-			INNER JOIN quasar_audit_log l on item.audit_log_id = l.id
-			WHERE l.auditor_id = auditor.id AND l.status = 4 AND item.audit_date >= threashold);
-END;
-$$ LANGUAGE plpgsql;
-
-
-
-
-
-
--- RETURNS TRUE, IF ARE General requirements COMPLIANT
--- IF education_type eq '1' - ACTIVE medical devices experience
--- IF education_type eq '2' - NON-ACTIVE medical devices experience
-CREATE OR REPLACE FUNCTION product_spelicasit_experience(auditor quasar_auditor, education_type text) RETURNS boolean AS $$
-DECLARE
-	experience int;
-	education_row quasar_education_level%ROWTYPE;
-BEGIN
-	SELECT SUM(ahexp.years) INTO experience
-	FROM quasar_auditor_has_experience ahexp
-		JOIN quasar_experience exp ON exp.id=ahexp.experience_id
-	WHERE exp.is_md_exp=true AND ahexp.auditor_id=auditor.id;
-
-	
-	SELECT el.* INTO education_row
-	FROM quasar_auditor_has_education ahe
-		JOIN quasar_education_level el ON el.id=ahe.education_level_id
-	WHERE ahe.auditor_id=auditor.id and ahe.education_key = education_type
-	LIMIT 1;
-
-    RETURN education_row IS NOT NULL 
-    	AND education_row.id > 2 
-    	AND (experience + education_row.yeas_substitution) > 3
-    	AND (auditor.research_development_experience + education_row.research_development_years_substitution >= 2);
-END;
-$$ LANGUAGE plpgsql;
-
-
+-- ********************************************
+-- VIEW QS AUDITOR
+--
 CREATE VIEW quasar_qs_auditor AS SELECT 
 	a.id,
 	a.itc_id,
@@ -170,7 +28,12 @@ FROM quasar_auditor a
 	CROSS JOIN
     quasar_settings s;
 
-
+    
+    
+    
+-- ********************************************
+-- VIEW PRODUCT ASSESSOR-A
+--
 CREATE VIEW quasar_product_assessor_a AS SELECT 
 	a.id,
 	-- FORMAL AND LEGAL REQUIREMENTS
@@ -208,22 +71,10 @@ FROM quasar_auditor a
 WHERE ahs.specialist_key=1;
 
 
--- RETURNS TRUE, if has given auditor recent activities done
-CREATE OR REPLACE FUNCTION product_assessor_r_recent_activities(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
-BEGIN
-	-- TODO implementation
-	RETURN TRUE;
-END;
-$$ LANGUAGE plpgsql;
 
--- RETURNS TRUE, if has given auditor recent activities done
-CREATE OR REPLACE FUNCTION product_specliast_recent_activities(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
-BEGIN
-	-- TODO implementation
-	RETURN TRUE;
-END;
-$$ LANGUAGE plpgsql;
-
+-- ********************************************
+-- VIEW PRODUCT ASSESSOR-R
+--
 CREATE VIEW quasar_product_assessor_r AS SELECT 
 	a.id,
 	-- FORMAL AND LEGAL REQUIREMENTS
@@ -263,7 +114,9 @@ WHERE ahs.specialist_key=2;
 
 
 
-
+-- ********************************************
+-- VIEW PRODUCT SPECIALIST
+--
 CREATE VIEW quasar_product_specialist AS SELECT 
 	a.id,
 	-- FORMAL AND LEGAL REQUIREMENTS
@@ -300,6 +153,5 @@ FROM quasar_auditor a
 	CROSS JOIN
     quasar_settings s
 WHERE ahs.specialist_key=3;
-
 
 end;

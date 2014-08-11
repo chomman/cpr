@@ -21,37 +21,34 @@ public class QuasarSettings implements Serializable{
 
 	private Long id;
 	
-	/* Training */
+	/* Qs Auditor settings */
 	private int qsAuditorMdTraining;
 	private int qsAuditorIso13485Training;
 	private int qsAuditorClassRoomTraining;	
 	private int qsAuditorNb1023Procedures;
 	private int qsAuditorNoAudits;
+	private int minQsAuditorAuditDaysInRecentYear;
 	
-	/* Training */
+	/* Product Assessor-A settings */
 	private int productAssessorAMdTraining;
 	private int productAssessorAIvdTraining;
 	private int productAssessorANb1023Procedures;
 	private int productAssessorANoAudits;
+	private int minProductAssessorAAuditDaysInRecentYear;
 	
-	/* Training */
+	/* Product Assessor-R settings */
 	private int productAssessorRMdTraining;
 	private int productAssessorRIvdTraining;
-
 	private int productAssessorRTfTrainingReview;
 	private int productAssessorRTfTotal;
 	
-	
-	/* Training */
+	/* Product Specialist settings */
 	private int productSpecialistMdTraining;
 	private int productSpecialistIvdTraining;
-	
 	private int productSpecialistDdTrainingReview;
 	private int productSpecialistDdTotal;
 	
 	/* Recent activities */
-	private int minQsAuditorAuditDaysInRecentYear;
-	private int minProductAssessorAAuditDaysInRecentYear;
 	private int minTrainingHoursInRecentYear;
 	
 	private String notificationEmail;

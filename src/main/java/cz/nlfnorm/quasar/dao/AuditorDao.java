@@ -37,4 +37,6 @@ public interface AuditorDao extends BaseDao<Auditor, Long>{
 	List<Auditor> getAuditors(Map<String, Object> criteria);
 	
 	Integer getCountOfAuditDaysInRecentYear(Long auditorId);
+	
+	Integer getCountOfTrainingHoursInRecentYear(Long auditorId);
 }

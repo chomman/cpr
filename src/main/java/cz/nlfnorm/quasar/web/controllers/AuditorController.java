@@ -478,6 +478,7 @@ public class AuditorController extends QuasarSupportController {
 		model.put("settings", quasarSettingsService.getSettings());
 		model.put("sterileNandoCode", auditorNandoCodeService.getByNandoCode(NandoCode.STERILE, auditor.getId()));
 		model.put("auditDaysIntRecentyear", auditorService.getCountOfAuditDaysInRecentYear(auditor.getId()));
+		model.put("trainingHoursInRecentyear", auditorService.getCountOfTrainingHoursInRecentYear(auditor.getId()));
 	}
 	
 	

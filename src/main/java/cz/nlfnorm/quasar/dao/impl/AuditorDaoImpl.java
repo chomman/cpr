@@ -237,16 +237,25 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 	
 	@Override
 	public Integer getCountOfAuditDaysInRecentYear(final Long auditorId){
-		final String sql = "SELECT audit_days(a, s) as audit_days " + 
-						   "FROM quasar_auditor a " + 
-						   "CROSS JOIN  quasar_settings s " + 
-						   "where a.id = :auditorId";
-		return ((Integer)getSessionFactory().getCurrentSession()
-				.createSQLQuery(sql)
-				.setLong("auditorId", auditorId)
-				.setMaxResults(1)
-				.setReadOnly(true)
-				.uniqueResult()).intValue();
+		return executeCountFunction("get_audit_days_in_recent_year", auditorId);
 	}
+
+	@Override
+	public Integer getCountOfTrainingHoursInRecentYear(Long auditorId) {
+		return executeCountFunction("get_training_hours_in_recent_year", auditorId);
+	}
+	
+	public Integer executeCountFunction(final String sqlFunctionName, final Long auditorId) {
+		final String sql = "SELECT "+sqlFunctionName+"(a, s) as audit_days " + 
+				   "FROM quasar_auditor a " + 
+				   "CROSS JOIN  quasar_settings s " + 
+				   "where a.id = :auditorId";
+	return ((Integer)getSessionFactory().getCurrentSession()
+			.createSQLQuery(sql)
+			.setLong("auditorId", auditorId)
+			.setMaxResults(1)
+			.setReadOnly(true)
+			.uniqueResult()).intValue();
+		}
 	
 }

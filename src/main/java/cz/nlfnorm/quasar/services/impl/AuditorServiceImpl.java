@@ -416,8 +416,14 @@ public class AuditorServiceImpl implements AuditorService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public Integer getCountOfAuditDaysInRecentYear(Long auditorId) {
+	public Integer getCountOfAuditDaysInRecentYear(final Long auditorId) {
 		return auditorDao.getCountOfAuditDaysInRecentYear(auditorId);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Integer getCountOfTrainingHoursInRecentYear(final Long auditorId) {
+		return auditorDao.getCountOfTrainingHoursInRecentYear(auditorId);
 	}
 
 	
