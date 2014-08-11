@@ -25,6 +25,14 @@
 			<form:input path="date" maxlength="10" cssClass="w100 date required" /> 
 		</div>
 	</div>
+	<div class="input-wrapp smaller">
+		<label>
+			<spring:message code="trainingLog.date" />:
+		</label>
+		<div class="field">
+			<form:textarea path="description" id="editor" />
+		</div>
+	</div>
 	<p class="form-head"><spring:message code="trainingLog.scope" /></p>
 	<div class="qs-fields-wrapp">
 		<div class="qs-left-bx">
