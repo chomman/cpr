@@ -12,14 +12,11 @@ BEGIN
 	FROM quasar_auditor_has_experience ahexp
 		JOIN quasar_experience exp ON exp.id=ahexp.experience_id
 	WHERE exp.is_md_exp=true AND ahexp.auditor_id=aid;
-
-	
 	SELECT el.* INTO education_row
 	FROM quasar_auditor_has_education ahe
 		JOIN quasar_education_level el ON el.id=ahe.education_level_id
 	WHERE ahe.auditor_id=aid and ahe.education_key = education_type
 	LIMIT 1;
-
     RETURN education_row IS NOT NULL AND education_row.id > 2 AND (experience + education_row.yeas_substitution) > 3;
 END;
 $$ LANGUAGE plpgsql;
@@ -47,7 +44,6 @@ BEGIN
 		JOIN quasar_experience exp ON exp.id=ahexp.experience_id
 	WHERE exp.is_md_exp=true AND ahexp.auditor_id=auditor.id;
 
-	
 	SELECT el.* INTO education_row
 	FROM quasar_auditor_has_education ahe
 		JOIN quasar_education_level el ON el.id=ahe.education_level_id
@@ -70,7 +66,7 @@ BEGIN
 		RETURN true;
 	END IF; 
 	-- OTHERWISE execute query which returns number of training hours in last recent years counted form training logs
-	RETURN get_training_hours_in_recent_year(auditor, quasar_settings) >= settings.min_training_hours_in_recent_year;
+	RETURN (get_training_hours_in_recent_year(auditor, settings) >= settings.min_training_hours_in_recent_year);
 END;
 $$ LANGUAGE plpgsql;
 
@@ -145,35 +141,102 @@ DECLARE
 	auditdays_valid boolean DEFAULT false;
 BEGIN
 	IF NOT training_hours_valid(auditor, settings) THEN
-		return FALSE;
+		RETURN FALSE;
 	END IF;
 	IF auditor.audit_days_in_recent_year >= threashold THEN
 		auditdays_valid := true;
 	END IF;
-	IF NOT auditdays_valid THEN
-		SELECT get_audit_days_in_recent_year(auditor, settings) >= threashold INTO auditdays_valid; 
-	END IF;
-	RETURN auditdays_valid;
+	RETURN (SELECT get_audit_days_in_recent_year(auditor, settings) >= threashold INTO auditdays_valid); 
 END;
 $$ LANGUAGE plpgsql;
-
 
 
 -- RETURNS TRUE, if has given auditor recent activities done
 CREATE OR REPLACE FUNCTION product_assessor_r_recent_activities(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
+DECLARE
+	tf_reviews_in_last_year int;
+	tf_reviews_in_last_3_years int;
+	dd_reviews_in_last_year int;
+	dd_reviews_in_last_3_years int;
 BEGIN
-	-- TODO implementation
-	RETURN TRUE;
+	IF NOT training_hours_valid(auditor, settings) THEN
+		return FALSE;
+	END IF;
+
+	tf_reviews_in_last_year := get_count_of_dossiers(auditor, settings, true, '365');
+	IF tf_reviews_in_last_year >= settings.min_tf_reviews_in_recent_year THEN
+		RETURN TRUE;
+	END IF;
+	-- 1095 days == 3 years
+	tf_reviews_in_last_3_years := get_count_of_dossiers(auditor, settings, true, '1095');
+	IF tf_reviews_in_last_3_years >= settings.min_tf_reviews_in_recent_tree_years THEN
+		RETURN TRUE;
+	END IF;
+
+	dd_reviews_in_last_year := get_count_of_dossiers(auditor, settings, false, '365');
+	IF 
+		((tf_reviews_in_last_year + dd_reviews_in_last_year)  >= settings.min_tf_reviews_in_recent_year) AND 
+		(tf_reviews_in_last_year >= dd_reviews_in_last_year)
+	THEN
+		RETURN TRUE;
+	END IF;
+	dd_reviews_in_last_3_years := get_count_of_dossiers(auditor, settings, false, '1095');
+	IF 
+		((tf_reviews_in_last_3_years + dd_reviews_in_last_3_years)  >= settings.min_tf_reviews_in_recent_tree_years) AND 
+		(tf_reviews_in_last_3_years >= dd_reviews_in_last_3_years)
+	THEN
+		RETURN TRUE;
+	END IF;
+	RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
 
+
 -- RETURNS TRUE, if has given auditor recent activities done
 CREATE OR REPLACE FUNCTION product_specliast_recent_activities(auditor quasar_auditor, settings quasar_settings) RETURNS boolean AS $$
+DECLARE
+	dd_reviews_in_last_year int;
+	dd_reviews_in_last_3_years int;
 BEGIN
-	-- TODO implementation
-	RETURN TRUE;
+	IF NOT training_hours_valid(auditor, settings) THEN
+		return FALSE;
+	END IF;
+	dd_reviews_in_last_year := get_count_of_dossiers(auditor, settings, false, '365');
+	IF dd_reviews_in_last_year >= settings.min_dd_reviews_in_recent_year THEN
+		RETURN TRUE;
+	END IF;
+	-- 1095 days == 3 years
+	dd_reviews_in_last_3_years := get_count_of_dossiers(auditor, settings, false, '1095');
+	IF dd_reviews_in_last_3_years >= settings.min_dd_reviews_in_recent_tree_years THEN
+		RETURN TRUE;
+	END IF;
+	RETURN FALSE;
 END;
 $$ LANGUAGE plpgsql;
+
+
+
+
+CREATE OR REPLACE FUNCTION get_count_of_dossiers(auditor quasar_auditor, settings quasar_settings, technical_file boolean, for_days varchar) RETURNS int AS $$
+BEGIN
+	IF technical_file THEN 
+		RETURN 	(SELECT count(item.id)
+				FROM quasar_dossier_report l
+				INNER JOIN quasar_dossier_report_has_item item ON item.dossier_report_id=l.id
+				WHERE (l.auditor_id =59 AND l.status = 4 ) AND l.audit_date >= get_date_treashold(settings, for_days) AND (
+						(not ((item.category = 'III'  AND item.certification_sufix='CN/NB') OR 
+						      (item.category = 'LIST_A' AND item.certification_sufix='CN/NB'))))
+			);
+	ELSE
+		RETURN (SELECT count(item.id) 
+				FROM quasar_dossier_report l
+				INNER JOIN quasar_dossier_report_has_item item ON item.dossier_report_id=l.id
+				WHERE l.auditor_id =59 AND l.status = 4 AND l.audit_date >= get_date_treashold(settings, for_days)
+				      AND (item.category = 'III' OR item.category = 'LIST_A') AND item.certification_sufix='CN/NB');
+	END IF;
+END;
+$$ LANGUAGE plpgsql;
+
 
 
 

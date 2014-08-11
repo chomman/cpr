@@ -31,12 +31,12 @@ public class TrainingLog extends AbstractLog {
 	private String subject;
 	
 	private Set<Auditor> auditors;
-	private int iso9001;
-	private int iso13485;
-	private int mdd;
-	private int ivd;
-	private int aimd;
-	private int nb1023Procedures;
+	private short iso9001;
+	private short iso13485;
+	private short mdd;
+	private short ivd;
+	private short aimd;
+	private short nb1023Procedures;
 	private String attachment;
 	private String description;
 	private Set<CategorySpecificTraining> categorySpecificTrainings;
@@ -72,56 +72,56 @@ public class TrainingLog extends AbstractLog {
 	}
 	
 	@Min(value = 0)
-	@Column(name = "iso_9001", columnDefinition = "SMALLINT" )
-	public int getIso9001() {
+	@Column(name = "iso_9001" )
+	public short getIso9001() {
 		return iso9001;
 	}
-	public void setIso9001(int iso9001) {
+	public void setIso9001(short iso9001) {
 		this.iso9001 = iso9001;
 	}
 	
 	@Min(value = 0)
-	@Column(name = "iso_13485", columnDefinition = "SMALLINT" )
-	public int getIso13485() {
+	@Column(name = "iso_13485" )
+	public short getIso13485() {
 		return iso13485;
 	}
-	public void setIso13485(int iso13485) {
+	public void setIso13485(short iso13485) {
 		this.iso13485 = iso13485;
 	}
 	
 	@Min(value = 0)
-	@Column(name = "mdd", columnDefinition = "SMALLINT" )
-	public int getMdd() {
+	@Column(name = "mdd" )
+	public short getMdd() {
 		return mdd;
 	}
-	public void setMdd(int mdd) {
+	public void setMdd(short mdd) {
 		this.mdd = mdd;
 	}
 	
 	@Min(value = 0)
-	@Column(name = "ivd", columnDefinition = "SMALLINT" )
-	public int getIvd() {
+	@Column(name = "ivd" )
+	public short getIvd() {
 		return ivd;
 	}
-	public void setIvd(int ivd) {
+	public void setIvd(short ivd) {
 		this.ivd = ivd;
 	}
 	
 	@Min(value = 0)
-	@Column(name = "aimd", columnDefinition = "SMALLINT" )
-	public int getAimd() {
+	@Column(name = "aimd" )
+	public short getAimd() {
 		return aimd;
 	}
-	public void setAimd(int aimd) {
+	public void setAimd(short aimd) {
 		this.aimd = aimd;
 	}
 	
 	@Min(value = 0)
-	@Column(name = "nb1023_procedures", columnDefinition = "SMALLINT" )
-	public int getNb1023Procedures() {
+	@Column(name = "nb1023_procedures" )
+	public short getNb1023Procedures() {
 		return nb1023Procedures;
 	}
-	public void setNb1023Procedures(int nb1023Procedures) {
+	public void setNb1023Procedures(short nb1023Procedures) {
 		this.nb1023Procedures = nb1023Procedures;
 	}
 	

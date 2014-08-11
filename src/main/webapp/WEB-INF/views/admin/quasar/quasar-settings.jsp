@@ -92,7 +92,11 @@
 						</label>
 						<span class="field">
 							<form:input path="minQsAuditorAuditDaysInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
-							<span><spring:message code="auditor.function.activities" /></span>
+							<span>
+								Interval: 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />
+							</span>
 						</span>
 					</p>
 					<p class="form-head"><spring:message code="auditor.productAssessorA" /> training</p>
@@ -148,9 +152,14 @@
 						</label>
 						<span class="field">
 							<form:input path="minProductAssessorAAuditDaysInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
-							<span><spring:message code="auditor.function.activities" /></span>
+							<span>
+								Interval: 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />
+							</span>
 						</span>
 					</p>
+					
 					<p class="form-head"><spring:message code="auditor.productAssessorR" /> training</p>
 					<p>
 						<label>
@@ -195,6 +204,39 @@
 						<span class="field">
 							<form:input path="productAssessorRTfTotal" maxlength="3" cssClass="w40 c required numeric" />
 							<spring:message code="hours" />
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minTfReviewsInRecentYear" arguments="DD" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minTfReviewsInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+							
+							<span>
+								Current interval: 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />
+							</span>
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minTfReviewsInRecentThreeYears" arguments="DD" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minTfReviewsInRecentThreeYears" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+							<span>
+								Current interval: 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />
+							</span>
 						</span>
 					</p>
 					<p class="form-head"><spring:message code="auditor.productSpecialist" /> training</p>
@@ -243,21 +285,56 @@
 							<spring:message code="hours" />
 						</span>
 					</p>
+					
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minDdReviewsInRecentYear" arguments="DD" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minDdReviewsInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+							<span>
+								Current interval: 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />
+							</span>
+						</span>
+					</p>
+					<p>
+						<label>
+							<strong><em class="red">*</em>
+								<spring:message code="quasarSettings.minDdReviewsInRecentThreeYears" arguments="DD" />:
+							</strong>  
+						</label>
+						<span class="field">
+							<form:input path="minDdReviewsInRecentThreeYears" maxlength="3" cssClass="w40 c required numeric" />
+							<spring:message code="hours" />
+							<span>
+								Current interval: 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />
+							</span>
+						</span>
+					</p>
 					<p class="form-head">
-						<spring:message code="auditor.function.activities" />
-						(<spring:message code="auditor.qsAuditor" /> &amp; 
-						 <spring:message code="auditor.productAssessorA" />)
+						<spring:message code="auditor.function.activities" /> (All functions)
 					</p>            
 					<p>
 						<label>
 							<strong><em class="red">*</em>
 								<spring:message code="quasarSettings.minTrainingHoursInRecentYear" />:
-								
 							</strong>  
 						</label>
 						<span class="field">
 							<form:input path="minTrainingHoursInRecentYear" maxlength="3" cssClass="w40 c required numeric" />
 							<spring:message code="hours" />
+							<span>
+								Current interval: 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />
+							</span>
 						</span>
 					</p>
 					
@@ -283,14 +360,14 @@
 						<span class="field">
 							<form:select path="use365DaysInterval">
 								<option ${quasarSettings.use365DaysInterval ? 'selected="selected"' : '' }  
-								value="true">Use current date - 365 days interval (
+								value="true">Use current date - 365 days interval e.g.:(
 								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
 								<joda:format value="${model.yearAgo}" pattern="dd.MM.yyyy" />
 								)</option>
 								<option ${not quasarSettings.use365DaysInterval ? 'selected="selected"' : '' } 
-								value="false">User whole last year include current (
+								value="false">User whole last year include current e.g.:(
 									<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
-									1.1.<joda:format value="${model.wholeLastYear}" pattern="yyyy" />
+									01.01.<joda:format value="${model.wholeLastYear}" pattern="yyyy" />
 								)</option>
 							</form:select>
 						</span>

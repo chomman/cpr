@@ -20,11 +20,11 @@ public class CategorySpecificTraining extends IdentifiableEntity{
 	private static final long serialVersionUID = -2032766225387809476L;
 	private TrainingLog trainingLog;
 	private NandoCode nandoCode;
-	private int hours;
+	private short hours;
 	
 	public CategorySpecificTraining(){}
 	
-	public CategorySpecificTraining(final TrainingLog log, NandoCode code, int hours){
+	public CategorySpecificTraining(final TrainingLog log, NandoCode code, short hours){
 		this.trainingLog = log;
 		this.nandoCode  = code;
 		this.hours = hours;
@@ -57,10 +57,10 @@ public class CategorySpecificTraining extends IdentifiableEntity{
 	
 	@Min(value = 1)
 	@Column(name = "hours", nullable = false, columnDefinition = "SMALLINT")
-	public int getHours() {
+	public short getHours() {
 		return hours;
 	}
-	public void setHours(int hours) {
+	public void setHours(short hours) {
 		this.hours = hours;
 	}
 		

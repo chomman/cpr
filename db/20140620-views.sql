@@ -26,7 +26,7 @@ CREATE VIEW quasar_qs_auditor AS SELECT
    ) and a.total_of_audits >= s.qs_auditor_no_audits as training_auditing
 FROM quasar_auditor a
 	CROSS JOIN
-    quasar_settings s;
+quasar_settings s;
 
     
     

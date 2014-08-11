@@ -520,9 +520,9 @@
 			<spring:message code="auditor.function.activities" />	
 		</p>
 		
-		<div class="${model.settings.minQsAuditorAuditDaysInRecentYear > command.auditDaysInRecentYear or 
+		<div class="${model.settings.minQsAuditorAuditDaysInRecentYear > command.auditDaysInRecentYear and 
 			 		  model.settings.minQsAuditorAuditDaysInRecentYear > model.auditDaysIntRecentyear
-			  ? 'qs-valid' : 'qs-invalid'}" >
+			  ? 'qs-invalid' : 'qs-valid'}" >
 			<div class="input-wrapp smaller">
 				<label> 
 						<strong> <em class="red">*</em> 
@@ -535,9 +535,9 @@
 				</div>
 			</div>
 		</div>
-		<div class="${model.settings.minTrainingHoursInRecentYear > command.trainingHoursInRecentYear or 
+		<div class="${model.settings.minTrainingHoursInRecentYear > command.trainingHoursInRecentYear and 
 			 		  model.settings.minTrainingHoursInRecentYear > model.trainingHoursInRecentyear
-			  ? 'qs-valid' : 'qs-invalid'}" >
+			  ? 'qs-invalid' : 'qs-valid'}" >
 			<div class="input-wrapp smaller">
 				<label> 
 						<strong> <em class="red">*</em> 

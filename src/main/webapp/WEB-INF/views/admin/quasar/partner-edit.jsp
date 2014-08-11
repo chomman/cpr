@@ -85,11 +85,8 @@
 						</span>
 					</p>       
 					<div>
-						<p class="mini-info inline">Only users with administrator privileges can be assigned as head auditor.
-							<c:if test="${common.user.superAdministrator}">
-								<strong><a:adminurl href="/users">Manage users role</a:adminurl></strong>
-								and add user role "Auditor správce".
-							</c:if>
+						<p class="mini-info inline">
+							Manager of this partner is authorized to create/edit Training logs of workers, who are assigned to this partner
 						 </p>
 					</div>                          
                     <form:hidden path="id" />

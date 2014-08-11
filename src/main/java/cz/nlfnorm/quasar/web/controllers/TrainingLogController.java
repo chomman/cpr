@@ -240,7 +240,7 @@ public class TrainingLogController extends LogControllerSupport{
 	}
 	
 	
-	private boolean createCategorySpecificTraining(final TrainingLog log, final Long nandoCodeId, int hours){
+	private boolean createCategorySpecificTraining(final TrainingLog log, final Long nandoCodeId, short hours){
 		final NandoCode code = nandoCodeService.getById(nandoCodeId);
 		if(code != null && hours > 0){
 			final CategorySpecificTraining cst = new CategorySpecificTraining(log, code, hours);
@@ -280,8 +280,8 @@ public class TrainingLogController extends LogControllerSupport{
 	}
 	
 	
-	private int getHoursParamFormRequest(HttpServletRequest request){
-		return Integer.valueOf(request.getParameter("hours"));
+	private short getHoursParamFormRequest(HttpServletRequest request){
+		return Short.valueOf(request.getParameter("hours"));
 	}
 	
 

@@ -11,7 +11,7 @@ $(function(){
 function loadItems(url, selector){
 	var $wrapp = $(selector);
 	getItems({
-			url : getBasePath() + "/admin/quasar/async/widget/" + url
+			url : getBasePath() + "admin/quasar/async/widget/" + url
 		}, 
 		function(html){
 			console.log('result: ' + html);

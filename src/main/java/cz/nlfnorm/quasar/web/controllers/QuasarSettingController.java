@@ -53,6 +53,13 @@ public class QuasarSettingController extends QuasarSupportController {
 		model.put("wholeLastYear", new LocalDate().minusYears(1));
 		model.put("today", new LocalDate());
 		map.addAttribute("quasarSettings", form);
+		if(form.isUse365DaysInterval()){
+			model.put("oneYearAgo", new LocalDate().minusYears(1));
+			model.put("threeYearsAgo", new LocalDate().minusYears(3));
+		}else{
+			model.put("oneYearAgo", new LocalDate().minusYears(1).withDayOfMonth(1).withMonthOfYear(1));
+			model.put("threeYearsAgo", new LocalDate().minusYears(3).withDayOfMonth(1).withMonthOfYear(1));
+		}
 		appendModel(map, model);
 	}
 }
