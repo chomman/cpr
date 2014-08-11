@@ -380,14 +380,12 @@
 			<spring:message code="auditor.function.activities" />	
 		</p>
 		
-		<div class="${model.settings.minAuditDaysInRecentYear > command.auditDaysInRecentYear or 
-			 		  model.settings.minAuditDaysInRecentYear > model.auditDaysIntRecentyear
-			  ? 'qs-valid' : 'qs-invalid'}" >
+		<div class="${model.settings.minQsAuditorAuditDaysInRecentYear > command.auditDaysInRecentYear and 
+			 		  model.settings.minQsAuditorAuditDaysInRecentYear > model.auditDaysIntRecentyear
+			  ? 'qs-invalid' : 'qs-valid'}" >
 			<div class="input-wrapp">
 				<label> 
-						<strong> <em class="red">*</em> 
-						<spring:message code="auditor.auditDaysInRecentYear" />:
-						</strong>
+					<spring:message code="auditor.auditDaysInRecentYear" />:
 				</label>
 				<div class="field">
 					${model.auditDaysIntRecentyear >= model.auditor.auditDaysInRecentYear ? 
@@ -397,14 +395,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="input-wrapp smaller">
-			<label> 
-					<strong> <em class="red">*</em> 
+		<div class="${model.settings.minTrainingHoursInRecentYear > command.trainingHoursInRecentYear and 
+			 		  model.settings.minTrainingHoursInRecentYear > model.trainingHoursInRecentyear
+			  ? 'qs-invalid' : 'qs-valid'}" >
+			<div class="input-wrapp smaller">
+				<label> 
 					<spring:message code="auditor.trainingHoursInRecentYear" /> (static value):
-					</strong>
-			</label>
-			<div class="field">
-				${model.auditor.trainingHoursInRecentYear}
+				</label>
+				<div class="field">
+					${model.auditor.trainingHoursInRecentYear > model.trainingHoursInRecentyear ?
+						model.auditor.trainingHoursInRecentYear : model.trainingHoursInRecentyear}
+				</div>
 			</div>
 		</div>
 	</div>	
