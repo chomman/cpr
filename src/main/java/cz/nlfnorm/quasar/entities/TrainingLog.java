@@ -267,7 +267,7 @@ public class TrainingLog extends AbstractLog {
 	@Transient 
 	public String getFormatedWorkers(){
 		if(auditors.size() == 0){
-			return "0";
+			return "None";
 		}
 		Iterator<Auditor> it = auditors.iterator();
 		final String firstAuditor = it.next().getName();

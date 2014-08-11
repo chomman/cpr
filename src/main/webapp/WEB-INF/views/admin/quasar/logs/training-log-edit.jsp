@@ -16,6 +16,30 @@
 	<script src="<c:url value="/resources/admin/quasar/js/auditor.js" />"></script>
 	<script src="<c:url value="/resources/admin/quasar/js/jquery.raty.js" />"></script>
 	</c:if>
+	<c:if test="${model.isEditable}">
+	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
+	<script type="text/javascript">
+	$(function() {
+			tinyMCE.init({
+				selector: "textarea.wisiwig",
+				height : 200,
+				width : '100%',
+				forced_root_block : "",
+				force_br_newlines : true,
+				force_p_newlines : false,
+				plugins: "autoresize,fullscreen",
+				content_css : getBasePath() + 'resources/admin/css/tinymce.css',
+				plugins: "textcolor,image,link,table,autoresize,fullscreen",
+				entity_encoding : 'raw',
+				toolbar: "undo redo | styleselect | bold italic | alignleft aligncenter alignright | bullist numlist | fullscreen",
+				autoresize_min_height: 200,
+				autoresize_max_height: 700,
+				menubar : false,
+				statusbar : false
+			});
+	});
+	</script>
+	</c:if>
 </head>
 <body>
 <div id="wrapper"  data-type="audit-log">

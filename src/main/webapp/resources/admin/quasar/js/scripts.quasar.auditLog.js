@@ -53,6 +53,7 @@ $(function() {
 	$(document).on('click', '.add-cst', onAddCategorySpecificTraining);
 	$(document).on('click', '#add-code-form .cancel', onCancelCategorySpecificTraining);
 	$(document).on('submit', '#upload form', showLoader);
+	$(document).on('click', '.show-more', showFullDecription);
 	
 	function onChangeStatusSubmit(){
 		$(this).val($.getMessage("submiting"));
@@ -525,5 +526,11 @@ function onCancelCategorySpecificTraining(){
 	$('.button-box').fadeIn(1000);
 	$('#add-code-form').fadeOut(0);
 	$('.transparent').animate({opacity: 1}, 1000);
+	return false;
+}
+
+function showFullDecription(){
+	$('.max-height-200').removeClass('max-height-200');
+	$(this).remove();
 	return false;
 }

@@ -317,3 +317,18 @@ form .error{padding-top:11px;padding-bottom:11px;}
 .widget-bx .add-new{position:absolute;top:4px;right:15px;font-size:13px;color:#fff;padding:4px 10px;border-radius:8px;}
 #audit-logs.widget-bx{margin-top: 0;}
 .widget .created-by{display:none;}
+
+.description-wrapp{font-size:14px;}
+.description-wrapp.max-height-200{max-height:200px;text-overflow:ellipsis;overflow:hidden;white-space:nowrap;font-size:12px;opacity:.8}
+.description-wrapp *{background-color:transparent;border:none;}
+.description-wrapp h1,
+.description-wrapp h2,
+.description-wrapp h3,
+.description-wrapp h5{margin:8px 0 2px;}
+.description-wrapp h1{font-size:18px;}
+.description-wrapp h2{font-size:16px;}
+.description-wrapp h3{font-size:15px;}
+.description-wrapp h1{font-size:14px;}
+
+.show-more{font-weight:bold;text-decoration:underline;}
+.show-more:hover{cursor:pointer;color:#000}

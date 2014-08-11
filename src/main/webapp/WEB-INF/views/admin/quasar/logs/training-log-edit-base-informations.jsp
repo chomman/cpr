@@ -16,9 +16,7 @@
 	</div>
 	<div class="input-wrapp smaller">
 		<label>
-			<strong><em class="red">*</em>
 			<spring:message code="trainingLog.date" />:
-			</strong>
 		</label>
 		<div class="field">
 			<c:if test="${not empty model.log.date}">
@@ -26,20 +24,33 @@
 			</c:if> 
 		</div>
 	</div>
+	<c:if test="${not empty model.log.description}">
+		<div class="input-wrapp">
+			<label>
+				<spring:message code="trainingLog.description" />:
+			</label>
+			<div class="field">
+				<div class="description-wrapp max-height-200">
+					${model.log.description}
+					<a class="show-more">Show more ...</a>
+				</div>
+			</div>
+		</div>
+	</c:if>
 	<p class="form-head"><spring:message code="trainingLog.scope" /></p>
 	<div class="qs-fields-wrapp">
 		<div class="qs-left-bx">
 			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.iso9001" />: </strong>
+				<label> 
+					<spring:message code="auditor.iso9001" />: 
 				</label>
 				<div class="field">
 				${model.log.iso9001} <span class="hour"><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
-				<label><strong><em class="red">*</em> <spring:message
-							code="auditor.iso13485" />: </strong>
+				<label>
+					<spring:message	code="auditor.iso13485" />:
 				</label>
 				<div class="field">
 					${model.log.iso13485} <span class="hour"><spring:message code="hours" /></span>
@@ -47,7 +58,7 @@
 			</div>
 			<div class="input-wrapp smaller">
 				<label> 
-					<strong><em class="red">*</em> <spring:message code="auditor.nb1023Procedures" />: </strong>
+					<spring:message code="auditor.nb1023Procedures" />:
 				</label>
 				<div class="field">
 					${model.log.nb1023Procedures} <span class="hour"><spring:message code="hours" /></span>
@@ -56,16 +67,16 @@
 		</div>
 		<div class="qs-right-bx qs-border-right">
 			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.mdd" />: </strong>
+				<label> 
+					<spring:message code="auditor.mdd" />:
 				</label>
 				<div class="field">
 					${model.log.mdd} <span class="hour"><spring:message code="hours" /></span>
 				</div>
 			</div>	
 			<div class="input-wrapp smaller">
-				<label> <strong><em class="red">*</em> <spring:message
-							code="auditor.ivd" />: </strong>
+				<label>
+					<spring:message code="auditor.ivd" />:
 				</label>
 				<div class="field">
 					${model.log.ivd} <span class="hour"><spring:message code="hours" /></span>
@@ -73,7 +84,7 @@
 			</div>
 			<div class="input-wrapp smaller">
 				<label> 
-					<strong><em class="red">*</em> <spring:message code="auditor.aimd" />: </strong>
+					<spring:message code="auditor.aimd" />:
 				</label>
 				<div class="field">
 					${model.log.aimd} <span class="hour"><spring:message code="hours" /></span>

@@ -1,5 +1,6 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
+
 <div id="form-wrapp" class="${model.log.baseDateAreSet ? 'qs-valid' : 'qs-invalid'}">
 <form:form commandName="command" cssClass="training-log valid bg-white" htmlEscape="true" >
 	<div class="transparent">
@@ -27,10 +28,10 @@
 	</div>
 	<div class="input-wrapp smaller">
 		<label>
-			<spring:message code="trainingLog.date" />:
+			<spring:message code="trainingLog.description" />:
 		</label>
 		<div class="field">
-			<form:textarea path="description" id="editor" />
+			<form:textarea path="description" cssClass="wisiwig" />
 		</div>
 	</div>
 	<p class="form-head"><spring:message code="trainingLog.scope" /></p>

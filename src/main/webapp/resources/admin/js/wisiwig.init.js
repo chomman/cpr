@@ -14,7 +14,8 @@ $(function() {
 			entity_encoding : 'raw',
 			toolbar: "undo redo | styleselect | bold italic | forecolor backcolor | alignleft aligncenter alignright | bullist numlist | link image",
 			autoresize_min_height: 400,
-			autoresize_max_height: 700
+			autoresize_max_height: 700,
+			statusbar : false
 		});
 	}
 });
