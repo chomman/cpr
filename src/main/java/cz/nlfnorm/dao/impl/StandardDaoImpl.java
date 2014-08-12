@@ -47,6 +47,7 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 		hql.append(Standard.class.getName());
 		hql.append(" s ");
 		hql.append(prepareHqlForQuery(criteria));
+		hql.append(" group by s.id ");
 		final Integer oid = (Integer)criteria.get(Filter.ORDER);
 		if(oid != null && oid > 0){
 			hql.append(StandardOrder.getSqlById((Integer)criteria.get(Filter.ORDER) ));
