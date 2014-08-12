@@ -341,21 +341,23 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> getChangedStanards(final LocalDate dateFrom,final LocalDate dateTo,final Boolean enabledOnly) {
-		StringBuilder hql = new StringBuilder("select s from Standard s ");
-		hql.append(" left join s.notifiedBodies as snb ");
-		hql.append(" left join s.standardCsns as csn ");
-		hql.append(" left join csn.standardCsnChanges as csnChanges ");
-		hql.append(" where (s.statusDate >= :dateFrom and s.statusDate <= :dateTo) ");
-		hql.append(" 	or (s.released >= :dateFrom and s.released <= :dateTo) ");
-		hql.append(" 	or (snb.assignmentDate >= :dateFrom and snb.assignmentDate <= :dateTo) ");
-		hql.append(" 	or (csn.statusDate >= :dateFrom and csn.statusDate <= :dateTo) ");
-		hql.append(" 	or (csn.released >= :dateFrom and csn.released <= :dateTo) ");
-		hql.append(" 	or (csnChanges.statusDate >= :dateFrom and csnChanges.statusDate <= :dateTo) ");
-		hql.append(" 	or (csnChanges.released >= :dateFrom and csnChanges.released <= :dateTo) ");
+		StringBuilder hql = new StringBuilder()
+		.append(" select s from Standard s ")
+		.append(" left join s.notifiedBodies as snb ")
+		.append(" left join s.standardCsns as csn ")
+		.append(" left join csn.standardCsnChanges as csnChanges ")
+		.append(" where (s.statusDate >= :dateFrom and s.statusDate <= :dateTo) ")
+		.append(" 	or (s.released >= :dateFrom and s.released <= :dateTo) ")
+		.append(" 	or (snb.assignmentDate >= :dateFrom and snb.assignmentDate <= :dateTo) ")
+		.append(" 	or (csn.statusDate >= :dateFrom and csn.statusDate <= :dateTo) ")
+		.append(" 	or (csn.released >= :dateFrom and csn.released <= :dateTo) ")
+		.append(" 	or (csnChanges.statusDate >= :dateFrom and csnChanges.statusDate <= :dateTo) ")
+		.append(" 	or (csnChanges.released >= :dateFrom and csnChanges.released <= :dateTo) ");
 		if(enabledOnly){
 			hql.append(" and s.enabled = true ");
 		}
-		hql.append(" group by s.id ");
+		hql.append(" group by s.id ")
+			.append(StandardOrder.STANDARD_ID_INT.getSql());
 		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
 		query.setTimestamp("dateFrom", dateFrom.toDate());
 		query.setTimestamp("dateTo", dateTo.toDate());
