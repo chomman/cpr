@@ -50,7 +50,7 @@ public class AuditorTag extends UrlTag {
 	
 	@Override
 	public void appendUrl(StringBuilder url){
-		url.append(getRequestContext().getContextPath()).append("/");
+		url.append(getRequestContext().getContextPath());
 		url.append(getHref());
 	}
 	

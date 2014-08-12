@@ -17,6 +17,8 @@ public class AccessUtils {
 	
 	private static PartnerService partnerService;
 	
+	private AccessUtils(){}
+	
 	@Autowired
 	private PartnerService partnerService2;
 	
@@ -27,7 +29,7 @@ public class AccessUtils {
 	
 	public static boolean  isLoggedUserAuthorizedTo(AbstractLog log){
 		final User user = UserUtils.getLoggedUser();
-		if(user.isQuasarAdmin() || user.getId().equals(log.getChangedBy().getId())){
+		if(user.isQuasarAdmin() || user.getId().equals(log.getCreatedBy().getId())){
 			return true;
 		}
 		return false;
