@@ -11,12 +11,12 @@ import java.util.List;
  */
 public enum DossierReportCategory{
 	
-	IS("IS"),
-	IM("IM"),
+	IS("Is"),
+	IM("Im"),
 	IIA("IIa"),
 	IIB("IIb"),
 	III("III"),
-	UVID("UIVD"),
+	UVID("AIMD"),
 	LIST_A("List A"),
 	LIST_B("List B");
 	
