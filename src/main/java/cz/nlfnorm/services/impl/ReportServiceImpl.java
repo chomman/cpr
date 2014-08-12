@@ -34,17 +34,17 @@ public class ReportServiceImpl implements ReportService{
 	
 	
 	@Override
-	public void create(Report report) {
+	public void create(final Report report) {
 		reportDao.save(report);
 	}
 
 	@Override
-	public void delete(Report report) {
+	public void delete(final Report report) {
 		reportDao.remove(report);
 	}
 
 	@Override
-	public void update(Report report) {
+	public void update(final Report report) {
 		reportDao.update(report);
 	}
 
@@ -80,13 +80,13 @@ public class ReportServiceImpl implements ReportService{
 
 	@Override
 	@Transactional(readOnly = true)
-	public ReportDto getItemsFor(Report report) {
+	public ReportDto getItemsFor(final Report report, final boolean enabledOnly) {
 		Validate.notNull(report);
 		Validate.notNull(report.getDateFrom());
 		Validate.notNull(report.getDateTo());
 		ReportDto reportDto = new ReportDto();
-		reportDto.setStandards( standardService.getChangedStanards(report.getDateFrom(), report.getDateTo(), false) );
-		reportDto.setStandardCsns(standardCsnService.getChangedStandardCsn(report.getDateFrom(), report.getDateTo(), false));
+		reportDto.setStandards( standardService.getChangedStanards(report.getDateFrom(), report.getDateTo(), enabledOnly) );
+		reportDto.setStandardCsns(standardCsnService.getChangedStandardCsn(report.getDateFrom(), report.getDateTo(), enabledOnly));
 		return reportDto;
 	}
 

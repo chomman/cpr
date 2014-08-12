@@ -161,7 +161,7 @@ public class ReportController extends AdminSupportController {
 	@SuppressWarnings("unchecked")
 	private void appendChangedStandards(ModelMap map, Report report){
 		appendModel( map, report);
-		ReportDto dto = reportService.getItemsFor(report);
+		ReportDto dto = reportService.getItemsFor(report, false);
 		((Map<String, Object>)map.get("model")).put("standards", dto.getStandards() );
 		((Map<String, Object>)map.get("model")).put("standardCsns", dto.getStandardCsns() );
 	}

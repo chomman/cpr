@@ -161,7 +161,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 			 logger.warn(String.format("Unauthorized access to report preview.[reportID=%s]", id));
 			 throw new PageNotFoundEception();
 		 }
-		 ReportDto dto = reportService.getItemsFor(report);
+		 final ReportDto dto = reportService.getItemsFor(report, true);
 		 Map<String, Object> model = new HashMap<String, Object>();
 		 Map<String, Object> webpageModel = new HashMap<String, Object>();
 		 webpageModel.put("mainnav", webpageService.getTopLevelWepages(true));

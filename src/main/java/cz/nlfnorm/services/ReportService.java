@@ -19,7 +19,7 @@ public interface ReportService {
 	
 	void createOrUpdate(Report report);
 	
-	ReportDto getItemsFor(Report report);
+	ReportDto getItemsFor(Report report, boolean enabledOnly);
 	
 	List<Report> getReportsForPublic();
 	
