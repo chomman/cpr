@@ -90,9 +90,11 @@ public class UserLogDaoImpl extends BaseDaoImpl<UserLog, Long> implements UserLo
 		List<String> where = new ArrayList<String>();
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				where.add(" ul.user.firstName like CONCAT('%', :query , '%') OR");
-				where.add(" ul.user.lastName like CONCAT('%', :query , '%') OR");
-				where.add(" ul.user.email like CONCAT('%', :query , '%') ");
+				where.add(
+						  " ( unaccent(lower(ul.user.firstName)) like unaccent(lower(CONCAT('%', :query , '%'))) OR" +
+						  "   unaccent(lower(ul.user.lastName)) like unaccent(lower(CONCAT('%', :query , '%'))) OR" +
+						  "   ul.user.email like CONCAT('%', :query , '%')  )"
+						  );
 			}
 			if((DateTime)criteria.get("createdFrom") != null){
 				where.add(" ul.loginDateAndTime >= :createdFrom ");

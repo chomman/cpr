@@ -197,15 +197,13 @@ public class UserDaoImpl extends BaseDaoImpl<User, Long> implements UserDao{
 	@SuppressWarnings("unchecked")
 	@Override
 	public PageDto getUserPage(int currentPage, Map<String, Object> criteria) {
-		StringBuilder hql = new StringBuilder("from User u left join u.authoritySet a ");
+		StringBuilder hql = new StringBuilder("from User u inner join u.authoritySet a ");
 		hql.append(prepareHqlForQuery(criteria));
-		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(*) " + hql.toString());
+		Query hqlQuery = sessionFactory.getCurrentSession().createQuery("select count(distinct u) " + hql.toString());
 		prepareHqlQueryParams(hqlQuery, criteria);
 		PageDto items = new PageDto();
 		Long countOfItems = (Long)hqlQuery.uniqueResult();
-		if(countOfItems == null){
-			items.setCount(0l);
-		}else{
+		if(countOfItems > 0){
 			items.setCount(countOfItems);
 			if(items.getCount() > 0){
 				appendOrderBy(criteria, hql);

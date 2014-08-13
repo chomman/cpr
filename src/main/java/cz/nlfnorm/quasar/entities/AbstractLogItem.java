@@ -58,7 +58,7 @@ public class AbstractLogItem extends IdentifiableEntity{
 		this.certifiedProduct = certifiedProduct;
 	}
 	
-	@Pattern(regexp = "(^(8036|8136|8236)\\d{5}|)$", message = "{error.orderNo}")
+	@Pattern(regexp = "(^(8036|8136|8236|3436|8037|8137|8237|3437)\\d{5}|)$", message = "{error.orderNo}")
 	@Column(name = "order_no", length = 9)
 	public String getOrderNo() {
 		return orderNo;

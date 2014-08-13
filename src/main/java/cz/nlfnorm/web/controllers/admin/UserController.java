@@ -50,6 +50,9 @@ import cz.nlfnorm.web.forms.admin.UserForm;
 @SessionAttributes("userForm")
 public class UserController extends AdminSupportController {
 	
+	private final int MENU_USER_LIST = 1;
+	private final int MENU_ADD_USER = 2;
+	
 	@Autowired
 	private UserService userService;
 	@Autowired
@@ -174,7 +177,7 @@ public class UserController extends AdminSupportController {
 		setEditFormView("user-add");
 		UserForm form = createEmptyUserForm();
 		form.addRoles(userService.getAllAuthorities());
-		prepareModel(modelMap,  form);
+		prepareModel(modelMap, form, MENU_ADD_USER);
 		return getEditFormView();
 	}
 	
@@ -198,7 +201,7 @@ public class UserController extends AdminSupportController {
 			modelMap.put("successUserCreate", true);
 		}
 		form.addRoles(userService.getAllAuthorities());
-		prepareModel(modelMap,  form);
+		prepareModel(modelMap, form, MENU_ADD_USER);
 		return getEditFormView();
 	}
 	
@@ -217,8 +220,7 @@ public class UserController extends AdminSupportController {
 		setEditFormView("user-edit");
 		UserForm form = new UserForm();
 		prepareEditForm(form, userId);
-		prepareModel(modelMap,  form);
-		
+		prepareModel(modelMap, form, MENU_USER_LIST);
 		return getEditFormView();
 	}
 	
@@ -292,7 +294,7 @@ public class UserController extends AdminSupportController {
 			createOrUpdate(form);
 			modelMap.put("successCreate", true);
 		}
-		prepareModel(modelMap,  form);
+		prepareModel(modelMap, form, MENU_USER_LIST);
 		return getEditFormView();
 	}
 	
@@ -363,10 +365,10 @@ public class UserController extends AdminSupportController {
 		return context;
 	}
 	
-	private void prepareModel(ModelMap modelMap, UserForm form){
+	private void prepareModel(ModelMap modelMap, final UserForm form, final int tab){
 		Map<String, Object> model = new HashMap<String, Object>();
 		modelMap.addAttribute("userForm", form);
-		model.put("tab", 2);
+		model.put("tab", tab);
 		User formUser = form.getUser();
 		if(formUser == null){
 			modelMap.put("sameUser", false);
