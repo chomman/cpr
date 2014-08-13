@@ -245,7 +245,16 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 		return executeCountFunction("get_training_hours_in_recent_year", auditorId);
 	}
 	
-	public Integer executeCountFunction(final String sqlFunctionName, final Long auditorId) {
+	@Override
+	public Integer getCountOfDesignDossiersInLastDays(final Long auditorId, final int countOfDays){
+		return getCountOfDossiers(auditorId, false, countOfDays);
+	}
+	@Override
+	public Integer getCountOfTechnicalFilesInLastDays(final Long auditorId, final int countOfDays){
+		return getCountOfDossiers(auditorId, true, countOfDays);
+	}
+	
+	private Integer executeCountFunction(final String sqlFunctionName, final Long auditorId) {
 		final String sql = "SELECT "+sqlFunctionName+"(a, s) as audit_days " + 
 				   "FROM quasar_auditor a " + 
 				   "CROSS JOIN  quasar_settings s " + 
@@ -256,6 +265,20 @@ public class AuditorDaoImpl extends BaseDaoImpl<Auditor, Long> implements Audito
 			.setMaxResults(1)
 			.setReadOnly(true)
 			.uniqueResult()).intValue();
-		}
+	}
+	
+	
+	private Integer getCountOfDossiers(final Long auditorId, final boolean technicalFile, final int threasholdInDays) {
+		final String sql = "SELECT get_count_of_dossiers(a, s, "+technicalFile+", \'"+threasholdInDays+"\') as dossiers " + 
+				   "FROM quasar_auditor a " + 
+				   "CROSS JOIN  quasar_settings s " + 
+				   "where a.id = :auditorId";
+		return ((Integer)getSessionFactory().getCurrentSession()
+				.createSQLQuery(sql)
+				.setLong("auditorId", auditorId)
+				.setMaxResults(1)
+				.setReadOnly(true)
+				.uniqueResult()).intValue();
+	}
 	
 }

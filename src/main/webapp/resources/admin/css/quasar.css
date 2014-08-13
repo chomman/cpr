@@ -9,7 +9,13 @@
 .audit-log-rating .mini-info{float:left;margin:0}
 .audit-log-rating strong{padding:4px 0;}
 .audit-log-rating .rating-label{float:right;margin:0;font-weight:bold;}
+
+.qs-invalid label.tt,
+.qs-valid label.tt{background-position:189px 5px;}
+
 td.in-training .tr{color:#666;}
+
+.qs-help-ico{display:inline-block;width:16px;height:16px;}
 
 td .tt:hover{cursor:help}
 tr.is-first-level,
@@ -41,7 +47,7 @@ tr.is-first-level.odd{background-color:#E8FAFF;}
 .qs-valid,
 .qs-invalid{padding-left:10px;margin-left:0px;}
 .qs-valid label,
-.qs-invalid label{width:170px;padding-left:5px !important; }
+.qs-invalid label{width:184px;padding-left:5px !important;}
 .qs-valid .field,
 .qs-invalid .field{margin-left:210px;}
 
@@ -188,8 +194,9 @@ table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
 .qs-float-left{float:left;margin-right:20px;}
 .inline-block{display:inline-block;margin:0}
 
-
 .loader{background:#fff url(../img/ajax-loader.gif) no-repeat center center !important;padding:20px;position:absolute;top:400px;left:45%}
+.qs-field-separator{padding:10px 0 10px 15px;border-left:2px solid #aaa;}
+
 /* LOGS */
 .placeholder{color:#aaa}
 .qsc{cursor:help;}

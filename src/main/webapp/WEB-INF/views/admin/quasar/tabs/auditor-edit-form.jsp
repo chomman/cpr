@@ -26,7 +26,6 @@
 	</div>
 	<div class="input-wrapp">
 		<label> <spring:message code="isActivated" />:
-
 		</label>
 		<div class="field">
 			<form:checkbox path="enabled" />
@@ -131,8 +130,8 @@
 		</div>
 	</div>
 	<div class="input-wrapp">
-		<label> <spring:message code="auditor.otherEmails" />: <small>For
-				email forwarding. Multiple e-mails separate by comma</small>
+		<label class="tt" title="Using ties field, you can setup other worker's e-mail, which will be used for notification emails forwarding. Use commas to separate multiple e-mail addresses ">
+			<spring:message code="auditor.otherEmails" />:
 		</label>
 		<div class="field">
 			<form:input path="otherEmails" maxlength="100" cssClass="mw500 " />
@@ -472,9 +471,8 @@
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
-				<label> <strong> <em class="red">*</em> <spring:message
-							code="auditor.noTfReviewsForSterile" />:
-				</strong>
+				<label class="tt" title="The value is taken form worker's NANDO code: MDS 7006. You can change this value by switching to Product Assessor-R tab.">
+					<spring:message code="auditor.noTfReviewsForSterile" />:
 				</label>
 				<div class="field">
 					<span class="like-input">${model.sterileNandoCode.numberOfTfReviews}</span>
@@ -506,9 +504,8 @@
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
-				<label> <strong> <em class="red">*</em> <spring:message
-							code="auditor.noDdReviewsForSterile" />:
-				</strong>
+				<label class="tt" title="The value is taken form worker's NANDO code: MDS 7006. You can change this value by switching to Product Specialist tab.">
+					<spring:message code="auditor.noDdReviewsForSterile" />:
 				</label>
 				<div class="field">
 					<span class="like-input">${model.sterileNandoCode.numberOfDdReviews}</span>
@@ -516,22 +513,36 @@
 			</div>
 		</div>
 		<div class="clear"></div>
+		
+		
+		
+		<!-- THE RECENT ACTIVITIES  -->
 		<p class="form-head mini">
 			<spring:message code="auditor.function.activities" />	
 		</p>
-		
 		<div class="${model.settings.minQsAuditorAuditDaysInRecentYear > command.auditDaysInRecentYear and 
 			 		  model.settings.minQsAuditorAuditDaysInRecentYear > model.auditDaysIntRecentyear
 			  ? 'qs-invalid' : 'qs-valid'}" >
 			<div class="input-wrapp smaller">
-				<label> 
+				<label class="tt" title="If given initial value is greater than calculated value from Audit logs, will be used.
+					 Otherwise will be use (greater value) counted form APPROVED Audit logs. 
+					 Current treashold for Qs Auditor function is set to: ${model.settings.minQsAuditorAuditDaysInRecentYear}. 
+					 For ProductAssessor-A is set to:  ${model.settings.minProductAssessorAAuditDaysInRecentYear}. You can change this values in QUASAR SETTINGS section. "> 
 						<strong> <em class="red">*</em> 
 						<spring:message code="auditor.auditDaysInRecentYear" /> (initial value):
 						</strong>
 				</label>
 				<div class="field">
 					<form:input path="auditDaysInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
-					<span>The value, which is calculated from approved Audit logs: <strong class="like-input">${model.auditDaysIntRecentyear}</strong></span>
+					<span class="qs-field-separator">
+						Value form approved Audit logs: &nbsp; &nbsp; &nbsp; &nbsp;
+						<span class="like-input">${model.auditDaysIntRecentyear}</span>
+						<span class="qs-help-ico tt " title="
+						Values is calculated form approved Audit logs, which were created between: 
+						<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+						<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />
+						"></span>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -539,16 +550,88 @@
 			 		  model.settings.minTrainingHoursInRecentYear > model.trainingHoursInRecentyear
 			  ? 'qs-invalid' : 'qs-valid'}" >
 			<div class="input-wrapp smaller">
-				<label> 
+				<label class="tt" title="If given initial value is greater than calculated value from Training logs, 
+				will be used. Otherwise will be used (greater value) counted form APPROVED Training logs.
+				<spring:message code="auditor.tt.treashold" arguments="${model.settings.minTrainingHoursInRecentYear}" />
+				"> 
 						<strong> <em class="red">*</em> 
 						<spring:message code="auditor.trainingHoursInRecentYear" /> (initial value):
 						</strong>
 				</label>
 				<div class="field">
 					<form:input path="trainingHoursInRecentYear" cssClass="w50 c required numeric" maxlength="4" />
-					<span>The value, which is calculated from approved Training logs: <strong class="like-input">${model.trainingHoursInRecentyear}</strong></span>
+					<span class="qs-field-separator">
+						Value form approved Training logs: &nbsp;
+						<span class="like-input">${model.trainingHoursInRecentyear}</span>
+						<span class="qs-help-ico tt " title="
+						Values is calculated form approved Training logs, which were created between: 
+						<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+						<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />.
+						
+						"></span>
+					</span>
 				</div>
 			</div>
+		</div>
+		
+		<div class="qs-fields-wrapp">
+			<div class="qs-left-bx">
+				<div class="input-wrapp smaller">
+					<label class="tt" title="
+						<spring:message code="auditor.tt.dossierReport" /> 
+						<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+						<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />. 
+						<spring:message code="auditor.tt.treashold" arguments="${model.settings.minTfReviewsInRecentYear}" />
+					"> 
+						<spring:message code="auditor.countOfTfInRecentYear" />:
+					</label>
+					<div class="field">
+						<span class="like-input">${model.countOfTfInRecentYear}</span>
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label class="tt" title="
+						<spring:message code="auditor.tt.dossierReport" /> 
+						<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+						<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />. 
+						<spring:message code="auditor.tt.treashold" arguments="${model.settings.minDdReviewsInRecentYear}" />
+					"> 
+						<spring:message code="auditor.countOfDdInRecentYear" />:
+					</label>
+					<div class="field">
+						<span class="like-input">${model.countOfDdInRecentYear}</span>
+					</div>
+				</div>
+			</div>
+			<div class="qs-right-bx qs-border-right">
+				<div class="input-wrapp smaller">
+					<label class="tt" title="
+							<spring:message code="auditor.tt.dossierReport" /> 
+							<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+							<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />.
+							<spring:message code="auditor.tt.treashold" arguments="${model.settings.minTfReviewsInRecentThreeYears}" />
+						"> 
+						<spring:message code="auditor.countOfTfInRecentThreeYears" />:
+					</label>
+					<div class="field">
+						<span class="like-input">${model.countOfTfInRecentThreeYears}</span>
+					</div>
+				</div>
+				<div class="input-wrapp smaller">
+					<label class="tt" title="
+							<spring:message code="auditor.tt.dossierReport" /> 
+							<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+							<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />. 
+							<spring:message code="auditor.tt.treashold" arguments="${model.settings.minDdReviewsInRecentThreeYears}" />
+						"> 
+						<spring:message code="auditor.countOfDdInRecentThreeYears" />:
+					</label>
+					<div class="field">
+						<span class="like-input">${model.countOfDdInRecentThreeYears}</span>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
 		</div>
 	</div>
 	<form:hidden path="id" />
@@ -558,7 +641,9 @@
 	</p>
 </form:form>
 
+
 <!-- SPECIAL TRAINING -->
+
 <p class="form-head">
 	<spring:message code="auditor.head.specialTraining" />
 </p>

@@ -30,12 +30,17 @@ $(function() {
 	}
 	
     $('.tt').tooltip({
-        position: {
-            my: "center top",
-            at: "center bottom+10",
-        },
-        show: {
-            duration: "fast"
+    	 position: {
+    		 my: "center bottom-20",
+    		 at: "center top",
+    		 using: function( position, feedback ) {
+	    		 $( this ).css( position );
+	    		 $( "<div>" )
+	    		 .addClass( "arrow" )
+	    		 .addClass( feedback.vertical )
+	    		 .addClass( feedback.horizontal )
+	    		 .appendTo( this );
+    		 }
         }});
 
      $('input.csnOnlineReplace').on("paste keyup", function(){

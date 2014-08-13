@@ -39,6 +39,7 @@ import cz.nlfnorm.quasar.entities.Experience;
 import cz.nlfnorm.quasar.entities.FieldOfEducation;
 import cz.nlfnorm.quasar.entities.NandoCode;
 import cz.nlfnorm.quasar.entities.Partner;
+import cz.nlfnorm.quasar.entities.QuasarSettings;
 import cz.nlfnorm.quasar.entities.SpecialTraining;
 import cz.nlfnorm.quasar.enums.AuditorOrder;
 import cz.nlfnorm.quasar.services.AuditLogService;
@@ -475,10 +476,28 @@ public class AuditorController extends QuasarSupportController {
 	
 	private void prepareAuditorProfileModel(final Map<String, Object> model, final Auditor auditor){
 		model.put("auditor", auditor);
-		model.put("settings", quasarSettingsService.getSettings());
 		model.put("sterileNandoCode", auditorNandoCodeService.getByNandoCode(NandoCode.STERILE, auditor.getId()));
 		model.put("auditDaysIntRecentyear", auditorService.getCountOfAuditDaysInRecentYear(auditor.getId()));
 		model.put("trainingHoursInRecentyear", auditorService.getCountOfTrainingHoursInRecentYear(auditor.getId()));
+		model.put("countOfDdInRecentYear", auditorService.getCountOfDesignDossiersInLastDays(auditor.getId(), 365));
+		model.put("countOfDdInRecentThreeYears", auditorService.getCountOfDesignDossiersInLastDays(auditor.getId(), 1095));
+		model.put("countOfTfInRecentYear", auditorService.getCountOfTechnicalFilesInLastDays(auditor.getId(), 365));
+		model.put("countOfTfInRecentThreeYears", auditorService.getCountOfTechnicalFilesInLastDays(auditor.getId(), 1095));
+		prepareQuasarSettings(model);
+	}
+	
+	private void prepareQuasarSettings(final Map<String, Object> model){
+		final QuasarSettings settings = quasarSettingsService.getSettings(); 
+		model.put("settings", settings);
+		final LocalDate today = new LocalDate();
+		model.put("today", today);
+		if(settings.isUse365DaysInterval()){
+			model.put("oneYearAgo", today.minusYears(1));
+			model.put("threeYearsAgo", today.minusYears(3));
+		}else{
+			model.put("oneYearAgo", today.minusYears(1).withDayOfMonth(1).withMonthOfYear(1));
+			model.put("threeYearsAgo", today.minusYears(3).withDayOfMonth(1).withMonthOfYear(1));
+		}
 	}
 	
 	

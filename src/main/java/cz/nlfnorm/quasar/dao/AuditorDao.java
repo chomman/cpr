@@ -39,4 +39,8 @@ public interface AuditorDao extends BaseDao<Auditor, Long>{
 	Integer getCountOfAuditDaysInRecentYear(Long auditorId);
 	
 	Integer getCountOfTrainingHoursInRecentYear(Long auditorId);
+	
+	Integer getCountOfDesignDossiersInLastDays(Long auditorId, int countOfDays);
+	
+	Integer getCountOfTechnicalFilesInLastDays(Long auditorId, int countOfDays);
 }
