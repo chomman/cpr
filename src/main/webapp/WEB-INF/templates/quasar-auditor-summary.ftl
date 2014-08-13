@@ -11,12 +11,14 @@
 	#wrapp{padding:5px 10px 15px 10px;border:1px solid #ccc;}
 	h1{font-size:18px;padding-bottom:10px}
 	table.qs-scope,
-	div.qs-scope h2{font-size:15px;padding-bottom:5px;font-weight:bold;}
-	div.qs-scope div{width:96%;min-height:100px;font-size:13px;}
-	div.qs-scope{margin:20px 0;}
+	div.qs-scope h2{font-size:14px;padding-bottom:5px;font-weight:bold;}
+	div.qs-scope div{width:96%;min-height:100px;font-size:12px;}
+	div.qs-scope{margin:15px 0;}
 	div.qs-scope div{border:1px solid #555;padding:10px;}
 	table.qs-scope{width:100%;margin:20px 0;padding:10px 0;border-top:2px solid #ccc;border-bottom:5px solid #ccc;border-collapse:collapse;border-right:1px solid #eee;border-left:1px solid #eee;}
-	table.qs-scope td{padding:10px 10px;border-bottom:1px solid #eee;}
+	table.qs-scope td{padding:7px 10px;border-bottom:1px solid #eee;}
+	.approved-by{padding:10px 5px;margin-top:40px;float:right;font-size:13px;}
+	.approved-by span{font-size:11px;color:#555;margin-left:10px;}
 	@page {
 		  size: A4;
 		  margin-top: 5mm;
@@ -74,6 +76,12 @@
 		<div class="mw500 mh100">${eFunctions.productSpecialist.grantedCodes}</div>
 	</div>
 	
+</div>
+<div class="approved-by">
+<strong>
+<@spring.message code="approvedBy" />:
+</strong>
+<span>................................................</span>
 </div>
 </body>
 </html>
