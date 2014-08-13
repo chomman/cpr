@@ -223,7 +223,7 @@ BEGIN
 		RETURN 	(SELECT count(item.id)
 				FROM quasar_dossier_report l
 				INNER JOIN quasar_dossier_report_has_item item ON item.dossier_report_id=l.id
-				WHERE (l.auditor_id =59 AND l.status = 4 ) AND l.audit_date >= get_date_treashold(settings, for_days) AND (
+				WHERE (l.auditor_id =59 AND l.status = 4 ) AND item.audit_date >= get_date_treashold(settings, for_days) AND (
 						(not ((item.category = 'III'  AND item.certification_sufix='CN/NB') OR 
 						      (item.category = 'LIST_A' AND item.certification_sufix='CN/NB'))))
 			);
@@ -231,7 +231,7 @@ BEGIN
 		RETURN (SELECT count(item.id) 
 				FROM quasar_dossier_report l
 				INNER JOIN quasar_dossier_report_has_item item ON item.dossier_report_id=l.id
-				WHERE l.auditor_id =59 AND l.status = 4 AND l.audit_date >= get_date_treashold(settings, for_days)
+				WHERE l.auditor_id =59 AND l.status = 4 AND item.audit_date >= get_date_treashold(settings, for_days)
 				      AND (item.category = 'III' OR item.category = 'LIST_A') AND item.certification_sufix='CN/NB');
 	END IF;
 END;

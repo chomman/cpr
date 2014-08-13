@@ -147,6 +147,7 @@ public class Auditor extends User {
 		this.auditorsNandoCodes = new HashSet<>();
 		this.auditorExperiences = new HashSet<>();
 		this.specialTrainings = new HashSet<>();
+		this.rating = 0;
 	}
 	 
 	@NotNull(message = "{error.auditor.itcId.notNull}")
