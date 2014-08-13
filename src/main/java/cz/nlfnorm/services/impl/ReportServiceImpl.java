@@ -86,7 +86,6 @@ public class ReportServiceImpl implements ReportService{
 		Validate.notNull(report.getDateTo());
 		ReportDto reportDto = new ReportDto();
 		reportDto.setStandards( standardService.getChangedStanards(report.getDateFrom(), report.getDateTo(), enabledOnly) );
-		reportDto.setStandardCsns(standardCsnService.getChangedStandardCsn(report.getDateFrom(), report.getDateTo(), enabledOnly));
 		return reportDto;
 	}
 
