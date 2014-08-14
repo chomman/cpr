@@ -567,7 +567,7 @@
 						Values is calculated form approved Training logs, which were created between: 
 						<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
 						<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />.
-						
+						Values, which are counted: MDD + IVD + AIMD + ISO 13485 + NB 1023 procedures + Category-specifict training. ISO 9001 training is excluded.
 						"></span>
 					</span>
 				</div>
