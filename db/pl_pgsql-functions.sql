@@ -78,7 +78,7 @@ BEGIN
 	COALESCE( 
 		(SELECT 
 			sum(
-				l.aimd  + l.iso_13485 + l.iso_9001 + l.ivd + l.mdd + l.nb1023_procedures +
+				l.aimd  + l.iso_13485 + l.ivd + l.mdd + l.nb1023_procedures +
 				(SELECT  COALESCE(sum(cst.hours),0) FROM quasar_training_log_has_cst cst WHERE cst.training_log_id = l.id) 
 			) as hours
 		FROM quasar_training_log l
