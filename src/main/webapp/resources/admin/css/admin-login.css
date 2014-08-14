@@ -10,7 +10,7 @@ a{text-decoration:none;color:#3e4e69;}
 .blind {   left: -5000px;position: absolute; top: -5000px;}
 .radius,.submit{-webkit-border-radius: 3px;-moz-border-radius: 3px;border-radius: 3px;}
 
-form{margin:200px auto;width:380px;background: #333;padding:30px;border:2px solid #fff;-webkit-box-shadow: 0px 0px 10px 5px #ccc;box-shadow: 0px 0px 10px 5px #ccc; }
+form{margin:200px auto;width:380px;background: #333;padding:30px;border-radius:8px; border:2px solid #fff;-webkit-box-shadow: 0px 0px 10px 5px #ccc;box-shadow: 0px 0px 10px 5px #ccc; }
 form .label{background:#fff;display:block;margin: 10px 0;font-size:14px;padding:11.5px 10px;;
 background: #f7f7f7;
 background: -moz-linear-gradient(top,  #f7f7f7 0%, #e5e5e5 100%);

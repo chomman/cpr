@@ -8,7 +8,7 @@
 		<spring:message code="new" /> <strong>+</strong>
 	</a>
 </div>	
-
+<c:if test="${common.user.quasarAdmin or common.user.intenalAuditor}">
 <div class="widget-bx" id="dossier-reports" data-url="2">
 	<h5>Latest <spring:message code="dossierReports" /></h5>
 	<div class="widget-items loading"></div>
@@ -26,3 +26,4 @@
 		<spring:message code="new" /> <strong>+</strong>
 	</a>
 </div>	
+</c:if>

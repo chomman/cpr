@@ -130,7 +130,7 @@
 		</div>
 	</div>
 	<div class="input-wrapp">
-		<label class="tt" title="Using ties field, you can setup other worker's e-mail, which will be used for notification emails forwarding. Use commas to separate multiple e-mail addresses ">
+		<label class="tt" title="Using this field, you can setup other worker's e-mail, which will be used for notification emails forwarding. Use commas to separate multiple e-mail addresses ">
 			<spring:message code="auditor.otherEmails" />:
 		</label>
 		<div class="field">
@@ -576,58 +576,76 @@
 		
 		<div class="qs-fields-wrapp">
 			<div class="qs-left-bx">
-				<div class="input-wrapp smaller">
-					<label class="tt" title="
-						<spring:message code="auditor.tt.dossierReport" /> 
-						<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
-						<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />. 
-						<spring:message code="auditor.tt.treashold" arguments="${model.settings.minTfReviewsInRecentYear}" />
-					"> 
-						<spring:message code="auditor.countOfTfInRecentYear" />:
-					</label>
-					<div class="field">
-						<span class="like-input">${model.countOfTfInRecentYear}</span>
+				<div class="${ model.countOfTfInRecentYear >= model.settings.minTfReviewsInRecentYear or
+							  (
+							  (model.countOfTfInRecentYear + model.countOfDdInRecentYear) >= model.settings.minTfReviewsInRecentYear and 
+							  (model.countOfTfInRecentYear >= model.countOfDdInRecentYear) 	
+							  )
+					   ? 'qs-valid' : 'qs-invalid'}" >
+					<div class="input-wrapp smaller">
+						<label class="tt" title="
+							<spring:message code="auditor.tt.dossierReport" /> 
+							<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+							<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />. 
+							<spring:message code="auditor.tt.treashold" arguments="${model.settings.minTfReviewsInRecentYear}" />
+						"> 
+							<spring:message code="auditor.countOfTfInRecentYear" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfTfInRecentYear}</span>
+						</div>
 					</div>
 				</div>
-				<div class="input-wrapp smaller">
-					<label class="tt" title="
-						<spring:message code="auditor.tt.dossierReport" /> 
-						<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
-						<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />. 
-						<spring:message code="auditor.tt.treashold" arguments="${model.settings.minDdReviewsInRecentYear}" />
-					"> 
-						<spring:message code="auditor.countOfDdInRecentYear" />:
-					</label>
-					<div class="field">
-						<span class="like-input">${model.countOfDdInRecentYear}</span>
+				<div class="${model.settings.minDdReviewsInRecentYear > model.countOfDdInRecentYear  ? 'qs-invalid' : 'qs-valid'}" >
+					<div class="input-wrapp smaller">
+						<label class="tt" title="
+							<spring:message code="auditor.tt.dossierReport" /> 
+							<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+							<joda:format value="${model.oneYearAgo}" pattern="dd.MM.yyyy" />. 
+							<spring:message code="auditor.tt.treashold" arguments="${model.settings.minDdReviewsInRecentYear}" />
+						"> 
+							<spring:message code="auditor.countOfDdInRecentYear" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfDdInRecentYear}</span>
+						</div>
 					</div>
 				</div>
 			</div>
 			<div class="qs-right-bx qs-border-right">
-				<div class="input-wrapp smaller">
-					<label class="tt" title="
-							<spring:message code="auditor.tt.dossierReport" /> 
-							<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
-							<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />.
-							<spring:message code="auditor.tt.treashold" arguments="${model.settings.minTfReviewsInRecentThreeYears}" />
-						"> 
-						<spring:message code="auditor.countOfTfInRecentThreeYears" />:
-					</label>
-					<div class="field">
-						<span class="like-input">${model.countOfTfInRecentThreeYears}</span>
+				<div class="${ (model.countOfTfInRecentThreeYears >= model.settings.minTfReviewsInRecentThreeYears) or 
+								( 
+									(model.countOfTfInRecentThreeYears + model.countOfDdInRecentThreeYears) >= model.settings.minTfReviewsInRecentThreeYears and
+									model.countOfTfInRecentThreeYears >= model.countOfDdInRecentThreeYears
+								)
+							   ? 'qs-valid' : 'qs-invalid'}" >
+					<div class="input-wrapp smaller">
+						<label class="tt" title="
+								<spring:message code="auditor.tt.dossierReport" /> 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />.
+								<spring:message code="auditor.tt.treashold" arguments="${model.settings.minTfReviewsInRecentThreeYears}" />
+							"> 
+							<spring:message code="auditor.countOfTfInRecentThreeYears" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfTfInRecentThreeYears}</span>
+						</div>
 					</div>
 				</div>
-				<div class="input-wrapp smaller">
-					<label class="tt" title="
-							<spring:message code="auditor.tt.dossierReport" /> 
-							<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
-							<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />. 
-							<spring:message code="auditor.tt.treashold" arguments="${model.settings.minDdReviewsInRecentThreeYears}" />
-						"> 
-						<spring:message code="auditor.countOfDdInRecentThreeYears" />:
-					</label>
-					<div class="field">
-						<span class="like-input">${model.countOfDdInRecentThreeYears}</span>
+				<div class="${model.settings.minDdReviewsInRecentThreeYears > model.countOfDdInRecentThreeYears  ? 'qs-invalid' : 'qs-valid'}" >	
+					<div class="input-wrapp smaller">
+						<label class="tt" title="
+								<spring:message code="auditor.tt.dossierReport" /> 
+								<joda:format value="${model.today}" pattern="dd.MM.yyyy" /> - 
+								<joda:format value="${model.threeYearsAgo}" pattern="dd.MM.yyyy" />. 
+								<spring:message code="auditor.tt.treashold" arguments="${model.settings.minDdReviewsInRecentThreeYears}" />
+							"> 
+							<spring:message code="auditor.countOfDdInRecentThreeYears" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfDdInRecentThreeYears}</span>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -775,12 +793,6 @@
 			value="<spring:message code="assign" />" />
 	</form:form>
 </c:if>
-<script type="text/javascript">
-	$(function() {
-		//$('iframe').attr('src', getBasePath() + 'admin/file-manager.htm?uploadType=3&id=${model.auditor.id}');
-		// <iframe width="100%" height="400px"></iframe>
-	});
-</script>
 <a href="#" id="loadFileManager" class="lang mandate-add-btn qs-btn"><spring:message
 		code="manageFiles" arguments="${model.auditor.name}" /> &raquo;</a>
 <div class="fileManagment hidden" data-id="${model.auditor.id}">
@@ -789,4 +801,3 @@
 	</p>
 	<div></div>
 </div>
-

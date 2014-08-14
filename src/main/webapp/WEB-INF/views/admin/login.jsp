@@ -25,13 +25,13 @@
                   <td class="label"><label for="j_username">Login:</label></td>
                   <td class="filed">
                   	<input 
-                  	placeholder="Write you e-mail.." 
+                  	placeholder="Write you e-mail..." 
                   	type="text" class="title span-6" name="j_username" value="<c:if test="${not empty username}">${username}</c:if>"/></td>
                 </tr>
                 <tr class="even">
                   <td class="label"><label for="j_password">Password:</label></td> 
                   <td class="filed">
-                  	<input placeholder="Write you password.." type="password" class="title span-6" name="j_password" value=""/>
+                  	<input placeholder="Write you password..." type="password" class="title span-6" name="j_password" value=""/>
                   </td>
                 </tr>
               </table>

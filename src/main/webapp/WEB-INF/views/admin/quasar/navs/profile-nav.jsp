@@ -18,7 +18,7 @@
 			<spring:message code="auditor.productAssessorA" />
 		</a:adminurl>
 	</li>
-	
+	<c:if test="${common.user.intenalAuditor }">
 	<li>
 		<a:adminurl href="/quasar/profile/4" activeTab="${model.subTab == 4}">
 			<spring:message code="auditor.productAssessorR" />
@@ -30,7 +30,7 @@
 			<spring:message code="auditor.productSpecialist" />
 		</a:adminurl>
 	</li>
-	
+	</c:if>
 	<li>
 		<a:adminurl href="/quasar/profile/6" activeTab="${model.subTab == 6}">
 			<spring:message code="summary" />

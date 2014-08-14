@@ -7,7 +7,6 @@ import cz.nlfnorm.quasar.hibernate.PersistentEnum;
 
 public enum LogStatus implements PersistentEnum {
 	
-	
 	PENDING(1,"logStatus.pending"),
 	REFUSED(2,"logStatus.refused"),
 	DRAFT(3,"logStatus.draft"),

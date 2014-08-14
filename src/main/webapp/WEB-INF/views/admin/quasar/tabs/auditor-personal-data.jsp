@@ -73,7 +73,7 @@
 			E-mails:
 		</label>
 		<div class="field">
-			<strong>${model.auditor.email}</strong>
+			<strong class="tt" title="Main e-mail address">${model.auditor.email}</strong>
 			<c:if test="${not empty model.auditor.otherEmails}">
 				, ${model.auditor.otherEmails}
 			</c:if>
@@ -268,13 +268,13 @@
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.iso9001" />:</label>
 				<div class="field">
-					${model.auditor.trainingIso9001InHours} <spring:message code="hours" />
+					${model.auditor.trainingIso9001InHours} <span><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.mdd" />:</label>
 				<div class="field">
-					${model.auditor.mdd} <spring:message code="hours" />
+					${model.auditor.mdd} <span><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
@@ -307,13 +307,13 @@
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.iso13485" />:</label>
 				<div class="field">
-					${model.auditor.iso13485} <spring:message code="hours" />
+					${model.auditor.iso13485} <span><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.ivd" />:</label>
 				<div class="field">
-					${model.auditor.ivd} <spring:message code="hours" />
+					${model.auditor.ivd} <span><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
@@ -336,7 +336,7 @@
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.tfTrainingInHours" />:</label>
 				<div class="field">
-					${model.auditor.tfTrainingInHours} <spring:message code="hours" />
+					${model.auditor.tfTrainingInHours} <span><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
@@ -357,7 +357,7 @@
 			<div class="input-wrapp smaller">
 				<label><spring:message code="auditor.ddTrainingInHours" />:</label>
 				<div class="field">
-					${model.auditor.ddTrainingInHours} <spring:message code="hours" />
+					${model.auditor.ddTrainingInHours} <span><spring:message code="hours" /></span>
 				</div>
 			</div>
 			<div class="input-wrapp smaller">
@@ -375,8 +375,6 @@
 		</div>
 		<div class="clear"></div>
 		<p class="form-head mini">
-			<spring:message code="auditor.qsAuditor" /> &amp; 
-			<spring:message code="auditor.productAssessorA" /> -  
 			<spring:message code="auditor.function.activities" />	
 		</p>
 		
@@ -400,14 +398,74 @@
 			  ? 'qs-invalid' : 'qs-valid'}" >
 			<div class="input-wrapp smaller">
 				<label> 
-					<spring:message code="auditor.trainingHoursInRecentYear" /> (static value):
+					<spring:message code="auditor.trainingHoursInRecentYear" />:
 				</label>
 				<div class="field">
 					${model.auditor.trainingHoursInRecentYear > model.trainingHoursInRecentyear ?
 						model.auditor.trainingHoursInRecentYear : model.trainingHoursInRecentyear}
+						<span><spring:message code="hours" /></span>
 				</div>
 			</div>
 		</div>
+		
+		<div class="qs-fields-wrapp">
+			<div class="qs-left-bx">
+				<div class="${ model.countOfTfInRecentYear >= model.settings.minTfReviewsInRecentYear or
+							  (
+							  (model.countOfTfInRecentYear + model.countOfDdInRecentYear) >= model.settings.minTfReviewsInRecentYear and 
+							  (model.countOfTfInRecentYear >= model.countOfDdInRecentYear) 	
+							  )
+					   ? 'qs-valid' : 'qs-invalid'}" >
+					<div class="input-wrapp smaller">
+						<label> 
+							<spring:message code="auditor.countOfTfInRecentYear" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfTfInRecentYear}</span>
+						</div>
+					</div>
+				</div>
+				<div class="${model.settings.minDdReviewsInRecentYear > model.countOfDdInRecentYear  ? 'qs-invalid' : 'qs-valid'}" >
+					<div class="input-wrapp smaller">
+						<label> 
+							<spring:message code="auditor.countOfDdInRecentYear" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfDdInRecentYear}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="qs-right-bx qs-border-right">
+				<div class="${ (model.countOfTfInRecentThreeYears >= model.settings.minTfReviewsInRecentThreeYears) or 
+								( 
+									(model.countOfTfInRecentThreeYears + model.countOfDdInRecentThreeYears) >= model.settings.minTfReviewsInRecentThreeYears and
+									model.countOfTfInRecentThreeYears >= model.countOfDdInRecentThreeYears
+								)
+							   ? 'qs-valid' : 'qs-invalid'}" >
+					<div class="input-wrapp smaller">
+						<label> 
+							<spring:message code="auditor.countOfTfInRecentThreeYears" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfTfInRecentThreeYears}</span>
+						</div>
+					</div>
+				</div>
+				<div class="${model.settings.minDdReviewsInRecentThreeYears > model.countOfDdInRecentThreeYears  ? 'qs-invalid' : 'qs-valid'}" >	
+					<div class="input-wrapp smaller">
+						<label> 
+							<spring:message code="auditor.countOfDdInRecentThreeYears" />:
+						</label>
+						<div class="field">
+							<span class="like-input">${model.countOfDdInRecentThreeYears}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="clear"></div>
+		</div>
+		
 	</div>	
 	
 
