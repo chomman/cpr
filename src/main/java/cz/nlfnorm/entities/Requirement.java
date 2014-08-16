@@ -30,19 +30,12 @@ public class Requirement extends AbstractEntity {
 	private static final long serialVersionUID = 13375L;
 	
 	private Long id;
-	
 	private String name;
-	
 	private String levels;
-	
 	private String note;
-	
 	private String section;
-
 	private Standard standard;
-	
 	private Country country;
-	
 	private Boolean npd;
 	
 	

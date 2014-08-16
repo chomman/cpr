@@ -1,7 +1,5 @@
 package cz.nlfnorm.entities;
 
-import java.io.Serializable;
-
 import javax.persistence.Column;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -16,29 +14,19 @@ import org.joda.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-
 /**
  * Abstraktna entita, obsahujuca vseky spolocne atributy.
- * @author peto
- *
  */
 @SuppressWarnings("serial")
 @MappedSuperclass
-public abstract class AbstractEntity  implements Serializable, IdentifiableByLong{
+public abstract class AbstractEntity  extends IdentifiableEntity{
 	
 	/**
     * poskytuje logovaciu funkcionalitu všetkým potomkom
     */
    protected final Log logger = LogFactory.getLog(getClass());
    
-   
-   
-   /**
-    * Jednoznačný identifikátor všetkých záznamov
-    */
-   private Long id;
-   
-   
+      
    /**
     * Datum vytvorenia
     */
@@ -77,29 +65,7 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
     *  Kod objektu
     */
    private String code;
-   
-   
-   
-   
-   /**
-    * Metod deleguje na potomkov a vracia ich ID pre potreby metod equals, hashcode a toString
-    * 
-    * @return id
-    */
-   @Transient
-   @Override
-   public Long getId() {
-       return id;
-   }
-
-   /**
-    * Metoda nastavuje id objektu.
-    */
-   public void setId(Long id) {
-       this.id = id;
-   }
-   
-   
+     
    
    /**
     * Metoda vracia datum vytvorenia.
@@ -133,7 +99,6 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
        return changed;
    }
 
-
    /**
     * Metoda nastavuje datum poslednej zmeny objektu
     * 
@@ -143,7 +108,6 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
    public void setChanged(LocalDateTime changed) {
        this.changed = changed;
    }
-   
    
    
    /**
@@ -235,44 +199,5 @@ public abstract class AbstractEntity  implements Serializable, IdentifiableByLon
    public void setCode(String code) {
        this.code = code;
    }
-
-   
-   
-   
-   /**
-    * Implementiacia hascode pracujicich na idckach.
-    * @return hash
-    */
-   @Override
-   public int hashCode() {
-       final int prime = 31;
-       int result = 1;
-       result = prime * result + ((getId() == null) ? 0 : getId().hashCode());
-       return result;
-   }
-
-
-   /**
-    * Implementácia metody equals porovnavajuca idcka .
-    * @param Object
-    *            : porovnavany objekt
-    * 
-    * @return true alebo false podla toho ci plati rovnost
-    */
-   @Override
-   public boolean equals(Object obj) {
-       if (this == obj)
-           return true;
-       if (obj == null)
-           return false;
-       if (getClass() != obj.getClass())
-           return false;
-       final AbstractEntity other = (AbstractEntity)obj;
-       if (getId() == null) {
-           if (other.getId() != null)
-               return false;
-       } else if (!getId().equals(other.getId()))
-           return false;
-       return true;
-   }
+ 
 }

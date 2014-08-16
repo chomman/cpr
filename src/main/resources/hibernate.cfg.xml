@@ -32,6 +32,10 @@
 	<mapping class="cz.nlfnorm.entities.ExceptionLog"/>
 	<mapping class="cz.nlfnorm.entities.Report"/>
 	
+	<mapping class="cz.nlfnorm.entities.StandardCategory"/>
+	<mapping class="cz.nlfnorm.entities.Regulation"/>
+	
+	
 	<!-- Terminology -->
 	<mapping class="cz.nlfnorm.entities.Csn"/>
 	<mapping class="cz.nlfnorm.entities.CsnCategory"/>

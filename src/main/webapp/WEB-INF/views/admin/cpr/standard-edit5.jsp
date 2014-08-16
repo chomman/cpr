@@ -81,14 +81,8 @@
 					 				</option>			 			
 							</c:forEach>
 						 </form:select>
-						 
-						 <p class="cumulative">
-						 	<span class="checkbox"><form:checkbox path="cumulative"/></span>
-						 	<span class="label"><spring:message code="cpr.standard.cumulative" /></span>
-						 </p>
-						 
+						 							 
 						 <form:hidden path="id"  />
-						 <form:hidden path="timestamp"  />
 						 <p class="margin-top-30">
 						 <input type="submit" class="button" value="<spring:message code="form.save" />" />
 						 </p>

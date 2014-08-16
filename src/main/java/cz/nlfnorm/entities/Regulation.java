@@ -6,11 +6,12 @@ import java.util.Map;
 import javax.persistence.CollectionTable;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -18,15 +19,14 @@ import javax.persistence.Transient;
 
 @Entity
 @SequenceGenerator(name = "shared_id_seq", sequenceName = "shared_id_seq", initialValue = 1, allocationSize =1)
-@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "regulation")
-public class Regulation extends AbstractEntity {
+public class Regulation extends IdentifiableEntity {
 	
 	private static final long serialVersionUID = 2004446779583304022L;
 	private final static String CZ = "cs";
 	private final static String SK = "sk";
 	private final static String EU = "en";
-	
+	private StandardCategory standardCategory;
 	private Map<String, RegulationContent> localized = new HashMap<>();
 	
 	@Id
@@ -85,6 +85,16 @@ public class Regulation extends AbstractEntity {
 			return localized.get(locale);
 		}
 		return null;
+	}
+	
+	@ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "standard_category_id")
+	public StandardCategory getStandardCategory() {
+		return standardCategory;
+	}
+
+	public void setStandardCategory(StandardCategory standardCategory) {
+		this.standardCategory = standardCategory;
 	}
 	
 }

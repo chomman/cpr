@@ -10,8 +10,6 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Inheritance;
-import javax.persistence.InheritanceType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
@@ -44,43 +42,24 @@ import cz.nlfnorm.utils.RequestUtils;
 @Entity
 @Table(name = "standard")
 @SequenceGenerator(name = "standard_id_seq", sequenceName = "standard_id_seq", initialValue = 1, allocationSize =1)
-@Inheritance(strategy = InheritanceType.JOINED)
 @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
 public class Standard extends AbstractStandard {
 
-	
 	private static final long serialVersionUID = 9891333241L;
-	
 	private String standardId;
-	
-	private String replacedStandardId;
-	
 	private String czechName;
-	
 	private String englishName;
-	
 	private LocalDate startValidity;
-	
 	private LocalDate stopValidity;
-		
 	private Set<StandardGroup> standardGroups;
-	
 	private String text;
-		
 	private Set<StandardNotifiedBody> notifiedBodies;
-	
 	private Set<AssessmentSystem> assessmentSystems;
-	
 	private Set<StandardCsn> standardCsns;
 	@JsonIgnore
 	private Set<Requirement> requirements;
 	@JsonIgnore
-	private Boolean cumulative;
-	@JsonIgnore
-	private Long timestamp;
-	
 	private Standard replaceStandard;
-		
 	private Set<StandardChange> standardChanges;
 	
 	public Standard(){
@@ -91,7 +70,6 @@ public class Standard extends AbstractStandard {
 		this.standardGroups = new HashSet<StandardGroup>();
 		this.standardChanges = new HashSet<StandardChange>();
 		setEnabled(Boolean.TRUE);
-		setCumulative(Boolean.FALSE);
 	}
 	
 	@Id
@@ -111,18 +89,7 @@ public class Standard extends AbstractStandard {
 	public void setStandardId(String standardId) {
 		this.standardId = standardId;
 	}
-	
-	@Length(max = 45, message = "Nahrazená harmonizovaná norma může mít max. 45 znaků")
-	@Column(name = "replaced_standard_code", length = 45)
-	public String getReplacedStandardId() {
-		return replacedStandardId;
-	}
-
-	public void setReplacedStandardId(String replacedStandardId) {
-		this.replacedStandardId = replacedStandardId;
-	}
-	
-	//@NotBlank(message = "Český název harmonizované normy musí být vyplněno")
+		
 	@Column(name = "czech_name", length = 300)
 	public String getCzechName() {
 		return czechName;
@@ -220,24 +187,6 @@ public class Standard extends AbstractStandard {
 
 	public void setRequirements(Set<Requirement> requirements) {
 		this.requirements = requirements;
-	}
-	
-	@Transient
-	public Long getTimestamp() {
-		return timestamp;
-	}
-
-	public void setTimestamp(Long timestamp) {
-		this.timestamp = timestamp;
-	}
-	
-	@Column(name = "is_cumulative")
-	public Boolean getCumulative() {
-		return cumulative;
-	}
-
-	public void setCumulative(Boolean cumulative) {
-		this.cumulative = cumulative;
 	}
 	
 	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)

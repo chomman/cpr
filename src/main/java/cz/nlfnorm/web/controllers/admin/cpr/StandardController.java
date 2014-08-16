@@ -264,16 +264,12 @@ public class StandardController extends AdminSupportController{
 		Long referencedStandardId = null;
 		if (! result.hasErrors()) {
         	if(standardService.isStandardIdUnique(form.getStandardId(), form.getId())){
-        		try {
-        			form = createOrUpdateBasicInfo(form);
-        			if(form.getReplaceStandard() != null && standardService.updateReferencedStandard(form)){
-        				referencedStandardId = form.getReplaceStandard().getId();
-        				model.put(UPDATED_STANDARD_PARAM, form.getReplaceStandard());
-        			}
-					model.put("successCreate", true);
-				} catch (CollisionException e) {
-					result.rejectValue("timestamp", "error.collision", e.getMessage());
-				}	
+    			form = createOrUpdateBasicInfo(form);
+    			if(form.getReplaceStandard() != null && standardService.updateReferencedStandard(form)){
+    				referencedStandardId = form.getReplaceStandard().getId();
+    				model.put(UPDATED_STANDARD_PARAM, form.getReplaceStandard());
+    			}
+				model.put("successCreate", true);
         	}else{
         		result.rejectValue("standardId", "cpr.standard.id.error.uniqe");
         	}
@@ -769,9 +765,7 @@ public class StandardController extends AdminSupportController{
 		}else{
 			standard.setAssessmentSystems(new HashSet<AssessmentSystem>());
 		}
-		standard.setCumulative(form.getCumulative());
 		standardService.saveOrUpdate(standard);
-		standard.setTimestamp(standard.getChanged().toDateTime().getMillis());
 		modelMap.put("successCreate", true);
 		
 		prepeareModelForAssessmentSystems(standard, modelMap);
@@ -854,7 +848,7 @@ public class StandardController extends AdminSupportController{
      * @throws CollisionException 
      * @throws ItemNotFoundException 
      */
-	private Standard createOrUpdateBasicInfo(Standard form) throws CollisionException, ItemNotFoundException{
+	private Standard createOrUpdateBasicInfo(Standard form) throws ItemNotFoundException{
 		Standard standard = null;
 	
 		if(form.getId() == null || form.getId() == 0){
@@ -865,7 +859,6 @@ public class StandardController extends AdminSupportController{
 		standard.setReleased(form.getReleased());
 		standard.setCode(CodeUtils.toSeoUrl(form.getStandardId()));
 		standard.setStandardId(form.getStandardId());
-		standard.setReplacedStandardId(form.getReplacedStandardId());
 		standard.setCzechName(form.getCzechName());
 		standard.setEnglishName(form.getEnglishName());
 		standard.setStartValidity(form.getStartValidity());
@@ -878,9 +871,6 @@ public class StandardController extends AdminSupportController{
 			standard.setStatusDate(form.getReleased());
 		}
 		standardService.saveOrUpdate(standard);
-		if(standard.getChanged() != null){
-			form.setTimestamp(standard.getChanged().toDateTime().getMillis());
-		}
 		return standard;
 	}
 	

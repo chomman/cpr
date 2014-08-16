@@ -23,14 +23,7 @@
 
 		
 			<table>
-				
-				<c:if test="${not empty model.standard.replacedStandardId}">
-					<tr>
-						<td class="key"><strong><spring:message code="cpr.standard.replacedStandardId"/>:</strong></td>
-						<td>${model.standard.replacedStandardId}</td>
-					</tr>
-				</c:if>
-				
+								
 				<c:if test="${not empty model.standard.standardGroups}">
 					<tr class="tooltip" title="<spring:message code="standard.help.standardGroups"/>">
 						<td class="key"><strong><spring:message code="standard.standardGroups" /></strong>:</td>
