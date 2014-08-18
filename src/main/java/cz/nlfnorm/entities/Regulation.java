@@ -17,6 +17,12 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+/**
+ * Entity, which represent regulation
+ * 
+ * @author Peter Jurkovic
+ * @date Aug 18, 2014
+ */
 @Entity
 @SequenceGenerator(name = "shared_id_seq", sequenceName = "shared_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "regulation")

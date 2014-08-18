@@ -23,7 +23,6 @@
   	<mapping class="cz.nlfnorm.entities.StandardChange"/>
   	<mapping class="cz.nlfnorm.entities.StandardNotifiedBody"/>
   	<mapping class="cz.nlfnorm.entities.CommissionDecision"/>
-  	<mapping class="cz.nlfnorm.entities.BasicRequirement"/>
 	<mapping class="cz.nlfnorm.entities.Requirement" />
 	<mapping class="cz.nlfnorm.entities.Webpage" />
 	<mapping class="cz.nlfnorm.entities.Tag" />

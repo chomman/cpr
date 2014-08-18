@@ -25,7 +25,6 @@
 			<ul class="sub-nav">
 						<li><a class="active" href="<c:url value="/admin/cpr/groups"  />"><spring:message code="cpr.groups.view" /></a></li>
 						<li><a href="<c:url value="/admin/cpr/groups/edit/0"  />"><spring:message code="cpr.groups.add" /></a></li>
-						<li><a href="<c:url value="/admin/cpr/groups/import"  />"><spring:message code="cpr.group.import" /></a></li>
 					</ul>
 			
 			<c:if test="${not empty successDelete}">

@@ -99,24 +99,7 @@
 						<li><a href="<c:url value="/admin/cpr/mandates/edit/0" />"><spring:message code="cpr.mandates.add" /></a></li>  
 					</ul>
 				</li>
-				
-				
-				<li>
-					<div class="hbox">
-						<a class="main-item"  href="<c:url value="/admin/cpr/basicrequirements" />" >
-							<spring:message code="menu.cpr.requrements" />
-						</a>
-					</div>
-					<span class="label"><spring:message code="cpr.dashboard.br" /></span>
-					
-					<ul class="innter-nav">
-						<li><a href="<c:url value="/admin/cpr/basicrequirements"  />"><spring:message code="cpr.br.view" /></a></li> 
-						<li><a href="<c:url value="/admin/cpr/basicrequirements/edit/0"  />"><spring:message code="cpr.br.add" /></a></li>  
-					</ul>
-				</li>
 			</ul>
-			
-
 		</div>	
 	</div>
 	<div class="clear"></div>	

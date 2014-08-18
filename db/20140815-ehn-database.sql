@@ -8,4 +8,5 @@ begin;
 	  
 	 ALTER TABLE standard DROP COLUMN is_cumulative;
 	 ALTER TABLE standard DROP COLUMN replaced_standard_code;
+	 DROP TABLE basic_requirement;
 end;

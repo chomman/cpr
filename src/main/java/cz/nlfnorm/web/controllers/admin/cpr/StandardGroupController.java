@@ -22,7 +22,6 @@ import cz.nlfnorm.entities.CommissionDecision;
 import cz.nlfnorm.entities.Mandate;
 import cz.nlfnorm.entities.StandardGroup;
 import cz.nlfnorm.exceptions.ItemNotFoundException;
-import cz.nlfnorm.parser.cpr.StandardGroupParser;
 import cz.nlfnorm.services.CommissionDecisionService;
 import cz.nlfnorm.services.MandateService;
 import cz.nlfnorm.services.StandardGroupService;
@@ -202,26 +201,7 @@ public class StandardGroupController extends AdminSupportController {
 		}
 		return "redirect:"+DEFAULT_URL+"/edit/"+standardGroupId;
 	}
-	
-	
-	@RequestMapping( value = DEFAULT_URL+ "/import", method = RequestMethod.GET)
-	public String showImportPage(ModelMap modelMap) {
-		return getViewName();
-	}
-	
-	@RequestMapping( value =  DEFAULT_URL +"/import", method = RequestMethod.POST)
-	public String processImport(ModelMap modelMap) {
-		StandardGroupParser parser = new StandardGroupParser();
-		parser.setCommissionDecisionService(commissionDecisionService);
-		parser.setMandateService(mandateService);
-		parser.setStandardGroupService(standardGroupService);
-		parser.parse("http://nv190.peterjurkovic.sk/skupiny.htm");
-		modelMap.put("successCreate", true);
-		return getViewName();
-	}
-	
-	
-	
+		
 	private void prepareModel(StandardGroup form, ModelMap map, Long standardGroupId){
 		Map<String, Object> model = new HashMap<String, Object>();
 		map.addAttribute("standardGroup", form);
