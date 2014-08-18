@@ -107,6 +107,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f85bb', end
 .accordion-nav h4{font-size:16px;cursor: pointer;}
 .accordion-nav h4 span{float:left;margin-right:10px;}
 .accordion-nav input{font-size:14px !important;}
+.accordion-nav .ui-accordion-content{height: 717px;}
 
 #tabs a.tab, .accordion-nav h4{display:block;padding:15px;border-bottom:1px solid #999;font-weight:bold;
 background: #6d8eaa;
@@ -221,6 +222,7 @@ color:#fff;font-weight:bold;border:3px solid #fff;}
 .search-box{margin:10px 0;background:#f6f9ff;padding:8px 20px;font-size:13px;border:3px solid #e9effa;color:#555}
 .search-box input {margin-left:15px; }
 
+.form-head.mini-yellow{padding: 5px 20px;background:#FFFCD1 }
 .form-head,.nav-sep{background: #eeeeee;padding:10px 20px;font-size:14px;color:#555;border-top:1px solid #ccc; 
 background: -moz-linear-gradient(top, #eeeeee 0%, #cccccc 100%); /* FF3.6+ */
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#eeeeee), color-stop(100%,#cccccc)); /* Chrome,Safari4+ */

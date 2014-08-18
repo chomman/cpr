@@ -12,8 +12,9 @@ public class RegulationContent {
 	private String nameEnglish;
 	private String pdfCzech;
 	private String pdfEnglish;
-	private String description;
-
+	private String descriptionCzech;
+	private String descriptionEnglish;
+	
 	public RegulationContent(){}
 	
 	public RegulationContent(String czechName){
@@ -52,12 +53,23 @@ public class RegulationContent {
 		this.pdfEnglish = pdfEnglish;
 	}
 	@Type(type = "text")
-	public String getDescription() {
-		return description;
+	@Column(name = "description_czech")
+	public String getDescriptionCzech() {
+		return descriptionCzech;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDescriptionCzech(String description) {
+		this.descriptionCzech = description;
+	}
+	
+	@Type(type = "text")
+	@Column(name = "description_english")
+	public String getDescriptionEnglish() {
+		return descriptionEnglish;
 	}
 
+	public void setDescriptionEnglish(String descriptionEnglish) {
+		this.descriptionEnglish = descriptionEnglish;
+	}
+	
 	
 }

@@ -15,21 +15,21 @@
 	<script src="<c:url value="/resources/admin/tinymce/tinymce.min.js" />"></script>
 	 <script>
 	$(function() {
-		$( "#accordion" ).accordion();
 		tinyMCE.init({
 				selector: "textarea.wisiwig",
 				height : 80,
 				width : '100%',
 				forced_root_block : "",
-				force_br_newlines : true,
+				force_br_newlines : false,
 				force_p_newlines : false,
 				content_css : getBasePath() + 'resources/admin/css/tinymce.css',
 				plugins: "link",
 				entity_encoding : 'raw',
 				toolbar: "undo redo | bold italic | link",
-				menubar : false,
+				//menubar : false,
 				statusbar : false
 		});
+		setTimeout(function(){$( "#accordion" ).accordion();}, 200);
 	});
 	</script>
 </head>
