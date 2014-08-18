@@ -78,7 +78,7 @@ public class RegulationController extends CprSupportController{
 			if(StringUtils.isNotBlank(action)){
 				if(Integer.valueOf(action) == CREATE){
 					if(!regulation.getLocalized().containsKey(localeType)){
-						regulation.getLocalized().put(localeType, new RegulationContent());
+						regulation.getLocalized().put(localeType, new RegulationContent(regulation.getCode()));
 						regulationService.update(regulation);
 					}
 				}else if(Integer.valueOf(action) == DELETE){
@@ -86,6 +86,8 @@ public class RegulationController extends CprSupportController{
 						regulation.getLocalized().remove(localeType);
 						regulationService.update(regulation);
 					}
+				}else{
+					throw new PageNotFoundEception();
 				}
 			}
 		}

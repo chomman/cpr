@@ -10,9 +10,16 @@ public class RegulationContent {
 	
 	private String nameCzech;
 	private String nameEnglish;
-	private String pdfUrl;
+	private String pdfCzech;
+	private String pdfEnglish;
 	private String description;
 
+	public RegulationContent(){}
+	
+	public RegulationContent(String czechName){
+		this.nameCzech = czechName;
+	}
+	
 	@Column(length = 100)
 	public String getNameCzech() {
 		return nameCzech;
@@ -28,14 +35,22 @@ public class RegulationContent {
 	public void setNameEnglish(String nameEnglish) {
 		this.nameEnglish = nameEnglish;
 	}
-	@Column(length = 150)
-	public String getPdfUrl() {
-		return pdfUrl;
+		
+	@Column(length = 150, name = "pdf_czech")
+	public String getPdfCzech() {
+		return pdfCzech;
 	}
-	public void setPdfUrl(String pdfUrl) {
-		this.pdfUrl = pdfUrl;
+	public void setPdfCzech(String pdfCzech) {
+		this.pdfCzech = pdfCzech;
 	}
 	
+	@Column(length = 150, name = "pdf_english")
+	public String getPdfEnglish() {
+		return pdfEnglish;
+	}
+	public void setPdfEnglish(String pdfEnglish) {
+		this.pdfEnglish = pdfEnglish;
+	}
 	@Type(type = "text")
 	public String getDescription() {
 		return description;
