@@ -33,7 +33,7 @@ public class AdminSupportController {
     
     
     protected void createItemNotFoundError(String message) throws ItemNotFoundException{
-    	logger.error("Item not found: " + message);
+    	logger.warn("Item not found: " + message);
     	throw new ItemNotFoundException(message);
     }
  

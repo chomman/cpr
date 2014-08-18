@@ -4,18 +4,19 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CollectionTable;
+import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.MapKeyJoinColumn;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * Entity, which represent regulation
@@ -29,10 +30,10 @@ import javax.persistence.Transient;
 public class Regulation extends IdentifiableEntity {
 	
 	private static final long serialVersionUID = 2004446779583304022L;
-	private final static String CZ = "cs";
+	private final static String CS = "cs";
 	private final static String SK = "sk";
-	private final static String EU = "en";
-	private StandardCategory standardCategory;
+	private final static String EU = "eu";
+	private String code;
 	private Map<String, RegulationContent> localized = new HashMap<>();
 	
 	@Id
@@ -53,12 +54,12 @@ public class Regulation extends IdentifiableEntity {
 	}
 	
 	@Transient
-	public boolean isCzechRegulation(){
-		return isLocaleSet(CZ);
+	public boolean isCsRegulation(){
+		return isLocaleSet(CS);
 	}
 	
 	@Transient
-	public boolean isSlovakRegulation(){
+	public boolean isSkRegulation(){
 		return isLocaleSet(SK);
 	}
 	
@@ -68,17 +69,17 @@ public class Regulation extends IdentifiableEntity {
 	}
 	
 	@Transient
-	public RegulationContent getCzechRegulation(){
-		return getInLocale(CZ);
+	public RegulationContent getCsRegulationContent(){
+		return getInLocale(CS);
 	}
 	
 	@Transient
-	public RegulationContent getSlovakRegulation(){
+	public RegulationContent getSkRegulationContent(){
 		return getInLocale(SK);
 	}
 	
 	@Transient
-	public RegulationContent getEuRegulation(){
+	public RegulationContent getEuRegulationContent(){
 		return getInLocale(EU);
 	}
 	
@@ -92,15 +93,27 @@ public class Regulation extends IdentifiableEntity {
 		}
 		return null;
 	}
-	
-	@ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "standard_category_id")
-	public StandardCategory getStandardCategory() {
-		return standardCategory;
+
+	@NotEmpty( message = "{error.regulation.code}")
+	@Length(max = 20, message = "{error.regulation.code.length}")
+	@Column(length = 20, unique = true, nullable = false)
+	public String getCode() {
+		return code;
 	}
 
-	public void setStandardCategory(StandardCategory standardCategory) {
-		this.standardCategory = standardCategory;
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
+	@Transient
+	public static boolean isAvaiable(final String locale){
+		if(locale != null && (
+					locale.equals(EU) || 
+					locale.equals(CS) || 
+					locale.equals(SK)
+			)){
+			return true;
+		}
+		return false;
+	}
 }

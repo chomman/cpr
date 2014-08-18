@@ -24,6 +24,13 @@
 			<spring:message code="menu.cpr.aono" />
 		</a>
 	</li>
+	<li>
+		<a 
+		<c:if test="${model.tab == 12}">class="active"</c:if>
+		href="<c:url value="/admin/cpr/regulations" />" >
+			<spring:message code="regulations" />
+		</a>
+	</li>
 	<li class="nav-sep">
 		<strong>CPR</strong>
 	</li>

@@ -12,9 +12,7 @@ public class RegulationContent {
 	private String nameEnglish;
 	private String pdfUrl;
 	private String description;
-	
-	
-	
+
 	@Column(length = 100)
 	public String getNameCzech() {
 		return nameCzech;

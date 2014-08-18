@@ -12,6 +12,10 @@ body{font-family: Arial,Tahoma, sans-serif;position: relative;min-height: 100%;h
 .bold{font-weight: bodl;}
 ul.tagit{width:inherit !important;}
 
+.scope-yes{background: #E8FFEA;}
+.scope-no{background: #FFF7F7;}
+
+
 .qs-help-ico,
 label.tt{cursor: help;background-image:url(../img/info_mini.png);background-repeat:no-repeat;}
 label.tt{background-position:200px 5px; }
@@ -299,7 +303,12 @@ h1.pj-smaller{font-size:18px;padding:10px 35px;}
 .data .edit,.data .delete{width:60px;}
 .data .edit a{display:block;color:#cf7f00;}
 .data .edit a:hover{background: url(../img/ico_edit.png) no-repeat right center;}
-.data .delete a{display:block;color:#c80000;}
+
+.data .delete a{display:block;}
+.data .delete a,
+a.delete{color:#c80000;text-decoration: underline;}
+a.delete:hover{color:#000;text-decoration: none;}
+
 .data .delete a:hover{background: url(../img/ico_delete.png) no-repeat right center;}
 .data .last-edit{text-align:center;width:120px;}
 /* WRAPPER */
