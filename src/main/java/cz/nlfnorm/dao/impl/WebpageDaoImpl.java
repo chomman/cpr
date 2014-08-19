@@ -362,7 +362,8 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 			hql.append(" OR w.webpageType=:webpageType ");
 		}
 		hql.append(") AND w.enabled=true AND w.id != :id AND tag.name IN (:mTags) ")
-		.append("order by w.created DESC ");
+		.append("group by w.id order by w.created DESC ");
+		
 		final Query query = createQuery(hql)
 				.setParameterList("mTags", webpage.getStringTags())
 				.setLong("id", webpage.getId())

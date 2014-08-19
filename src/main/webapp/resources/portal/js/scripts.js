@@ -48,6 +48,8 @@ function init(){
 			ui.item.value;
 		}
 	});
+	
+	$('.pj-locked').tooltip( { content: "Awesome title!" });
 }
 
 function onSearchClicked(){
