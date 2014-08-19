@@ -64,4 +64,6 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	List<Webpage> getFooterWebpages();
 	
 	List<Webpage> getOldNonArchivedNewsInNode(Webpage node);
+	
+	List<Webpage> getSimilarWebpages(Webpage webpage, int limit);
 }

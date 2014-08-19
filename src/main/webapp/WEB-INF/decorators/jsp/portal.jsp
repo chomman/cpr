@@ -17,6 +17,7 @@
 		
 		<link rel="shortcut icon" href="<c:url value="/resources/portal/img/favico.png" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/style.css" />" />
+		<link rel="stylesheet" media="print" href="<c:url value="/resources/portal/css/print.css" />" />
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/common.css" />" />
 		<c:if test="${not empty isPreview and isPreview}">
 			<link rel="stylesheet" href="<c:url value="/resources/portal/css/preview.css" />" />

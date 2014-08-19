@@ -351,4 +351,22 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	}
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getSimilarWebpages(final Webpage webpage, final int limit) {
+		
+		StringBuilder hql = new StringBuilder()
+		.append("select w from Webpage w ")
+		.append("join w.tags tag ")
+		.append("where w.enabled=true AND w.id != :id AND tag.name IN (:mTags) ")
+		.append("order by w.created DESC ");
+		
+		return (List<Webpage>) createQuery(hql)
+				.setParameterList("mTags", webpage.getStringTags())
+				.setLong("id", webpage.getId())
+				.setMaxResults(limit)
+				.list();
+	}
+
+
 }

@@ -76,5 +76,8 @@ public interface WebpageService {
 	
 	void moveOldNewsToArchive(Webpage node);
 	
-	List<Webpage>getOldNonArchivedNewsInNode(Webpage node);
+	List<Webpage> getOldNonArchivedNewsInNode(Webpage node);
+	
+	List<Webpage> getSimilarWebpages(Webpage webpage, int limit);
+	
 }

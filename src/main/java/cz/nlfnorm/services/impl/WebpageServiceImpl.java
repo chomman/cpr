@@ -425,5 +425,14 @@ public class WebpageServiceImpl implements WebpageService{
 	public List<Webpage> getFooterWebpages() {
 		return webpageDao.getFooterWebpages();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getSimilarWebpages(final Webpage webpage, final int limit) {
+		if(CollectionUtils.isEmpty(webpage.getTags())){
+			return new ArrayList<>();
+		}
+		return webpageDao.getSimilarWebpages(webpage, limit);
+	}
 	
 }

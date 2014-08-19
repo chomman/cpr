@@ -276,6 +276,12 @@ footer ul li a:hover{color:#333}
 .pj-bc span{color:#999;}
 .pj-bc a,.pj-bc span{padding:5px;}
 
+.pj-news-footer{padding-top:10px;margin-top:20px;border-top:1px solid #eee;font-size:14px;}
+.pj-news-share{float:left;}
+.pj-wrapp-meta{float:right;}
+.pj-wrapp-meta .pj-meta-item{padding:5px;padding-top:3px;display:inline-block;}
+.pj-wrapp-meta .label{padding:3px;}
+.pj-wrapp-meta .pj-meta-item a{text-decoration:none;color:#333}
 
 
 #pj-login-box{ position:absolute;top:25px;right:-20px;width:280px;border-bottom:5px solid #15637a;border-right:1px solid #15637a;padding:0 20px 5px 20px;z-index:999;border-radius: 0px 0px 10px 10px;-moz-border-radius: 0px 0px 10px 10px;-webkit-border-radius: 0px 0px 10px 10px;}
