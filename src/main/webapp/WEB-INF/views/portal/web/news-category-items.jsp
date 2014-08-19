@@ -21,7 +21,19 @@
 		</c:if>
 		<div class="pj-content">
 			<h3><span><joda:format value="${i.published}" pattern="dd.MM.yyyy" /></span> - <webpage:a webpage="${i}" /></h3>
-			<p><webpage:filedVal webpage="${i}" fieldName="description" /></p>
+			<p>
+				<c:if test="${not empty i.descriptionInLang}">
+					<c:if test="${fn:length(i.descriptionInLang) gt 150}">
+						${fn:substring(i.descriptionInLang, 0, 150)}...
+					</c:if>
+					<c:if test="${fn:length(i.descriptionInLang) lt 150}">
+						${i.descriptionInLang}
+					</c:if>
+				</c:if>
+				<c:if test="${ empty i.descriptionInLang}">
+					${nlf:crop(i.contentInLang, 150)} 												
+				</c:if>
+			</p>
 		</div>
 	</div>
 </c:forEach>

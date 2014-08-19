@@ -78,6 +78,8 @@ public interface WebpageService {
 	
 	List<Webpage> getOldNonArchivedNewsInNode(Webpage node);
 	
-	List<Webpage> getSimilarWebpages(Webpage webpage, int limit);
+	List<Webpage> getSimilarNews(Webpage webpage, int limit);
+	
+	List<Webpage> getSimilarArticles(Webpage webpage, int limit);
 	
 }

@@ -67,7 +67,7 @@ public class WidgetController extends PortalWebpageControllerSupport{
 		Map<String, Object> model = new HashMap<String, Object>();
 		final Webpage webpage = getWebpage(id);
 		model.put("webpage", webpage);
-		model.put("news", webpageService.getSimilarWebpages(webpage, LIMIT_OF_SIMILAR_NEWS));
+		model.put("news", webpageService.getSimilarNews(webpage, LIMIT_OF_SIMILAR_NEWS));
 		appendType(model, TYPE_NEWS_DETAIL);
 		prepareNewsModel(request, model);
 		appendModel(modelMap, model);

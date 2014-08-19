@@ -28,6 +28,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	public static final String SOURCE_PARAM = "source";
 	public static final String COUNTRY_PARAM = "country";
 	
+	private final static int COUNT_OF_SIMILAR_NEWS = 5;
 	private final static int COUNT_OF_NEWS = 6;
 	private final static Long MAIN_NAV_ID = 75l;
 	private final static Long SUB_NAV_ID = 84l;
@@ -59,6 +60,11 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 		model.put("news", webpageService.getLatestPublishedNews(COUNT_OF_NEWS) );
 		model.put("portalParam", Constants.PORTAL_ID_PARAM_KEY);
 		model.put("profileUrl", "/" + PRIFILE_URL);
+		if(webpage.isNews()){
+			model.put("similarWebpages", webpageService.getSimilarNews(webpage, COUNT_OF_SIMILAR_NEWS));
+		}else if(webpage.isArticle()){
+			model.put("similarWebpages", webpageService.getSimilarArticles(webpage, COUNT_OF_SIMILAR_NEWS));
+		}
 		final User user = UserUtils.getLoggedUser();
 		if(user != null){
 			model.put("loggedUser", user);

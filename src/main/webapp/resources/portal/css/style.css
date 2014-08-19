@@ -276,13 +276,29 @@ footer ul li a:hover{color:#333}
 .pj-bc span{color:#999;}
 .pj-bc a,.pj-bc span{padding:5px;}
 
-.pj-news-footer{padding-top:10px;margin-top:20px;border-top:1px solid #eee;font-size:14px;}
+
+.pj-news-footer{padding:10px;margin-top:20px;border-top:1px solid #eee;border-bottom:1px solid #eee;font-size:12px;position:relative;}
 .pj-news-share{float:left;}
-.pj-wrapp-meta{float:right;}
-.pj-wrapp-meta .pj-meta-item{padding:5px;padding-top:3px;display:inline-block;}
-.pj-wrapp-meta .label{padding:3px;}
+.pj-wrapp-meta{float:right;padding-top:12px;}
+.pj-wrapp-meta .pj-meta-item{padding:5px;}
+.pj-wrapp-meta .label{padding:5px;color:#666}
 .pj-wrapp-meta .pj-meta-item a{text-decoration:none;color:#333}
 
+
+.pj-news-similar{padding:15px ;margin-top:40px;background:#EDF9FF;border-top:2px solid #eee;
+background: -moz-linear-gradient(top, rgba(242,242,242,0.65) 0%, rgba(229,229,229,0) 65%, rgba(224,224,224,0) 92%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(242,242,242,0.65)), color-stop(65%,rgba(229,229,229,0)), color-stop(92%,rgba(224,224,224,0)));
+background: -webkit-linear-gradient(top, rgba(242,242,242,0.65) 0%,rgba(229,229,229,0) 65%,rgba(224,224,224,0) 92%);
+background: -o-linear-gradient(top, rgba(242,242,242,0.65) 0%,rgba(229,229,229,0) 65%,rgba(224,224,224,0) 92%);
+background: -ms-linear-gradient(top, rgba(242,242,242,0.65) 0%,rgba(229,229,229,0) 65%,rgba(224,224,224,0) 92%);
+background: linear-gradient(to bottom, rgba(242,242,242,0.65) 0%,rgba(229,229,229,0) 65%,rgba(224,224,224,0) 92%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6f2f2f2', endColorstr='#00e0e0e0',GradientType=0 );
+}
+.pj-news-similar h5{padding-bottom:5px;color:#555;font-size:15px;}
+.pj-news-similar .pj-date{display:none;}
+.pj-news-similar .pj-item{padding-left:30px;background:url(../img/list-arrow-type.png) no-repeat 10px 4px;border-bottom:0;margin:10px 0;}
+.pj-news-similar .pj-item strong{padding-bottom:3px;display:block;}
+.pj-news-similar .pj-link.pj-locked{padding-left:20px;color:#555}
 
 #pj-login-box{ position:absolute;top:25px;right:-20px;width:280px;border-bottom:5px solid #15637a;border-right:1px solid #15637a;padding:0 20px 5px 20px;z-index:999;border-radius: 0px 0px 10px 10px;-moz-border-radius: 0px 0px 10px 10px;-webkit-border-radius: 0px 0px 10px 10px;}
 #pj-login-box.has-errors{top:0px;padding-top:5px;}

@@ -6,6 +6,7 @@ import cz.nlfnorm.dto.AutocompleteDto;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageModule;
+import cz.nlfnorm.enums.WebpageType;
 
 /**
  * DAO rozhranie k manipulacii s verejnymi sekciami systemu
@@ -65,5 +66,5 @@ public interface WebpageDao extends BaseDao<Webpage, Long>{
 	
 	List<Webpage> getOldNonArchivedNewsInNode(Webpage node);
 	
-	List<Webpage> getSimilarWebpages(Webpage webpage, int limit);
+	List<Webpage> getSimilarWebpages(Webpage webpage, int limit, WebpageType webpageType);
 }

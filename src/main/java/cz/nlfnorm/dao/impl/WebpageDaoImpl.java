@@ -353,19 +353,25 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Webpage> getSimilarWebpages(final Webpage webpage, final int limit) {
-		
+	public List<Webpage> getSimilarWebpages(final Webpage webpage, final int limit, final WebpageType webpageType) {
 		StringBuilder hql = new StringBuilder()
 		.append("select w from Webpage w ")
 		.append("join w.tags tag ")
-		.append("where w.enabled=true AND w.id != :id AND tag.name IN (:mTags) ")
+		.append("where (w.webpageType = :newsWebpageType ");
+		if(webpageType != null){
+			hql.append(" OR w.webpageType=:webpageType ");
+		}
+		hql.append(") AND w.enabled=true AND w.id != :id AND tag.name IN (:mTags) ")
 		.append("order by w.created DESC ");
-		
-		return (List<Webpage>) createQuery(hql)
+		final Query query = createQuery(hql)
 				.setParameterList("mTags", webpage.getStringTags())
 				.setLong("id", webpage.getId())
-				.setMaxResults(limit)
-				.list();
+				.setString("newsWebpageType", WebpageType.NEWS.toString())
+				.setMaxResults(limit);
+		if(webpageType != null){
+				query.setString("webpageType", webpageType.toString());
+		}
+		return query.list();
 	}
 
 
