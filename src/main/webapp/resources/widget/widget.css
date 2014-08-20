@@ -13,7 +13,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0da192', end
 .w-nav li a{text-decoration:none;color:#fff;font-weight:bold;padding:15px 0;display:inline-block;width:100%}
 .w-nav li a:hover,
 .w-nav .active{background:#006569;}
-
+.w-nav .pj-fwd{position:relative;}
+.w-nav .pj-ico{background:red;display:inline-block;width:20px;height:20px;position:absolute;margin-left:10px;top:13px;background:url(../portal/img/ico_login.png)}
 
 .pj-news-similar h5,
 .pj-widget-artice h3{color:#006569}

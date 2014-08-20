@@ -11,6 +11,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import cz.nlfnorm.constants.Constants;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.WebpageModule;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
@@ -26,7 +27,7 @@ public class WidgetController extends PortalWebpageControllerSupport{
 	private final static String DESCR_LENGHT_PARAM = "descrLength";
 	private final static String TARGET_PARAM = "target";
 	
-	private final static String PORTAL_PRODUCT_DETAIL_URL = "/widget/p/";
+	private final static String PORTAL_PRODUCT_DETAIL_URL = "/widget/registrace/4";
 	private final static String PORTAL_PRODUCT_ID_PARAM = "pid";
 	
 	private final static int DEFAULT_COUNT_OF_NEWS = 5;
@@ -66,16 +67,17 @@ public class WidgetController extends PortalWebpageControllerSupport{
 	}
 	
 	@RequestMapping(value = { "/widget/registrace", "/{lang}/widget/registrace"} )
-	public String registracion(){
-		return "redirect:/widget/registrace/" + TYPE_ABOUT;
+	public String registracion(HttpServletRequest request){
+		return "redirect:/widget/registrace/" + TYPE_ABOUT + getRegistrationWigetRedirectParams(request);
 	}
 	
 	@RequestMapping(value = { "/widget/registrace/{pageType}", "/{lang}/widget/registrace/pageType"} )
-	public String registracion(final @PathVariable int pageType, HttpServletRequest request) throws PageNotFoundEception{
+	public String registracion(final @PathVariable int pageType, ModelMap map, HttpServletRequest request) throws PageNotFoundEception{
 		Map<String, Object> model = new HashMap<String, Object>();
 		switch (pageType) {
 			case TYPE_REGISTRATION:
 				prepareRegistrationFormModel(model);
+				preparePortalOrderModel(model, map, request, new PortalUserForm());
 				break;
 			case TYPE_PORTAL_PRODUCT_DETAIL:
 				preaprePortalProductDetailModel(model, request);
@@ -83,15 +85,22 @@ public class WidgetController extends PortalWebpageControllerSupport{
 			case TYPE_ABOUT:
 				preapreAboutWebpageModel(model);
 				break;
+			case TYPE_REDIRECT:
+				 setSessionSourceParam(request);
+				 return "redirect:/" + Constants.PORTAL_URL;
+			default :
+				throw new PageNotFoundEception();
 		}
 		preapreRegistravionModel(model, request, pageType);
+		appendModel(map, model);
 		return getView();
 	}
 		
 	
 	private void preapreRegistravionModel(final Map<String, Object> model, HttpServletRequest request, final int type){
-		model.put("params", getReigstrationUrl(request));
+		model.put("params", getRegistrationWigetParams(request));
 		appendCss(model, request.getParameter(CSS_PARAM));
+		appendType(model, type);
 	}
 	
 	private void prepareRegistrationFormModel(final Map<String, Object> model){
@@ -107,10 +116,6 @@ public class WidgetController extends PortalWebpageControllerSupport{
 	private void preapreAboutWebpageModel(final Map<String,	Object> model){
 		model.put("webpage", webpageService.getWebpageById(88l));
 	}
-	
-
-	
-	
 	
 	public Map<String, Object> prepareNewsModel(HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();
@@ -142,7 +147,7 @@ public class WidgetController extends PortalWebpageControllerSupport{
 		return url.toString();
 	}
 	
-	public String getReigstrationUrl(HttpServletRequest request){
+	public String getRegistrationWigetParams(HttpServletRequest request){
 		StringBuilder url = new StringBuilder("?");
 		int paramVal = RequestUtils.getIntParameter(CURRENCY_PARAM, request);
 		append(CURRENCY_PARAM, paramVal, url);
@@ -155,6 +160,10 @@ public class WidgetController extends PortalWebpageControllerSupport{
 			return "";
 		}
 		return url.toString();
+	}
+	
+	public String getRegistrationWigetRedirectParams(HttpServletRequest request){
+		return getRegistrationWigetParams(request).replace("&amp;", "&");
 	}
 	
 	private boolean isTargetWindow(final HttpServletRequest request){

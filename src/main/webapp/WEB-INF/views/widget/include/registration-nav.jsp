@@ -15,8 +15,9 @@
 	</li>
 	
 	<li>
-		<a target="_blank" href="<a:url href="/widget/registrace/6" linkOnly="true" />">
+		<a class="pj-fwd" target="_blank" href="<a:url href="/widget/registrace/6${webpageModel.params}" linkOnly="true" />">
 			<spring:message code="widget.enter" />
+			<span class="pj-ico"></span>
 		</a>
 	</li>
 	

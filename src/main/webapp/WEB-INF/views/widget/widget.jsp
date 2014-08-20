@@ -32,8 +32,8 @@
 	</head>
 	<body class="pj-widget">
 			
-			<c:if test="${webpageModel.type == 1 or webpageModel.type == 2 or webpageModel.type == 4}">
-				
+			<c:if test="${webpageModel.type <= 2 or webpageModel.type == 4}">
+				<jsp:include page="include/registration-nav.jsp" />
 				
 				<c:if test="${webpageModel.type == 1}">
 					<jsp:include page="../module/registration-form.jsp" />

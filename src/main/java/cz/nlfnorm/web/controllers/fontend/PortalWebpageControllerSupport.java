@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.ModelMap;
 
@@ -23,6 +24,8 @@ import cz.nlfnorm.web.forms.portal.PortalOrderForm;
 import cz.nlfnorm.web.forms.portal.PortalUserForm;
 
 public abstract class PortalWebpageControllerSupport extends WebpageControllerSupport {
+	
+	public static final String SESSION_SOURCE_KEY = "ps";
 	
 	public static final String CURRENCY_PARAM = "currency";
 	public static final String SOURCE_PARAM = "source";
@@ -93,7 +96,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	
 	private void setPortaOrderCurrency(HttpServletRequest request, PortalOrderForm form){
 		final int paramVal = RequestUtils.getIntParameter(CURRENCY_PARAM, request);
-		if(paramVal != -1){
+		if(paramVal != RequestUtils.NOT_FOUD){
 			final PortalCurrency currency = PortalCurrency.getById(Integer.valueOf(paramVal));
 			if(currency != null){
 				form.setPortalCurrency(currency);
@@ -103,7 +106,7 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	
 	private void setPortaOrderCountry(HttpServletRequest request, PortalOrderForm form){
 		final int paramVal = RequestUtils.getIntParameter(COUNTRY_PARAM, request);
-		if(paramVal != -1){
+		if(paramVal != RequestUtils.NOT_FOUD){
 			final PortalCountry country = PortalCountry.getById(Integer.valueOf(paramVal));
 			if(country != null){
 				form.getUserInfo().setPortalCountry(country);
@@ -113,12 +116,31 @@ public abstract class PortalWebpageControllerSupport extends WebpageControllerSu
 	
 		
 	private void setPortalOrderSource(HttpServletRequest request, PortalOrderForm form){
-		final int paramVal = RequestUtils.getIntParameter(SOURCE_PARAM, request);
-		if(paramVal != -1){
+		int paramVal = RequestUtils.getIntParameter(SOURCE_PARAM, request);
+		if(paramVal == RequestUtils.NOT_FOUD){
+			paramVal = getSessionSourceParam(request);
+		}
+		if(paramVal != RequestUtils.NOT_FOUD){
 			final PortalOrderSource source = PortalOrderSource.getById(Integer.valueOf(paramVal));
 			if(source != null){
 				form.setPortalOrderSource(source);
 			}
+		}
+	}
+	
+	protected int getSessionSourceParam(HttpServletRequest request){
+		final String val = (String)request.getSession().getAttribute(SESSION_SOURCE_KEY);
+		if(val != null ){
+			return Integer.valueOf(val);
+		}
+		return RequestUtils.NOT_FOUD;
+	}
+	
+	
+	protected void setSessionSourceParam(HttpServletRequest request){
+		final String source = request.getParameter(SOURCE_PARAM);
+		if(StringUtils.isNotBlank(source)){
+			request.getSession().setAttribute(SESSION_SOURCE_KEY, source);
 		}
 	}
 	

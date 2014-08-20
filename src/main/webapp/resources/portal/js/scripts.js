@@ -104,12 +104,14 @@ function showSubnav(e){
 function showLoginBox(){
 	$('#pj-login-box').removeClass('hidden');
 	$('.pj-login').addClass('hidden');
+	$('nav, #content, footer, .pj-header').stop().animate({"opacity": .7}, 200);
 	return false;
 }
 
 function hideLoginBox(){
 	$('#pj-login-box').addClass('hidden');
 	$('.pj-login').removeClass('hidden');
+	$('nav, #content, footer, .pj-header').stop().animate({"opacity": 1}, 100);
 	return false;
 }
 

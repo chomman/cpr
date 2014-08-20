@@ -8,7 +8,7 @@
 				<a href="<c:url value="/${i.publicationUrl}" />" target="_blank" class="product-url">
 			</c:if>
 			<c:if test="${not empty webpageModel.portalProductDetailUrl}">
-				<a href="<c:url value="${webpageModel.portalProductDetailUrl}${i.id}" />${webpageModel.params}" class="product-url">
+				<a href="<c:url value="${webpageModel.portalProductDetailUrl}" />${webpageModel.params}&amp;pid=${i.id}" class="product-url">
 			</c:if>
 				<a:localizedValue object="${i}" fieldName="name" />
 			</a>
