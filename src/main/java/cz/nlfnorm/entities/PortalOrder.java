@@ -80,6 +80,9 @@ public class PortalOrder extends AbstractEntity{
 	private PortalCountry portalCountry;
 	
 	private String duzp;
+	private String paymentDate;
+	
+	private boolean deleted;
 	
 	public PortalOrder(){
 		this.orderStatus = OrderStatus.PENDING;
@@ -88,6 +91,7 @@ public class PortalOrder extends AbstractEntity{
 		this.portalOrderSource = PortalOrderSource.NLFNORM;
 		this.currency = PortalCurrency.CZK;
 		this.portalCountry = PortalCountry.CR;
+		this.deleted = false;
 	}
 	
 	@Id
@@ -316,15 +320,41 @@ public class PortalOrder extends AbstractEntity{
 	public String getDuzp() {
 		return duzp;
 	}
-
+	
 	public void setDuzp(String duzp) {
 		this.duzp = duzp;
+	}
+	/**
+	 * Datum uhrady objednavky
+	 * @return datum vo formate dd.MM.yyyy
+	 */
+	@Column(name = "paymen_tDate", length = 10)
+	public String getPaymentDate() {
+		return paymentDate;
+	}
+
+	public void setPaymentDate(String paymentDate) {
+		this.paymentDate = paymentDate;
+	}
+
+	@Column(name = "is_deleted")	
+	public boolean isDeleted() {
+		return deleted;
+	}
+
+	public void setDeleted(boolean deleted) {
+		this.deleted = deleted;
 	}
 
 	@Transient
 	@Override
 	public Boolean getEnabled() {
 		return null;
+	}
+	
+	@Transient
+	public boolean isPayed(){
+		return orderStatus != null && orderStatus.equals(OrderStatus.PAYED);
 	}
 	
 	@Transient
@@ -355,6 +385,7 @@ public class PortalOrder extends AbstractEntity{
 		setPhone(form.getPhone());
 		setPortalCountry(form.getPortalCountry());
 		setDuzp(form.getDuzp());
+		setPaymentDate(form.getPaymentDate());
 	}
 	
 	@Transient 

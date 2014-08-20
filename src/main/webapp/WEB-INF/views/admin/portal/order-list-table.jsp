@@ -67,9 +67,14 @@
 			 			</a:adminurl>
 			 		</td>
 			 		<td class="delete">
+			 			<c:if test="${not i.payed}">
 			 			<a:adminurl href="/portal/order/delete/${i.id}" cssClass="confirm">
 			 				<spring:message code="form.delete" />
 			 			</a:adminurl>
+			 			</c:if>
+			 			<c:if test="${i.payed}">
+			 				-
+			 			</c:if>
 			 		</td>
 			 	</tr>
 			 </c:forEach>

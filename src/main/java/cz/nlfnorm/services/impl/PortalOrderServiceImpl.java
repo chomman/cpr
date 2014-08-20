@@ -409,6 +409,8 @@ public class PortalOrderServiceImpl implements PortalOrderService {
 	public String getFileNameFor(final int type, final PortalOrder portalOrder) {
 		if(type == 1){
 			return "proforma-" + portalOrder.getOrderNo() + ".pdf";
+		}else if(type == 3){
+			return "vyuctovani-platby-predem-" + portalOrder.getOrderNo() + ".pdf";
 		}
 		return "prikaz-k-fakturaci-" + portalOrder.getOrderNo() + ".pdf";
 	}

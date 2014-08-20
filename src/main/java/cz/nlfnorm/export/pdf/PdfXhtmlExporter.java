@@ -26,6 +26,7 @@ import org.xml.sax.SAXException;
 
 import com.lowagie.text.pdf.BaseFont;
 
+import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -62,6 +63,9 @@ public class PdfXhtmlExporter {
 			temp.process(model, new BufferedWriter(new OutputStreamWriter(htmlAsOs, ENCODING)));
 			htmlAsOs.close();
 			return  htmlAsOs.toString();
+		} catch(ParseException e){
+			logger.error("Parsovanie sablony zlyhalo ["+ftlTemplate+"].", e);
+			throw new RuntimeException("Some error occures. Can not generate XHTML.");
 		} catch (TemplateException | IOException e) {
 			logger.error("Generovanie XHTML zlyhalo ["+ftlTemplate+"].", e);
 			throw new RuntimeException("Some error occures. Can not generate XHTML.");
