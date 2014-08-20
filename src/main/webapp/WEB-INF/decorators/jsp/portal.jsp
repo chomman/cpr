@@ -32,6 +32,8 @@
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/ui/jquery-ui-1.10.4.custom.css" />" />
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="<c:url value="/resources/portal/js/jquery-ui-1.10.4.custom.min.js" />"></script>	
+		<script src="<c:url value="/resources/portal/js/${commonPublic.locale}.messages.js" />"></script>
+		<script src="<c:url value="/resources/portal/js/jquery.localize.js" />"></script>
 		<script src="<c:url value="/resources/portal/js/scripts.js" />"></script>
 		<decorator:head />
 		<jsp:include page="/WEB-INF/views/include/ga.jsp" />

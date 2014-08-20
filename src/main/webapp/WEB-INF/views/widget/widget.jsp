@@ -15,7 +15,7 @@
 		<link rel="stylesheet" href="<c:url value="/resources/widget/widget.css" />" />
 		
 		<!--[if lt IE 9]>
-			<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+			<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]-->
 		
 		<link rel="stylesheet" href="<c:url value="/resources/portal/css/ui/jquery-ui-1.10.4.custom.css" />" />
@@ -25,26 +25,15 @@
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="<c:url value="/resources/portal/js/jquery.messaging.js" />"></script>
 		<script src="<c:url value="/resources/portal/js/jquery-ui-1.10.4.custom.min.js" />"></script>
+		<script src="<c:url value="/resources/portal/js/${commonPublic.locale}.messages.js" />"></script>
+		<script src="<c:url value="/resources/portal/js/jquery.localize.js" />"></script>
 		<script src="<c:url value="/resources/portal/js/scripts.js" />"></script>
 		<jsp:include page="/WEB-INF/views/include/ga.jsp" />
 	</head>
 	<body class="pj-widget">
 			
 			<c:if test="${webpageModel.type == 1 or webpageModel.type == 2 or webpageModel.type == 4}">
-				<ul class="w-nav">
-					<li ${webpageModel.type == 1 ? 'class="active"'  : '' }>
-						<a href="<a:url href="/widget/registrace" linkOnly="true" />${webpageModel.params}">
-							<webpage:filedVal webpage="${webpageModel.registration}" fieldName="name" />
-						</a>
-					</li>
-					<c:forEach items="${webpageModel.nav}" var="i">
-					<li ${webpageModel.type == 2 and webpageModel.webpage.id eq i.id ? 'class="active"'  : '' }>
-						<a:url href="/widget/${i.id}${webpageModel.params}">
-							<webpage:filedVal webpage="${i}" fieldName="name" />
-						</a:url>
-					</li>
-					</c:forEach>
-				</ul>
+				
 				
 				<c:if test="${webpageModel.type == 1}">
 					<jsp:include page="../module/registration-form.jsp" />

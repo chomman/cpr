@@ -48,8 +48,6 @@ function init(){
 			ui.item.value;
 		}
 	});
-	
-	$('.pj-locked').tooltip( { content: "Awesome title!" });
 }
 
 function onSearchClicked(){
@@ -228,11 +226,11 @@ function showErrors(json){
 }
 
 function getFormErrorMessage(){
-	return isCzech() ? 'Chybně vyplněný formulář' : 'Form contains errors';
+	return $.getMessage('errForm');
 }
 
 function getUnexpectedError(){
-	return isCzech() ? 'Došlo k neočekávané chybě, zkuste operaci opakovat.' : 'An unexpected error occurred, please try it again later';
+	return $.getMessage('err');
 }
 
 function getBasePath(){

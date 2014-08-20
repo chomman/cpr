@@ -25,30 +25,21 @@ public class WidgetController extends PortalWebpageControllerSupport{
 	private final static String COUNT_OF_NEWS_PARAM = "count";
 	private final static String DESCR_LENGHT_PARAM = "descrLength";
 	private final static String TARGET_PARAM = "target";
+	
 	private final static String PORTAL_PRODUCT_DETAIL_URL = "/widget/p/";
+	private final static String PORTAL_PRODUCT_ID_PARAM = "pid";
 	
 	private final static int DEFAULT_COUNT_OF_NEWS = 5;
 	private final static int DEFAULT_DESCR_LENGTH = 150;
 	
 	private final static int TYPE_REGISTRATION = 1;
-	private final static int TYPE_WEBPAGE = 2;
+	private final static int TYPE_ABOUT = 2;
 	private final static int TYPE_NEWS = 3;
-	private final static int TYPE_PORTAL_PRODUCT = 4;
+	private final static int TYPE_PORTAL_PRODUCT_DETAIL = 4;
 	private final static int TYPE_NEWS_DETAIL = 5;
+	private final static int TYPE_REDIRECT = 6;
 	
 	private final static int LIMIT_OF_SIMILAR_NEWS = 4;
-	
-	@RequestMapping(value = { "/widget/registrace", "/{lang}/widget/registrace"} )
-	public String handleRegistrationPage(
-			ModelMap modelMap, 
-			HttpServletRequest request) {
-		Map<String, Object> model = new HashMap<String, Object>();
-		prepareRegistrationWidgetModel(model,  TYPE_REGISTRATION, request);
-		preparePortalOrderModel(model, modelMap, request, new PortalUserForm());
-		appendModel(modelMap, model);
-		return getView(); 
-	}
-	
 	
 	
 	@RequestMapping(value = { "/widget/aktuality", "/{lang}/widget/aktuality"} )
@@ -73,41 +64,53 @@ public class WidgetController extends PortalWebpageControllerSupport{
 		appendModel(modelMap, model);
 		return getView(); 
 	}
+	
+	@RequestMapping(value = { "/widget/registrace", "/{lang}/widget/registrace"} )
+	public String registracion(){
+		return "redirect:/widget/registrace/" + TYPE_ABOUT;
+	}
+	
+	@RequestMapping(value = { "/widget/registrace/{pageType}", "/{lang}/widget/registrace/pageType"} )
+	public String registracion(final @PathVariable int pageType, HttpServletRequest request) throws PageNotFoundEception{
+		Map<String, Object> model = new HashMap<String, Object>();
+		switch (pageType) {
+			case TYPE_REGISTRATION:
+				prepareRegistrationFormModel(model);
+				break;
+			case TYPE_PORTAL_PRODUCT_DETAIL:
+				preaprePortalProductDetailModel(model, request);
+				break;
+			case TYPE_ABOUT:
+				preapreAboutWebpageModel(model);
+				break;
+		}
+		preapreRegistravionModel(model, request, pageType);
+		return getView();
+	}
 		
 	
-	@RequestMapping(value = { "/widget/{webpageId}", "/{lang}/widget/{webpageId}"} )
-	public String handleWebpage(
-			@PathVariable Long webpageId,
-			ModelMap modelMap, 
-			HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException {
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("webpage", getWebpage(webpageId));
-		prepareRegistrationWidgetModel(model,  TYPE_WEBPAGE, request);
-		appendModel(modelMap, model);
-		return getView(); 
-	}
-	
-	@RequestMapping(value = { PORTAL_PRODUCT_DETAIL_URL+"{portalProductId}", "/{lang}"+PORTAL_PRODUCT_DETAIL_URL+"{portalProductId}"} )
-	public String handlePortalProductDetail(
-			@PathVariable Long portalProductId,
-			ModelMap modelMap, 
-			HttpServletRequest request) throws PageNotFoundEception, PortalAccessDeniedException {
-		Map<String, Object> model = new HashMap<String, Object>();
-		model.put("portalProduct", portalProductService.getById(portalProductId));
-		prepareRegistrationWidgetModel(model, TYPE_PORTAL_PRODUCT, request);
-		appendModel(modelMap, model);
-		return getView(); 
-	}
-	
-	
-	private void prepareRegistrationWidgetModel(Map<String, Object> model, final int type, HttpServletRequest request){
-		model.put("nav",  webpageService.getChildrensOfNode(76l, true));
-		model.put("registration", webpageService.getWebpageByModule(WebpageModule.PORTAL_REGISTRATION));
+	private void preapreRegistravionModel(final Map<String, Object> model, HttpServletRequest request, final int type){
 		model.put("params", getReigstrationUrl(request));
-		model.put("portalProductDetailUrl", PORTAL_PRODUCT_DETAIL_URL);
 		appendCss(model, request.getParameter(CSS_PARAM));
-		appendType(model, type);
 	}
+	
+	private void prepareRegistrationFormModel(final Map<String, Object> model){
+		model.put("registration", webpageService.getWebpageByModule(WebpageModule.PORTAL_REGISTRATION));
+		model.put("portalProductDetailUrl", PORTAL_PRODUCT_DETAIL_URL);
+	}
+	
+	private void preaprePortalProductDetailModel(final Map<String, Object> model, HttpServletRequest request){
+		final Long portalProductId = Long.valueOf(request.getParameter(PORTAL_PRODUCT_ID_PARAM));
+		model.put("portalProduct", portalProductService.getById(portalProductId));
+	}
+	
+	private void preapreAboutWebpageModel(final Map<String,	Object> model){
+		model.put("webpage", webpageService.getWebpageById(88l));
+	}
+	
+
+	
+	
 	
 	public Map<String, Object> prepareNewsModel(HttpServletRequest request){
 		Map<String, Object> model = new HashMap<String, Object>();

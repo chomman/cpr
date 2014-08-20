@@ -108,7 +108,7 @@ box-shadow: 0 6px 5px 2px #A8A8A8;background:#1B6A81;}
 .pj-mainnav ul ul .pj-locked:hover{background:#fff;border-bottom:1px solid #fff;}
 
 
-.pj-locked{opacity:.7;color:#888;background-image:url(../img/ico_lock.png);background-repeat:no-repeat !important;background-position:3px center;cursor:not-allowed;}
+.pj-locked{opacity:.7;color:#888;background-image:url(../img/ico_lock.png);background-repeat:no-repeat !important;background-position:3px center;/*cursor:not-allowed;*/}
 .pj-mainnav .pj-locked{padding-left:20px !important;}
 .pj-mainnav .pj-parent>.pj-locked{background-position:5px 15px;}
 .pj-mainnav ul ul .pj-locked{background-image:url(../img/ico_lock_white.png);background-position:5px 10px !important;}
