@@ -41,9 +41,7 @@
 					<c:set var="isDenied"  value="${not hasValidRegistration and nlf:isOnlyForRegistrated(i)}" />
 					<div class="sr"> 
 						<h3>
-							<a class="pj-link ${isDenied ? 'pj-locked' : ''}" href="<webpage:link webpage="${i}" />" 
-								<c:if test="${isDenied}"><spring:message code="onlyWithvalidRegistration" /></c:if>
-							>
+							<a class="pj-link ${isDenied ? 'pj-locked' : ''}" href="<webpage:link webpage="${i}" />">
 								<webpage:filedVal webpage="${i}" fieldName="title" />
 							</a>
 						</h3>

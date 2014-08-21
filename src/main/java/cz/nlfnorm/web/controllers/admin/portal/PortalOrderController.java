@@ -34,8 +34,9 @@ import cz.nlfnorm.web.editors.PortalProductPropertyEditor;
 @Controller
 public class PortalOrderController extends AdminSupportController {
 
-	private final static String EDIT_MAPPING_URL = "/admin/portal/order/{orderId}";
-	private final static String LIST_MAPPING_URL = "/admin/portal/orders";
+	private final static String EDIT_MAPPING_URL = 		"/admin/portal/order/{orderId}";
+	private final static String LIST_MAPPING_URL = 		"/admin/portal/orders";
+	private final static String DELETE_MAPPING_URL = 	"/admin/portal/order/delete/{orderId}";
 	
 	@Autowired
 	private PortalOrderService portalOrderService;
@@ -85,6 +86,14 @@ public class PortalOrderController extends AdminSupportController {
 		}
 		prepareModel(map, portalOrder);
 		return getEditFormView();
+	}
+	
+	@RequestMapping(DELETE_MAPPING_URL)
+	public String removePortalOrder(@PathVariable Long orderId) throws ItemNotFoundException{
+		final PortalOrder order = getOrder(orderId);
+		order.setDeleted(true);
+		portalOrderService.update(order);
+		return successDeleteRedirect(LIST_MAPPING_URL);
 	}
 	
 	@RequestMapping(value = EDIT_MAPPING_URL, method = RequestMethod.POST)

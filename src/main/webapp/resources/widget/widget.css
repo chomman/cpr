@@ -13,8 +13,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0da192', end
 .w-nav li a{text-decoration:none;color:#fff;font-weight:bold;padding:15px 0;display:inline-block;width:100%}
 .w-nav li a:hover,
 .w-nav .active{background:#006569;}
+.w-nav .pj-fwd{position:relative;}
+.w-nav .pj-ico{background:red;display:inline-block;width:20px;height:20px;position:absolute;margin-left:10px;top:13px;background:url(../portal/img/ico_login.png)}
 
-
+.pj-news-similar h5,
+.pj-widget-artice h3{color:#006569}
 
 .pj-widget-artice{color:#333;font-size:14px;line-height:19px;margin:0 10px !important;}
 .pj-widget-artice h1,
@@ -23,7 +26,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0da192', end
 .pj-widget-artice h4{margin:15px 0 5px 0;}
 .pj-widget-artice h1{font-size:25px;}
 .pj-widget-artice h2{font-size:20px;}
-.pj-widget-artice h3{font-size:20px;border-bottom:2px dotted #ddd;padding-bottom:10px;margin-bottom:15px;color:#006569}
+.pj-widget-artice h3{font-size:20px;border-bottom:2px dotted #ddd;padding-bottom:10px;margin-bottom:15px;}
 .pj-widget-artice a{color:#0A7D70}
 .pj-widget-artice ul,
 .pj-widget-artice ol{padding:10px 25px;}
@@ -40,6 +43,25 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0da192', end
 .pj-widget-news a{color:#0088c8}
 .pj-widget-news a:hover{color:#333;}
 .pj-widget-news p{font-size:12px;}
+
+.pj-news-footer{padding:10px;margin-top:20px;border-top:1px solid #eee;border-bottom:1px solid #eee;font-size:12px;position:relative;}
+.pj-news-footer .pj-go-back{position:absolute;top:13px;left:10px;display:block;text-decoration:none;background:#006569;color:#fff;font-size:11px;padding:1px 9px ;border-radius:5px;font-weight:bold;opacity:.8}
+.pj-news-footer .pj-go-back:hover{opacity:1;}
+.pj-news-share{float:left;padding-top:7px;padding-left:70px;}
+.pj-wrapp-meta{float:right;}
+.pj-wrapp-meta .pj-meta-item{padding:5px 10px;}
+.pj-wrapp-meta .label{padding:5px;}
+.pj-wrapp-meta .pj-meta-item a{text-decoration:none;color:#333}
+
+.pj-registrace .pj-go-back{padding:8px 15px;margin-top:-5px;}
+.pj-registrace .pj-news-share{padding-left:85px;padding-top:3px;}
+
+.pj-news-similar{padding:15px 0;margin-top:25px;}
+.pj-news-similar h5{padding-bottom:5px;}
+.pj-news-similar .pj-date{display:none;}
+.pj-news-similar .pj-item{padding-left:30px;background:url(../portal/img/list-arrow-type.png) no-repeat 10px 4px;border-bottom:0;margin:10px 0;}
+.pj-news-similar .pj-item strong{padding-bottom:3px;}
+
 
 
 @media (max-width:2000px) and (min-width:651px) {

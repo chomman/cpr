@@ -282,7 +282,16 @@ public class Webpage extends AbstractEntity {
 	
 	
 	/* Transient */
-
+	@Transient
+	public boolean isNews(){
+		return getWebpageType() != null && getWebpageType().equals(WebpageType.NEWS);
+	}
+	
+	@Transient
+	public boolean isArticle(){
+		return getWebpageType() != null && getWebpageType().equals(WebpageType.ARTICLE);
+	}
+	
 	@Transient
 	public String getTitleInLang(){
 		if(localized.containsKey(ContextHolder.getLang())){

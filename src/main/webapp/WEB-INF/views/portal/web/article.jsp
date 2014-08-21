@@ -13,7 +13,7 @@
 				<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
 			</div> 
 		</article>
-		
+		<jsp:include page="../article-footer.jsp" />
 		
 		<c:if test="${not empty webpageModel.webpage.webpageModule }">
 			<jsp:include page="../../module/${webpageModel.webpage.webpageModule.jspPage}" />

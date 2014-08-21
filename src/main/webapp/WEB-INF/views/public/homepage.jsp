@@ -30,7 +30,19 @@
 					 				<strong>
 					 					<webpage:a webpage="${i}" cssClass="blue-color" />
 					 				</strong>
-					 				<p>${fn:substring(i.descriptionInLang, 0, 120)} ...</p>
+					 				<p>
+					 				<c:if test="${not empty i.descriptionInLang}">
+												<c:if test="${fn:length(i.descriptionInLang) gt 150}">
+													${fn:substring(i.descriptionInLang, 0, 150)}...
+												</c:if>
+												<c:if test="${fn:length(i.descriptionInLang) lt 150}">
+													${i.descriptionInLang}
+												</c:if>
+											</c:if>
+											<c:if test="${empty i.descriptionInLang}">
+												${nlf:crop(i.contentInLang, 150)} 												
+									</c:if>
+					 				</p>
 					 				<a href="<webpage:link webpage="${i}"  />" class="blue-color">
 					 					<spring:message code="view.detail" /> &raquo; 
 					 				</a>

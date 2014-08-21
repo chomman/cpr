@@ -1,0 +1,5 @@
+header, nav, footer,
+.pj-bc,aside,
+.pj-news-footer,
+.pj-news-similar{display:none !important;}
+section{max-width:100% !important}

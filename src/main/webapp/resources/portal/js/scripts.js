@@ -104,12 +104,14 @@ function showSubnav(e){
 function showLoginBox(){
 	$('#pj-login-box').removeClass('hidden');
 	$('.pj-login').addClass('hidden');
+	$('nav, #content, footer, .pj-header').stop().animate({"opacity": .7}, 200);
 	return false;
 }
 
 function hideLoginBox(){
 	$('#pj-login-box').addClass('hidden');
 	$('.pj-login').removeClass('hidden');
+	$('nav, #content, footer, .pj-header').stop().animate({"opacity": 1}, 100);
 	return false;
 }
 
@@ -226,11 +228,11 @@ function showErrors(json){
 }
 
 function getFormErrorMessage(){
-	return isCzech() ? 'Chybně vyplněný formulář' : 'Form contains errors';
+	return $.getMessage('errForm');
 }
 
 function getUnexpectedError(){
-	return isCzech() ? 'Došlo k neočekávané chybě, zkuste operaci opakovat.' : 'An unexpected error occurred, please try it again later';
+	return $.getMessage('err');
 }
 
 function getBasePath(){

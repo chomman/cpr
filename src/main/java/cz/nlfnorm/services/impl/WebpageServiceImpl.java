@@ -425,5 +425,34 @@ public class WebpageServiceImpl implements WebpageService{
 	public List<Webpage> getFooterWebpages() {
 		return webpageDao.getFooterWebpages();
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getSimilarNews(final Webpage webpage, final int limit) {
+		return getSimilarWepages(webpage, limit, null );
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getSimilarArticles(Webpage webpage, int limit) {
+		return getSimilarWepages(webpage, limit, WebpageType.ARTICLE);
+	}
+	
+	/**
+	 * Return similar and enabled {@link Webpage}s, which has assigned at least one same tag
+	 * 
+	 * @param webpage webpage, which should be compared
+	 * @param limit - limit of returned items
+	 * @param type - if webpageType eq NULL, only news will be returned
+	 * 
+	 * @return similar webpages, which has equal one or more webpages tags.
+	 */
+	public List<Webpage> getSimilarWepages(Webpage webpage, int limit, WebpageType type) {
+		if(CollectionUtils.isEmpty(webpage.getTags())){
+			return new ArrayList<>();
+		}
+		return webpageDao.getSimilarWebpages(webpage, limit, type);
+	}
+	
 	
 }

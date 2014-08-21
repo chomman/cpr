@@ -4,8 +4,10 @@
 	<title>
 		<#if type == 1>
 			<@spring.message code="invoice.proforma" />: 
-		<#else>
+		<#elseif type == 2>
 			<@spring.message code="invoice.command" />: 
+		<#else>	
+			<@spring.message code="invoice.vpp" />:
 		</#if>
 		${portalOrder.orderNo?string}
 	</title>	
@@ -33,6 +35,7 @@
 	.total-wrapp i{display:inline-block;width:100px;}
 	.w50{width:50%} 
 	i{font-style:normal;}
+	.bigger{font-size:14px;padding-bottom:10px;}
 	@page {
 		  size: A4;
 		  margin-top: 5mm;
@@ -57,8 +60,10 @@
 	<h1>
 		<#if type == 1>
 			<@spring.message code="invoice.proforma" />: 
-		<#else>
+		<#elseif type == 2>
 			<@spring.message code="invoice.command" />: 
+		<#else>	
+			<@spring.message code="invoice.vpp" />:
 		</#if>
 		${portalOrder.orderNo?string}
 	</h1>
@@ -176,6 +181,12 @@
 		</tr>
 			<tr>
 			<td class="w50 big-coll" colspan="2">
+				<#if type == 3 >
+				<span class="bigger">
+					<@spring.message code="invoice.paymentDate" />:
+					${portalOrder.paymentDate?default("")}
+				</span>
+				</#if>
 				<span><strong><@spring.message code="invoice.items" />: </strong></span>
 				<span class="items-wrapp">
 					<#assign idx = 1>
@@ -189,7 +200,7 @@
 		<tr>
 			<td class="total" colspan="2">
 				<span class="total-wrapp">
-					<#if type == 2>
+					<#if type == 2 || type == 3>
 						<span>
 							<@spring.message code="invoice.price" />:
 							<i>${portalOrder.totalPriceWithCurrency?default("")}</i>

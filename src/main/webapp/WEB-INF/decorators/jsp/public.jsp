@@ -19,7 +19,7 @@
 		<link rel="stylesheet" href="<c:url value="/resources/public/css/preview.css" />" />
 		</c:if>
 		<!--[if lt IE 9]>
-		<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
 		<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 		<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>

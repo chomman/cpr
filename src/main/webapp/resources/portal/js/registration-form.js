@@ -1,4 +1,5 @@
 $(function(){ 
+	$('.pj-news-footer').remove();
 	$(".chosen").chosen({ width : "320px", disable_search : true });
 	
 	$(document).on('click', '.is-company',function(){
@@ -39,10 +40,7 @@ $(function(){
 	});
 	
 	function getSuccessMessage(data){
-		if(isCzech()){
-			return "Objednávka byla úspěšně odeslána. Informace o objednávce byly odeslány na email: <b>"+data.email+"</b>.";
-		}
-		return "Order was successfully sent. Order information was sent to your e-mail: <b>"+data.email+"</b>.";
+		return $.getMessage("successSubmit", data.email );
 	}
 	
 	function onChangeCurrency(){
@@ -69,10 +67,7 @@ $(function(){
 	
 	
 	function getLoadingMsg(){
-		if(isCzech()){
-			return "Načítají se informace o objednávce...";
-		}
-		return "Loading order information...";
+		return $.getMessage('loadingOrder');
 	}
 	
 	function selectPublication(){

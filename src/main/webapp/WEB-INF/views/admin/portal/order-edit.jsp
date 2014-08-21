@@ -7,7 +7,16 @@
 	<script src="<c:url value="/resources/admin/js/jquery.selectTip.js" />"></script>
 	<script>
 		$(function() {
-			$( ".helpTip" ).selectTip();
+			$(document).on('click', 'a.duzp', function(){
+				if($.trim($('input.duzp').val()) === '' && !confirm('Není vyplněn DUZP, chcete pokračovat?')){
+					return false;
+				}
+			});
+			$(document).on('click', 'a.vpp', function(){
+				if($.trim($('input.vpp').val()) === '' && !confirm('Není vyplněn datum přijetí platby, chcete pokračovat?')){
+					return false;
+				}
+			});
 		});
 	</script>
 </head>
@@ -32,8 +41,7 @@
 				<jsp:include page="order-nav.jsp" />
 				
 				
-				<table class="info mw600" style="width:600px;">
-					
+				<table class="info mw600" style="width:650px;">
 						<tr>
 						<c:if test="${not empty model.order.id}">
 							<td class="key"><spring:message code="admin.portal.order.no" /></td>
@@ -84,14 +92,12 @@
 						<spring:message code="invoice.proforma" />
 					</a>
 					
-					<a href="<c:url value="/auth/order/pdf/${model.order.code}?type=2" />" class="file pdf">
+					<a href="<c:url value="/auth/order/pdf/${model.order.code}?type=2" />" class="file pdf duzp">
 						<spring:message code="invoice.command" />
 					</a>
-					<a title="<spring:message code="invoice.proforma" />" href="<c:url value="/auth/order/print/${model.order.code}?type=1" />" target="_blank"  class="file print">
-						ZFA
-					</a>
-					<a title="<spring:message code="invoice.command" />" href="<c:url value="/auth/order/print/${model.order.code}?type=2" />" target="_blank"  class="file print">
-						PKFA
+					
+					<a href="<c:url value="/auth/order/pdf/${model.order.code}?type=3" />" class="file pdf vpp">
+						<spring:message code="invoice.vpp" />
 					</a>
 				</div>
 				
@@ -121,12 +127,20 @@
 	                            	</form:select>
 	                            </span>
 	                        </p>
-	                         <p>
+	                        <p>
 	                        	<label class="tt" title="Datum uskutečnění zdanitelného plnění">
 	                        			DUZP:
 	                        	</label>
 	                            <span class="field">
-	                            	<form:input path="duzp" cssClass="date" maxlength="10" />
+	                            	<form:input path="duzp" cssClass="date w100 duzp" maxlength="10" />
+	                            </span>
+	                        </p>
+	                        <p>
+	                        	<label>
+	                        			<spring:message  code="admin.portal.order.paymentDate" />:
+	                        	</label>
+	                            <span class="field">
+	                            	<form:input path="paymentDate" cssClass="date w100 vpp" maxlength="10" />
 	                            </span>
 	                        </p>
 	                        <p class="form-head"><spring:message code="admin.portal.order.head.customer" /></p>
@@ -240,7 +254,9 @@
 								<tr>
 									<th><spring:message code="admin.service.name" /></th>
 									<th><spring:message code="admin.service.price" /> </th>
+								<c:if test="${not model.order.payed}">
 									<th><spring:message code="form.delete" /></th>
+								</c:if>
 								</tr>
 							</thead>
 							<tbody>
@@ -252,11 +268,13 @@
 											<td class="c">
 												${i.price} ${portalOrder.currency.symbol}
 											</td>
+											<c:if test="${not model.order.payed}">
 											<td class="delete">
 									 			<a:adminurl href="/portal/order/${portalOrder.id}/delete/${i.id}" cssClass="confirm">
 									 				<spring:message code="form.delete" />
 									 			</a:adminurl>
 								 			</td>
+								 			</c:if>
 										</tr>
 									</c:forEach>
 							</tbody>

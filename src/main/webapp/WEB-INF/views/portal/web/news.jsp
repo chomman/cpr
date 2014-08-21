@@ -13,11 +13,7 @@
 				<webpage:filedVal webpage="${webpageModel.webpage}" fieldName="content" />
 			</div> 
 		</article>
-		
-		
-		
-			
-		
+		<jsp:include page="../article-footer.jsp" />
 	</body>
 </html>
 

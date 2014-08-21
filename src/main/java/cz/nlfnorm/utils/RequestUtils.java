@@ -28,6 +28,9 @@ import cz.nlfnorm.resolvers.LocaleResolver;
  */
 public class RequestUtils {
 	
+	private RequestUtils(){}
+	
+	public static final int NOT_FOUD = -1; 
 	
 	/**
 	 * Ziska cast retazca na danej pozicii z url

@@ -54,7 +54,8 @@ public class PortalOrderDaoImpl extends BaseDaoImpl<PortalOrder, Long> implement
 	}
 	
 	private void setupOrdering(final Map<String, Object> criteria, StringBuilder hql){
-		if((Integer)criteria.get(Filter.ORDER) != null){
+		final Integer orderId = (Integer)criteria.get(Filter.ORDER);
+		if(orderId != null && orderId > 0){
 			hql.append(PortalOrderOrder.getById((Integer)criteria.get(Filter.ORDER) ).getSql());
 		}else{
 			hql.append(PortalOrderOrder.CREATE_DESC.getSql());
@@ -63,6 +64,7 @@ public class PortalOrderDaoImpl extends BaseDaoImpl<PortalOrder, Long> implement
 	
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
+		where.add(" o.deleted = false ");
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" (unaccent(lower(o.firstName)) like CONCAT('%', unaccent(lower(:query)) , '%') OR" +
