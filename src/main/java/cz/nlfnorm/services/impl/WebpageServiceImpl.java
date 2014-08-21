@@ -175,11 +175,12 @@ public class WebpageServiceImpl implements WebpageService{
 			final int order = getNextOrderValue(parentWebpage.getId());
 			webpage = new Webpage(parentWebpage);
 			webpage.setOrder(order);
+			
 		}else{
 			webpage = new Webpage();
 			webpage.setOrder(getNextOrderValue( null ));
 		}
-		if(isNewsCategory(parentWebpage)){
+		if(parentWebpage != null && parentWebpage.isNewsCategory()){
 			webpage.setWebpageType(WebpageType.NEWS);
 		}else{
 			webpage.setWebpageType(form.getWebpageType());
@@ -190,16 +191,13 @@ public class WebpageServiceImpl implements WebpageService{
 		content.setTitle(formContent.getName());
 		webpage.setCode( getUniqeCode( formContent.getName() ) );
 		saveOrUpdate(webpage);
-		if(isNewsCategory(parentWebpage)){
+		if(parentWebpage != null && parentWebpage.isNewsCategory()){
 			moveOldNewsToArchive(parentWebpage);
 		}
 		return webpage.getId();
 	}
 	
-	private boolean isNewsCategory(final Webpage webpage){
-		return (webpage == null || !webpage.getWebpageType().equals(WebpageType.NEWS_CATEGORY));
-	}
-
+	
 	@Async
 	@Override
 	public void moveOldNewsToArchive(final Webpage node){

@@ -26,6 +26,13 @@
 	</li>
 	<li>
 		<a 
+		<c:if test="${model.tab == 13}">class="active"</c:if>
+		href="<c:url value="/admin/cpr/standard-categories" />" >
+			<spring:message code="standardCategories" />
+		</a>
+	</li>
+	<li>
+		<a 
 		<c:if test="${model.tab == 12}">class="active"</c:if>
 		href="<c:url value="/admin/cpr/regulations" />" >
 			<spring:message code="regulations" />

@@ -283,6 +283,11 @@ public class Webpage extends AbstractEntity {
 	
 	/* Transient */
 	@Transient
+	public boolean isNewsCategory(){
+		return getWebpageType() != null && getWebpageType().equals(WebpageType.NEWS_CATEGORY);
+	}
+	
+	@Transient
 	public boolean isNews(){
 		return getWebpageType() != null && getWebpageType().equals(WebpageType.NEWS);
 	}

@@ -13,6 +13,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.Length;
@@ -127,6 +128,20 @@ public class StandardCategory extends IdentifiableEntity {
 
 	public void setRegulations(Set<Regulation> regulations) {
 		this.regulations = regulations;
+	}
+	
+	@Transient
+	public void addRegulation(final Regulation regulation){
+		if(!regulations.contains(regulation)){
+			regulations.add(regulation);
+		}
+	}
+	
+	@Transient
+	public void removeRegulation(final Regulation regulation){
+		if(regulations.contains(regulation)){
+			regulations.remove(regulation);
+		}
 	}
 	
 	
