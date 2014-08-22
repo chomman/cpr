@@ -94,20 +94,22 @@ $(function() {
      initManthPicker();
      
      updateNav();
-     $(".chosen").chosen({
-    	 width : "510px"
-     });
-     
-     $("select").not(".chosen, .chosenSmall, .chosenMini").chosen({
-    	 width : "510px"
-     });
-     
+       
      $(".chosenSmall").chosen({
     	 width : "200px"
      });
      $(".chosenMini").chosen({
     	 width : "110px"
      });
+     $(".chosenCustom").chosen({
+    	 width: "270px"
+    });
+     
+     $("select").not(".chosenSmall, .chosenCustom, .chosenMini").chosen({
+    	 width : "510px"
+     });
+     
+     
      createSelects();
      $(document).on("click", ".btn-submit", function(){
     	 $(this).parent('form').submit();

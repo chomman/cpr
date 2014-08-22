@@ -1,7 +1,7 @@
+var mLocale = null;
+
 $.urlParam = function(name){
-	console.log('Param name: '+ name);
     var r = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    console.log(r);
     if (r==null){
        return "";
     }
@@ -25,10 +25,10 @@ function generateOption(selectedId, items){
 function getOptionInitLable(variant){
 	switch(variant){
 		case 2:
-			return getLocale() === 'cs' ? '-- Vyberte z možností --' : '-- Select item --';
+			return isCzechLocale() ? '-- Vyberte z možností --' : '-- Select item --';
 		case 1 :
 		default:
-			return getLocale() === 'cs' ? 'Nezáleží' : 'No matter';
+			return isCzechLocale() ? 'Nezáleží' : 'No matter';
 			
 	}
 }
@@ -40,10 +40,50 @@ function loadFilterData(){
 					var $this = $(this),
 						paramName = $this.attr('name'),
 						attrName = $this.attr("data-items");
-					$this.html(generateOption($.urlParam(paramName), data[attrName]));
+					if(typeof attrName !== 'undefined'){
+						$this.html(generateOption($.urlParam(paramName), data[attrName]));
+					}
 			});
+			loadRegulations(data.regulations);
 			refreshSelect();
+			refresCprFilterVisibility();
 	    }); 
+}
+
+function loadRegulations(data){
+	var itemList = [],
+		$select = $('select[name=rId]');
+	if(data.length === 0 || $select.length === 0){
+		return false;
+	}
+	for(var i in data){
+		var item = { id : data[i].id };
+		if(data[i].euRegulation){
+			item.name = getRegulationName(data[i].euRegulationContent);
+		}else if(data[i].csRegulation){
+			item.name = getRegulationName(data[i].csRegulationContent);
+		}else if(data[i].skRegulation){
+			item.name = getRegulationName(data[i].skRegulationContent);
+		}
+		itemList.push(item);
+	}
+	$select.html(generateOption($.urlParam("rId"), itemList));
+	return false;
+}
+
+function getRegulationName(obj){
+	if(isCzechLocale()){
+		return obj.nameCzech;
+	}else{
+		if(isBlank(obj.nameEnglish)){
+			return obj.nameCzech;
+		}
+		return obj.nameEnglish;
+	}
+}
+
+function isCzechLocale(){
+	return getLocale() === 'cs';
 }
 function refreshSelect(){
 	$("select.async").trigger("chosen:updated");
@@ -58,7 +98,7 @@ function isBlank(str){
 }
 function isStandardAdvancedSarch(){
 	var params = ['createdFrom', 'createdTo', 
-	              'scId', 'sgId',  'cdId',
+	              'scId', 'sgId', 'cdId', 'rId',
 	              'mId','asId', 's', 'notifiedBody'];
 	return isAdvancedSarch(params);
 }
@@ -88,7 +128,7 @@ function createCookie(name, value, days) {
         date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
         var expires = "; expires=" + date.toGMTString();
     }
-    else var expires = "";
+    else expires = "";
     document.cookie = name + "=" + value + expires + "; path=/";
 }
 
@@ -96,7 +136,10 @@ function getBasePath(){
 	return $('#base').text();
 }
 function getLocale(){
-	return $('#locale').text();
+	if(mLocale === null){
+		mLocale =  $('#locale').text();
+	}
+	return mLocale;
 }
 
 function getCookie(c_name) {
@@ -168,6 +211,15 @@ function getDatepickerOptions(type){
 }
 
 
+function refresCprFilterVisibility(){
+	if($('select[name=scId]').val() === "84" ||
+	   $('select[name=rId]').val() === "4"){
+		$('.cpr-filter').removeClass("hidden");
+	}else{
+		$('.cpr-filter').addClass("hidden");
+	}
+}
+
 function initManthPicker(){
 	var $manthSelector = $('.date-month');
 	$manthSelector.each(function(){
@@ -180,4 +232,5 @@ function initManthPicker(){
     $manthSelector.datepicker(getDatepickerOptions("month"));
 }
 
+$(document).on('change', 'select[name=scId],select[name=rId]', refresCprFilterVisibility);
 $(document).on('click', '.disabled', function(){return false;});

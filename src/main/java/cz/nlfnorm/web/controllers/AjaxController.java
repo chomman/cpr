@@ -32,6 +32,7 @@ import cz.nlfnorm.services.CsnService;
 import cz.nlfnorm.services.CsnTerminologyService;
 import cz.nlfnorm.services.MandateService;
 import cz.nlfnorm.services.NotifiedBodyService;
+import cz.nlfnorm.services.RegulationService;
 import cz.nlfnorm.services.StandardCategoryService;
 import cz.nlfnorm.services.StandardCsnService;
 import cz.nlfnorm.services.StandardGroupService;
@@ -69,7 +70,8 @@ public class AjaxController {
 	private StandardCategoryService standardCategoryService;
 	@Autowired
 	private CertificationBodyService certificationBodyService;
-		
+	@Autowired
+	private RegulationService regulationService;
 	
 	@RequestMapping(value = "/ajax/csn/category/{searchCodeOfParent}", method = RequestMethod.GET)
 	public @ResponseBody List<CsnCategoryJsonDto>  getCsnCategoryChildrens(@PathVariable String searchCodeOfParent){
@@ -163,6 +165,7 @@ public class AjaxController {
 		data.setMandates(mandateService.getAllMandates());
 		data.setCommissionDecisions(commissionDecisionService.getAll(), useEnglish);
 		data.setStandardCategories(standardCategoryService.getAll(), useEnglish);
+		data.setRegulations(regulationService.getAll());
 		return data;
 	}
 }

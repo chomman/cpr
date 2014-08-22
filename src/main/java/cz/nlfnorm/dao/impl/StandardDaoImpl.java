@@ -7,7 +7,6 @@ import java.util.Map;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.Validate;
 import org.hibernate.Query;
-import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.springframework.stereotype.Repository;
 
@@ -124,63 +123,45 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	
 	private String prepareHqlForQuery(final Map<String, Object> criteria){
 		List<String> where = new ArrayList<String>();
-		StringBuilder hql = new StringBuilder(" left join s.standardGroups as standardGroup ");
-		
-		Long mandateId = (Long)criteria.get(Filter.MANDATE);
-		if(mandateId != null && mandateId != 0){
-			hql.append(" join standardGroup.mandates as mandate ");
-		}
-		
-		Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
-		if(notifiedBodyId != null && notifiedBodyId != 0){
-			hql.append(" join s.notifiedBodies as snb ");
-			hql.append(" join snb.notifiedBody as nb ");
-		}
-		Long assessmentSystemId = (Long)criteria.get(Filter.ASSESMENT_SYSTEM);
-		if(assessmentSystemId != null && assessmentSystemId != 0){
-			hql.append(" join s.assessmentSystems as assessmentSystem ");
-		}
+		StringBuilder hql = new StringBuilder();
+		appendJoinsClauses(hql, criteria);
 		if(criteria.size() != 0){
 			if(StringUtils.isNotBlank((String)criteria.get("query"))){
 				where.add(" (unaccent(lower(s.standardId)) like CONCAT('%', unaccent(lower(:query)) , '%') " +
 						" or unaccent(lower(s.czechName)) like CONCAT('%', unaccent(lower(:query)) , '%')" +
 						" or unaccent(lower(s.englishName)) like CONCAT('%', unaccent(lower(:query)) , '%')) ");
 			}
-			
-			if(notifiedBodyId != null && notifiedBodyId != 0){
+			if(isLongParamSet(criteria, Filter.STANDARD_CATEGORY)){
+				where.add(" standardCategory.id=:standardCategory ");
+			}
+			if(isLongParamSet(criteria, Filter.REGULATION)){
+				where.add(" regulation.id=:regulation ");
+			}
+			if(isLongParamSet(criteria, Filter.NOTIFIED_BODY)){
 				where.add(" nb.id=:notifiedBodyId ");
 			}
-			
 			if(StringUtils.isNotBlank((String)criteria.get(Filter.STANDARD_STAUTS))){
 				where.add(" s.standardStatus=:standardStatus ");
-	
 			}
-			
-			if((DateTime)criteria.get(Filter.CREATED_FROM) != null){
+			if(isDateParamSet(criteria, Filter.CREATED_FROM)){
 				where.add(" s.created>=:createdFrom");
 			}
-			if((DateTime)criteria.get(Filter.CREATED_TO) != null){
+			if(isDateParamSet(criteria, Filter.CREATED_TO)){
 				where.add(" s.created<:createdTo");
 			}
-			Long groupId = (Long)criteria.get(Filter.STANDARD_GROUP);
-			if(groupId != null && groupId != 0){
+			if(isLongParamSet(criteria, Filter.STANDARD_GROUP)){
 				where.add(" standardGroup.id=:groupId ");
 			}
-
-			if(mandateId != null && mandateId != 0){
+			if(isLongParamSet(criteria, Filter.MANDATE)){
 				where.add(" mandate.id = :mandateId ");
 			}
-			Long commissionDecisionId = (Long)criteria.get(Filter.COMMISION_DECISION);
-			if(commissionDecisionId != null && commissionDecisionId != 0){
+			if(isLongParamSet(criteria, Filter.COMMISION_DECISION)){
 				where.add(" standardGroup.commissionDecision.id=:commissionDecisionId ");
 			}
-			
-			if(assessmentSystemId != null && assessmentSystemId != 0){
+			if(isLongParamSet(criteria, Filter.ASSESMENT_SYSTEM)){
 				where.add(" assessmentSystem.id=:assessmentSystemId ");
 			}
-			
-			Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
-			if(enabled != null){
+			if((Boolean)criteria.get(Filter.ENABLED) != null){
 				where.add(" s.enabled=:enabled");
 			}
 		}
@@ -188,50 +169,62 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 
 	}
 	
-	private void prepareHqlQueryParams(final Query hqlQuery,final Map<String, Object> criteria){
-		if(criteria.size() != 0){
-			if(StringUtils.isNotBlank((String)criteria.get("query"))){
-				hqlQuery.setString("query", (String)criteria.get("query"));
-			}
-			DateTime createdFrom = (DateTime)criteria.get(Filter.CREATED_FROM);
-			if(createdFrom != null){
-				hqlQuery.setTimestamp("createdFrom", createdFrom.toDate());
-			}
-			DateTime createdTo = (DateTime)criteria.get(Filter.CREATED_TO);
-			if(createdTo != null){
-				hqlQuery.setTimestamp("createdTo", createdTo.plusDays(1).toDate());
-			}
-			Long groupId = (Long)criteria.get(Filter.STANDARD_GROUP);
-			if(groupId != null && groupId != 0){
-				hqlQuery.setLong("groupId", groupId);
-			}
-			Long commissionDecisionId = (Long)criteria.get(Filter.COMMISION_DECISION);
-			if(commissionDecisionId != null && commissionDecisionId != 0){
-				hqlQuery.setLong("commissionDecisionId", commissionDecisionId);
-			}
-			Long mandateId = (Long)criteria.get(Filter.MANDATE);
-			if(mandateId != null && mandateId != 0){
-				hqlQuery.setLong("mandateId", mandateId);
-			}
-			Long assessmentSystemId = (Long)criteria.get(Filter.ASSESMENT_SYSTEM);
-			if(assessmentSystemId != null && assessmentSystemId != 0){
-				hqlQuery.setLong("assessmentSystemId", assessmentSystemId);
-			}
-			if(StringUtils.isNotBlank((String)criteria.get(Filter.STANDARD_STAUTS))){
-				hqlQuery.setString("standardStatus", (String)criteria.get("standardStatus"));
-			}
-			Long notifiedBodyId = (Long)criteria.get(Filter.NOTIFIED_BODY);
-			if(notifiedBodyId != null && notifiedBodyId != 0){
-				hqlQuery.setLong("notifiedBodyId", notifiedBodyId);
-			}
-			Boolean enabled = (Boolean)criteria.get(Filter.ENABLED);
-			if(enabled != null){
-				hqlQuery.setBoolean("enabled", enabled);
-			}
+	private void appendJoinsClauses(StringBuilder hql, final Map<String, Object> criteria){
+		final boolean isStandardGroupSet = isLongParamSet(criteria, Filter.STANDARD_GROUP);
+		final boolean isMandateSet = isLongParamSet(criteria, Filter.MANDATE);
+		final boolean isCommissionDecisionSet = isLongParamSet(criteria, Filter.COMMISION_DECISION);
+		final boolean isAssessmentSystemSet = isLongParamSet(criteria, Filter.ASSESMENT_SYSTEM);
+		final boolean isNotifiedBodySet = isLongParamSet(criteria, Filter.NOTIFIED_BODY);
+		final boolean isStandardCategorySet = isLongParamSet(criteria, Filter.STANDARD_CATEGORY);
+		final boolean isRegulationSet = isLongParamSet(criteria, Filter.REGULATION);
+		
+		if(isStandardCategorySet || isRegulationSet){
+			hql.append(" join s.standardCategory as standardCategory ");
+		}
+		if(isRegulationSet){
+			hql.append(" join standardCategory.regulations regulation ");
+		}
+		if(isStandardGroupSet || isMandateSet || isCommissionDecisionSet){
+			hql.append(" left join s.standardGroups as standardGroup ");
+		}
+		if(isMandateSet){
+			hql.append(" join standardGroup.mandates as mandate ");
+		}
+		if(isNotifiedBodySet){
+			hql.append(" join s.notifiedBodies as snb ");
+			hql.append(" join snb.notifiedBody as nb ");
+		}
+		if(isAssessmentSystemSet){
+			hql.append(" join s.assessmentSystems as assessmentSystem ");
 		}
 	}
-
-
+	
+	private boolean isDateParamSet(final Map<String, Object> criteria, final String key){
+		return (LocalDate)criteria.get(key) != null;
+	}
+	
+	private boolean isLongParamSet(final Map<String, Object> criteria, final String key){
+		final Long val = (Long)criteria.get(key);
+		return val != null && val != 0;
+	}
+	
+	private void prepareHqlQueryParams(final Query hqlQuery,final Map<String, Object> criteria){
+		if(criteria.size() != 0){
+			prepareBooleanParam(hqlQuery, criteria, "enabled", Filter.ENABLED);
+			prepareStringParam(hqlQuery, criteria, "standardStatus", Filter.STANDARD_STAUTS);
+			prepareStringParam(hqlQuery, criteria, "query", "query");
+			prepareDateParam(hqlQuery, criteria, "createdTo", Filter.CREATED_TO);
+			prepareDateParam(hqlQuery, criteria, "createdFrom", Filter.CREATED_FROM);
+			prepareLongParam(hqlQuery, criteria, "groupId", Filter.STANDARD_GROUP);
+			prepareLongParam(hqlQuery, criteria, "notifiedBodyId", Filter.NOTIFIED_BODY);
+			prepareLongParam(hqlQuery, criteria, "assessmentSystemId", Filter.ASSESMENT_SYSTEM);
+			prepareLongParam(hqlQuery, criteria, "commissionDecisionId", Filter.COMMISION_DECISION);
+			prepareLongParam(hqlQuery, criteria, "mandateId", Filter.MANDATE);
+			prepareLongParam(hqlQuery, criteria, "standardCategory", Filter.STANDARD_CATEGORY);
+			prepareLongParam(hqlQuery, criteria, "regulation", Filter.REGULATION);
+		}
+	}
+	
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> getLastEditedOrNewestStandards(final int count, final Boolean enabled) {

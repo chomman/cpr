@@ -35,8 +35,7 @@
 					<ul class="innter-nav">
 						<li><a href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.view" /></a></li> 
 						<li><a href="<c:url value="/admin/cpr/standard/add"  />"><spring:message code="cpr.standard.add" /></a></li> 
-						<li><a href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.search" /></a></li> 
-						<li><a href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.requirement.add" /></a></li>   
+						<li><a href="<c:url value="/admin/cpr/standards"  />"><spring:message code="cpr.standard.search" /></a></li>
 					</ul>
 				</li>
 				

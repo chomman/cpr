@@ -151,14 +151,16 @@ public class StandardServiceImpl implements StandardService {
 	
 	private Map<String, Object> validateCriteria(Map<String, Object> criteria){
 		if(criteria.size() != 0){
+			criteria.put(Filter.STANDARD_CATEGORY, ParseUtils.parseLongFromStringObject(criteria.get(Filter.STANDARD_CATEGORY)));
+			criteria.put(Filter.REGULATION, ParseUtils.parseLongFromStringObject(criteria.get(Filter.REGULATION)));
 			criteria.put(Filter.STANDARD_GROUP, ParseUtils.parseLongFromStringObject(criteria.get(Filter.STANDARD_GROUP)));
 			criteria.put(Filter.COMMISION_DECISION, ParseUtils.parseLongFromStringObject(criteria.get(Filter.COMMISION_DECISION)));
 			criteria.put(Filter.MANDATE, ParseUtils.parseLongFromStringObject(criteria.get(Filter.MANDATE)));
 			criteria.put(Filter.NOTIFIED_BODY, ParseUtils.parseLongFromStringObject(criteria.get(Filter.NOTIFIED_BODY)));
 			criteria.put(Filter.ASSESMENT_SYSTEM, ParseUtils.parseLongFromStringObject(criteria.get(Filter.ASSESMENT_SYSTEM)));
 			criteria.put(Filter.ORDER, ParseUtils.parseIntFromStringObject(criteria.get(Filter.ORDER)));
-			criteria.put(Filter.CREATED_TO, ParseUtils.parseDateTimeFromStringObject(criteria.get(Filter.CREATED_TO)));
-			criteria.put(Filter.CREATED_FROM, ParseUtils.parseDateTimeFromStringObject(criteria.get(Filter.CREATED_FROM)));
+			criteria.put(Filter.CREATED_TO, ParseUtils.parseLocalDateFromStringObject(criteria.get(Filter.CREATED_TO)));
+			criteria.put(Filter.CREATED_FROM, ParseUtils.parseLocalDateFromStringObject(criteria.get(Filter.CREATED_FROM)));
 			criteria.put(Filter.ENABLED, ParseUtils.parseStringToBoolean(criteria.get(Filter.ENABLED)));
 		}
 		return criteria;

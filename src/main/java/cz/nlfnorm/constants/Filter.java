@@ -15,6 +15,7 @@ public class Filter {
 	
 	
 	/* STANDARD FILTER */
+	public static final String REGULATION			= "rId";
 	public static final String STANDARD_CATEGORY	= "scId";
 	public static final String STANDARD_GROUP 		= "sgId";
 	public static final String COMMISION_DECISION 	= "cdId";

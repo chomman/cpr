@@ -9,6 +9,7 @@ import org.apache.commons.lang.StringUtils;
 import cz.nlfnorm.entities.AssessmentSystem;
 import cz.nlfnorm.entities.CommissionDecision;
 import cz.nlfnorm.entities.Mandate;
+import cz.nlfnorm.entities.Regulation;
 import cz.nlfnorm.entities.StandardCategory;
 import cz.nlfnorm.entities.StandardGroup;
 
@@ -19,6 +20,7 @@ public class FilterDto {
 	private List<SelectDto> commissionDecisions = new ArrayList<>();
 	private List<SelectDto> assessmentSystems = new ArrayList<>();
 	private List<SelectDto> standardCategories = new ArrayList<>();
+	private List<Regulation> regulations = new ArrayList<>();
 	
 	private String getName(final String czName, final String enName, final boolean useEnglish){
 		return useEnglish ? enName : czName;
@@ -89,36 +91,25 @@ public class FilterDto {
 			}
 		}
 	}
-	
-
-
+	public void setRegulations(List<Regulation> regulations) {
+		this.regulations = regulations;
+	}
 	public List<SelectDto> getStandardCategories() {
 		return standardCategories;
 	}
-
-	
-
 	public List<SelectDto> getStandardGroups() {
 		return standardGroups;
 	}
-
-
 	public List<SelectDto> getMandates() {
 		return mandates;
 	}
-
-
 	public List<SelectDto> getCommissionDecisions() {
 		return commissionDecisions;
 	}
-
-
 	public List<SelectDto> getAssessmentSystems() {
 		return assessmentSystems;
 	}
-	
-	
-	
-	
-	
+	public List<Regulation> getRegulations() {
+		return regulations;
+	}
 }

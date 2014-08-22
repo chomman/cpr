@@ -78,20 +78,18 @@ a{text-decoration:none;color:#3e4e69;}
 .filter.user .btn{margin-left:69px;}
 .filter.article .btn{margin-left:20px;}
 .filter .btn{background: #4f85bb;color:#fff;width:100px;border:1px solid #356aa0;margin-left:170px;cursor:pointer;
-
-
-background: -moz-linear-gradient(top,  #4f85bb 0%, #4f85bb 100%);
-background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4f85bb), color-stop(100%,#4f85bb));
-background: -webkit-linear-gradient(top,  #4f85bb 0%,#4f85bb 100%);
-background: -o-linear-gradient(top,  #4f85bb 0%,#4f85bb 100%);
-background: -ms-linear-gradient(top,  #4f85bb 0%,#4f85bb 100%);
-background: linear-gradient(to bottom,  #4f85bb 0%,#4f85bb 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f85bb', endColorstr='#4f85bb',GradientType=0 );}
+  background: -moz-linear-gradient(top,  #4f85bb 0%, #4f85bb 100%);
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#4f85bb), color-stop(100%,#4f85bb));
+  background: -webkit-linear-gradient(top,  #4f85bb 0%,#4f85bb 100%);
+  background: -o-linear-gradient(top,  #4f85bb 0%,#4f85bb 100%);
+  background: -ms-linear-gradient(top,  #4f85bb 0%,#4f85bb 100%);
+  background: linear-gradient(to bottom,  #4f85bb 0%,#4f85bb 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f85bb', endColorstr='#4f85bb',GradientType=0 );
+}
 .filter .btn:hover{background:#284E77;}
 .filter .btn.csn{margin: 0 0 0 15px;}
 .filter-input-long{min-width:300px;}
 .filter-input-middle{min-width:150px;}
-
 
 .filter > div{border-bottom:1px solid #fff}
 .filter > div:hover{background: #EDF5F7}
@@ -101,6 +99,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#4f85bb', end
 .filter-advanced{display: none;}
 .items-count{font-size:12px;padding:8px;background:#fafafa;border:1px solid #eee;color:#333;float:right;margin-bottom:8px;}
 
+.cpr-filter,.cpr-filter:hover{background:#DFEFF5 !important;}
+.cpr-filter{padding:8px !important;border-radius:8px;border:2px solid #BBE1ED !important;padding-top:25px !important;margin-bottom:8px;position:relative;}
+.cpr-filter>div{border-bottom:1px solid #fff;}
+.cpr-filter .head{position:absolute;display:block;font-weight:bold;background:#BBE1ED;width:99%;left:0;right:0;top:0;padding:5px 0 5px 1%;font-size:11px;background: #d3e5ea;
+background: -moz-linear-gradient(top, #d3e5ea 0%, #bbe1ed 100%);
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3e5ea), color-stop(100%,#bbe1ed));
+background: -webkit-linear-gradient(top, #d3e5ea 0%,#bbe1ed 100%);
+background: -o-linear-gradient(top, #d3e5ea 0%,#bbe1ed 100%);
+background: -ms-linear-gradient(top, #d3e5ea 0%,#bbe1ed 100%);
+background: linear-gradient(to bottom, #d3e5ea 0%,#bbe1ed 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d3e5ea', endColorstr='#bbe1ed',GradientType=0 );}
 
 /* TABS EDITACIA NORIEM --- */
 #tabs{border:2px solid #ccc;background:#fdfdfd;}

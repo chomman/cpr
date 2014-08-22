@@ -2,14 +2,18 @@ package cz.nlfnorm.dao.impl;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.Query;
 import org.hibernate.SessionFactory;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.support.HibernateDaoSupport;
 
+import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dao.BaseDao;
 
 
@@ -98,5 +102,37 @@ public class BaseDaoImpl<T, ID extends Serializable> extends HibernateDaoSupport
 	
 	public Query createQuery(final String hql){
 		return sessionFactory.getCurrentSession().createQuery(hql);
+	}
+	
+	
+	protected void prepareDateParam(final Query hqlQuery, final Map<String, Object> criteria, final String queryKey,final String paramKey){
+		LocalDate val = (LocalDate)criteria.get(paramKey);
+		if(val != null){
+			if(queryKey.equals(Filter.CREATED_TO)){
+				val = val.plusDays(1);
+			}
+			hqlQuery.setTimestamp(queryKey, val.toDate());
+		}
+	}
+	
+	protected void prepareStringParam(final Query hqlQuery, final Map<String, Object> criteria, final String queryKey,final String paramKey){
+		final String val = (String)criteria.get(paramKey);
+		if(StringUtils.isNotBlank(val)){
+			hqlQuery.setString(queryKey, val);
+		}
+	}
+	
+	protected void prepareLongParam(final Query hqlQuery, final Map<String, Object> criteria, final String queryKey,final String paramKey){
+		final Long val = (Long)criteria.get(paramKey);
+		if(val != null && val != 0){
+			hqlQuery.setLong(queryKey, val);
+		}
+	}
+	
+	protected void prepareBooleanParam(final Query hqlQuery, final Map<String, Object> criteria, final String queryKey,final String paramKey){
+		final Boolean enabled = (Boolean)criteria.get(paramKey);
+		if(enabled != null){
+			hqlQuery.setBoolean(queryKey, enabled);
+		}
 	}
 }
