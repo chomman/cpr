@@ -57,16 +57,14 @@ public class Standard extends AbstractStandard {
 	private Set<AssessmentSystem> assessmentSystems;
 	private Set<StandardCsn> standardCsns;
 	@JsonIgnore
-	private Set<Requirement> requirements;
-	@JsonIgnore
 	private Standard replaceStandard;
 	private Set<StandardChange> standardChanges;
+	private StandardCategory standardCategory;
 	
 	public Standard(){
 		this.notifiedBodies = new HashSet<StandardNotifiedBody>();
 		this.assessmentSystems = new HashSet<AssessmentSystem>();
 		this.standardCsns = new HashSet<StandardCsn>();
-		this.requirements = new HashSet<Requirement>();
 		this.standardGroups = new HashSet<StandardGroup>();
 		this.standardChanges = new HashSet<StandardChange>();
 		setEnabled(Boolean.TRUE);
@@ -179,16 +177,7 @@ public class Standard extends AbstractStandard {
 	public void setText(String text) {
 		this.text = text;
 	}
-	
-	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL })
-	public Set<Requirement> getRequirements() {
-		return requirements;
-	}
-
-	public void setRequirements(Set<Requirement> requirements) {
-		this.requirements = requirements;
-	}
-	
+		
 	@OneToMany(mappedBy = "standard", fetch = FetchType.LAZY, cascade = { CascadeType.ALL }, orphanRemoval = true)
 	public Set<StandardChange> getStandardChanges() {
 		return standardChanges;
@@ -208,6 +197,15 @@ public class Standard extends AbstractStandard {
 		this.replaceStandard = replaceStandard;
 	}
 	
+	@ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+	@JoinColumn(name = "standard_category_id")
+	public StandardCategory getStandardCategory() {
+		return standardCategory;
+	}
+
+	public void setStandardCategory(StandardCategory standardCategory) {
+		this.standardCategory = standardCategory;
+	}
 
 	@Transient
 	public StandardChange getStandardChangeById(final long id){
@@ -274,5 +272,8 @@ public class Standard extends AbstractStandard {
 		return CollectionUtils.isNotEmpty(standardChanges);
 	}
 	
-	
+	@Transient
+	public boolean isCprCategory(){
+		return standardCategory != null && standardCategory.getCode().equals("CPR");
+	}
 }

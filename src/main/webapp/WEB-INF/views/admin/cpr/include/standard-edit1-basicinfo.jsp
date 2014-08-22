@@ -3,13 +3,13 @@
 	<c:url value="/admin/cpr/standard/edit/${standardId}" var="formUrl"/>
 	<jsp:include page="cpr-standard-form1.jsp" />	
 					
-					
+	<c:if test="${standard.cprCategory}">				
 	<!--  STANDARD GROUPS WRAPPER  -->
 	<div  class="tab-wrapp">
 		<p class="form-head"><spring:message code="cpr.standard.attachedGroups" /></p>
 		
 		
-		<!-- assigned STANDARD GROUPS -->
+		<!-- assigned STANDARD CPR GROUPS -->
 		<c:if test="${not empty standard.standardGroups}">
 			<table class="data">
 				<c:forEach items="${standard.standardGroups}" var="i">
@@ -45,7 +45,7 @@
 		 </form:form>
 	
 	</div>
-	
+	</c:if>
 	
 	<!--  STANDARD CHANGES WRAPPER  -->
 	<div class="tab-wrapp">

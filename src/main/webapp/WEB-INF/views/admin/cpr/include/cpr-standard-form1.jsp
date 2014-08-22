@@ -53,7 +53,21 @@
 	     	<form:textarea path="englishName" cssClass="mw500" />
 	     </span>
 	 </p>
-	 
+	 <p>
+	 	<label>
+	 		<spring:message code="standardCategory" />:
+	 	</label>
+	     <span class="field">
+	     	<select name="standardCategory">
+	     		<option value=""><spring:message code="form.select" /></option>
+	     		<c:forEach items="${model.standardCategories}" var="i">
+                       <option value="${i.id}" <c:if test="${i.id == standard.standardCategory.id}">selected="selected"</c:if> >
+                       		${i.nameCzech}
+                       </option>
+               </c:forEach>
+	     	</select>
+	     </span>
+	 </p>
 	 <p>
 	 	<label>
 	 		<spring:message code="cpr.standard.validity.from" />:

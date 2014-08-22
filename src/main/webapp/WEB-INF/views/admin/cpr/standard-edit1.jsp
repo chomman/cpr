@@ -43,7 +43,6 @@
 					
 					</div> <!-- END ACTIVE TAB -->
 					
-						<jsp:include page="include/cpr-standard-menu2.jsp" />
 						<jsp:include page="include/cpr-standard-menu3.jsp" />
 						<jsp:include page="include/cpr-standard-menu4.jsp" />
 						<jsp:include page="include/cpr-standard-menu5.jsp" />

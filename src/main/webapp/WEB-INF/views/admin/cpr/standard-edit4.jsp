@@ -31,7 +31,6 @@
 				<div id="tabs">
 					
 					<jsp:include page="include/cpr-standard-menu1.jsp" />
-					<jsp:include page="include/cpr-standard-menu2.jsp" />
 					<jsp:include page="include/cpr-standard-menu3.jsp" />					
 
 					<strong class="active-tab-head"><spring:message code="cpr.standard.tab.4" /></strong>

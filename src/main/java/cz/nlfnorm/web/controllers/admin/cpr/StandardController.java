@@ -30,7 +30,6 @@ import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.entities.AssessmentSystem;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.NotifiedBody;
-import cz.nlfnorm.entities.Requirement;
 import cz.nlfnorm.entities.Standard;
 import cz.nlfnorm.entities.StandardChange;
 import cz.nlfnorm.entities.StandardCsn;
@@ -48,7 +47,7 @@ import cz.nlfnorm.services.AssessmentSystemService;
 import cz.nlfnorm.services.CountryService;
 import cz.nlfnorm.services.MandateService;
 import cz.nlfnorm.services.NotifiedBodyService;
-import cz.nlfnorm.services.RequirementService;
+import cz.nlfnorm.services.StandardCategoryService;
 import cz.nlfnorm.services.StandardCsnService;
 import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
@@ -88,8 +87,6 @@ public class StandardController extends AdminSupportController{
 	@Autowired
 	private CountryService countryService;
 	@Autowired
-	private RequirementService requirementService;
-	@Autowired
 	private NotifiedBodyService notifiedBodyService;
 	@Autowired
 	private MandateService mandateService;
@@ -99,6 +96,8 @@ public class StandardController extends AdminSupportController{
 	private StandardCsnService standardCsnService;
 	@Autowired
 	private WebpageService webpageService;
+	@Autowired
+	private StandardCategoryService standardCategoryService;
 	
 	// editors
 	@Autowired
@@ -419,144 +418,7 @@ public class StandardController extends AdminSupportController{
 		return "redirect:/admin/cpr/standard/edit/" + standardId;
 	}
 	
-	
-	 //##################################################
-	 //#  2	Requirements methods
-	 //##################################################
-
-	/**
-	 * Zobrazi pozadavky danej normy
-	 * 
-	 * @param modelMap
-	 * @param request
-	 * @return String view
-	 * @throws ItemNotFoundException 
-	 */
-	@RequestMapping("/admin/cpr/standard/edit/{standardId}/requirements")
-   public String showRequirements(@PathVariable Long standardId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
-		Map<String, Object> map = new HashMap<String, Object>();
-		setEditFormView("cpr/standard-edit2");
-		Standard standard = getStandard(standardId);
-		Country country = null;
-		if(request.getParameter("country") != null){
-			country = countryService.getCountryById(ParseUtils.parseLongFromStringObject(request.getParameter("country")));
-		}
 		
-		if(country == null){
-			map.put("requirements", standard.getRequirements());
-		}else{
-			map.put("requirements", requirementService.getRequirementsByCountryAndStandard(country, standard));
-		}
-		modelMap.addAttribute("standard", standard);
-		map.put("standardId", standardId);
-		map.put("country", country);
-		map.put("countries", countryService.getAllCountries());
-		map.put("tab", CPR_TAB_INDEX);
-		modelMap.put("model", map);
-        return getEditFormView();
-   }
-	
-	/**
-	 * Zobrazi formular pre pridanie, resp. editaciu noveho pzadavku. V pripade ak je ID
-	 * pozadavku 0, jedna sa o udalost vytvorenia novej polozky, inak o editaciu.
-	 * 
-	 * @param modelMap
-	 * @param request
-	 * @return String view
-	 * @throws ItemNotFoundException 
-	 */
-   @RequestMapping("/admin/cpr/standard/edit/{standardId}/req/{requirementId}")
-   public String showRequirementForm(@PathVariable Long standardId,@PathVariable Long requirementId, ModelMap modelMap,HttpServletRequest request) throws ItemNotFoundException {
-		
-		setEditFormView("cpr/standard-edit2-requirement");
-		Standard standard = getStandard(standardId);
-		Requirement form = null;
-		if(requirementId == null || requirementId == 0){
-			form = createEmptyRequirementForm();
-		}else{
-			form = requirementService.getRequirementById(requirementId);
-		}
-		
-		prepareModelForRequirement(modelMap, standard, form, requirementId);
-        return getEditFormView();
-   }
-	
-	/**
-	 * Spracuje odoslany formular a upravi, resp vytvori novu poziadavku. V pripade ak je ID poziadavky 0, jedna sa o vytvorenie novej polozky,
-	 * inak o editaciu uz existujucej polozky.
-	 * 
-	 * @param Long identifikator normy standardId
-	 * @param Long identifikator poziadavky requirementId
-	 * @param Requirement form, odoslany formular
-	 * @param result
-	 * @param ModelMap model
-	 * @return String JSP stranka
-	 * @throws ItemNotFoundExceptionm, v pripade ak sa norma, alebo poziadavka na zaklade daneho ID v systeme nenachadza
-	 */
-    @RequestMapping( value = "/admin/cpr/standard/edit/{standardId}/req/{requirementId}", method = RequestMethod.POST)
-	public String processRequirementSubmit(@PathVariable Long standardId,@PathVariable Long requirementId, @Valid  Requirement form, BindingResult result, ModelMap modelMap) throws ItemNotFoundException {
-       setEditFormView("cpr/standard-edit2-requirement");
-       Standard standard = getStandard(standardId);
-       if (result.hasErrors()) {
-			prepareModelForRequirement(modelMap, standard, form, requirementId);
-       }else{
-       	createOrUpdateRequrement(standard, form);
-       	
-       	modelMap.put("successCreate", true);
-       	if(requirementId == 0){
-       		form = createEmptyRequirementForm();
-       		prepareModelForRequirement(modelMap, standard, form, requirementId);
-       	}
-       }
-       return getEditFormView();
-	}
-   
-    
-    /**
-     * Odstrani poziadavok na zaklade daneho identifikatora
-     * 
-     * @param Long requirementId
-     * @param ModelMap model
-     * @return String JSP stranka
-     * @throws ItemNotFoundException, v pripade ak nie je Rquirement s danym ID v systeme evidovany
-     */
-    @RequestMapping( value = "/admin/cpr/standard/requirement/delete/{requirementId}", method = RequestMethod.GET)
-	public String deleteRequirement(@PathVariable Long requirementId,  ModelMap modelMap) throws ItemNotFoundException {
-		
-    	Requirement requirement =  requirementService.getRequirementById(requirementId);
-		if(requirement == null){
-			createItemNotFoundError("Požadavek s ID: " +requirementId + " se v systému nenachází");
-		}
-		Long id = requirement.getStandard().getId();
-		requirementService.deleteRequirement(requirement);
-		modelMap.put("successDelete", true);
-		return "forward:/admin/cpr/standard/edit/"+ id +"/requirements";
-	}
-    
-    
-    
-    private void createOrUpdateRequrement(Standard standard, Requirement form) throws ItemNotFoundException{
-    	Requirement requirement = null;
-    	
-    	if(form.getId() == null || form.getId() == 0){
-    		requirement = new Requirement();
-    	}else{
-    		requirement = requirementService.getRequirementById(form.getId());
-    		if(requirement == null){
-    			createItemNotFoundError("Požadavek s ID: " + form.getId() + " se v systému nenachází");
-    		}
-    	}
-    	
-    	requirement.setName(form.getName());
-    	requirement.setNote(form.getNote());
-    	requirement.setLevels(form.getLevels());
-    	requirement.setSection(form.getSection());
-    	requirement.setNpd(form.getNpd());
-    	requirement.setStandard(standard);
-    	requirement.setCountry(form.getCountry());
-    	requirementService.saveOrUpdateRequirement(requirement);
-    }
-	
      //##################################################
  	 //#  3	Csnonline
  	 //##################################################
@@ -904,6 +766,7 @@ public class StandardController extends AdminSupportController{
 		modelMap.addAttribute("standardForm", new StandardForm());
 		model.put("standardStatuses", StandardStatus.getAll() );
 		model.put("standardGroups", standardGroupService.getFiltredStandardGroups(form));
+		model.put("standardCategories", standardCategoryService.getAll());
 		modelMap.put("model", model); 
 	}
 	
@@ -912,15 +775,6 @@ public class StandardController extends AdminSupportController{
 		modelMap.addAttribute("standardChange", form);
 		model.put("showStandardChangeForm", true);
 		modelMap.put("model", model); 
-	}
-	
-	
-	private void prepareModelForRequirement(ModelMap modelMap, Standard standard,  Requirement form, Long requirementId){
-		Map<String, Object> model = appendBaseModel(standard, modelMap);
-		modelMap.addAttribute("requirement", form);
-		model.put("requirementId", requirementId);
-		model.put("countries", countryService.getAllCountries());
-		modelMap.put("model", model);
 	}
 	
 	
@@ -981,11 +835,6 @@ public class StandardController extends AdminSupportController{
 		return form;
 	}
 	
-	private Requirement createEmptyRequirementForm(){
-		Requirement form = new Requirement();
-		form.setId(0L);
-		return form;
-	}
 	
 	private StandardCsn createEmptyCsnForm(){
 		StandardCsn form = new StandardCsn();
