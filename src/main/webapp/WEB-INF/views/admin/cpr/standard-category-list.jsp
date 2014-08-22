@@ -60,7 +60,7 @@
 						 					<a:adminurl href="/cpr/regulation/${j.id}">
 						 						${j.code}
 						 					</a:adminurl>
-						 						${!s.last ? ',&nbsp; ' : ''}
+						 						${!s.last ? ' &nbsp;/&nbsp; ' : ''}
 						 				</c:forEach>
 						 			</c:if>
 						 		</td>

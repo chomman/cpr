@@ -1,10 +1,12 @@
 $.urlParam = function(name){
-    var results = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
-    if (results==null){
+	console.log('Param name: '+ name);
+    var r = new RegExp('[\\?&]' + name + '=([^&#]*)').exec(window.location.href);
+    console.log(r);
+    if (r==null){
        return "";
     }
     else{
-       return results[1] || "";
+       return r[1] || "";
     }
 };
 
@@ -55,9 +57,9 @@ function isBlank(str){
 	return false;
 }
 function isStandardAdvancedSarch(){
-	var params = ['createdFrom', 'createdTo', 'groupId', 
-	           'commissionDecisionId','mandateId','assessmentSystemId',
-	           'standardStatus', 'notifiedBody'];
+	var params = ['createdFrom', 'createdTo', 
+	              'scId', 'sgId',  'cdId',
+	              'mId','asId', 's', 'notifiedBody'];
 	return isAdvancedSarch(params);
 }
 function isAdvancedSarch(params){
@@ -126,16 +128,12 @@ function getDatepickerOptions(type){
 			firstDay: 1
 	};
 	if(isBlank(locale) || locale === 'cs'){
-		console.log('current locale: ' + locale);
 		datepickerOpts = $.extend({}, datepickerOpts, names );
 	}
 	
 	if(typeof type === 'undefined' || type === 'default'){
 		return datepickerOpts;
 	}else if(type === 'minDate'){
-		if(console){
-			console.log('Setting min date: ' + arguments[1]);
-		}
 		var d = arguments[1].split('.');
 		datepickerOpts = $.extend({}, datepickerOpts, { 
 			minDate : new Date( parseInt(d[2]), parseInt(d[1], 10) - 1,  parseInt(d[0])) 
@@ -183,8 +181,3 @@ function initManthPicker(){
 }
 
 $(document).on('click', '.disabled', function(){return false;});
-
-
-$(document).on('submit', 'form', function(){
-	
-});

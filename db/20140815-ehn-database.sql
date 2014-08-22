@@ -74,4 +74,5 @@ begin;
 	 ALTER TABLE standard ADD COLUMN standard_category_id bigint;
 	 DROP TABLE basic_requirement;
 	 DROP TABLE requirement;
+	 update standard set standard_category_id = 84;
 end;

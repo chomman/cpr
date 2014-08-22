@@ -27,7 +27,7 @@
 			$(document).ready(function() {    
 			      $("input.query").autocomplete({
 						 source: function(request, response){  
-						 	 $.getJSON( $("#base").text() +"admin/cpr/standard/autocomplete", request, function(data) {  
+						 	 $.getJSON( getBasePath() +"admin/cpr/standard/autocomplete", request, function(data) {  
 			                 	 response( $.map( data, function( item ) {
 			                 		if(item[1].toLowerCase().indexOf(request.term) >= 0){
 		                 		 		return {label: item[1], value: item[1]};
@@ -43,7 +43,7 @@
 					}
 				});
 			      
-			    loadFilterData(); 
+			   
 			    
 			    if(isStandardAdvancedSarch()){
 			    	showAdvancedForm();
@@ -51,6 +51,7 @@
 			    $('.filter').on('click', '.filter-advanced-btn', showAdvancedForm);
 			    
 			    function showAdvancedForm(){
+			    	loadFilterData(); 
 			    	$('.filter-advanced-btn').remove();
 			    	$('.filter-advanced').removeClass('filter-advanced');
 			    	return false;
@@ -85,41 +86,50 @@
 					
 				</div>
 				<div class="filter-advanced">
+					<span class="filter-label long"><spring:message code="filter.standard.standardCategory" />:</span>
+					<select name="scId" class="async" data-items="standardCategories">
+						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
+					</select>
+				</div>
+				<div class="filter-advanced is-cpr">
 					<span class="filter-label long"><spring:message code="form.groups" />:</span>
-					<select name="standardGroup" class="groups async" data-items="standardGroups">
+					<select name="sgId" class="groups async" data-items="standardGroups">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
 				</div>
-				<div class="filter-advanced">
+				<div class="filter-advanced is-cpr">
 					<span class="filter-label long"><spring:message code="cpr.commisiondecision.name" />:</span>
-					<select name="commissionDecisionId" class="async chosenSmall" data-items="commissionDecisions">
+					<select name="cdId" class="async chosenSmall" data-items="commissionDecisions">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
 				
-					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="cpr.standard.filter.mandate" />:</span>
-					<select name="mandateId" class="async chosenSmall" data-items="mandates">
+					<span class="filter-label"> &nbsp; &nbsp; &nbsp; &nbsp; <spring:message code="cpr.standard.filter.mandate" />:</span>
+					<select name="mId" class="async chosenSmall" data-items="mandates">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 					</select>
 				</div>
 				
 				<div class="filter-advanced">
-					<span class="filter-label long"><spring:message code="cpr.standard.filter.as" />:</span>
-					<select name="assessmentSystemId" class="async chosenSmall" data-items="assessmentSystems">
-						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
-					</select>
-				
-					<span class="filter-label"> &nbsp; &nbsp; <spring:message code="cpr.standard.filter.status" />: &nbsp;</span>
-					<select name="standardStatus" class="chosenSmall">
+					
+					<span class="filter-label long"><spring:message code="cpr.standard.filter.status" />: &nbsp;</span>
+					<select name="s" class="chosenSmall">
 						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 						<c:forEach items="${model.standardStatuses}" var="i">
-	                       <option value="${i}" <c:if test="${i.code == model.params.standardStatus}">selected="selected"</c:if> >
+	                       <option value="${i}" <c:if test="${i.code == model.params.s}">selected="selected"</c:if> >
 	                       		<spring:message code="${i.name}" />
 	                       </option>
 		               </c:forEach>
 					</select>
+				
+					<span class="is-cpr">
+					<span class="filter-label "><spring:message code="cpr.standard.filter.as" />:</span>
+					<select name="asId" class="async chosenSmall " data-items="assessmentSystems">
+						<option value=""><spring:message code="cpr.standard.filter.default" /></option>
+					</select>
+					</span>
 				</div>
 				
-				<div class="filter-advanced">
+				<div class="filter-advanced is-cpr">
 					<span class="filter-label long"><spring:message code="cpr.nb.filter" />:</span>
 					<input type="text" class="query-aono mw500" name="notifiedBody" />
 				</div>

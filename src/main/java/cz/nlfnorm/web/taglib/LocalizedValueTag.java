@@ -15,6 +15,7 @@ import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.enums.SystemLocale;
 import cz.nlfnorm.utils.CodeUtils;
 
+@SuppressWarnings("serial")
 public class LocalizedValueTag extends TagSupport{
 
 	private Logger logger = Logger.getLogger(getClass());

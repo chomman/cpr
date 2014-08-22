@@ -32,6 +32,7 @@ import cz.nlfnorm.services.CsnService;
 import cz.nlfnorm.services.CsnTerminologyService;
 import cz.nlfnorm.services.MandateService;
 import cz.nlfnorm.services.NotifiedBodyService;
+import cz.nlfnorm.services.StandardCategoryService;
 import cz.nlfnorm.services.StandardCsnService;
 import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
@@ -64,6 +65,8 @@ public class AjaxController {
 	private TagService tagService;
 	@Autowired
 	private CompanyService companyService;
+	@Autowired
+	private StandardCategoryService standardCategoryService;
 	@Autowired
 	private CertificationBodyService certificationBodyService;
 		
@@ -148,8 +151,8 @@ public class AjaxController {
 	
 	@RequestMapping(value = {"/ajax/standard-filter", "{lang}/ajax/standard-filter"})
 	public @ResponseBody FilterDto  getFilterData(@RequestBody @RequestParam(value = "enabled", required = false) Boolean enabled){
-		FilterDto data = new FilterDto();
-		boolean useEnglish = !ContextHolder.isDefaultLang();
+		final FilterDto data = new FilterDto();
+		final boolean useEnglish = !ContextHolder.isDefaultLang();
 		if(enabled != null && enabled){
 			data.setAssessmentSystems(assessmentSystemService.getAssessmentSystemsForPublic(), useEnglish);
 			data.setStandardGroups(standardGroupService.getStandardGroupsForPublic(), useEnglish);
@@ -158,7 +161,8 @@ public class AjaxController {
 			data.setStandardGroups(standardGroupService.getAllStandardGroups(), useEnglish);
 		}
 		data.setMandates(mandateService.getAllMandates());
-		data.setCommissionDecisions(commissionDecisionService.getAll());
+		data.setCommissionDecisions(commissionDecisionService.getAll(), useEnglish);
+		data.setStandardCategories(standardCategoryService.getAll(), useEnglish);
 		return data;
 	}
 }
