@@ -29,7 +29,7 @@
 				//menubar : false,
 				statusbar : false
 		});
-		setTimeout(function(){$( "#accordion" ).accordion();}, 200);
+		setTimeout(function(){$( "#accordion" ).accordion({ active: false , collapsible: true});}, 200);
 	});
 	</script>
 </head>
