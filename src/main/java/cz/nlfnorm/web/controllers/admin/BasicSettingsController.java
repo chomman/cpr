@@ -46,6 +46,7 @@ public class BasicSettingsController extends AdminSupportController {
 		modelMap.put("model", model);
 		if(StringUtils.isNotBlank(generateSitemap)){
 			sitemapGenerator.generate();
+			modelMap.put("sitemap", true);
 		}
 		return getEditFormView();
 	}

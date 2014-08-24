@@ -73,8 +73,12 @@
 					</form:form>
 					<sec:authorize access="hasRole('ROLE_WEBMASTER')">
 					 <div>
+					 	<c:if test="${not empty sitemap}">
+					 		<p class="msg ok">Soubor sitemap.xml byl úspěšně vygenerován</p>
+					 	</c:if>
 					 	<br />	
 						<a href="?generateSitemap=true">Vygenerovat sitemap.xml</a>
+						
 					</div>
 					</sec:authorize>
 			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
