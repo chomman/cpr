@@ -376,4 +376,16 @@ public class WebpageDaoImpl extends BaseDaoImpl<Webpage, Long> implements Webpag
 	}
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Webpage> getWebpagesForSitemap() {
+		final String hql = "select w from Webpage w where w.enabled=true "
+				+ " and w.isOnlyForRegistrated=false and w.webpageType != :redirect ";
+		return createQuery(hql)
+					.setString("redirect", WebpageType.REDIRECT.toString())
+					.setReadOnly(true)
+					.list();
+	}
+
+
 }

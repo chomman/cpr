@@ -65,6 +65,7 @@
 	
 	<bean name="localeResolver" class="cz.nlfnorm.resolvers.LocaleResolver" />
    
+  	<bean name="sitemapGenerator" class="cz.nlfnorm.services.impl.SitemapGeneratorImpl" />
   
 	<bean id="propertyPlaceholderConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="locations">

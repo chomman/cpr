@@ -445,11 +445,18 @@ public class WebpageServiceImpl implements WebpageService{
 	 * 
 	 * @return similar webpages, which has equal one or more webpages tags.
 	 */
+	@Transactional(readOnly = true)
 	public List<Webpage> getSimilarWepages(Webpage webpage, int limit, WebpageType type) {
 		if(CollectionUtils.isEmpty(webpage.getTags())){
 			return new ArrayList<>();
 		}
 		return webpageDao.getSimilarWebpages(webpage, limit, type);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Webpage> getWebpagesForSitemap() {
+		return webpageDao.getWebpagesForSitemap();
 	}
 	
 	

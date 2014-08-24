@@ -228,6 +228,12 @@ public class CsnTerminologyServiceImpl implements CsnTerminologyService{
 		}
 		return null;
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<CsnTerminology> getAll() {
+		return csnTerminologyDao.getAll();
+	}
 	
 
 }

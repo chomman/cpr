@@ -358,5 +358,12 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 	}
 
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<Standard> getStandardsForSitemap() {
+		return createQuery("select s from Standard s where s.enabled = true ").list();
+	}
+
+
 	
 }

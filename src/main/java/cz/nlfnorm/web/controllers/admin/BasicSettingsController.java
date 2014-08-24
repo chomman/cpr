@@ -12,15 +12,19 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import cz.nlfnorm.entities.BasicSettings;
 import cz.nlfnorm.services.BasicSettingsService;
+import cz.nlfnorm.services.SiteampGenerator;
 
 @Controller
 public class BasicSettingsController extends AdminSupportController {
 		
 	@Autowired
 	private BasicSettingsService basicSettingsService;
+	@Autowired
+	private SiteampGenerator sitemapGenerator;
 	
 	public BasicSettingsController(){
 		setViewName("settings");
@@ -34,12 +38,15 @@ public class BasicSettingsController extends AdminSupportController {
 	 * @return String JSP stranka
 	 */
 	@RequestMapping("/admin/settings/basic")
-	public String showBasicSettingsForm(ModelMap modelMap){
+	public String showBasicSettingsForm(ModelMap modelMap, @RequestParam(value = "generateSitemap", required = false) String generateSitemap){
 		setEditFormView("settings-basic");
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("tab",1);
 		modelMap.addAttribute("basicSettings", basicSettingsService.getBasicSettings());
 		modelMap.put("model", model);
+		if(StringUtils.isNotBlank(generateSitemap)){
+			sitemapGenerator.generate();
+		}
 		return getEditFormView();
 	}
 	

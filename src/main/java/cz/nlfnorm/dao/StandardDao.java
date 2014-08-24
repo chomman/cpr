@@ -43,4 +43,6 @@ public interface StandardDao extends BaseDao<Standard, Long> {
 	void unassignNotifiedBody(Long standardNotifiedBodyId);
 	
 	List<Standard> getChangedStanards(LocalDate dateFrom, LocalDate dateTo, Boolean enabledOnly);
+	
+	List<Standard> getStandardsForSitemap();
 }

@@ -37,6 +37,8 @@ public interface CsnTerminologyService {
 	
 	List<CsnTerminology> searchInTerminology(String term);
 	
+	List<CsnTerminology> getAll();
+	
 	void saveTerminologies(CsnTerminologyDto terminologies);
 	
 	void saveTerminologies(List<CsnTerminology> terminologies);

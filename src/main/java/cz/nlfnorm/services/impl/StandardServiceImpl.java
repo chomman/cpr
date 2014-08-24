@@ -270,6 +270,7 @@ public class StandardServiceImpl implements StandardService {
 	}
 
 	@Override
+	@Transactional( readOnly = true )
 	public boolean hasAssociatedNotifiedBody(final NotifiedBody notifiedBody,final Standard standard) {
 		if(notifiedBody == null){
 			return false;
@@ -289,8 +290,15 @@ public class StandardServiceImpl implements StandardService {
 	}
 
 	@Override
+	@Transactional( readOnly = true )
 	public List<Standard> getChangedStanards(final LocalDate dateFrom, final LocalDate dateTo, Boolean enabledOnly) {
 		return standardDao.getChangedStanards(dateFrom, dateTo, enabledOnly);
+	}
+
+	@Override
+	@Transactional( readOnly = true )
+	public List<Standard> getStandardsForSitemap() {
+		return standardDao.getStandardsForSitemap();
 	}
 	
 	

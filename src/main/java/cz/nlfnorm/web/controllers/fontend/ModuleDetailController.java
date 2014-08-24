@@ -68,6 +68,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	
 	private static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
 	public static final String TERMINOLOGY_URL_MAPPING = "terminologicky-slovnik";
+	public static final String EHN_DETAIL_URL = "ehn";
 
 	
 	@Value("#{config['nandourl']}")
@@ -90,7 +91,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	
 	
 	
-	@RequestMapping(value = {"/ehn/{id}", EN_PREFIX + "ehn/{id}"})
+	@RequestMapping(value = { EHN_DETAIL_URL +"/{id}", EN_PREFIX + EHN_DETAIL_URL+ "/{id}"})
 	public String showEhn(@PathVariable Long id,  ModelMap modelMap) throws PageNotFoundEception{
 		final Standard standard = standardService.getStandardById(id);
 		if(standard == null || !standard.getEnabled()){

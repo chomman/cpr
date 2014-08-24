@@ -71,8 +71,12 @@
                         	 <input type="submit" class="button" value="<spring:message code="form.save" />" />
                         </p>
 					</form:form>
-		
-		
+					<sec:authorize access="hasRole('ROLE_WEBMASTER')">
+					 <div>
+					 	<br />	
+						<a href="?generateSitemap=true">Vygenerovat sitemap.xml</a>
+					</div>
+					</sec:authorize>
 			<span class="note"><spring:message code="form.required" htmlEscape="false" /></span>
 		</div>	
 	</div>

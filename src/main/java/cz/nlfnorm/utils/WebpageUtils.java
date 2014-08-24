@@ -104,7 +104,7 @@ public class WebpageUtils {
 				   .append("/")
 				   .append(webpage.getCode());
 			}
-			return contextPath + "/" + RequestUtils.buildUrl(url.toString());
+			return contextPath + "/" +  RequestUtils.buildUrl(url.toString());
 		}
 		
 		if(webpage.getRedirectWebpage() != null){

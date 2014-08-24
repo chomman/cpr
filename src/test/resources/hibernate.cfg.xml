@@ -23,12 +23,15 @@
   	<mapping class="cz.nlfnorm.entities.StandardChange"/>
   	<mapping class="cz.nlfnorm.entities.StandardNotifiedBody"/>
   	<mapping class="cz.nlfnorm.entities.CommissionDecision"/>
-	<mapping class="cz.nlfnorm.entities.Requirement" />
 	<mapping class="cz.nlfnorm.entities.Webpage" />
 	<mapping class="cz.nlfnorm.entities.Tag" />
 	<mapping class="cz.nlfnorm.entities.BasicSettings"/>
 	<mapping class="cz.nlfnorm.entities.ExceptionLog"/>
 	<mapping class="cz.nlfnorm.entities.Report"/>
+	
+	<mapping class="cz.nlfnorm.entities.StandardCategory"/>
+	<mapping class="cz.nlfnorm.entities.Regulation"/>
+	
 	
 	<!-- Terminology -->
 	<mapping class="cz.nlfnorm.entities.Csn"/>
@@ -59,11 +62,22 @@
 	<mapping class="cz.nlfnorm.quasar.entities.Experience"/>
 	<mapping class="cz.nlfnorm.quasar.entities.EducationLevel"/>
 	<mapping class="cz.nlfnorm.quasar.entities.QuasarSettings"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Company"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditLog"/>
+	<mapping class="cz.nlfnorm.quasar.entities.AuditLogItem"/>
+	<mapping class="cz.nlfnorm.quasar.entities.Comment"/>
+	<mapping class="cz.nlfnorm.quasar.entities.CertificationBody"/>
+	<mapping class="cz.nlfnorm.quasar.entities.DossierReport"/>
+	<mapping class="cz.nlfnorm.quasar.entities.DossierReportItem"/>
+	<mapping class="cz.nlfnorm.quasar.entities.TrainingLog"/>
+ 	<mapping class="cz.nlfnorm.quasar.entities.CategorySpecificTraining"/>
+
 	
 	<!-- QUASAR Views -->
 	<mapping class="cz.nlfnorm.quasar.views.QsAuditor"/>
 	<mapping class="cz.nlfnorm.quasar.views.ProductAssessorA"/>
-	
+	<mapping class="cz.nlfnorm.quasar.views.ProductAssessorR"/>
+	<mapping class="cz.nlfnorm.quasar.views.ProductSpecialist"/>
 	
 	 
  </session-factory>

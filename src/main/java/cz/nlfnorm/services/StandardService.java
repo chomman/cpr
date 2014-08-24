@@ -65,4 +65,6 @@ public interface StandardService {
 	void unassigenNotifiedBody(Long standardNotifiedBodyId);
 	
 	List<Standard> getChangedStanards(LocalDate dateFrom, LocalDate dateTo, Boolean enabledOnly);
+	
+	List<Standard> getStandardsForSitemap();
 }

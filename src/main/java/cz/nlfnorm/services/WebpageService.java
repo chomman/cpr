@@ -82,4 +82,5 @@ public interface WebpageService {
 	
 	List<Webpage> getSimilarArticles(Webpage webpage, int limit);
 	
+	List<Webpage> getWebpagesForSitemap();
 }

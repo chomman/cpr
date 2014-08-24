@@ -7,3 +7,5 @@ Disallow: /*/profile/*
 Disallow: /en/*/profile/*
 Disallow: /*/pristup-zamitnut
 Disallow: /*/zapomenute-heslo
+
+Sitemap: http://www.nlfnorm.cz/sitemap.xml
