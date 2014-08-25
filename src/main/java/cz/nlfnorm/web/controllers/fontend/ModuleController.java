@@ -38,7 +38,9 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
 
 @Controller
 public class ModuleController extends WebpageControllerSupport {
-		
+	
+	public static final String CPR_VIEW_KEY = "isCprView";
+	
 	private static final String STANDARD_CATEGORIES =		"/m/ehn-categories";
 	private static final String STANDARDS_URL = 			"/m/harmonized-standards";
 	private static final String CPR_STANDARDS_URL = 		"/m/cpr-harmonized-standards";
@@ -104,14 +106,16 @@ public class ModuleController extends WebpageControllerSupport {
 		model.put("params", params);
 		model.put("strParams", getStringParams(request, cprOnly));
 		model.put("standardStatuses", StandardStatus.getAll());
-		model.put("isCprView", cprOnly);
+		model.put(CPR_VIEW_KEY, cprOnly);
 		return appendModelAndGetView(model, modelMap, request);
 	}
 	
 	private String getStringParams(final HttpServletRequest request, final boolean cprOnly){
 		final String params = RequestUtils.getRequestParams(request, Constants.PAGE_PARAM_NAME);
 		if(cprOnly){
-			return params + (StringUtils.isBlank(params) ? "?" : "&" ) + Filter.STANDARD_CATEGORY + "=" + StandardCategory.CPR_ID;
+			return params + (StringUtils.isBlank(params) ? "?" : "&" ) + 
+				   Filter.STANDARD_CATEGORY + "=" + StandardCategory.CPR_ID +
+				   "&" + CPR_VIEW_KEY + "=1";
 		}
 		return params;
 	}

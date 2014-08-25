@@ -27,6 +27,7 @@ import cz.nlfnorm.entities.CsnTerminology;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.entities.Report;
 import cz.nlfnorm.entities.Standard;
+import cz.nlfnorm.entities.StandardCategory;
 import cz.nlfnorm.entities.StandardGroup;
 import cz.nlfnorm.entities.Webpage;
 import cz.nlfnorm.enums.CsnTerminologyLanguage;
@@ -39,6 +40,7 @@ import cz.nlfnorm.services.CsnTerminologyService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.ReportService;
+import cz.nlfnorm.services.StandardCategoryService;
 import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
 import cz.nlfnorm.utils.RequestUtils;
@@ -65,6 +67,8 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	private BasicSettingsService basicSettingsService;
 	@Autowired
 	private PortalProductService portalProductService;
+	@Autowired
+	private StandardCategoryService standardCategoryService;
 	
 	private static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
 	public static final String STANDARD_CATEGORY_DETAIL_URL = "ehn/kategorie";
@@ -77,21 +81,25 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	
 	
 	@RequestMapping(value = { STANDARD_CATEGORY_DETAIL_URL+"/{id}" , EN_PREFIX + STANDARD_CATEGORY_DETAIL_URL+"/{id}" })
-	public String   standardCategoryDetail(HttpServletRequest request, ModelMap map){
+	public String   standardCategoryDetail(final @PathVariable Long id, ModelMap map) throws PageNotFoundEception{
+		final StandardCategory standardCategory = standardCategoryService.getById(id);
+		if(standardCategory == null){
+			throw new PageNotFoundEception();
+		}
 		Map<String, Object> model = new HashMap<String, Object>();
-		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		// DOTO standard category detail
+		model.put("standardCategory", standardCategory);
 		return "";
 	}
 	
 	@RequestMapping(value = { "/async/standards" , EN_PREFIX + "async/standards" })
 	public ModelAndView   standards(HttpServletRequest request, ModelMap map){
-		Map<String, Object> model = new HashMap<String, Object>();
-		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		final Map<String, Object> model = new HashMap<String, Object>();
+		final Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
 		params.put(Filter.ENABLED, Boolean.TRUE);
 		model.put("standards", standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE));
 		model.put("async", true);
+		model.put(ModuleController.CPR_VIEW_KEY, params.containsKey(ModuleController.CPR_VIEW_KEY));
 		map.put("model", model);
 		return new ModelAndView("/include/standard-table", map );
 	}

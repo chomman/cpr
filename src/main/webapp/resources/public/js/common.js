@@ -216,7 +216,9 @@ function refresCprFilterVisibility(){
 	   $('select[name=rId]').val() === "4"){
 		$('.cpr-filter').removeClass("hidden");
 	}else{
+		$('.cpr-filter').find('select, input').val('');
 		$('.cpr-filter').addClass("hidden");
+		refreshSelect();
 	}
 }
 

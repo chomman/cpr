@@ -21,6 +21,7 @@
 				<th><spring:message code="standardCategory.name" /></th>
 				<th><spring:message code="standardCategory.specialiyation" /></th>
 				<th><spring:message code="standardCategory.ojeu" /></th>
+				<th>&nbsp;</th>
 				<th><spring:message code="regulation.eu" /></th>
 				<th><spring:message code="regulation.cs" /></th>
 				<th><spring:message code="regulation.sk" /></th>
@@ -42,6 +43,15 @@
 			 		</td>
 			 		<td class="c ehn-c-ojeu">
 			 			<a:localizedValue object="${i}" fieldName="ojeuPublication" />
+			 		</td>
+			 		<td class="w40 c">
+			 			<c:if test="${!empty i.noaoUrl}">
+			 				<a class="tooltip" title="<spring:message code="standardCategory.noaoNando" />" 
+			 					href="${i.noaoUrl}" target="_blank">NO/AO</a>
+			 			</c:if>
+			 			<c:if test="${empty i.noaoUrl}">
+			 				<spring:message code="standardCategory.noao.none" />
+			 			</c:if>
 			 		</td>
 			 		<td class="ehn-regulation">
 			 			<c:forEach items="${i.regulations}" var="j">
