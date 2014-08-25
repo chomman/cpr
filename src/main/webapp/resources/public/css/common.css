@@ -110,8 +110,19 @@ tr:hover .pj-separator,
 
 .standards .ehn-ojeu {width:100px;}
 .standards .ehn-regulations{width:120px;}
-.standards .ehn-regulations .ehn-regulation{background-repeat:no-repeat;display:inline-block;padding-left:20px;}
-.sk-true{background-image:url(../img/rsk.png;)}
+.standards .ehn-regulation{position:relative;padding-left:19px;display:inline-block;}
+.standards .ehn-regulation .ico,
+.standards tr:hover .ehn-regulations .ico{display:block;position:absolute;width:17px;height:17px;left:0;z-index:99;background-image:url(../img/regulation.png;) !important;background-repeat:no-repeat !important;}
+.sk-true .ico{background-position:-34px 2px !important;}
+.cs-true .ico{background-position:-17px 2px !important;}
+
+.sk-true.cs-true.eu-true{padding-left:51px}
+.sk-true.cs-true.eu-true .ico,
+tr:hover .sk-true.cs-true.eu-true .ico{background-position:0 2px !important;width:51px;}
+
+.sk-true.cs-true{padding-left:34px}
+.sk-true.cs-true .ico,
+tr:hover .sk-true.cs-true .ico{background-position:17px 2px !important;width:34px;}
 
 
 .status-canceled,

@@ -21,6 +21,9 @@
 					 $(document).on('pageloaded', refreshTable);
 				});
 				function refreshTable(){
+					if(jQuery().tooltipster){
+						$('.tooltip').tooltipster({maxWidth : 300 });
+					}
 					$('td.tmp').each(function(){
 						var $td = $(this);
 						$td.find('a').each(function(){
@@ -232,13 +235,20 @@
 								<c:if test="${not empty i.standardCategory}">
 									<c:forEach items="${i.standardCategory.regulations}" var="j">
 										<span class="ehn-regulation eu-${j.euRegulation} cs-${j.csRegulation} sk-${j.skRegulation}">
-				 						<span class="ico"></span>
-				 						<a 
-				 						href="<a:localizedValue object="${j.csRegulationContent}" fieldName="pdf" />" 
-				 						title="<a:localizedValue object="${j.regulationContent}" fieldName="name" />"
-				 						class="file pdf min tooltip">
-				 						${j.code}
-				 						</a>
+				 						<span class="ico tooltip" 
+				 							title="${j.euRegulation ? 'ES/EU ' : ''} 
+				 								   ${j.csRegulation ? 'ČR ' : ''}
+				 								   ${j.skRegulation ? 'SR ' : ''} 
+				 								   - <spring:message  code="regulation" />
+				 								   ">
+				 						</span>
+					 						<a 
+					 						href="<a:localizedValue object="${j.csRegulationContent}" fieldName="pdf" />" 
+					 						title="<a:localizedValue object="${j.regulationContent}" fieldName="name" />"
+					 						class="file pdf min tooltip">
+					 						${j.code}
+					 						</a>
+				 						
 				 					</span>
 			 						</c:forEach>
 								</c:if>
