@@ -61,6 +61,12 @@
 			<name>fieldName</name>
 			<required>true</required>
 			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>maxLength</name>
+			<required>false</required>
+			<rtexprvalue>true</rtexprvalue>
+			<type>java.util.Integer</type>
 		</attribute>       
 </tag>   
 <tag>

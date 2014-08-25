@@ -28,6 +28,24 @@
 				</hgroup>
 			</article>	
 			<table class="group-info">
+			<c:if test="${not empty model.standardCategory}">
+				<tr> 
+					<td class="key">
+						<strong><spring:message code="standardCategory.name" />:</strong>
+					</td>
+					<td>
+						<a:localizedValue object="${model.standardCategory}" fieldName="name" />
+					</td>
+				</tr>
+				<tr> 
+					<td class="key">
+						<strong><spring:message code="standardCategory.ojeu" />:</strong>
+					</td>
+					<td>
+						<a:localizedValue object="${model.standardCategory}" fieldName="ojeuPublication" />
+					</td>
+				</tr>
+			</c:if>
 			<tr>
 				<td class="key">
 					<strong><spring:message code="commissiondecision" /></strong>

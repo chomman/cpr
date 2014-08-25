@@ -86,14 +86,21 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		if(standardCategory == null){
 			throw new PageNotFoundEception();
 		}
-		Map<String, Object> model = new HashMap<String, Object>();
+		final Map<String, Object> params = new HashMap<>();
+		params.put(Filter.ENABLED, Boolean.TRUE);
+		params.put(Filter.STANDARD_CATEGORY, id);
+		Map<String, Object> model = new HashMap<>();
 		model.put("standardCategory", standardCategory);
-		return "";
+		model.put(ModuleController.CPR_VIEW_KEY, false);
+		model.put("standards", standardService.getStandardPage(1, params, Constants.PUBLIC_STANDARD_PAGE_SIZE));
+		prepareWebpageModel(map, webpageService.getWebpageByModule(WebpageModule.EHN_CATEGORIES), true);
+		map.put("model", model);
+		return getView("ehn-category-detail");
 	}
 	
 	@RequestMapping(value = { "/async/standards" , EN_PREFIX + "async/standards" })
 	public ModelAndView   standards(HttpServletRequest request, ModelMap map){
-		final Map<String, Object> model = new HashMap<String, Object>();
+		final Map<String, Object> model = new HashMap<>();
 		final Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
 		params.put(Filter.ENABLED, Boolean.TRUE);
@@ -113,7 +120,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		if(standard == null || !standard.getEnabled()){
 			throw new PageNotFoundEception();
 		}
-		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> model = new HashMap<>();
 		model.put("standard", standard);
 		model.put("noaoUrl", ceEuropeNotifiedBodyDetailUrl);
 		modelMap.put("model", model);
@@ -130,6 +137,8 @@ public class ModuleDetailController extends WebpageControllerSupport{
 		}
 		Map<String, Object> model = new HashMap<String, Object>();
 		model.put("group", stadnardGroup);
+		model.put(ModuleController.CPR_VIEW_KEY, true);
+		model.put("standardCategory", standardCategoryService.getById(StandardCategory.CPR_ID));
 		prepareWebpageModel(modelMap, webpageService.getWebpageByModule(WebpageModule.CPR_GROUP_LIST), true);
 		model.put("standards", standardService.getStandardByStandardGroupForPublic(stadnardGroup));
 		modelMap.put("model", model);

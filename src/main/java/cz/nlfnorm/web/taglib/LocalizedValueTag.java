@@ -14,16 +14,15 @@ import org.apache.log4j.Logger;
 import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.enums.SystemLocale;
 import cz.nlfnorm.utils.CodeUtils;
+import cz.nlfnorm.utils.NlfStringUtils;
 
 @SuppressWarnings("serial")
 public class LocalizedValueTag extends TagSupport{
 
 	private Logger logger = Logger.getLogger(getClass());
-	
 	private Object object;
-	
 	private String fieldName;
-
+	private Integer maxLength;
 	@Override
 	public int doStartTag() throws JspException {
 		
@@ -53,6 +52,9 @@ public class LocalizedValueTag extends TagSupport{
 			} catch (Exception e) {
 				e.printStackTrace();
 			}               
+			if(maxLength != null){
+				retvalue = NlfStringUtils.getCroppedText(retvalue, maxLength);
+			}
 			try {
 				JspWriter out = this.pageContext.getOut();
 				out.println(retvalue);
@@ -104,7 +106,12 @@ public class LocalizedValueTag extends TagSupport{
 	public void setFieldName(String fieldName) {
 		this.fieldName = fieldName;
 	}
-	
-	
-	
+
+	public Integer getMaxLength() {
+		return maxLength;
+	}
+
+	public void setMaxLength(Integer maxLength) {
+		this.maxLength = maxLength;
+	}
 }
