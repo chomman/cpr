@@ -1,6 +1,18 @@
 <%@ page session="true" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
-
+<script>
+	$(function(){
+		$('.ehn-c-ojeu a').each(function(){
+			var $this = $(this);
+			$this.addClass("file pdf min").attr("target","_blank");
+		});
+		$('table').find('td.ehn-c-ojeu').each(function(){
+			$td = $(this);
+			$td.html($td.html().replace(">,",">"));
+			$td.html($td.html().replace(/<br>/g,""));
+		});
+	});
+</script>
 <c:if test="${not empty model.standardCategories}">
 	<table class="ehn-categories ">
 		<thead>
@@ -21,17 +33,17 @@
 			 			${!empty i.code ? i.code : '-'}
 			 		</td>
 			 		<td class="ehn-c-name">
-				 		<a:url href="/cpr/ehn-kategorie/${i.id}" >
+				 		<a:url href="/ehn/kategorie/${i.id}" >
 				 			<a:localizedValue object="${i}" fieldName="name" />
 				 		</a:url>
 			 		</td>
 			 		<td class="ehn-c-specialization">
 				 		<a:localizedValue object="${i}" fieldName="specialization" />
 			 		</td>
-			 		<td class="ehn-c-ojeu">
+			 		<td class="c ehn-c-ojeu">
 			 			<a:localizedValue object="${i}" fieldName="ojeuPublication" />
 			 		</td>
-			 		<td>
+			 		<td class="ehn-regulation">
 			 			<c:forEach items="${i.regulations}" var="j">
 			 				<c:if test="${j.euRegulation}">
 			 					<span>
@@ -45,7 +57,7 @@
 			 				</c:if>
 			 			</c:forEach>
 			 		</td>
-			 		<td>
+			 		<td class="ehn-regulation">
 			 			<c:forEach items="${i.regulations}" var="j">
 			 				<c:if test="${j.csRegulation}">
 			 					<span>
@@ -59,7 +71,7 @@
 			 				</c:if>
 			 			</c:forEach>
 			 		</td>
-			 		<td>
+			 		<td class="ehn-regulation">
 			 			<c:forEach items="${i.regulations}" var="j">
 			 				<c:if test="${j.skRegulation}">
 			 					<span>

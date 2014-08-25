@@ -72,8 +72,7 @@
 			</ul>
 			
 			<jsp:include page="../standard-filter.jsp" />
-			
-			
+						
 			<div class="items-count">
 				<span><spring:message code="items.count" arguments="${model.count}" htmlEscape="false" /></span>
 			</div>

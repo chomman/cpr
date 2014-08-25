@@ -577,3 +577,8 @@ header{position:relative;}
 .regulations td{border-right:1px solid #ccc;vertical-align:top;}
 .regulations td .block-item{text-transform:none !important;padding:5px 5px 10px 5px;}
 .regulations td .pj-reg-descr{font-size:12px;text-align:center;display:block;padding-top:5px;}
+
+.ehn-categories td{border-right:1px solid #ddd;}
+.ehn-c-ojeu{width:110px;}
+.ehn-regulation{width:110px;}
+.ehn-regulation span{display:inline-block;padding:2px 0}

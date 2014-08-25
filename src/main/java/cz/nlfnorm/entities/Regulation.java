@@ -116,4 +116,15 @@ public class Regulation extends IdentifiableEntity {
 		}
 		return false;
 	}
+	
+	@Transient
+	public RegulationContent getRegulationContent(){
+		if(isEuRegulation()){
+			return getEuRegulationContent();
+		}else if(isCsRegulation()){
+			return getCsRegulationContent();
+		}
+		return getSkRegulationContent();
+	}
 }
+

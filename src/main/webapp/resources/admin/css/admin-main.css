@@ -102,7 +102,7 @@ a{text-decoration:none;color:#3e4e69;}
 .cpr-filter,.cpr-filter:hover{background:#DFEFF5 !important;}
 .cpr-filter{padding:8px !important;border-radius:8px;border:2px solid #BBE1ED !important;padding-top:25px !important;margin-bottom:8px;position:relative;}
 .cpr-filter>div{border-bottom:1px solid #fff;}
-.cpr-filter .head{position:absolute;display:block;font-weight:bold;background:#BBE1ED;width:99%;left:0;right:0;top:0;padding:5px 0 5px 1%;font-size:11px;background: #d3e5ea;
+.cpr-filter .ehn-head{position:absolute;display:block;font-weight:bold;background:#BBE1ED;width:99%;left:0;right:0;top:0;padding:5px 0 5px 1%;font-size:11px;background: #d3e5ea;
 background: -moz-linear-gradient(top, #d3e5ea 0%, #bbe1ed 100%);
 background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#d3e5ea), color-stop(100%,#bbe1ed));
 background: -webkit-linear-gradient(top, #d3e5ea 0%,#bbe1ed 100%);
@@ -110,6 +110,7 @@ background: -o-linear-gradient(top, #d3e5ea 0%,#bbe1ed 100%);
 background: -ms-linear-gradient(top, #d3e5ea 0%,#bbe1ed 100%);
 background: linear-gradient(to bottom, #d3e5ea 0%,#bbe1ed 100%);
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d3e5ea', endColorstr='#bbe1ed',GradientType=0 );}
+
 
 /* TABS EDITACIA NORIEM --- */
 #tabs{border:2px solid #ccc;background:#fdfdfd;}

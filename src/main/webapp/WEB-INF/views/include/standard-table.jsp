@@ -2,7 +2,7 @@
 <%@ include file="/WEB-INF/views/include/taglibs.jsp" %>
 <%@ page trimDirectiveWhitespaces="true" %>
 <c:set var="editable" value="false" />
-<sec:authorize access="hasRole('ROLE_ADMIN')"> 
+<sec:authorize access="hasRole('ROLE_PORTAL_ADMIN')"> 
 	<c:set var="editable" value="true"  />
 </sec:authorize>
 <c:if test="${not empty model.standards}">
@@ -14,6 +14,26 @@
 	</c:if>
 	
 	<c:if test="${empty model.async or (not empty isPreview and isPreview)}">
+		<c:if test="${not model.isCprView}">
+			<script>
+				$(function(){
+					 refreshTable();
+					 $(document).on('pageloaded', refreshTable);
+				});
+				function refreshTable(){
+					$('td.tmp').each(function(){
+						var $td = $(this);
+						$td.find('a').each(function(){
+							var $a = $(this);
+							$a.addClass("file pdf min").attr("target","_blank");
+						});
+						$td.html($td.html().replace(">,",">"));
+						$td.html($td.html().replace(/<br>/g,""));
+						$td.removeClass('tmp');
+					});
+				}
+			</script>
+		</c:if>
 		<table class="standards">
 			<thead>
 				<tr>
@@ -39,6 +59,7 @@
 						</span>
 						
 					</th>
+					<c:if test="${model.isCprView}">
 					<th class="tooltip" title="<spring:message code="standard.help.noao" />">
 						<span class="tooltip-wrapp" style="padding-top:20px">
 							<span class="tooltip-ico"></span>
@@ -57,6 +78,15 @@
 							<spring:message code="standard.standardGroups" />
 						</span>
 					</th>
+					</c:if>
+					<c:if test="${not model.isCprView}">
+						<th class="c ehn-ojeu">
+							<spring:message code="standardCategory.ojeu" />
+						</th>
+						<th class="ehn-regulations">
+							<spring:message code="regulations" />
+						</th>
+					</c:if>
 				</tr>
 			</thead>
 			<tbody class="pagi-content">
@@ -66,7 +96,6 @@
 				 	
 				 	
 				 		<!-- EHn --> 
-				 		
 				 		<td class="norm">
 				 			<span>
 				 				<a:standardUrl standard="${i}" editable="${editable}"  />
@@ -136,7 +165,6 @@
 				 		<!-- Name --> 
 				 		<td class="s-name">
 				 			<span class="s-czechName" >${i.name}</span>
-				 			
 				 		</td>
 				 		
 				 		
@@ -152,47 +180,70 @@
 				 			</c:if>
 				 		</td>
 				 		
-				 		
-				 		<!-- NOAO -->
-				 		<td class="aono c">
-				 			<c:if test="${not empty i.notifiedBodies}">
-				 				<c:forEach items="${i.notifiedBodies}" var="j" >
-				 					<span class="block">
-				 					<a:noaoUrl object="${j}" editable="${editable}" buildNandoUrl="true" />
+				 		<c:if test="${model.isCprView}">
+					 		<!-- NOAO -->
+					 		<td class="aono c">
+					 			<c:if test="${not empty i.notifiedBodies}">
+					 				<c:forEach items="${i.notifiedBodies}" var="j" >
+					 					<span class="block">
+					 					<a:noaoUrl object="${j}" editable="${editable}" buildNandoUrl="true" />
+					 					</span>
+					 				</c:forEach>
+					 			</c:if>
+					 			<c:if test="${empty i.notifiedBodies}">
+					 				-
+					 			</c:if>
+					 		</td>
+					 		
+					 		<!-- assesment systems -->
+					 		<td class="as c">
+					 			<c:if test="${not empty i.assessmentSystems}">
+					 				<c:forEach items="${i.assessmentSystems}" var="as"  varStatus="status">
+					 					<a:url cssClass="tt" href="/cpr/as/${as.id}">${as.assessmentSystemCode}</a:url>
+					 					<c:if test="${not status.last}">, </c:if>  
+					 				</c:forEach>
+					 			</c:if>
+					 			<c:if test="${empty i.assessmentSystems}">
+					 				-
+					 			</c:if>
+					 		</td>
+					 		
+					 		
+					 		<!-- STANDARD GROUPS -->
+					 		<td class="standardGroups c">
+					 			<c:if test="${not empty i.standardGroups}">
+					 				<c:forEach items="${i.standardGroups}" var="j" varStatus="status">
+					 					<a:url cssClass="tt" title="${j.name}" href="/cpr/skupina/${j.code}">${j.code}</a:url>
+					 					<c:if test="${not status.last}">, </c:if> 
+					 				</c:forEach>
+					 			</c:if>
+					 			<c:if test="${empty i.standardGroups}">
+					 				- 
+					 			</c:if>
+					 		</td>
+				 		</c:if>
+				 		<c:if test="${not model.isCprView}">
+				 			<td class="ehn-ojeu tmp">
+								<c:if test="${not empty i.standardCategory}">
+									<a:localizedValue object="${i.standardCategory}" fieldName="ojeuPublication" />
+								</c:if>
+							</td>
+							<td class="ehn-regulations">
+								<c:if test="${not empty i.standardCategory}">
+									<c:forEach items="${i.standardCategory.regulations}" var="j">
+										<span class="ehn-regulation eu-${j.euRegulation} cs-${j.csRegulation} sk-${j.skRegulation}">
+				 						<span class="ico"></span>
+				 						<a 
+				 						href="<a:localizedValue object="${j.csRegulationContent}" fieldName="pdf" />" 
+				 						title="<a:localizedValue object="${j.regulationContent}" fieldName="name" />"
+				 						class="file pdf min tooltip">
+				 						${j.code}
+				 						</a>
 				 					</span>
-				 				</c:forEach>
-				 			</c:if>
-				 			<c:if test="${empty i.notifiedBodies}">
-				 				-
-				 			</c:if>
-				 		</td>
-				 		
-				 		<!-- assesment systems -->
-				 		<td class="as c">
-				 			<c:if test="${not empty i.assessmentSystems}">
-				 				<c:forEach items="${i.assessmentSystems}" var="as"  varStatus="status">
-				 					<a:url cssClass="tt" href="/cpr/as/${as.id}">${as.assessmentSystemCode}</a:url>
-				 					<c:if test="${not status.last}">, </c:if>  
-				 				</c:forEach>
-				 			</c:if>
-				 			<c:if test="${empty i.assessmentSystems}">
-				 				-
-				 			</c:if>
-				 		</td>
-				 		
-				 		
-				 		<!-- STANDARD GROUPS -->
-				 		<td class="standardGroups c">
-				 			<c:if test="${not empty i.standardGroups}">
-				 				<c:forEach items="${i.standardGroups}" var="j" varStatus="status">
-				 					<a:url cssClass="tt" title="${j.name}" href="/cpr/skupina/${j.code}">${j.code}</a:url>
-				 					<c:if test="${not status.last}">, </c:if> 
-				 				</c:forEach>
-				 			</c:if>
-				 			<c:if test="${empty i.standardGroups}">
-				 				- 
-				 			</c:if>
-				 		</td>
+			 						</c:forEach>
+								</c:if>
+							</td>
+				 		</c:if>
 				 		
 				 	</tr>
 				 	<c:if test="${not empty i.standardChanges}">
@@ -215,7 +266,9 @@
 					 			</td>
 					 			<td>&nbsp;</td>
 					 			<td>&nbsp;</td>
+					 			<c:if test="${model.isCprView}">
 					 			<td>&nbsp;</td>
+					 			</c:if>
 					 		</tr>
 				 		</c:forEach>
 				 	</c:if>

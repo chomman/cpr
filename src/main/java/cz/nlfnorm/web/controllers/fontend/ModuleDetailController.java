@@ -67,6 +67,7 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	private PortalProductService portalProductService;
 	
 	private static final String STANDARD_GROUP_DETAIL_URL = "/cpr/skupina/{code}";
+	public static final String STANDARD_CATEGORY_DETAIL_URL = "ehn/kategorie";
 	public static final String TERMINOLOGY_URL_MAPPING = "terminologicky-slovnik";
 	public static final String EHN_DETAIL_URL = "ehn";
 
@@ -75,6 +76,13 @@ public class ModuleDetailController extends WebpageControllerSupport{
 	protected String ceEuropeNotifiedBodyDetailUrl;
 	
 	
+	@RequestMapping(value = { STANDARD_CATEGORY_DETAIL_URL+"/{id}" , EN_PREFIX + STANDARD_CATEGORY_DETAIL_URL+"/{id}" })
+	public String   standardCategoryDetail(HttpServletRequest request, ModelMap map){
+		Map<String, Object> model = new HashMap<String, Object>();
+		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
+		// DOTO standard category detail
+		return "";
+	}
 	
 	@RequestMapping(value = { "/async/standards" , EN_PREFIX + "async/standards" })
 	public ModelAndView   standards(HttpServletRequest request, ModelMap map){

@@ -19,7 +19,6 @@ import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.entities.Standard;
 import cz.nlfnorm.entities.StandardCategory;
-import cz.nlfnorm.enums.StandardOrder;
 import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.enums.WebpageType;
 import cz.nlfnorm.exceptions.PageNotFoundEception;
@@ -95,18 +94,17 @@ public class ModuleController extends WebpageControllerSupport {
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
-		final int currentPage = RequestUtils.getPageNumber(request);
 		params.put(Filter.ENABLED, Boolean.TRUE);
 		if(cprOnly){
 			params.put(Filter.STANDARD_CATEGORY, StandardCategory.CPR_ID);
 		}
-		List<Standard> standards = standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);
+		List<Standard> standards = standardService.getStandardPage(1, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);
 		params.put(Filter.NOTIFIED_BODY, getNotifiedBody(params.get(Filter.NOTIFIED_BODY)));
 		model.put("standards", standards);
 		model.put("params", params);
 		model.put("strParams", getStringParams(request, cprOnly));
-		model.put("orders", StandardOrder.getAll());
 		model.put("standardStatuses", StandardStatus.getAll());
+		model.put("isCprView", cprOnly);
 		return appendModelAndGetView(model, modelMap, request);
 	}
 	

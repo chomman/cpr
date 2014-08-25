@@ -50,6 +50,7 @@ $.fn.scrollPagination = function(options) {
 				page++; 
 			   	$this.find('.pagi-content').append(data);
 				busy = false;
+				$(document).trigger('pageloaded');
 			}	
 			removeLoader();	
 		});

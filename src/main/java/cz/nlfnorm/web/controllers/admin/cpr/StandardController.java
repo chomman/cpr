@@ -31,6 +31,7 @@ import cz.nlfnorm.entities.AssessmentSystem;
 import cz.nlfnorm.entities.Country;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.entities.Standard;
+import cz.nlfnorm.entities.StandardCategory;
 import cz.nlfnorm.entities.StandardChange;
 import cz.nlfnorm.entities.StandardCsn;
 import cz.nlfnorm.entities.StandardGroup;
@@ -60,6 +61,7 @@ import cz.nlfnorm.validators.admin.StandardValidator;
 import cz.nlfnorm.web.controllers.admin.AdminSupportController;
 import cz.nlfnorm.web.editors.AssessmentSystemCollectionEditor;
 import cz.nlfnorm.web.editors.CountryEditor;
+import cz.nlfnorm.web.editors.IdentifiableByLongPropertyEditor;
 import cz.nlfnorm.web.editors.LocalDateEditor;
 import cz.nlfnorm.web.editors.NotifiedBodyEditor;
 import cz.nlfnorm.web.editors.StandardCsnPropertyEditor;
@@ -132,6 +134,7 @@ public class StandardController extends AdminSupportController{
 		binder.registerCustomEditor(StandardCsn.class, this.standardCsnPropertyEditor);
 		binder.registerCustomEditor(NotifiedBody.class, this.notifiedBodyEditor);
 		binder.registerCustomEditor(Set.class, "assessmentSystems", this.assessmentSystemCollectionEditor);
+		binder.registerCustomEditor(StandardCategory.class, new IdentifiableByLongPropertyEditor<StandardCategory>( standardCategoryService ));
     }
 	
 	
@@ -219,6 +222,7 @@ public class StandardController extends AdminSupportController{
 		}});
 		model.put("standard", standard);
 		model.put("async", true);
+		model.put("isCprView", standard.isCprCategory());
 		map.put("isPreview", true);
 		map.put("model", model);
 		return new ModelAndView("/public/standard-preview", map);
@@ -729,6 +733,7 @@ public class StandardController extends AdminSupportController{
 		standard.setEnabled(form.getEnabled());
 		standard.setReplaceStandard(form.getReplaceStandard());
 		standard.setStatusDate(form.getStatusDate());
+		standard.setStandardCategory(form.getStandardCategory());
 		if(standard.getReleased() != null && standard.getStatusDate() == null){
 			standard.setStatusDate(form.getReleased());
 		}
