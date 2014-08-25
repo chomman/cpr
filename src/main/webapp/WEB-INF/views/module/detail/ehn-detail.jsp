@@ -27,7 +27,7 @@
 					<table>
 					<tr> 
 						<td class="key">
-							<strong><spring:message code="standardCategory.name" /> ${model.standard.standardId}</strong>
+							<strong><spring:message code="standardCategory.name" /> ${model.standard.standardId}:</strong>
 						</td>
 						<td>
 							<strong class="tooltip" title="<spring:message code="standardCategory.code" />">${model.standard.standardCategory.code}</strong>
@@ -37,7 +37,7 @@
 					</tr>
 					<tr> 
 						<td class="key">
-							<strong><spring:message code="standardCategory.specialiyation" /> ${model.standard.standardId}</strong>
+							<strong><spring:message code="standardCategory.specialiyation" /> ${model.standard.standardId}:</strong>
 						</td>
 						<td>
 							<a:localizedValue object="${model.standard.standardCategory}" fieldName="specialization" />
@@ -45,7 +45,7 @@
 					</tr>
 					<tr> 
 						<td class="key">
-							<strong><spring:message code="standardCategory.ojeu" /></strong>
+							<strong><spring:message code="standardCategory.ojeu" />:</strong>
 						</td>
 						<td>
 							<a:localizedValue object="${model.standard.standardCategory}" fieldName="ojeuPublication" />

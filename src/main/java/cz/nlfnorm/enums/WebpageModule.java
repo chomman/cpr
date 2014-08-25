@@ -5,7 +5,9 @@ import java.util.List;
 
 public enum WebpageModule {
 	
-	CPR_EHN_LIST(1 , "webpageModule.cprStandardList", "/m/harmonized-standards", "harmonized-standards.jsp"),
+	EHN_CATEGORIES(11, "webpageModule.ehnCategories", "/m/ehn-categories", "ehn-categories.jsp"),
+	EHN_LIST(10 , "webpageModule.standardList", "/m/harmonized-standards", "harmonized-standards.jsp"),
+	CPR_EHN_LIST(1 , "webpageModule.cprStandardList", "/m/cpr-harmonized-standards", "cpr-harmonized-standards.jsp"),
 	CPR_GROUP_LIST(2 , "webpageModule.cprStandardGroupList", "/m/cpr-groups", "cpr-groups.jsp"),
 	NOAO_LIST(3 , "webpageModule.notifiedBodyList", "/m/notifiedbodies", "notifiedbodies.jsp"),
 	REPORT_LIST(4 , "webpageModule.reportList", "/m/reports", "reports.jsp"),

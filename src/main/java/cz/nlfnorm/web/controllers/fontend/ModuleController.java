@@ -18,6 +18,7 @@ import cz.nlfnorm.constants.Filter;
 import cz.nlfnorm.dto.PageDto;
 import cz.nlfnorm.entities.NotifiedBody;
 import cz.nlfnorm.entities.Standard;
+import cz.nlfnorm.entities.StandardCategory;
 import cz.nlfnorm.enums.StandardOrder;
 import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.enums.WebpageType;
@@ -28,6 +29,7 @@ import cz.nlfnorm.services.CsnTerminologyService;
 import cz.nlfnorm.services.NotifiedBodyService;
 import cz.nlfnorm.services.PortalProductService;
 import cz.nlfnorm.services.ReportService;
+import cz.nlfnorm.services.StandardCategoryService;
 import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
 import cz.nlfnorm.utils.ParseUtils;
@@ -37,9 +39,10 @@ import cz.nlfnorm.web.pagination.PaginationLinker;
 
 @Controller
 public class ModuleController extends WebpageControllerSupport {
-	
-	
+		
+	private static final String STANDARD_CATEGORIES =		"/m/ehn-categories";
 	private static final String STANDARDS_URL = 			"/m/harmonized-standards";
+	private static final String CPR_STANDARDS_URL = 		"/m/cpr-harmonized-standards";
 	private static final String STANDARD_GROUPS_URL =		"/m/cpr-groups";
 	private static final String NOTIFIE_BODIES_URL = 		"/m/notifiedbodies";
 	private static final String REPORS_URL = 				"/m/reports";
@@ -62,28 +65,58 @@ public class ModuleController extends WebpageControllerSupport {
 	private PortalProductService portalProductService;
 	@Autowired
 	private BasicSettingsService basicSettingsService;
+	@Autowired
+	private StandardCategoryService standardCategoryService;
 	
 	@Value("#{config['nandourl']}")
 	private String ceEuropeNotifiedBodyDetailUrl;
 	
+	@RequestMapping( STANDARD_CATEGORIES )
+	public String handleStandardCategories(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception {
+		validateRequest(request);
+		Map<String, Object> model = new HashMap<String, Object>();
+		model.put("standardCategories", standardCategoryService.getAll());
+		return appendModelAndGetView(model, modelMap, request);
+	}
+	
+	
 	@RequestMapping( STANDARDS_URL  )
 	public String handleStandardList(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
+		return handleStandardListRequest(modelMap, request, false);
+	}
+	
+	@RequestMapping( CPR_STANDARDS_URL  )
+	public String handleCprStandardList(ModelMap modelMap, HttpServletRequest request) throws PageNotFoundEception{
+		return handleStandardListRequest(modelMap, request, true);
+	}
+	
+	
+	public String handleStandardListRequest(ModelMap modelMap, HttpServletRequest request, final boolean cprOnly) throws PageNotFoundEception{
 		validateRequest(request);
 		Map<String, Object> model = new HashMap<String, Object>();
 		Map<String, Object> params = RequestUtils.getRequestParameterMap(request);
 		final int currentPage = RequestUtils.getPageNumber(request);
 		params.put(Filter.ENABLED, Boolean.TRUE);
+		if(cprOnly){
+			params.put(Filter.STANDARD_CATEGORY, StandardCategory.CPR_ID);
+		}
 		List<Standard> standards = standardService.getStandardPage(currentPage, params, Constants.PUBLIC_STANDARD_PAGE_SIZE);
 		params.put(Filter.NOTIFIED_BODY, getNotifiedBody(params.get(Filter.NOTIFIED_BODY)));
 		model.put("standards", standards);
 		model.put("params", params);
-		model.put("strParams", RequestUtils.getRequestParams(request, Constants.PAGE_PARAM_NAME));
+		model.put("strParams", getStringParams(request, cprOnly));
 		model.put("orders", StandardOrder.getAll());
 		model.put("standardStatuses", StandardStatus.getAll());
-		model.put("standardGroups", standardGroupService.getStandardGroupsForPublic());
 		return appendModelAndGetView(model, modelMap, request);
 	}
 	
+	private String getStringParams(final HttpServletRequest request, final boolean cprOnly){
+		final String params = RequestUtils.getRequestParams(request, Constants.PAGE_PARAM_NAME);
+		if(cprOnly){
+			return params + (StringUtils.isBlank(params) ? "?" : "&" ) + Filter.STANDARD_CATEGORY + "=" + StandardCategory.CPR_ID;
+		}
+		return params;
+	}
 	
 	private NotifiedBody getNotifiedBody(final Object id){
 		Long nbid = ParseUtils.parseLongFromStringObject(id);

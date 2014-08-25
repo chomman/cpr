@@ -24,7 +24,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 @SequenceGenerator(name = "shared_id_seq", sequenceName = "shared_id_seq", initialValue = 1, allocationSize =1)
 @Table(name = "standard_category")
 public class StandardCategory extends IdentifiableEntity {
-
+	
+	public static final Long CPR_ID = 84l;
+	
 	private static final long serialVersionUID = 8808493272764733087L;
 	
 	private String nameCzech;
