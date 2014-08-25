@@ -572,3 +572,8 @@ header{position:relative;}
 .pj-category-item .pj-content{display:;width:100%;}
 .pj-category-item .pj-content h3 {font-size:20px;padding:0 0 10px 0;}
 .pj-category-item .pj-content h3 a:hover{color:#333 !important;}
+
+.regulations th{width:33%;border-right:1px solid #ccc;}
+.regulations td{border-right:1px solid #ccc;vertical-align:top;}
+.regulations td .block-item{text-transform:none !important;padding:5px 5px 10px 5px;}
+.regulations td .pj-reg-descr{font-size:12px;text-align:center;display:block;padding-top:5px;}

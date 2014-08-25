@@ -10,6 +10,7 @@ $(document).ready(function() {
     	showAdvancedForm();
     }
     $('.filter').on('click', '.filter-advanced-btn', showAdvancedForm);
+    
     function showAdvancedForm(){
     	loadFilterData(); 
     	$('.filter-advanced-btn').remove();
@@ -22,7 +23,7 @@ $(document).ready(function() {
     	enabledOnly : true
     });
     $('table.standards').scrollPagination({
-    	url : getBasePath() +  (getLocale() == 'cs' ? '' : getLocale() + '/') + 'async/standards',
+    	url : getBasePath() +  (isCzechLocale() ? '' : getLocale() + '/') + 'async/standards',
     	loadingMessage : '<spring:message code="loadingItems" />'
     });
 });
@@ -32,19 +33,19 @@ $(document).ready(function() {
 	<form class="filter"  method="get">
 		<div class="filter-advanced">
 			<span class="filter-label long"><spring:message code="filter.standard.standardGroup" />:</span>
-			<select name="standardGroup" style="width:600px;" class="groups async" data-items="standardGroups">
+			<select name="sgId" style="width:600px;" class="groups async" data-items="standardGroups">
 				<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 			</select>
 			<div class="clear"></div>
 		</div>
 		<div class="filter-advanced">
 			<span class="filter-label long"><spring:message code="filter.standard.commisionDecision" />:</span>
-			<select name="commissionDecisionId" class="async chosenSmall" data-items="commissionDecisions">
+			<select name="cdId" class="async chosenSmall" data-items="commissionDecisions">
 				<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 			</select>
 		
 			<span class="filter-label"> &nbsp; &nbsp; <spring:message code="filter.standard.mandate" />:</span>
-			<select name="mandateId" class="async chosenSmall" data-items="mandates">
+			<select name="mId" class="async chosenSmall" data-items="mandates">
 				<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 			</select>
 			<div class="clear"></div>
@@ -52,15 +53,15 @@ $(document).ready(function() {
 		
 		<div class="filter-advanced">
 			<span class="filter-label long"><spring:message code="filter.standard.assessmentSystem" />:</span>
-			<select name="assessmentSystemId" class="async chosenSmall" data-items="assessmentSystems">
+			<select name="asId" class="async chosenSmall" data-items="assessmentSystems">
 				<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 			</select>
 		
 			<span class="filter-label"> &nbsp; &nbsp; <spring:message code="filter.standard.standardStatus" />: &nbsp;</span>
-			<select name="standardStatus" class="chosenSmall">
+			<select name="s" class="chosenSmall">
 				<option value=""><spring:message code="cpr.standard.filter.default" /></option>
 				<c:forEach items="${model.standardStatuses}" var="i">
-                      <option value="${i}" <c:if test="${i.code == model.params.standardStatus}">selected="selected"</c:if> >
+                      <option value="${i}" <c:if test="${i.code == model.params.s}">selected="selected"</c:if> >
                       		<spring:message code="${i.name}" />
                       </option>
                </c:forEach>

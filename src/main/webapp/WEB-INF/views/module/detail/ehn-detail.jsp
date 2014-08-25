@@ -22,8 +22,104 @@
 			</hgroup>
 
 		
-			<table>
-								
+			
+				<c:if test="${not empty model.standard.standardCategory}">
+					<table>
+					<tr> 
+						<td class="key">
+							<strong><spring:message code="standardCategory.name" /> ${model.standard.standardId}</strong>
+						</td>
+						<td>
+							<strong class="tooltip" title="<spring:message code="standardCategory.code" />">${model.standard.standardCategory.code}</strong>
+							${not empty model.standard.standardCategory.code ? ' | ' : ''}
+							<a:localizedValue object="${model.standard.standardCategory}" fieldName="name" />
+						</td>
+					</tr>
+					<tr> 
+						<td class="key">
+							<strong><spring:message code="standardCategory.specialiyation" /> ${model.standard.standardId}</strong>
+						</td>
+						<td>
+							<a:localizedValue object="${model.standard.standardCategory}" fieldName="specialization" />
+						</td>
+					</tr>
+					<tr> 
+						<td class="key">
+							<strong><spring:message code="standardCategory.ojeu" /></strong>
+						</td>
+						<td>
+							<a:localizedValue object="${model.standard.standardCategory}" fieldName="ojeuPublication" />
+						</td>
+					</tr>
+					<c:if test="${not empty model.standard.standardCategory.noaoUrl}">
+						<tr class="tooltip" title="<spring:message code="standardCategory.noaoNando" />"> 
+							<td class="key">
+								<strong>NO/AO:</strong>
+							</td>
+							<td>
+								<a href="${model.standard.standardCategory.noaoUrl}" target="_blank">
+									<spring:message code="standardCategory.noaoNando.view" /> <strong>${model.standard.standardId}</strong>
+								</a>
+							</td>
+						</tr>
+					</c:if>
+				</table>
+				</c:if>
+				
+				<c:if test="${not empty model.standard.standardCategory.regulations}">
+					<table class="regulations">
+						<tr>
+							<th><spring:message code="regulation.eu" /></th>
+							<th><spring:message code="regulation.cs" /></th>
+							<th><spring:message code="regulation.sk" /></th>
+						</tr>
+						<c:forEach items="${model.standard.standardCategory.regulations}" var="i">
+							<tr>
+								<td>
+								<c:if test="${i.euRegulation}">
+									<span class="block-item">
+										<a href="<a:localizedValue object="${i.euRegulationContent}" fieldName="pdf" />" 
+											target="_blank" class="file pdf">
+										<a:localizedValue object="${i.euRegulationContent}" fieldName="name" />
+										</a>
+									</span>
+									<span class="pj-reg-descr">
+									<a:localizedValue object="${i.euRegulationContent}" fieldName="description" />	
+									</span>
+								</c:if>
+								</td>
+								<td>
+								<c:if test="${i.csRegulation}">
+									<span class="block-item">
+										<a href="<a:localizedValue object="${i.csRegulationContent}" fieldName="pdf" />" 
+											target="_blank" class="file pdf">
+										<a:localizedValue object="${i.csRegulationContent}" fieldName="name" />
+										</a>
+									</span>
+									<span class="pj-reg-descr">
+									<a:localizedValue object="${i.csRegulationContent}" fieldName="description" />	
+									</span>
+								</c:if>
+								</td>
+								<td>
+								<c:if test="${i.skRegulation}">
+									<span class="block-item">
+										<a href="<a:localizedValue object="${i.skRegulationContent}" fieldName="pdf" />" 
+											target="_blank" class="file pdf">
+										<a:localizedValue object="${i.skRegulationContent}" fieldName="name" />
+										</a>
+									</span>
+									<span class="pj-reg-descr">
+									<a:localizedValue object="${i.skRegulationContent}" fieldName="description" />	
+									</span>
+								</c:if>
+								</td>
+							</tr>
+						</c:forEach>
+					</table>
+				</c:if>
+				
+				<table>
 				<c:if test="${not empty model.standard.standardGroups}">
 					<tr class="tooltip" title="<spring:message code="standard.help.standardGroups"/>">
 						<td class="key"><strong><spring:message code="standard.standardGroups" /></strong>:</td>
@@ -81,11 +177,10 @@
 							</c:forEach>
 						</td>
 					</tr>
-						
 					
 				</c:if>
 				
-				
+
 				<c:if test="${not empty model.standard.startValidity}">
 					<tr class="tooltip" title="<spring:message code="standard.help.validity"/>"> 
 						<td class="key"><strong><spring:message code="standard.validity"/>:</strong></td>
