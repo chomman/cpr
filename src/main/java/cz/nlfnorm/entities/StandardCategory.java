@@ -38,6 +38,7 @@ public class StandardCategory extends IdentifiableEntity {
 	private String noaoUrl;
 	private String code;
 	private Set<Regulation> regulations;
+	private String nandoUrl;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "shared_id_seq")
@@ -132,6 +133,15 @@ public class StandardCategory extends IdentifiableEntity {
 		this.regulations = regulations;
 	}
 	
+	@Column(name = "standards_nando_url", length = 150)	
+	public String getNandoUrl() {
+		return nandoUrl;
+	}
+
+	public void setNandoUrl(String nandoUrl) {
+		this.nandoUrl = nandoUrl;
+	}
+	
 	@Transient
 	public void addRegulation(final Regulation regulation){
 		if(!regulations.contains(regulation)){
@@ -144,6 +154,16 @@ public class StandardCategory extends IdentifiableEntity {
 		if(regulations.contains(regulation)){
 			regulations.remove(regulation);
 		}
+	}
+
+	@Transient
+	public boolean isCprCategory(){
+		return code.equals("CPR");
+	}
+	
+	@Override
+	public String toString() {
+		return "StandardCategory [nameCzech=" + nameCzech + ", code=" + code+ "]";
 	}
 	
 	

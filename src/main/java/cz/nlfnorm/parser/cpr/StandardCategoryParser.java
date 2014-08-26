@@ -5,42 +5,53 @@ import java.util.List;
 import java.util.ListIterator;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.Validate;
 import org.joda.time.LocalDate;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import cz.nlfnorm.entities.Standard;
+import cz.nlfnorm.entities.StandardCategory;
 import cz.nlfnorm.entities.StandardChange;
+import cz.nlfnorm.enums.StandardStatus;
 import cz.nlfnorm.services.StandardService;
 
 public class StandardCategoryParser extends AbstractParser {
-	
-	private final static String NEW_IDENTIFER = "(new)";
-	
+		
+	private StandardCategory standardCategory;
+	private final static String NEW_IDENTIFER = "(new)";	
 	private List<Standard> standardList = new ArrayList<>();
 	private RowIndexes rowTypes;
 	
-	@Autowired
+	
 	private StandardService standardService;
 
+	public StandardCategoryParser(StandardService standardService, final StandardCategory category){
+		Validate.notNull(standardService);
+		this.standardService = standardService;
+		this.standardCategory = category;
+	}
 
 	@Override
 	public void parse(final String location) {
 		Document doc = getDocument(location);
 		Elements tables = doc.select("table.tableDefault");
-		System.out.println("Count of tables found: " + tables.size());
 		if(tables.size() > 0){
 			final int tableIndex = determineTableIndex(tables);
-			System.out.println("Table with standards has index: " + tableIndex);
 			if(tableIndex != -1 ){
 				rowTypes = new RowIndexes(tables.get(tableIndex));
-				System.out.println(rowTypes);
+				//System.out.println(rowTypes);
 				processTable ( tables.get(tableIndex) );
 			}
 		}
-		
+		if(standardList.size() > 0){
+			logger.info("SUCCESS! Count of new standards: " + standardList.size());
+			System.out.println();
+		}else{
+			System.out.println("");
+			logger.error("Parsing failed. " + standardCategory);
+		}
 	}
 	
 	@Override
@@ -51,7 +62,8 @@ public class StandardCategoryParser extends AbstractParser {
 		}else if(tds.size() == (rowTypes.COLLUMN_SIZE - 1) ){
 			createStandardChange(it);
 		}else{
-			throw new IllegalArgumentException("Unexpected collumn size: " + tds.size());
+			//System.out.println("WARN: Unexpected column size: " + tds.size());
+			//System.out.println("HTML: " + tds.toString());
 		}
 	}
 	
@@ -73,7 +85,6 @@ public class StandardCategoryParser extends AbstractParser {
 			}
 			index++;
 		}
-		
 		standardList.add(standard);
 	}
 	
@@ -102,8 +113,8 @@ public class StandardCategoryParser extends AbstractParser {
 			}
 			index++;
 		}
-		standard.getStandardChanges().add(standardChange);
-		standardChange.setStandard(standard);
+		standard.setStandardCategory(standardCategory);
+		standard.createOrUpdateStandardChange(standardChange);
 		standardService.updateStandard(standard);
 	}
 	
@@ -134,7 +145,7 @@ public class StandardCategoryParser extends AbstractParser {
 		if(start == -1){
 			throw new IllegalArgumentException("Can not determine change code first char index");
 		}
-		String changeCode = text.substring(text.lastIndexOf("/") + 1, text.length());
+		final String changeCode = text.substring(text.lastIndexOf("/") + 1, text.length());
 		return trim(changeCode.replace(NEW_IDENTIFER, ""));
 	}
 	
@@ -156,7 +167,6 @@ public class StandardCategoryParser extends AbstractParser {
 				.withDayOfMonth(Integer.valueOf(splitedDate[0]))
 				.withMonthOfYear(Integer.valueOf(splitedDate[1]))
 				.withYear(Integer.valueOf(splitedDate[2]));
-				
 		}
 		throw new IllegalArgumentException("Invalid date: " + text);
 	}
@@ -182,6 +192,19 @@ public class StandardCategoryParser extends AbstractParser {
 	public void extractReplaceStandard(final Standard standard, final Element td){
 		final String code = extractReplacedStandardCode(td);
 		if(code != null){
+			Standard replacedStandared = standardService.getStandardByCode(code);
+			if(replacedStandared != null){
+				logger.warn("WARN: Replaced standard aleardy exists: " + code);
+			}else{
+				replacedStandared = new Standard();
+				replacedStandared.setStandardId(code);
+				replacedStandared.setEnglishName(standard.getEnglishName());
+				standard.setStandardCategory(standardCategory);
+				standardService.saveOrUpdate(replacedStandared);
+			}
+			standard.setReplaceStandard(replacedStandared);
+			replacedStandared.setReplaceStandard(standard);
+			replacedStandared.setStandardStatus(StandardStatus.CANCELED_HARMONIZED);
 			System.out.println("Replaced standard: " + code);
 		}
 	}

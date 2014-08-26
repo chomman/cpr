@@ -175,12 +175,6 @@ public class StandardServiceImpl implements StandardService {
 	}
 
 	@Override
-	@Transactional(readOnly =  true )
-	public List<Standard> getStandardsByTagName(final String tagName) {
-		return standardDao.getStandardsByTagName(tagName);
-	}
-
-	@Override
 	public void mergeStandard(Standard standard) {
 		User user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
 		standard.setChanged(new LocalDateTime());

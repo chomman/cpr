@@ -72,6 +72,8 @@ begin;
 	 ALTER TABLE standard DROP COLUMN is_cumulative;
 	 ALTER TABLE standard DROP COLUMN replaced_standard_code;
 	 ALTER TABLE standard ADD COLUMN standard_category_id bigint;
+	 ALTER TABLE standard ALTER COLUMN czech_name TYPE character varying(550);
+	 ALTER TABLE standard ALTER COLUMN english_name TYPE character varying(550);
 	 DROP TABLE basic_requirement;
 	 DROP TABLE requirement;
 	 update standard set standard_category_id = 84;

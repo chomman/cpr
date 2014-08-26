@@ -44,8 +44,6 @@ public interface StandardService {
 	
 	List<Standard> getStandardByStandardGroupForPublic(StandardGroup StandardGroup);
 	
-	List<Standard> getStandardsByTagName(String tagName);
-	
 	List<Standard> getStandardsByCsn(StandardCsn csn);
 	
 	List<Standard> getStandardsByStandardGroupCode(String standardGroupCode);

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import cz.nlfnorm.context.ContextHolder;
 import cz.nlfnorm.dao.StandardCategoryDao;
 import cz.nlfnorm.entities.Regulation;
 import cz.nlfnorm.entities.StandardCategory;
@@ -31,6 +32,15 @@ public class StandardCategoryDaoImpl extends BaseDaoImpl<StandardCategory, Long>
 					.setLong("id", standardCategory.getId())
 					.setReadOnly(true)
 					.list();
+	}
+
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<StandardCategory> getAllOrderByName() {
+		final String hql  = "from StandardCategory sc order by sc" + 
+					(ContextHolder.isDefaultLang() ? "nameCzech" : "nameEnglish");
+		return createQuery(hql).list();
 	}
 
 }

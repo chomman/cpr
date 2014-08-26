@@ -9,4 +9,6 @@ public interface StandardCategoryDao extends BaseDao<StandardCategory, Long>{
 	
 	List<Regulation> getAllUnassignedRegulationFor(StandardCategory standardCategory);
 	
+	List<StandardCategory> getAllOrderByName();
+	
 }

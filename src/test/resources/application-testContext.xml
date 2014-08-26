@@ -167,6 +167,9 @@
 	<bean id="authenticationSuccessHandler" class="cz.nlfnorm.spring.security.CustomUrlAuthenticationSuccessHandler" />
 	
 	<bean name="sitemapGenerator" class="cz.nlfnorm.services.impl.SitemapGeneratorImpl" />
+	
+	<!--  -->
+	
          <!-- 
     <bean id="fileService" class="cz.nlfnorm.services.impl.FileServiceImpl" /> -->
     

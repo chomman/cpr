@@ -32,7 +32,7 @@ public class StandardCategoryServiceImpl implements StandardCategoryService{
 	@Override
 	@Transactional(readOnly = true)
 	public List<StandardCategory> getAll() {
-		return standardCategoryDao.getAll();
+		return standardCategoryDao.getAllOrderByName();
 	}
 
 	@Override

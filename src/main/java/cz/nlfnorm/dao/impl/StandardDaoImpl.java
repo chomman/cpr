@@ -264,21 +264,6 @@ public class StandardDaoImpl extends BaseDaoImpl<Standard, Long> implements Stan
 				.list();
 	}
 
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public List<Standard> getStandardsByTagName(final String tagName) {
-		StringBuilder hql = new StringBuilder("select standard from Standard standard ");
-		hql.append(" LEFT JOIN standard.tags as tag");
-		hql.append(" where standard.enabled=true and  tag.name like CONCAT('%', :tagName , '%')");
-		hql.append(" and size(standard.requirements) > 0");
-		Query query =  sessionFactory.getCurrentSession().createQuery(hql.toString());
-		query.setParameter("tagName", tagName);
-		query.setMaxResults(50);
-		return query.list();
-	}
-
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Standard> getStandardsByCsn(final StandardCsn csn) {
