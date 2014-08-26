@@ -25,7 +25,7 @@ import cz.nlfnorm.services.CommissionDecisionService;
 import cz.nlfnorm.services.MandateService;
 import cz.nlfnorm.services.StandardGroupService;
 
-public class StandardGroupParser extends CprParser {
+public class StandardGroupParser extends AbstractParser {
 	
 	@Autowired
 	private StandardGroupService standardGroupService;

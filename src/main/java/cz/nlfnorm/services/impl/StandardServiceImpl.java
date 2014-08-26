@@ -107,21 +107,15 @@ public class StandardServiceImpl implements StandardService {
 
 	@Override
 	public void mergeAndSetChanged(Standard standard) {
-		User user = null;
-		if(UserUtils.getLoggedUser() != null){
-			user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
-		}
+		final User user = UserUtils.getLoggedUser();
 		standard.setChangedBy(user);
 		standard.setChanged(new LocalDateTime());
 		mergeStandard(standard);
 	}
 	
 	@Override
-	public void saveOrUpdate(Standard standard) {
-		User user = null;
-		if(UserUtils.getLoggedUser() != null){
-			user = userService.getUserByUsername(UserUtils.getLoggedUser().getUsername());
-		}
+	public void saveOrUpdate(final Standard standard) {
+		final User user = UserUtils.getLoggedUser();
 		if(standard.getId() == null){
 			standard.setCreatedBy(user);
 			standard.setChangedBy(user);

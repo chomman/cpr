@@ -15,7 +15,8 @@ import org.jsoup.select.Elements;
 
 import cz.nlfnorm.dto.LinkDto;
 
-public abstract class CprParser {
+public abstract class AbstractParser {
+	
 	protected Logger logger = Logger.getLogger(getClass());	
 	protected boolean skipFirstRow = true;
 	
@@ -94,7 +95,7 @@ public abstract class CprParser {
 	
 	protected String trim(String val){
 		if(StringUtils.isNotBlank(val)){
-			StringUtils.trim(val);
+			return StringUtils.trim(val.replace(String.valueOf((char) 160), " "));
 		}
 		return val;
 	}

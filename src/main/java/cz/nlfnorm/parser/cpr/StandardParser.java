@@ -35,7 +35,7 @@ import cz.nlfnorm.services.StandardGroupService;
 import cz.nlfnorm.services.StandardService;
 import cz.nlfnorm.utils.CodeUtils;
 
-public class StandardParser extends CprParser {
+public class StandardParser extends AbstractParser {
 	
 	public static final DateTimeFormatter FORMATTER = DateTimeFormat.forPattern("yyyy-MM-dd");	
 	
